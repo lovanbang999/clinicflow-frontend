@@ -1,109 +1,77 @@
 import { create } from 'zustand';
-import { User, LoginDto, RegisterDto } from '@/types';
-import { authApi } from '@/lib/api/auth';
+import { persist } from 'zustand/middleware';
+import type { User } from '@/types/auth';
 
 interface AuthState {
   user: User | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  error: string | null;
   
-  // Actions
-  login: (data: LoginDto) => Promise<void>;
-  register: (data: RegisterDto) => Promise<void>;
+  setUser: (user: User | null) => void;
+  setTokens: (accessToken: string, refreshToken: string) => void;
+  setLoading: (isLoading: boolean) => void;
+  clearAuth: () => void;
+  login: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
-  loadUserFromStorage: () => void;
-  clearError: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  isLoading: false,
-  error: null,
-
-  login: async (data: LoginDto) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await authApi.login(data);
-      
-      // Store in localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-      }
-      
-      set({
-        user: response.user,
-        token: response.token,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Login failed';
-      set({ error: errorMessage, isLoading: false });
-      throw error;
-    }
-  },
-
-  register: async (data: RegisterDto) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await authApi.register(data);
-      
-      // Store in localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-      }
-      
-      set({
-        user: response.user,
-        token: response.token,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed';
-      set({ error: errorMessage, isLoading: false });
-      throw error;
-    }
-  },
-
-  logout: () => {
-    authApi.logout();
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
       user: null,
-      token: null,
+      accessToken: null,
+      refreshToken: null,
       isAuthenticated: false,
-      error: null,
-    });
-  },
+      isLoading: false,
 
-  loadUserFromStorage: () => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      const userStr = localStorage.getItem('user');
+      setUser: (user) => set({ user, isAuthenticated: !!user }),
       
-      if (token && userStr) {
-        try {
-          const user = JSON.parse(userStr);
-          set({
-            user,
-            token,
-            isAuthenticated: true,
-          });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error: unknown) {
-          // Invalid stored data, clear it
-          localStorage.removeItem('token');
+      setTokens: (accessToken, refreshToken) => 
+        set({ accessToken, refreshToken }),
+      
+      setLoading: (isLoading) => set({ isLoading }),
+      
+      clearAuth: () => 
+        set({ 
+          user: null, 
+          accessToken: null, 
+          refreshToken: null, 
+          isAuthenticated: false,
+        }),
+      
+      login: (user, accessToken, refreshToken) => 
+        set({ 
+          user, 
+          accessToken, 
+          refreshToken, 
+          isAuthenticated: true,
+        }),
+      
+      logout: () => {
+        // Clear localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
           localStorage.removeItem('user');
         }
-      }
+        set({ 
+          user: null, 
+          accessToken: null, 
+          refreshToken: null, 
+          isAuthenticated: false,
+        });
+      },
+    }),
+    {
+      name: 'auth-storage',
+      partialize: (state) => ({
+        user: state.user,
+        accessToken: state.accessToken,
+        refreshToken: state.refreshToken,
+        isAuthenticated: state.isAuthenticated,
+      }),
     }
-  },
-
-  clearError: () => set({ error: null }),
-}));
+  )
+);

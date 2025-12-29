@@ -1,14 +1,20 @@
-// src/types/index.ts
+// Export all types
 export * from './auth';
 export * from './booking';
-export * from './service';
 export * from './schedule';
+export * from './service';
 
 // Common API types
 export interface ApiError {
-  message: string;
-  statusCode: number;
-  error?: string;
+  success: false;
+  error?: {
+    code: string;
+    message: string;
+    details?: unknown;
+  };
+  message?: string;
+  messageCode?: string;
+  timestamp?: string;
 }
 
 export interface PaginatedResponse<T> {
