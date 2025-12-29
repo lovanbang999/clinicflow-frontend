@@ -1,62 +1,109 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
-// Create axios instance
-export const apiClient: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000,
-});
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
-// Request interceptor - add auth token
-apiClient.interceptors.request.use(
-  (config) => {
-    // Get token from localStorage
+class ApiClient {
+  private client: AxiosInstance;
+
+  constructor() {
+    this.client = axios.create({
+      baseURL: API_BASE_URL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 30000,
+    });
+
+    this.setupInterceptors();
+  }
+
+  private setupInterceptors() {
+    // Request interceptor
+    this.client.interceptors.request.use(
+      (config: InternalAxiosRequestConfig) => {
+        // Add token to request if exists
+        const token = this.getAccessToken();
+        if (token && config.headers) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error: AxiosError) => {
+        return Promise.reject(error);
+      }
+    );
+
+    // Response interceptor
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+        // Handle 401 errors (token expired)
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          try {
+            const refreshToken = this.getRefreshToken();
+            if (refreshToken) {
+              const response = await this.refreshAccessToken(refreshToken);
+              const { accessToken } = response.data.data;
+              
+              this.setAccessToken(accessToken);
+              
+              if (originalRequest.headers) {
+                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+              }
+              
+              return this.client(originalRequest);
+            }
+          } catch (refreshError) {
+            // Refresh token failed, logout user
+            this.clearTokens();
+            if (typeof window !== 'undefined') {
+              window.location.href = '/login';
+            }
+            return Promise.reject(refreshError);
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  private async refreshAccessToken(refreshToken: string) {
+    return this.client.post('/auth/refresh', { refreshToken });
+  }
+
+  private getAccessToken(): string | null {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem('accessToken');
+  }
+
+  private getRefreshToken(): string | null {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem('refreshToken');
+  }
+
+  private setAccessToken(token: string): void {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+      localStorage.setItem('accessToken', token);
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
   }
-);
 
-// Response interceptor - handle errors
-apiClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
-      }
+  private clearTokens(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
     }
-    
-    return Promise.reject(error);
   }
-);
 
-// Helper function to handle API errors
-export const handleApiError = (error: unknown): string => {
-  if (axios.isAxiosError(error)) {
-    const message = error.response?.data?.message;
-    if (message) return message;
-    
-    if (error.response?.status === 400) return 'Invalid request';
-    if (error.response?.status === 401) return 'Unauthorized';
-    if (error.response?.status === 403) return 'Forbidden';
-    if (error.response?.status === 404) return 'Not found';
-    if (error.response?.status === 500) return 'Server error';
+  public getClient(): AxiosInstance {
+    return this.client;
   }
-  
-  return 'An unexpected error occurred';
-};
+}
+
+export const apiClient = new ApiClient().getClient();
+export default apiClient;
