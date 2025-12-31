@@ -1,0 +1,147 @@
+{
+  "common": {
+    "or": "or",
+    "loading": "Loading...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "welcome": "Welcome"
+  },
+  "auth": {
+    "login": {
+      "title": "Smart Clinic",
+      "subtitle": "Book appointments quickly and conveniently",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "loginButton": "Login",
+      "loggingIn": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "registerNow": "Register now",
+      "termsPrefix": "By logging in, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Privacy Policy",
+      "success": "Login successful!",
+      "successDescription": "Welcome {name}",
+      "failed": "Login failed!",
+      "invalidCredentials": "Invalid email or password",
+      "accountNotVerified": "Account not verified"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Create a new account to get started",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "phoneNumber": "Phone Number",
+      "registerButton": "Register",
+      "registering": "Registering...",
+      "hasAccount": "Already have an account?",
+      "loginNow": "Login now",
+      "success": "Registration successful!",
+      "successDescription": "Please check your email to verify your account",
+      "failed": "Registration failed",
+      "emailExists": "Email already exists"
+    },
+    "logout": {
+      "success": "Logout successful",
+      "successDescription": "See you again!"
+    },
+    "verify": {
+      "title": "Verify Email",
+      "subtitle": "Enter the OTP code sent to your email",
+      "otp": "OTP Code",
+      "verifyButton": "Verify",
+      "resendOtp": "Resend code",
+      "success": "Verification successful!",
+      "successDescription": "Your account has been activated",
+      "failed": "Verification failed",
+      "invalidOtp": "Invalid OTP code",
+      "expiredOtp": "OTP code has expired",
+      "resendSuccess": "Code resent successfully!",
+      "resendSuccessDescription": "Please check your email",
+      "resendFailed": "Failed to resend code"
+    }
+  },
+  "validation": {
+    "required": "{field} is required",
+    "email": "Invalid email address",
+    "minLength": "{field} must be at least {min} characters",
+    "maxLength": "{field} must not exceed {max} characters",
+    "passwordMismatch": "Passwords do not match",
+    "phoneNumber": "Phone number must be 10 digits",
+    "otp": "OTP code must be 6 digits"
+  },
+  "fields": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "phoneNumber": "Phone Number",
+    "otp": "OTP Code"
+  },
+  "dashboard": {
+    "patient": {
+      "title": "Dashboard",
+      "book": "Book Appointment",
+      "bookings": "My Appointments",
+      "profile": "Profile"
+    },
+    "doctor": {
+      "title": "Doctor",
+      "schedule": "Schedule",
+      "patients": "Patients",
+      "settings": "Settings"
+    },
+    "receptionist": {
+      "title": "Receptionist",
+      "dashboard": "Dashboard",
+      "checkIn": "Check-in",
+      "queue": "Queue"
+    },
+    "admin": {
+      "title": "Administrator",
+      "users": "User Management",
+      "services": "Service Management",
+      "reports": "Reports"
+    }
+  },
+  "booking": {
+    "title": "Book Appointment",
+    "selectService": "Select Service",
+    "selectDoctor": "Select Doctor",
+    "selectDate": "Select Date",
+    "selectTime": "Select Time",
+    "confirmBooking": "Confirm Booking",
+    "bookingSuccess": "Booking successful!",
+    "bookingFailed": "Booking failed",
+    "cancel": "Cancel Appointment",
+    "reschedule": "Reschedule"
+  },
+  "queue": {
+    "title": "Queue",
+    "position": "Queue Position",
+    "estimatedTime": "Estimated Time",
+    "currentPatient": "Current Patient",
+    "nextPatient": "Next Patient"
+  },
+  "errors": {
+    "generic": "An error occurred",
+    "networkError": "Network connection error",
+    "unauthorized": "You don't have permission",
+    "notFound": "Not found",
+    "serverError": "Server error"
+  }
+}

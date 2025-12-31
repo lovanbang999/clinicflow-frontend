@@ -50,3 +50,19 @@ export const validatePhoneNumber = (phone: string): boolean => {
 export const validateOTP = (otp: string): boolean => {
   return /^[0-9]{6}$/.test(otp);
 };
+
+/**
+ * Validate phone number (Vietnamese format)
+ * Supports: 0912345678, +84912345678, 84912345678
+ */
+export const validatePhone = (phone: string): boolean => {
+  const phoneRegex = /^(\+84|84|0)[0-9]{9}$/;
+  return phoneRegex.test(phone.replace(/\s/g, ''));
+};
+
+/**
+ * Validate full name (minimum 2 characters)
+ */
+export const validateFullName = (name: string): boolean => {
+  return name.trim().length >= 2;
+};

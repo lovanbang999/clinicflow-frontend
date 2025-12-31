@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { EyeIcon, EyeOffIcon, Mail, Lock } from 'lucide-react';
 
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -18,8 +19,14 @@ import {
 } from '@/components/ui/card';
 import { validateEmail, validatePassword } from '@/lib/utils/validators';
 import { Spinner } from '@/components/ui/spinner';
+import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 
 export default function LoginPage() {
+  const t = useTranslations('auth.login');
+  const tValidation = useTranslations('validation');
+  const tFields = useTranslations('fields');
+  const tCommon = useTranslations('common');
+
   const { login, isLoading } = useAuth();
 
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -38,12 +45,17 @@ export default function LoginPage() {
   const validateForm = (): boolean => {
     const newErrors = { email: '', password: '' };
 
-    if (!formData.email) newErrors.email = 'Email là bắt buộc';
-    else if (!validateEmail(formData.email)) newErrors.email = 'Email không hợp lệ';
+    if (!formData.email) {
+      newErrors.email = tValidation('required', { field: tFields('email') });
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = tValidation('email');
+    }
 
-    if (!formData.password) newErrors.password = 'Mật khẩu là bắt buộc';
-    else if (!validatePassword(formData.password))
-      newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+    if (!formData.password) {
+      newErrors.password = tValidation('required', { field: tFields('password') });
+    } else if (!validatePassword(formData.password)) {
+      newErrors.password = tValidation('minLength', { field: tFields('password'), min: 6 });
+    }
 
     setErrors(newErrors);
     return !newErrors.email && !newErrors.password;
@@ -55,7 +67,7 @@ export default function LoginPage() {
 
     try {
       await login(formData);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       // Error handling is done in useAuth hook
     }
@@ -66,6 +78,11 @@ export default function LoginPage() {
       {/* Soft blobs */}
       <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-blue-200/50 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-indigo-200/50 blur-3xl" />
+
+      {/* Language Switcher - Top Right */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSwitcher />
+      </div>
 
       <div className="relative flex min-h-screen items-center justify-center p-4">
         <Card className="w-full max-w-md border border-slate-200/70 bg-white/80 shadow-xl backdrop-blur supports-backdrop-filter:bg-white/70">
@@ -84,11 +101,9 @@ export default function LoginPage() {
 
             <div className="space-y-1">
               <CardTitle className="text-2xl font-semibold tracking-tight">
-                Smart Clinic
+                {t('title')}
               </CardTitle>
-              <CardDescription className="text-sm">
-                Đặt lịch khám nhanh chóng, tiện lợi
-              </CardDescription>
+              <CardDescription className="text-sm">{t('subtitle')}</CardDescription>
             </div>
           </CardHeader>
 
@@ -97,7 +112,7 @@ export default function LoginPage() {
               {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium">
-                  Email <span className="text-red-500">*</span>
+                  {t('email')} <span className="text-red-500">*</span>
                 </Label>
 
                 <div className="relative">
@@ -126,7 +141,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-sm font-medium">
-                    Mật khẩu <span className="text-red-500">*</span>
+                    {t('password')} <span className="text-red-500">*</span>
                   </Label>
                 </div>
 
@@ -151,7 +166,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                     className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-600/30 cursor-pointer"
                     disabled={isLoading}
                   >
@@ -170,7 +185,7 @@ export default function LoginPage() {
                     href="/forgot-password"
                     className="ml-auto text-xs font-medium text-blue-700 hover:underline justify-self-end"
                   >
-                    Quên mật khẩu?
+                    {t('forgotPassword')}
                   </Link>
                 </div>
               </div>
@@ -184,10 +199,10 @@ export default function LoginPage() {
                 {isLoading ? (
                   <span className="flex items-center gap-2">
                     <Spinner />
-                    Đang đăng nhập...
+                    {t('loggingIn')}
                   </span>
                 ) : (
-                  'Đăng nhập'
+                  t('loginButton')
                 )}
               </Button>
 
@@ -195,31 +210,28 @@ export default function LoginPage() {
               <div className="relative py-1">
                 <div className="h-px w-full bg-slate-200" />
                 <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-xs text-slate-500">
-                  hoặc
+                  {tCommon('or')}
                 </span>
               </div>
 
               {/* Register */}
               <div className="text-center text-sm text-slate-600">
-                Chưa có tài khoản?{' '}
-                <Link
-                  href="/register"
-                  className="font-semibold text-blue-700 hover:underline"
-                >
-                  Đăng ký ngay
+                {t('noAccount')}{' '}
+                <Link href="/register" className="font-semibold text-blue-700 hover:underline">
+                  {t('registerNow')}
                 </Link>
               </div>
             </form>
 
             {/* Footer tiny note */}
             <p className="mt-5 text-center text-xs text-slate-500">
-              Bằng việc đăng nhập, bạn đồng ý với{' '}
+              {t('termsPrefix')}{' '}
               <Link href="/terms" className="hover:underline">
-                Điều khoản
+                {t('terms')}
               </Link>{' '}
-              và{' '}
+              {t('and')}{' '}
               <Link href="/privacy" className="hover:underline">
-                Chính sách
+                {t('privacy')}
               </Link>
               .
             </p>

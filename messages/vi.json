@@ -1,0 +1,147 @@
+{
+  "common": {
+    "or": "hoặc",
+    "loading": "Đang tải...",
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "close": "Đóng",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "reset": "Đặt lại",
+    "confirm": "Xác nhận",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "welcome": "Chào mừng"
+  },
+  "auth": {
+    "login": {
+      "title": "Smart Clinic",
+      "subtitle": "Đặt lịch khám nhanh chóng, tiện lợi",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "forgotPassword": "Quên mật khẩu?",
+      "loginButton": "Đăng nhập",
+      "loggingIn": "Đang đăng nhập...",
+      "noAccount": "Chưa có tài khoản?",
+      "registerNow": "Đăng ký ngay",
+      "termsPrefix": "Bằng việc đăng nhập, bạn đồng ý với",
+      "terms": "Điều khoản",
+      "and": "và",
+      "privacy": "Chính sách",
+      "success": "Đăng nhập thành công!",
+      "successDescription": "Chào mừng {name}",
+      "failed": "Đăng nhập thất bại!",
+      "invalidCredentials": "Email hoặc mật khẩu không đúng",
+      "accountNotVerified": "Tài khoản chưa được xác thực"
+    },
+    "register": {
+      "title": "Đăng ký tài khoản",
+      "subtitle": "Tạo tài khoản mới để bắt đầu",
+      "fullName": "Họ và tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "phoneNumber": "Số điện thoại",
+      "registerButton": "Đăng ký",
+      "registering": "Đang đăng ký...",
+      "hasAccount": "Đã có tài khoản?",
+      "loginNow": "Đăng nhập ngay",
+      "success": "Đăng ký thành công!",
+      "successDescription": "Vui lòng kiểm tra email để xác thực tài khoản",
+      "failed": "Đăng ký thất bại",
+      "emailExists": "Email đã tồn tại"
+    },
+    "logout": {
+      "success": "Đăng xuất thành công",
+      "successDescription": "Hẹn gặp lại bạn!"
+    },
+    "verify": {
+      "title": "Xác thực email",
+      "subtitle": "Nhập mã OTP đã gửi đến email của bạn",
+      "otp": "Mã OTP",
+      "verifyButton": "Xác thực",
+      "resendOtp": "Gửi lại mã",
+      "success": "Xác thực thành công!",
+      "successDescription": "Tài khoản của bạn đã được kích hoạt",
+      "failed": "Xác thực thất bại",
+      "invalidOtp": "Mã OTP không đúng",
+      "expiredOtp": "Mã OTP đã hết hạn",
+      "resendSuccess": "Gửi lại mã thành công!",
+      "resendSuccessDescription": "Vui lòng kiểm tra email của bạn",
+      "resendFailed": "Gửi lại mã thất bại"
+    }
+  },
+  "validation": {
+    "required": "{field} là bắt buộc",
+    "email": "Email không hợp lệ",
+    "minLength": "{field} phải có ít nhất {min} ký tự",
+    "maxLength": "{field} không được vượt quá {max} ký tự",
+    "passwordMismatch": "Mật khẩu không khớp",
+    "phoneNumber": "Số điện thoại phải có 10 chữ số",
+    "otp": "Mã OTP phải có 6 chữ số"
+  },
+  "fields": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "fullName": "Họ và tên",
+    "phoneNumber": "Số điện thoại",
+    "otp": "Mã OTP"
+  },
+  "dashboard": {
+    "patient": {
+      "title": "Bảng điều khiển",
+      "book": "Đặt lịch khám",
+      "bookings": "Lịch hẹn của tôi",
+      "profile": "Thông tin cá nhân"
+    },
+    "doctor": {
+      "title": "Bác sĩ",
+      "schedule": "Lịch làm việc",
+      "patients": "Bệnh nhân",
+      "settings": "Cài đặt"
+    },
+    "receptionist": {
+      "title": "Lễ tân",
+      "dashboard": "Tổng quan",
+      "checkIn": "Check-in",
+      "queue": "Hàng đợi"
+    },
+    "admin": {
+      "title": "Quản trị viên",
+      "users": "Quản lý người dùng",
+      "services": "Quản lý dịch vụ",
+      "reports": "Báo cáo"
+    }
+  },
+  "booking": {
+    "title": "Đặt lịch khám",
+    "selectService": "Chọn dịch vụ",
+    "selectDoctor": "Chọn bác sĩ",
+    "selectDate": "Chọn ngày",
+    "selectTime": "Chọn giờ",
+    "confirmBooking": "Xác nhận đặt lịch",
+    "bookingSuccess": "Đặt lịch thành công!",
+    "bookingFailed": "Đặt lịch thất bại",
+    "cancel": "Hủy lịch",
+    "reschedule": "Đổi lịch"
+  },
+  "queue": {
+    "title": "Hàng đợi",
+    "position": "Vị trí trong hàng đợi",
+    "estimatedTime": "Thời gian dự kiến",
+    "currentPatient": "Bệnh nhân hiện tại",
+    "nextPatient": "Bệnh nhân tiếp theo"
+  },
+  "errors": {
+    "generic": "Đã có lỗi xảy ra",
+    "networkError": "Lỗi kết nối mạng",
+    "unauthorized": "Bạn không có quyền truy cập",
+    "notFound": "Không tìm thấy",
+    "serverError": "Lỗi máy chủ"
+  }
+}
