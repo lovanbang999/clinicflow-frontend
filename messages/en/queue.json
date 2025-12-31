@@ -1,0 +1,7 @@
+{
+  "title": "Queue",
+  "position": "Queue Position",
+  "estimatedTime": "Estimated Time",
+  "currentPatient": "Current Patient",
+  "nextPatient": "Next Patient"
+}

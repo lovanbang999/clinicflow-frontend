@@ -6,10 +6,12 @@ import { authApi } from '@/lib/api/auth';
 import type { LoginRequest, RegisterRequest } from '@/types/auth';
 import { toast } from 'sonner';
 import { ApiError } from '@/types';
+import { getErrorKey } from '@/lib/utils/error-helper';
 
 export const useAuth = () => {
   const router = useRouter();
   const t = useTranslations('auth');
+  const tErrors = useTranslations('errors');
   
   const {
     user,
@@ -62,9 +64,12 @@ export const useAuth = () => {
       throw new Error(response.message || 'Login failed');
     } catch (err) {
       const error = err as ApiError;
-      const errorMessage = error.error?.message || error.message || t('login.failed');
+      
+      // Get error message key from messageCode
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      const errorMessage = tErrors(errorKey);
 
-      // Show error toast
+      // Show error toast with translated message
       toast.error(t('login.failed'), {
         description: errorMessage,
       });
@@ -89,15 +94,21 @@ export const useAuth = () => {
           description: t('register.successDescription'),
         });
 
+        // Redirect to login page
+        router.push('/login');
+        
         return response;
       }
 
       throw new Error(response.message || 'Registration failed');
     } catch (err) {
       const error = err as ApiError;
-      const errorMessage = error.error?.message || error.message || t('register.failed');
+      
+      // Get error message key from messageCode
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      const errorMessage = tErrors(errorKey);
 
-      // Show error toast
+      // Show error toast with translated message
       toast.error(t('register.failed'), {
         description: errorMessage,
       });
@@ -143,7 +154,10 @@ export const useAuth = () => {
       return response;
     } catch (err) {
       const error = err as ApiError;
-      const errorMessage = error.error?.message || error.message || t('verify.failed');
+      
+      // Get error message key from messageCode
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      const errorMessage = tErrors(errorKey);
 
       toast.error(t('verify.failed'), {
         description: errorMessage,
@@ -170,7 +184,10 @@ export const useAuth = () => {
       return response;
     } catch (err) {
       const error = err as ApiError;
-      const errorMessage = error.error?.message || error.message || t('verify.resendFailed');
+      
+      // Get error message key from messageCode
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      const errorMessage = tErrors(errorKey);
 
       toast.error(t('verify.resendFailed'), {
         description: errorMessage,

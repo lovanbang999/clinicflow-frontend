@@ -1,0 +1,18 @@
+{
+  "required": "{field} là bắt buộc",
+  "email": "Email không hợp lệ",
+  "phone": "Số điện thoại không hợp lệ",
+  "minLength": "{field} phải có ít nhất {min} ký tự",
+  "maxLength": "{field} không được vượt quá {max} ký tự",
+  "passwordMismatch": "Mật khẩu không khớp",
+  "phoneNumber": "Số điện thoại phải có 10 chữ số",
+  "otp": "Mã OTP phải có 6 chữ số",
+  "fields": {
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "fullName": "Họ và tên",
+    "phoneNumber": "Số điện thoại",
+    "otp": "Mã OTP"
+  }
+}

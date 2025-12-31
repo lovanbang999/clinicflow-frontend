@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "register": {
+      "emailExists": "This email is already registered",
+      "failed": "Registration failed. Please try again"
+    },
+    "login": {
+      "invalidCredentials": "Invalid email or password",
+      "notVerified": "Please verify your email before logging in",
+      "failed": "Login failed. Please try again"
+    },
+    "verify": {
+      "invalidOtp": "Invalid OTP code",
+      "expiredOtp": "OTP code has expired",
+      "failed": "Verification failed. Please try again"
+    },
+    "refresh": {
+      "invalidToken": "Invalid refresh token",
+      "expired": "Session expired. Please login again"
+    }
+  },
+  "user": {
+    "notFound": "User not found",
+    "emailExists": "Email already exists",
+    "phoneExists": "Phone number already exists"
+  },
+  "service": {
+    "notFound": "Service not found",
+    "nameExists": "Service name already exists",
+    "hasActiveBookings": "Cannot delete service with active bookings"
+  },
+  "booking": {
+    "notFound": "Booking not found",
+    "duplicate": "You already have a booking at this time",
+    "invalidDate": "Invalid booking date",
+    "invalidTransition": "Cannot change booking to this status"
+  },
+  "queue": {
+    "notFound": "Queue entry not found",
+    "slotFull": "This time slot is full"
+  },
+  "network": {
+    "error": "Network connection error",
+    "timeout": "Request timeout"
+  },
+  "server": {
+    "error": "Server error. Please try again later"
+  },
+  "generic": "An error occurred. Please try again"
+}

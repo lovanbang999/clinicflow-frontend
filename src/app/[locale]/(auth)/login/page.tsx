@@ -24,7 +24,7 @@ import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 export default function LoginPage() {
   const t = useTranslations('auth.login');
   const tValidation = useTranslations('validation');
-  const tFields = useTranslations('fields');
+  const tFields = useTranslations('validation.fields');
   const tCommon = useTranslations('common');
 
   const { login, isLoading } = useAuth();

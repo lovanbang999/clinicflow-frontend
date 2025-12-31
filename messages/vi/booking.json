@@ -1,0 +1,12 @@
+{
+  "title": "Đặt lịch khám",
+  "selectService": "Chọn dịch vụ",
+  "selectDoctor": "Chọn bác sĩ",
+  "selectDate": "Chọn ngày",
+  "selectTime": "Chọn giờ",
+  "confirmBooking": "Xác nhận đặt lịch",
+  "bookingSuccess": "Đặt lịch thành công!",
+  "bookingFailed": "Đặt lịch thất bại",
+  "cancel": "Hủy lịch",
+  "reschedule": "Đổi lịch"
+}
