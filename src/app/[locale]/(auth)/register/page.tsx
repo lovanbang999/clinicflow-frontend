@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { EyeIcon, EyeOffIcon, Mail, Lock, User, Phone } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, Mail, Lock, User, Phone, ArrowLeft } from 'lucide-react';
 
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -20,8 +20,11 @@ import {
 import { validateEmail, validatePassword, validatePhone } from '@/lib/utils/validators';
 import { Spinner } from '@/components/ui/spinner';
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { useRouter } from '@/i18n/navigation';
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   const t = useTranslations('auth.register');
   const tValidation = useTranslations('validation');
   const tFields = useTranslations('validation.fields');
@@ -134,6 +137,18 @@ export default function RegisterPage() {
       {/* Language Switcher - Top Right */}
       <div className="absolute top-4 right-4 z-10">
         <LanguageSwitcher />
+      </div>
+
+      {/* Back to Home - Top Left */}
+      <div className="absolute top-4 left-4 z-10">
+        <button
+          type="button"
+          onClick={() => router.push('/')}
+          className="flex items-center gap-2 rounded-lg bg-white/80 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur hover:bg-white hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 cursor-pointer"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {tCommon('backToHome')}
+        </button>
       </div>
 
       <div className="relative flex min-h-screen items-center justify-center p-4 py-12">
@@ -341,7 +356,7 @@ export default function RegisterPage() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="h-11 w-full rounded-xl bg-indigo-600 text-base font-medium shadow-sm hover:bg-indigo-700"
+                className="h-11 w-full rounded-xl bg-indigo-600 text-base font-medium shadow-sm hover:bg-indigo-700 cursor-pointer"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
