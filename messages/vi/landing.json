@@ -1,0 +1,114 @@
+{
+  "navbar": {
+    "services": "Dịch vụ",
+    "doctors": "Bác sĩ",
+    "contact": "Liên hệ",
+    "login": "Đăng nhập",
+    "register": "Đăng ký"
+  },
+  "servicesPage": {
+    "title": "Dịch vụ khám bệnh",
+    "subtitle": "Chọn dịch vụ phù hợp với nhu cầu của bạn",
+    "searchPlaceholder": "Tìm kiếm dịch vụ...",
+    "filterAll": "Tất cả",
+    "filterGeneral": "Khám tổng quát",
+    "filterSpecialist": "Khám chuyên khoa",
+    "bookNow": "Đặt lịch ngay",
+    "duration": "Thời lượng",
+    "price": "Giá"
+  },
+  "servicesList": {
+    "general": {
+      "name": "Khám tổng quát",
+      "description": "Khám sức khỏe định kỳ, tư vấn các vấn đề sức khỏe chung",
+      "price": "200,000đ",
+      "duration": "30 phút"
+    },
+    "cardiology": {
+      "name": "Khám tim mạch",
+      "description": "Siêu âm tim, điện tâm đồ, tư vấn điều trị bệnh tim mạch",
+      "price": "300,000đ",
+      "duration": "45 phút"
+    },
+    "dermatology": {
+      "name": "Khám da liễu",
+      "description": "Điều trị mụn, nám, viêm da, dị ứng da",
+      "price": "250,000đ",
+      "duration": "30 phút"
+    },
+    "dental": {
+      "name": "Khám răng hàm mặt",
+      "description": "Khám tổng quát, lấy cao răng, nhổ răng, trám răng",
+      "price": "350,000đ",
+      "duration": "45 phút"
+    },
+    "ophthalmology": {
+      "name": "Khám mắt",
+      "description": "Đo thị lực, khám bệnh về mắt, kê đơn kính",
+      "price": "200,000đ",
+      "duration": "30 phút"
+    },
+    "laboratory": {
+      "name": "Xét nghiệm",
+      "description": "Xét nghiệm máu, nước tiểu, các xét nghiệm chuyên sâu",
+      "price": "150,000đ",
+      "duration": "15 phút"
+    }
+  },
+  "hero": {
+    "title": "Đặt lịch khám bệnh nhanh chóng, tiện lợi",
+    "subtitle": "Hệ thống đặt lịch thông minh với AI gợi ý khung giờ tối ưu",
+    "cta": "Đặt lịch ngay",
+    "description": "Chỉ mất 2 phút để đặt lịch với bác sĩ chuyên môn",
+    "viewServices": "Xem dịch vụ",
+    "patient": "Bệnh nhân",
+    "doctor": "Bác sĩ",
+    "support": "Hỗ trợ"
+  },
+  "features": {
+    "title": "Tại sao chọn Smart Clinic?",
+    "ai": {
+      "title": "AI Gợi ý thông minh",
+      "description": "Hệ thống tự động gợi ý khung giờ tối ưu dựa trên lịch làm việc bác sĩ và hàng đợi"
+    },
+    "quick": {
+      "title": "Đặt lịch nhanh chóng",
+      "description": "Chỉ 3 bước đơn giản: chọn dịch vụ → chọn bác sĩ → chọn giờ"
+    },
+    "notification": {
+      "title": "Thông báo tự động",
+      "description": "Nhận thông báo qua email/SMS khi được promote trong hàng đợi"
+    }
+  },
+  "services": {
+    "title": "Dịch vụ khám",
+    "viewAll": "Xem tất cả",
+    "general": {
+      "name": "Khám tổng quát",
+      "description": "Khám sức khỏe định kỳ, tư vấn chung",
+      "price": "200,000đ",
+      "duration": "30 phút"
+    },
+    "cardiology": {
+      "name": "Khám tim mạch",
+      "description": "Siêu âm tim, điện tâm đồ, tư vấn",
+      "price": "300,000đ",
+      "duration": "45 phút"
+    },
+    "dermatology": {
+      "name": "Khám da liễu",
+      "description": "Điều trị mụn, nám, viêm da",
+      "price": "250,000đ",
+      "duration": "30 phút"
+    }
+  },
+  "cta": {
+    "title": "Sẵn sàng đặt lịch khám?",
+    "subtitle": "Chỉ mất 2 phút để đặt lịch với bác sĩ chuyên môn",
+    "button": "Bắt đầu ngay"
+  },
+  "footer": {
+    "tagline": "Hệ thống đặt lịch khám bệnh thông minh",
+    "copyright": "© {year} Smart Clinic. All rights reserved."
+  }
+}

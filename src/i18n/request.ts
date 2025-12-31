@@ -12,6 +12,7 @@ export default getRequestConfig(async ({requestLocale}) => {
   // Load all message files for the locale
   const messages = {
     common: (await import(`../../messages/${locale}/common.json`)).default,
+    landing: (await import(`../../messages/${locale}/landing.json`)).default,
     auth: (await import(`../../messages/${locale}/auth.json`)).default,
     validation: (await import(`../../messages/${locale}/validation.json`)).default,
     dashboard: (await import(`../../messages/${locale}/dashboard.json`)).default,

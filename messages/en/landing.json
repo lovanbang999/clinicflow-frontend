@@ -1,0 +1,58 @@
+{
+  "navbar": {
+    "services": "Services",
+    "doctors": "Doctors",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register"
+  },
+  "servicesPage": {
+    "title": "Medical Services",
+    "subtitle": "Choose the service that suits your needs",
+    "searchPlaceholder": "Search services...",
+    "filterAll": "All",
+    "filterGeneral": "General Checkup",
+    "filterSpecialist": "Specialist",
+    "bookNow": "Book Now",
+    "duration": "Duration",
+    "price": "Price"
+  },
+  "servicesList": {
+    "general": {
+      "name": "General Checkup",
+      "description": "Periodic health checkup, general health consultation",
+      "price": "$8",
+      "duration": "30 mins"
+    },
+    "cardiology": {
+      "name": "Cardiology",
+      "description": "Echocardiogram, ECG, cardiovascular disease consultation",
+      "price": "$12",
+      "duration": "45 mins"
+    },
+    "dermatology": {
+      "name": "Dermatology",
+      "description": "Acne treatment, melasma, dermatitis, skin allergies",
+      "price": "$10",
+      "duration": "30 mins"
+    },
+    "dental": {
+      "name": "Dental",
+      "description": "General checkup, scaling, tooth extraction, filling",
+      "price": "$14",
+      "duration": "45 mins"
+    },
+    "ophthalmology": {
+      "name": "Ophthalmology",
+      "description": "Vision test, eye disease examination, glasses prescription",
+      "price": "$8",
+      "duration": "30 mins"
+    },
+    "laboratory": {
+      "name": "Laboratory",
+      "description": "Blood test, urine test, specialized tests",
+      "price": "$6",
+      "duration": "15 mins"
+    }
+  }
+}
