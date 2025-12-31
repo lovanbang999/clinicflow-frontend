@@ -1,0 +1,26 @@
+{
+  "patient": {
+    "title": "Dashboard",
+    "book": "Book Appointment",
+    "bookings": "My Appointments",
+    "profile": "Profile"
+  },
+  "doctor": {
+    "title": "Doctor",
+    "schedule": "Schedule",
+    "patients": "Patients",
+    "settings": "Settings"
+  },
+  "receptionist": {
+    "title": "Receptionist",
+    "dashboard": "Dashboard",
+    "checkIn": "Check-in",
+    "queue": "Queue"
+  },
+  "admin": {
+    "title": "Administrator",
+    "users": "User Management",
+    "services": "Service Management",
+    "reports": "Reports"
+  }
+}

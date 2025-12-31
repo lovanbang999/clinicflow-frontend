@@ -8,9 +8,20 @@ export default getRequestConfig(async ({requestLocale}) => {
   const locale = hasLocale(routing.locales, requested)
     ? requested
     : routing.defaultLocale;
+
+  // Load all message files for the locale
+  const messages = {
+    common: (await import(`../../messages/${locale}/common.json`)).default,
+    auth: (await import(`../../messages/${locale}/auth.json`)).default,
+    validation: (await import(`../../messages/${locale}/validation.json`)).default,
+    dashboard: (await import(`../../messages/${locale}/dashboard.json`)).default,
+    booking: (await import(`../../messages/${locale}/booking.json`)).default,
+    queue: (await import(`../../messages/${locale}/queue.json`)).default,
+    errors: (await import(`../../messages/${locale}/errors.json`)).default,
+  };
  
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default
+    messages
   };
 });

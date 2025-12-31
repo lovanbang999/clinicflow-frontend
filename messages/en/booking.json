@@ -1,0 +1,12 @@
+{
+  "title": "Book Appointment",
+  "selectService": "Select Service",
+  "selectDoctor": "Select Doctor",
+  "selectDate": "Select Date",
+  "selectTime": "Select Time",
+  "confirmBooking": "Confirm Booking",
+  "bookingSuccess": "Booking successful!",
+  "bookingFailed": "Booking failed",
+  "cancel": "Cancel Appointment",
+  "reschedule": "Reschedule"
+}

@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "register": {
+      "emailExists": "Email này đã được đăng ký",
+      "failed": "Đăng ký thất bại. Vui lòng thử lại"
+    },
+    "login": {
+      "invalidCredentials": "Email hoặc mật khẩu không đúng",
+      "notVerified": "Vui lòng xác thực email trước khi đăng nhập",
+      "failed": "Đăng nhập thất bại. Vui lòng thử lại"
+    },
+    "verify": {
+      "invalidOtp": "Mã OTP không đúng",
+      "expiredOtp": "Mã OTP đã hết hạn",
+      "failed": "Xác thực thất bại. Vui lòng thử lại"
+    },
+    "refresh": {
+      "invalidToken": "Token không hợp lệ",
+      "expired": "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại"
+    }
+  },
+  "user": {
+    "notFound": "Không tìm thấy người dùng",
+    "emailExists": "Email đã tồn tại",
+    "phoneExists": "Số điện thoại đã tồn tại"
+  },
+  "service": {
+    "notFound": "Không tìm thấy dịch vụ",
+    "nameExists": "Tên dịch vụ đã tồn tại",
+    "hasActiveBookings": "Không thể xóa dịch vụ đang có lịch hẹn"
+  },
+  "booking": {
+    "notFound": "Không tìm thấy lịch hẹn",
+    "duplicate": "Bạn đã có lịch hẹn vào thời gian này",
+    "invalidDate": "Ngày đặt lịch không hợp lệ",
+    "invalidTransition": "Không thể chuyển sang trạng thái này"
+  },
+  "queue": {
+    "notFound": "Không tìm thấy hàng đợi",
+    "slotFull": "Khung giờ này đã đầy"
+  },
+  "network": {
+    "error": "Lỗi kết nối mạng",
+    "timeout": "Hết thời gian chờ"
+  },
+  "server": {
+    "error": "Lỗi máy chủ. Vui lòng thử lại sau"
+  },
+  "generic": "Đã có lỗi xảy ra. Vui lòng thử lại"
+}

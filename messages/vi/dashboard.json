@@ -1,0 +1,26 @@
+{
+  "patient": {
+    "title": "Bảng điều khiển",
+    "book": "Đặt lịch khám",
+    "bookings": "Lịch hẹn của tôi",
+    "profile": "Thông tin cá nhân"
+  },
+  "doctor": {
+    "title": "Bác sĩ",
+    "schedule": "Lịch làm việc",
+    "patients": "Bệnh nhân",
+    "settings": "Cài đặt"
+  },
+  "receptionist": {
+    "title": "Lễ tân",
+    "dashboard": "Tổng quan",
+    "checkIn": "Check-in",
+    "queue": "Hàng đợi"
+  },
+  "admin": {
+    "title": "Quản trị viên",
+    "users": "Quản lý người dùng",
+    "services": "Quản lý dịch vụ",
+    "reports": "Báo cáo"
+  }
+}

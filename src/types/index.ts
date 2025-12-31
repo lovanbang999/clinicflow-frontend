@@ -7,14 +7,12 @@ export * from './service';
 // Common API types
 export interface ApiError {
   success: false;
-  error?: {
-    code: string;
-    message: string;
-    details?: unknown;
-  };
-  message?: string;
-  messageCode?: string;
-  timestamp?: string;
+  statusCode: number;
+  message: string;
+  messageCode: string;
+  errorMessage: string;
+  errorCode: string;
+  timestamp: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -25,7 +23,11 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-export interface ApiResponse<T> {
-  data: T;
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  data?: T;
   message?: string;
+  messageCode?: string;
+  statusCode?: number;
+  timestamp?: string;
 }
