@@ -8,11 +8,11 @@
   },
   "servicesPage": {
     "title": "Medical Services",
-    "subtitle": "Choose the service that suits your needs",
+    "subtitle": "Choose the service that best suits your needs",
     "searchPlaceholder": "Search services...",
     "filterAll": "All",
     "filterGeneral": "General Checkup",
-    "filterSpecialist": "Specialist",
+    "filterSpecialist": "Specialist Care",
     "bookNow": "Book Now",
     "duration": "Duration",
     "price": "Price"
@@ -20,39 +20,95 @@
   "servicesList": {
     "general": {
       "name": "General Checkup",
-      "description": "Periodic health checkup, general health consultation",
-      "price": "$8",
+      "description": "Routine health checkups and general health consultation",
+      "price": "200,000 VND",
       "duration": "30 mins"
     },
     "cardiology": {
       "name": "Cardiology",
-      "description": "Echocardiogram, ECG, cardiovascular disease consultation",
-      "price": "$12",
+      "description": "Echocardiogram, ECG, and cardiovascular consultation",
+      "price": "300,000 VND",
       "duration": "45 mins"
     },
     "dermatology": {
       "name": "Dermatology",
-      "description": "Acne treatment, melasma, dermatitis, skin allergies",
-      "price": "$10",
+      "description": "Acne treatment, melasma, dermatitis, and skin allergies",
+      "price": "250,000 VND",
       "duration": "30 mins"
     },
     "dental": {
       "name": "Dental",
-      "description": "General checkup, scaling, tooth extraction, filling",
-      "price": "$14",
+      "description": "General dental checkup, scaling, tooth extraction, and fillings",
+      "price": "350,000 VND",
       "duration": "45 mins"
     },
     "ophthalmology": {
       "name": "Ophthalmology",
-      "description": "Vision test, eye disease examination, glasses prescription",
-      "price": "$8",
+      "description": "Vision tests, eye examinations, and glasses prescriptions",
+      "price": "200,000 VND",
       "duration": "30 mins"
     },
     "laboratory": {
-      "name": "Laboratory",
-      "description": "Blood test, urine test, specialized tests",
-      "price": "$6",
+      "name": "Laboratory Tests",
+      "description": "Blood tests, urinalysis, and advanced diagnostic tests",
+      "price": "150,000 VND",
       "duration": "15 mins"
     }
+  },
+  "hero": {
+    "title": "Book appointments quickly and conveniently",
+    "subtitle": "A smart booking system with AI-powered time slot suggestions",
+    "cta": "Book an appointment",
+    "description": "Book with a specialist in just 2 minutes",
+    "viewServices": "View services",
+    "patient": "Patients",
+    "doctor": "Doctors",
+    "support": "Support"
+  },
+  "features": {
+    "title": "Why choose Smart Clinic?",
+    "ai": {
+      "title": "AI Smart Suggestions",
+      "description": "Automatically suggests optimal time slots based on doctors' schedules and the queue"
+    },
+    "quick": {
+      "title": "Quick Booking",
+      "description": "Just 3 simple steps: choose a service → choose a doctor → choose a time"
+    },
+    "notification": {
+      "title": "Automatic Notifications",
+      "description": "Receive email/SMS notifications when you're promoted in the queue"
+    }
+  },
+  "services": {
+    "title": "Medical Services",
+    "viewAll": "View all",
+    "general": {
+      "name": "General Checkup",
+      "description": "Routine health checkups and general consultation",
+      "price": "200,000 VND",
+      "duration": "30 mins"
+    },
+    "cardiology": {
+      "name": "Cardiology",
+      "description": "Echocardiogram, ECG, and consultation",
+      "price": "300,000 VND",
+      "duration": "45 mins"
+    },
+    "dermatology": {
+      "name": "Dermatology",
+      "description": "Acne treatment, melasma, and dermatitis",
+      "price": "250,000 VND",
+      "duration": "30 mins"
+    }
+  },
+  "cta": {
+    "title": "Ready to book an appointment?",
+    "subtitle": "Book with a specialist in just 2 minutes",
+    "button": "Get started"
+  },
+  "footer": {
+    "tagline": "Smart medical appointment booking system",
+    "copyright": "© {year} Smart Clinic. All rights reserved."
   }
 }

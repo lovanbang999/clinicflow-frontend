@@ -1,0 +1,58 @@
+{
+  "page": {
+    "title": "Dịch vụ khám bệnh",
+    "subtitle": "Chọn dịch vụ phù hợp với nhu cầu của bạn",
+    "searchPlaceholder": "Tìm kiếm dịch vụ...",
+    "filters": {
+      "all": "Tất cả",
+      "general": "Khám tổng quát",
+      "specialist": "Khám chuyên khoa"
+    },
+    "empty": "Không tìm thấy dịch vụ phù hợp"
+  },
+  "labels": {
+    "duration": "Thời lượng",
+    "price": "Giá"
+  },
+  "actions": {
+    "bookNow": "Đặt lịch ngay"
+  },
+  "list": {
+    "general": {
+      "name": "Khám tổng quát",
+      "description": "Khám sức khỏe định kỳ, tư vấn các vấn đề sức khỏe chung",
+      "price": "200,000đ",
+      "duration": "30 phút"
+    },
+    "cardiology": {
+      "name": "Khám tim mạch",
+      "description": "Siêu âm tim, điện tâm đồ, tư vấn điều trị bệnh tim mạch",
+      "price": "300,000đ",
+      "duration": "45 phút"
+    },
+    "dermatology": {
+      "name": "Khám da liễu",
+      "description": "Điều trị mụn, nám, viêm da, dị ứng da",
+      "price": "250,000đ",
+      "duration": "30 phút"
+    },
+    "dental": {
+      "name": "Khám răng hàm mặt",
+      "description": "Khám tổng quát, lấy cao răng, nhổ răng, trám răng",
+      "price": "350,000đ",
+      "duration": "45 phút"
+    },
+    "ophthalmology": {
+      "name": "Khám mắt",
+      "description": "Đo thị lực, khám bệnh về mắt, kê đơn kính",
+      "price": "200,000đ",
+      "duration": "30 phút"
+    },
+    "laboratory": {
+      "name": "Xét nghiệm",
+      "description": "Xét nghiệm máu, nước tiểu, các xét nghiệm chuyên sâu",
+      "price": "150,000đ",
+      "duration": "15 phút"
+    }
+  }
+}

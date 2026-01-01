@@ -2,6 +2,7 @@ export interface Service {
   id: string;
   name: string;
   description?: string;
+  iconUrl?: string;
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
@@ -13,6 +14,7 @@ export interface Service {
 export interface CreateServiceDto {
   name: string;
   description?: string;
+  iconUrl?: string;
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
