@@ -18,6 +18,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     dashboard: (await import(`../../messages/${locale}/dashboard.json`)).default,
     booking: (await import(`../../messages/${locale}/booking.json`)).default,
     queue: (await import(`../../messages/${locale}/queue.json`)).default,
+    services: (await import(`../../messages/${locale}/services.json`)).default,
     errors: (await import(`../../messages/${locale}/errors.json`)).default,
   };
  

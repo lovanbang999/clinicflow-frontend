@@ -1,0 +1,58 @@
+{
+  "page": {
+    "title": "Medical Services",
+    "subtitle": "Choose the service that best suits your needs",
+    "searchPlaceholder": "Search services...",
+    "filters": {
+      "all": "All",
+      "general": "General Checkup",
+      "specialist": "Specialist Care"
+    },
+    "empty": "No matching services found"
+  },
+  "labels": {
+    "duration": "Duration",
+    "price": "Price"
+  },
+  "actions": {
+    "bookNow": "Book Now"
+  },
+  "list": {
+    "general": {
+      "name": "General Checkup",
+      "description": "Routine health checkups and general health consultation",
+      "price": "200,000 VND",
+      "duration": "30 mins"
+    },
+    "cardiology": {
+      "name": "Cardiology",
+      "description": "Echocardiogram, ECG, and cardiovascular consultation",
+      "price": "300,000 VND",
+      "duration": "45 mins"
+    },
+    "dermatology": {
+      "name": "Dermatology",
+      "description": "Acne treatment, melasma, dermatitis, and skin allergies",
+      "price": "250,000 VND",
+      "duration": "30 mins"
+    },
+    "dental": {
+      "name": "Dental",
+      "description": "General dental checkup, scaling, tooth extraction, and fillings",
+      "price": "350,000 VND",
+      "duration": "45 mins"
+    },
+    "ophthalmology": {
+      "name": "Ophthalmology",
+      "description": "Vision tests, eye examinations, and glasses prescriptions",
+      "price": "200,000 VND",
+      "duration": "30 mins"
+    },
+    "laboratory": {
+      "name": "Laboratory Tests",
+      "description": "Blood tests, urinalysis, and advanced diagnostic tests",
+      "price": "150,000 VND",
+      "duration": "15 mins"
+    }
+  }
+}
