@@ -36,7 +36,7 @@ export function LandingNavbar() {
               {tLanding('navbar.services')}
             </Link>
             <Link
-              href="/#features"
+              href="/doctors"
               className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
             >
               {tLanding('navbar.doctors')}

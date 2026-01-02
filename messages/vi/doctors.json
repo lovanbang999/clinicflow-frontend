@@ -1,0 +1,26 @@
+{
+  "page": {
+    "title": "Đội ngũ bác sĩ",
+    "subtitle": "Bác sĩ giàu kinh nghiệm, tận tâm với bệnh nhân",
+    "filterBySpecialty": "Lọc theo chuyên khoa",
+    "allSpecialties": "Tất cả chuyên khoa",
+    "empty": "Không tìm thấy bác sĩ phù hợp"
+  },
+  "specialties": {
+    "all": "Tất cả",
+    "general": "Nội tổng quát",
+    "cardiology": "Tim mạch",
+    "dermatology": "Da liễu",
+    "dental": "Răng hàm mặt",
+    "ophthalmology": "Mắt",
+    "ent": "Tai mũi họng",
+    "obstetrics": "Sản phụ khoa"
+  },
+  "card": {
+    "yearsExperience": "{years} năm kinh nghiệm",
+    "reviews": "{count} đánh giá",
+    "specialties": "Chuyên khoa",
+    "qualifications": "Bằng cấp",
+    "bookAppointment": "Đặt lịch khám"
+  }
+}

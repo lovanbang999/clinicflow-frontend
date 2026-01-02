@@ -3,6 +3,7 @@ export * from './auth';
 export * from './booking';
 export * from './schedule';
 export * from './service';
+export * from './doctor';
 
 // Common API types
 export interface ApiError {
