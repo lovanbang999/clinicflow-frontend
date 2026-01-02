@@ -14,6 +14,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     common: (await import(`../../messages/${locale}/common.json`)).default,
     landing: (await import(`../../messages/${locale}/landing.json`)).default,
     auth: (await import(`../../messages/${locale}/auth.json`)).default,
+    doctors: (await import(`../../messages/${locale}/doctors.json`)).default,
     validation: (await import(`../../messages/${locale}/validation.json`)).default,
     dashboard: (await import(`../../messages/${locale}/dashboard.json`)).default,
     booking: (await import(`../../messages/${locale}/booking.json`)).default,

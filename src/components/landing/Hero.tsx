@@ -42,7 +42,7 @@ export function Hero() {
                 {t('cta')}
               </Button>
             </Link>
-            <Link href="#services">
+            <Link href="/services">
               <Button size="lg" variant="outline" className="h-12 px-8 text-base font-medium cursor-pointer">
                 {t('viewServices')}
               </Button>

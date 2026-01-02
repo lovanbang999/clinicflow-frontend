@@ -1,0 +1,26 @@
+{
+  "page": {
+    "title": "Our Doctors",
+    "subtitle": "Experienced doctors, dedicated to patients",
+    "filterBySpecialty": "Filter by specialty",
+    "allSpecialties": "All Specialties",
+    "empty": "No doctors found"
+  },
+  "specialties": {
+    "all": "All",
+    "general": "General Medicine",
+    "cardiology": "Cardiology",
+    "dermatology": "Dermatology",
+    "dental": "Dental",
+    "ophthalmology": "Ophthalmology",
+    "ent": "ENT",
+    "obstetrics": "Obstetrics"
+  },
+  "card": {
+    "yearsExperience": "{years} years experience",
+    "reviews": "{count} reviews",
+    "specialties": "Specialties",
+    "qualifications": "Qualifications",
+    "bookAppointment": "Book Appointment"
+  }
+}

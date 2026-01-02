@@ -31,11 +31,11 @@ export function Services() {
     <section id="services" className="py-20 bg-slate-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-14">
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-12 max-w-6xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
             {t('title')}
           </h2>
-          <Link href="/register" className="shrink-0">
+          <Link href="/services" className="shrink-0">
             <Button
               variant="ghost"
               size="sm"
