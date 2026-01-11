@@ -22,5 +22,14 @@
     "users": "User Management",
     "services": "Service Management",
     "reports": "Reports"
+  },
+  "profile": {
+    "updateSuccess": "Update Successful",
+    "updateSuccessDescription": "Your profile information has been updated.",
+    "avatarUploadSuccess": "Avatar Upload Successful",
+    "avatarUploadSuccessDescription": "Your avatar has been updated.",
+    "passwordChangeSuccess": "Password Change Successful",
+    "passwordChangeSuccessDescription": "Your password has been changed.",
+    "passwordChangeFailedTitle": "Password Change Failed"
   }
 }

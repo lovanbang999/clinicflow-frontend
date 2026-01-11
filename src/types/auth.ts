@@ -1,3 +1,6 @@
+// Import User from user types
+import type { User, UserRole } from './user';
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -13,26 +16,6 @@ export interface LoginResponse {
   message: string;
   messageCode: string;
   timestamp: string;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  fullName: string;
-  role: UserRole;
-  isActive: boolean;
-  isEmailVerified: boolean;
-  phoneNumber?: string;
-  avatar?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export enum UserRole {
-  PATIENT = 'PATIENT',
-  DOCTOR = 'DOCTOR',
-  RECEPTIONIST = 'RECEPTIONIST',
-  ADMIN = 'ADMIN',
 }
 
 export interface RegisterRequest {

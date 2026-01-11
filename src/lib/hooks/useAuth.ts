@@ -52,7 +52,7 @@ export const useAuth = () => {
             router.push('/receptionist/dashboard');
             break;
           case 'PATIENT':
-            router.push('/patient/book');
+            router.push('/patient/dashboard');
             break;
           default:
             router.push('/');

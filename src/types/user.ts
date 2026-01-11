@@ -1,18 +1,39 @@
-// Base User type
+export type UserRole = 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN';
+
+export type Gender = 'MALE' | 'FEMALE' | 'OTHER';
+
 export interface User {
   id: string;
   email: string;
   fullName: string;
   phone?: string;
   avatar?: string;
-  role: 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN';
+  role: UserRole;
   isActive: boolean;
+  dateOfBirth?: string;
+  gender?: Gender;
+  address?: string;
   createdAt: string;
   updatedAt: string;
 }
 
+export interface UpdateProfileDto {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  avatar?: string;
+  dateOfBirth?: string;
+  gender?: Gender;
+  address?: string;
+}
+
+export interface ChangePasswordDto {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface UserFilters {
-  role?: 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN';
+  role?: UserRole;
   isActive?: boolean;
   search?: string;
   page?: number;
