@@ -6,7 +6,6 @@ import {
   Home,
   Calendar,
   CalendarCheck,
-  User,
   ClipboardList,
   Users,
   Settings,
@@ -47,12 +46,6 @@ const navItems: NavItem[] = [
     label: 'Lịch hẹn của tôi',
     href: '/patient/bookings',
     icon: CalendarCheck,
-    roles: ['PATIENT'],
-  },
-  {
-    label: 'Thông tin cá nhân',
-    href: '/patient/profile',
-    icon: User,
     roles: ['PATIENT'],
   },
   {

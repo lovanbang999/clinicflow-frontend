@@ -5,6 +5,7 @@ export * from './schedule';
 export * from './service';
 export * from './doctor';
 export * from './dashboard';
+export * from './user';
 
 // Common API types
 export interface ApiError {

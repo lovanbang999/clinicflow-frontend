@@ -22,5 +22,14 @@
     "users": "Quản lý người dùng",
     "services": "Quản lý dịch vụ",
     "reports": "Báo cáo"
+  },
+  "profile": {
+    "updateSuccess": "Cập nhật thành công",
+    "updateSuccessDescription": "Thông tin cá nhân của bạn đã được cập nhật.",
+    "avatarUploadSuccess": "Tải ảnh đại diện thành công",
+    "avatarUploadSuccessDescription": "Ảnh đại diện của bạn đã được cập nhật.",
+    "passwordChangeSuccess": "Đổi mật khẩu thành công",
+    "passwordChangeSuccessDescription": "Mật khẩu của bạn đã được thay đổi.",
+    "passwordChangeFailedTitle": "Đổi mật khẩu thất bại"
   }
 }
