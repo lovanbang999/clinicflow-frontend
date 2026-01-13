@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { User, LogOut, Settings, Menu } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
-import type { User as UserType } from '@/types/auth';
+import { User as UserType } from '@/types';
 
 interface DashboardHeaderProps {
   user: UserType;

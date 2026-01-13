@@ -51,6 +51,7 @@ export interface QueueRecord {
 }
 
 export interface CreateBookingDto {
+  patientId: string;
   doctorId: string;
   serviceId: string;
   bookingDate: string;

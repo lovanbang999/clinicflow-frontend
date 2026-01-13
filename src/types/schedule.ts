@@ -42,15 +42,18 @@ export interface TimeSlot {
 
 export interface AvailableSlotsQuery {
   doctorId: string;
+  patientId?: string;
   date: string;
   serviceId: string;
 }
 
 export interface SmartSuggestion {
   date: string;
+  dayOfWeek: DayOfWeek;
   time: string;
   availableSlots: number;
   score: number;
+  reasons: string[];
 }
 
 export interface SmartSuggestionsQuery {
@@ -59,4 +62,8 @@ export interface SmartSuggestionsQuery {
   startDate: string;
   endDate: string;
   limit?: number;
+  preferMorning?: boolean;
+  preferAfternoon?: boolean;
+  earliestTime?: string;
+  latestTime?: string;
 }
