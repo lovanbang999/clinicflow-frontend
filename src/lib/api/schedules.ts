@@ -12,14 +12,24 @@ import {
 export const schedulesApi = {
   // Get available time slots
   getAvailableSlots: async (params: AvailableSlotsQuery): Promise<TimeSlot[]> => {
-    const response = await apiClient.get<TimeSlot[]>('/schedules/available-slots', { params });
-    return response.data;
+    const response = await apiClient.get<{
+      success: boolean;
+      data: { availableSlots: string[]; total: number };
+    }>('/schedules/available-slots', { params });
+    
+    // Transform string array to TimeSlot format
+    return response.data.data.availableSlots.map(time => ({
+      time,
+      available: true,
+      availableSlots: 1,
+      maxSlots: 1,
+    }));
   },
 
   // Get smart suggestions
   getSmartSuggestions: async (params: SmartSuggestionsQuery): Promise<SmartSuggestion[]> => {
-    const response = await apiClient.get<SmartSuggestion[]>('/suggestions/time-slots', { params });
-    return response.data;
+    const response = await apiClient.get<{ suggestions: SmartSuggestion[]; totalFound: number }>('/suggestions/smart', { params });
+    return response.data.suggestions;
   },
 
   // Get doctor working hours

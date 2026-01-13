@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Home,
-  Calendar,
   CalendarCheck,
   ClipboardList,
   Users,
@@ -34,12 +33,6 @@ const navItems: NavItem[] = [
     label: 'Trang chủ',
     href: '/patient/dashboard',
     icon: Home,
-    roles: ['PATIENT'],
-  },
-  {
-    label: 'Đặt lịch mới',
-    href: '/patient/book',
-    icon: Calendar,
     roles: ['PATIENT'],
   },
   {
