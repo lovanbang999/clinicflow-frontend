@@ -8,7 +8,6 @@ import {
   ClipboardList,
   Users,
   Settings,
-  LogOut,
   BarChart3,
   Stethoscope,
   Clock,
@@ -39,12 +38,6 @@ const navItems: NavItem[] = [
     label: 'Lịch hẹn của tôi',
     href: '/patient/bookings',
     icon: CalendarCheck,
-    roles: ['PATIENT'],
-  },
-  {
-    label: 'Đăng xuất',
-    href: '/logout',
-    icon: LogOut,
     roles: ['PATIENT'],
   },
 
@@ -120,7 +113,7 @@ export function DashboardSidebar({ role }: SidebarProps) {
       <nav className="space-y-1 p-4">
         {filteredNavItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive = pathname.includes(item.href);
 
           return (
             <Link

@@ -15,8 +15,8 @@ export const bookingsApi = {
 
   // Get my bookings (patient)
   getMyBookings: async (): Promise<Booking[]> => {
-    const response = await apiClient.get<Booking[]>('/bookings/my-bookings');
-    return response.data;
+    const response = await apiClient.get<{ data: { bookings: Booking[] } }>('/bookings/my-bookings');
+    return response.data.data.bookings;
   },
 
   // Get booking by ID
