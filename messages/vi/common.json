@@ -15,5 +15,46 @@
   "back": "Quay lại",
   "next": "Tiếp theo",
   "previous": "Trước",
-  "welcome": "Chào mừng"
+  "welcome": "Chào mừng",
+  "profile": {
+    "title": "Thông tin cá nhân",
+    "accountInfo": "Thông tin tài khoản",
+    "editProfile": "Chỉnh sửa thông tin",
+    "fullName": "Họ và tên",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "dateOfBirth": "Ngày sinh",
+    "gender": "Giới tính",
+    "address": "Địa chỉ",
+    "selectGender": "Chọn giới tính",
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác",
+    "saveChanges": "Lưu thay đổi",
+    "changePassword": "Đổi mật khẩu",
+    "currentPassword": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu mới",
+    "loadingInfo": "Đang tải thông tin...",
+    "imageTooLarge": "Ảnh quá lớn",
+    "imageTooLargeDesc": "Vui lòng chọn ảnh nhỏ hơn 5MB",
+    "invalidFile": "File không hợp lệ",
+    "invalidFileDesc": "Vui lòng chọn file ảnh",
+    "passwordMismatch": "Mật khẩu không khớp",
+    "passwordTooShort": "Mật khẩu phải có ít nhất 6 ký tự",
+    "cannotLoadProfile": "Không thể tải thông tin người dùng",
+    "phonePlaceholder": "0987654321",
+    "addressPlaceholder": "123 Đường ABC, Quận 1, HCM"
+  },
+  "roles": {
+    "ADMIN": "Quản trị viên",
+    "DOCTOR": "Bác sĩ",
+    "RECEPTIONIST": "Lễ tân",
+    "PATIENT": "Bệnh nhân"
+  },
+  "menu": {
+    "profile": "Thông tin cá nhân",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất"
+  }
 }

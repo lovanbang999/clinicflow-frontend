@@ -15,5 +15,46 @@
   "back": "Back",
   "next": "Next",
   "previous": "Previous",
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "profile": {
+    "title": "Profile",
+    "accountInfo": "Account Information",
+    "editProfile": "Edit Profile",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "dateOfBirth": "Date of Birth",
+    "gender": "Gender",
+    "address": "Address",
+    "selectGender": "Select gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "saveChanges": "Save Changes",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "loadingInfo": "Loading information...",
+    "imageTooLarge": "Image too large",
+    "imageTooLargeDesc": "Please select an image smaller than 5MB",
+    "invalidFile": "Invalid file",
+    "invalidFileDesc": "Please select an image file",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "cannotLoadProfile": "Cannot load user profile",
+    "phonePlaceholder": "0987654321",
+    "addressPlaceholder": "123 ABC Street, District 1, HCM"
+  },
+  "roles": {
+    "ADMIN": "Administrator",
+    "DOCTOR": "Doctor",
+    "RECEPTIONIST": "Receptionist",
+    "PATIENT": "Patient"
+  },
+  "menu": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  }
 }

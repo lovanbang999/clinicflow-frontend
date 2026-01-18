@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +23,7 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
+  const t = useTranslations('common');
   const { logout } = useAuth();
 
   // Get user initials
@@ -32,13 +34,8 @@ export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
     .toUpperCase()
     .slice(0, 2);
 
-  // Map role to Vietnamese
-  const roleMap: Record<string, string> = {
-    ADMIN: 'Quản trị viên',
-    DOCTOR: 'Bác sĩ',
-    RECEPTIONIST: 'Lễ tân',
-    PATIENT: 'Bệnh nhân',
-  };
+  // Get translated role
+  const userRole = t(`roles.${user.role}`);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-slate-200 bg-blue-600">
@@ -85,7 +82,7 @@ export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
                 </div>
                 <div className="hidden flex-col items-start sm:flex">
                   <span className="text-sm font-medium">{user.fullName}</span>
-                  <span className="text-xs text-blue-100">{roleMap[user.role]}</span>
+                  <span className="text-xs text-blue-100">{userRole}</span>
                 </div>
               </Button>
             </DropdownMenuTrigger>
@@ -103,14 +100,14 @@ export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
               <DropdownMenuItem asChild>
                 <Link href="/patient/profile" className="flex cursor-pointer items-center gap-2">
                   <User className="h-4 w-4" />
-                  <span>Thông tin cá nhân</span>
+                  <span>{t('menu.profile')}</span>
                 </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild>
                 <Link href="/patient/settings" className="flex cursor-pointer items-center gap-2">
                   <Settings className="h-4 w-4" />
-                  <span>Cài đặt</span>
+                  <span>{t('menu.settings')}</span>
                 </Link>
               </DropdownMenuItem>
 
@@ -121,7 +118,7 @@ export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
                 className="cursor-pointer text-red-600 focus:text-red-600"
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Đăng xuất</span>
+                <span>{t('menu.logout')}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -3,7 +3,15 @@
     "title": "Bảng điều khiển",
     "book": "Đặt lịch khám",
     "bookings": "Lịch hẹn của tôi",
-    "profile": "Thông tin cá nhân"
+    "profile": "Thông tin cá nhân",
+    "welcome": "Chào mừng, {name}!",
+    "welcomeDefault": "Chào mừng, Bệnh nhân!",
+    "newBooking": "Đặt lịch mới",
+    "upcomingAppointments": "Lịch hẹn sắp tới",
+    "completed": "Đã hoàn thành",
+    "queue": "Hàng đợi",
+    "totalVisits": "Tổng lượt khám",
+    "nextAppointment": "Lịch hẹn sắp tới"
   },
   "doctor": {
     "title": "Bác sĩ",
