@@ -3,7 +3,15 @@
     "title": "Dashboard",
     "book": "Book Appointment",
     "bookings": "My Appointments",
-    "profile": "Profile"
+    "profile": "Profile",
+    "welcome": "Welcome, {name}!",
+    "welcomeDefault": "Welcome, Patient!",
+    "newBooking": "New Booking",
+    "upcomingAppointments": "Upcoming Appointments",
+    "completed": "Completed",
+    "queue": "In Queue",
+    "totalVisits": "Total Visits",
+    "nextAppointment": "Next Appointment"
   },
   "doctor": {
     "title": "Doctor",

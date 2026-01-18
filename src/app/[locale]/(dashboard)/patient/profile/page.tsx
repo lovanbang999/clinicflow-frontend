@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { Camera, Lock, Save, X, Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { useAuthStore } from '@/lib/store/authStore';
 import { usersApi } from '@/lib/api/users';
@@ -24,6 +25,8 @@ import {
 import type { UpdateProfileDto, Gender } from '@/types';
 
 export default function PatientProfilePage() {
+  const t = useTranslations('common.profile');
+  const tCommon = useTranslations('common');
   const { user, setUser } = useAuthStore();
   const { isLoading, updateProfile, uploadAvatar, changePassword } = useProfile();
 
@@ -110,7 +113,7 @@ export default function PatientProfilePage() {
         });
       } catch (error) {
         console.error('Failed to fetch profile:', error);
-        toast.error('Không thể tải thông tin người dùng');
+        toast.error(t('cannotLoadProfile'));
 
         // fallback (optional)
         if (user) {
@@ -150,12 +153,12 @@ export default function PatientProfilePage() {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Ảnh quá lớn', { description: 'Vui lòng chọn ảnh nhỏ hơn 5MB' });
+      toast.error(t('imageTooLarge'), { description: t('imageTooLargeDesc') });
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      toast.error('File không hợp lệ', { description: 'Vui lòng chọn file ảnh' });
+      toast.error(t('invalidFile'), { description: t('invalidFileDesc') });
       return;
     }
 
@@ -202,12 +205,12 @@ export default function PatientProfilePage() {
     e.preventDefault();
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast.error('Mật khẩu không khớp');
+      toast.error(t('passwordMismatch'));
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      toast.error('Mật khẩu phải có ít nhất 6 ký tự');
+      toast.error(t('passwordTooShort'));
       return;
     }
 
@@ -249,7 +252,7 @@ export default function PatientProfilePage() {
       <div className="flex h-[60vh] items-center justify-center">
         <div className="text-center">
           <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-600" />
-          <p className="mt-4 text-sm text-slate-600">Đang tải thông tin...</p>
+          <p className="mt-4 text-sm text-slate-600">{t('loadingInfo')}</p>
         </div>
       </div>
     );
@@ -257,11 +260,11 @@ export default function PatientProfilePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-slate-900">Thông tin cá nhân</h1>
+      <h1 className="text-3xl font-bold text-slate-900">{t('title')}</h1>
 
       <Card className="border-slate-200">
         <CardHeader>
-          <CardTitle className="text-xl">Thông tin tài khoản</CardTitle>
+          <CardTitle className="text-xl">{t('accountInfo')}</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -305,7 +308,7 @@ export default function PatientProfilePage() {
                   size="sm"
                   onClick={() => setIsEditing(true)}
                 >
-                  Chỉnh sửa thông tin
+                  {t('editProfile')}
                 </Button>
               )}
             </div>
@@ -314,7 +317,7 @@ export default function PatientProfilePage() {
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="fullName">
-                  Họ và tên <span className="text-red-500">*</span>
+                  {t('fullName')} <span className="text-red-500">*</span>
                 </Label>
                 <Input
                   id="fullName"
@@ -329,7 +332,7 @@ export default function PatientProfilePage() {
 
               <div className="space-y-2">
                 <Label htmlFor="email">
-                  Email <span className="text-red-500">*</span>
+                  {t('email')} <span className="text-red-500">*</span>
                 </Label>
                 <Input
                   id="email"
@@ -342,18 +345,18 @@ export default function PatientProfilePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Số điện thoại</Label>
+                <Label htmlFor="phone">{t('phone')}</Label>
                 <Input
                   id="phone"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   disabled={!isEditing || isLoading}
-                  placeholder="0987654321"
+                  placeholder={t('phonePlaceholder')}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Ngày sinh</Label>
+                <Label htmlFor="dateOfBirth">{t('dateOfBirth')}</Label>
                 <Input
                   id="dateOfBirth"
                   type="date"
@@ -366,7 +369,7 @@ export default function PatientProfilePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="gender">Giới tính</Label>
+                <Label htmlFor="gender">{t('gender')}</Label>
                 <Select
                   value={formData.gender}
                   onValueChange={(value) =>
@@ -375,24 +378,24 @@ export default function PatientProfilePage() {
                   disabled={!isEditing || isLoading}
                 >
                   <SelectTrigger id="gender">
-                    <SelectValue placeholder="Chọn giới tính" />
+                    <SelectValue placeholder={t('selectGender')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="MALE">Nam</SelectItem>
-                    <SelectItem value="FEMALE">Nữ</SelectItem>
-                    <SelectItem value="OTHER">Khác</SelectItem>
+                    <SelectItem value="MALE">{t('male')}</SelectItem>
+                    <SelectItem value="FEMALE">{t('female')}</SelectItem>
+                    <SelectItem value="OTHER">{t('other')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="address">Địa chỉ</Label>
+                <Label htmlFor="address">{t('address')}</Label>
                 <Input
                   id="address"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   disabled={!isEditing || isLoading}
-                  placeholder="123 Đường ABC, Quận 1, HCM"
+                  placeholder={t('addressPlaceholder')}
                 />
               </div>
             </div>
@@ -408,12 +411,12 @@ export default function PatientProfilePage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Đang lưu...
+                      {tCommon('loading')}
                     </>
                   ) : (
                     <>
                       <Save className="mr-2 h-4 w-4" />
-                      Lưu thay đổi
+                      {t('saveChanges')}
                     </>
                   )}
                 </Button>
@@ -425,7 +428,7 @@ export default function PatientProfilePage() {
                   disabled={isLoading}
                 >
                   <X className="mr-2 h-4 w-4" />
-                  Hủy
+                  {tCommon('cancel')}
                 </Button>
               </div>
             )}
@@ -438,7 +441,7 @@ export default function PatientProfilePage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <Lock className="h-5 w-5" />
-            Đổi mật khẩu
+            {t('changePassword')}
           </CardTitle>
         </CardHeader>
 
@@ -449,12 +452,12 @@ export default function PatientProfilePage() {
               variant="outline"
               onClick={() => setShowPasswordSection(true)}
             >
-              Thay đổi mật khẩu
+              {t('changePassword')}
             </Button>
           ) : (
             <form onSubmit={handleChangePassword} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="currentPassword">Mật khẩu hiện tại</Label>
+                <Label htmlFor="currentPassword">{t('currentPassword')}</Label>
                 <Input
                   id="currentPassword"
                   type="password"
@@ -472,7 +475,7 @@ export default function PatientProfilePage() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="newPassword">Mật khẩu mới</Label>
+                  <Label htmlFor="newPassword">{t('newPassword')}</Label>
                   <Input
                     id="newPassword"
                     type="password"
@@ -486,7 +489,7 @@ export default function PatientProfilePage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Xác nhận mật khẩu mới</Label>
+                  <Label htmlFor="confirmPassword">{t('confirmPassword')}</Label>
                   <Input
                     id="confirmPassword"
                     type="password"
@@ -512,12 +515,12 @@ export default function PatientProfilePage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Đang xử lý...
+                      {tCommon('loading')}
                     </>
                   ) : (
                     <>
                       <Save className="mr-2 h-4 w-4" />
-                      Lưu thay đổi
+                      {t('saveChanges')}
                     </>
                   )}
                 </Button>
@@ -536,7 +539,7 @@ export default function PatientProfilePage() {
                   disabled={isLoading}
                 >
                   <X className="mr-2 h-4 w-4" />
-                  Hủy
+                  {tCommon('cancel')}
                 </Button>
               </div>
             </form>
