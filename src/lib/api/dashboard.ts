@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { ApiResponse, DashboardData } from '@/types';
+import { ApiResponse, DashboardData, AdminDashboardData } from '@/types';
 
 export const dashboardApi = {
   // Get patient dashboard stats
@@ -10,6 +10,19 @@ export const dashboardApi = {
 
     if (!response.data.data) {
       throw new Error('Failed to fetch dashboard stats');
+    }
+
+    return response.data.data;
+  },
+
+  // Get admin dashboard stats
+  getAdminStats: async (): Promise<AdminDashboardData> => {
+    const response = await apiClient.get<ApiResponse<AdminDashboardData>>(
+      '/admin/dashboard/stats',
+    );
+
+    if (!response.data.data) {
+      throw new Error('Failed to fetch admin dashboard stats');
     }
 
     return response.data.data;

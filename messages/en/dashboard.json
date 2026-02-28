@@ -27,9 +27,23 @@
   },
   "admin": {
     "title": "Administrator",
+    "dashboard": "Admin Dashboard",
+    "systemOverview": "System Overview",
     "users": "User Management",
     "services": "Service Management",
-    "reports": "Reports"
+    "reports": "Reports",
+    "totalUsers": "Total Users",
+    "doctors": "Doctors",
+    "totalBookings": "Total Bookings",
+    "revenue": "Revenue (VND)",
+    "monthlyStats": "This Month's Statistics",
+    "bookingCount": "Booking Count",
+    "newPatients": "New Patients",
+    "successRate": "Success Rate",
+    "monthlyRevenue": "Revenue",
+    "topDoctors": "Top Doctors",
+    "visits": "visits",
+    "revenueChart": "Revenue Chart"
   },
   "profile": {
     "updateSuccess": "Update Successful",
