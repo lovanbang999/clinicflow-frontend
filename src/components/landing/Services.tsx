@@ -2,85 +2,95 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
-import { Stethoscope, Heart, Droplet, ArrowRight } from 'lucide-react';
-import { Button } from '../ui/button';
 
-const serviceIcons = {
-  general: Stethoscope,
-  cardiology: Heart,
-  dermatology: Droplet,
-};
-
-const serviceColors = {
-  general: 'from-blue-500 to-cyan-500',
-  cardiology: 'from-red-500 to-pink-500',
-  dermatology: 'from-teal-500 to-emerald-500',
-};
+const departments = [
+  {
+    key: 'general',
+    icon: 'medical_services',
+    iconBg: 'bg-blue-50',
+    iconColor: 'text-[#1392ec]',
+    badgeKey: 'badgePrimary',
+  },
+  {
+    key: 'cardiology',
+    icon: 'cardiology',
+    iconBg: 'bg-red-50',
+    iconColor: 'text-red-500',
+    badgeKey: 'badgeSpecialty',
+  },
+  {
+    key: 'pediatrics',
+    icon: 'child_care',
+    iconBg: 'bg-teal-50',
+    iconColor: 'text-teal-600',
+    badgeKey: 'badgeFamily',
+  },
+] as const;
 
 export function Services() {
   const t = useTranslations('landing.services');
 
-  const services = [
-    { key: 'general', icon: serviceIcons.general, color: serviceColors.general },
-    { key: 'cardiology', icon: serviceIcons.cardiology, color: serviceColors.cardiology },
-    { key: 'dermatology', icon: serviceIcons.dermatology, color: serviceColors.dermatology },
-  ] as const;
-
   return (
-    <section id="services" className="py-20 bg-slate-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-14">
+    <section className="py-24 bg-[#F8FAFF]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-12 max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
-            {t('title')}
-          </h2>
-          <Link href="/services" className="shrink-0">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="group gap-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl cursor-pointer"
-            >
-              {t('viewAll')}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Button>
+        <div className="flex items-end justify-between mb-12">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t('title')}</h2>
+            <p className="text-slate-500 text-lg">{t('subtitle')}</p>
+          </div>
+          <Link
+            href="/services"
+            className="hidden md:flex items-center text-[#1392ec] font-bold gap-2 hover:gap-3 transition-all"
+          >
+            {t('viewAll')}
+            <span className="material-symbols-outlined text-lg">arrow_forward</span>
           </Link>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <Card
-                key={service.key}
-                className="group border-slate-200 hover:border-transparent hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
-              >
-                <CardContent className="">
-                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-linear-to-br ${service.color} mb-4`}>
-                    <Icon className="w-7 h-7 text-white" />
-                  </div>
+        {/* Departments Grid */}
+        <div className="grid md:grid-cols-3 gap-8">
+          {departments.map((dept) => (
+            <div
+              key={dept.key}
+              className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:shadow-[#1392ec]/5 hover:-translate-y-1 cursor-pointer"
+            >
+              {/* Icon + Badge row */}
+              <div className="flex justify-between items-start mb-6">
+                <div className={`w-12 h-12 ${dept.iconBg} rounded-xl flex items-center justify-center ${dept.iconColor}`}>
+                  <span className="material-symbols-outlined text-2xl">{dept.icon}</span>
+                </div>
+                <span className="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                  {t(dept.badgeKey)}
+                </span>
+              </div>
 
-                  <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                    {t(`${service.key}.name`)}
-                  </h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                {t(`${dept.key}.name`)}
+              </h3>
+              <p className="text-slate-500 mb-6 text-sm leading-relaxed">
+                {t(`${dept.key}.description`)}
+              </p>
 
-                  <p className="text-slate-600 text-sm mb-4 leading-relaxed">
-                    {t(`${service.key}.description`)}
-                  </p>
+              {/* Meta row */}
+              <div className="flex items-center gap-4 text-sm font-medium text-slate-400">
+                <span className="flex items-center gap-1">
+                  <span className="material-symbols-outlined text-base">schedule</span>
+                  {t(`${dept.key}.duration`)}
+                </span>
+                <span className="w-1 h-1 bg-slate-300 rounded-full" />
+                <span className="text-[#1392ec] font-bold">{t(`${dept.key}.price`)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <span className="text-lg font-bold text-blue-600">
-                      {t(`${service.key}.price`)}
-                    </span>
-                    <span className="text-sm text-slate-500">
-                      {t(`${service.key}.duration`)}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+        {/* Mobile view all link */}
+        <div className="mt-8 text-center md:hidden">
+          <Link href="/services" className="inline-flex items-center text-[#1392ec] font-bold gap-2">
+            {t('viewAll')}
+            <span className="material-symbols-outlined text-lg">arrow_forward</span>
+          </Link>
         </div>
       </div>
     </section>

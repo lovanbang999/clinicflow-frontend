@@ -4,7 +4,11 @@
     "doctors": "Doctors",
     "contact": "Contact",
     "login": "Login",
-    "register": "Register"
+    "register": "Book Now",
+    "findCare": "Find Care",
+    "specialties": "Specialties",
+    "forProviders": "For Providers",
+    "about": "About"
   },
   "servicesPage": {
     "title": "Medical Services",
@@ -56,59 +60,93 @@
     }
   },
   "hero": {
-    "title": "Book appointments quickly and conveniently",
-    "subtitle": "A smart booking system with AI-powered time slot suggestions",
-    "cta": "Book an appointment",
-    "description": "Book with a specialist in just 2 minutes",
-    "viewServices": "View services",
-    "patient": "Patients",
-    "doctor": "Doctors",
-    "support": "Support"
+    "badge": "Modern Healthcare for Your Family",
+    "titleLine1": "Trusted Care,",
+    "titleLine2": "Close to Home",
+    "description": "Experience a new standard of medical excellence. Connect with compassionate specialists and manage your family's health with ease and confidence in our state-of-the-art facilities.",
+    "cta": "Schedule Visit",
+    "phone": "(800) 123-4567",
+    "doctorCount": "2,000+ Doctors",
+    "doctorSubtext": "Ready to help you today",
+    "statusLabel": "Status",
+    "statusValue": "Clinic Open",
+    "rating": "4.9/5 Rating",
+    "ratingQuote": "\"Exceptional care and very clean facilities.\"",
+    "searchPlaceholder": "Condition, Doctor, or Specialist",
+    "locationPlaceholder": "Zip code or City",
+    "datePlaceholder": "Today",
+    "searchBtn": "Search",
+    "stat1": "Emergency Care",
+    "stat2": "Clinics Nationwide",
+    "stat3": "Board-Certified Doctors",
+    "stat4": "Avg. Wait Time"
   },
   "features": {
-    "title": "Why choose Smart Clinic?",
-    "ai": {
-      "title": "AI Smart Suggestions",
-      "description": "Automatically suggests optimal time slots based on doctors' schedules and the queue"
+    "title": "Our Healthcare Excellence",
+    "subtitle": "We are committed to providing patient-centric care with the highest standards of medical practice.",
+    "professional": {
+      "title": "Professional Care",
+      "description": "Our team includes board-certified specialists dedicated to your well-being and recovery."
     },
-    "quick": {
-      "title": "Quick Booking",
-      "description": "Just 3 simple steps: choose a service → choose a doctor → choose a time"
+    "safety": {
+      "title": "Safety First",
+      "description": "Rigorous safety protocols and sterile environments to ensure your health is never compromised."
     },
-    "notification": {
-      "title": "Automatic Notifications",
-      "description": "Receive email/SMS notifications when you're promoted in the queue"
+    "scheduling": {
+      "title": "Efficient Scheduling",
+      "description": "Respecting your time with punctual appointments and streamlined check-in processes."
     }
   },
   "services": {
-    "title": "Medical Services",
-    "viewAll": "View all",
+    "title": "Medical Departments",
+    "subtitle": "Comprehensive care tailored to your specific needs.",
+    "viewAll": "View all departments",
+    "badgePrimary": "Primary",
+    "badgeSpecialty": "Specialty",
+    "badgeFamily": "Family",
     "general": {
-      "name": "General Checkup",
-      "description": "Routine health checkups and general consultation",
-      "price": "200,000 VND",
+      "name": "General Practice",
+      "description": "Routine health checkups, preventive care, and general consultation for everyday health needs.",
+      "price": "From $50",
       "duration": "30 mins"
     },
     "cardiology": {
       "name": "Cardiology",
-      "description": "Echocardiogram, ECG, and consultation",
-      "price": "300,000 VND",
+      "description": "Advanced heart care including ECG, echocardiograms, and consultation with heart specialists.",
+      "price": "From $120",
       "duration": "45 mins"
     },
-    "dermatology": {
-      "name": "Dermatology",
-      "description": "Acne treatment, melasma, and dermatitis",
-      "price": "250,000 VND",
+    "pediatrics": {
+      "name": "Pediatrics",
+      "description": "Comprehensive care for infants, children, and adolescents in a friendly environment.",
+      "price": "From $60",
       "duration": "30 mins"
     }
   },
   "cta": {
-    "title": "Ready to book an appointment?",
-    "subtitle": "Book with a specialist in just 2 minutes",
-    "button": "Get started"
+    "title": "Your Health is Our Priority",
+    "subtitle": "Join thousands of families who trust Smart Clinic for their medical needs. Experience healthcare that cares.",
+    "button": "Book an Appointment",
+    "secondaryButton": "Find a Location"
   },
   "footer": {
-    "tagline": "Smart medical appointment booking system",
-    "copyright": "© {year} Smart Clinic. All rights reserved."
+    "tagline": "Providing world-class healthcare services with a focus on patient comfort and advanced medical treatments.",
+    "copyright": "© {year} Smart Clinic. All rights reserved.",
+    "patients": "Patients",
+    "findDoctor": "Find a Doctor",
+    "bookAppointment": "Book Appointment",
+    "patientPortal": "Patient Portal",
+    "insurance": "Insurance Accepted",
+    "aboutUs": "About Us",
+    "ourStory": "Our Story",
+    "careers": "Careers",
+    "press": "News & Press",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "hipaaCompliance": "HIPAA Compliance",
+    "cookiePolicy": "Cookie Policy",
+    "emergency": "In case of emergency, dial 115"
   }
 }

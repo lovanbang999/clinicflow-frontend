@@ -4,7 +4,11 @@
     "doctors": "Bác sĩ",
     "contact": "Liên hệ",
     "login": "Đăng nhập",
-    "register": "Đăng ký"
+    "register": "Đặt lịch ngay",
+    "findCare": "Tìm dịch vụ",
+    "specialties": "Chuyên khoa",
+    "forProviders": "Cho bác sĩ",
+    "about": "Giới thiệu"
   },
   "servicesPage": {
     "title": "Dịch vụ khám bệnh",
@@ -56,59 +60,93 @@
     }
   },
   "hero": {
-    "title": "Đặt lịch khám bệnh nhanh chóng, tiện lợi",
-    "subtitle": "Hệ thống đặt lịch thông minh với AI gợi ý khung giờ tối ưu",
-    "cta": "Đặt lịch ngay",
-    "description": "Chỉ mất 2 phút để đặt lịch với bác sĩ chuyên môn",
-    "viewServices": "Xem dịch vụ",
-    "patient": "Bệnh nhân",
-    "doctor": "Bác sĩ",
-    "support": "Hỗ trợ"
+    "badge": "Chăm sóc sức khỏe hiện đại cho gia đình bạn",
+    "titleLine1": "Chăm Sóc Đáng Tin,",
+    "titleLine2": "Gần Gũi Hơn",
+    "description": "Trải nghiệm tiêu chuẩn mới về chất lượng y tế. Kết nối với các chuyên gia tận tâm và quản lý sức khỏe gia đình dễ dàng và tự tin tại cơ sở vật chất hiện đại của chúng tôi.",
+    "cta": "Đặt lịch khám",
+    "phone": "(800) 123-4567",
+    "doctorCount": "2.000+ Bác sĩ",
+    "doctorSubtext": "Sẵn sàng hỗ trợ bạn hôm nay",
+    "statusLabel": "Trạng thái",
+    "statusValue": "Phòng khám mở cửa",
+    "rating": "4.9/5 Đánh giá",
+    "ratingQuote": "\"Dịch vụ xuất sắc và cơ sở vật chất rất sạch sẽ.\"",
+    "searchPlaceholder": "Bệnh, Bác sĩ, hoặc Chuyên khoa",
+    "locationPlaceholder": "Mã bưu điện hoặc Thành phố",
+    "datePlaceholder": "Hôm nay",
+    "searchBtn": "Tìm kiếm",
+    "stat1": "Cấp cứu 24/7",
+    "stat2": "Phòng khám toàn quốc",
+    "stat3": "Bác sĩ được chứng nhận",
+    "stat4": "Thời gian chờ TB"
   },
   "features": {
-    "title": "Tại sao chọn Smart Clinic?",
-    "ai": {
-      "title": "AI Gợi ý thông minh",
-      "description": "Hệ thống tự động gợi ý khung giờ tối ưu dựa trên lịch làm việc bác sĩ và hàng đợi"
+    "title": "Sự Xuất Sắc Trong Chăm Sóc Sức Khỏe",
+    "subtitle": "Chúng tôi cam kết cung cấp dịch vụ chăm sóc lấy bệnh nhân làm trung tâm với tiêu chuẩn y tế cao nhất.",
+    "professional": {
+      "title": "Chăm Sóc Chuyên Nghiệp",
+      "description": "Đội ngũ của chúng tôi bao gồm các chuyên gia được chứng nhận tận tâm vì sức khỏe và sự phục hồi của bạn."
     },
-    "quick": {
-      "title": "Đặt lịch nhanh chóng",
-      "description": "Chỉ 3 bước đơn giản: chọn dịch vụ → chọn bác sĩ → chọn giờ"
+    "safety": {
+      "title": "An Toàn Là Trên Hết",
+      "description": "Các quy trình an toàn nghiêm ngặt và môi trường vô trùng để đảm bảo sức khỏe của bạn không bao giờ bị xâm phạm."
     },
-    "notification": {
-      "title": "Thông báo tự động",
-      "description": "Nhận thông báo qua email/SMS khi được promote trong hàng đợi"
+    "scheduling": {
+      "title": "Lịch Hẹn Hiệu Quả",
+      "description": "Tôn trọng thời gian của bạn với các cuộc hẹn đúng giờ và quy trình check-in được tối ưu hóa."
     }
   },
   "services": {
-    "title": "Dịch vụ khám",
-    "viewAll": "Xem tất cả",
+    "title": "Khoa Chuyên Khoa",
+    "subtitle": "Chăm sóc toàn diện phù hợp với nhu cầu cụ thể của bạn.",
+    "viewAll": "Xem tất cả khoa",
+    "badgePrimary": "Cơ bản",
+    "badgeSpecialty": "Chuyên khoa",
+    "badgeFamily": "Gia đình",
     "general": {
-      "name": "Khám tổng quát",
-      "description": "Khám sức khỏe định kỳ, tư vấn chung",
-      "price": "200,000đ",
+      "name": "Khám Tổng Quát",
+      "description": "Khám sức khỏe định kỳ, chăm sóc phòng ngừa và tư vấn chung cho nhu cầu sức khỏe hàng ngày.",
+      "price": "Từ 200,000đ",
       "duration": "30 phút"
     },
     "cardiology": {
-      "name": "Khám tim mạch",
-      "description": "Siêu âm tim, điện tâm đồ, tư vấn",
-      "price": "300,000đ",
+      "name": "Tim Mạch",
+      "description": "Chăm sóc tim mạch nâng cao bao gồm ECG, siêu âm tim và tư vấn với chuyên gia tim mạch.",
+      "price": "Từ 300,000đ",
       "duration": "45 phút"
     },
-    "dermatology": {
-      "name": "Khám da liễu",
-      "description": "Điều trị mụn, nám, viêm da",
-      "price": "250,000đ",
+    "pediatrics": {
+      "name": "Nhi Khoa",
+      "description": "Chăm sóc toàn diện cho trẻ sơ sinh, trẻ em và thanh thiếu niên trong môi trường thân thiện.",
+      "price": "Từ 250,000đ",
       "duration": "30 phút"
     }
   },
   "cta": {
-    "title": "Sẵn sàng đặt lịch khám?",
-    "subtitle": "Chỉ mất 2 phút để đặt lịch với bác sĩ chuyên môn",
-    "button": "Bắt đầu ngay"
+    "title": "Sức Khỏe Của Bạn Là Ưu Tiên Của Chúng Tôi",
+    "subtitle": "Hàng nghìn gia đình tin tưởng Smart Clinic cho nhu cầu y tế của họ. Trải nghiệm chăm sóc sức khỏe thực sự quan tâm.",
+    "button": "Đặt Lịch Khám",
+    "secondaryButton": "Tìm Phòng Khám"
   },
   "footer": {
-    "tagline": "Hệ thống đặt lịch khám bệnh thông minh",
-    "copyright": "© {year} Smart Clinic. All rights reserved."
+    "tagline": "Cung cấp dịch vụ chăm sóc sức khỏe đẳng cấp thế giới với trọng tâm là sự thoải mái của bệnh nhân và điều trị y tế tiên tiến.",
+    "copyright": "© {year} Smart Clinic. Tất cả quyền được bảo lưu.",
+    "patients": "Bệnh nhân",
+    "findDoctor": "Tìm bác sĩ",
+    "bookAppointment": "Đặt lịch khám",
+    "patientPortal": "Cổng bệnh nhân",
+    "insurance": "Bảo hiểm được chấp nhận",
+    "aboutUs": "Về chúng tôi",
+    "ourStory": "Câu chuyện của chúng tôi",
+    "careers": "Tuyển dụng",
+    "press": "Tin tức & Báo chí",
+    "contact": "Liên hệ",
+    "legal": "Pháp lý",
+    "privacyPolicy": "Chính sách bảo mật",
+    "termsOfService": "Điều khoản dịch vụ",
+    "hipaaCompliance": "Tuân thủ HIPAA",
+    "cookiePolicy": "Chính sách cookie",
+    "emergency": "Trường hợp khẩn cấp, gọi 115"
   }
 }

@@ -2,47 +2,39 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 
 export function CTA() {
   const t = useTranslations('landing.cta');
 
   return (
-    <section className="py-16 sm:py-20 bg-white">
-      <div className="">
-        <div className="relative overflow-hidden bg-white px-6 py-12 sm:px-12 sm:py-14">
-          {/* Soft clinic background wash */}
-          <div className="pointer-events-none absolute inset-0">
-            {/* subtle gradient wash */}
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(59,130,246,0.10),rgba(16,185,129,0.08),rgba(255,255,255,0))]" />
-            {/* soft highlights */}
-            <div className="absolute -top-28 -left-28 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl" />
-            <div className="absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-emerald-500/10 blur-3xl" />
-            {/* slight inner vignette */}
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/50" />
-          </div>
+    <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto relative rounded-[40px] overflow-hidden bg-gradient-to-br from-[#1392ec] to-[#0055DD] shadow-2xl shadow-blue-900/20">
+        {/* Cross pattern overlay */}
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
 
-          <div className="relative mx-auto max-w-3xl text-center">
-            <h2 className="text-2xl sm:text-4xl font-semibold tracking-tight text-slate-900">
-              {t('title')}
-            </h2>
-
-            <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600">
-              {t('subtitle')}
-            </p>
-
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link href="/register">
-                <Button
-                  size="lg"
-                  className="group h-11 rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-sm cursor-pointer"
-                >
-                  {t('button')}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </Button>
-              </Link>
-            </div>
+        <div className="relative z-10 py-20 text-center px-6">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+            {t('title')}
+          </h2>
+          <p className="text-blue-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium">
+            {t('subtitle')}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/register">
+              <button className="group bg-white text-[#1392ec] px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl flex items-center justify-center gap-2 hover:bg-slate-50 cursor-pointer w-full sm:w-auto">
+                {t('button')}
+              </button>
+            </Link>
+            <Link href="/services">
+              <button className="group bg-[#0d7cd1]/30 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 hover:bg-[#0d7cd1]/50 cursor-pointer w-full sm:w-auto">
+                {t('secondaryButton')}
+              </button>
+            </Link>
           </div>
         </div>
       </div>
