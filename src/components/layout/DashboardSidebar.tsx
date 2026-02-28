@@ -83,23 +83,47 @@ const navItems: NavItem[] = [
 
   // Admin Navigation
   {
-    label: 'Người dùng',
+    label: 'Dashboard',
+    href: '/admin',
+    icon: Home,
+    roles: ['ADMIN'],
+  },
+  {
+    label: 'Quản lý người dùng',
     href: '/admin/users',
     icon: UserCog,
     roles: ['ADMIN'],
   },
   {
-    label: 'Dịch vụ',
+    label: 'Quản lý dịch vụ',
     href: '/admin/services',
+    icon: ClipboardList,
+    roles: ['ADMIN'],
+  },
+  {
+    label: 'Quản lý bác sĩ',
+    href: '/admin/doctors',
     icon: Stethoscope,
     roles: ['ADMIN'],
   },
   {
-    label: 'Báo cáo',
+    label: 'Cấu hình lịch làm việc',
+    href: '/admin/schedule-config',
+    icon: Settings,
+    roles: ['ADMIN'],
+  },
+  {
+    label: 'Báo cáo & Thống kê',
     href: '/admin/reports',
     icon: BarChart3,
     roles: ['ADMIN'],
   },
+  {
+    label: 'Cài đặt hệ thống',
+    href: '/admin/settings',
+    icon: Settings,
+    roles: ['ADMIN'],
+  }
 ];
 
 export function DashboardSidebar({ role }: SidebarProps) {

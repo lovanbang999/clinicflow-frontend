@@ -27,9 +27,23 @@
   },
   "admin": {
     "title": "Quản trị viên",
+    "dashboard": "Admin Dashboard",
+    "systemOverview": "Tổng quan hệ thống",
     "users": "Quản lý người dùng",
     "services": "Quản lý dịch vụ",
-    "reports": "Báo cáo"
+    "reports": "Báo cáo",
+    "totalUsers": "Tổng Users",
+    "doctors": "Bác sĩ",
+    "totalBookings": "Tổng Bookings",
+    "revenue": "Doanh thu (VND)",
+    "monthlyStats": "Thống kê tháng này",
+    "bookingCount": "Số lượng booking",
+    "newPatients": "Bệnh nhân mới",
+    "successRate": "Tỷ lệ hoàn thành",
+    "monthlyRevenue": "Doanh thu",
+    "topDoctors": "Bác sĩ nổi bật",
+    "visits": "lượt khám",
+    "revenueChart": "Biểu đồ doanh thu"
   },
   "profile": {
     "updateSuccess": "Cập nhật thành công",
