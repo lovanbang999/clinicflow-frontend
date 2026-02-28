@@ -121,5 +121,47 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
   }
+}
+
+/* Landing Page Custom Styles */
+:root {
+  --landing-primary: #1392ec;
+  --landing-primary-dark: #0d7cd1;
+  --landing-medical-blue: #0066FF;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-badge {
+  background: linear-gradient(90deg, rgba(19,146,236,0.1) 0%, rgba(19,146,236,0.2) 50%, rgba(19,146,236,0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+.text-gradient-landing {
+  background: linear-gradient(135deg, #1392ec 0%, #0066FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mesh-gradient {
+  background-color: #0c151c;
+  background-image:
+    radial-gradient(at 0% 0%, hsla(204,100%,15%,1) 0, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(204,100%,10%,1) 0, transparent 50%);
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 export function LandingFooter() {
@@ -9,33 +8,81 @@ export function LandingFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-900 text-slate-300">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col items-center text-center">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
-              <Image
-                src="/logo.svg"
-                alt="Smart Clinic"
-                width={24}
-                height={24}
-                className="object-contain"
-              />
+    <footer className="bg-[#0B1117] text-slate-400 pt-32 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-16 mb-24">
+          {/* Brand Column */}
+          <div className="col-span-2">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 bg-[#1392ec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#1392ec]/20">
+                <span className="material-symbols-outlined text-white" style={{ fontSize: '24px' }}>health_and_safety</span>
+              </div>
+              <span className="font-bold text-2xl text-white tracking-tight">Smart Clinic</span>
             </div>
-            <span className="text-xl font-bold text-white">Smart Clinic</span>
-          </Link>
-
-          {/* Tagline */}
-          <p className="text-slate-400 mb-8 max-w-md">
-            {t('tagline')}
-          </p>
-
-          {/* Copyright */}
-          <div className="pt-8 border-t border-slate-800 w-full">
-            <p className="text-sm text-slate-500">
-              {t('copyright', { year: currentYear })}
+            <p className="max-w-xs mb-10 text-lg leading-relaxed">
+              {t('tagline')}
             </p>
+            <div className="flex gap-6">
+              {(['share', 'camera', 'alternate_email'] as const).map((icon) => (
+                <a
+                  key={icon}
+                  href="#"
+                  className="w-10 h-10 rounded-full border border-slate-800 flex items-center justify-center hover:bg-[#1392ec]/10 hover:border-[#1392ec] transition-all"
+                >
+                  <span className="material-symbols-outlined text-xl">{icon}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Patients Column */}
+          <div>
+            <h5 className="text-white font-bold mb-8 uppercase text-[10px] tracking-[0.2em]">
+              {t('patients')}
+            </h5>
+            <ul className="space-y-6 text-sm font-medium">
+              <li><Link href="/doctors" className="hover:text-white transition-colors">{t('findDoctor')}</Link></li>
+              <li><Link href="/register" className="hover:text-white transition-colors">{t('bookAppointment')}</Link></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('patientPortal')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('insurance')}</a></li>
+            </ul>
+          </div>
+
+          {/* About Us Column */}
+          <div>
+            <h5 className="text-white font-bold mb-8 uppercase text-[10px] tracking-[0.2em]">
+              {t('aboutUs')}
+            </h5>
+            <ul className="space-y-6 text-sm font-medium">
+              <li><a href="#" className="hover:text-white transition-colors">{t('ourStory')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('careers')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('press')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('contact')}</a></li>
+            </ul>
+          </div>
+
+          {/* Legal Column */}
+          <div>
+            <h5 className="text-white font-bold mb-8 uppercase text-[10px] tracking-[0.2em]">
+              {t('legal')}
+            </h5>
+            <ul className="space-y-6 text-sm font-medium">
+              <li><a href="#" className="hover:text-white transition-colors">{t('privacyPolicy')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('termsOfService')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('hipaaCompliance')}</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">{t('cookiePolicy')}</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-12 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-8">
+          <p className="text-xs font-medium">
+            {t('copyright', { year: currentYear })}
+          </p>
+          <div className="flex items-center gap-3 bg-red-500/10 text-red-500 px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20">
+            <span className="material-symbols-outlined text-lg leading-none">emergency</span>
+            {t('emergency')}
           </div>
         </div>
       </div>
