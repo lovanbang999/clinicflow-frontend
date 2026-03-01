@@ -35,5 +35,32 @@
     "specialties": "Specialties",
     "qualifications": "Qualifications",
     "bookAppointment": "Book Appointment"
+  },
+  "profile": {
+    "notFound": "Doctor Profile Not Available",
+    "notFoundDesc": "The profile you are looking for might have been moved, removed, or is temporarily unavailable. Let us help you find another specialist.",
+    "browseAllDoctors": "Browse All Doctors",
+    "returnToHome": "Return to Home",
+    "backToList": "Back to doctors list",
+    "generalPractice": "General Practice",
+    "reviews": "Reviews",
+    "bookAppointment": "Book Appointment",
+    "contactClinic": "Contact Clinic",
+    "clinicLocation": "Clinic Location",
+    "clinicAddress": "Cho Ray Hospital, Dist 5, HCMC",
+    "languages": "Languages",
+    "languageList": "Vietnamese, English, French",
+    "expYears": "Exp. Years",
+    "patients": "Patients",
+    "aboutDoctor": "About Doctor",
+    "noBioAvailable": "No biography information available.",
+    "specializations": "Specializations",
+    "educationExperience": "Education & Experience",
+    "qualificationsTitle": "Qualifications",
+    "experienceTitle": "Experience",
+    "experienceDesc": "{years} years of specialized experience.",
+    "patientReviews": "Patient Reviews",
+    "verifiedReviews": "Verified Reviews",
+    "viewAllReviews": "View All {count} Reviews"
   }
 }

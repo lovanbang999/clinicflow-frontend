@@ -35,5 +35,32 @@
     "specialties": "Chuyên khoa",
     "qualifications": "Bằng cấp",
     "bookAppointment": "Đặt lịch khám"
+  },
+  "profile": {
+    "notFound": "Hồ sơ Bác sĩ không tồn tại",
+    "notFoundDesc": "Hồ sơ bạn đang tìm kiếm có thể đã bị di chuyển, xóa hoặc tạm thời không khả dụng. Hãy để chúng tôi giúp bạn tìm một chuyên gia khác.",
+    "browseAllDoctors": "Xem tất cả Bác sĩ",
+    "returnToHome": "Về trang chủ",
+    "backToList": "Quay lại danh sách",
+    "generalPractice": "Nội tổng quát",
+    "reviews": "Đánh giá",
+    "bookAppointment": "Đặt lịch hẹn",
+    "contactClinic": "Liên hệ phòng khám",
+    "clinicLocation": "Địa chỉ phòng khám",
+    "clinicAddress": "Bệnh viện Chợ Rẫy, Quận 5, TP HCM",
+    "languages": "Ngôn ngữ",
+    "languageList": "Tiếng Việt, Tiếng Anh, Tiếng Pháp",
+    "expYears": "Năm kinh nghiệm",
+    "patients": "Bệnh nhân",
+    "aboutDoctor": "Giới thiệu chung",
+    "noBioAvailable": "Chưa có thông tin giới thiệu chi tiết.",
+    "specializations": "Chuyên môn",
+    "educationExperience": "Học vấn & Kinh nghiệm",
+    "qualificationsTitle": "Bằng cấp chuyên môn",
+    "experienceTitle": "Kinh nghiệm làm việc",
+    "experienceDesc": "{years} năm làm việc trong lĩnh vực chuyên khoa.",
+    "patientReviews": "Đánh giá từ bệnh nhân",
+    "verifiedReviews": "Đánh giá thực tế",
+    "viewAllReviews": "Xem toàn bộ {count} đánh giá"
   }
 }

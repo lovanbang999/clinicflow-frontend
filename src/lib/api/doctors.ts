@@ -41,9 +41,9 @@ export const doctorsApi = {
     }));
   },
 
-  // Get doctor by ID (could also be public)
+  // Get doctor by ID (Public - No auth required)
   getById: async (id: string): Promise<Doctor> => {
-    const response = await apiClient.get<ApiResponse<BackendUser>>(`/users/${id}`);
+    const response = await apiClient.get<ApiResponse<BackendUser>>(`/users/public/doctors/${id}`);
 
     if (!response.data.data) {
       throw new Error('Doctor not found');
