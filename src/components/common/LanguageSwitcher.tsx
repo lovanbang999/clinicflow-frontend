@@ -10,18 +10,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-
-import { Globe, Check } from 'lucide-react';
 
 const languageNames: Record<Locale, string> = {
   vi: 'Tiếng Việt',
   en: 'English',
-};
-
-const languageFlags: Record<Locale, string> = {
-  vi: '🇻🇳',
-  en: '🇬🇧',
 };
 
 export function LanguageSwitcher() {
@@ -36,33 +28,58 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
+        <button
+          className="
+            relative flex items-center gap-1.5
+            px-3 py-1.5 rounded-lg
+            border border-[#1392ec]/30
+            text-[#1392ec] text-sm font-bold tracking-widest uppercase
+            bg-[#1392ec]/5 hover:bg-[#1392ec]/10
+            transition-all duration-200
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1392ec]/40
+            select-none cursor-pointer
+          "
         >
-          <Globe className="h-4 w-4 text-muted-foreground" />
-          <span>{languageFlags[locale]}</span>
-          <span className="uppercase text-sm font-medium">
-            {locale}
-          </span>
-        </Button>
+          {locale}
+          <svg
+            className="w-3 h-3 opacity-60 mt-px"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.5 4.5L6 8L9.5 4.5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent
+        align="end"
+        className="w-36 p-1 rounded-xl border border-slate-200/80 shadow-lg shadow-slate-200/60 bg-white/95 backdrop-blur-sm z-[200]"
+      >
         {locales.map((loc) => (
           <DropdownMenuItem
             key={loc}
             onClick={() => switchLocale(loc)}
-            className="flex items-center justify-between cursor-pointer"
+            className="
+              flex items-center justify-between
+              px-3 py-2 rounded-lg
+              text-sm font-medium
+              cursor-pointer
+              transition-colors duration-150
+              text-slate-700
+              hover:bg-[#1392ec]/8 hover:text-[#1392ec]
+              focus:bg-[#1392ec]/8 focus:text-[#1392ec]
+            "
           >
-            <span className="flex items-center gap-2">
-              <span>{languageFlags[loc]}</span>
-              <span>{languageNames[loc]}</span>
-            </span>
-
+            <span>{languageNames[loc]}</span>
             {locale === loc && (
-              <Check className="h-4 w-4 text-primary" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1392ec] flex-shrink-0" />
             )}
           </DropdownMenuItem>
         ))}

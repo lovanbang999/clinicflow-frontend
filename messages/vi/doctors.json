@@ -4,7 +4,20 @@
     "subtitle": "Bác sĩ giàu kinh nghiệm, tận tâm với bệnh nhân",
     "filterBySpecialty": "Lọc theo chuyên khoa",
     "allSpecialties": "Tất cả chuyên khoa",
-    "empty": "Không tìm thấy bác sĩ phù hợp"
+    "empty": "Không tìm thấy bác sĩ phù hợp",
+    "searchPlaceholder": "Tìm kiếm bác sĩ, chuyên khoa hoặc mặt bệnh...",
+    "sortBy": "Sắp xếp theo:",
+    "sortRatingDesc": "Đánh giá: Cao đến thấp",
+    "sortRatingAsc": "Đánh giá: Thấp đến cao",
+    "sortExpDesc": "Kinh nghiệm: Nhiều đến ít",
+    "sortExpAsc": "Kinh nghiệm: Ít đến nhiều",
+    "worldClassCare": "Chăm sóc chuẩn quốc tế",
+    "meetOur": "Gặp gỡ ",
+    "specialists": "Chuyên Gia",
+    "searchButton": "Tìm kiếm",
+    "emptyTitle": "Không tìm thấy chuyên gia",
+    "emptyDesc": "Vui lòng điều chỉnh tiêu chí tìm kiếm hoặc chọn chuyên khoa khác để tìm bác sĩ phù hợp.",
+    "clearFilters": "Xóa bộ lọc"
   },
   "specialties": {
     "all": "Tất cả",

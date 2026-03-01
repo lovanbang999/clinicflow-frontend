@@ -3,9 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Star, Award, Briefcase, Check } from 'lucide-react';
 import { Doctor } from '@/types/doctor';
 
 interface DoctorCardProps {
@@ -36,84 +33,92 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
     .toUpperCase()
     .slice(0, 2);
 
-  return (
-    <Card className="group overflow-hidden border-slate-200 transition-all hover:border-blue-300 hover:shadow-xl">
-      <CardContent className="p-6">
-        {/* Avatar */}
-        <div className="mb-4 flex justify-center">
-          <div
-            className={`flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-linear-to-br ${avatarColor} text-2xl font-bold text-white shadow-lg`}
-          >
-            {doctor.avatar ? (
-              <Image
-                src={`${process.env.NEXT_PUBLIC_API_URL}${doctor.avatar}`}
-                alt={doctor.fullName}
-                width={96}
-                height={96}
-                className="h-full w-full rounded-full object-cover"
-              />
-            ) : (
-              initials
-            )}
-          </div>
-        </div>
+  const formatReviewCount = (count: number) => {
+    return t('reviews', { count: count }).replace(' đánh giá', '').replace(' reviews', '') + ' Reviews';
+  };
 
-        {/* Name */}
-        <h3 className="mb-2 text-center text-xl font-semibold text-slate-900">
+  return (
+    <div className="bg-white rounded-3xl p-8 flex flex-col relative border border-slate-100 h-full shadow-[0_20px_40px_-4px_rgba(20,25,40,0.06)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-8px_rgba(20,25,40,0.12)] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform group">
+      <div className="absolute top-6 right-6">
+        <button className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer">
+          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div className="flex flex-col items-center mb-6">
+        <div className="w-28 h-28 rounded-full p-1 bg-white ring-1 ring-slate-100 shadow-lg mb-4 overflow-hidden relative">
+          {doctor.avatar ? (
+            <Image
+              src={`${process.env.NEXT_PUBLIC_API_URL}${doctor.avatar}`}
+              alt={doctor.fullName}
+              width={112}
+              height={112}
+              className="w-full h-full rounded-full object-cover"
+            />
+          ) : (
+            <div className={`w-full h-full rounded-full bg-gradient-to-br ${avatarColor} flex items-center justify-center text-3xl font-bold text-white`}>
+              {initials}
+            </div>
+          )}
+        </div>
+        
+        <h3 className="text-xl font-bold text-slate-900 mb-1 text-center">
           {doctor.fullName}
         </h3>
-
-        {/* Primary Specialty */}
-        <p className="mb-4 text-center text-sm text-slate-600">
-          Chuyên khoa {doctor.specialties[0] || 'Nội tổng quát'}
+        <p className="text-[#0066FF] text-sm font-semibold bg-blue-50 px-3 py-1 rounded-lg text-center">
+          {doctor.specialties[0] || 'General Practice'}
         </p>
+      </div>
 
-        {/* Rating */}
-        <div className="mb-4 flex items-center justify-center gap-2">
-          <div className="flex items-center gap-1 text-yellow-500">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={`h-4 w-4 ${i < Math.floor(doctor.rating) ? 'fill-current' : ''}`}
-              />
-            ))}
+      <div className="flex items-center justify-center gap-4 mb-6 pb-6 border-b border-slate-50 w-full">
+        <div className="text-center px-4 border-r border-slate-50">
+          <div className="flex items-center justify-center gap-1 text-slate-900 font-bold">
+            <svg className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            {doctor.rating.toFixed(1)}
           </div>
-          <span className="font-semibold text-slate-900">{doctor.rating.toFixed(1)}/5</span>
+          <p className="text-[11px] text-slate-400 font-medium mt-0.5">{formatReviewCount(doctor.reviewCount)}</p>
         </div>
-
-        <p className="mb-6 text-center text-sm text-slate-500">
-          {t('reviews', { count: doctor.reviewCount })}
-        </p>
-
-        {/* Info List */}
-        <div className="mb-6 space-y-2">
-          <div className="flex items-start gap-2 text-sm text-slate-700">
-            <Briefcase className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-            <span>{t('yearsExperience', { years: doctor.yearsOfExperience })}</span>
+        <div className="text-center px-4">
+          <div className="flex items-center justify-center gap-1 text-slate-900 font-bold">
+            <svg className="w-4 h-4 text-blue-400 fill-current" viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-8.5 13H9v-2.5H6.5V12H9V9.5h1.5V12h2.5v1.5h-2.5V16z" />
+            </svg>
+            {doctor.yearsOfExperience}
           </div>
-
-          {doctor.qualifications.slice(0, 2).map((qual, index) => (
-            <div key={index} className="flex items-start gap-2 text-sm text-slate-700">
-              <Award className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-              <span>{qual}</span>
-            </div>
-          ))}
-
-          {doctor.specialties.slice(0, 2).map((spec, index) => (
-            <div key={index} className="flex items-start gap-2 text-sm text-slate-700">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
-              <span>{spec}</span>
-            </div>
-          ))}
+          <p className="text-[11px] text-slate-400 font-medium mt-0.5">Years Exp.</p>
         </div>
+      </div>
 
-        {/* CTA Button */}
-        <Link href="/register" className="block">
-          <Button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700">
-            {t('bookAppointment')}
-          </Button>
+      <div className="space-y-3 mb-8 px-2">
+        {/* We map maximum 2 qualifications/services or fallback to specialties to show checkmarks */}
+        {(doctor.qualifications.length > 0 ? doctor.qualifications : doctor.specialties).slice(0, 2).map((item, index) => (
+          <div key={index} className="flex items-start gap-3">
+            <div className="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg className="w-3 h-3 text-green-500 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <span className="text-sm text-slate-600 font-medium leading-snug">{item}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-auto grid grid-cols-2 gap-3">
+        <Link href={`/doctors/${doctor.id}`} className="block">
+          <button className="w-full h-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-colors cursor-pointer whitespace-nowrap">
+            View Profile
+          </button>
         </Link>
-      </CardContent>
-    </Card>
+        <Link href={`/register`} className="block">
+          <button className="w-full px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-slate-900/10 active:scale-95 cursor-pointer whitespace-nowrap">
+            Book Now
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 }

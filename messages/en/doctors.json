@@ -4,7 +4,20 @@
     "subtitle": "Experienced doctors, dedicated to patients",
     "filterBySpecialty": "Filter by specialty",
     "allSpecialties": "All Specialties",
-    "empty": "No doctors found"
+    "empty": "No doctors found",
+    "searchPlaceholder": "Search doctor, condition, or specialty...",
+    "sortBy": "Sort by:",
+    "sortRatingDesc": "Rating: High to Low",
+    "sortRatingAsc": "Rating: Low to High",
+    "sortExpDesc": "Experience: High to Low",
+    "sortExpAsc": "Experience: Low to High",
+    "worldClassCare": "World-Class Care",
+    "meetOur": "Meet Our ",
+    "specialists": "Specialists",
+    "searchButton": "Search",
+    "emptyTitle": "No Specialists Found",
+    "emptyDesc": "Try adjusting your search criteria or selecting a different specialty to find the right care provider.",
+    "clearFilters": "Clear Filters"
   },
   "specialties": {
     "all": "All",
