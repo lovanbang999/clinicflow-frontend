@@ -1,7 +1,7 @@
 {
   "page": {
     "title": "Medical Services",
-    "subtitle": "Choose the service that best suits your needs",
+    "subtitle": "Choose the service that best suits your needs from our wide range of expert medical care and specialized diagnostic procedures.",
     "searchPlaceholder": "Search services...",
     "filters": {
       "all": "All",
@@ -15,7 +15,8 @@
     "price": "Price"
   },
   "actions": {
-    "bookNow": "Book Now"
+    "bookNow": "Book Now",
+    "viewService": "View Service"
   },
   "list": {
     "general": {

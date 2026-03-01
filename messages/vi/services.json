@@ -1,7 +1,7 @@
 {
   "page": {
-    "title": "Dịch vụ khám bệnh",
-    "subtitle": "Chọn dịch vụ phù hợp với nhu cầu của bạn",
+    "title": "Dịch vụ y tế",
+    "subtitle": "Chọn dịch vụ phù hợp nhất với nhu cầu của bạn từ một loạt các dịch vụ chăm sóc y tế chuyên gia và các thủ tục chẩn đoán chuyên sâu.",
     "searchPlaceholder": "Tìm kiếm dịch vụ...",
     "filters": {
       "all": "Tất cả",
@@ -15,7 +15,8 @@
     "price": "Giá"
   },
   "actions": {
-    "bookNow": "Đặt lịch ngay"
+    "bookNow": "Đặt lịch ngay",
+    "viewService": "Xem chi tiết"
   },
   "list": {
     "general": {
