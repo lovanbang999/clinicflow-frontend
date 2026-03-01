@@ -1,42 +1,31 @@
-import { Card, CardContent } from '@/components/ui/card';
-
 export function ServiceCardSkeleton() {
   return (
-    <Card className="h-full border-slate-200 overflow-hidden">
-      <CardContent className="flex h-full flex-col p-6">
-        {/* Top */}
-        <div>
-          {/* Icon Skeleton */}
-          <div className="mb-4 h-14 w-14 animate-pulse rounded-xl bg-slate-200" />
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-[16px] border border-slate-100 dark:border-slate-700/50 shadow-sm flex flex-col h-full animate-pulse">
+      <div className="w-14 h-14 bg-slate-200 dark:bg-slate-700 rounded-full mb-6" />
 
-          {/* Title Skeleton */}
-          <div className="mb-2 h-6 w-3/4 animate-pulse rounded bg-slate-200" />
+      <div className="mb-3 h-6 w-3/4 rounded bg-slate-200 dark:bg-slate-700" />
+      
+      <div className="mb-2 h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
+      <div className="mb-8 h-4 w-5/6 rounded bg-slate-200 dark:bg-slate-700" />
 
-          {/* Description Skeleton */}
-          <div className="mb-1 h-4 w-full animate-pulse rounded bg-slate-200" />
-          <div className="mb-4 h-4 w-5/6 animate-pulse rounded bg-slate-200" />
-
-          {/* Info Section */}
-          <div className="space-y-2 border-t border-slate-100 pt-4">
-            {/* Duration */}
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 animate-pulse rounded bg-slate-200" />
-              <div className="h-4 w-32 animate-pulse rounded bg-slate-200" />
-            </div>
-
-            {/* Price */}
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 animate-pulse rounded bg-slate-200" />
-              <div className="h-6 w-24 animate-pulse rounded bg-slate-200" />
-            </div>
+      <div className="space-y-4 mb-8 border-t border-slate-50 dark:border-slate-700/50 pt-6 mt-auto">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-5 w-5 rounded bg-slate-200 dark:bg-slate-700" />
+            <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
           </div>
+          <div className="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700" />
         </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-5 w-5 rounded bg-slate-200 dark:bg-slate-700" />
+            <div className="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700" />
+          </div>
+          <div className="h-5 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+        </div>
+      </div>
 
-        {/* CTA Skeleton */}
-        <div className="mt-auto pt-6">
-          <div className="h-11 w-full animate-pulse rounded-lg bg-slate-200" />
-        </div>
-      </CardContent>
-    </Card>
+      <div className="w-full h-[56px] rounded-xl bg-slate-200 dark:bg-slate-700" />
+    </div>
   );
 }

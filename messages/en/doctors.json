@@ -34,7 +34,9 @@
     "reviews": "{count} reviews",
     "specialties": "Specialties",
     "qualifications": "Qualifications",
-    "bookAppointment": "Book Appointment"
+    "bookAppointment": "Book Appointment",
+    "viewProfile": "View Profile",
+    "bookNow": "Book Now"
   },
   "profile": {
     "notFound": "Doctor Profile Not Available",

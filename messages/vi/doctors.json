@@ -34,7 +34,9 @@
     "reviews": "{count} đánh giá",
     "specialties": "Chuyên khoa",
     "qualifications": "Bằng cấp",
-    "bookAppointment": "Đặt lịch khám"
+    "bookAppointment": "Đặt lịch khám",
+    "viewProfile": "Xem hồ sơ",
+    "bookNow": "Đặt lịch ngay"
   },
   "profile": {
     "notFound": "Hồ sơ Bác sĩ không tồn tại",

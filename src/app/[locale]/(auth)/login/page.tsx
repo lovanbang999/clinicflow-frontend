@@ -104,12 +104,12 @@ export default function LoginPage() {
         <Card className="w-full max-w-md border border-slate-200/70 bg-white/80 shadow-xl backdrop-blur supports-backdrop-filter:bg-white/70">
           <CardHeader className="space-y-3 text-center">
             {/* Logo */}
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600/10 ring-1 ring-blue-600/15">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl">
               <Image
                 src="/logo.svg"
                 alt="Smart Clinic Logo"
-                width={44}
-                height={44}
+                width={56}
+                height={56}
                 className="object-contain"
                 priority
               />

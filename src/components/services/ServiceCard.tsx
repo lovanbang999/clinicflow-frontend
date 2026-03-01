@@ -3,9 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Clock, DollarSign, LucideIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import { Service } from '@/types/service';
 
 interface ServiceCardProps {
@@ -18,64 +16,66 @@ export function ServiceCard({ service, icon: Icon, color }: ServiceCardProps) {
   const t = useTranslations('services');
 
   return (
-    <Card className="group h-full border-slate-200 transition-all hover:border-blue-300 hover:shadow-lg">
-      <CardContent className="flex h-full flex-col py-2">
-        {/* Top */}
-        <div>
-          {/* Icon */}
-          <div className={`mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl overflow-hidden bg-linear-to-br ${color}`}>
-            {service.iconUrl ? (
-              <Image
-                src={`${process.env.NEXT_PUBLIC_API_URL}${service.iconUrl}`}
-                alt={service.name}
-                width={28}
-                height={28}
-                className="object-contain"
-              />
-            ) : (
-              <Icon className="h-7 w-7 text-white" />
-            )}
+    <div className="bg-white dark:bg-slate-800 p-6 rounded-[16px] border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
+      <div className={`w-14 h-14 bg-linear-to-br ${color} rounded-full flex items-center justify-center mb-6 group-hover:scale-105 transition-transform overflow-hidden shadow-sm`}>
+        {service.iconUrl ? (
+          <Image
+            src={`${process.env.NEXT_PUBLIC_API_URL}${service.iconUrl}`}
+            alt={service.name}
+            width={32}
+            height={32}
+            className="object-contain"
+          />
+        ) : (
+          <Icon className="h-7 w-7 text-white" />
+        )}
+      </div>
+
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+        {service.name}
+      </h3>
+
+      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-8">
+        {service.description || 'Dịch vụ chất lượng cao'}
+      </p>
+
+      <div className="space-y-4 mb-8 border-t border-slate-50 dark:border-slate-700/50 pt-6 mt-auto">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 font-medium">
+            <span className="material-symbols-outlined text-[20px] text-slate-400">
+              schedule
+            </span>
+            <span className="text-sm">{t('labels.duration')}:</span>
           </div>
-
-          {/* Name */}
-          <h3 className="mb-2 text-lg font-semibold text-slate-900">
-            {service.name}
-          </h3>
-
-          {/* Description */}
-          <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-slate-600">
-            {service.description || 'Dịch vụ chất lượng cao'}
-          </p>
-
-          {/* Info */}
-          <div className="space-y-2 border-t border-slate-100 pt-4">
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <Clock className="h-4 w-4 text-slate-400" />
-              <span>{t('labels.duration')}:</span>
-              <span className="font-medium text-slate-700">
-                {service.durationMinutes} phút
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <DollarSign className="h-4 w-4 text-slate-400" />
-              <span>{t('labels.price')}:</span>
-              <span className="text-lg font-semibold text-blue-600">
-                {service.price.toLocaleString('vi-VN')}đ
-              </span>
-            </div>
+          <span className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+            {service.durationMinutes} phút
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 font-medium">
+            <span className="material-symbols-outlined text-[20px] text-slate-400">
+              payments
+            </span>
+            <span className="text-sm">{t('labels.price')}:</span>
           </div>
+          <span className="font-bold text-blue-600 text-base">
+            {service.price.toLocaleString('vi-VN')}đ
+          </span>
         </div>
+      </div>
 
-        {/* CTA bottom */}
-        <div className="mt-auto pt-6">
-          <Link href="/register" className="block">
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer">
-              {t('actions.bookNow')}
-            </Button>
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+      <div className="mt-auto grid grid-cols-2 gap-3">
+        <Link href={`/services/${service.id}`} className="block">
+          <button className="w-full h-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-colors cursor-pointer whitespace-nowrap">
+            {t('actions.viewService')}
+          </button>
+        </Link>
+        <Link href={`/register`} className="block">
+          <button className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-slate-900/10 active:scale-95 cursor-pointer whitespace-nowrap">
+            {t('actions.bookNow')}
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 }
