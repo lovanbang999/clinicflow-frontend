@@ -43,7 +43,7 @@ export const useAuth = () => {
         // Redirect based on role
         switch (user.role) {
           case 'ADMIN':
-            router.push('/admin/users');
+            router.push('/admin');
             break;
           case 'DOCTOR':
             router.push('/doctor/schedule');
