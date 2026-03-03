@@ -14,6 +14,55 @@
     "duration": "Thời lượng",
     "price": "Giá"
   },
+  "detail": {
+    "navServices": "Dịch vụ",
+    "overview": "Tổng quan",
+    "whatWeTreat": "Các bệnh điều trị",
+    "procedureDetails": "Quy trình thực hiện",
+    "serviceFee": "Phí dịch vụ",
+    "duration": "Thời lượng",
+    "availability": "Lịch trống",
+    "availableToday": "Có sẵn hôm nay",
+    "whatsIncluded": "Bao gồm những khoản gì",
+    "bookService": "Đặt dịch vụ này",
+    "noPaymentText": "Không yêu cầu thanh toán cho đến khi bạn thăm khám",
+    "ourSpecialists": "Chuyên gia của chúng tôi",
+    "meetSpecialistsDesc": "Gặp gỡ đội ngũ chuyên gia sức khỏe chất lượng cao của chúng tôi.",
+    "viewProfile": "Xem hồ sơ",
+    "faqTitle": "Các câu hỏi thường gặp",
+    "notFound": "Không tìm thấy dịch vụ",
+    "notFoundDesc": "Dịch vụ bạn đang tìm kiếm có thể đã bị di chuyển, xóa hoặc tạm thời không khả dụng.",
+    "returnToServices": "Quay lại danh sách Dịch vụ",
+    "faq": {
+      "q1": "Tôi có cần giấy giới thiệu cho buổi khám này không?",
+      "a1": "Trong hầu hết các trường hợp, bạn không cần giấy giới thiệu. Tuy nhiên, vui lòng kiểm tra với nhà cung cấp bảo hiểm của bạn vì một số gói có thể yêu cầu để thanh toán.",
+      "q2": "Tôi nên chuẩn bị gì cho buổi khám?",
+      "q3": "Có chi phí ẩn nào không?",
+      "q4": "Tôi có thể hủy hoặc đặt lại lịch không?"
+    },
+    "treat": {
+      "item1": "Tăng huyết áp",
+      "item2": "Bệnh động mạch vành",
+      "item3": "Rối loạn nhịp tim",
+      "item4": "Bệnh van tim",
+      "item5": "Quản lý suy tim",
+      "item6": "Đau ngực & Hồi hộp"
+    },
+    "proc": {
+      "step1Title": "Đánh giá ban đầu",
+      "step1Desc": "Xem lại tiền sử bệnh, các triệu chứng hiện tại và các yếu tố lối sống có thể ảnh hưởng đến sức khỏe tim mạch.",
+      "step2Title": "Khám thực thể",
+      "step2Desc": "Kiểm tra tổng quát bao gồm nhịp tim, đo huyết áp và nghe tim phổi.",
+      "step3Title": "Kiểm tra chẩn đoán",
+      "step3Desc": "Nếu cần thiết, có thể thực hiện siêu âm hoặc điện tâm đồ tại chỗ để chẩn đoán chính xác ngay lập tức."
+    },
+    "includes": {
+      "item1": "Khám với Bác sĩ chuyên khoa",
+      "item2": "Kiểm tra sinh hiệu cơ bản & ECG",
+      "item3": "Báo cáo sức khỏe kỹ thuật số",
+      "item4": "Quản lý đơn thuốc"
+    }
+  },
   "actions": {
     "bookNow": "Đặt lịch ngay",
     "viewService": "Xem chi tiết"

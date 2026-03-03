@@ -14,6 +14,55 @@
     "duration": "Duration",
     "price": "Price"
   },
+  "detail": {
+    "navServices": "Services",
+    "overview": "Overview",
+    "whatWeTreat": "What we treat",
+    "procedureDetails": "Procedure Details",
+    "serviceFee": "Service Fee",
+    "duration": "Duration",
+    "availability": "Availability",
+    "availableToday": "Available Today",
+    "whatsIncluded": "What's included",
+    "bookService": "Book this Service",
+    "noPaymentText": "No payment required until your visit",
+    "ourSpecialists": "Our Specialists",
+    "meetSpecialistsDesc": "Meet our highly qualified team of health experts.",
+    "viewProfile": "View Profile",
+    "faqTitle": "Frequently Asked Questions",
+    "notFound": "Service Not Found",
+    "notFoundDesc": "The service you are looking for might have been moved, removed, or is temporarily unavailable.",
+    "returnToServices": "Return to Services",
+    "faq": {
+      "q1": "Do I need a referral for this consultation?",
+      "a1": "In most cases, you do not need a referral to book a consultation with us. However, please check with your insurance provider as some plans may require one for coverage purposes.",
+      "q2": "How should I prepare for my appointment?",
+      "q3": "Are there any hidden costs?",
+      "q4": "Can I cancel or reschedule my booking?"
+    },
+    "treat": {
+      "item1": "Hypertension (High Blood Pressure)",
+      "item2": "Coronary Artery Disease",
+      "item3": "Heart Arrhythmias",
+      "item4": "Valvular Heart Disease",
+      "item5": "Heart Failure Management",
+      "item6": "Chest Pain & Palpitations"
+    },
+    "proc": {
+      "step1Title": "Initial Assessment",
+      "step1Desc": "Review of medical history, current symptoms, and lifestyle factors that may impact cardiovascular health.",
+      "step2Title": "Physical Examination",
+      "step2Desc": "Comprehensive physical check including heart rate, blood pressure monitoring, and auscultation.",
+      "step3Title": "Diagnostic Testing",
+      "step3Desc": "If required, on-site ECG or ultrasound may be performed for immediate diagnostic clarity."
+    },
+    "includes": {
+      "item1": "Specialist Consultation",
+      "item2": "Basic Vitals & ECG",
+      "item3": "Digital Health Report",
+      "item4": "Prescription Management"
+    }
+  },
   "actions": {
     "bookNow": "Book Now",
     "viewService": "View Service"
