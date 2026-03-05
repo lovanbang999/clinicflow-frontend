@@ -27,23 +27,73 @@
   },
   "admin": {
     "title": "Quản trị viên",
-    "dashboard": "Admin Dashboard",
+    "dashboard": "Bảng điều khiển Admin",
     "systemOverview": "Tổng quan hệ thống",
-    "users": "Quản lý người dùng",
-    "services": "Quản lý dịch vụ",
-    "reports": "Báo cáo",
-    "totalUsers": "Tổng Users",
-    "doctors": "Bác sĩ",
-    "totalBookings": "Tổng Bookings",
-    "revenue": "Doanh thu (VND)",
-    "monthlyStats": "Thống kê tháng này",
-    "bookingCount": "Số lượng booking",
-    "newPatients": "Bệnh nhân mới",
-    "successRate": "Tỷ lệ hoàn thành",
-    "monthlyRevenue": "Doanh thu",
-    "topDoctors": "Bác sĩ nổi bật",
-    "visits": "lượt khám",
-    "revenueChart": "Biểu đồ doanh thu"
+    "loading": "Đang tải...",
+    "redirecting": "Đang chuyển hướng...",
+    "healthcare": "Chăm sóc sức khỏe",
+    "logout": "Đăng xuất",
+    "nav": {
+      "dashboard": "Tổng quan",
+      "userManagement": "Quản lý người dùng",
+      "doctorManagement": "Quản lý bác sĩ",
+      "serviceManagement": "Quản lý dịch vụ",
+      "schedules": "Lịch làm việc",
+      "analytics": "Phân tích",
+      "settings": "Cài đặt"
+    },
+    "kpi": {
+      "totalPatients": "Tổng bệnh nhân",
+      "activeDoctors": "Bác sĩ hoạt động",
+      "totalBookings": "Tổng lịch hẹn",
+      "monthlyRevenue": "Doanh thu tháng",
+      "allSpecialistsActive": "Tất cả bác sĩ đang hoạt động",
+      "upcoming": "{count} sắp tới",
+      "vsLastMonth": "so với tháng trước",
+      "thisMonth": "+{count} tháng này"
+    },
+    "chart": {
+      "revenueTrend": "Xu hướng doanh thu",
+      "clinicalEarnings": "Tăng trưởng doanh thu phòng khám",
+      "last6Months": "6 tháng gần đây",
+      "yearToDate": "Từ đầu năm"
+    },
+    "bookingOverview": {
+      "title": "Tổng quan lịch hẹn",
+      "subtitle": "Phân loại trạng thái lịch hẹn",
+      "completed": "Hoàn thành",
+      "upcoming": "Sắp tới",
+      "cancelled": "Đã hủy",
+      "total": "Tổng cộng"
+    },
+    "monthlyStats": {
+      "title": "Tháng này",
+      "bookings": "Lịch hẹn",
+      "newPatients": "Bệnh nhân mới",
+      "successRate": "Tỷ lệ thành công",
+      "revenue": "Doanh thu"
+    },
+    "topDoctors": {
+      "title": "Bác sĩ nổi bật",
+      "subtitle": "Theo số lượt khám",
+      "viewAll": "Xem tất cả",
+      "visits": "{count} lượt khám",
+      "emptyTitle": "Chưa có dữ liệu",
+      "emptySubtitle": "Bảng xếp hạng sẽ xuất hiện khi có lịch hẹn hoàn thành"
+    },
+    "recentActivity": {
+      "title": "Hoạt động gần đây",
+      "subtitle": "Sự kiện hệ thống mới nhất",
+      "viewAll": "Xem tất cả",
+      "newPatientRegistered": "Bệnh nhân mới đăng ký",
+      "appointmentConfirmed": "Lịch hẹn đã xác nhận",
+      "paymentReceived": "Đã nhận thanh toán",
+      "appointmentCancelled": "Lịch hẹn đã hủy",
+      "newServiceAdded": "Thêm dịch vụ mới",
+      "doctorProfileUpdated": "Cập nhật hồ sơ bác sĩ",
+      "scheduleUpdated": "Cập nhật lịch làm việc",
+      "newUserAccountCreated": "Tạo tài khoản người dùng mới"
+    }
   },
   "profile": {
     "updateSuccess": "Cập nhật thành công",
