@@ -6,6 +6,7 @@ export * from './service';
 export * from './doctor';
 export * from './dashboard';
 export * from './user';
+export * from './admin-users';
 
 // Common API types
 export interface ApiError {

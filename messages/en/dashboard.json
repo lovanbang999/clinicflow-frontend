@@ -93,6 +93,93 @@
       "doctorProfileUpdated": "Doctor profile updated",
       "scheduleUpdated": "Schedule updated",
       "newUserAccountCreated": "New user account created"
+    },
+    "userManagement": {
+      "addUser": {
+        "button": "Add User",
+        "title": "Add New User Profile",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "e.g. Dr. Robert Fox",
+        "email": "Email Address",
+        "emailPlaceholder": "robert.f@clinic.com",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+1 (555) 000-0000",
+        "role": "User Role",
+        "rolePlaceholder": "Select a role",
+        "status": "Account Status",
+        "statusDesc": "Enable or disable system access",
+        "cancel": "Cancel",
+        "save": "Save User",
+        "saving": "Saving...",
+        "errors": {
+          "nameRequired": "Full name is required",
+          "emailRequired": "Email is required",
+          "emailInvalid": "Invalid email address",
+          "roleRequired": "Please select a role"
+        }
+      },
+      "editUser": {
+        "title": "Edit User Profile",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "e.g. Dr. Robert Fox",
+        "email": "Email Address",
+        "emailPlaceholder": "robert.f@clinic.com",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+1 (555) 000-0000",
+        "role": "User Role",
+        "rolePlaceholder": "Select a role",
+        "status": "Account Status",
+        "statusDesc": "Enable or disable system access",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "errors": {
+          "nameRequired": "Full name is required",
+          "emailRequired": "Email is required",
+          "emailInvalid": "Invalid email address",
+          "roleRequired": "Please select a role"
+        }
+      },
+      "title": "User Management",
+      "stats": {
+        "totalUsers": "Total Users",
+        "newToday": "New Today",
+        "activeNow": "Active Now",
+        "suspended": "Suspended",
+        "now": "Now",
+        "alert": "Alert"
+      },
+      "table": {
+        "title": "All Users",
+        "subtitle": "Manage system access and permissions",
+        "filter": "Filter",
+        "clear": "Clear",
+        "clearAll": "Clear all filters",
+        "empty": "No users match the selected filters.",
+        "showing": "Showing",
+        "of": "of",
+        "users": "users",
+        "previous": "Previous",
+        "next": "Next",
+        "columns": {
+          "user": "User",
+          "role": "Role",
+          "status": "Status",
+          "joinedDate": "Joined Date",
+          "action": "Action"
+        },
+        "roles": {
+          "Doctor": "Doctor",
+          "Patient": "Patient",
+          "Receptionist": "Receptionist",
+          "Admin": "Admin"
+        },
+        "statuses": {
+          "Active": "Active",
+          "Inactive": "Inactive",
+          "Suspended": "Suspended"
+        }
+      }
     }
   },
   "profile": {

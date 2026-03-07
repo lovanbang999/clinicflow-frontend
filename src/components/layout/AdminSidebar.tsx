@@ -6,16 +6,34 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import {
+  SquaresFourIcon,
+  UsersIcon,
+  StethoscopeIcon,
+  SyringeIcon,
+  CalendarBlankIcon,
+  ChartBarIcon,
+  GearSixIcon,
+  SignOutIcon,
+  type Icon,
+} from '@phosphor-icons/react';
 
-const NAV_KEYS = [
-  { key: 'dashboard',       href: '/admin',                icon: 'dashboard',        exact: true },
-  { key: 'userManagement',  href: '/admin/users',          icon: 'group',            exact: false },
-  { key: 'doctorManagement',href: '/admin/doctors',        icon: 'medical_services', exact: false },
-  { key: 'serviceManagement',href: '/admin/services',      icon: 'vaccines',         exact: false },
-  { key: 'schedules',       href: '/admin/schedule-config',icon: 'calendar_today',   exact: false },
-  { key: 'analytics',       href: '/admin/reports',        icon: 'analytics',        exact: false },
-  { key: 'settings',        href: '/admin/settings',       icon: 'settings',         exact: false },
-] as const;
+type NavItem = {
+  key: string;
+  href: string;
+  icon: Icon;
+  exact: boolean;
+};
+
+const NAV_ITEMS: NavItem[] = [
+  { key: 'dashboard',        href: '/admin',                 icon: SquaresFourIcon,   exact: true  },
+  { key: 'userManagement',   href: '/admin/users',           icon: UsersIcon,         exact: false },
+  { key: 'doctorManagement', href: '/admin/doctors',         icon: StethoscopeIcon,   exact: false },
+  { key: 'serviceManagement',href: '/admin/services',        icon: SyringeIcon,       exact: false },
+  { key: 'schedules',        href: '/admin/schedule-config', icon: CalendarBlankIcon, exact: false },
+  { key: 'analytics',        href: '/admin/reports',         icon: ChartBarIcon,      exact: false },
+  { key: 'settings',         href: '/admin/settings',        icon: GearSixIcon,       exact: false },
+];
 
 export default function AdminSidebar() {
   const pathname = usePathname();
@@ -37,10 +55,11 @@ export default function AdminSidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-2 space-y-1">
-        {NAV_KEYS.map((item) => {
+        {NAV_ITEMS.map((item) => {
           const isActive = item.exact
             ? pathname === item.href || pathname.endsWith(item.href)
             : pathname.includes(item.href);
+          const IconComponent = item.icon;
           return (
             <Link
               key={item.href}
@@ -52,9 +71,7 @@ export default function AdminSidebar() {
                   : 'text-[#64748b] hover:bg-[#1392ec]/10 hover:text-[#1392ec]',
               )}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>
-                {item.icon}
-              </span>
+              <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} />
               <span>{t(`nav.${item.key}`)}</span>
             </Link>
           );
@@ -67,7 +84,7 @@ export default function AdminSidebar() {
           onClick={() => logout()}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#64748b] hover:bg-red-50 hover:text-red-500 cursor-pointer transition-all text-sm font-medium"
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>logout</span>
+          <SignOutIcon size={22} weight="regular" />
           <span>{t('logout')}</span>
         </button>
       </div>
