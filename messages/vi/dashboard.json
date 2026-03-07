@@ -93,6 +93,93 @@
       "doctorProfileUpdated": "Cập nhật hồ sơ bác sĩ",
       "scheduleUpdated": "Cập nhật lịch làm việc",
       "newUserAccountCreated": "Tạo tài khoản người dùng mới"
+    },
+    "userManagement": {
+      "addUser": {
+        "button": "Thêm người dùng",
+        "title": "Thêm hồ sơ người dùng mới",
+        "fullName": "Họ và tên",
+        "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
+        "email": "Địa chỉ email",
+        "emailPlaceholder": "nguyenvana@clinic.com",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "+84 123 456 789",
+        "role": "Vai trò",
+        "rolePlaceholder": "Chọn vai trò",
+        "status": "Trạng thái tài khoản",
+        "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "saving": "Đang lưu...",
+        "errors": {
+          "nameRequired": "Vui lòng nhập họ tên",
+          "emailRequired": "Vui lòng nhập email",
+          "emailInvalid": "Địa chỉ email không hợp lệ",
+          "roleRequired": "Vui lòng chọn vai trò"
+        }
+      },
+      "editUser": {
+        "title": "Chỉnh sửa hồ sơ người dùng",
+        "fullName": "Họ và tên",
+        "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
+        "email": "Địa chỉ email",
+        "emailPlaceholder": "nguyenvana@clinic.com",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "+84 123 456 789",
+        "role": "Vai trò",
+        "rolePlaceholder": "Chọn vai trò",
+        "status": "Trạng thái tài khoản",
+        "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu...",
+        "errors": {
+          "nameRequired": "Vui lòng nhập họ tên",
+          "emailRequired": "Vui lòng nhập email",
+          "emailInvalid": "Địa chỉ email không hợp lệ",
+          "roleRequired": "Vui lòng chọn vai trò"
+        }
+      },
+      "title": "Quản lý người dùng",
+      "stats": {
+        "totalUsers": "Tổng người dùng",
+        "newToday": "Mới hôm nay",
+        "activeNow": "Đang hoạt động",
+        "suspended": "Đã đình chỉ",
+        "now": "Bây giờ",
+        "alert": "Cảnh báo"
+      },
+      "table": {
+        "title": "Tất cả người dùng",
+        "subtitle": "Quản lý quyền truy cập hệ thống",
+        "filter": "Lọc",
+        "clear": "Xóa",
+        "clearAll": "Xóa tất cả bộ lọc",
+        "empty": "Không có người dùng nào khớp với bộ lọc.",
+        "showing": "Đang hiện",
+        "of": "trong số",
+        "users": "người dùng",
+        "previous": "Trước",
+        "next": "Tiếp",
+        "columns": {
+          "user": "Người dùng",
+          "role": "Vai trò",
+          "status": "Trạng thái",
+          "joinedDate": "Ngày tham gia",
+          "action": "Thao tác"
+        },
+        "roles": {
+          "Doctor": "Bác sĩ",
+          "Patient": "Bệnh nhân",
+          "Receptionist": "Lễ tân",
+          "Admin": "Quản trị viên"
+        },
+        "statuses": {
+          "Active": "Đang hoạt động",
+          "Inactive": "Không hoạt động",
+          "Suspended": "Đã bị đình chỉ"
+        }
+      }
     }
   },
   "profile": {
