@@ -180,6 +180,139 @@
           "Suspended": "Đã bị đình chỉ"
         }
       }
+    },
+    "doctorManagement": {
+      "title": "Quản lý bác sĩ",
+      "stats": {
+        "totalDoctors": "Tổng bác sĩ",
+        "activeNow": "Đang hoạt động",
+        "onLeave": "Đang nghỉ phép",
+        "newApplications": "Hồ sơ mới",
+        "stable": "Ổn định",
+        "scheduled": "Đã lên lịch",
+        "new": "Mới"
+      },
+      "table": {
+        "title": "Danh sách bác sĩ",
+        "subtitle": "Quản lý quyền hạn và theo dõi hiệu suất",
+        "filter": "Lọc",
+        "clear": "Xóa",
+        "clearAll": "Xóa tất cả bộ lọc",
+        "empty": "Không có bác sĩ nào khớp với bộ lọc.",
+        "showing": "Đang hiện",
+        "of": "trong số",
+        "doctors": "bác sĩ",
+        "years": "{count} năm",
+        "previous": "Trước",
+        "next": "Tiếp",
+        "addDoctor": "Thêm bác sĩ",
+        "columns": {
+          "doctor": "Bác sĩ",
+          "specialty": "Chuyên khoa",
+          "experience": "Kinh nghiệm",
+          "status": "Trạng thái",
+          "action": "Thao tác"
+        },
+        "statuses": {
+          "Active": "Đang hoạt động",
+          "OnLeave": "Đang nghỉ phép",
+          "Inactive": "Không hoạt động"
+        },
+        "actions": {
+          "schedule": "Lịch làm việc",
+          "edit": "Chỉnh sửa",
+          "more": "Xem thêm"
+        }
+      },
+      "addDoctor": {
+        "title": "Thêm bác sĩ mới",
+        "subtitle": "Tạo tài khoản bác sĩ và thiết lập hồ sơ chuyên môn",
+        "sectionAccount": "Thông tin tài khoản",
+        "sectionProfile": "Hồ sơ bác sĩ",
+        "fullName": "Họ và tên",
+        "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
+        "email": "Địa chỉ email",
+        "emailPlaceholder": "nguyenvana@clinic.com",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "+84 123 456 789",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Tối thiểu 8 ký tự",
+        "passwordHint": "Bác sĩ sẽ dùng mật khẩu này để đăng nhập lần đầu.",
+        "specialty": "Chuyên khoa chính",
+        "specialtyPlaceholder": "Chọn chuyên khoa",
+        "experience": "Số năm kinh nghiệm",
+        "experiencePlaceholder": "vd. 10",
+        "qualifications": "Bằng cấp / Chứng chỉ",
+        "qualificationsPlaceholder": "vd. Thạc sĩ Y khoa, Tiến sĩ",
+        "qualificationsHint": "Phân tách nhiều bằng cấp bằng dấu phẩy.",
+        "bio": "Giới thiệu ngắn",
+        "bioPlaceholder": "Giới thiệu nghề nghiệp ngắn gọn...",
+        "status": "Trạng thái tài khoản",
+        "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+        "statusActive": "Hoạt động",
+        "statusInactive": "Không hoạt động",
+        "cancel": "Hủy",
+        "save": "Tạo bác sĩ",
+        "saving": "Đang tạo...",
+        "errors": {
+          "nameRequired": "Vui lòng nhập họ tên",
+          "emailRequired": "Vui lòng nhập email",
+          "emailInvalid": "Địa chỉ email không hợp lệ",
+          "passwordRequired": "Vui lòng nhập mật khẩu",
+          "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự",
+          "specialtyRequired": "Vui lòng chọn chuyên khoa",
+          "experienceInvalid": "Số năm kinh nghiệm phải từ 0 đến 60"
+        }
+      },
+      "editDoctor": {
+        "title": "Chỉnh sửa hồ sơ bác sĩ",
+        "sectionAccount": "Thông tin tài khoản",
+        "sectionProfile": "Hồ sơ bác sĩ",
+        "fullName": "Họ và tên",
+        "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
+        "email": "Địa chỉ email",
+        "emailPlaceholder": "nguyenvana@clinic.com",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "+84 123 456 789",
+        "specialty": "Chuyên khoa chính",
+        "specialtyPlaceholder": "Chọn chuyên khoa",
+        "experience": "Số năm kinh nghiệm",
+        "experiencePlaceholder": "vd. 10",
+        "qualifications": "Bằng cấp / Chứng chỉ",
+        "qualificationsPlaceholder": "vd. Thạc sĩ Y khoa, Tiến sĩ",
+        "qualificationsHint": "Phân tách nhiều bằng cấp bằng dấu phẩy.",
+        "bio": "Giới thiệu ngắn",
+        "bioPlaceholder": "Giới thiệu nghề nghiệp ngắn gọn...",
+        "status": "Trạng thái tài khoản",
+        "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+        "statusActive": "Hoạt động",
+        "statusInactive": "Không hoạt động",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu...",
+        "errors": {
+          "nameRequired": "Vui lòng nhập họ tên",
+          "emailRequired": "Vui lòng nhập email",
+          "emailInvalid": "Địa chỉ email không hợp lệ",
+          "specialtyRequired": "Vui lòng chọn chuyên khoa",
+          "experienceInvalid": "Số năm kinh nghiệm phải từ 0 đến 60"
+        }
+      },
+      "deleteDoctor": {
+        "title": "Xóa bác sĩ",
+        "message": "Bạn có chắc muốn xóa {name} khỏi hệ thống? Tài khoản của họ sẽ bị vô hiệu hóa.",
+        "warning": "Đây là xóa mềm — dữ liệu vẫn được lưu lại cho mục đích kiểm tra.",
+        "cancel": "Hủy",
+        "confirm": "Xóa bác sĩ",
+        "deleting": "Đang xóa..."
+      },
+      "moreMenu": {
+        "viewDetail": "Xem chi tiết",
+        "viewSchedule": "Xem lịch làm việc",
+        "suspend": "Đình chỉ tài khoản",
+        "reinstate": "Khôi phục tài khoản",
+        "delete": "Xóa bác sĩ"
+      }
     }
   },
   "profile": {
