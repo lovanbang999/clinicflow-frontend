@@ -31,7 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'doctorManagement', href: '/admin/doctors',         icon: StethoscopeIcon,   exact: false },
   { key: 'serviceManagement',href: '/admin/services',        icon: SyringeIcon,       exact: false },
   { key: 'schedules',        href: '/admin/schedule-config', icon: CalendarBlankIcon, exact: false },
-  { key: 'analytics',        href: '/admin/reports',         icon: ChartBarIcon,      exact: false },
+  { key: 'analytics',        href: '/admin/analytics',         icon: ChartBarIcon,      exact: false },
   { key: 'settings',         href: '/admin/settings',        icon: GearSixIcon,       exact: false },
 ];
 
