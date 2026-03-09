@@ -33,6 +33,11 @@
     "redirecting": "Redirecting...",
     "healthcare": "Healthcare",
     "logout": "Logout",
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for doesn't exist or has been moved.",
+      "backToDashboard": "Back to Dashboard"
+    },
     "nav": {
       "dashboard": "Dashboard",
       "userManagement": "User Management",
@@ -323,5 +328,102 @@
     "passwordChangeSuccess": "Password Change Successful",
     "passwordChangeSuccessDescription": "Your password has been changed.",
     "passwordChangeFailedTitle": "Password Change Failed"
+  },
+  "serviceManagement": {
+    "title": "Service Management",
+    "searchPlaceholder": "Search by service name or description...",
+    "stats": {
+      "totalServices": "Total Services",
+      "mostBooked": "Most Booked",
+      "activeServices": "Active Services",
+      "categories": "Categories",
+      "topBadge": "Top"
+    },
+    "table": {
+      "title": "Clinic Services",
+      "filter": "Filter",
+      "addService": "Add New Service",
+      "columns": {
+        "service": "Service",
+        "price": "Price",
+        "duration": "Duration",
+        "status": "Status",
+        "slots": "Slots/hr",
+        "action": "Action"
+      },
+      "statusActive": "Active",
+      "statusInactive": "Inactive",
+      "durationMins": "{count} mins",
+      "actions": {
+        "edit": "Edit",
+        "restore": "Restore",
+        "delete": "Delete"
+      },
+      "showing": "Showing",
+      "of": "of",
+      "services": "services",
+      "previous": "Prev",
+      "next": "Next",
+      "empty": "No services found"
+    },
+    "addService": {
+      "title": "Add New Service",
+      "subtitle": "Create a new clinical service offering",
+      "name": "Service Name",
+      "namePlaceholder": "e.g. General Checkup",
+      "description": "Description",
+      "descriptionPlaceholder": "Brief description of the service...",
+      "price": "Price (VND)",
+      "pricePlaceholder": "e.g. 200000",
+      "duration": "Duration (minutes)",
+      "durationPlaceholder": "e.g. 30",
+      "maxSlots": "Max Slots / Hour",
+      "maxSlotsPlaceholder": "e.g. 3",
+      "status": "Active",
+      "statusDesc": "Make this service available for booking",
+      "cancel": "Cancel",
+      "save": "Create Service",
+      "saving": "Creating...",
+      "errors": {
+        "nameRequired": "Service name is required",
+        "nameTooShort": "Name must be at least 2 characters",
+        "priceInvalid": "Price must be a non-negative number",
+        "durationInvalid": "Duration must be between 1 and 120 minutes",
+        "maxSlotsInvalid": "Max slots must be between 1 and 10"
+      }
+    },
+    "editService": {
+      "title": "Edit Service",
+      "name": "Service Name",
+      "namePlaceholder": "e.g. General Checkup",
+      "description": "Description",
+      "descriptionPlaceholder": "Brief description of the service...",
+      "price": "Price (VND)",
+      "pricePlaceholder": "e.g. 200000",
+      "duration": "Duration (minutes)",
+      "durationPlaceholder": "e.g. 30",
+      "maxSlots": "Max Slots / Hour",
+      "maxSlotsPlaceholder": "e.g. 3",
+      "status": "Active",
+      "statusDesc": "Make this service available for booking",
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "errors": {
+        "nameRequired": "Service name is required",
+        "nameTooShort": "Name must be at least 2 characters",
+        "priceInvalid": "Price must be a non-negative number",
+        "durationInvalid": "Duration must be between 1 and 120 minutes",
+        "maxSlotsInvalid": "Max slots must be between 1 and 10"
+      }
+    },
+    "deleteService": {
+      "title": "Delete Service",
+      "message": "Are you sure you want to delete \u201c{name}\u201d? This action cannot be undone.",
+      "warning": "Services with active bookings cannot be deleted.",
+      "cancel": "Cancel",
+      "confirm": "Delete Service",
+      "deleting": "Deleting..."
+    }
   }
 }
