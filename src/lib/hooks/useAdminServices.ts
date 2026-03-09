@@ -20,7 +20,7 @@ export const useAdminServices = () => {
   const [stats, setStats] = useState<ServiceStats | null>(null);
   const [loadingStats, setLoadingStats] = useState(false);
 
-  // ── Fetch all services ──────────────────────────────────────────
+  // Fetch all services
   const fetchServices = useCallback(async (filters?: ServiceFiltersQuery) => {
     setLoadingList(true);
     try {
@@ -35,7 +35,7 @@ export const useAdminServices = () => {
     }
   }, []);
 
-  // ── Fetch stat cards ────────────────────────────────────────────
+  // Fetch stat cards
   const fetchStats = useCallback(async () => {
     setLoadingStats(true);
     try {
@@ -50,7 +50,7 @@ export const useAdminServices = () => {
     }
   }, []);
 
-  // ── Create ──────────────────────────────────────────────────────
+  // Create
   const createService = async (dto: AdminCreateServiceDto): Promise<AdminService> => {
     try {
       const created = await adminServicesApi.createService(dto);
@@ -63,7 +63,7 @@ export const useAdminServices = () => {
     }
   };
 
-  // ── Update ──────────────────────────────────────────────────────
+  // Update
   const updateService = async (
     id: string,
     dto: AdminUpdateServiceDto,
@@ -79,7 +79,7 @@ export const useAdminServices = () => {
     }
   };
 
-  // ── Delete ──────────────────────────────────────────────────────
+  // Delete
   const deleteService = async (id: string): Promise<void> => {
     try {
       await adminServicesApi.deleteService(id);
@@ -91,7 +91,7 @@ export const useAdminServices = () => {
     }
   };
 
-  // ── Restore ─────────────────────────────────────────────────────
+  // Restore
   const restoreService = async (id: string): Promise<AdminService> => {
     try {
       const restored = await adminServicesApi.restoreService(id);

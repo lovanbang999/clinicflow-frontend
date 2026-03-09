@@ -2,8 +2,7 @@ import { AxiosError } from 'axios';
 import { apiClient } from './client';
 import { ApiResponse } from '@/types';
 
-// ─── Types ─────────────────────────────────────────────────────────
-
+// Types
 export interface AdminService {
   id: string;
   name: string;
@@ -42,8 +41,7 @@ export interface AdminCreateServiceDto {
 
 export type AdminUpdateServiceDto = Partial<AdminCreateServiceDto>;
 
-// ─── Error handler ─────────────────────────────────────────────────
-
+// Error handler
 const handleError = (error: unknown): never => {
   if (error instanceof AxiosError && error.response?.data) {
     throw error.response.data;
@@ -51,8 +49,7 @@ const handleError = (error: unknown): never => {
   throw error;
 };
 
-// ─── API object ────────────────────────────────────────────────────
-
+// API object
 export const adminServicesApi = {
   // GET /admin/services/statistics
   getStatistics: async (): Promise<ServiceStats> => {
