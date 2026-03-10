@@ -40,7 +40,7 @@ export function TopDoctorsCard({
                 {getRankBadge(index)}
               </span>
               <Avatar
-                src={doctor.avatar}
+                src={doctor.avatar ?? undefined}
                 alt={doctor.fullName}
                 size="sm"
                 className="ring-2 ring-white group-hover:ring-blue-200 transition-all duration-300"
