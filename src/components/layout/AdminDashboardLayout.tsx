@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -18,11 +18,13 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
   const router = useRouter();
   const { isAuthenticated, _hasHydrated } = useAuthStore();
   const t = useTranslations('dashboard.admin');
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // useSyncExternalStore is the recommended way to detect client-side rendering
+  // without triggering the react-hooks/set-state-in-effect lint rule
+  const isClient = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   useEffect(() => {
     if (!_hasHydrated || !isClient) return;
