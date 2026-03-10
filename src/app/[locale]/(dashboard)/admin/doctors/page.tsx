@@ -165,10 +165,12 @@ export default function AdminDoctorsPage() {
     setDeleteOpen(true);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleViewDetail = (_doctor: BackendUser) => {
     // TODO: open detail side panel / navigate to detail page
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleViewSchedule = (_doctor: BackendUser) => {
     // TODO: navigate to schedule page
   };

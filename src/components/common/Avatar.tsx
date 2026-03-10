@@ -2,6 +2,7 @@
 
 import { User } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface AvatarProps {
   src?: string;
@@ -34,7 +35,7 @@ export function Avatar({ src, alt = 'Avatar', size = 'md', className }: AvatarPr
       )}
     >
       {src ? (
-        <img src={src} alt={alt} className="w-full h-full object-cover" />
+        <Image src={src} alt={alt} className="w-full h-full object-cover" width={96} height={96}/>
       ) : (
         <User className={cn('text-white', iconSizeClasses[size])} />
       )}
