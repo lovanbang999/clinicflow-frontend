@@ -11,7 +11,6 @@ export function ServiceDetailPageContent() {
   const params = useParams();
   const serviceId = params.id as string;
   const t = useTranslations('services.detail');
-  const tActions = useTranslations('services.actions');
   const { service, isLoading } = useService(serviceId);
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -79,10 +78,12 @@ export function ServiceDetailPageContent() {
                 fill
               />
             ) : (
-              <img 
+              <Image 
                 alt={service.name}
                 className="w-full h-full object-cover"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-N2FFwn2Ndjv4wz51_gHVMq1OtS9AQr-ehP5gEBBYJRg_0KvVUfapCCY6jePWgY4gWg2ivh6ugaBMwtG-9WRvXxungjiiENHgJXqflvtyCvq58E32Gyf1qSRvot-Afl-NtgT4YYg94FVREJ8ZFFiYYDSsEkxOPC9OMmHaodt9MipSg2wd100-P1RkGLHh4uZga0px7JD7Ub06gy0uqIBZQRL8kVaLgiGlB4nemTs9BPZw0usmAQ-Abo9n-yN5KmhbDJ3gGxXv-AQ"
+                width={1200}
+                height={675}
               />
             )}
           </div>
@@ -95,7 +96,7 @@ export function ServiceDetailPageContent() {
               ) : (
                 <>
                   <p>Our {service.name} provides a thorough assessment of your health. Our board-certified specialists utilize state-of-the-art diagnostic tools to evaluate function, identify potential risks, and develop personalized treatment plans tailored to your specific needs.</p>
-                  <p>Whether you're experiencing symptoms or seeking a preventative screening, our team ensures a compassionate and comprehensive clinical experience.</p>
+                  <p>Whether you&apos;re experiencing symptoms or seeking a preventative screening, our team ensures a compassionate and comprehensive clinical experience.</p>
                 </>
               )}
             </div>
@@ -213,25 +214,25 @@ export function ServiceDetailPageContent() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <img alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxB2Ev_aAgRXOflS6Rd6IY9A0alM0SAOFzLK9nmGwKC1YsvSbQroGKnya9uqoPlVMXSde3WM8DGU6dRdzy-GPHEsCr6f-rPqet8wNOQLFyVGkYCYxTRPVg-y1aOXNKmoVJp8xMT-HLYc_RSJW6grbd9OmqMRgRO62EdOpU4rbyX_MwkXXCuJJoMEVvFFqmL52LgbtDgic6YLYOUZuBnZtRnYp9bRSULc056lFHi_vIhMoumTNwvFw60sTwYGaLH46UsfvxRB7HGGA"/>
+            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxB2Ev_aAgRXOflS6Rd6IY9A0alM0SAOFzLK9nmGwKC1YsvSbQroGKnya9uqoPlVMXSde3WM8DGU6dRdzy-GPHEsCr6f-rPqet8wNOQLFyVGkYCYxTRPVg-y1aOXNKmoVJp8xMT-HLYc_RSJW6grbd9OmqMRgRO62EdOpU4rbyX_MwkXXCuJJoMEVvFFqmL52LgbtDgic6YLYOUZuBnZtRnYp9bRSULc056lFHi_vIhMoumTNwvFw60sTwYGaLH46UsfvxRB7HGGA" width={96} height={96}/>
             <h4 className="font-bold text-slate-900 dark:text-white">Dr. Robert Chen</h4>
             <p className="text-sm text-slate-500 mb-4">Senior Specialist</p>
             <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
           </div>
           <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <img alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu-WBnuJnVa68K9zAlQcLBwm4DoqvqrKPiWS6hokVDolSXd2-vTsvvYPdNuphPVngwaRyeVsYIl6I0_UtOL19n-wQRIU8ZMzRZiAxkZthWRbvAYw2lswFhAZPEJSXSQdfzJykwHD63N3SVJHH3mGopRISxVpteMluFTUFyN2-l5PZACSyBF4Hj9YipYcZimlpBAo-w6PN-SQlXoRgIH8I3_UsJomRQQGxfD8KJmDNVVffEvV_nuogPZgIRtZjHWlsr6CKXGNzfSZo"/>
+            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu-WBnuJnVa68K9zAlQcLBwm4DoqvqrKPiWS6hokVDolSXd2-vTsvvYPdNuphPVngwaRyeVsYIl6I0_UtOL19n-wQRIU8ZMzRZiAxkZthWRbvAYw2lswFhAZPEJSXSQdfzJykwHD63N3SVJHH3mGopRISxVpteMluFTUFyN2-l5PZACSyBF4Hj9YipYcZimlpBAo-w6PN-SQlXoRgIH8I3_UsJomRQQGxfD8KJmDNVVffEvV_nuogPZgIRtZjHWlsr6CKXGNzfSZo" width={96} height={96}/>
             <h4 className="font-bold text-slate-900 dark:text-white">Dr. Sarah Miller</h4>
             <p className="text-sm text-slate-500 mb-4">Interventional Specialist</p>
             <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
           </div>
           <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <img alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHO46RU4z43b-kOQ6niqT5BoEavkQg3h31OYkF6t5RTq6QAr10jlInH6pCTvHRCYHhIKxVyD96jETIkuMu38MdegPBa1ocpYD4ko0vKggjwrlSeAluUwa-oBUy5_yF0-aT4kPZLHYV_WbRZZyK1yOfxnohYKua2oakCGemf34KKkD4mrvzeXnnXMYRntdS6mMhXnZA1kxQ0CCSLDG8uIgYyliK3fYQH-PSAqU-rquQhtnAcMIm6aXSPAA3CkiF4SAjVdWTILTvABM"/>
+            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHO46RU4z43b-kOQ6niqT5BoEavkQg3h31OYkF6t5RTq6QAr10jlInH6pCTvHRCYHhIKxVyD96jETIkuMu38MdegPBa1ocpYD4ko0vKggjwrlSeAluUwa-oBUy5_yF0-aT4kPZLHYV_WbRZZyK1yOfxnohYKua2oakCGemf34KKkD4mrvzeXnnXMYRntdS6mMhXnZA1kxQ0CCSLDG8uIgYyliK3fYQH-PSAqU-rquQhtnAcMIm6aXSPAA3CkiF4SAjVdWTILTvABM" width={96} height={96}/>
             <h4 className="font-bold text-slate-900 dark:text-white">Dr. James Wilson</h4>
             <p className="text-sm text-slate-500 mb-4">Lead Surgeon</p>
             <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
           </div>
           <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <img alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDRAJUBScQxbNhqnbKy4ONNmwqS2FKl-j6bXTD0q7pbmlAhEpHkHlawOByamkRgpXjZqIB1dxdmOv3UVYKsFQ19_CoBah3egPkG5nzuDB9iv35ONxh625v97VBpjwm7LVBEfPTA9EYM-FkeEC-9CK-NYfiW9lmzToeyf0Q1y9FsvmFhx4EffIcLuhcInOLZ8SocBiY2PlrV0qfdja5gFfMK-1E_H1YTPdYyTLSi_e_JZt8Zt0PSRVS-hlz_a2D2gjDImcO_KLSIn8"/>
+            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDRAJUBScQxbNhqnbKy4ONNmwqS2FKl-j6bXTD0q7pbmlAhEpHkHlawOByamkRgpXjZqIB1dxdmOv3UVYKsFQ19_CoBah3egPkG5nzuDB9iv35ONxh625v97VBpjwm7LVBEfPTA9EYM-FkeEC-9CK-NYfiW9lmzToeyf0Q1y9FsvmFhx4EffIcLuhcInOLZ8SocBiY2PlrV0qfdja5gFfMK-1E_H1YTPdYyTLSi_e_JZt8Zt0PSRVS-hlz_a2D2gjDImcO_KLSIn8" width={96} height={96}/>
             <h4 className="font-bold text-slate-900 dark:text-white">Dr. Elena Rodriguez</h4>
             <p className="text-sm text-slate-500 mb-4">Electrophysiologist</p>
             <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
