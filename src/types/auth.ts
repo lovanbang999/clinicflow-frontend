@@ -39,7 +39,7 @@ export interface RegisterResponse {
 
 export interface VerifyEmailRequest {
   email: string;
-  otp: string;
+  code: string;
 }
 
 export interface AuthError {
