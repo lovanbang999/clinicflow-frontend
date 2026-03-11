@@ -215,6 +215,103 @@ export const useAuth = () => {
     }
   };
 
+  const forgotPassword = async (email: string) => {
+    try {
+      setLoading(true);
+      setLocalLoading(true);
+
+      const response = await authApi.forgotPassword(email);
+
+      toast.success(t('forgotPassword.success'), {
+        description: t('forgotPassword.successDescription'),
+      });
+
+      return response;
+    } catch (err) {
+      const error = err as ApiError;
+      
+      // Get error message key from messageCode
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
+
+      toast.error(t('forgotPassword.failed'), {
+        description: errorMessage,
+      });
+
+      throw err;
+    } finally {
+      setLoading(false);
+      setLocalLoading(false);
+    }
+  };
+
+  const verifyResetOtp = async (email: string, code: string) => {
+    try {
+      setLoading(true);
+      setLocalLoading(true);
+
+      const response = await authApi.verifyResetOtp(email, code);
+
+      toast.success(t('forgotPassword.verifyOtpSuccess'), {
+        description: t('forgotPassword.verifyOtpSuccessDescription'),
+      });
+
+      return response;
+    } catch (err) {
+      const error = err as ApiError;
+
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
+
+      toast.error(t('forgotPassword.verifyOtpFailed'), {
+        description: errorMessage,
+      });
+
+      throw err;
+    } finally {
+      setLoading(false);
+      setLocalLoading(false);
+    }
+  };
+
+  const resetPassword = async (email: string, code: string, newPassword: string) => {
+    try {
+      setLoading(true);
+      setLocalLoading(true);
+
+      const response = await authApi.resetPassword(email, code, newPassword);
+
+      toast.success(t('forgotPassword.resetSuccess'), {
+        description: t('forgotPassword.resetSuccessDescription'),
+      });
+
+      return response;
+    } catch (err) {
+      const error = err as ApiError;
+
+      const errorKey = getErrorKey(error.messageCode, 'generic');
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
+
+      toast.error(t('forgotPassword.resetFailed'), {
+        description: errorMessage,
+      });
+
+      throw err;
+    } finally {
+      setLoading(false);
+      setLocalLoading(false);
+    }
+  };
+
   return {
     user,
     isAuthenticated,
@@ -224,5 +321,8 @@ export const useAuth = () => {
     logout,
     verifyEmail,
     resendVerification,
+    forgotPassword,
+    verifyResetOtp,
+    resetPassword,
   };
 };

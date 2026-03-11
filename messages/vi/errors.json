@@ -14,6 +14,13 @@
       "expiredOtp": "Mã OTP đã hết hạn",
       "failed": "Xác thực thất bại. Vui lòng thử lại"
     },
+    "resetPassword": {
+      "otpVerified": "Xác nhận OTP thành công",
+      "success": "Đặt lại mật khẩu thành công",
+      "invalidOtp": "Mã OTP không đúng. Vui lòng yêu cầu mã mới",
+      "expiredOtp": "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới",
+      "failed": "Đặt lại mật khẩu thất bại. Vui lòng thử lại"
+    },
     "refresh": {
       "invalidToken": "Token không hợp lệ",
       "expired": "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại"

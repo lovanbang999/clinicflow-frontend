@@ -14,6 +14,13 @@
       "expiredOtp": "OTP code has expired",
       "failed": "Verification failed. Please try again"
     },
+    "resetPassword": {
+      "otpVerified": "OTP verified successfully",
+      "success": "Password reset successfully",
+      "invalidOtp": "Invalid OTP code. Please request a new one",
+      "expiredOtp": "OTP code has expired. Please request a new one",
+      "failed": "Password reset failed. Please try again"
+    },
     "refresh": {
       "invalidToken": "Invalid refresh token",
       "expired": "Session expired. Please login again"

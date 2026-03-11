@@ -105,6 +105,55 @@ export const authApi = {
     if (typeof window === 'undefined') return false;
     return !!localStorage.getItem('accessToken');
   },
+  // Forgot Password — step 1: request OTP
+  forgotPassword: async (email: string): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post('/auth/forgot-password', { email });
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data as ApiError;
+      }
+      throw error;
+    }
+  },
+
+  // Forgot Password — step 2: verify OTP
+  verifyResetOtp: async (
+    email: string,
+    code: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post('/auth/verify-reset-otp', { email, code });
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data as ApiError;
+      }
+      throw error;
+    }
+  },
+
+  // Forgot Password — step 3: set new password
+  resetPassword: async (
+    email: string,
+    code: string,
+    newPassword: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post('/auth/reset-password', {
+        email,
+        code,
+        newPassword,
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data as ApiError;
+      }
+      throw error;
+    }
+  },
 };
 
 export default authApi;
