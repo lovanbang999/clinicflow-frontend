@@ -99,7 +99,6 @@ export default function LoginPage() {
         </button>
       </div>
 
-
       <div className="relative flex min-h-screen items-center justify-center p-4">
         <Card className="w-full max-w-md border border-slate-200/70 bg-white/80 shadow-xl backdrop-blur supports-backdrop-filter:bg-white/70">
           <CardHeader className="space-y-3 text-center">

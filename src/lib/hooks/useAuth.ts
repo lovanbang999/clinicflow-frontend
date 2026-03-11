@@ -67,7 +67,10 @@ export const useAuth = () => {
       
       // Get error message key from messageCode
       const errorKey = getErrorKey(error.messageCode, 'generic');
-      const errorMessage = tErrors(errorKey);
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
 
       // Show error toast with translated message
       toast.error(t('login.failed'), {
@@ -94,8 +97,8 @@ export const useAuth = () => {
           description: t('register.successDescription'),
         });
 
-        // Redirect to login page
-        router.push('/login');
+        // Redirect to email verification page
+        router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         
         return response;
       }
@@ -106,7 +109,10 @@ export const useAuth = () => {
       
       // Get error message key from messageCode
       const errorKey = getErrorKey(error.messageCode, 'generic');
-      const errorMessage = tErrors(errorKey);
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
 
       // Show error toast with translated message
       toast.error(t('register.failed'), {
@@ -145,11 +151,14 @@ export const useAuth = () => {
       setLoading(true);
       setLocalLoading(true);
 
-      const response = await authApi.verifyEmail({ email, otp });
+      const response = await authApi.verifyEmail({ email, code: otp });
 
       toast.success(t('verify.success'), {
         description: t('verify.successDescription'),
       });
+
+      // Redirect to login after a short delay (page shows success state first)
+      setTimeout(() => router.push('/login'), 2000);
 
       return response;
     } catch (err) {
@@ -157,7 +166,10 @@ export const useAuth = () => {
       
       // Get error message key from messageCode
       const errorKey = getErrorKey(error.messageCode, 'generic');
-      const errorMessage = tErrors(errorKey);
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
 
       toast.error(t('verify.failed'), {
         description: errorMessage,
@@ -187,7 +199,10 @@ export const useAuth = () => {
       
       // Get error message key from messageCode
       const errorKey = getErrorKey(error.messageCode, 'generic');
-      const errorMessage = tErrors(errorKey);
+      let errorMessage = tErrors(errorKey);
+      if (errorMessage === errorKey) {
+        errorMessage = error.message || tErrors('generic');
+      }
 
       toast.error(t('verify.resendFailed'), {
         description: errorMessage,

@@ -61,7 +61,7 @@ export const authApi = {
   // Resend verification email
   resendVerification: async (email: string): Promise<{ success: boolean; message: string }> => {
     try {
-      const response = await apiClient.post('/auth/resend-verification', { email });
+      const response = await apiClient.post('/auth/resend-otp', { email });
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError && error.response?.data) {
