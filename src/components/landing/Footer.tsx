@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { ShieldPlus, ShareNetwork, Camera, At, WarningCircle } from '@phosphor-icons/react';
+import { ShieldPlusIcon, ShareNetworkIcon, CameraIcon, AtIcon, WarningCircleIcon } from '@phosphor-icons/react';
 
 export function LandingFooter() {
   const t = useTranslations('landing.footer');
@@ -16,7 +16,7 @@ export function LandingFooter() {
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-[#1392ec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#1392ec]/20">
-                <ShieldPlus weight="fill" className="text-white text-2xl" />
+                <ShieldPlusIcon weight="fill" className="text-white text-2xl" />
               </div>
               <span className="font-bold text-2xl text-white tracking-tight">Smart Clinic</span>
             </div>
@@ -24,7 +24,7 @@ export function LandingFooter() {
               {t('tagline')}
             </p>
             <div className="flex gap-6">
-              {[ShareNetwork, Camera, At].map((Icon, idx) => (
+              {[ShareNetworkIcon, CameraIcon, AtIcon].map((Icon, idx) => (
                 <a
                   key={idx}
                   href="#"
@@ -82,7 +82,7 @@ export function LandingFooter() {
             {t('copyright', { year: currentYear })}
           </p>
           <div className="flex items-center gap-3 bg-red-500/10 text-red-500 px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20">
-            <WarningCircle weight="fill" className="text-lg leading-none" />
+            <WarningCircleIcon weight="fill" className="text-lg leading-none" />
             {t('emergency')}
           </div>
         </div>

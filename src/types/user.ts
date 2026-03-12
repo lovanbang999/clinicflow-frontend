@@ -21,7 +21,6 @@ export interface UpdateProfileDto {
   fullName?: string;
   email?: string;
   phone?: string;
-  avatar?: string;
   dateOfBirth?: string;
   gender?: Gender;
   address?: string;

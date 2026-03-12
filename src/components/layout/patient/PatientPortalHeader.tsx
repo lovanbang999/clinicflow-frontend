@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { UserCircleIcon, SignOutIcon, CalendarBlankIcon, FileTextIcon, GearIcon } from '@phosphor-icons/react';
+import { UserCircleIcon, SignOutIcon, GearIcon } from '@phosphor-icons/react';
 
 interface PatientPortalHeaderProps {
   user: {
@@ -109,22 +109,6 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
                         <UserCircleIcon weight="fill" className="text-lg" />
                       </div>
                       <span className="font-semibold text-sm">My Profile</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
-                    <Link href="/patient/bookings" className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-500/10 flex items-center justify-center text-purple-500">
-                        <CalendarBlankIcon weight="fill" className="text-lg" />
-                      </div>
-                      <span className="font-semibold text-sm">My Bookings</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
-                    <Link href="/patient/records" className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-green-50 dark:bg-green-500/10 flex items-center justify-center text-green-500">
-                        <FileTextIcon weight="fill" className="text-lg" />
-                      </div>
-                      <span className="font-semibold text-sm">Medical Records</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
