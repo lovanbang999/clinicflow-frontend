@@ -1,20 +1,20 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Stethoscope, ShieldCheck, Clock } from '@phosphor-icons/react';
+import { StethoscopeIcon, ShieldCheckIcon, ClockIcon } from '@phosphor-icons/react';
 
 const features = [
   {
     key: 'professional',
-    icon: Stethoscope,
+    icon: StethoscopeIcon,
   },
   {
     key: 'safety',
-    icon: ShieldCheck,
+    icon: ShieldCheckIcon,
   },
   {
     key: 'scheduling',
-    icon: Clock,
+    icon: ClockIcon,
   },
 ] as const;
 

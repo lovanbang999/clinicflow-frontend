@@ -40,8 +40,13 @@ export function useProfile() {
     try {
       setIsLoading(true);
 
-      // IMPORTANT: this should return {url, publicId} or string url depending your design
       const res = await usersApi.uploadAvatar(file);
+
+      // Update local state with the new avatar url
+      const user = useAuthStore.getState().user;
+      if (user) {
+        useAuthStore.getState().setUser({ ...user, avatar: res });
+      }
 
       toast.success(t('profile.avatarUploadSuccess'), {
         description: t('profile.avatarUploadSuccessDescription'),
@@ -83,5 +88,10 @@ export function useProfile() {
     }
   };
 
-  return { isLoading, updateProfile, uploadAvatar, changePassword };
+  return {
+    isLoading,
+    updateProfile,
+    uploadAvatar,
+    changePassword
+  };
 }

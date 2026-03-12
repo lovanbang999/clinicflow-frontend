@@ -29,7 +29,10 @@
   "user": {
     "notFound": "Không tìm thấy người dùng",
     "emailExists": "Email đã tồn tại",
-    "phoneExists": "Số điện thoại đã tồn tại"
+    "phoneExists": "Số điện thoại đã tồn tại",
+    "password": {
+      "sameAsOld": "Mật khẩu mới không được trùng với mật khẩu cũ"
+    }
   },
   "service": {
     "notFound": "Không tìm thấy dịch vụ",
