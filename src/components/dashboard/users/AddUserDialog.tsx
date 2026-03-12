@@ -32,6 +32,7 @@ interface AddUserForm {
   phone: string;
   role: Role | '';
   isActive: boolean;
+  password: string;
 }
 
 const DEFAULT_FORM: AddUserForm = {
@@ -40,6 +41,7 @@ const DEFAULT_FORM: AddUserForm = {
   phone: '',
   role: '',
   isActive: true,
+  password: '',
 };
 
 const ROLES: Role[] = ['DOCTOR', 'PATIENT', 'RECEPTIONIST', 'ADMIN'];
@@ -136,6 +138,11 @@ export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
       newErrors.email = t('errors.emailInvalid');
     }
     if (!form.role) newErrors.role = t('errors.roleRequired');
+    if (!form.password.trim()) {
+      newErrors.password = t('errors.passwordRequired');
+    } else if (form.password.length < 8) {
+      newErrors.password = t('errors.passwordTooShort');
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -151,7 +158,7 @@ export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
           phone: form.phone,
           role: form.role,
           isActive: form.isActive,
-          password: 'password123', // Admin creates with default password or backend handles fallback?
+          password: form.password,
         });
         onUserAdded?.(form);
         setForm(DEFAULT_FORM);
@@ -275,6 +282,24 @@ export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
             </Select>
             {errors.role && (
               <p className="text-xs text-red-500 mt-0.5">{errors.role}</p>
+            )}
+          </Field>
+
+          {/* Password */}
+          <Field label={t('password')} htmlFor="add-user-password">
+            <Input
+              id="add-user-password"
+              type="password"
+              placeholder={t('passwordPlaceholder')}
+              value={form.password}
+              onChange={(e) => set('password', e.target.value)}
+              className={cn(
+                'h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20',
+                errors.password && 'border-red-400 focus-visible:border-red-400',
+              )}
+            />
+            {errors.password && (
+              <p className="text-xs text-red-500 mt-0.5">{errors.password}</p>
             )}
           </Field>
 

@@ -113,6 +113,8 @@
         "rolePlaceholder": "Select a role",
         "status": "Account Status",
         "statusDesc": "Enable or disable system access",
+        "password": "Password",
+        "passwordPlaceholder": "At least 8 characters",
         "cancel": "Cancel",
         "save": "Save User",
         "saving": "Saving...",
@@ -120,7 +122,9 @@
           "nameRequired": "Full name is required",
           "emailRequired": "Email is required",
           "emailInvalid": "Invalid email address",
-          "roleRequired": "Please select a role"
+          "roleRequired": "Please select a role",
+          "passwordRequired": "Password is required",
+          "passwordTooShort": "Password must be at least 8 characters"
         }
       },
       "editUser": {
@@ -166,6 +170,7 @@
         "users": "users",
         "previous": "Previous",
         "next": "Next",
+        "searchPlaceholder": "Search...",
         "columns": {
           "user": "User",
           "role": "Role",
@@ -183,7 +188,22 @@
           "Active": "Active",
           "Inactive": "Inactive",
           "Suspended": "Suspended"
+        },
+        "actions": {
+          "edit": "Edit",
+          "suspend": "Suspend",
+          "reinstate": "Reinstate",
+          "delete": "Delete"
         }
+      },
+      "dialogs": {
+        "suspendTitle": "Suspend User",
+        "suspendDesc": "Are you sure you want to suspend {name}? This user will no longer be able to log in.",
+        "reinstateTitle": "Reinstate User",
+        "reinstateDesc": "Are you sure you want to reinstate access for {name}?",
+        "deleteTitle": "Delete User",
+        "deleteDesc": "Are you sure you want to delete {name}? This is a soft delete, meaning the data will be hidden but retained in logs.",
+        "cancel": "Cancel"
       }
     },
     "doctorManagement": {
@@ -364,7 +384,8 @@
       "services": "services",
       "previous": "Prev",
       "next": "Next",
-      "empty": "No services found"
+      "empty": "No services found",
+      "searchPlaceholder": "Search..."
     },
     "addService": {
       "title": "Add New Service",
