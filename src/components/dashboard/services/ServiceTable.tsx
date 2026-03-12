@@ -93,7 +93,7 @@ export function ServiceTable({
             />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={t('searchPlaceholder')}
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-full bg-[#f8fafc] border border-[#e5e7eb] rounded-xl py-2 pl-9 pr-3 text-sm text-[#111518] placeholder:text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] transition-all"

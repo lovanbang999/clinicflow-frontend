@@ -113,6 +113,8 @@
         "rolePlaceholder": "Chọn vai trò",
         "status": "Trạng thái tài khoản",
         "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Tối thiểu 8 ký tự",
         "cancel": "Hủy",
         "save": "Lưu",
         "saving": "Đang lưu...",
@@ -120,7 +122,9 @@
           "nameRequired": "Vui lòng nhập họ tên",
           "emailRequired": "Vui lòng nhập email",
           "emailInvalid": "Địa chỉ email không hợp lệ",
-          "roleRequired": "Vui lòng chọn vai trò"
+          "roleRequired": "Vui lòng chọn vai trò",
+          "passwordRequired": "Vui lòng nhập mật khẩu",
+          "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự"
         }
       },
       "editUser": {
@@ -166,6 +170,7 @@
         "users": "người dùng",
         "previous": "Trước",
         "next": "Tiếp",
+        "searchPlaceholder": "Tìm kiếm...",
         "columns": {
           "user": "Người dùng",
           "role": "Vai trò",
@@ -183,7 +188,22 @@
           "Active": "Đang hoạt động",
           "Inactive": "Không hoạt động",
           "Suspended": "Đã bị đình chỉ"
+        },
+        "actions": {
+          "edit": "Chỉnh sửa",
+          "delete": "Xóa",
+          "suspend": "Đình chỉ",
+          "reinstate": "Khôi phục"
         }
+      },
+      "dialogs": {
+        "suspendTitle": "Đình chỉ người dùng",
+        "suspendDesc": "Bạn có chắc muốn đình chỉ {name}? Người dùng này sẽ không thể đăng nhập vào hệ thống.",
+        "reinstateTitle": "Khôi phục người dùng",
+        "reinstateDesc": "Bạn có chắc muốn khôi phục quyền truy cập cho {name}?",
+        "deleteTitle": "Xóa người dùng",
+        "deleteDesc": "Bạn có chắc muốn xóa {name}? Đây là thao tác xóa mềm, dữ liệu sẽ được ẩn đi nhưng vẫn lưu log.",
+        "cancel": "Hủy"
       }
     },
     "doctorManagement": {
@@ -364,7 +384,8 @@
       "services": "dịch vụ",
       "previous": "Trước",
       "next": "Tiếp",
-      "empty": "Không tìm thấy dịch vụ nào"
+      "empty": "Không tìm thấy dịch vụ nào",
+      "searchPlaceholder": "Tìm kiếm..."
     },
     "addService": {
       "title": "Thêm dịch vụ mới",

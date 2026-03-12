@@ -2,13 +2,13 @@
 
 import React from 'react';
 
+import { TrendUpIcon, TrendDownIcon } from '@phosphor-icons/react';
+
 // Badges
 export function TrendUpBadge({ value }: { value: string }) {
   return (
     <span className="flex items-center gap-0.5 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full text-xs font-bold">
-      <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>
-        trending_up
-      </span>
+      <TrendUpIcon weight="bold" className="text-[13px]" />
       {value}
     </span>
   );
@@ -17,9 +17,7 @@ export function TrendUpBadge({ value }: { value: string }) {
 export function TrendDownBadge({ value }: { value: string }) {
   return (
     <span className="flex items-center gap-0.5 text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full text-xs font-bold">
-      <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>
-        trending_down
-      </span>
+      <TrendDownIcon weight="bold" className="text-[13px]" />
       {value}
     </span>
   );
@@ -35,7 +33,7 @@ export function StableBadge() {
 
 // KPI Card
 interface AdminKpiCardProps {
-  icon: string;
+  icon: React.ElementType;
   iconBg: string;
   iconColor: string;
   title: string;
@@ -45,7 +43,7 @@ interface AdminKpiCardProps {
 }
 
 export function AdminKpiCard({
-  icon,
+  icon: Icon,
   iconBg,
   iconColor,
   title,
@@ -59,9 +57,7 @@ export function AdminKpiCard({
         <div
           className={`size-10 rounded-xl ${iconBg} ${iconColor} flex items-center justify-center`}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-            {icon}
-          </span>
+          <Icon weight="fill" className="text-[20px]" />
         </div>
         {badge}
       </div>

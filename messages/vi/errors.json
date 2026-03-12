@@ -7,7 +7,8 @@
     "login": {
       "invalidCredentials": "Email hoặc mật khẩu không đúng",
       "notVerified": "Vui lòng xác thực email trước khi đăng nhập",
-      "failed": "Đăng nhập thất bại. Vui lòng thử lại"
+      "failed": "Đăng nhập thất bại. Vui lòng thử lại",
+      "accountInactive": "Tài khoản đã bị khóa"
     },
     "verify": {
       "invalidOtp": "Mã OTP không đúng",

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAdminServices } from '@/lib/hooks/useAdminServices';
+import { useDebounce } from '@/lib/hooks/useDebounce';
 import { type AdminService, type ServiceFiltersQuery } from '@/lib/api/admin-services';
 import { ServiceStatCards } from '@/components/dashboard/services/ServiceStatCards';
 import { ServiceTable } from '@/components/dashboard/services/ServiceTable';
@@ -33,6 +34,7 @@ export default function AdminServicesPage() {
 
   // Filters / pagination
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 500);
   const [page, setPage] = useState(1);
   const [filterActive, setFilterActive] = useState<FilterActive>('all');
 
@@ -45,11 +47,11 @@ export default function AdminServicesPage() {
   // Build query params from state
   const buildFilters = useCallback((): ServiceFiltersQuery => {
     const f: ServiceFiltersQuery = {};
-    if (search) f.search = search;
+    if (debouncedSearch) f.search = debouncedSearch;
     if (filterActive === 'active') f.isActive = true;
     if (filterActive === 'inactive') f.isActive = false;
     return f;
-  }, [search, filterActive]);
+  }, [debouncedSearch, filterActive]);
 
   // Initial fetch
   useEffect(() => {
