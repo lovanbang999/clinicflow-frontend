@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { SealCheck, ArrowRight, Phone, Users, CheckCircle, Star, MagnifyingGlass, MapPin, CalendarBlank } from '@phosphor-icons/react';
 
 export function Hero() {
   const t = useTranslations('landing.hero');
@@ -22,7 +23,7 @@ export function Hero() {
           <div className="text-left relative z-10">
             {/* Badge */}
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-[#1392ec] text-sm font-bold tracking-wide mb-8">
-              <span className="material-symbols-outlined text-base mr-2">verified</span>
+              <SealCheck weight="fill" className="text-base mr-2" />
               {t('badge')}
             </div>
 
@@ -42,12 +43,12 @@ export function Hero() {
               <Link href="/register">
                 <button className="bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-[#1392ec]/20 flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
                   {t('cta')}
-                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  <ArrowRight weight="bold" className="text-sm" />
                 </button>
               </Link>
               <a href="tel:8001234567">
                 <button className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
-                  <span className="material-symbols-outlined text-[#1392ec]">call</span>
+                  <Phone weight="fill" className="text-[#1392ec] text-xl" />
                   {t('phone')}
                 </button>
               </a>
@@ -61,7 +62,7 @@ export function Hero() {
                     key={i}
                     className="w-10 h-10 rounded-full border-2 border-white bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center overflow-hidden"
                   >
-                    <span className="material-symbols-outlined text-white text-lg">person</span>
+                    <Users weight="fill" className="text-white text-lg" />
                   </div>
                 ))}
                 <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
@@ -94,7 +95,7 @@ export function Hero() {
             {/* Floating badge: Clinic Open */}
             <div className="absolute top-10 -left-10 bg-white p-4 rounded-2xl shadow-xl shadow-slate-200/50 flex items-center gap-3 animate-bounce">
               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                <span className="material-symbols-outlined">check_circle</span>
+                <CheckCircle weight="fill" className="text-2xl" />
               </div>
               <div>
                 <p className="text-xs text-slate-400 font-bold uppercase">{t('statusLabel')}</p>
@@ -105,7 +106,7 @@ export function Hero() {
             {/* Floating badge: Rating */}
             <div className="absolute bottom-20 -right-6 bg-white p-5 rounded-2xl shadow-xl shadow-slate-200/50 max-w-[200px]">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-amber-400 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                <Star weight="fill" className="text-amber-400 text-lg" />
                 <span className="text-sm font-bold text-slate-800">{t('rating')}</span>
               </div>
               <p className="text-xs text-slate-500">{t('ratingQuote')}</p>
@@ -119,7 +120,7 @@ export function Hero() {
           <div className="relative bg-white p-2 rounded-2xl shadow-lg border border-slate-100">
             <form className="flex flex-col md:flex-row items-center gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">
               <div className="flex-1 w-full relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec]">search</span>
+                <MagnifyingGlass weight="bold" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
                 <input
                   className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 focus:outline-none text-slate-900 placeholder-slate-400 text-base"
                   placeholder={t('searchPlaceholder')}
@@ -127,7 +128,7 @@ export function Hero() {
                 />
               </div>
               <div className="flex-1 w-full relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec]">location_on</span>
+                <MapPin weight="bold" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
                 <input
                   className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 focus:outline-none text-slate-900 placeholder-slate-400 text-base"
                   placeholder={t('locationPlaceholder')}
@@ -135,7 +136,7 @@ export function Hero() {
                 />
               </div>
               <div className="flex-1 w-full relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec]">calendar_today</span>
+                <CalendarBlank weight="bold" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
                 <input
                   className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 focus:outline-none text-slate-900 placeholder-slate-400 text-base"
                   placeholder={t('datePlaceholder')}

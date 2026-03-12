@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { ShieldPlus, ShareNetwork, Camera, At, WarningCircle } from '@phosphor-icons/react';
 
 export function LandingFooter() {
   const t = useTranslations('landing.footer');
@@ -15,7 +16,7 @@ export function LandingFooter() {
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-[#1392ec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#1392ec]/20">
-                <span className="material-symbols-outlined text-white" style={{ fontSize: '24px' }}>health_and_safety</span>
+                <ShieldPlus weight="fill" className="text-white text-2xl" />
               </div>
               <span className="font-bold text-2xl text-white tracking-tight">Smart Clinic</span>
             </div>
@@ -23,13 +24,13 @@ export function LandingFooter() {
               {t('tagline')}
             </p>
             <div className="flex gap-6">
-              {(['share', 'camera', 'alternate_email'] as const).map((icon) => (
+              {[ShareNetwork, Camera, At].map((Icon, idx) => (
                 <a
-                  key={icon}
+                  key={idx}
                   href="#"
                   className="w-10 h-10 rounded-full border border-slate-800 flex items-center justify-center hover:bg-[#1392ec]/10 hover:border-[#1392ec] transition-all"
                 >
-                  <span className="material-symbols-outlined text-xl">{icon}</span>
+                  <Icon weight="bold" className="text-xl" />
                 </a>
               ))}
             </div>
@@ -81,7 +82,7 @@ export function LandingFooter() {
             {t('copyright', { year: currentYear })}
           </p>
           <div className="flex items-center gap-3 bg-red-500/10 text-red-500 px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20">
-            <span className="material-symbols-outlined text-lg leading-none">emergency</span>
+            <WarningCircle weight="fill" className="text-lg leading-none" />
             {t('emergency')}
           </div>
         </div>
