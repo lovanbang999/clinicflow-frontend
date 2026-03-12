@@ -35,7 +35,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
           router.push(`/${locale}/receptionist/check-in`);
           break;
         case 'PATIENT':
-          router.push(`/${locale}/patient/dashboard`);
+          router.push(`/${locale}/patient`);
           break;
       }
       return;
