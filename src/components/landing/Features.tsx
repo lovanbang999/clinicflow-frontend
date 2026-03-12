@@ -1,19 +1,20 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Stethoscope, ShieldCheck, Clock } from '@phosphor-icons/react';
 
 const features = [
   {
     key: 'professional',
-    icon: 'stethoscope',
+    icon: Stethoscope,
   },
   {
     key: 'safety',
-    icon: 'local_police',
+    icon: ShieldCheck,
   },
   {
     key: 'scheduling',
-    icon: 'schedule',
+    icon: Clock,
   },
 ] as const;
 
@@ -37,7 +38,7 @@ export function Features() {
               className="bg-slate-50 p-8 rounded-3xl group transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-blue-900/5 border border-slate-100"
             >
               <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-[#1392ec] shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-300">
-                <span className="material-symbols-outlined text-3xl">{feature.icon}</span>
+                <feature.icon weight="regular" className="text-3xl" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">
                 {t(`${feature.key}.title`)}
