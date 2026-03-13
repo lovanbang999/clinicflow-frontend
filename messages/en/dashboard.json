@@ -43,6 +43,7 @@
       "userManagement": "User Management",
       "doctorManagement": "Doctor Management",
       "serviceManagement": "Service Management",
+      "patientManagement": "Patient Management",
       "schedules": "Schedules",
       "analytics": "Analytics",
       "settings": "Settings"
@@ -337,6 +338,58 @@
         "suspend": "Suspend Account",
         "reinstate": "Reinstate Account",
         "delete": "Remove Doctor"
+      }
+    },
+    "patientManagement": {
+      "kpi": {
+        "totalPatients": "Total Patients",
+        "newThisMonth": "New Patients This Month",
+        "patientsToday": "Patients Today",
+        "activeAppointments": "Active Appointments"
+      },
+      "table": {
+        "title": "Patient Records",
+        "addPatient": "Add Patient",
+        "filter": "Filter",
+        "clear": "Clear",
+        "clearAll": "Clear All",
+        "genders": {
+          "MALE": "Male",
+          "FEMALE": "Female",
+          "OTHER": "Other"
+        },
+        "export": "Export",
+        "searchPlaceholder": "Search patients, ID, or phone...",
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "results": "results",
+        "previous": "Previous",
+        "next": "Next",
+        "empty": "No patients found.",
+        "columns": {
+          "patient": "Patient",
+          "dob": "DOB",
+          "gender": "Gender",
+          "phone": "Phone",
+          "blood": "Blood",
+          "lastVisit": "Last Visit",
+          "nextAppt": "Next Appt",
+          "doctor": "Doctor",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "statuses": {
+          "active": "Active",
+          "inactive": "Inactive",
+          "pending": "Pending"
+        },
+        "actions": {
+          "viewProfile": "View Profile",
+          "medicalHistory": "Medical History",
+          "bookAppointment": "Book Appointment",
+          "edit": "Edit Patient"
+        }
       }
     }
   },

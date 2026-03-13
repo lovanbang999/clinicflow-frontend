@@ -43,6 +43,7 @@
       "userManagement": "Quản lý người dùng",
       "doctorManagement": "Quản lý bác sĩ",
       "serviceManagement": "Quản lý dịch vụ",
+      "patientManagement": "Quản lý bệnh nhân",
       "schedules": "Lịch làm việc",
       "analytics": "Phân tích",
       "settings": "Cài đặt"
@@ -337,6 +338,58 @@
         "suspend": "Đình chỉ tài khoản",
         "reinstate": "Khôi phục tài khoản",
         "delete": "Xóa bác sĩ"
+      }
+    },
+    "patientManagement": {
+      "kpi": {
+        "totalPatients": "Tổng bệnh nhân",
+        "newThisMonth": "Bệnh nhân mới tháng này",
+        "patientsToday": "Bệnh nhân hôm nay",
+        "activeAppointments": "Lịch hẹn đang hoạt động"
+      },
+      "table": {
+        "title": "Danh sách bệnh nhân",
+        "addPatient": "Thêm bệnh nhân",
+        "filter": "Lọc",
+        "clear": "Xóa bộ lọc",
+        "clearAll": "Xóa tất cả",
+        "genders": {
+          "MALE": "Nam",
+          "FEMALE": "Nữ",
+          "OTHER": "Khác"
+        },
+        "export": "Xuất dữ liệu",
+        "searchPlaceholder": "Tìm bệnh nhân, mã BN, hoặc số điện thoại...",
+        "showing": "Hiển thị",
+        "to": "đến",
+        "of": "trong số",
+        "results": "kết quả",
+        "previous": "Trước",
+        "next": "Tiếp",
+        "empty": "Không tìm thấy bệnh nhân.",
+        "columns": {
+          "patient": "Bệnh nhân",
+          "dob": "Ngày sinh",
+          "gender": "Giới tính",
+          "phone": "Điện thoại",
+          "blood": "Nhóm máu",
+          "lastVisit": "Lần khám cuối",
+          "nextAppt": "Lịch tới",
+          "doctor": "Bác sĩ",
+          "status": "Trạng thái",
+          "actions": "Thao tác"
+        },
+        "statuses": {
+          "active": "Đang hoạt động",
+          "inactive": "Không hoạt động",
+          "pending": "Chờ xác nhận"
+        },
+        "actions": {
+          "viewProfile": "Xem hồ sơ",
+          "medicalHistory": "Lịch sử khám",
+          "bookAppointment": "Đặt lịch",
+          "edit": "Chỉnh sửa"
+        }
       }
     }
   },

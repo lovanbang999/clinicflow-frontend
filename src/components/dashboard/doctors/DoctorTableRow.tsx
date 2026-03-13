@@ -8,8 +8,9 @@ import {
   DotsThreeVerticalIcon,
 } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
-import { SPECIALTY_STYLES, STATUS_STYLES, getInitials, type Doctor } from './types';
+import { SPECIALTY_STYLES, STATUS_STYLES, type Doctor } from './types';
 import { BackendUser } from '@/types';
+import { getInitials } from '@/lib/utils/helpers';
 
 type Props = {
   // Support both the local mock Doctor type and the real BackendUser from the API

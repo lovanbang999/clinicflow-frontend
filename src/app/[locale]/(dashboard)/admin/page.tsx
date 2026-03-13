@@ -114,15 +114,15 @@ export default function AdminDashboardPage() {
 
         {/* Row 2: Revenue Chart + Booking Overview */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-[320px]" />
-          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-[320px]" />
+          <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-80" />
+          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-80" />
         </div>
 
         {/* Row 3: Admin Monthly Stats + Top Doctors + Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-[340px]" />
-          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-[340px]" />
-          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-[340px]" />
+          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-85" />
+          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-85" />
+          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-85" />
         </div>
       </div>
     );
