@@ -1,18 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 import Image from 'next/image';
+import { List, X } from '@phosphor-icons/react';
 
 export function LandingNavbar() {
   const tLanding = useTranslations('landing');
   const pathname = usePathname();
-
-  console.log('pathname: ', pathname);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { href: '/', label: tLanding('navbar.home') },
     { href: '/services', label: tLanding('navbar.findCare') },
     { href: '/doctors', label: tLanding('navbar.doctors') },
     { href: '/about', label: tLanding('navbar.about') },
@@ -26,11 +28,11 @@ export function LandingNavbar() {
   return (
     <nav className="sticky top-0 z-[100] w-full border-b border-white/20 bg-white/80 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.svg" alt="Logo" width={40} height={40} />
-            <span className="font-bold text-2xl tracking-tight text-slate-900">Smart Clinic</span>
+          <Link href="/" className="flex items-center gap-2 md:gap-3">
+            <Image src="/logo.svg" alt="Logo" width={32} height={32} className="w-8 h-8 md:w-10 md:h-10" />
+            <span className="font-bold text-xl md:text-2xl tracking-tight text-slate-900">Smart Clinic</span>
           </Link>
 
           {/* Navigation Links - Desktop */}
@@ -54,8 +56,8 @@ export function LandingNavbar() {
             ))}
           </div>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-6">
+          {/* Right Side - Desktop */}
+          <div className="hidden md:flex items-center gap-6">
             <LanguageSwitcher />
             <Link href="/login" className="text-sm font-semibold text-slate-600 hover:text-[#1392ec] transition-colors">
               {tLanding('navbar.login')}
@@ -66,8 +68,63 @@ export function LandingNavbar() {
               </button>
             </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex md:hidden items-center gap-2 sm:gap-4">
+            <LanguageSwitcher />
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-slate-600 hover:text-[#1392ec] transition-colors p-2"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu Content */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-100 shadow-xl py-4 px-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200">
+          <div className="flex flex-col gap-2">
+            {navLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
+                  isActive(href)
+                    ? 'bg-[#1392ec]/10 text-[#1392ec]'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-[#1392ec]'
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+          
+          <div className="h-px bg-slate-100 my-2" />
+          
+          <div className="flex flex-col gap-3 px-4 pb-2">
+            <Link
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full py-3 text-center text-sm font-bold text-slate-700 hover:text-[#1392ec] transition-colors rounded-xl border border-slate-200 hover:border-[#1392ec]/30 hover:bg-[#1392ec]/5"
+            >
+              {tLanding('navbar.login')}
+            </Link>
+            <Link
+              href="/register"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full"
+            >
+              <button className="w-full bg-[#1392ec] hover:bg-[#0d7cd1] text-white py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 cursor-pointer">
+                {tLanding('navbar.register')}
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

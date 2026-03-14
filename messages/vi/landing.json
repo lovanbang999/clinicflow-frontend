@@ -1,5 +1,6 @@
 {
   "navbar": {
+    "home": "Trang chủ",
     "services": "Dịch vụ",
     "doctors": "Bác sĩ",
     "contact": "Liên hệ",
@@ -65,7 +66,7 @@
     "titleLine2": "Gần Gũi Hơn",
     "description": "Trải nghiệm tiêu chuẩn mới về chất lượng y tế. Kết nối với các chuyên gia tận tâm và quản lý sức khỏe gia đình dễ dàng và tự tin tại cơ sở vật chất hiện đại của chúng tôi.",
     "cta": "Đặt lịch khám",
-    "phone": "(800) 123-4567",
+    "phone": "+84 912 345 678",
     "doctorCount": "2.000+ Bác sĩ",
     "doctorSubtext": "Sẵn sàng hỗ trợ bạn hôm nay",
     "statusLabel": "Trạng thái",
@@ -76,10 +77,14 @@
     "locationPlaceholder": "Mã bưu điện hoặc Thành phố",
     "datePlaceholder": "Hôm nay",
     "searchBtn": "Tìm kiếm",
-    "stat1": "Cấp cứu 24/7",
-    "stat2": "Phòng khám toàn quốc",
-    "stat3": "Bác sĩ được chứng nhận",
-    "stat4": "Thời gian chờ TB"
+    "stat1": "Chuyên Gia",
+    "stat2": "Bệnh Nhân",
+    "stat3": "Năm Kinh Nghiệm",
+    "stat4": "TG Chờ TB",
+    "stat1Num": "10+",
+    "stat2Num": "5000+",
+    "stat3Num": "10",
+    "stat4Num": "15m"
   },
   "features": {
     "title": "Sự Xuất Sắc Trong Chăm Sóc Sức Khỏe",
@@ -148,5 +153,40 @@
     "hipaaCompliance": "Tuân thủ HIPAA",
     "cookiePolicy": "Chính sách cookie",
     "emergency": "Trường hợp khẩn cấp, gọi 115"
+  },
+  "specialists": {
+    "title": "Chuyên Gia Hàng Đầu Của Chúng Tôi",
+    "subtitle": "Tư vấn với các chuyên gia đẳng cấp thế giới trong nhiều lĩnh vực y tế.",
+    "bookAppointment": "Đặt Lịch Khám"
+  },
+  "howItWorks": {
+    "title": "Cách Thức Đặt Lịch",
+    "subtitle": "Quy trình 4 bước nhanh chóng và đơn giản.",
+    "steps": {
+      "step1": {
+        "title": "Chọn Dịch Vụ",
+        "desc": "Chọn từ các chuyên khoa y tế của chúng tôi."
+      },
+      "step2": {
+        "title": "Chọn Bác Sĩ",
+        "desc": "Xem hồ sơ của các chuyên gia được chứng nhận."
+      },
+      "step3": {
+        "title": "Chọn Thời Gian",
+        "desc": "Chọn ngày và giờ phù hợp."
+      },
+      "step4": {
+        "title": "Xác Nhận",
+        "desc": "Nhận xác nhận ngay qua SMS/Email."
+      }
+    }
+  },
+  "contactInfo": {
+    "openingHours": "Giờ Mở Cửa",
+    "directContact": "Liên Hệ Trực Tiếp",
+    "monFri": "Thứ 2 - Thứ 6:",
+    "saturday": "Thứ 7:",
+    "sunday": "Chủ Nhật:",
+    "closed": "Đóng cửa"
   }
 }
