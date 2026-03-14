@@ -10,6 +10,7 @@ import { PatientTable } from '@/components/dashboard/patients/PatientTable';
 import { PatientPagination } from '@/components/dashboard/patients/PatientPagination';
 import { PatientQuickViewDrawer } from '@/components/dashboard/patients/PatientQuickViewDrawer';
 import { PatientAddModal } from '@/components/dashboard/patients/PatientAddModal';
+import { PatientEditModal } from '@/components/dashboard/patients/PatientEditModal';
 import type {
   PatientGender,
   PatientStatus,
@@ -31,6 +32,10 @@ export default function AdminPatientsPage() {
   // Add Patient Modal state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  // Edit Patient Modal state
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editPatientId, setEditPatientId] = useState<string | null>(null);
+
   // Filter state
   const [selectedGenders, setSelectedGenders] = useState<Set<PatientGender>>(new Set());
   const [selectedStatuses, setSelectedStatuses] = useState<Set<PatientStatus>>(new Set());
@@ -45,6 +50,7 @@ export default function AdminPatientsPage() {
     loadingKpi,
     fetchStats,
     createPatient,
+    updatePatient,
   } = useAdminPatients();
 
   // Fetch KPI stats once on mount
@@ -149,8 +155,8 @@ export default function AdminPatientsPage() {
             console.log('book', patient.id);
           }}
           onEdit={(patient) => {
-            // TODO: open edit patient dialog
-            console.log('edit', patient.id);
+            setEditPatientId(patient.id);
+            setIsEditModalOpen(true);
           }}
         />
 
@@ -184,6 +190,24 @@ export default function AdminPatientsPage() {
             bloodType: selectedBloodTypes.size > 0 ? [...selectedBloodTypes].join(',') : undefined,
           });
           setPage(1);
+        }}
+      />
+
+      <PatientEditModal
+        open={isEditModalOpen}
+        patientId={editPatientId}
+        onClose={() => setIsEditModalOpen(false)}
+        onSubmit={async (id, data) => {
+          await updatePatient(id, data);
+          // Refresh list after successful update
+          fetchPatients({
+            search: debouncedSearch || undefined,
+            page, // Stay on the current page
+            limit: LIMIT,
+            gender:    selectedGenders.size    > 0 ? [...selectedGenders].join(',')    : undefined,
+            status:    selectedStatuses.size   > 0 ? [...selectedStatuses].join(',')   : undefined,
+            bloodType: selectedBloodTypes.size > 0 ? [...selectedBloodTypes].join(',') : undefined,
+          });
         }}
       />
     </div>

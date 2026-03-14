@@ -57,6 +57,7 @@ export interface AdminCreatePatientDto {
   allergies?: string;
   chronicConditions?: string;
   familyHistory?: string;
+  bloodType?: string;
 }
 
 export type AdminUpdatePatientDto = Partial<AdminCreatePatientDto>;
