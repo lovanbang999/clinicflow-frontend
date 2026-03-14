@@ -390,6 +390,88 @@
           "bookAppointment": "Đặt lịch",
           "edit": "Chỉnh sửa"
         }
+      },
+      "addPatientModal": {
+        "title": "Thêm bệnh nhân",
+        "subtitle": "Tạo hồ sơ bệnh nhân mới",
+        "sectionBasic": "Thông tin cơ bản",
+        "sectionMedical": "Thông tin y tế",
+        "sectionInsurance": "Thông tin bảo hiểm",
+        "fullName": "Họ và tên *",
+        "fullNamePlaceholder": "VD: Nguyễn Văn A",
+        "dob": "Ngày sinh *",
+        "gender": "Giới tính *",
+        "genderPlaceholder": "Chọn giới tính",
+        "phone": "Số điện thoại *",
+        "phonePlaceholder": "VD: 0912 345 678",
+        "email": "Email",
+        "emailPlaceholder": "nguyenvana@gmail.com",
+        "address": "Địa chỉ",
+        "addressPlaceholder": "VD: 123 Quận 1",
+        "bloodType": "Nhóm máu",
+        "bloodTypePlaceholder": "Chọn nhóm máu",
+        "allergies": "Dị ứng",
+        "addAllergy": "+ Thêm dị ứng",
+        "chronicConditions": "Bệnh mãn tính",
+        "addCondition": "+ Thêm bệnh",
+        "medicalNotes": "Ghi chú y tế",
+        "medicalNotesPlaceholder": "Ghi chú thêm về tình trạng y tế...",
+        "insuranceType": "Loại bảo hiểm",
+        "insuranceTypePlaceholder": "Chọn loại...",
+        "insuranceNumber": "Số bảo hiểm",
+        "insuranceNumberPlaceholder": "VD: BHYT-123",
+        "insuranceExpiry": "Ngày hết hạn",
+        "unknown": "Không xác định",
+        "cancel": "Hủy",
+        "save": "Lưu bệnh nhân",
+        "saving": "Đang lưu...",
+        "errors": {
+          "nameRequired": "Họ và tên là bắt buộc",
+          "dobRequired": "Ngày sinh là bắt buộc",
+          "genderRequired": "Giới tính là bắt buộc",
+          "phoneRequired": "Số điện thoại là bắt buộc"
+        }
+      },
+      "quickView": {
+        "title": "Xem nhanh hồ sơ",
+        "bookAppt": "Đặt lịch",
+        "edit": "Chỉnh sửa",
+        "tabs": {
+          "overview": "Tổng quan",
+          "medical_records": "Hồ sơ bệnh án",
+          "prescriptions": "Đơn thuốc",
+          "lab_results": "Kết quả xét nghiệm",
+          "appointments": "Lịch hẹn"
+        },
+        "vitals": {
+          "weight": "Cân nặng",
+          "height": "Chiều cao",
+          "bmi": "BMI",
+          "bp": "Huyết áp",
+          "heart": "Nhịp tim"
+        },
+        "conditions": {
+          "title": "Tình trạng hiện tại"
+        },
+        "allergies": {
+          "title": "Dị ứng & Rủi ro"
+        },
+        "activity": {
+          "title": "Hoạt động gần đây"
+        },
+        "medicalRecords": {
+          "title": "Lịch sử hồ sơ bệnh án",
+          "add": "Thêm mới",
+          "columns": {
+            "date": "Ngày",
+            "diagnosis": "Chẩn đoán",
+            "action": "Thao tác"
+          }
+        },
+        "comingSoon": {
+          "title": "Không tìm thấy dữ liệu",
+          "desc": "Nội dung cho tab này sẽ sớm được cập nhật."
+        }
       }
     }
   },

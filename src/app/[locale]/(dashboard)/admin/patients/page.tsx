@@ -8,11 +8,14 @@ import { PatientKpiCards } from '@/components/dashboard/patients/PatientKpiCards
 import { PatientFilters } from '@/components/dashboard/patients/PatientFilters';
 import { PatientTable } from '@/components/dashboard/patients/PatientTable';
 import { PatientPagination } from '@/components/dashboard/patients/PatientPagination';
+import { PatientQuickViewDrawer } from '@/components/dashboard/patients/PatientQuickViewDrawer';
+import { PatientAddModal } from '@/components/dashboard/patients/PatientAddModal';
 import type {
   PatientGender,
   PatientStatus,
   BloodType,
 } from '@/components/dashboard/patients/types';
+import type { PatientRow } from '@/components/dashboard/patients/PatientTable';
 
 const LIMIT = 10;
 
@@ -20,6 +23,13 @@ export default function AdminPatientsPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 500);
+
+  // Quick view state
+  const [selectedPatient, setSelectedPatient] = useState<PatientRow | null>(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+
+  // Add Patient Modal state
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Filter state
   const [selectedGenders, setSelectedGenders] = useState<Set<PatientGender>>(new Set());
@@ -34,6 +44,7 @@ export default function AdminPatientsPage() {
     kpiData,
     loadingKpi,
     fetchStats,
+    createPatient,
   } = useAdminPatients();
 
   // Fetch KPI stats once on mount
@@ -115,7 +126,7 @@ export default function AdminPatientsPage() {
           onToggleBloodType={toggleBloodType}
           onClearFilters={clearFilters}
           onAddPatient={() => {
-            // TODO: open add patient dialog/drawer
+            setIsAddModalOpen(true);
           }}
           onExport={() => {
             // TODO: trigger export
@@ -126,8 +137,8 @@ export default function AdminPatientsPage() {
           patients={patients}
           loading={loadingList}
           onViewProfile={(patient) => {
-            // TODO: navigate to patient profile page
-            console.log('view', patient.id);
+            setSelectedPatient(patient);
+            setIsQuickViewOpen(true);
           }}
           onMedicalHistory={(patient) => {
             // TODO: open medical history drawer
@@ -151,6 +162,30 @@ export default function AdminPatientsPage() {
           onPageChange={setPage}
         />
       </div>
+
+      <PatientQuickViewDrawer
+        open={isQuickViewOpen}
+        onClose={() => setIsQuickViewOpen(false)}
+        patient={selectedPatient}
+      />
+
+      <PatientAddModal
+        open={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSubmit={async (data) => {
+          await createPatient(data);
+          // Refresh list after successful creation
+          fetchPatients({
+            search: debouncedSearch || undefined,
+            page: 1, // go back to page 1 to see the new patient
+            limit: LIMIT,
+            gender:    selectedGenders.size    > 0 ? [...selectedGenders].join(',')    : undefined,
+            status:    selectedStatuses.size   > 0 ? [...selectedStatuses].join(',')   : undefined,
+            bloodType: selectedBloodTypes.size > 0 ? [...selectedBloodTypes].join(',') : undefined,
+          });
+          setPage(1);
+        }}
+      />
     </div>
   );
 }
