@@ -27,7 +27,7 @@ export default function BookingsPage() {
   const router = useRouter();
   const { bookings, isLoading, fetchMyBookings, cancelBooking } = useBookings();
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]);
-  const [activeTab, setActiveTab] = useState<FilterTab>('all');
+  const [activeTab, setActiveTab] = useState<FilterTab>('upcoming');
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [bookingToCancel, setBookingToCancel] = useState<string | null>(null);

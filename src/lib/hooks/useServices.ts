@@ -10,7 +10,8 @@ interface UseServicesParams {
   search?: string;
 }
 
-export function useServices(params?: UseServicesParams) {
+export function useServices(params: UseServicesParams = {}) {
+  const { isActive, search } = params;
   const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +21,7 @@ export function useServices(params?: UseServicesParams) {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await servicesApi.getAll(params);
+        const data = await servicesApi.getAll({ isActive, search });
         setServices(data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to fetch services';
@@ -34,7 +35,7 @@ export function useServices(params?: UseServicesParams) {
     };
 
     void fetchServices();
-  }, [params]);
+  }, [isActive, search]);
 
   return { services, isLoading, error };
 }

@@ -14,12 +14,32 @@
   "back": "Back",
   "continue": "Continue",
   "processing": "Processing...",
+  "completeAllSteps": "Please complete all steps",
+  "loginToBook": "Please login to book appointment",
+  "redirectMessage": "Thank you for trusting us. You will be redirected to your appointments page...",
+  "settingUpAppointment": "Setting up appointment...",
+  "freeCancellationNote": "You can change or cancel your appointment for free.",
   "stepTitles": {
-    "service": "Select a Service",
-    "doctor": "Choose Your Doctor",
-    "date": "Pick an Appointment Date",
-    "time": "Select Time Slot",
-    "confirmation": "Confirm Your Booking"
+    "service": "Choose a Medical Service",
+    "doctor": "Choose a Doctor",
+    "date": "Select Date",
+    "time": "Select Time",
+    "confirmation": "Review & Confirm"
+  },
+  "stepSubtitles": {
+    "service": "Select the type of care you need today",
+    "doctor": "Browse our certified specialists",
+    "date": "Pick a convenient date for your visit",
+    "time": "Choose from available time slots",
+    "confirmation": "Check your appointment details"
+  },
+  "searchServices": "Search services...",
+  "stepLabels": {
+    "service": "Service",
+    "doctor": "Doctor",
+    "date": "Date",
+    "time": "Time",
+    "confirmation": "Confirm"
   },
   "serviceInfo": "Service",
   "doctorInfo": "Doctor",
@@ -31,6 +51,7 @@
   "noDoctorsAvailable": "No doctors available",
   "noTimeSlotsAvailable": "No time slots available",
   "selectDateAndDoctor": "Please select date and doctor first",
+  "loginRequired": "Please login to view available slots",
   "morningSlots": "Morning",
   "afternoonSlots": "Afternoon",
   "minutes": "minutes",
@@ -44,6 +65,33 @@
   "dateTime": "Date & Time",
   "status": "Status",
   "actions": "Actions",
+  "serviceSelector": {
+    "noServicesFound": "No services found matching \"{query}\"",
+    "noServicesAvailable": "No medical services available at the moment",
+    "defaultDescription": "Comprehensive clinical assessment and professional consultation tailored to your health needs.",
+    "price": "Price",
+    "duration": "Duration",
+    "min": "min"
+  },
+  "datePicker": {
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "selected": "Selected",
+    "today": "Today",
+    "past": "Past"
+  },
+  "smartSuggestions": {
+    "title": "Smart Suggestions",
+    "subtitle": "Optimal time slots for your visit",
+    "slotsLeft": "{slots} slots left"
+  },
+  "doctorSelector": {
+    "noDoctorsAvailable": "No doctors available",
+    "reviews": "Reviews",
+    "specialist": "Specialist",
+    "generalPractice": "General Practice",
+    "experience": "with over {years} years of experience."
+  },
   "all": "All",
   "upcoming": "Upcoming",
   "completed": "Completed",
