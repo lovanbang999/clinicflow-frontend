@@ -390,6 +390,88 @@
           "bookAppointment": "Book Appointment",
           "edit": "Edit Patient"
         }
+      },
+      "addPatientModal": {
+        "title": "Add New Patient",
+        "subtitle": "Create a new patient profile",
+        "sectionBasic": "Basic Information",
+        "sectionMedical": "Medical Information",
+        "sectionInsurance": "Insurance Information",
+        "fullName": "Full Name *",
+        "fullNamePlaceholder": "e.g. John Doe",
+        "dob": "Date of Birth *",
+        "gender": "Gender *",
+        "genderPlaceholder": "Select gender",
+        "phone": "Phone Number *",
+        "phonePlaceholder": "e.g. 555-123-4567",
+        "email": "Email",
+        "emailPlaceholder": "john@example.com",
+        "address": "Address",
+        "addressPlaceholder": "e.g. 123 Main St",
+        "bloodType": "Blood Type",
+        "bloodTypePlaceholder": "Select blood type",
+        "allergies": "Allergies",
+        "addAllergy": "+ Add allergy",
+        "chronicConditions": "Chronic Conditions",
+        "addCondition": "+ Add condition",
+        "medicalNotes": "Medical Notes",
+        "medicalNotesPlaceholder": "Additional medical notes...",
+        "insuranceType": "Insurance Provider",
+        "insuranceTypePlaceholder": "Select provider...",
+        "insuranceNumber": "Insurance Number",
+        "insuranceNumberPlaceholder": "e.g. INS-123456",
+        "insuranceExpiry": "Expiry Date",
+        "unknown": "Unknown",
+        "cancel": "Cancel",
+        "save": "Create Patient",
+        "saving": "Creating...",
+        "errors": {
+          "nameRequired": "Full name is required",
+          "dobRequired": "Date of birth is required",
+          "genderRequired": "Gender is required",
+          "phoneRequired": "Phone number is required"
+        }
+      },
+      "quickView": {
+        "title": "Patient Quick View",
+        "bookAppt": "Book Appt",
+        "edit": "Edit",
+        "tabs": {
+          "overview": "Overview",
+          "medical_records": "Medical Records",
+          "prescriptions": "Prescriptions",
+          "lab_results": "Lab Results",
+          "appointments": "Appointments"
+        },
+        "vitals": {
+          "weight": "Weight",
+          "height": "Height",
+          "bmi": "BMI",
+          "bp": "BP",
+          "heart": "Heart"
+        },
+        "conditions": {
+          "title": "Active Conditions"
+        },
+        "allergies": {
+          "title": "Allergies & Risks"
+        },
+        "activity": {
+          "title": "Recent Activity"
+        },
+        "medicalRecords": {
+          "title": "Medical Records History",
+          "add": "Add",
+          "columns": {
+            "date": "Date",
+            "diagnosis": "Diagnosis",
+            "action": "Action"
+          }
+        },
+        "comingSoon": {
+          "title": "No records found",
+          "desc": "The content for this tab is coming soon."
+        }
       }
     }
   },
