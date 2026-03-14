@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { ShieldPlusIcon, ShareNetworkIcon, CameraIcon, AtIcon, WarningCircleIcon } from '@phosphor-icons/react';
+import { ShareNetworkIcon, CameraIcon, AtIcon } from '@phosphor-icons/react';
+import Image from 'next/image';
 
 export function LandingFooter() {
   const t = useTranslations('landing.footer');
@@ -16,7 +17,7 @@ export function LandingFooter() {
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-[#1392ec] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#1392ec]/20">
-                <ShieldPlusIcon weight="fill" className="text-white text-2xl" />
+                <Image src="/logo.svg" alt="Logo" width={32} height={32} className="w-8 h-8 md:w-10 md:h-10" />
               </div>
               <span className="font-bold text-2xl text-white tracking-tight">Smart Clinic</span>
             </div>
@@ -81,10 +82,6 @@ export function LandingFooter() {
           <p className="text-xs font-medium">
             {t('copyright', { year: currentYear })}
           </p>
-          <div className="flex items-center gap-3 bg-red-500/10 text-red-500 px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20">
-            <WarningCircleIcon weight="fill" className="text-lg leading-none" />
-            {t('emergency')}
-          </div>
         </div>
       </div>
     </footer>

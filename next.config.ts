@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
         pathname: '/uploads/**',
       },
       { protocol: 'http', hostname: '127.0.0.1', port: '8080', pathname: '/uploads/**' },
+      // google
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com', pathname: '/**' },
       // cloudinary
       { protocol: 'https', hostname: 'res.cloudinary.com', pathname: '/**' },
       // Production
