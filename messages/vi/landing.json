@@ -188,5 +188,40 @@
     "saturday": "Thứ 7:",
     "sunday": "Chủ Nhật:",
     "closed": "Đóng cửa"
+  },
+  "about": {
+    "title": "Về Smart Clinic",
+    "subtitle": "Kết nối Đổi mới và Sự tận tâm trong Chăm sóc Sức khỏe",
+    "story": {
+      "title": "Câu chuyện của chúng tôi",
+      "p1": "Được thành lập vào năm 2020, Smart Clinic bắt đầu với một tầm nhìn đơn giản nhưng mạnh mẽ: giúp mọi người tiếp cận dịch vụ y tế chất lượng cao một cách hiệu quả và thân thiện thông qua đổi mới kỹ thuật số.",
+      "p2": "Chúng tôi tin rằng công nghệ nên trao quyền cho mối quan hệ giữa bác sĩ và bệnh nhân, chứ không phải thay thế nó. Nền tảng của chúng tôi được thiết kế để giảm thiểu gánh nặng hành chính, cho phép các đội ngũ y tế tập trung vào điều quan trọng nhất — sức khỏe của bạn."
+    },
+    "mission": {
+      "title": "Sứ mệnh của chúng tôi",
+      "desc": "Thay đổi trải nghiệm chăm sóc sức khỏe bằng cách cung cấp các dịch vụ y tế liền mạch, thông minh và tận tâm cho mọi gia đình."
+    },
+    "values": {
+      "title": "Giá trị cốt lõi",
+      "v1": {
+        "title": "Lấy bệnh nhân làm trung tâm",
+        "desc": "Mọi quyết định của chúng tôi đều bắt đầu từ sự an tâm và thoải mái của bệnh nhân."
+      },
+      "v2": {
+        "title": "Đổi mới",
+        "desc": "Chúng tôi áp dụng công nghệ tiên tiến để cải thiện kết quả y tế và hiệu quả vận hành."
+      },
+      "v3": {
+        "title": "Chính trực",
+        "desc": "Sự minh bạch, trung thực và đạo đức nghề nghiệp là nền tảng cho mọi hoạt động của chúng tôi."
+      }
+    },
+    "stats": {
+      "title": "Smart Clinic qua những con số",
+      "doctors": "Bác sĩ đang hoạt động",
+      "patients": "Bệnh nhân hài lòng",
+      "appointments": "Lượt khám hàng tháng",
+      "locations": "Cơ sở hỗ trợ"
+    }
   }
 }
