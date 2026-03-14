@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BellIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 import {
   DropdownMenu,
@@ -12,7 +13,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { UserCircleIcon, SignOutIcon, GearIcon } from '@phosphor-icons/react';
+import { 
+  UserCircleIcon, 
+  SignOutIcon, 
+  GearIcon,
+  ListIcon,
+  XIcon 
+} from '@phosphor-icons/react';
+import { useState } from 'react';
 
 interface PatientPortalHeaderProps {
   user: {
@@ -21,24 +29,26 @@ interface PatientPortalHeaderProps {
   };
 }
 
-const navItems = [
-  {
-    label: 'Home',
-    href: '/patient',
-  },
-  {
-    label: 'Book Appointment',
-    href: '/patient/book',
-  },
-  {
-    label: 'My Bookings',
-    href: '/patient/bookings',
-  },
-];
-
 export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
+  const t = useTranslations('dashboard.patient');
   const pathname = usePathname();
   const { logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    {
+      label: t('title'),
+      href: '/patient',
+    },
+    {
+      label: t('book'),
+      href: '/patient/book',
+    },
+    {
+      label: t('bookings'),
+      href: '/patient/bookings',
+    },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl">
@@ -46,10 +56,10 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center gap-10">
             <Link href="/patient" className="flex items-center gap-2.5 group">
-              <div className="bg-blue-500 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200 relative">
-                <Image src="/logo.svg" alt="Logo" width={40} height={40} />
+              <div className="bg-blue-500 w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200 relative">
+                <Image src="/logo.svg" alt="Logo" width={32} height={32} className="md:w-10 md:h-10" />
               </div>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Smart Clinic</span>
+              <span className="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Smart Clinic</span>
             </Link>
             <nav className="hidden md:flex items-center gap-8">
 
@@ -71,13 +81,15 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
               })}
             </nav>
           </div>
-          <div className="flex items-center gap-5">
-            <LanguageSwitcher />
-            <button className="p-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all relative cursor-pointer">
-              <BellIcon weight="bold" className="text-[24px]" />
-              <span className="absolute top-2.5 right-2.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
+          <div className="flex items-center gap-2 sm:gap-5">
+            <div className="hidden sm:block">
+              <LanguageSwitcher />
+            </div>
+            <button className="p-2 md:p-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all relative cursor-pointer">
+              <BellIcon weight="bold" className="text-[20px] md:text-[24px]" />
+              <span className="absolute top-2 md:top-2.5 right-2 md:right-2.5 block h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
             </button>
-            <div className="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+            <div className="hidden sm:block h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-2.5 pl-1 cursor-pointer p-1.5 rounded-xl transition-colors">
@@ -134,9 +146,46 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="flex md:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all"
+            >
+              {isMobileMenuOpen ? <XIcon size={24} weight="bold" /> : <ListIcon size={24} weight="bold" />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 animate-in slide-in-from-top-2 duration-200">
+          <div className="p-4 space-y-2">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href || pathname.endsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block px-4 py-3 rounded-xl text-sm font-bold transition-all ${
+                    isActive
+                      ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-500'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <div className="h-px bg-slate-100 dark:bg-slate-800 my-2" />
+            <div className="px-4 py-2">
+              <LanguageSwitcher />
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

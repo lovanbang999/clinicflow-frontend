@@ -45,7 +45,7 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className={`min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] font-sans text-slate-900 dark:text-slate-100 transition-colors duration-200 ${isDark ? 'dark' : ''}`}>
+    <div className={`min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 transition-colors duration-200 ${isDark ? 'dark' : ''}`}>
       <PatientPortalHeader user={user} />
   
       {/* Main Content */}
