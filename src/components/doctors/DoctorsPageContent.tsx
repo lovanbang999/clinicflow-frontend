@@ -10,35 +10,29 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useDoctors } from '@/lib/hooks/useDoctors';
+import { useServices } from '@/lib/hooks/useServices';
 import { DoctorCard } from './DoctorCard';
 import { DoctorCardSkeleton } from './DoctorCardSkeleton';
 import Image from 'next/image';
 import { Star, TrendingDown, TrendingUp } from 'lucide-react';
 
-const SPECIALTIES = [
-  'all',
-  'general',
-  'cardiology',
-  'dermatology',
-  'dental',
-  'ophthalmology',
-  'ent',
-  'obstetrics',
-] as const;
-
 export function DoctorsPageContent() {
   const t = useTranslations('doctors');
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string>('all');
+  const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('rating-desc');
 
-  // Pass undefined instead of 'all' to get all doctors
-  const { doctors, isLoading } = useDoctors({
-    isActive: true,
-    specialty: selectedSpecialty === 'all' ? undefined : selectedSpecialty,
-  });
+  // Fetch active services from API to build dynamic filter buttons
+  const { services, isLoading: isLoadingServices } = useServices({ isActive: true });
 
-  // Local search filter
+  // Fetch doctors — re-fetches when selectedServiceId changes (backend supports serviceId filter)
+  const { doctors, isLoading: isLoadingDoctors } = useDoctors(
+    selectedServiceId ? { serviceId: selectedServiceId } : undefined,
+  );
+
+  const isLoading = isLoadingDoctors;
+
+  // Client-side search filter on the already-fetched (and backend-filtered) doctors list
   const filteredDoctors = doctors.filter((doctor) =>
     doctor.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     doctor.specialties.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -100,22 +94,41 @@ export function DoctorsPageContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
             <div className="flex overflow-x-auto pb-4 md:pb-0 gap-3 w-full md:w-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-              {SPECIALTIES.map((specialty) => {
-                const isActive = selectedSpecialty === specialty;
-                return (
-                  <button
-                    key={specialty}
-                    onClick={() => setSelectedSpecialty(specialty)}
-                    className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                      isActive
-                        ? 'border border-[#0066FF] bg-[#0066FF] text-white shadow-md shadow-blue-500/20'
-                        : 'border border-slate-200 bg-white text-slate-600 hover:border-[#1392ec]/50 hover:text-[#1392ec]'
-                    }`}
-                  >
-                    {t(`specialties.${specialty}`)}
-                  </button>
-                );
-              })}
+              {/* "All" button */}
+              <button
+                key="all"
+                onClick={() => setSelectedServiceId(undefined)}
+                className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer ${
+                  selectedServiceId === undefined
+                    ? 'border border-[#0066FF] bg-[#0066FF] text-white shadow-md shadow-blue-500/20'
+                    : 'border border-slate-200 bg-white text-slate-600 hover:border-[#1392ec]/50 hover:text-[#1392ec]'
+                }`}
+              >
+                {t('specialties.all')}
+              </button>
+
+              {/* Dynamic service filter buttons from API */}
+              {isLoadingServices
+                ? Array.from({ length: 4 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-10 w-28 rounded-full bg-slate-100 animate-pulse shrink-0"
+                    />
+                  ))
+                : services.map((service) => (
+                    <button
+                      key={service.id}
+                      onClick={() => setSelectedServiceId(service.id)}
+                      className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer ${
+                        selectedServiceId === service.id
+                          ? 'border border-[#0066FF] bg-[#0066FF] text-white shadow-md shadow-blue-500/20'
+                          : 'border border-slate-200 bg-white text-slate-600 hover:border-[#1392ec]/50 hover:text-[#1392ec]'
+                      }`}
+                    >
+                      {service.name}
+                    </button>
+                  ))
+              }
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto justify-end shrink-0">
               <span className="text-sm font-medium text-slate-500">{t('page.sortBy')}</span>
@@ -180,7 +193,7 @@ export function DoctorsPageContent() {
               <h3 className="text-xl font-bold text-slate-800 mb-2">{t('page.emptyTitle')}</h3>
               <p className="text-base text-slate-500 max-w-md mx-auto">{t('page.emptyDesc')}</p>
               <button
-                onClick={() => { setSearchQuery(''); setSelectedSpecialty('all'); }}
+              onClick={() => { setSearchQuery(''); setSelectedServiceId(undefined); }}
                 className="mt-6 px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors cursor-pointer"
               >
                 {t('page.clearFilters')}
