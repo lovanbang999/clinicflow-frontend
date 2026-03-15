@@ -8,16 +8,16 @@ import {
 
 export const doctorsApi = {
   // Get all doctors (Public - No auth required)
-  // Pass serviceId to filter doctors who can perform that service
-  getAll: async (params?: { serviceId?: string }): Promise<Doctor[]> => {
+  // Backend only supports: serviceId, page, limit
+  // specialty and isActive filtering is done client-side
+  getAll: async (params?: { serviceId?: string; page?: number; limit?: number }): Promise<Doctor[]> => {
     const response = await apiClient.get<ApiResponse<DoctorsListResponse>>(
       '/users/public/doctors',
       {
         params: {
-          // Only include serviceId if it's a valid non-empty value
           ...(params?.serviceId ? { serviceId: params.serviceId } : {}),
-          page: 1,
-          limit: 100,
+          page: params?.page ?? 1,
+          limit: params?.limit ?? 100,
         },
       },
     );
