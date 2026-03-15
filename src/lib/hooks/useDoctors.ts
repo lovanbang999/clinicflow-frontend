@@ -5,9 +5,11 @@ import { doctorsApi } from '@/lib/api/doctors';
 import { Doctor } from '@/types/doctor';
 import { toast } from 'sonner';
 
+// Only params supported by GET /users/public/doctors backend endpoint
 interface UseDoctorsParams {
-  specialty?: string;
-  isActive?: boolean;
+  serviceId?: string;
+  page?: number;
+  limit?: number;
 }
 
 export function useDoctors(params?: UseDoctorsParams) {
@@ -35,7 +37,7 @@ export function useDoctors(params?: UseDoctorsParams) {
 
     void fetchDoctors();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params?.specialty, params?.isActive]);
+  }, [params?.serviceId]);
 
   return { doctors, isLoading, error };
 }
