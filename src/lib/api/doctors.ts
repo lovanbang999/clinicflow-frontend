@@ -8,12 +8,14 @@ import {
 
 export const doctorsApi = {
   // Get all doctors (Public - No auth required)
-  getAll: async (params?: { specialty?: string; isActive?: boolean }): Promise<Doctor[]> => {
+  // Pass serviceId to filter doctors who can perform that service
+  getAll: async (params?: { serviceId?: string }): Promise<Doctor[]> => {
     const response = await apiClient.get<ApiResponse<DoctorsListResponse>>(
       '/users/public/doctors',
       {
         params: {
-          specialty: params?.specialty,
+          // Only include serviceId if it's a valid non-empty value
+          ...(params?.serviceId ? { serviceId: params.serviceId } : {}),
           page: 1,
           limit: 100,
         },
@@ -29,12 +31,16 @@ export const doctorsApi = {
       email: user.email,
       phone: user.phone,
       avatar: user.avatar,
+      gender: user.gender,
       specialties: user.doctorProfile?.specialties || ['Nội tổng quát'],
       qualifications: user.doctorProfile?.qualifications || ['Bác sĩ'],
       yearsOfExperience: user.doctorProfile?.yearsOfExperience || 0,
       bio: user.doctorProfile?.bio,
       rating: user.doctorProfile?.rating || 0,
       reviewCount: user.doctorProfile?.reviewCount || 0,
+      services: user.doctorProfile?.services?.map(
+        (ds: { service: { id: string; name: string; category: string | null } }) => ds.service
+      ) || [],
       isActive: user.isActive,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
@@ -57,15 +63,20 @@ export const doctorsApi = {
       email: user.email,
       phone: user.phone,
       avatar: user.avatar,
+      gender: user.gender,
       specialties: user.doctorProfile?.specialties || ['Nội tổng quát'],
       qualifications: user.doctorProfile?.qualifications || ['Bác sĩ'],
       yearsOfExperience: user.doctorProfile?.yearsOfExperience || 0,
       bio: user.doctorProfile?.bio,
       rating: user.doctorProfile?.rating || 0,
       reviewCount: user.doctorProfile?.reviewCount || 0,
+      services: user.doctorProfile?.services?.map(
+        (ds: { service: { id: string; name: string; category: string | null } }) => ds.service
+      ) || [],
       isActive: user.isActive,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
+
   },
 };

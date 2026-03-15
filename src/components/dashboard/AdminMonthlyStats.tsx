@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { CalendarBlankIcon, UserPlusIcon, CheckCircleIcon, CurrencyCircleDollarIcon } from '@phosphor-icons/react';
 
 interface AdminMonthlyStatsProps {
   bookingCount: number;
@@ -18,10 +19,10 @@ export function AdminMonthlyStats({
   const t = useTranslations('dashboard.admin.monthlyStats');
 
   const items = [
-    { labelKey: 'bookings',     value: bookingCount.toLocaleString(),                icon: 'calendar_month', bg: 'bg-blue-50',    color: 'text-[#1392ec]',    bar: Math.min(bookingCount / 5, 100),          barColor: 'bg-[#1392ec]' },
-    { labelKey: 'newPatients',  value: newPatients.toLocaleString(),                 icon: 'person_add',     bg: 'bg-emerald-50', color: 'text-emerald-600',  bar: Math.min(newPatients / 2, 100),           barColor: 'bg-emerald-500' },
-    { labelKey: 'successRate',  value: `${successRate}%`,                            icon: 'check_circle',   bg: 'bg-purple-50',  color: 'text-purple-600',   bar: successRate,                              barColor: 'bg-purple-500' },
-    { labelKey: 'revenue',      value: `${(revenue / 1_000_000).toFixed(1)}M`,      icon: 'payments',       bg: 'bg-amber-50',   color: 'text-amber-600',    bar: Math.min(revenue / 2_000_000, 100),       barColor: 'bg-amber-400' },
+    { labelKey: 'bookings', value: bookingCount.toLocaleString(), icon: CalendarBlankIcon, bg: 'bg-blue-50', color: 'text-[#1392ec]', bar: Math.min(bookingCount / 5, 100), barColor: 'bg-[#1392ec]' },
+    { labelKey: 'newPatients', value: newPatients.toLocaleString(), icon: UserPlusIcon, bg: 'bg-emerald-50', color: 'text-emerald-600', bar: Math.min(newPatients / 2, 100), barColor: 'bg-emerald-500' },
+    { labelKey: 'successRate', value: `${successRate}%`, icon: CheckCircleIcon, bg: 'bg-purple-50', color: 'text-purple-600', bar: successRate, barColor: 'bg-purple-500' },
+    { labelKey: 'revenue', value: `${(revenue / 1_000_000).toFixed(1)}M`, icon: CurrencyCircleDollarIcon, bg: 'bg-amber-50', color: 'text-amber-600', bar: Math.min(revenue / 2_000_000, 100), barColor: 'bg-amber-400' },
   ] as const;
 
   return (
@@ -40,9 +41,7 @@ export function AdminMonthlyStats({
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-2">
                 <div className={`size-6 rounded-md ${s.bg} ${s.color} flex items-center justify-center`}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>
-                    {s.icon}
-                  </span>
+                  <s.icon weight="fill" className="text-[14px]" />
                 </div>
                 <span className="text-sm text-[#64748b] font-medium">{t(s.labelKey)}</span>
               </div>

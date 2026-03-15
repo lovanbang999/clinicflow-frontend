@@ -1,5 +1,6 @@
 {
   "backToHome": "Back to Home",
+  "backToLogin": "Back to Login",
   "or": "or",
   "loading": "Loading...",
   "submit": "Submit",
@@ -20,6 +21,7 @@
     "title": "Profile",
     "accountInfo": "Account Information",
     "editProfile": "Edit Profile",
+    "changeAvatar": "Change Avatar",
     "fullName": "Full Name",
     "email": "Email",
     "phone": "Phone Number",

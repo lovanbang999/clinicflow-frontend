@@ -3,16 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Home,
+  House as Home,
   CalendarCheck,
-  ClipboardList,
+  ClipboardText as ClipboardList,
   Users,
-  Settings,
-  BarChart3,
+  Gear as Settings,
+  ChartBar as BarChart3,
   Stethoscope,
   Clock,
-  UserCog,
-} from 'lucide-react';
+  UserGear as UserCog,
+} from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
@@ -30,7 +30,7 @@ const navItems: NavItem[] = [
   // Patient Navigation
   {
     label: 'Trang chủ',
-    href: '/patient/dashboard',
+    href: '/patient',
     icon: Home,
     roles: ['PATIENT'],
   },
@@ -150,7 +150,7 @@ export function DashboardSidebar({ role }: SidebarProps) {
                   : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900',
               )}
             >
-              <Icon className="h-5 w-5 shrink-0" />
+              <Icon weight="bold" className="h-5 w-5 shrink-0" />
               <span>{item.label}</span>
             </Link>
           );

@@ -7,6 +7,7 @@ export * from './doctor';
 export * from './dashboard';
 export * from './user';
 export * from './admin-users';
+export * from './admin-patients';
 export * from './admin-schedule';
 
 // Common API types

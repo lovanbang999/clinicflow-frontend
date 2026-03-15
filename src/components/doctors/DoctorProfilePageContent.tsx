@@ -108,7 +108,7 @@ export function DoctorProfilePageContent() {
             
             <div className="flex items-center justify-center gap-1.5 mb-8">
               <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-              <span className="text-sm font-bold text-[#0a1118]">{doctor.rating.toFixed(1)}</span>
+              <span className="text-sm font-bold text-[#0a1118]">{Number(doctor.rating || 0).toFixed(1)}</span>
               <span className="text-slate-400 text-sm ml-1">({doctor.reviewCount} {t('reviews')})</span>
             </div>
             
@@ -238,7 +238,7 @@ export function DoctorProfilePageContent() {
               
               <div className="flex flex-col md:flex-row gap-12 items-center">
                 <div className="text-center md:px-8">
-                  <div className="text-6xl font-black text-[#0a1118] tracking-tight">{doctor.rating.toFixed(1)}</div>
+                  <div className="text-6xl font-black text-[#0a1118] tracking-tight">{Number(doctor.rating || 0).toFixed(1)}</div>
                   <div className="flex gap-1 my-4 justify-center text-yellow-400">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star key={star} className={`w-5 h-5 ${star <= Math.round(doctor.rating) ? 'fill-yellow-400' : 'fill-none text-slate-300'}`} />

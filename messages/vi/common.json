@@ -1,5 +1,6 @@
 {
   "backToHome": "Trang chủ",
+  "backToLogin": "Quay lại đăng nhập",
   "or": "hoặc",
   "loading": "Đang tải...",
   "submit": "Gửi",
@@ -20,6 +21,7 @@
     "title": "Thông tin cá nhân",
     "accountInfo": "Thông tin tài khoản",
     "editProfile": "Chỉnh sửa thông tin",
+    "changeAvatar": "Thay ảnh đại diện",
     "fullName": "Họ và tên",
     "email": "Email",
     "phone": "Số điện thoại",

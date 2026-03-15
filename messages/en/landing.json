@@ -1,5 +1,6 @@
 {
   "navbar": {
+    "home": "Home",
     "services": "Services",
     "doctors": "Doctors",
     "contact": "Contact",
@@ -65,7 +66,7 @@
     "titleLine2": "Close to Home",
     "description": "Experience a new standard of medical excellence. Connect with compassionate specialists and manage your family's health with ease and confidence in our state-of-the-art facilities.",
     "cta": "Schedule Visit",
-    "phone": "(800) 123-4567",
+    "phone": "+84 912 345 678",
     "doctorCount": "2,000+ Doctors",
     "doctorSubtext": "Ready to help you today",
     "statusLabel": "Status",
@@ -76,10 +77,14 @@
     "locationPlaceholder": "Zip code or City",
     "datePlaceholder": "Today",
     "searchBtn": "Search",
-    "stat1": "Emergency Care",
-    "stat2": "Clinics Nationwide",
-    "stat3": "Board-Certified Doctors",
-    "stat4": "Avg. Wait Time"
+    "stat1": "Specialists",
+    "stat2": "Patients",
+    "stat3": "Years Exp.",
+    "stat4": "Avg. Wait",
+    "stat1Num": "10+",
+    "stat2Num": "5000+",
+    "stat3Num": "10",
+    "stat4Num": "15m"
   },
   "features": {
     "title": "Our Healthcare Excellence",
@@ -148,5 +153,75 @@
     "hipaaCompliance": "HIPAA Compliance",
     "cookiePolicy": "Cookie Policy",
     "emergency": "In case of emergency, dial 115"
+  },
+  "specialists": {
+    "title": "Our Leading Specialists",
+    "subtitle": "Consult with world-class experts across various medical fields.",
+    "bookAppointment": "Book Appointment"
+  },
+  "howItWorks": {
+    "title": "How Booking Works",
+    "subtitle": "Fast and simple 4-step process to secure your visit.",
+    "steps": {
+      "step1": {
+        "title": "Select Service",
+        "desc": "Choose from our range of medical departments."
+      },
+      "step2": {
+        "title": "Choose Doctor",
+        "desc": "Browse profiles of our certified specialists."
+      },
+      "step3": {
+        "title": "Pick Time",
+        "desc": "Select a convenient date and time slot."
+      },
+      "step4": {
+        "title": "Confirm",
+        "desc": "Receive instant confirmation via SMS/Email."
+      }
+    }
+  },
+  "contactInfo": {
+    "openingHours": "Opening Hours",
+    "directContact": "Direct Contact",
+    "monFri": "Mon - Fri:",
+    "saturday": "Saturday:",
+    "sunday": "Sunday:",
+    "closed": "Closed"
+  },
+  "about": {
+    "title": "About Smart Clinic",
+    "subtitle": "Bridging Innovation and Compassion in Healthcare",
+    "story": {
+      "title": "Our Story",
+      "p1": "Founded in 2020, Smart Clinic began with a simple yet powerful vision: to make high-quality healthcare accessible, efficient, and patient-friendly through digital innovation.",
+      "p2": "We believe that technology should empower the relationship between doctors and patients, not replace it. Our platform is designed to minimize administrative burdens, allowing healthcare providers to focus on what matters most—your health."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "desc": "To transform the healthcare experience by providing seamless, intelligent, and compassionate medical services to every family."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "v1": {
+        "title": "Patient Centric",
+        "desc": "Every decision we make starts with the patient's well-being and comfort in mind."
+      },
+      "v2": {
+        "title": "Innovation",
+        "desc": "We embrace cutting-edge technology to improve medical outcomes and efficiency."
+      },
+      "v3": {
+        "title": "Integrity",
+        "desc": "Transparency, honesty, and ethical practices are the foundation of everything we do."
+      }
+    },
+    "stats": {
+      "title": "Smart Clinic by the Numbers",
+      "doctors": "Active Doctors",
+      "patients": "Happy Patients",
+      "appointments": "Monthly Visits",
+      "locations": "Supportive Hubs"
+    }
   }
 }

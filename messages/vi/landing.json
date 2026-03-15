@@ -1,5 +1,6 @@
 {
   "navbar": {
+    "home": "Trang chủ",
     "services": "Dịch vụ",
     "doctors": "Bác sĩ",
     "contact": "Liên hệ",
@@ -65,7 +66,7 @@
     "titleLine2": "Gần Gũi Hơn",
     "description": "Trải nghiệm tiêu chuẩn mới về chất lượng y tế. Kết nối với các chuyên gia tận tâm và quản lý sức khỏe gia đình dễ dàng và tự tin tại cơ sở vật chất hiện đại của chúng tôi.",
     "cta": "Đặt lịch khám",
-    "phone": "(800) 123-4567",
+    "phone": "+84 912 345 678",
     "doctorCount": "2.000+ Bác sĩ",
     "doctorSubtext": "Sẵn sàng hỗ trợ bạn hôm nay",
     "statusLabel": "Trạng thái",
@@ -76,10 +77,14 @@
     "locationPlaceholder": "Mã bưu điện hoặc Thành phố",
     "datePlaceholder": "Hôm nay",
     "searchBtn": "Tìm kiếm",
-    "stat1": "Cấp cứu 24/7",
-    "stat2": "Phòng khám toàn quốc",
-    "stat3": "Bác sĩ được chứng nhận",
-    "stat4": "Thời gian chờ TB"
+    "stat1": "Chuyên Gia",
+    "stat2": "Bệnh Nhân",
+    "stat3": "Năm Kinh Nghiệm",
+    "stat4": "TG Chờ TB",
+    "stat1Num": "10+",
+    "stat2Num": "5000+",
+    "stat3Num": "10",
+    "stat4Num": "15m"
   },
   "features": {
     "title": "Sự Xuất Sắc Trong Chăm Sóc Sức Khỏe",
@@ -148,5 +153,75 @@
     "hipaaCompliance": "Tuân thủ HIPAA",
     "cookiePolicy": "Chính sách cookie",
     "emergency": "Trường hợp khẩn cấp, gọi 115"
+  },
+  "specialists": {
+    "title": "Chuyên Gia Hàng Đầu Của Chúng Tôi",
+    "subtitle": "Tư vấn với các chuyên gia đẳng cấp thế giới trong nhiều lĩnh vực y tế.",
+    "bookAppointment": "Đặt Lịch Khám"
+  },
+  "howItWorks": {
+    "title": "Cách Thức Đặt Lịch",
+    "subtitle": "Quy trình 4 bước nhanh chóng và đơn giản.",
+    "steps": {
+      "step1": {
+        "title": "Chọn Dịch Vụ",
+        "desc": "Chọn từ các chuyên khoa y tế của chúng tôi."
+      },
+      "step2": {
+        "title": "Chọn Bác Sĩ",
+        "desc": "Xem hồ sơ của các chuyên gia được chứng nhận."
+      },
+      "step3": {
+        "title": "Chọn Thời Gian",
+        "desc": "Chọn ngày và giờ phù hợp."
+      },
+      "step4": {
+        "title": "Xác Nhận",
+        "desc": "Nhận xác nhận ngay qua SMS/Email."
+      }
+    }
+  },
+  "contactInfo": {
+    "openingHours": "Giờ Mở Cửa",
+    "directContact": "Liên Hệ Trực Tiếp",
+    "monFri": "Thứ 2 - Thứ 6:",
+    "saturday": "Thứ 7:",
+    "sunday": "Chủ Nhật:",
+    "closed": "Đóng cửa"
+  },
+  "about": {
+    "title": "Về Smart Clinic",
+    "subtitle": "Kết nối Đổi mới và Sự tận tâm trong Chăm sóc Sức khỏe",
+    "story": {
+      "title": "Câu chuyện của chúng tôi",
+      "p1": "Được thành lập vào năm 2020, Smart Clinic bắt đầu với một tầm nhìn đơn giản nhưng mạnh mẽ: giúp mọi người tiếp cận dịch vụ y tế chất lượng cao một cách hiệu quả và thân thiện thông qua đổi mới kỹ thuật số.",
+      "p2": "Chúng tôi tin rằng công nghệ nên trao quyền cho mối quan hệ giữa bác sĩ và bệnh nhân, chứ không phải thay thế nó. Nền tảng của chúng tôi được thiết kế để giảm thiểu gánh nặng hành chính, cho phép các đội ngũ y tế tập trung vào điều quan trọng nhất — sức khỏe của bạn."
+    },
+    "mission": {
+      "title": "Sứ mệnh của chúng tôi",
+      "desc": "Thay đổi trải nghiệm chăm sóc sức khỏe bằng cách cung cấp các dịch vụ y tế liền mạch, thông minh và tận tâm cho mọi gia đình."
+    },
+    "values": {
+      "title": "Giá trị cốt lõi",
+      "v1": {
+        "title": "Lấy bệnh nhân làm trung tâm",
+        "desc": "Mọi quyết định của chúng tôi đều bắt đầu từ sự an tâm và thoải mái của bệnh nhân."
+      },
+      "v2": {
+        "title": "Đổi mới",
+        "desc": "Chúng tôi áp dụng công nghệ tiên tiến để cải thiện kết quả y tế và hiệu quả vận hành."
+      },
+      "v3": {
+        "title": "Chính trực",
+        "desc": "Sự minh bạch, trung thực và đạo đức nghề nghiệp là nền tảng cho mọi hoạt động của chúng tôi."
+      }
+    },
+    "stats": {
+      "title": "Smart Clinic qua những con số",
+      "doctors": "Bác sĩ đang hoạt động",
+      "patients": "Bệnh nhân hài lòng",
+      "appointments": "Lượt khám hàng tháng",
+      "locations": "Cơ sở hỗ trợ"
+    }
   }
 }

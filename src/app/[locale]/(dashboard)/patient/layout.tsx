@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { PatientPortalLayout } from '@/components/layout/PatientPortalLayout';
 import { RouteGuard } from '@/components/auth/RouteGuard';
 
 export default function PatientLayout({
@@ -8,7 +8,7 @@ export default function PatientLayout({
 }) {
   return (
     <RouteGuard allowedRoles={['PATIENT']}>
-      <DashboardLayout>{children}</DashboardLayout>
+      <PatientPortalLayout>{children}</PatientPortalLayout>
     </RouteGuard>
   );
 }

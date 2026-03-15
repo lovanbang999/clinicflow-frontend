@@ -7,12 +7,20 @@
     "login": {
       "invalidCredentials": "Invalid email or password",
       "notVerified": "Please verify your email before logging in",
-      "failed": "Login failed. Please try again"
+      "failed": "Login failed. Please try again",
+      "accountInactive": "The account has been blocked"
     },
     "verify": {
       "invalidOtp": "Invalid OTP code",
       "expiredOtp": "OTP code has expired",
       "failed": "Verification failed. Please try again"
+    },
+    "resetPassword": {
+      "otpVerified": "OTP verified successfully",
+      "success": "Password reset successfully",
+      "invalidOtp": "Invalid OTP code. Please request a new one",
+      "expiredOtp": "OTP code has expired. Please request a new one",
+      "failed": "Password reset failed. Please try again"
     },
     "refresh": {
       "invalidToken": "Invalid refresh token",
@@ -22,7 +30,10 @@
   "user": {
     "notFound": "User not found",
     "emailExists": "Email already exists",
-    "phoneExists": "Phone number already exists"
+    "phoneExists": "Phone number already exists",
+    "password": {
+      "sameAsOld": "New password cannot be the same as old password"
+    }
   },
   "service": {
     "notFound": "Service not found",

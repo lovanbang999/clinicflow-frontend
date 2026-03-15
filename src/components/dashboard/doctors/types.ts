@@ -47,10 +47,6 @@ export const ALL_SPECIALTIES: Specialty[] = [
 
 export const ALL_STATUSES: DoctorStatus[] = ['Active', 'OnLeave', 'Inactive'];
 
-// Helpers
-export const getInitials = (name: string) =>
-  name.split(' ').filter(Boolean).map((n) => n[0]).join('').substring(0, 2).toUpperCase();
-
 // Mock data — replace with API hook when backend is ready
 export const MOCK_DOCTORS: Doctor[] = [
   { id: '1', fullName: 'Dr. Aris Sloan',    email: 'aris.sloan@clinic.com',    specialty: 'Cardiology',  experience: 12, status: 'Active'   },

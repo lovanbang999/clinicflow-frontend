@@ -43,6 +43,7 @@
       "userManagement": "Quản lý người dùng",
       "doctorManagement": "Quản lý bác sĩ",
       "serviceManagement": "Quản lý dịch vụ",
+      "patientManagement": "Quản lý bệnh nhân",
       "schedules": "Lịch làm việc",
       "analytics": "Phân tích",
       "settings": "Cài đặt"
@@ -113,6 +114,8 @@
         "rolePlaceholder": "Chọn vai trò",
         "status": "Trạng thái tài khoản",
         "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Tối thiểu 8 ký tự",
         "cancel": "Hủy",
         "save": "Lưu",
         "saving": "Đang lưu...",
@@ -120,7 +123,9 @@
           "nameRequired": "Vui lòng nhập họ tên",
           "emailRequired": "Vui lòng nhập email",
           "emailInvalid": "Địa chỉ email không hợp lệ",
-          "roleRequired": "Vui lòng chọn vai trò"
+          "roleRequired": "Vui lòng chọn vai trò",
+          "passwordRequired": "Vui lòng nhập mật khẩu",
+          "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự"
         }
       },
       "editUser": {
@@ -166,6 +171,7 @@
         "users": "người dùng",
         "previous": "Trước",
         "next": "Tiếp",
+        "searchPlaceholder": "Tìm kiếm...",
         "columns": {
           "user": "Người dùng",
           "role": "Vai trò",
@@ -183,7 +189,22 @@
           "Active": "Đang hoạt động",
           "Inactive": "Không hoạt động",
           "Suspended": "Đã bị đình chỉ"
+        },
+        "actions": {
+          "edit": "Chỉnh sửa",
+          "delete": "Xóa",
+          "suspend": "Đình chỉ",
+          "reinstate": "Khôi phục"
         }
+      },
+      "dialogs": {
+        "suspendTitle": "Đình chỉ người dùng",
+        "suspendDesc": "Bạn có chắc muốn đình chỉ {name}? Người dùng này sẽ không thể đăng nhập vào hệ thống.",
+        "reinstateTitle": "Khôi phục người dùng",
+        "reinstateDesc": "Bạn có chắc muốn khôi phục quyền truy cập cho {name}?",
+        "deleteTitle": "Xóa người dùng",
+        "deleteDesc": "Bạn có chắc muốn xóa {name}? Đây là thao tác xóa mềm, dữ liệu sẽ được ẩn đi nhưng vẫn lưu log.",
+        "cancel": "Hủy"
       }
     },
     "doctorManagement": {
@@ -318,6 +339,181 @@
         "reinstate": "Khôi phục tài khoản",
         "delete": "Xóa bác sĩ"
       }
+    },
+    "patientManagement": {
+      "kpi": {
+        "totalPatients": "Tổng bệnh nhân",
+        "newThisMonth": "Bệnh nhân mới tháng này",
+        "patientsToday": "Bệnh nhân hôm nay",
+        "activeAppointments": "Lịch hẹn đang hoạt động"
+      },
+      "table": {
+        "title": "Danh sách bệnh nhân",
+        "addPatient": "Thêm bệnh nhân",
+        "filter": "Lọc",
+        "clear": "Xóa bộ lọc",
+        "clearAll": "Xóa tất cả",
+        "genders": {
+          "MALE": "Nam",
+          "FEMALE": "Nữ",
+          "OTHER": "Khác"
+        },
+        "export": "Xuất dữ liệu",
+        "searchPlaceholder": "Tìm bệnh nhân, mã BN, hoặc số điện thoại...",
+        "showing": "Hiển thị",
+        "to": "đến",
+        "of": "trong số",
+        "results": "kết quả",
+        "previous": "Trước",
+        "next": "Tiếp",
+        "empty": "Không tìm thấy bệnh nhân.",
+        "columns": {
+          "patient": "Bệnh nhân",
+          "dob": "Ngày sinh",
+          "gender": "Giới tính",
+          "phone": "Điện thoại",
+          "blood": "Nhóm máu",
+          "lastVisit": "Lần khám cuối",
+          "nextAppt": "Lịch tới",
+          "doctor": "Bác sĩ",
+          "status": "Trạng thái",
+          "actions": "Thao tác"
+        },
+        "statuses": {
+          "active": "Đang hoạt động",
+          "inactive": "Không hoạt động",
+          "pending": "Chờ xác nhận"
+        },
+        "actions": {
+          "viewProfile": "Xem hồ sơ",
+          "medicalHistory": "Lịch sử khám",
+          "bookAppointment": "Đặt lịch",
+          "edit": "Chỉnh sửa"
+        }
+      },
+      "addPatientModal": {
+        "title": "Thêm bệnh nhân",
+        "subtitle": "Tạo hồ sơ bệnh nhân mới",
+        "sectionBasic": "Thông tin cơ bản",
+        "sectionMedical": "Thông tin y tế",
+        "sectionInsurance": "Thông tin bảo hiểm",
+        "fullName": "Họ và tên *",
+        "fullNamePlaceholder": "VD: Nguyễn Văn A",
+        "dob": "Ngày sinh *",
+        "gender": "Giới tính *",
+        "genderPlaceholder": "Chọn giới tính",
+        "phone": "Số điện thoại *",
+        "phonePlaceholder": "VD: 0912 345 678",
+        "email": "Email",
+        "emailPlaceholder": "nguyenvana@gmail.com",
+        "address": "Địa chỉ",
+        "addressPlaceholder": "VD: 123 Quận 1",
+        "bloodType": "Nhóm máu",
+        "bloodTypePlaceholder": "Chọn nhóm máu",
+        "allergies": "Dị ứng",
+        "addAllergy": "+ Thêm dị ứng",
+        "chronicConditions": "Bệnh mãn tính",
+        "addCondition": "+ Thêm bệnh",
+        "medicalNotes": "Ghi chú y tế",
+        "medicalNotesPlaceholder": "Ghi chú thêm về tình trạng y tế...",
+        "insuranceType": "Loại bảo hiểm",
+        "insuranceTypePlaceholder": "Chọn loại...",
+        "insuranceNumber": "Số bảo hiểm",
+        "insuranceNumberPlaceholder": "VD: BHYT-123",
+        "insuranceExpiry": "Ngày hết hạn",
+        "unknown": "Không xác định",
+        "cancel": "Hủy",
+        "save": "Lưu bệnh nhân",
+        "saving": "Đang lưu...",
+        "errors": {
+          "nameRequired": "Họ và tên là bắt buộc",
+          "dobRequired": "Ngày sinh là bắt buộc",
+          "genderRequired": "Giới tính là bắt buộc",
+          "phoneRequired": "Số điện thoại là bắt buộc"
+        }
+      },
+      "editPatientModal": {
+        "title": "Chỉnh sửa bệnh nhân",
+        "subtitle": "Cập nhật thông tin sơ bệnh nhân",
+        "sectionBasic": "Thông tin cơ bản",
+        "sectionMedical": "Thông tin y tế",
+        "sectionInsurance": "Thông tin bảo hiểm",
+        "fullName": "Họ và tên *",
+        "fullNamePlaceholder": "VD: Nguyễn Văn A",
+        "dob": "Ngày sinh *",
+        "gender": "Giới tính *",
+        "genderPlaceholder": "Chọn giới tính",
+        "phone": "Số điện thoại *",
+        "phonePlaceholder": "VD: 0912 345 678",
+        "email": "Email",
+        "emailPlaceholder": "nguyenvana@gmail.com",
+        "address": "Địa chỉ",
+        "addressPlaceholder": "VD: 123 Quận 1",
+        "bloodType": "Nhóm máu",
+        "bloodTypePlaceholder": "Chọn nhóm máu",
+        "allergies": "Dị ứng",
+        "addAllergy": "+ Thêm dị ứng",
+        "chronicConditions": "Bệnh mãn tính",
+        "addCondition": "+ Thêm bệnh",
+        "medicalNotes": "Ghi chú y tế",
+        "medicalNotesPlaceholder": "Ghi chú thêm về tình trạng y tế...",
+        "insuranceType": "Loại bảo hiểm",
+        "insuranceTypePlaceholder": "Chọn loại...",
+        "insuranceNumber": "Số bảo hiểm",
+        "insuranceNumberPlaceholder": "VD: BHYT-123",
+        "insuranceExpiry": "Ngày hết hạn",
+        "unknown": "Không xác định",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu...",
+        "errors": {
+          "nameRequired": "Họ và tên là bắt buộc",
+          "dobRequired": "Ngày sinh là bắt buộc",
+          "genderRequired": "Giới tính là bắt buộc",
+          "phoneRequired": "Số điện thoại là bắt buộc"
+        }
+      },
+      "quickView": {
+        "title": "Xem nhanh hồ sơ",
+        "bookAppt": "Đặt lịch",
+        "edit": "Chỉnh sửa",
+        "tabs": {
+          "overview": "Tổng quan",
+          "medical_records": "Hồ sơ bệnh án",
+          "prescriptions": "Đơn thuốc",
+          "lab_results": "Kết quả xét nghiệm",
+          "appointments": "Lịch hẹn"
+        },
+        "vitals": {
+          "weight": "Cân nặng",
+          "height": "Chiều cao",
+          "bmi": "BMI",
+          "bp": "Huyết áp",
+          "heart": "Nhịp tim"
+        },
+        "conditions": {
+          "title": "Tình trạng hiện tại"
+        },
+        "allergies": {
+          "title": "Dị ứng & Rủi ro"
+        },
+        "activity": {
+          "title": "Hoạt động gần đây"
+        },
+        "medicalRecords": {
+          "title": "Lịch sử hồ sơ bệnh án",
+          "add": "Thêm mới",
+          "columns": {
+            "date": "Ngày",
+            "diagnosis": "Chẩn đoán",
+            "action": "Thao tác"
+          }
+        },
+        "comingSoon": {
+          "title": "Không tìm thấy dữ liệu",
+          "desc": "Nội dung cho tab này sẽ sớm được cập nhật."
+        }
+      }
     }
   },
   "profile": {
@@ -364,7 +560,8 @@
       "services": "dịch vụ",
       "previous": "Trước",
       "next": "Tiếp",
-      "empty": "Không tìm thấy dịch vụ nào"
+      "empty": "Không tìm thấy dịch vụ nào",
+      "searchPlaceholder": "Tìm kiếm..."
     },
     "addService": {
       "title": "Thêm dịch vụ mới",

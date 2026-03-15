@@ -14,12 +14,32 @@
   "back": "Quay lại",
   "continue": "Tiếp tục",
   "processing": "Đang xử lý...",
+  "completeAllSteps": "Vui lòng hoàn thành tất cả các bước",
+  "loginToBook": "Vui lòng đăng nhập để đặt lịch",
+  "redirectMessage": "Cảm ơn bạn đã tin tưởng. Chúng tôi sẽ tự động chuyển hướng bạn đến trang quản lý lịch hẹn...",
+  "settingUpAppointment": "Đang thiết lập lịch hẹn...",
+  "freeCancellationNote": "Bạn có thể thay đổi hoặc hủy lịch hẹn hoàn toàn miễn phí.",
   "stepTitles": {
     "service": "Chọn dịch vụ khám",
-    "doctor": "Chọn bác sĩ khám",
+    "doctor": "Chọn chuyên gia",
     "date": "Chọn ngày khám",
-    "time": "Chọn giờ khám",
-    "confirmation": "Xác nhận thông tin"
+    "time": "Chọn khung giờ",
+    "confirmation": "Xác nhận đặt lịch"
+  },
+  "stepSubtitles": {
+    "service": "Chọn loại dịch vụ bạn cần hôm nay",
+    "doctor": "Tìm kiếm chuyên gia được chứng nhận",
+    "date": "Chọn ngày thuận tiện cho bạn tới khám",
+    "time": "Chọn từ các khung giờ khả dụng",
+    "confirmation": "Kiểm tra lại thông tin lịch hẹn của bạn"
+  },
+  "searchServices": "Tìm kiếm dịch vụ...",
+  "stepLabels": {
+    "service": "Dịch vụ",
+    "doctor": "Bác sĩ",
+    "date": "Ngày khám",
+    "time": "Khung giờ",
+    "confirmation": "Xác nhận"
   },
   "serviceInfo": "Dịch vụ",
   "doctorInfo": "Bác sĩ",
@@ -31,6 +51,7 @@
   "noDoctorsAvailable": "Không có bác sĩ nào khả dụng",
   "noTimeSlotsAvailable": "Không có khung giờ nào khả dụng",
   "selectDateAndDoctor": "Vui lòng chọn ngày và bác sĩ trước",
+  "loginRequired": "Vui lòng đăng nhập để xem khung giờ khả dụng",
   "morningSlots": "Buổi sáng",
   "afternoonSlots": "Buổi chiều",
   "minutes": "phút",
@@ -44,6 +65,33 @@
   "dateTime": "Ngày giờ",
   "status": "Trạng thái",
   "actions": "Hành động",
+  "serviceSelector": {
+    "noServicesFound": "Không tìm thấy dịch vụ nào phù hợp với \"{query}\"",
+    "noServicesAvailable": "Hiện tại chưa có dịch vụ y tế nào",
+    "defaultDescription": "Đánh giá lâm sàng toàn diện và tư vấn chuyên nghiệp phù hợp với nhu cầu sức khỏe của bạn.",
+    "price": "Giá",
+    "duration": "Thời gian",
+    "min": "phút"
+  },
+  "datePicker": {
+    "months": ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+    "weekdays": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+    "selected": "Đã chọn",
+    "today": "Hôm nay",
+    "past": "Đã qua"
+  },
+  "smartSuggestions": {
+    "title": "Gợi ý thông minh",
+    "subtitle": "Khung giờ khám tối ưu cho bạn",
+    "slotsLeft": "Còn {slots} chỗ"
+  },
+  "doctorSelector": {
+    "noDoctorsAvailable": "Không có bác sĩ nào khả dụng",
+    "reviews": "Đánh giá",
+    "specialist": "Chuyên khoa",
+    "generalPractice": "đa khoa",
+    "experience": "với hơn {years} năm kinh nghiệm."
+  },
   "all": "Tất cả",
   "upcoming": "Sắp tới",
   "completed": "Đã hoàn thành",

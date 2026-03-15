@@ -26,7 +26,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
       
       switch (user.role) {
         case 'ADMIN':
-          router.push(`/${locale}/admin/users`);
+          router.push(`/${locale}/admin`);
           break;
         case 'DOCTOR':
           router.push(`/${locale}/doctor/schedule`);
@@ -35,7 +35,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
           router.push(`/${locale}/receptionist/check-in`);
           break;
         case 'PATIENT':
-          router.push(`/${locale}/patient/dashboard`);
+          router.push(`/${locale}/patient`);
           break;
       }
       return;

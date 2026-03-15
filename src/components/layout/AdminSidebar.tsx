@@ -16,6 +16,7 @@ import {
   GearSixIcon,
   SignOutIcon,
   type Icon,
+  WheelchairIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -25,14 +26,15 @@ type NavItem = {
   exact: boolean;
 };
 
-const NAV_ITEMS: NavItem[] = [
-  { key: 'dashboard',        href: '/admin',                 icon: SquaresFourIcon,   exact: true  },
-  { key: 'userManagement',   href: '/admin/users',           icon: UsersIcon,         exact: false },
-  { key: 'doctorManagement', href: '/admin/doctors',         icon: StethoscopeIcon,   exact: false },
-  { key: 'serviceManagement',href: '/admin/services',        icon: SyringeIcon,       exact: false },
-  { key: 'schedules',        href: '/admin/schedules',       icon: CalendarBlankIcon, exact: false },
-  { key: 'analytics',        href: '/admin/analytics',         icon: ChartBarIcon,      exact: false },
-  { key: 'settings',         href: '/admin/settings',        icon: GearSixIcon,       exact: false },
+export const NAV_ITEMS: NavItem[] = [
+  { key: 'dashboard',         href: '/admin',                 icon: SquaresFourIcon,   exact: true },
+  { key: 'userManagement',    href: '/admin/users',           icon: UsersIcon,         exact: false },
+  { key: 'doctorManagement',  href: '/admin/doctors',         icon: StethoscopeIcon,   exact: false },
+  { key: 'patientManagement', href: '/admin/patients',        icon: WheelchairIcon,    exact: false },
+  { key: 'serviceManagement', href: '/admin/services',        icon: SyringeIcon,       exact: false },
+  { key: 'schedules',         href: '/admin/schedules',       icon: CalendarBlankIcon, exact: false },
+  { key: 'analytics',         href: '/admin/analytics',       icon: ChartBarIcon,      exact: false },
+  { key: 'settings',          href: '/admin/settings',        icon: GearSixIcon,       exact: false },
 ];
 
 export default function AdminSidebar() {

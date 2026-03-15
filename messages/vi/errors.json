@@ -7,12 +7,20 @@
     "login": {
       "invalidCredentials": "Email hoặc mật khẩu không đúng",
       "notVerified": "Vui lòng xác thực email trước khi đăng nhập",
-      "failed": "Đăng nhập thất bại. Vui lòng thử lại"
+      "failed": "Đăng nhập thất bại. Vui lòng thử lại",
+      "accountInactive": "Tài khoản đã bị khóa"
     },
     "verify": {
       "invalidOtp": "Mã OTP không đúng",
       "expiredOtp": "Mã OTP đã hết hạn",
       "failed": "Xác thực thất bại. Vui lòng thử lại"
+    },
+    "resetPassword": {
+      "otpVerified": "Xác nhận OTP thành công",
+      "success": "Đặt lại mật khẩu thành công",
+      "invalidOtp": "Mã OTP không đúng. Vui lòng yêu cầu mã mới",
+      "expiredOtp": "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới",
+      "failed": "Đặt lại mật khẩu thất bại. Vui lòng thử lại"
     },
     "refresh": {
       "invalidToken": "Token không hợp lệ",
@@ -22,7 +30,10 @@
   "user": {
     "notFound": "Không tìm thấy người dùng",
     "emailExists": "Email đã tồn tại",
-    "phoneExists": "Số điện thoại đã tồn tại"
+    "phoneExists": "Số điện thoại đã tồn tại",
+    "password": {
+      "sameAsOld": "Mật khẩu mới không được trùng với mật khẩu cũ"
+    }
   },
   "service": {
     "notFound": "Không tìm thấy dịch vụ",

@@ -1,6 +1,5 @@
 'use client';
 
-import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Step {
@@ -15,64 +14,51 @@ interface BookingStepsProps {
 
 export function BookingSteps({ steps, currentStep }: BookingStepsProps) {
   return (
-    <div className="w-full py-6">
-      <div className="flex items-start">
+    <div className="w-full">
+      <div className="flex items-center justify-between relative">
         {steps.map((step, idx) => {
           const isCompleted = currentStep > step.number;
           const isCurrent = currentStep === step.number;
-
-          // Connector coloring
-          const leftActive = currentStep >= step.number; // reached this step
-          const rightActive = currentStep > step.number; // passed this step
-
-          const isFirst = idx === 0;
-          const isLast = idx === steps.length - 1;
+          const isUpcoming = currentStep < step.number;
 
           return (
-            <div key={step.number} className="relative flex-1">
-              {/* Connectors (behind circle) */}
-              {!isFirst && (
-                <div
-                  className={cn(
-                    'absolute left-0 top-6 h-1 w-1/2 -translate-y-1/2 rounded-full',
-                    leftActive ? 'bg-primary' : 'bg-gray-200'
-                  )}
-                />
-              )}
-              {!isLast && (
-                <div
-                  className={cn(
-                    'absolute -right-10 top-6 h-1 w-2/3 -translate-y-1/2 rounded-full',
-                    rightActive ? 'bg-primary' : 'bg-gray-200'
-                  )}
-                />
+            <div key={step.number} className="relative flex flex-col items-center group flex-1">
+              {/* Connector line overlay */}
+              {idx < steps.length - 1 && (
+                <>
+                  {/* Background line (gray) */}
+                  <div className="absolute top-6 left-1/2 w-full h-0.5 bg-slate-100 dark:bg-slate-800 z-0" />
+                  {/* Active line (blue) */}
+                  <div 
+                    className={cn(
+                      "absolute top-6 left-1/2 h-0.5 z-0 transition-all duration-500",
+                      currentStep > step.number ? "bg-blue-500 w-full" : "bg-transparent w-0"
+                    )} 
+                  />
+                </>
               )}
 
-              {/* Step content */}
-              <div className="relative z-10 flex flex-col items-center gap-3">
-                {/* Circle */}
-                <div
-                  className={cn(
-                    'flex h-12 w-12 items-center justify-center rounded-full text-base font-semibold transition-all',
-                    isCompleted && 'bg-green-500 text-white shadow-md',
-                    isCurrent && 'bg-primary text-white shadow-md',
-                    !isCompleted && !isCurrent && 'bg-gray-200 text-gray-600'
-                  )}
-                >
-                  {isCompleted ? <Check className="h-6 w-6" /> : step.number}
-                </div>
-
-                {/* Label */}
-                <span
-                  className={cn(
-                    'text-center text-sm font-medium transition-colors',
-                    (isCompleted || isCurrent) && 'text-gray-900',
-                    !isCompleted && !isCurrent && 'text-gray-500'
-                  )}
-                >
-                  {step.label}
-                </span>
+              {/* Circle */}
+              <div
+                className={cn(
+                  'flex h-12 w-12 items-center justify-center rounded-full text-base font-bold transition-all duration-300 mb-4 relative z-10',
+                  isCurrent && 'bg-blue-500 text-white shadow-xl shadow-blue-500/30 scale-110',
+                  isCompleted && 'bg-blue-500 text-white',
+                  isUpcoming && 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-300 dark:text-slate-600'
+                )}
+              >
+                {step.number}
               </div>
+
+              {/* Label */}
+              <span
+                className={cn(
+                  'text-[10px] sm:text-xs md:text-sm md:font-bold font-semibold transition-colors duration-300 text-center mt-2 max-w-[60px] md:max-w-none leading-tight md:leading-normal',
+                  isCurrent ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500'
+                )}
+              >
+                {step.label}
+              </span>
             </div>
           );
         })}

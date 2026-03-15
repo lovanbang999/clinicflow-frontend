@@ -18,8 +18,7 @@ export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
   const router = useRouter();
   const { isAuthenticated, _hasHydrated } = useAuthStore();
   const t = useTranslations('dashboard.admin');
-  // useSyncExternalStore is the recommended way to detect client-side rendering
-  // without triggering the react-hooks/set-state-in-effect lint rule
+
   const isClient = useSyncExternalStore(
     () => () => {},
     () => true,

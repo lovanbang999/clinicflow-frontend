@@ -1,13 +1,24 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Bell } from 'lucide-react';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
+import { NAV_ITEMS } from './AdminSidebar';
 
 export default function AdminHeader() {
   const { user } = useAuthStore();
   const t = useTranslations('dashboard.admin');
+  const pathname = usePathname();
+
+  const activeItem = NAV_ITEMS.find((item) =>
+    item.exact
+      ? pathname === item.href || pathname.endsWith(item.href)
+      : pathname.includes(item.href),
+  );
+  const pageTitle = activeItem && activeItem.key !== 'dashboard' ? t(`nav.${activeItem.key}`) : t('dashboard');
+
   const initials = user?.fullName
     ? user.fullName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
     : 'AD';
@@ -16,7 +27,7 @@ export default function AdminHeader() {
     <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-8 shrink-0">
       {/* Title */}
       <div>
-        <h2 className="text-[#111518] text-xl font-bold tracking-tight">{t('dashboard')}</h2>
+        <h2 className="text-[#111518] text-xl font-bold tracking-tight">{pageTitle}</h2>
       </div>
 
       {/* Right Actions */}

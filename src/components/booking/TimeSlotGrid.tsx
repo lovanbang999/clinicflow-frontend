@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Clock, Loader2 } from 'lucide-react';
+import { Clock, Loader2, Sun, Sunset } from 'lucide-react';
 import { useBookingStore } from '@/lib/store/bookingStore';
 import { schedulesApi } from '@/lib/api/schedules';
 import { formatDate } from 'date-fns';
 import { useAuthStore } from '@/lib/store/authStore';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 interface TimeSlot {
   time: string;
@@ -25,6 +26,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
   const [loading, setLoading] = useState(false);
   const { user } = useAuthStore();
   const { selectedTimeSlot, setSelectedTimeSlot, selectedDate, selectedDoctor, selectedService } = useBookingStore();
+  const t = useTranslations('booking');
 
   useEffect(() => {
     const fetchTimeSlots = async () => {
@@ -40,7 +42,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
         const dateStr = formatDate(selectedDate, 'yyyy-MM-dd');
         
         if (!user?.id) {
-          toast.error('Vui lòng đăng nhập để xem khung giờ khả dụng');
+          toast.error(t('loginRequired'));
           setTimeSlots([]);
           router.push('/login');
           return;
@@ -71,7 +73,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
     };
 
     fetchTimeSlots();
-  }, [router, selectedDate, selectedDoctor, selectedService, user?.id]);
+  }, [router, selectedDate, selectedDoctor, selectedService, user?.id, t]);
 
   const generateDefaultTimeSlots = (): TimeSlot[] => {
     const slots: TimeSlot[] = [];
@@ -100,26 +102,26 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
 
   if (!selectedDate || !selectedDoctor || !selectedService) {
     return (
-      <div className="text-center py-12">
-        <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-        <p className="text-gray-500">Vui lòng chọn ngày và bác sĩ trước</p>
+      <div className="w-full max-w-4xl mx-auto text-center py-20 bg-slate-50 dark:bg-slate-800/50 rounded-[32px] border-2 border-dashed border-slate-200 dark:border-slate-700">
+        <Clock className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" strokeWidth={1.5} />
+        <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">{t('selectDateAndDoctor')}</p>
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="w-full max-w-4xl mx-auto flex items-center justify-center py-24 bg-white dark:bg-slate-900/50 rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
+        <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
       </div>
     );
   }
 
   if (timeSlots.length === 0) {
     return (
-      <div className="text-center py-12">
-        <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-        <p className="text-gray-500">Không có khung giờ nào khả dụng</p>
+      <div className="w-full max-w-4xl mx-auto text-center py-20 bg-slate-50 dark:bg-slate-800/50 rounded-[32px] border-2 border-dashed border-slate-200 dark:border-slate-700">
+        <Clock className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" strokeWidth={1.5} />
+        <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">{t('noTimeSlotsAvailable')}</p>
       </div>
     );
   }
@@ -135,13 +137,25 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
     return hour >= 12;
   });
 
-  const renderSlots = (slots: TimeSlot[], title: string) => (
-    <div className="mb-6">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-        <Clock className="w-4 h-4" />
-        {title}
-      </h3>
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
+  const renderSlots = (slots: TimeSlot[], title: string, isMorning: boolean) => (
+    <div className="mb-10 last:mb-0">
+      <div className="flex items-center gap-3 mb-6">
+        <div className={cn(
+          "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
+          isMorning ? "bg-amber-50 dark:bg-amber-500/10" : "bg-indigo-50 dark:bg-indigo-500/10"
+        )}>
+          {isMorning ? (
+            <Sun className="w-5 h-5 text-amber-500" strokeWidth={2.5} />
+          ) : (
+            <Sunset className="w-5 h-5 text-indigo-500" strokeWidth={2.5} />
+          )}
+        </div>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+          {title}
+        </h3>
+      </div>
+      
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
         {slots.map((slot) => {
           const isSelected = selectedTimeSlot === slot.time;
 
@@ -151,11 +165,14 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
               onClick={() => handleTimeSlotClick(slot)}
               disabled={!slot.available}
               className={cn(
-                'px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer',
-                'flex items-center justify-center',
-                slot.available && !isSelected && 'bg-white border border-gray-200 hover:border-primary hover:bg-primary/5 text-gray-900',
-                slot.available && isSelected && 'bg-primary text-white shadow-lg scale-105 border-2 border-primary',
-                !slot.available && 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                'px-4 py-3.5 rounded-[16px] text-sm font-bold transition-all duration-300 cursor-pointer',
+                'flex items-center justify-center shadow-sm',
+                // Available & Unselected
+                slot.available && !isSelected && 'bg-white dark:bg-slate-900/50 border-2 border-slate-100/80 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10 dark:hover:shadow-none hover:-translate-y-1 hover:text-blue-600 text-slate-700 dark:text-slate-300',
+                // Selected
+                slot.available && isSelected && 'bg-blue-500 text-white shadow-lg shadow-blue-500/25 border-2 border-blue-500 scale-105 hover:bg-blue-600',
+                // Unavailable
+                !slot.available && 'bg-slate-50 dark:bg-slate-800/30 border-2 border-transparent text-slate-300 dark:text-slate-600 cursor-not-allowed opacity-60 shadow-none'
               )}
             >
               {slot.time}
@@ -167,9 +184,12 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
   );
 
   return (
-    <div className="space-y-6">
-      {morningSlots.length > 0 && renderSlots(morningSlots, 'Buổi sáng')}
-      {afternoonSlots.length > 0 && renderSlots(afternoonSlots, 'Buổi chiều')}
+    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-slate-900/50 rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
+      {morningSlots.length > 0 && renderSlots(morningSlots, t('morningSlots'), true)}
+      {morningSlots.length > 0 && afternoonSlots.length > 0 && (
+        <div className="w-full h-px bg-slate-100/80 dark:bg-slate-800 my-8"></div>
+      )}
+      {afternoonSlots.length > 0 && renderSlots(afternoonSlots, t('afternoonSlots'), false)}
     </div>
   );
 }

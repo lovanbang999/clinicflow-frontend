@@ -52,7 +52,7 @@ export function DoctorTable({
   const to = (page - 1) * limit + doctors.length;
 
   return (
-    <div className="bg-white rounded-2xl border border-[#e5e7eb] shadow-sm overflow-hidden flex flex-col relative min-h-[400px]">
+    <div className="bg-white rounded-2xl border border-[#e5e7eb] shadow-sm overflow-hidden flex flex-col relative min-h-100">
       {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 bg-white/50 z-10 flex items-center justify-center backdrop-blur-[1px]">

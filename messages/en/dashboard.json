@@ -43,6 +43,7 @@
       "userManagement": "User Management",
       "doctorManagement": "Doctor Management",
       "serviceManagement": "Service Management",
+      "patientManagement": "Patient Management",
       "schedules": "Schedules",
       "analytics": "Analytics",
       "settings": "Settings"
@@ -113,6 +114,8 @@
         "rolePlaceholder": "Select a role",
         "status": "Account Status",
         "statusDesc": "Enable or disable system access",
+        "password": "Password",
+        "passwordPlaceholder": "At least 8 characters",
         "cancel": "Cancel",
         "save": "Save User",
         "saving": "Saving...",
@@ -120,7 +123,9 @@
           "nameRequired": "Full name is required",
           "emailRequired": "Email is required",
           "emailInvalid": "Invalid email address",
-          "roleRequired": "Please select a role"
+          "roleRequired": "Please select a role",
+          "passwordRequired": "Password is required",
+          "passwordTooShort": "Password must be at least 8 characters"
         }
       },
       "editUser": {
@@ -166,6 +171,7 @@
         "users": "users",
         "previous": "Previous",
         "next": "Next",
+        "searchPlaceholder": "Search...",
         "columns": {
           "user": "User",
           "role": "Role",
@@ -183,7 +189,22 @@
           "Active": "Active",
           "Inactive": "Inactive",
           "Suspended": "Suspended"
+        },
+        "actions": {
+          "edit": "Edit",
+          "suspend": "Suspend",
+          "reinstate": "Reinstate",
+          "delete": "Delete"
         }
+      },
+      "dialogs": {
+        "suspendTitle": "Suspend User",
+        "suspendDesc": "Are you sure you want to suspend {name}? This user will no longer be able to log in.",
+        "reinstateTitle": "Reinstate User",
+        "reinstateDesc": "Are you sure you want to reinstate access for {name}?",
+        "deleteTitle": "Delete User",
+        "deleteDesc": "Are you sure you want to delete {name}? This is a soft delete, meaning the data will be hidden but retained in logs.",
+        "cancel": "Cancel"
       }
     },
     "doctorManagement": {
@@ -318,6 +339,181 @@
         "reinstate": "Reinstate Account",
         "delete": "Remove Doctor"
       }
+    },
+    "patientManagement": {
+      "kpi": {
+        "totalPatients": "Total Patients",
+        "newThisMonth": "New Patients This Month",
+        "patientsToday": "Patients Today",
+        "activeAppointments": "Active Appointments"
+      },
+      "table": {
+        "title": "Patient Records",
+        "addPatient": "Add Patient",
+        "filter": "Filter",
+        "clear": "Clear",
+        "clearAll": "Clear All",
+        "genders": {
+          "MALE": "Male",
+          "FEMALE": "Female",
+          "OTHER": "Other"
+        },
+        "export": "Export",
+        "searchPlaceholder": "Search patients, ID, or phone...",
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "results": "results",
+        "previous": "Previous",
+        "next": "Next",
+        "empty": "No patients found.",
+        "columns": {
+          "patient": "Patient",
+          "dob": "DOB",
+          "gender": "Gender",
+          "phone": "Phone",
+          "blood": "Blood",
+          "lastVisit": "Last Visit",
+          "nextAppt": "Next Appt",
+          "doctor": "Doctor",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "statuses": {
+          "active": "Active",
+          "inactive": "Inactive",
+          "pending": "Pending"
+        },
+        "actions": {
+          "viewProfile": "View Profile",
+          "medicalHistory": "Medical History",
+          "bookAppointment": "Book Appointment",
+          "edit": "Edit Patient"
+        }
+      },
+      "addPatientModal": {
+        "title": "Add New Patient",
+        "subtitle": "Create a new patient profile",
+        "sectionBasic": "Basic Information",
+        "sectionMedical": "Medical Information",
+        "sectionInsurance": "Insurance Information",
+        "fullName": "Full Name *",
+        "fullNamePlaceholder": "e.g. John Doe",
+        "dob": "Date of Birth *",
+        "gender": "Gender *",
+        "genderPlaceholder": "Select gender",
+        "phone": "Phone Number *",
+        "phonePlaceholder": "e.g. 555-123-4567",
+        "email": "Email",
+        "emailPlaceholder": "john@example.com",
+        "address": "Address",
+        "addressPlaceholder": "e.g. 123 Main St",
+        "bloodType": "Blood Type",
+        "bloodTypePlaceholder": "Select blood type",
+        "allergies": "Allergies",
+        "addAllergy": "+ Add allergy",
+        "chronicConditions": "Chronic Conditions",
+        "addCondition": "+ Add condition",
+        "medicalNotes": "Medical Notes",
+        "medicalNotesPlaceholder": "Additional medical notes...",
+        "insuranceType": "Insurance Provider",
+        "insuranceTypePlaceholder": "Select provider...",
+        "insuranceNumber": "Insurance Number",
+        "insuranceNumberPlaceholder": "e.g. INS-123456",
+        "insuranceExpiry": "Expiry Date",
+        "unknown": "Unknown",
+        "cancel": "Cancel",
+        "save": "Create Patient",
+        "saving": "Creating...",
+        "errors": {
+          "nameRequired": "Full name is required",
+          "dobRequired": "Date of birth is required",
+          "genderRequired": "Gender is required",
+          "phoneRequired": "Phone number is required"
+        }
+      },
+      "editPatientModal": {
+        "title": "Edit Patient Profile",
+        "subtitle": "Update patient information",
+        "sectionBasic": "Basic Information",
+        "sectionMedical": "Medical Information",
+        "sectionInsurance": "Insurance Information",
+        "fullName": "Full Name *",
+        "fullNamePlaceholder": "e.g. John Doe",
+        "dob": "Date of Birth *",
+        "gender": "Gender *",
+        "genderPlaceholder": "Select gender",
+        "phone": "Phone Number *",
+        "phonePlaceholder": "e.g. 555-123-4567",
+        "email": "Email",
+        "emailPlaceholder": "john@example.com",
+        "address": "Address",
+        "addressPlaceholder": "e.g. 123 Main St",
+        "bloodType": "Blood Type",
+        "bloodTypePlaceholder": "Select blood type",
+        "allergies": "Allergies",
+        "addAllergy": "+ Add allergy",
+        "chronicConditions": "Chronic Conditions",
+        "addCondition": "+ Add condition",
+        "medicalNotes": "Medical Notes",
+        "medicalNotesPlaceholder": "Additional medical notes...",
+        "insuranceType": "Insurance Provider",
+        "insuranceTypePlaceholder": "Select provider...",
+        "insuranceNumber": "Insurance Number",
+        "insuranceNumberPlaceholder": "e.g. INS-123456",
+        "insuranceExpiry": "Expiry Date",
+        "unknown": "Unknown",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "errors": {
+          "nameRequired": "Full name is required",
+          "dobRequired": "Date of birth is required",
+          "genderRequired": "Gender is required",
+          "phoneRequired": "Phone number is required"
+        }
+      },
+      "quickView": {
+        "title": "Patient Quick View",
+        "bookAppt": "Book Appt",
+        "edit": "Edit",
+        "tabs": {
+          "overview": "Overview",
+          "medical_records": "Medical Records",
+          "prescriptions": "Prescriptions",
+          "lab_results": "Lab Results",
+          "appointments": "Appointments"
+        },
+        "vitals": {
+          "weight": "Weight",
+          "height": "Height",
+          "bmi": "BMI",
+          "bp": "BP",
+          "heart": "Heart"
+        },
+        "conditions": {
+          "title": "Active Conditions"
+        },
+        "allergies": {
+          "title": "Allergies & Risks"
+        },
+        "activity": {
+          "title": "Recent Activity"
+        },
+        "medicalRecords": {
+          "title": "Medical Records History",
+          "add": "Add",
+          "columns": {
+            "date": "Date",
+            "diagnosis": "Diagnosis",
+            "action": "Action"
+          }
+        },
+        "comingSoon": {
+          "title": "No records found",
+          "desc": "The content for this tab is coming soon."
+        }
+      }
     }
   },
   "profile": {
@@ -364,7 +560,8 @@
       "services": "services",
       "previous": "Prev",
       "next": "Next",
-      "empty": "No services found"
+      "empty": "No services found",
+      "searchPlaceholder": "Search..."
     },
     "addService": {
       "title": "Add New Service",
