@@ -49,7 +49,7 @@ export const useAuth = () => {
             router.push('/doctor/schedule');
             break;
           case 'RECEPTIONIST':
-            router.push('/receptionist/dashboard');
+            router.push('/receptionist');
             break;
           case 'PATIENT':
             router.push('/patient');

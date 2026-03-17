@@ -2,7 +2,7 @@ import { apiClient } from './client';
 import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus } from '@/types';
 
 export const bookingsApi = {
-  // Get all bookings (với filters)
+  // Get all bookings (with filters)
   getAll: async (params?: {
     status?: BookingStatus;
     doctorId?: string;
@@ -29,6 +29,13 @@ export const bookingsApi = {
   create: async (data: CreateBookingDto): Promise<Booking> => {
     const response = await apiClient.post<Booking>('/bookings', data);
     return response.data;
+  },
+
+  // Create receptionist booking (Auto confirmed)
+  createReceptionistBooking: async (data: CreateBookingDto): Promise<Booking> => {
+    // Wrap to response.data.data because create api usually returns { data, ... } depending on backend response format, but looking above create() returns response.data directly. Let's check getById: response.data. Oh wait, backend returns ResponseHelper.success which is {data, success, etc}. Let's adapt if needed.
+    const response = await apiClient.post<{ data: Booking }>('/bookings/receptionist', data);
+    return response.data.data;
   },
 
   // Update booking status

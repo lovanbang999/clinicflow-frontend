@@ -1,5 +1,6 @@
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
+
 import { RouteGuard } from '@/components/auth/RouteGuard';
+import { DoctorDashboardLayout } from '@/components/layout/doctor/DoctorDashboardLayout';
 
 export default function DoctorLayout({
   children,
@@ -8,7 +9,7 @@ export default function DoctorLayout({
 }) {
   return (
     <RouteGuard allowedRoles={['DOCTOR']}>
-      <DashboardLayout>{children}</DashboardLayout>
+      <DoctorDashboardLayout>{children}</DoctorDashboardLayout>
     </RouteGuard>
   );
 }
