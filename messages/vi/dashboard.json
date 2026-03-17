@@ -22,8 +22,104 @@
   "receptionist": {
     "title": "Lễ tân",
     "dashboard": "Tổng quan",
+    "patients": "Bệnh nhân",
     "checkIn": "Check-in",
-    "queue": "Hàng đợi"
+    "queue": "Hàng đợi",
+    "walkinBooking": "Đặt lịch khám",
+    "reports": "Báo cáo",
+    "greetingTitle": "Tổng quan - {date} 👋",
+    "overview": "Tình hình phòng khám hôm nay",
+    "stats": {
+      "totalAppointments": "T.Cộng lịch hẹn",
+      "checkedIn": "Đã Check-in",
+      "waiting": "Đang chờ",
+      "inQueue": "Trong hàng đợi"
+    },
+    "searchCheckIn": {
+      "title": "Tìm kiếm & Check-in",
+      "placeholder": "Tìm theo Tên, SĐT, Mã lịch...",
+      "emptyState": "Nhập thông tin bệnh nhân để bắt đầu Check-in"
+    },
+    "liveQueue": {
+      "title": "Hàng đợi Live ({count})",
+      "promoteBtn": "Ưu tiên"
+    },
+    "upcomingAppointments": {
+      "title": "Lịch chờ khám",
+      "table": {
+        "time": "Giờ",
+        "patient": "Bệnh nhân",
+        "service": "Dịch vụ",
+        "doctor": "Bác sĩ",
+        "status": "Trạng thái"
+      }
+    },
+    "walkinBookingForm": {
+      "pageTitle": "Đặt lịch khám mới",
+      "pageDescription": "Đăng ký khám tức thì cho bệnh nhân",
+      "patient": {
+        "title": "Chọn bệnh nhân",
+        "desc": "Tìm bệnh nhân đã có hoặc đăng ký mới",
+        "searchPlaceholder": "Tìm kiếm theo tên, SĐT của bệnh nhân...",
+        "searchBtn": "Tìm kiếm",
+        "registerNew": "+ Đăng ký cho \"{searchPhone}\"",
+        "selectedBadge": "Đã chọn",
+        "selectBtn": "Chọn",
+        "age": "{age} tuổi"
+      },
+      "service": {
+        "title": "Chọn dịch vụ",
+        "desc": "Chọn dịch vụ khám bệnh",
+        "mins": "phút"
+      },
+      "doctor": {
+        "title": "Chọn bác sĩ",
+        "desc": "Chọn thông tin bác sĩ từ hệ thống phòng khám",
+        "available": "Đang rảnh",
+        "selectedBtn": "Đã chọn",
+        "selectBtn": "Chọn",
+        "generalPractitioner": "Bác sĩ đa khoa"
+      },
+      "time": {
+        "title": "Thời gian khám",
+        "desc": "Chọn thời gian rảnh sớm nhất"
+      },
+      "summary": {
+        "title": "Tổng quan",
+        "stepProgress": "BƯỚC {current}/{total}",
+        "patientLabel": "Bệnh nhân",
+        "serviceLabel": "Dịch vụ",
+        "doctorLabel": "Bác sĩ",
+        "scheduledForLabel": "Lịch được chọn",
+        "notSelected": "Chưa chọn",
+        "editBtn": "Chỉnh sửa",
+        "changeBtn": "Thay đổi",
+        "todayAt": "Hôm nay, {time} AM",
+        "serviceFee": "Tổng phí dịch vụ",
+        "confirmBtn": "Xác nhận đặt lịch",
+        "notice": "Bằng cách xác nhận, bệnh nhân sẽ được thêm vào hàng đợi ngay lập tức."
+      },
+      "success": {
+        "title": "Đặt lịch thành công!",
+        "message": "Lịch hẹn đã được xác nhận vào hệ thống.",
+        "clinicName": "Smart Clinic",
+        "receiptTitle": "Phiếu xác nhận đặt lịch",
+        "patientLabel": "Bệnh nhân:",
+        "receptionistLabel": "Người đặt:",
+        "receptionistName": "Sarah Jenkins (Lễ tân)",
+        "printBtn": "In phiếu",
+        "newBookingBtn": "Đặt lịch mới"
+      },
+      "toasts": {
+        "fillAllSteps": "Vui lòng hoàn thành đủ các bước",
+        "patientNotFound": "Không tìm thấy bệnh nhân. Vui lòng tạo mới.",
+        "searchError": "Lỗi tìm kiếm bệnh nhân",
+        "createSuccess": "Tạo bệnh nhân thành công",
+        "createError": "Lỗi tạo bệnh nhân",
+        "bookingSuccess": "Đặt lịch thành công!",
+        "bookingError": "Lỗi đặt lịch"
+      }
+    }
   },
   "admin": {
     "title": "Quản trị viên",

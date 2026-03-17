@@ -22,8 +22,104 @@
   "receptionist": {
     "title": "Receptionist",
     "dashboard": "Dashboard",
+    "patients": "Patients",
     "checkIn": "Check-in",
-    "queue": "Queue"
+    "queue": "Queue",
+    "walkinBooking": "Walk-in Booking",
+    "reports": "Reports",
+    "greetingTitle": "Dashboard - {date} 👋",
+    "overview": "Clinic overview today",
+    "stats": {
+      "totalAppointments": "Total Appointments",
+      "checkedIn": "Checked-in",
+      "waiting": "Waiting",
+      "inQueue": "In Queue"
+    },
+    "searchCheckIn": {
+      "title": "Search & Check-in",
+      "placeholder": "Search by name, phone or booking ID...",
+      "emptyState": "Enter patient information to start check-in"
+    },
+    "liveQueue": {
+      "title": "Live Queue ({count})",
+      "promoteBtn": "Promote"
+    },
+    "upcomingAppointments": {
+      "title": "Upcoming Appointments",
+      "table": {
+        "time": "Time",
+        "patient": "Patient",
+        "service": "Service",
+        "doctor": "Doctor",
+        "status": "Status"
+      }
+    },
+    "walkinBookingForm": {
+      "pageTitle": "New Walk-in Booking",
+      "pageDescription": "Register a patient for an immediate consultation",
+      "patient": {
+        "title": "Patient Selection",
+        "desc": "Find existing patient or register new one",
+        "searchPlaceholder": "Search by name, phone of patient...",
+        "searchBtn": "Search",
+        "registerNew": "+ Register New Patient \"{searchPhone}\"",
+        "selectedBadge": "Selected",
+        "selectBtn": "Select",
+        "age": "{age} yrs"
+      },
+      "service": {
+        "title": "Select Service",
+        "desc": "Choose the clinical service requested",
+        "mins": "mins"
+      },
+      "doctor": {
+        "title": "Choose Doctor",
+        "desc": "Select from available practitioners today",
+        "available": "Available",
+        "selectedBtn": "Selected",
+        "selectBtn": "Select",
+        "generalPractitioner": "General Practitioner"
+      },
+      "time": {
+        "title": "Appointment Time",
+        "desc": "Select the earliest available time slot"
+      },
+      "summary": {
+        "title": "Booking Summary",
+        "stepProgress": "STEP {current}/{total}",
+        "patientLabel": "Patient",
+        "serviceLabel": "Service",
+        "doctorLabel": "Doctor",
+        "scheduledForLabel": "Scheduled For",
+        "notSelected": "Not selected",
+        "editBtn": "Edit",
+        "changeBtn": "Change",
+        "todayAt": "Today, {time} AM",
+        "serviceFee": "Service Fee",
+        "confirmBtn": "Confirm Walk-in Appointment",
+        "notice": "By confirming, the patient will be added to the queue immediately. Ensure all details are correct."
+      },
+      "success": {
+        "title": "Booking Successful!",
+        "message": "The appointment has been confirmed in the system.",
+        "clinicName": "Smart Clinic",
+        "receiptTitle": "Booking Confirmation Receipt",
+        "patientLabel": "Patient:",
+        "receptionistLabel": "Booked by:",
+        "receptionistName": "Sarah Jenkins (Receptionist)",
+        "printBtn": "Print Receipt",
+        "newBookingBtn": "New Booking"
+      },
+      "toasts": {
+        "fillAllSteps": "Please complete all steps",
+        "patientNotFound": "Patient not found. Please create a new one.",
+        "searchError": "Error searching for patient",
+        "createSuccess": "Patient created successfully",
+        "createError": "Error creating patient",
+        "bookingSuccess": "Booking successful!",
+        "bookingError": "Error booking"
+      }
+    }
   },
   "admin": {
     "title": "Administrator",

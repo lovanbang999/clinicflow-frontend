@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { ReceptionistDashboardLayout } from '@/components/layout/receptionist/ReceptionistDashboardLayout';
 import { RouteGuard } from '@/components/auth/RouteGuard';
 
 export default function ReceptionistLayout({
@@ -8,7 +8,7 @@ export default function ReceptionistLayout({
 }) {
   return (
     <RouteGuard allowedRoles={['RECEPTIONIST']}>
-      <DashboardLayout>{children}</DashboardLayout>
+      <ReceptionistDashboardLayout>{children}</ReceptionistDashboardLayout>
     </RouteGuard>
   );
 }
