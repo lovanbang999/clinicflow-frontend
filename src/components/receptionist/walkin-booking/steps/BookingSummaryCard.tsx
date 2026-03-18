@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useWalkinBooking } from '../WalkinBookingContext';
-import { CalendarCheckIcon, CalendarBlankIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { CalendarCheckIcon, CalendarBlankIcon, CaretRightIcon, SpinnerIcon } from '@phosphor-icons/react';
 
 export function BookingSummaryCard() {
   const t = useTranslations('dashboard.receptionist.walkinBookingForm.summary');
@@ -89,9 +89,9 @@ export function BookingSummaryCard() {
                 <button
                     onClick={handleSubmitBooking}
                     disabled={isSubmitting || !isStepDone(1) || !isStepDone(2) || !isStepDone(3) || !selectedSlot}
-                    className="w-full h-12 bg-[#1570EF] text-white rounded-[12px] text-[15px] font-bold hover:bg-[#0F5ED4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-[0_4px_12px_rgb(21,112,239,0.2)] mt-1"
+                    className="w-full h-12 bg-[#1570EF] text-white rounded-[12px] text-[15px] font-bold hover:bg-[#0F5ED4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-[0_4px_12px_rgb(21,112,239,0.2)] mt-1 cursor-pointer"
                 >
-                    {t('confirmBtn')} <CaretRightIcon weight="bold" />
+                    {isSubmitting ? <SpinnerIcon /> : t('confirmBtn')} <CaretRightIcon size={20} weight="bold" />
                 </button>
                 
                 <p className="text-[10px] text-slate-400 text-center mt-3 px-4 leading-relaxed font-medium">
