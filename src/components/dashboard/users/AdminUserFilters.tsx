@@ -14,7 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
 } from '@/components/ui/dropdown-menu';
-import { AddUserDialog } from './AddUserDialog';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types';
 
@@ -186,7 +185,7 @@ export function AdminUserFilters({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <AddUserDialog onUserAdded={onUserAdded} />
+        {/* <AddUserDialog onUserAdded={onUserAdded} /> */}
       </div>
     </div>
   );

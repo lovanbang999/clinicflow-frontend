@@ -15,6 +15,10 @@ export interface User {
   address?: string;
   createdAt: string;
   updatedAt: string;
+  patientProfile?: {
+    id: string;
+    patientCode: string;
+  };
 }
 
 export interface UpdateProfileDto {

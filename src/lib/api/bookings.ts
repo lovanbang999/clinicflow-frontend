@@ -4,13 +4,13 @@ import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus } from
 export const bookingsApi = {
   // Get all bookings (with filters)
   getAll: async (params?: {
-    status?: BookingStatus;
+    status?: BookingStatus | string;
     doctorId?: string;
-    patientId?: string;
+    patientProfileId?: string;
     date?: string;
-  }): Promise<Booking[]> => {
-    const response = await apiClient.get<Booking[]>('/bookings', { params });
-    return response.data;
+  }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> }> => {
+    const response = await apiClient.get<{ data: { bookings: Booking[], pagination: Record<string, unknown> } }>('/bookings', { params });
+    return response.data.data;
   },
 
   // Get my bookings (patient)

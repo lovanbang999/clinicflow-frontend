@@ -34,16 +34,16 @@ export function useBookings() {
 
   // Fetch all bookings with filters
   const fetchBookings = useCallback(async (params?: {
-    status?: BookingStatus;
+    status?: BookingStatus | string;
     doctorId?: string;
-    patientId?: string;
+    patientProfileId?: string;
     date?: string;
-  }): Promise<Booking[]> => {
+  }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> } | null> => {
     try {
       setIsLoading(true);
       setError(null);
       const data = await bookingsApi.getAll(params);
-      setBookings(data);
+      setBookings(data.bookings);
       return data;
     } catch (err) {
       const error = err as Error;
@@ -55,7 +55,7 @@ export function useBookings() {
         : 'Failed to load bookings';
       
       toast.error(errorMessage);
-      return [];
+      return null;
     } finally {
       setIsLoading(false);
     }

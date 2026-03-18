@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useBookingStore } from '@/lib/store/bookingStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useBookings } from '@/lib/hooks/useBookings';
+import { usersApi } from '@/lib/api/users';
 import { Calendar, Clock, FileText, Stethoscope, DollarSign, Loader2, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter } from '@/i18n/navigation';
@@ -34,7 +35,19 @@ export function BookingConfirmation() {
       return;
     }
 
-    if (!user?.id) {
+    let profileId = user?.patientProfile?.id;
+
+    if (!profileId && user) {
+      try {
+        const freshProfile = await usersApi.getMyProfile();
+        useAuthStore.getState().setUser(freshProfile);
+        profileId = freshProfile.patientProfile?.id;
+      } catch (error) {
+        console.error('Failed to auto-fetch profile', error);
+      }
+    }
+
+    if (!profileId) {
       toast.error(t('loginToBook'));
       return;
     }
@@ -42,7 +55,7 @@ export function BookingConfirmation() {
     const bookingDate = formatDate(selectedDate, 'yyyy-MM-dd');
 
     const booking = await createBooking({
-      patientId: user.id,
+      patientProfileId: profileId,
       doctorId: selectedDoctor.id,
       serviceId: selectedService.id,
       bookingDate,
