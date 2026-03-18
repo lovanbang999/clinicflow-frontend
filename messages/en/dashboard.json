@@ -40,6 +40,40 @@
       "placeholder": "Search by name, phone or booking ID...",
       "emptyState": "Enter patient information to start check-in"
     },
+    "checkInManagement": {
+      "title": "Check-in Dashboard",
+      "searchPlaceholder": "Search patient or record...",
+      "stats": {
+        "pending": "Pending Approval",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "today": "Today",
+        "allDoctors": "All Doctors"
+      },
+      "table": {
+        "time": "Time",
+        "patient": "Patient",
+        "doctor": "Doctor",
+        "service": "Service",
+        "status": "Status",
+        "actions": "Actions",
+        "confirmBtn": "Confirm",
+        "noData": "No appointments found"
+      },
+      "pagination": "Showing {start} to {end} of {total} {status}",
+      "cancelModal": {
+        "title": "Cancel Appointment",
+        "description": "Please provide a reason for cancelling this appointment. This action cannot be undone.",
+        "reasonLabel": "Cancellation Reason",
+        "reasonPlaceholder": "e.g., Patient requested cancellation, Scheduling conflict...",
+        "cancelBtn": "Keep Appointment",
+        "confirmCancelBtn": "Cancel Appointment",
+        "success": "Appointment cancelled successfully"
+      }
+    },
     "liveQueue": {
       "title": "Live Queue ({count})",
       "promoteBtn": "Promote"

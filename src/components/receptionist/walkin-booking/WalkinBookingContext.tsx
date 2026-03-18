@@ -165,7 +165,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setIsSubmitting(true);
     try {
         const booking = await bookingsApi.createReceptionistBooking({
-            patientId: selectedPatient.id,
+            patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id, // Fallback if profile not loaded
             serviceId: selectedService.id,
             doctorId: selectedDoctor.id,
             bookingDate: format(selectedDate, 'yyyy-MM-dd'),

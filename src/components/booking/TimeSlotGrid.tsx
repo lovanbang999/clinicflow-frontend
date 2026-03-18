@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Clock, Loader2, Sun, Sunset } from 'lucide-react';
 import { useBookingStore } from '@/lib/store/bookingStore';
 import { schedulesApi } from '@/lib/api/schedules';
+import { usersApi } from '@/lib/api/users';
 import { formatDate } from 'date-fns';
 import { useAuthStore } from '@/lib/store/authStore';
 import { toast } from 'sonner';
@@ -41,9 +42,23 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
         // Format date as YYYY-MM-DD
         const dateStr = formatDate(selectedDate, 'yyyy-MM-dd');
         
-        if (!user?.id) {
+        let profileId = user?.patientProfile?.id;
+
+        if (!profileId && user) {
+          try {
+            const profile = await usersApi.getMyProfile();
+            useAuthStore.getState().setUser(profile);
+            profileId = profile.patientProfile?.id;
+          } catch (err) {
+            console.error('Failed to fetch profile in TimeSlotGrid:', err);
+          }
+        }
+
+        if (!profileId) {
           toast.error(t('loginRequired'));
           setTimeSlots([]);
+          // router.push('/login'); // Avoid forcing navigation if just browsing as guest, wait, TimeSlotGrid should just show empty or default?
+          // Actually, if we require login to see slots, pushing to login is somewhat jarring but let's keep it consistent.
           router.push('/login');
           return;
         }
@@ -51,7 +66,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
         // Fetch available slots from API
         const slots = await schedulesApi.getAvailableSlots({
           doctorId: selectedDoctor.id,
-          patientId: user.id,
+          patientProfileId: profileId,
           date: dateStr,
           serviceId: selectedService.id,
         });
@@ -73,7 +88,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
     };
 
     fetchTimeSlots();
-  }, [router, selectedDate, selectedDoctor, selectedService, user?.id, t]);
+  }, [router, selectedDate, selectedDoctor, selectedService, user, user?.patientProfile?.id, t]);
 
   const generateDefaultTimeSlots = (): TimeSlot[] => {
     const slots: TimeSlot[] = [];

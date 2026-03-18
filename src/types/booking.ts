@@ -11,7 +11,7 @@ export enum BookingStatus {
 
 export interface Booking {
   id: string;
-  patientId: string;
+  patientProfileId: string;
   doctorId: string;
   serviceId: string;
   bookingDate: string;
@@ -24,7 +24,7 @@ export interface Booking {
   updatedAt: string;
   
   // Populated fields
-  patient?: {
+  patientProfile?: {
     id: string;
     fullName: string;
     phone: string;
@@ -51,7 +51,7 @@ export interface QueueRecord {
 }
 
 export interface CreateBookingDto {
-  patientId: string;
+  patientProfileId: string;
   doctorId: string;
   serviceId: string;
   bookingDate: string;

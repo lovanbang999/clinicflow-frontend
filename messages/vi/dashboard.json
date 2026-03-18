@@ -40,6 +40,40 @@
       "placeholder": "Tìm theo Tên, SĐT, Mã lịch...",
       "emptyState": "Nhập thông tin bệnh nhân để bắt đầu Check-in"
     },
+    "checkInManagement": {
+      "title": "Bảng Điều Khiển Lịch Khám",
+      "searchPlaceholder": "Tìm bệnh nhân hoặc lịch hẹn...",
+      "stats": {
+        "pending": "Chờ xác nhận",
+        "confirmed": "Đã xác nhận",
+        "completed": "Hoàn thành",
+        "cancelled": "Đã hủy"
+      },
+      "filters": {
+        "today": "Hôm nay",
+        "allDoctors": "Tất cả bác sĩ"
+      },
+      "table": {
+        "time": "Thời gian",
+        "patient": "Bệnh nhân",
+        "doctor": "Bác sĩ",
+        "service": "Dịch vụ",
+        "status": "Trạng thái",
+        "actions": "Thao tác",
+        "confirmBtn": "Xác nhận",
+        "noData": "Không có lịch hẹn nào"
+      },
+      "pagination": "Hiển thị {start} đến {end} trong số {total} {status}",
+      "cancelModal": {
+        "title": "Hủy lịch hẹn",
+        "description": "Vui lòng nhập lý do hủy lịch hẹn. Không thể hoàn tác hành động này.",
+        "reasonLabel": "Lý do hủy",
+        "reasonPlaceholder": "VD: Bệnh nhân yêu cầu hủy, Trùng thời gian...",
+        "cancelBtn": "Giữ lịch hẹn",
+        "confirmCancelBtn": "Xác nhận hủy",
+        "success": "Hủy lịch hẹn thành công"
+      }
+    },
     "liveQueue": {
       "title": "Hàng đợi Live ({count})",
       "promoteBtn": "Ưu tiên"
