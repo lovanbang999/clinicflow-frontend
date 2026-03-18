@@ -14,17 +14,24 @@ interface WalkinBookingContextType {
   currentStep: number;
   setCurrentStep: (step: number) => void;
   // Patient Selection
-  searchPhone: string;
-  setSearchPhone: (phone: string) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   isSearching: boolean;
   selectedPatient: User | null;
   searchResults: User[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+  setPage: (page: number) => void;
   showCreateForm: boolean;
   setShowCreateForm: (show: boolean) => void;
-  newPatient: { fullName: string; phone: string; gender: 'MALE' | 'FEMALE' | 'OTHER' };
-  setNewPatient: React.Dispatch<React.SetStateAction<{ fullName: string; phone: string; gender: 'MALE' | 'FEMALE' | 'OTHER' }>>;
+  newPatient: { fullName: string; phone: string; email: string; gender: 'MALE' | 'FEMALE' | 'OTHER'; isGuest: boolean; address: string; dateOfBirth: string; nationalId: string; bloodType: string };
+  setNewPatient: React.Dispatch<React.SetStateAction<{ fullName: string; phone: string; email: string; gender: 'MALE' | 'FEMALE' | 'OTHER'; isGuest: boolean; address: string; dateOfBirth: string; nationalId: string; bloodType: string }>>;
   isCreatingPatient: boolean;
-  handleSearchPatient: () => Promise<void>;
+  handleSearchPatient: (page?: number) => Promise<void>;
   handleCreatePatient: (e: React.FormEvent) => Promise<void>;
   selectPatient: (patient: User) => void;
   
@@ -61,17 +68,29 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const [currentStep, setCurrentStep] = useState(1);
 
   // Patient Selection
-  const [searchPhone, setSearchPhone] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
   const [searchResults, setSearchResults] = useState<User[]>([]);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    limit: 5,
+    totalPages: 0,
+  });
 
   // Quick Create Patient
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newPatient, setNewPatient] = useState({
     fullName: '',
     phone: '',
+    email: '',
     gender: 'MALE' as 'MALE' | 'FEMALE' | 'OTHER',
+    isGuest: false,
+    address: '',
+    dateOfBirth: '',
+    nationalId: '',
+    bloodType: '',
   });
   const [isCreatingPatient, setIsCreatingPatient] = useState(false);
 
@@ -88,22 +107,25 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedBooking, setCompletedBooking] = useState<Booking | null>(null);
 
-  // Load Services and Doctors on mount
+  // Load initial data on mount
   useEffect(() => {
     servicesApi.getAll({ isActive: true }).then(setServices).catch(console.error);
     doctorsApi.getAll({}).then(setDoctors).catch(console.error);
+    usersApi.searchPatients('', 1, 5).then((res) => {
+      setSearchResults(res.users);
+      setPagination(res.pagination);
+    }).catch(console.error);
   }, []);
 
-  const handleSearchPatient = async () => {
-    if (!searchPhone) return;
+  const handleSearchPatient = async (page: number = 1) => {
     setIsSearching(true);
     try {
-      const results = await usersApi.searchPatients(searchPhone);
-      setSearchResults(results);
-      if (results.length === 0) {
-        toast.error(t('toasts.patientNotFound'));
-        setShowCreateForm(true);
-        setNewPatient(prev => ({ ...prev, phone: searchPhone }));
+      const response = await usersApi.searchPatients(searchQuery, page, 5);
+      setSearchResults(response.users);
+      setPagination(response.pagination);
+      
+      if (response.users.length === 0 && searchQuery) {
+        setShowCreateForm(false);
       } else {
         setShowCreateForm(false);
       }
@@ -115,11 +137,18 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const setPage = (pageNumber: number) => {
+    handleSearchPatient(pageNumber);
+  };
+
   const handleCreatePatient = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsCreatingPatient(true);
     try {
-      const created = await usersApi.quickCreatePatient(newPatient);
+      const created = newPatient.isGuest
+        ? await usersApi.createGuestPatient(newPatient)
+        : await usersApi.registerPatient(newPatient);
+
       selectPatient(created);
       toast.success(t('toasts.createSuccess'));
     } catch (err) {
@@ -185,7 +214,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const handleReset = () => {
     setCurrentStep(1);
     setSelectedPatient(null);
-    setSearchPhone('');
+    setSearchQuery('');
     setSearchResults([]);
     setShowCreateForm(false);
     setSelectedService(null);
@@ -213,7 +242,8 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     <WalkinBookingContext.Provider
       value={{
         currentStep, setCurrentStep,
-        searchPhone, setSearchPhone, isSearching, selectedPatient, searchResults,
+        searchQuery, setSearchQuery, isSearching, selectedPatient, searchResults,
+        pagination, setPage,
         showCreateForm, setShowCreateForm, newPatient, setNewPatient, isCreatingPatient,
         handleSearchPatient, handleCreatePatient, selectPatient,
         services, doctors, selectedService, selectService, selectedDoctor, setSelectedDoctor,

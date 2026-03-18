@@ -3,12 +3,28 @@ import { apiClient } from './client';
 import { ApiResponse, User, UpdateProfileDto, ChangePasswordDto, UsersListResponse } from '@/types';
 import { ApiError } from 'next/dist/server/api-utils';
 
-export interface QuickCreatePatientDto {
+export interface RegisterPatientDto {
+  fullName: string;
+  phone: string;
+  email: string;
+  dateOfBirth?: string;
+  gender?: 'MALE' | 'FEMALE' | 'OTHER';
+  address?: string;
+  nationalId?: string;
+  bloodType?: string;
+}
+
+export interface CreateGuestPatientDto {
   fullName: string;
   phone: string;
   dateOfBirth?: string;
   gender?: 'MALE' | 'FEMALE' | 'OTHER';
+  address?: string;
+  nationalId?: string;
+  bloodType?: string;
 }
+
+export type QuickCreatePatientDto = RegisterPatientDto | CreateGuestPatientDto;
 
 export const usersApi = {
   // Get current user profile
@@ -88,13 +104,13 @@ export const usersApi = {
     }
   },
 
-  // Search patients
-  searchPatients: async (search: string): Promise<User[]> => {
+  // Search patients (includes both accounts and guests for RECEPTIONIST/ADMIN)
+  searchPatients: async (search: string, page: number = 1, limit: number = 5): Promise<UsersListResponse> => {
     try {
-      const response = await apiClient.get<ApiResponse<UsersListResponse>>('/users', {
-        params: { role: 'PATIENT', search, limit: 10 },
+      const response = await apiClient.get<ApiResponse<UsersListResponse>>('/users/receptionist/patients', {
+        params: { search, page, limit },
       });
-      return response.data.data?.users || [];
+      return response.data.data || { users: [], pagination: { total: 0, page: 1, limit: 5, totalPages: 0 } };
     } catch (error) {
       if (error instanceof AxiosError && error.response?.data) {
         throw error.response.data as ApiError;
@@ -103,12 +119,33 @@ export const usersApi = {
     }
   },
 
-  // Quick create patient
-  quickCreatePatient: async (data: QuickCreatePatientDto): Promise<User> => {
+  // Create patient with system account
+  registerPatient: async (data: RegisterPatientDto): Promise<User> => {
     try {
-      const response = await apiClient.post<ApiResponse<User>>('/users/receptionist/patients/quick-create', data);
+      const { isGuest, ...payload } = data as RegisterPatientDto & { isGuest?: boolean };
+      void isGuest; // Silence unused warning
+      const response = await apiClient.post<ApiResponse<User>>('/users/receptionist/patients/account', payload);
       if (!response.data.data) {
-        throw new Error('Failed to create patient');
+        throw new Error('Failed to register patient');
+      }
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data as ApiError;
+      }
+      throw error;
+    }
+  },
+
+  // Create guest patient profile
+  createGuestPatient: async (data: CreateGuestPatientDto): Promise<User> => {
+    try {
+      const { isGuest, email, ...payload } = data as CreateGuestPatientDto & { isGuest?: boolean; email?: string };
+      void isGuest; // Silence unused warning
+      void email;   // Silence unused warning
+      const response = await apiClient.post<ApiResponse<User>>('/users/receptionist/patients/guest', payload);
+      if (!response.data.data) {
+        throw new Error('Failed to create guest patient');
       }
       return response.data.data;
     } catch (error) {
