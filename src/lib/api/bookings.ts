@@ -1,6 +1,19 @@
 import { apiClient } from './client';
 import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus } from '@/types';
 
+export interface StatTrend {
+  value: number;
+  trend: number;
+  trendDir: 'up' | 'down' | 'neutral';
+}
+
+export interface ReceptionistStatsResponse {
+  pending: StatTrend;
+  confirmed: StatTrend;
+  completed: StatTrend;
+  cancelled: StatTrend;
+}
+
 export const bookingsApi = {
   // Get all bookings (with filters)
   getAll: async (params?: {
@@ -71,6 +84,12 @@ export const bookingsApi = {
   // Mark as no-show (doctor)
   markNoShow: async (id: string): Promise<Booking> => {
     const response = await apiClient.patch<{ data: Booking }>(`/bookings/${id}/no-show`);
+    return response.data.data;
+  },
+
+  // Get receptionist check-in stats
+  getReceptionistStats: async (): Promise<ReceptionistStatsResponse> => {
+    const response = await apiClient.get<{ data: ReceptionistStatsResponse }>('/bookings/dashboard/receptionist-stats');
     return response.data.data;
   },
 };
