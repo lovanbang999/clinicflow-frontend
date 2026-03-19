@@ -13,20 +13,60 @@
     "totalVisits": "Total Visits",
     "nextAppointment": "Next Appointment"
   },
+  "queue": {
+    "boardTitle": "Live Queue - {doctor}",
+    "selectDoctor": "Please select a doctor to view the queue",
+    "noData": "No patients currently in queue",
+    "callPatient": "Call Patient",
+    "markNoShow": "Mark No-show",
+    "completeVisit": "Finish Visit",
+    "status": {
+      "waiting": "Waiting",
+      "examining": "Examining",
+      "completed": "Completed",
+      "noShow": "No-show"
+    },
+    "timeUnit": {
+      "minutes": "min"
+    },
+    "stats": {
+      "totalInQueue": "Total in Queue",
+      "avgWaitTime": "Avg. Wait Time"
+    },
+    "table": {
+      "stt": "STT",
+      "patient": "Patient",
+      "status": "Status",
+      "waitTime": "Wait Time",
+      "actions": "Actions"
+    }
+  },
   "doctor": {
     "title": "Doctor",
+    "dashboard": "Dashboard",
+    "greeting": "Hello {name}, you have patients waiting",
     "schedule": "Schedule",
     "patients": "Patients",
-    "settings": "Settings"
+    "settings": "Settings",
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for does not exist or has been moved.",
+      "backToDashboard": "Back to Dashboard"
+    }
   },
   "receptionist": {
     "title": "Receptionist",
     "dashboard": "Dashboard",
     "patients": "Patients",
     "checkIn": "Check-in",
-    "queue": "Queue",
     "walkinBooking": "Walk-in Booking",
+    "queue": "Queue",
     "reports": "Reports",
+    "queueManagement": {
+      "title": "Live Queue Management",
+      "overview": "Monitor and manage live patient check-ins",
+      "chooseDoctor": "Doctor selection"
+    },
     "greetingTitle": "Dashboard - {date} 👋",
     "overview": "Clinic overview today",
     "stats": {

@@ -13,20 +13,60 @@
     "totalVisits": "Tổng lượt khám",
     "nextAppointment": "Lịch hẹn sắp tới"
   },
+  "queue": {
+    "boardTitle": "Hàng Đợi Khám - {doctor}",
+    "selectDoctor": "Vui lòng chọn bác sĩ để xem hàng đợi",
+    "noData": "Hiện không có bệnh nhân nào trong hàng đợi",
+    "callPatient": "Mời vào khám",
+    "markNoShow": "Đánh dấu vắng",
+    "completeVisit": "Kết thúc khám",
+    "status": {
+      "waiting": "Chờ khám",
+      "examining": "Đang khám",
+      "completed": "Đã khám",
+      "noShow": "Vắng mặt"
+    },
+    "timeUnit": {
+      "minutes": "phút"
+    },
+    "stats": {
+      "totalInQueue": "Tổng hàng đợi",
+      "avgWaitTime": "T.gian chờ TB"
+    },
+    "table": {
+      "stt": "STT",
+      "patient": "Bệnh nhân",
+      "status": "Trạng thái",
+      "waitTime": "T.gian chờ",
+      "actions": "Thao tác"
+    }
+  },
   "doctor": {
     "title": "Bác sĩ",
+    "dashboard": "Tổng quan",
+    "greeting": "Xin chào {name}, bạn có bệnh nhân đang chờ",
     "schedule": "Lịch làm việc",
     "patients": "Bệnh nhân",
-    "settings": "Cài đặt"
+    "settings": "Cài đặt",
+    "notFound": {
+      "title": "Không tìm thấy trang",
+      "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
+      "backToDashboard": "Quay lại Bảng điều khiển"
+    }
   },
   "receptionist": {
     "title": "Lễ tân",
     "dashboard": "Tổng quan",
     "patients": "Bệnh nhân",
     "checkIn": "Check-in",
-    "queue": "Hàng đợi",
     "walkinBooking": "Đặt lịch khám",
+    "queue": "Hàng đợi",
     "reports": "Báo cáo",
+    "queueManagement": {
+      "title": "Quản lý Hàng Đợi Trực Tiếp",
+      "overview": "Theo dõi và quản lý bệnh nhân vào khám theo thời gian thực",
+      "chooseDoctor": "Chọn bác sĩ"
+    },
     "greetingTitle": "Tổng quan - {date} 👋",
     "overview": "Tình hình phòng khám hôm nay",
     "stats": {
