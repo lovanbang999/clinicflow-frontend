@@ -38,6 +38,7 @@ export function useBookings() {
     doctorId?: string;
     patientProfileId?: string;
     date?: string;
+    search?: string;
   }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> } | null> => {
     try {
       setIsLoading(true);
@@ -154,6 +155,27 @@ export function useBookings() {
     }
   }, []);
 
+  // Check-in patient
+  const checkInPatient = useCallback(async (id: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await bookingsApi.checkIn(id);
+      return data;
+    } catch (err) {
+      const error = err as Error;
+      setError(error);
+      const errorMessage = error && 'response' in error
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ? (error as any).response?.data?.message
+        : 'Failed to check-in patient';
+      toast.error(errorMessage);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     bookings,
     isLoading,
@@ -164,5 +186,6 @@ export function useBookings() {
     cancelBooking,
     getBookingById,
     fetchReceptionistStats,
+    checkInPatient,
   };
 }

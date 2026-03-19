@@ -10,6 +10,7 @@ import {
   CaretRightIcon,
   UserCircleIcon,
   XIcon,
+  MagnifyingGlassIcon,
 } from '@phosphor-icons/react';
 import { Booking, BookingStatus } from '@/types';
 import { BookingTableBody } from './BookingTableBody';
@@ -30,7 +31,10 @@ interface AppointmentsTableProps {
   activeStatusTab: BookingStatus | string;
   onCancelBookingClick: (booking: Booking) => void;
   onConfirmBookingClick: (booking: Booking) => void;
+  onCheckInClick: (booking: Booking) => void;
   // Filter props
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
   selectedDate: string;
   onDateChange: (date: string) => void;
   selectedDoctorId: string;
@@ -47,6 +51,9 @@ export function AppointmentsTable({
   activeStatusTab,
   onCancelBookingClick,
   onConfirmBookingClick,
+  onCheckInClick,
+  searchQuery,
+  onSearchChange,
   selectedDate,
   onDateChange,
   selectedDoctorId,
@@ -109,6 +116,22 @@ export function AppointmentsTable({
 
       {/* Tab Filters + Controls */}
       <div className="p-4 border-b border-slate-100 flex flex-col gap-4">
+        
+        {/* Search Bar */}
+        <div className="relative w-full md:w-96">
+          <MagnifyingGlassIcon
+            size={18}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+          />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder={t('searchPlaceholder')}
+            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1570EF]/20 focus:border-[#1570EF] transition-all"
+          />
+        </div>
+
         <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
 
           {/* Status Tabs */}
@@ -297,6 +320,7 @@ export function AppointmentsTable({
               bookings={bookings}
               onConfirm={onConfirmBookingClick}
               onCancel={onCancelBookingClick}
+              onCheckIn={onCheckInClick}
             />
           </tbody>
         </table>
