@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { bookingsApi } from '@/lib/api/bookings';
+import { bookingsApi, ReceptionistStatsResponse } from '../api/bookings';
 import { CreateBookingDto, Booking, BookingStatus } from '@/types';
 import { toast } from 'sonner';
 
@@ -132,6 +132,28 @@ export function useBookings() {
     }
   }, []);
 
+  // Fetch receptionist check-in stats
+  const fetchReceptionistStats = useCallback(async (): Promise<ReceptionistStatsResponse | null> => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      return await bookingsApi.getReceptionistStats();
+    } catch (err) {
+      const error = err as Error;
+      setError(error);
+      
+      const errorMessage = error && 'response' in error
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ? (error as any).response?.data?.message
+        : 'Failed to load booking statistics';
+      
+      toast.error(errorMessage);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     bookings,
     isLoading,
@@ -141,5 +163,6 @@ export function useBookings() {
     createBooking,
     cancelBooking,
     getBookingById,
+    fetchReceptionistStats,
   };
 }

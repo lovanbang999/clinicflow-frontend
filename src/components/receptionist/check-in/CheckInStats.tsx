@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { TrendUpIcon, TrendDownIcon } from '@phosphor-icons/react';
+import { StatTrend } from '@/lib/api/bookings';
 
 interface StatCardProps {
   label: string;
@@ -33,21 +34,41 @@ function StatCard({ label, value, trend, trendDir = 'neutral' }: StatCardProps) 
 }
 
 interface CheckInStatsProps {
-  pending?: number;
-  confirmed?: number;
-  completed?: number;
-  cancelled?: number;
+  pending?: StatTrend;
+  confirmed?: StatTrend;
+  completed?: StatTrend;
+  cancelled?: StatTrend;
 }
 
-export function CheckInStats({ pending = 0, confirmed = 0, completed = 0, cancelled = 0 }: CheckInStatsProps) {
+export function CheckInStats({ pending, confirmed, completed, cancelled }: CheckInStatsProps) {
   const t = useTranslations('dashboard.receptionist.checkInManagement.stats');
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <StatCard label={t('pending')} value={pending} trend={2} trendDir="up" />
-      <StatCard label={t('confirmed')} value={confirmed} trend={5} trendDir="up" />
-      <StatCard label={t('completed')} value={completed} trend={1} trendDir="down" />
-      <StatCard label={t('cancelled')} value={cancelled} trendDir="neutral" />
+      <StatCard 
+        label={t('pending')} 
+        value={pending?.value ?? 0} 
+        trend={pending?.trend} 
+        trendDir={pending?.trendDir} 
+      />
+      <StatCard 
+        label={t('confirmed')} 
+        value={confirmed?.value ?? 0} 
+        trend={confirmed?.trend} 
+        trendDir={confirmed?.trendDir} 
+      />
+      <StatCard 
+        label={t('completed')} 
+        value={completed?.value ?? 0} 
+        trend={completed?.trend} 
+        trendDir={completed?.trendDir} 
+      />
+      <StatCard 
+        label={t('cancelled')} 
+        value={cancelled?.value ?? 0} 
+        trend={cancelled?.trend} 
+        trendDir={cancelled?.trendDir} 
+      />
     </div>
   );
 }

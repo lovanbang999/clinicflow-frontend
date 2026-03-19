@@ -10,7 +10,7 @@ import { AppointmentsTable } from '@/components/receptionist/check-in/Appointmen
 import { CancelBookingModal } from '@/components/receptionist/check-in/CancelBookingModal';
 import { ConfirmBookingModal } from '@/components/receptionist/check-in/ConfirmBookingModal';
 import { toast } from 'sonner';
-import { bookingsApi } from '@/lib/api/bookings';
+import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/bookings';
 import { doctorsApi } from '@/lib/api/doctors';
 
 interface DoctorOption {
@@ -20,13 +20,16 @@ interface DoctorOption {
 
 export default function ReceptionistCheckInPage() {
   const t = useTranslations('dashboard.receptionist.checkInManagement');
-  const { fetchBookings, cancelBooking } = useBookings();
+  const { fetchBookings, cancelBooking, fetchReceptionistStats } = useBookings();
 
   // Table state
   const [activeTab, setActiveTab] = useState<BookingStatus | string>(BookingStatus.PENDING);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBookings, setTotalBookings] = useState(0);
   const [bookings, setBookings] = useState<Booking[]>([]);
+
+  // Stats state
+  const [stats, setStats] = useState<ReceptionistStatsResponse | null>(null);
 
   // Filter state — default date is today
   const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
@@ -68,11 +71,19 @@ export default function ReceptionistCheckInPage() {
     }
   }, [activeTab, currentPage, selectedDate, selectedDoctorId, fetchBookings]);
 
+  const loadStats = useCallback(async () => {
+    const data = await fetchReceptionistStats();
+    if (data) {
+      setStats(data);
+    }
+  }, [fetchReceptionistStats]);
+
   useEffect(() => {
     loadBookings();
-  }, [loadBookings]);
+    loadStats();
+  }, [loadBookings, loadStats]);
 
-  // ── Filter handlers (reset page to 1 on filter change) ──────────────────
+  // Filter handlers (reset page to 1 on filter change)
 
   const handleStatusFilter = (status: BookingStatus | string) => {
     setActiveTab(status);
@@ -89,7 +100,7 @@ export default function ReceptionistCheckInPage() {
     setCurrentPage(1);
   };
 
-  // ── Cancel booking ───────────────────────────────────────────────────────
+  // Cancel booking
 
   const handleCancelClick = (booking: Booking) => {
     setBookingToCancel(booking);
@@ -106,13 +117,14 @@ export default function ReceptionistCheckInPage() {
         setIsCancelModalOpen(false);
         setBookingToCancel(null);
         loadBookings();
+        loadStats();
       }
     } finally {
       setIsCancelling(false);
     }
   };
 
-  // ── Confirm booking ──────────────────────────────────────────────────────
+  // Confirm booking
 
   const handleConfirmClick = (booking: Booking) => {
     setBookingToConfirm(booking);
@@ -128,6 +140,7 @@ export default function ReceptionistCheckInPage() {
       setIsConfirmModalOpen(false);
       setBookingToConfirm(null);
       loadBookings();
+      loadStats();
     } catch {
       toast.error(t('confirmModal.error'));
     } finally {
@@ -141,7 +154,12 @@ export default function ReceptionistCheckInPage() {
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto w-full p-8">
         {/* Stats */}
-        <CheckInStats />
+        <CheckInStats 
+          pending={stats?.pending}
+          confirmed={stats?.confirmed}
+          completed={stats?.completed}
+          cancelled={stats?.cancelled}
+        />
 
         {/* Filter & Table Area */}
         <AppointmentsTable
