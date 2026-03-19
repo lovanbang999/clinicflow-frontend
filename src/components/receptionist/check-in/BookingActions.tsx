@@ -8,9 +8,10 @@ interface BookingActionsProps {
   booking: Booking;
   onConfirm: (booking: Booking) => void;
   onCancel: (booking: Booking) => void;
+  onCheckIn: (booking: Booking) => void;
 }
 
-export function BookingActions({ booking, onConfirm, onCancel }: BookingActionsProps) {
+export function BookingActions({ booking, onConfirm, onCancel, onCheckIn }: BookingActionsProps) {
   const t = useTranslations('dashboard.receptionist.checkInManagement.table');
 
   if (booking.status === BookingStatus.PENDING) {
@@ -36,10 +37,10 @@ export function BookingActions({ booking, onConfirm, onCancel }: BookingActionsP
     return (
       <div className="flex items-center justify-center gap-2">
         <button
-          disabled
-          className="bg-slate-100 text-slate-400 text-xs font-bold px-3 py-1.5 rounded-lg cursor-not-allowed w-20 justify-center flex items-center"
+          onClick={(e) => { e.stopPropagation(); onCheckIn(booking); }}
+          className="bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition-colors cursor-pointer w-20 justify-center flex items-center"
         >
-          {t('confirmedLabel')}
+          {t('checkInBtn')}
         </button>
         <button
           onClick={(e) => { e.stopPropagation(); onCancel(booking); }}

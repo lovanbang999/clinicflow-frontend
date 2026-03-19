@@ -20,7 +20,7 @@ interface DoctorOption {
 
 export default function ReceptionistCheckInPage() {
   const t = useTranslations('dashboard.receptionist.checkInManagement');
-  const { fetchBookings, cancelBooking, fetchReceptionistStats } = useBookings();
+  const { fetchBookings, cancelBooking, fetchReceptionistStats, checkInPatient } = useBookings();
 
   // Table state
   const [activeTab, setActiveTab] = useState<BookingStatus | string>(BookingStatus.PENDING);
@@ -32,6 +32,7 @@ export default function ReceptionistCheckInPage() {
   const [stats, setStats] = useState<ReceptionistStatsResponse | null>(null);
 
   // Filter state — default date is today
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
@@ -62,6 +63,7 @@ export default function ReceptionistCheckInPage() {
       limit: 10,
       ...(selectedDate ? { date: selectedDate } : {}),
       ...(selectedDoctorId ? { doctorId: selectedDoctorId } : {}),
+      ...(searchQuery ? { search: searchQuery } : {}),
     } as Parameters<typeof fetchBookings>[0]);
 
     if (data) {
@@ -69,7 +71,7 @@ export default function ReceptionistCheckInPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setTotalBookings((data.pagination as any).total || 0);
     }
-  }, [activeTab, currentPage, selectedDate, selectedDoctorId, fetchBookings]);
+  }, [activeTab, currentPage, selectedDate, selectedDoctorId, searchQuery, fetchBookings]);
 
   const loadStats = useCallback(async () => {
     const data = await fetchReceptionistStats();
@@ -79,9 +81,17 @@ export default function ReceptionistCheckInPage() {
   }, [fetchReceptionistStats]);
 
   useEffect(() => {
-    loadBookings();
+    // Add debounce for search query
+    const timeoutId = setTimeout(() => {
+      loadBookings();
+    }, 300);
+    
+    return () => clearTimeout(timeoutId);
+  }, [loadBookings]);
+  
+  useEffect(() => {
     loadStats();
-  }, [loadBookings, loadStats]);
+  }, [loadStats]);
 
   // Filter handlers (reset page to 1 on filter change)
 
@@ -148,6 +158,22 @@ export default function ReceptionistCheckInPage() {
     }
   };
 
+  // Check-in Booking
+  const handleCheckInClick = async (booking: Booking) => {
+    const result = await checkInPatient(booking.id);
+    if (result) {
+      toast.success(
+        <div className="flex flex-col gap-1">
+          <p className="font-semibold text-emerald-800">Bệnh nhân đã được Check-in!</p>
+          <p className="text-sm">STT: <span className="font-bold">{result.queue?.queuePosition}</span></p>
+          <p className="text-sm">Thời gian chờ dự kiến: {result.queue?.estimatedWaitMinutes} phút</p>
+        </div>
+      );
+      loadBookings();
+      loadStats();
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-slate-50/50">
 
@@ -171,6 +197,9 @@ export default function ReceptionistCheckInPage() {
           onStatusFilter={handleStatusFilter}
           onCancelBookingClick={handleCancelClick}
           onConfirmBookingClick={handleConfirmClick}
+          onCheckInClick={handleCheckInClick}
+          searchQuery={searchQuery}
+          onSearchChange={(q) => { setSearchQuery(q); setCurrentPage(1); }}
           selectedDate={selectedDate}
           onDateChange={handleDateChange}
           selectedDoctorId={selectedDoctorId}

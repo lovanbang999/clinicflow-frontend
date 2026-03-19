@@ -67,6 +67,7 @@
         "actions": "Actions",
         "confirmBtn": "Confirm",
         "cancelBtn": "Cancel",
+        "checkInBtn": "Check-in",
         "confirmedLabel": "Confirmed",
         "noActions": "No Actions",
         "noData": "No appointments found"

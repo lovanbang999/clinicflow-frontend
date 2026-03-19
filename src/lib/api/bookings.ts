@@ -21,6 +21,7 @@ export const bookingsApi = {
     doctorId?: string;
     patientProfileId?: string;
     date?: string;
+    search?: string;
   }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> }> => {
     const response = await apiClient.get<{ data: { bookings: Booking[], pagination: Record<string, unknown> } }>('/bookings', { params });
     return response.data.data;
@@ -64,8 +65,8 @@ export const bookingsApi = {
   },
 
   // Check-in booking (receptionist)
-  checkIn: async (id: string): Promise<Booking> => {
-    const response = await apiClient.patch<{ data: Booking }>(`/bookings/${id}/check-in`);
+  checkIn: async (id: string): Promise<{ booking: Booking; queue: { queuePosition: number; estimatedWaitMinutes: number } }> => {
+    const response = await apiClient.post<{ data: { booking: Booking; queue: { queuePosition: number; estimatedWaitMinutes: number } } }>(`/bookings/${id}/check-in`);
     return response.data.data;
   },
 
