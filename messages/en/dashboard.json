@@ -51,9 +51,14 @@
       },
       "filters": {
         "today": "Today",
-        "allDoctors": "All Doctors"
+        "pickDate": "Pick date",
+        "clearDate": "Clear date",
+        "clearAll": "Clear filters",
+        "allDoctors": "All Doctors",
+        "noDoctors": "No doctors found"
       },
       "table": {
+        "bookingId": "Booking ID",
         "time": "Time",
         "patient": "Patient",
         "doctor": "Doctor",
@@ -61,17 +66,41 @@
         "status": "Status",
         "actions": "Actions",
         "confirmBtn": "Confirm",
+        "cancelBtn": "Cancel",
+        "confirmedLabel": "Confirmed",
+        "noActions": "No Actions",
         "noData": "No appointments found"
       },
       "pagination": "Showing {start} to {end} of {total} {status}",
       "cancelModal": {
         "title": "Cancel Appointment",
-        "description": "Please provide a reason for cancelling this appointment. This action cannot be undone.",
-        "reasonLabel": "Cancellation Reason",
-        "reasonPlaceholder": "e.g., Patient requested cancellation, Scheduling conflict...",
-        "cancelBtn": "Keep Appointment",
-        "confirmCancelBtn": "Cancel Appointment",
+        "appointmentDetails": "Appointment Details",
+        "reasonLabel": "Reason for Cancellation",
+        "reasons": {
+          "patientRequest": "Patient Request",
+          "providerUnavailable": "Provider Unavailable",
+          "schedulingConflict": "Scheduling Conflict",
+          "other": "Other"
+        },
+        "additionalNotesLabel": "Additional Notes",
+        "additionalNotesPlaceholder": "Provide any extra context for the cancellation...",
+        "cancelBtn": "Go Back",
+        "confirmCancelBtn": "Confirm Cancellation",
+        "notificationHint": "A notification will be sent automatically to the patient.",
         "success": "Appointment cancelled successfully"
+      },
+      "confirmModal": {
+        "title": "Confirm Appointment",
+        "description": "Are you sure you want to confirm this appointment? An email notification will be sent to the patient.",
+        "appointmentDetails": "Appointment Details",
+        "patientLabel": "Patient",
+        "bookingIdLabel": "Booking ID",
+        "timeLabel": "Time",
+        "doctorLabel": "Doctor",
+        "cancelBtn": "Cancel",
+        "confirmBtn": "Confirm",
+        "success": "Appointment confirmed successfully",
+        "error": "Failed to confirm appointment"
       }
     },
     "liveQueue": {

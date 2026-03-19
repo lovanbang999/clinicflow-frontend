@@ -1,51 +1,95 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import { format } from 'date-fns';
 import { useBookings } from '@/lib/hooks/useBookings';
 import { Booking, BookingStatus } from '@/types';
 import { CheckInStats } from '@/components/receptionist/check-in/CheckInStats';
 import { AppointmentsTable } from '@/components/receptionist/check-in/AppointmentsTable';
 import { CancelBookingModal } from '@/components/receptionist/check-in/CancelBookingModal';
+import { ConfirmBookingModal } from '@/components/receptionist/check-in/ConfirmBookingModal';
 import { toast } from 'sonner';
 import { bookingsApi } from '@/lib/api/bookings';
+import { doctorsApi } from '@/lib/api/doctors';
+
+interface DoctorOption {
+  id: string;
+  fullName: string;
+}
 
 export default function ReceptionistCheckInPage() {
   const t = useTranslations('dashboard.receptionist.checkInManagement');
   const { fetchBookings, cancelBooking } = useBookings();
-  
+
+  // Table state
   const [activeTab, setActiveTab] = useState<BookingStatus | string>(BookingStatus.PENDING);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBookings, setTotalBookings] = useState(0);
-  
+  const [bookings, setBookings] = useState<Booking[]>([]);
+
+  // Filter state — default date is today
+  const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
+  const [doctors, setDoctors] = useState<DoctorOption[]>([]);
+
+  // Cancel modal state
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [bookingToCancel, setBookingToCancel] = useState<Booking | null>(null);
   const [isCancelling, setIsCancelling] = useState(false);
-  const [bookings, setBookings] = useState<Booking[]>([]);
 
+  // Confirm modal state
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [bookingToConfirm, setBookingToConfirm] = useState<Booking | null>(null);
+  const [isConfirming, setIsConfirming] = useState(false);
+
+  // Fetch doctors once on mount
   useEffect(() => {
-    loadBookings();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab, currentPage]);
+    doctorsApi.getAll({ limit: 100 }).then((list) => {
+      setDoctors(list.map((d) => ({ id: d.id, fullName: d.fullName })));
+    }).catch(() => {
+      // Non-critical: filter will just have no doctor options
+    });
+  }, []);
 
-  const loadBookings = async () => {
+  const loadBookings = useCallback(async () => {
     const data = await fetchBookings({
-        status: activeTab,
-        page: currentPage,
-        limit: 10
+      status: activeTab,
+      page: currentPage,
+      limit: 10,
+      ...(selectedDate ? { date: selectedDate } : {}),
+      ...(selectedDoctorId ? { doctorId: selectedDoctorId } : {}),
     } as Parameters<typeof fetchBookings>[0]);
 
     if (data) {
-        setBookings(data.bookings);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setTotalBookings((data.pagination as any).total || 0);
+      setBookings(data.bookings);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setTotalBookings((data.pagination as any).total || 0);
     }
-  };
+  }, [activeTab, currentPage, selectedDate, selectedDoctorId, fetchBookings]);
+
+  useEffect(() => {
+    loadBookings();
+  }, [loadBookings]);
+
+  // ── Filter handlers (reset page to 1 on filter change) ──────────────────
 
   const handleStatusFilter = (status: BookingStatus | string) => {
     setActiveTab(status);
     setCurrentPage(1);
   };
+
+  const handleDateChange = (date: string) => {
+    setSelectedDate(date);
+    setCurrentPage(1);
+  };
+
+  const handleDoctorChange = (doctorId: string) => {
+    setSelectedDoctorId(doctorId);
+    setCurrentPage(1);
+  };
+
+  // ── Cancel booking ───────────────────────────────────────────────────────
 
   const handleCancelClick = (booking: Booking) => {
     setBookingToCancel(booking);
@@ -55,28 +99,40 @@ export default function ReceptionistCheckInPage() {
   const handleConfirmCancel = async (reason: string) => {
     if (!bookingToCancel) return;
     setIsCancelling(true);
-    
     try {
-        const success = await cancelBooking(bookingToCancel.id, reason);
-        if (success) {
-            toast.success(t('cancelModal.success'));
-            setIsCancelModalOpen(false);
-            setBookingToCancel(null);
-            loadBookings();
-        }
+      const success = await cancelBooking(bookingToCancel.id, reason);
+      if (success) {
+        toast.success(t('cancelModal.success'));
+        setIsCancelModalOpen(false);
+        setBookingToCancel(null);
+        loadBookings();
+      }
     } finally {
-        setIsCancelling(false);
+      setIsCancelling(false);
     }
   };
 
-  const handleConfirmBooking = async (bookingId: string) => {
-     try {
-         await bookingsApi.updateStatus(bookingId, { status: BookingStatus.CONFIRMED });
-         toast.success('Booking confirmed successfully');
-         loadBookings();
-     } catch {
-         toast.error('Failed to confirm booking');
-     }
+  // ── Confirm booking ──────────────────────────────────────────────────────
+
+  const handleConfirmClick = (booking: Booking) => {
+    setBookingToConfirm(booking);
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmBooking = async () => {
+    if (!bookingToConfirm) return;
+    setIsConfirming(true);
+    try {
+      await bookingsApi.updateStatus(bookingToConfirm.id, { status: BookingStatus.CONFIRMED });
+      toast.success(t('confirmModal.success'));
+      setIsConfirmModalOpen(false);
+      setBookingToConfirm(null);
+      loadBookings();
+    } catch {
+      toast.error(t('confirmModal.error'));
+    } finally {
+      setIsConfirming(false);
+    }
   };
 
   return (
@@ -84,31 +140,49 @@ export default function ReceptionistCheckInPage() {
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto w-full p-8">
-         {/* Stats */}
-         <CheckInStats />
+        {/* Stats */}
+        <CheckInStats />
 
-         {/* Filter & Table Area */}
-         <AppointmentsTable 
-             bookings={bookings}
-             totalBookings={totalBookings}
-             currentPage={currentPage}
-             onPageChange={setCurrentPage}
-             activeStatusTab={activeTab}
-             onStatusFilter={handleStatusFilter}
-             onCancelBookingClick={handleCancelClick}
-             onConfirmBooking={handleConfirmBooking}
-         />
+        {/* Filter & Table Area */}
+        <AppointmentsTable
+          bookings={bookings}
+          totalBookings={totalBookings}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          activeStatusTab={activeTab}
+          onStatusFilter={handleStatusFilter}
+          onCancelBookingClick={handleCancelClick}
+          onConfirmBookingClick={handleConfirmClick}
+          selectedDate={selectedDate}
+          onDateChange={handleDateChange}
+          selectedDoctorId={selectedDoctorId}
+          onDoctorChange={handleDoctorChange}
+          doctors={doctors}
+        />
       </div>
 
-      {/* Modals */}
-      <CancelBookingModal 
-         isOpen={isCancelModalOpen}
-         onClose={() => {
-             setIsCancelModalOpen(false);
-             setBookingToCancel(null);
-         }}
-         onConfirm={handleConfirmCancel}
-         isSubmitting={isCancelling}
+      {/* Cancel Modal */}
+      <CancelBookingModal
+        isOpen={isCancelModalOpen}
+        booking={bookingToCancel}
+        onClose={() => {
+          setIsCancelModalOpen(false);
+          setBookingToCancel(null);
+        }}
+        onConfirm={handleConfirmCancel}
+        isSubmitting={isCancelling}
+      />
+
+      {/* Confirm Modal */}
+      <ConfirmBookingModal
+        isOpen={isConfirmModalOpen}
+        booking={bookingToConfirm}
+        onClose={() => {
+          setIsConfirmModalOpen(false);
+          setBookingToConfirm(null);
+        }}
+        onConfirm={handleConfirmBooking}
+        isSubmitting={isConfirming}
       />
     </div>
   );
