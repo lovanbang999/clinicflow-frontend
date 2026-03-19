@@ -136,7 +136,14 @@
   "cancelSuccess": "Appointment cancelled successfully",
   "cancelFailed": "Failed to cancel appointment",
   "confirmCancel": "Are you sure you want to cancel this appointment?",
-  "cancelReason": "Reason for cancellation (optional)",
+  "cancelReason": "Reason for cancellation (required)",
+  "cancelPlaceholder": "Tell us why you need to cancel this appointment... (at least 10 characters)",
+  "cancelSuggestions": {
+    "personal": "Unexpected personal business",
+    "improved": "Health has improved, no longer needed",
+    "doctor": "Wish to change to a different doctor",
+    "reschedule": "Plan to reschedule for another time"
+  },
   "cancelWarning": "Cancelled appointments cannot be restored.",
   "queuePosition": "Queue"
 }

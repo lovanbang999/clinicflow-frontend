@@ -136,7 +136,14 @@
   "cancelSuccess": "Hủy lịch thành công",
   "cancelFailed": "Hủy lịch thất bại",
   "confirmCancel": "Bạn có chắc muốn hủy lịch hẹn này?",
-  "cancelReason": "Lý do hủy (không bắt buộc)",
+  "cancelReason": "Lý do hủy (bắt buộc)",
+  "cancelPlaceholder": "Hãy cho chúng tôi biết tại sao bạn muốn hủy lịch hẹn này... (ít nhất 10 ký tự)",
+  "cancelSuggestions": {
+    "personal": "Tôi có việc bận cá nhân đột xuất",
+    "improved": "Sức khỏe của tôi đã tốt hơn rồi",
+    "doctor": "Tôi muốn đổi sang bác sĩ khác",
+    "reschedule": "Tôi sẽ đặt lại lịch vào thời điểm khác"
+  },
   "cancelWarning": "Lịch hẹn đã hủy sẽ không thể khôi phục.",
   "queuePosition": "Hàng đợi"
 }

@@ -67,11 +67,11 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
     load();
   }, [id]);
 
-  const handleConfirmCancel = async () => {
+  const handleConfirmCancel = async (reason: string) => {
     if (!booking) return;
     try {
       setIsCancelling(true);
-      const success = await cancelBooking(booking.id);
+      const success = await cancelBooking(booking.id, reason);
       if (success) {
         // Refresh booking data after cancel
         const updated = await bookingsApi.getById(booking.id);
