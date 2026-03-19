@@ -51,9 +51,14 @@
       },
       "filters": {
         "today": "Hôm nay",
-        "allDoctors": "Tất cả bác sĩ"
+        "pickDate": "Chọn ngày",
+        "clearDate": "Xóa ngày",
+        "clearAll": "Xóa bộ lọc",
+        "allDoctors": "Tất cả bác sĩ",
+        "noDoctors": "Không tìm thấy bác sĩ"
       },
       "table": {
+        "bookingId": "Mã đặt lịch",
         "time": "Thời gian",
         "patient": "Bệnh nhân",
         "doctor": "Bác sĩ",
@@ -61,17 +66,41 @@
         "status": "Trạng thái",
         "actions": "Thao tác",
         "confirmBtn": "Xác nhận",
+        "cancelBtn": "Hủy",
+        "confirmedLabel": "Đã xác nhận",
+        "noActions": "Không có",
         "noData": "Không có lịch hẹn nào"
       },
       "pagination": "Hiển thị {start} đến {end} trong số {total} {status}",
       "cancelModal": {
         "title": "Hủy lịch hẹn",
-        "description": "Vui lòng nhập lý do hủy lịch hẹn. Không thể hoàn tác hành động này.",
+        "appointmentDetails": "Thông tin lịch hẹn",
         "reasonLabel": "Lý do hủy",
-        "reasonPlaceholder": "VD: Bệnh nhân yêu cầu hủy, Trùng thời gian...",
-        "cancelBtn": "Giữ lịch hẹn",
+        "reasons": {
+          "patientRequest": "Bệnh nhân yêu cầu",
+          "providerUnavailable": "Bác sĩ bận",
+          "schedulingConflict": "Trùng lịch",
+          "other": "Khác"
+        },
+        "additionalNotesLabel": "Ghi chú thêm",
+        "additionalNotesPlaceholder": "Cung cấp thêm thông tin về việc hủy lịch...",
+        "cancelBtn": "Quay lại",
         "confirmCancelBtn": "Xác nhận hủy",
+        "notificationHint": "Thông báo sẽ được gửi tự động đến bệnh nhân.",
         "success": "Hủy lịch hẹn thành công"
+      },
+      "confirmModal": {
+        "title": "Xác nhận lịch hẹn",
+        "description": "Bạn có chắc muốn xác nhận lịch hẹn này không? Email thông báo sẽ được gửi đến bệnh nhân.",
+        "appointmentDetails": "Thông tin lịch hẹn",
+        "patientLabel": "Bệnh nhân",
+        "bookingIdLabel": "Mã đặt lịch",
+        "timeLabel": "Thời gian",
+        "doctorLabel": "Bác sĩ",
+        "cancelBtn": "Hủy",
+        "confirmBtn": "Xác nhận",
+        "success": "Xác nhận lịch hẹn thành công",
+        "error": "Không thể xác nhận lịch hẹn"
       }
     },
     "liveQueue": {

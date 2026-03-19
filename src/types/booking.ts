@@ -11,6 +11,7 @@ export enum BookingStatus {
 
 export interface Booking {
   id: string;
+  bookingCode?: string;
   patientProfileId: string;
   doctorId: string;
   serviceId: string;
@@ -28,6 +29,7 @@ export interface Booking {
     id: string;
     fullName: string;
     phone: string;
+    patientCode: string;
   };
   doctor?: {
     id: string;

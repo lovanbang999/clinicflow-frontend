@@ -1,13 +1,25 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { format } from 'date-fns';
-import { 
-  CalendarBlankIcon, 
-  CaretDownIcon, 
-  FadersIcon, 
-  XCircleIcon, 
+import { format, parseISO } from 'date-fns';
+import {
+  CalendarBlankIcon,
+  CaretDownIcon,
   CaretLeftIcon,
-  CaretRightIcon} from '@phosphor-icons/react';
+  CaretRightIcon,
+  UserCircleIcon,
+  XIcon,
+} from '@phosphor-icons/react';
 import { Booking, BookingStatus } from '@/types';
+import { BookingTableBody } from './BookingTableBody';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+
+interface Doctor {
+  id: string;
+  fullName: string;
+}
 
 interface AppointmentsTableProps {
   bookings: Booking[];
@@ -17,7 +29,13 @@ interface AppointmentsTableProps {
   onStatusFilter: (status: BookingStatus | string) => void;
   activeStatusTab: BookingStatus | string;
   onCancelBookingClick: (booking: Booking) => void;
-  onConfirmBooking: (bookingId: string) => Promise<void>;
+  onConfirmBookingClick: (booking: Booking) => void;
+  // Filter props
+  selectedDate: string;
+  onDateChange: (date: string) => void;
+  selectedDoctorId: string;
+  onDoctorChange: (doctorId: string) => void;
+  doctors: Doctor[];
 }
 
 export function AppointmentsTable({
@@ -28,9 +46,18 @@ export function AppointmentsTable({
   onStatusFilter,
   activeStatusTab,
   onCancelBookingClick,
-  onConfirmBooking,
+  onConfirmBookingClick,
+  selectedDate,
+  onDateChange,
+  selectedDoctorId,
+  onDoctorChange,
+  doctors,
 }: AppointmentsTableProps) {
   const t = useTranslations('dashboard.receptionist.checkInManagement');
+
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isDoctorDropdownOpen, setIsDoctorDropdownOpen] = useState(false);
+  const doctorDropdownRef = useRef<HTMLDivElement>(null);
 
   const tabs: { labelKey: string; value: BookingStatus | string }[] = [
     { labelKey: 'stats.pending', value: BookingStatus.PENDING },
@@ -39,57 +66,214 @@ export function AppointmentsTable({
     { labelKey: 'stats.cancelled', value: BookingStatus.CANCELLED },
   ];
 
-  const getStatusBadge = (status: BookingStatus) => {
-    switch (status) {
-      case BookingStatus.PENDING:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">{t('stats.pending')}</span>;
-      case BookingStatus.CONFIRMED:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">{t('stats.confirmed')}</span>;
-      case BookingStatus.CHECKED_IN:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">Checked In</span>;
-      case BookingStatus.COMPLETED:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">{t('stats.completed')}</span>;
-      case BookingStatus.CANCELLED:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200">{t('stats.cancelled')}</span>;
-      default:
-        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">{status}</span>;
+  const pageLimit = 10;
+  const totalPages = Math.ceil(totalBookings / pageLimit);
+
+  const todayStr = format(new Date(), 'yyyy-MM-dd');
+  const selectedDateObj = selectedDate ? parseISO(selectedDate) : undefined;
+  const selectedDoctor = doctors.find((d) => d.id === selectedDoctorId) ?? null;
+  const isDateFiltered = Boolean(selectedDate);
+  const isTodaySelected = selectedDate === todayStr;
+  const isDoctorFiltered = Boolean(selectedDoctorId);
+
+  // Close doctor dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (doctorDropdownRef.current && !doctorDropdownRef.current.contains(e.target as Node)) {
+        setIsDoctorDropdownOpen(false);
+      }
     }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleTodayClick = () => {
+    if (isTodaySelected) {
+      onDateChange('');
+    } else {
+      onDateChange(todayStr);
+    }
+  };
+
+  const handleCalendarSelect = (date: Date | undefined) => {
+    if (date) {
+      onDateChange(format(date, 'yyyy-MM-dd'));
+    } else {
+      onDateChange('');
+    }
+    setIsCalendarOpen(false);
   };
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col">
-      {/* Filters Header */}
+
+      {/* Tab Filters + Controls */}
       <div className="p-4 border-b border-slate-100 flex flex-col gap-4">
         <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
-          {/* Tabs */}
+
+          {/* Status Tabs */}
           <div className="flex gap-1 bg-slate-100 p-1 rounded-lg w-full xl:w-auto overflow-x-auto">
-             {tabs.map((tab) => {
-                 const isActive = activeStatusTab === tab.value;
-                 return (
-                     <button
-                         key={tab.value}
-                         onClick={() => onStatusFilter(tab.value)}
-                         className={`px-4 py-1.5 text-sm font-medium rounded-md whitespace-nowrap cursor-pointer transition-colors ${
-                             isActive ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'
-                         }`}
-                     >
-                         {t(tab.labelKey)}
-                     </button>
-                 )
-             })}
+            {tabs.map((tab) => {
+              const isActive = activeStatusTab === tab.value;
+              return (
+                <button
+                  key={tab.value}
+                  onClick={() => onStatusFilter(tab.value)}
+                  className={`px-4 py-1.5 text-sm font-semibold rounded-md whitespace-nowrap cursor-pointer transition-colors ${
+                    isActive
+                      ? 'bg-white text-slate-900 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-700 font-medium'
+                  }`}
+                >
+                  {t(tab.labelKey)}
+                </button>
+              );
+            })}
           </div>
 
+          {/* Date & Doctor Filters */}
           <div className="flex items-center gap-2 shrink-0">
-             <button className="flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 cursor-pointer">
-                <CalendarBlankIcon size={18} />
-                <span>{t('filters.today')}</span>
-                <CaretDownIcon size={16} />
-             </button>
-             <button className="flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 cursor-pointer">
-                <FadersIcon size={18} />
-                <span>{t('filters.allDoctors')}</span>
-                <CaretDownIcon size={16} />
-             </button>
+
+            {/* Today shortcut button */}
+            <button
+              onClick={handleTodayClick}
+              className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                isTodaySelected
+                  ? 'border-[#1570EF] bg-[#1570EF]/5 text-[#1570EF]'
+                  : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <CalendarBlankIcon size={16} />
+              <span>{t('filters.today')}</span>
+            </button>
+
+            {/* shadcn Date Picker */}
+            <div className="flex items-center gap-1">
+              <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                      isDateFiltered && !isTodaySelected
+                        ? 'border-[#1570EF] bg-[#1570EF]/5 text-[#1570EF]'
+                        : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <CalendarBlankIcon size={16} />
+                    <span>
+                      {isDateFiltered && !isTodaySelected
+                        ? format(parseISO(selectedDate), 'MMM dd, yyyy')
+                        : t('filters.pickDate')}
+                    </span>
+                    <CaretDownIcon size={14} />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-auto p-0 shadow-lg border border-slate-200 rounded-xl overflow-hidden"
+                  align="end"
+                  sideOffset={6}
+                >
+                  <Calendar
+                    mode="single"
+                    selected={selectedDateObj}
+                    onSelect={handleCalendarSelect}
+                    initialFocus
+                    footer={
+                      <div className="flex justify-between px-3 pb-3 pt-1 border-t border-slate-100">
+                        <button
+                          onClick={() => { onDateChange(''); setIsCalendarOpen(false); }}
+                          className="text-xs font-medium text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                        >
+                          {t('filters.clearDate')}
+                        </button>
+                        <button
+                          onClick={() => { onDateChange(todayStr); setIsCalendarOpen(false); }}
+                          className="text-xs font-medium text-[#1570EF] hover:text-[#0F5ED4] transition-colors cursor-pointer"
+                        >
+                          {t('filters.today')}
+                        </button>
+                      </div>
+                    }
+                  />
+                </PopoverContent>
+              </Popover>
+
+              {/* Clear date X button */}
+              {isDateFiltered && (
+                <button
+                  onClick={() => onDateChange('')}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
+                  title={t('filters.clearDate')}
+                >
+                  <XIcon size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div className="h-5 w-px bg-slate-200" />
+
+            {/* Doctor dropdown */}
+            <div className="relative" ref={doctorDropdownRef}>
+              <button
+                onClick={() => setIsDoctorDropdownOpen((v) => !v)}
+                className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg text-sm font-medium transition-colors cursor-pointer min-w-[140px] ${
+                  isDoctorFiltered
+                    ? 'border-[#1570EF] bg-[#1570EF]/5 text-[#1570EF]'
+                    : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                }`}
+              >
+                <UserCircleIcon size={16} />
+                <span className="truncate max-w-[130px]">
+                  {selectedDoctor ? selectedDoctor.fullName : t('filters.allDoctors')}
+                </span>
+                <CaretDownIcon size={14} className="ml-auto shrink-0" />
+              </button>
+
+              {isDoctorDropdownOpen && (
+                <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-slate-200 rounded-xl shadow-lg z-20 overflow-hidden">
+                  <div className="max-h-60 overflow-y-auto">
+                    <button
+                      onClick={() => { onDoctorChange(''); setIsDoctorDropdownOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer flex items-center gap-2 ${
+                        !selectedDoctorId
+                          ? 'bg-[#1570EF]/5 text-[#1570EF] font-semibold'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
+                      <UserCircleIcon size={16} />
+                      {t('filters.allDoctors')}
+                    </button>
+                    <div className="border-t border-slate-100" />
+                    {doctors.map((doctor) => (
+                      <button
+                        key={doctor.id}
+                        onClick={() => { onDoctorChange(doctor.id); setIsDoctorDropdownOpen(false); }}
+                        className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer ${
+                          selectedDoctorId === doctor.id
+                            ? 'bg-[#1570EF]/5 text-[#1570EF] font-semibold'
+                            : 'text-slate-700 hover:bg-slate-50'
+                        }`}
+                      >
+                        {doctor.fullName}
+                      </button>
+                    ))}
+                    {doctors.length === 0 && (
+                      <p className="px-4 py-3 text-sm text-slate-400 text-center">{t('filters.noDoctors')}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Clear all */}
+            {(isDateFiltered || isDoctorFiltered) && (
+              <button
+                onClick={() => { onDateChange(''); onDoctorChange(''); }}
+                className="text-xs font-medium text-slate-400 hover:text-rose-500 transition-colors cursor-pointer px-1"
+              >
+                {t('filters.clearAll')}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -99,94 +283,51 @@ export function AppointmentsTable({
         <table className="w-full text-left">
           <thead>
             <tr className="bg-slate-50/50 text-slate-500 text-[12px] uppercase tracking-wider font-semibold border-b border-slate-100">
-              <th className="px-6 py-4">{t('table.time')}</th>
+              <th className="px-6 py-4">{t('table.bookingId')}</th>
               <th className="px-6 py-4">{t('table.patient')}</th>
               <th className="px-6 py-4">{t('table.doctor')}</th>
               <th className="px-6 py-4">{t('table.service')}</th>
+              <th className="px-6 py-4">{t('table.time')}</th>
               <th className="px-6 py-4">{t('table.status')}</th>
-              <th className="px-6 py-4 text-right mb-4">{t('table.actions')}</th>
+              <th className="px-6 py-4 text-center">{t('table.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-             {bookings.length > 0 ? bookings.map((booking) => (
-                <tr key={booking.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <p className="text-sm font-semibold text-slate-900">{booking.startTime}</p>
-                    <p className="text-[11px] text-slate-500">{format(new Date(booking.bookingDate), 'MMM dd, yyyy')}</p>
-                  </td>
-                  <td className="px-6 py-4">
-                     <div className="flex items-center gap-3">
-                         <div className="w-8 h-8 rounded-full bg-[#1570EF]/10 text-[#1570EF] flex items-center justify-center font-bold text-xs uppercase shrink-0">
-                             {booking.patientProfile?.fullName?.substring(0,2) || '??'}
-                         </div>
-                         <div className="flex flex-col">
-                             <p className="text-sm font-semibold text-slate-900">{booking.patientProfile?.fullName}</p>
-                             <p className="text-xs text-slate-500">ID: {booking.patientProfile?.id?.slice(0,6).toUpperCase()}</p>
-                         </div>
-                     </div>
-                  </td>
-                  <td className="px-6 py-4">
-                     <div className="flex flex-col">
-                        <p className="text-sm font-medium text-slate-700">{booking.doctor?.fullName}</p>
-                        <p className="text-xs text-slate-400">Doctor ID: {booking.doctor?.id?.slice(0,6).toUpperCase()}</p>
-                     </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <p className="text-sm text-slate-600">{booking.service?.name}</p>
-                  </td>
-                  <td className="px-6 py-4">
-                     {getStatusBadge(booking.status)}
-                  </td>
-                  <td className="px-6 py-4 text-right whitespace-nowrap">
-                     <div className="flex items-center justify-end gap-2">
-                        {booking.status === BookingStatus.PENDING && (
-                           <button onClick={(e) => { e.stopPropagation(); onConfirmBooking(booking.id); }} className="bg-[#1570EF] text-white text-xs font-bold px-4 py-1.5 rounded-lg hover:bg-[#0F5ED4] transition-colors cursor-pointer">
-                              {t('table.confirmBtn')}
-                           </button>
-                        )}
-                        {(booking.status === BookingStatus.PENDING || booking.status === BookingStatus.CONFIRMED) && (
-                           <button onClick={(e) => { e.stopPropagation(); onCancelBookingClick(booking); }} className="text-rose-600 hover:bg-rose-50 px-2 py-1.5 rounded-lg transition-colors cursor-pointer" title="Cancel Booking">
-                              <XCircleIcon size={20} weight="bold" />
-                           </button>
-                        )}
-                        {booking.status === BookingStatus.CANCELLED && (
-                          <span className="text-slate-300 text-sm font-medium">-</span>
-                        )}
-                     </div>
-                  </td>
-                </tr>
-             )) : (
-                <tr>
-                   <td colSpan={6} className="px-6 py-16 text-center text-slate-500">
-                      <div className="flex flex-col items-center justify-center gap-2">
-                          <CalendarBlankIcon size={32} className="text-slate-300" />
-                          <p>{t('table.noData')}</p>
-                      </div>
-                   </td>
-                </tr>
-             )}
+            <BookingTableBody
+              bookings={bookings}
+              onConfirm={onConfirmBookingClick}
+              onCancel={onCancelBookingClick}
+            />
           </tbody>
         </table>
       </div>
 
       {/* Pagination Footer */}
       <div className="p-4 border-t border-slate-100 flex items-center justify-between">
-         <p className="text-xs text-slate-500 font-medium">
-             {t('pagination', { 
-               start: totalBookings === 0 ? 0 : (currentPage - 1) * 10 + 1, 
-               end: Math.min(currentPage * 10, totalBookings), 
-               total: totalBookings,
-               status: t(`stats.${activeStatusTab.toLowerCase()}`).toLowerCase()
-             })}
-         </p>
-         <div className="flex gap-2">
-             <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} className="p-1 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                <CaretLeftIcon size={18} />
-             </button>
-             <button disabled={currentPage * 10 >= totalBookings} onClick={() => onPageChange(currentPage + 1)} className="p-1 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                <CaretRightIcon size={18} />
-             </button>
-         </div>
+        <p className="text-xs text-slate-500 font-medium">
+          {t('pagination', {
+            start: totalBookings === 0 ? 0 : (currentPage - 1) * pageLimit + 1,
+            end: Math.min(currentPage * pageLimit, totalBookings),
+            total: totalBookings,
+            status: t(`stats.${activeStatusTab.toLowerCase()}`).toLowerCase(),
+          })}
+        </p>
+        <div className="flex gap-2">
+          <button
+            disabled={currentPage <= 1}
+            onClick={() => onPageChange(currentPage - 1)}
+            className="p-1 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <CaretLeftIcon size={18} />
+          </button>
+          <button
+            disabled={currentPage >= totalPages}
+            onClick={() => onPageChange(currentPage + 1)}
+            className="p-1 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <CaretRightIcon size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );
