@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export function PatientPortalFooter() {
   return (
-    <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-slate-200 dark:border-slate-800 mt-10">
+    <footer className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 py-10 border-t border-slate-200 dark:border-slate-800 mt-10">
       <div className="flex flex-col items-center justify-center gap-6">
         <Link href="/patient" className="flex items-center gap-2.5 group">
           <div className="bg-blue-500 w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200 relative">
