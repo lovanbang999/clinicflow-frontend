@@ -40,11 +40,11 @@ export default function BookingsPage() {
     setShowCancelDialog(true);
   };
 
-  const handleConfirmCancel = async () => {
+  const handleConfirmCancel = async (reason: string) => {
     if (!bookingToCancel) return;
     try {
       setCancellingId(bookingToCancel);
-      const success = await cancelBooking(bookingToCancel);
+      const success = await cancelBooking(bookingToCancel, reason);
       if (success) await fetchMyBookings();
     } finally {
       setCancellingId(null);
