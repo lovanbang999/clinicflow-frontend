@@ -41,9 +41,74 @@
       "actions": "Thao tác"
     }
   },
+  "emr": {
+    "consultation": {
+      "title": "Khám & Chẩn Đoán",
+      "subtitle": "Nhập kết quả lâm sàng, chẩn đoán, và kế hoạch điều trị."
+    },
+    "form": {
+      "title": "Kết quả Khám bệnh",
+      "chiefComplaint": "Lý do khám (Triệu chứng chính)",
+      "clinicalFindings": "Kết quả Lâm sàng",
+      "diagnosis": "Chẩn đoán (Mã ICD-10)",
+      "treatmentPlan": "Kế hoạch Điều trị / Đơn thuốc",
+      "followUpDate": "Ngày tái khám",
+      "placeholders": {
+        "chiefComplaint": "Bệnh nhân có triệu chứng...",
+        "clinicalFindings": "Sinh hiệu ổn định. Họng hơi đỏ...",
+        "diagnosis": "Tìm mã ICD-10... VD: J00",
+        "treatmentPlan": "Nghỉ ngơi, uống nước, Paracetamol 500mg..."
+      },
+      "actions": {
+        "saveDraft": "Lưu nháp",
+        "finishVisit": "Hoàn tất & Tạo hóa đơn",
+        "callNext": "Gọi đi bệnh nhân tiếp theo",
+        "print": "In",
+        "share": "Chia sẻ"
+      },
+      "sections": {
+        "clinicalExam": "Khám lâm sàng",
+        "instructionsNotes": "Hướng dẫn & Ghi chú",
+        "diagnosis": "Chẩn đoán",
+        "followUp": "Hẹn tái khám"
+      },
+      "fields": {
+        "chiefComplaint": "Lý do khám & khám lâm sàng",
+        "clinicalFindings": "Kết quả khám lâm sàng",
+        "treatmentPlan": "Hướng dẫn điều trị",
+        "internalNotes": "Ghi chú nội bộ",
+        "icd10": "Mã ICD-10",
+        "confirmedDiagnosis": "Chẩn đoán xác định",
+        "appointmentDate": "Ngày hẹn"
+      },
+      "labels": {
+        "diagnosisTemplate": "Mẫu chẩn đoán",
+        "lastVisit": "Lần khám gần nhất ({date}): {diagnosis}",
+        "days7": "7 Ngày",
+        "days14": "14 Ngày",
+        "days30": "30 Ngày"
+      },
+      "messages": {
+        "visitCompleted": "Hoàn tất buổi khám thành công!",
+        "savedDraft": "Đã lưu nháp!",
+        "saveError": "Không thể lưu kết quả khám."
+      }
+    },
+    "patientInfo": {
+      "noData": "Chưa chọn bệnh nhân",
+      "yearsOld": "tuổi",
+      "medicalHistory": "Tiền sử bệnh",
+      "allergies": "Dị ứng nổi bật",
+      "noneReported": "Không có",
+      "chronicConditions": "Bệnh mãn tính",
+      "recentVisits": "Lịch sử khám gần đây",
+      "noRecentVisits": "Không có lịch sử khám",
+      "dr": "BS."
+    }
+  },
   "doctor": {
     "title": "Bác sĩ",
-    "dashboard": "Tổng quan",
+    "dashboard": "Workspace",
     "greeting": "Xin chào {name}, bạn có bệnh nhân đang chờ",
     "schedule": "Lịch làm việc",
     "patients": "Bệnh nhân",
@@ -52,6 +117,104 @@
       "title": "Không tìm thấy trang",
       "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
       "backToDashboard": "Quay lại Bảng điều khiển"
+    },
+    "workspace": {
+      "confirmNoShow": "Đánh dấu bệnh nhân này là vắng mặt?",
+      "queue": {
+        "title": "Hàng đợi hôm nay",
+        "autoUpdate": "Tự động cập nhật",
+        "loading": "Đang tải...",
+        "empty": "Chưa có bệnh nhân nào trong hàng đợi",
+        "minuteUnit": "phút",
+        "noShowLabel": "Vắng",
+        "doneLabel": "Xong",
+        "stats": {
+          "waiting": "Đang chờ",
+          "completed": "Hoàn thành",
+          "noShow": "No-show"
+        },
+        "status": {
+          "inProgress": "Đang khám",
+          "waiting": "Chờ khám",
+          "noShow": "Vắng mặt",
+          "completed": "Đã khám"
+        }
+      },
+      "queueView": {
+        "title": "Hàng đợi hôm nay",
+        "live": "Live",
+        "stats": {
+          "waiting": "Đang chờ",
+          "completed": "Hoàn thành",
+          "noShow": "No-show"
+        },
+        "avgWaitTime": "T.gian chờ TB:",
+        "minutes": "phút",
+        "tags": {
+          "urgent": "Ưu tiên khẩn",
+          "allergy": "Dị ứng",
+          "firstVisit": "Lần đầu khám",
+          "bhyt": "BHYT"
+        },
+        "status": {
+          "inProgress": "Đang khám",
+          "waiting": "Chờ",
+          "urgent": "Ưu tiên",
+          "noShow": "No-show",
+          "completed": "Hoàn thành"
+        },
+        "actions": {
+          "enterExam": "Vào phòng khám",
+          "callPatient": "Gọi vào khám"
+        },
+        "infoNote": "Chỉ có thể <strong>Vào phòng khám</strong> với bệnh nhân đang được gọi. Các bệnh nhân đang chờ chỉ hiển thị để tham khảo — không thể chỉnh sửa."
+      },
+      "examView": {
+        "title": "Đang khám bệnh",
+        "startedAt": "Bắt đầu:",
+        "endExam": "Kết thúc ca khám",
+        "endExamConfirm": {
+          "title": "Kết thúc ca khám?",
+          "desc": "EMR chưa hoàn tất sẽ được lưu nháp. Bạn sẽ quay về màn hàng đợi và có thể gọi bệnh nhân tiếp theo.",
+          "cancel": "Tiếp tục khám",
+          "confirm": "Kết thúc"
+        },
+        "vitals": {
+          "bloodPressure": "Huyết áp",
+          "pulse": "Mạch",
+          "spo2": "SpO2",
+          "temperature": "Nhiệt độ",
+          "weight": "Cân nặng",
+          "height": "Chiều cao",
+          "bmi": "BMI"
+        },
+        "tabs": {
+          "emr": "Khám & EMR",
+          "history": "Lịch sử khám",
+          "rx": "Đơn thuốc",
+          "lab": "Xét nghiệm"
+        }
+      },
+      "historyTab": {
+        "title": "Lịch sử khám ({count})",
+        "loading": "Đang tải lịch sử...",
+        "empty": "Chưa có dữ liệu lịch sử khám",
+        "noRecord": "Chưa có chẩn đoán",
+        "completed": "Hoàn thành"
+      },
+      "patient": {
+        "noneSelected": "Chưa chọn bệnh nhân",
+        "noShow": "Không đến",
+        "fullProfile": "Hồ sơ đầy đủ",
+        "inProgress": "Đang khám",
+        "markedNoShow": "Đã đánh dấu vắng mặt",
+        "fields": {
+          "bloodType": "Nhóm máu",
+          "height": "Chiều cao",
+          "weight": "Cân nặng",
+          "lastVisit": "Khám trước"
+        }
+      }
     }
   },
   "receptionist": {

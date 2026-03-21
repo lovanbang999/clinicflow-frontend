@@ -64,31 +64,34 @@ export function useQueue(doctorId?: string) {
     try {
       await bookingsApi.startExamination(bookingId);
       toast.success('Patient called successfully');
+      void fetchQueueData();
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to call patient';
       toast.error('Error', { description: msg });
     }
-  }, []);
+  }, [fetchQueueData]);
 
   const completeVisit = useCallback(async (bookingId: string) => {
     try {
       await bookingsApi.complete(bookingId);
       toast.success('Consultation completed');
+      void fetchQueueData();
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to complete visit';
       toast.error('Error', { description: msg });
     }
-  }, []);
+  }, [fetchQueueData]);
 
   const markNoShow = useCallback(async (bookingId: string) => {
     try {
       await bookingsApi.markNoShow(bookingId);
       toast.success('Marked as no-show');
+      void fetchQueueData();
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to mark no-show';
       toast.error('Error', { description: msg });
     }
-  }, []);
+  }, [fetchQueueData]);
 
   return {
     queueItems,

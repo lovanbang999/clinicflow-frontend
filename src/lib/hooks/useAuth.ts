@@ -46,7 +46,7 @@ export const useAuth = () => {
             router.push('/admin');
             break;
           case 'DOCTOR':
-            router.push('/doctor/schedule');
+            router.push('/doctor');
             break;
           case 'RECEPTIONIST':
             router.push('/receptionist');
