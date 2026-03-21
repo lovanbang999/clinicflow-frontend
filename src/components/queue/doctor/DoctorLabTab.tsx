@@ -1,61 +1,193 @@
 'use client';
 
 import { useState } from 'react';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useLabOrders } from '@/lib/hooks/useLabOrders';
+import { SpinnerIcon, TrashIcon, FlaskIcon, CheckCircleIcon, WarningCircleIcon, FilePdfIcon } from '@phosphor-icons/react';
+import { format } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 interface DoctorLabTabProps {
   bookingId: string;
 }
 
-export function DoctorLabTab({}: DoctorLabTabProps) {
-  const [tests, setTests] = useState([
-    { id: '1', label: 'Công thức máu toàn phần (CBC)', checked: false },
-    { id: '2', label: 'Đường huyết lúc đói (FBG)', checked: true },
-    { id: '3', label: 'HbA1c', checked: false },
-    { id: '4', label: 'Chức năng thận (Creatinine, Urea)', checked: false },
-  ]);
+const COMMON_TESTS = [
+  'Công thức máu toàn phần (CBC)',
+  'Đường huyết lúc đói (FBG)',
+  'Chức năng gan (AST, ALT)',
+  'Chức năng thận (Urea, Creatinine)',
+  'Tổng phân tích nước tiểu',
+  'Siêu âm ổ bụng tổng quát'
+];
 
-  const toggleTest = (id: string) => {
-    setTests((prev) =>
-      prev.map((test) =>
-        test.id === id ? { ...test, checked: !test.checked } : test
-      )
-    );
+export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
+  const t = useTranslations('dashboard.doctor.workspace.labTab');
+  const { orders, isLoading, isSubmitting, addOrder, removeOrder } = useLabOrders(bookingId);
+  const [testName, setTestName] = useState('');
+  const [testDescription, setTestDescription] = useState('');
+
+  const handleAddOrder = async () => {
+    if (!testName.trim()) return;
+    const success = await addOrder({ testName, testDescription });
+    if (success) {
+      setTestName('');
+      setTestDescription('');
+    }
   };
 
   return (
-    <div className="bg-white border border-gray-200/80 rounded-xl shadow-sm overflow-hidden animate-in fade-in duration-300">
-      <div className="px-6 py-5 border-b border-gray-100">
-        <h3 className="text-[16px] font-bold text-gray-900">
-          Chỉ định xét nghiệm
-        </h3>
-      </div>
+    <div className="flex flex-col gap-6 animate-in fade-in duration-300">
       
-      <div className="p-6">
-        <div className="flex flex-col gap-3">
-          {tests.map((test) => (
-            <label 
-              key={test.id} 
-              className="flex items-center gap-4 px-4 py-3.5 border border-gray-200/60 rounded-xl hover:bg-gray-50/50 cursor-pointer transition-colors shadow-sm bg-white"
-            >
-              <Checkbox 
-                id={test.id} 
-                checked={test.checked} 
-                onCheckedChange={() => toggleTest(test.id)} 
-                className="w-5 h-5 rounded-[4px] border-gray-300 text-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 shadow-sm"
+      {/* Form Section */}
+      <div className="bg-white border border-gray-200/80 rounded-xl shadow-sm overflow-hidden p-6">
+        <h3 className="text-[16px] font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <FlaskIcon size={20} className="text-blue-600" weight="fill" />
+          {t('createOrder')}
+        </h3>
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 mb-2">
+            {COMMON_TESTS.map((test) => (
+              <button
+                key={test}
+                type="button"
+                onClick={() => setTestName(test)}
+                className="px-3 py-1.5 text-xs font-medium bg-gray-50 hover:bg-blue-50 hover:text-blue-700 text-gray-600 border border-gray-200 rounded-lg transition-colors cursor-pointer"
+              >
+                + {test}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="md:col-span-5">
+              <label className="text-xs font-semibold text-gray-600 mb-1 block">{t('testName')}</label>
+              <Input
+                value={testName}
+                onChange={(e) => setTestName(e.target.value)}
+                placeholder={t('testNamePlaceholder')}
+                className="h-10 text-sm shadow-sm"
               />
-              <span className="text-[15px] text-gray-800 font-medium leading-none">
-                {test.label}
-              </span>
-            </label>
-          ))}
-          
-          <Input 
-            placeholder="Xét nghiệm khác..." 
-            className="h-12 text-[15px] mt-2 border-gray-200/80 shadow-sm rounded-xl px-4 focus-visible:ring-blue-600 focus-visible:border-blue-600 placeholder:text-gray-400 font-medium" 
-          />
+            </div>
+            <div className="md:col-span-5">
+              <label className="text-xs font-semibold text-gray-600 mb-1 block">{t('description')}</label>
+              <Input
+                value={testDescription}
+                onChange={(e) => setTestDescription(e.target.value)}
+                placeholder={t('descriptionPlaceholder')}
+                className="h-10 text-sm shadow-sm"
+              />
+            </div>
+            <div className="md:col-span-2 flex items-end">
+              <Button
+                type="button"
+                className="w-full h-10 font-bold bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                disabled={!testName.trim() || isSubmitting}
+                onClick={handleAddOrder}
+              >
+                {isSubmitting ? <SpinnerIcon className="animate-spin" /> : t('submitBtn')}
+              </Button>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* List Section */}
+      <div className="bg-white border border-gray-200/80 rounded-xl shadow-sm overflow-hidden p-6">
+        <h3 className="text-[16px] font-bold text-gray-900 mb-4">
+          {t('listTitle', { count: orders.length })}
+        </h3>
+        
+        {isLoading ? (
+          <div className="flex justify-center p-8">
+            <SpinnerIcon size={32} className="animate-spin text-gray-400" />
+          </div>
+        ) : orders.length === 0 ? (
+          <div className="text-center p-8 border-2 border-dashed border-gray-100 rounded-xl bg-gray-50/50">
+            <p className="text-sm font-medium text-gray-500">{t('emptyList')}</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {orders.map((order) => (
+              <div key={order.id} className="p-4 rounded-xl border border-gray-200 bg-gray-50/30 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+                
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="font-bold text-[15px] text-gray-900">{order.testName}</h4>
+                    {order.status === 'PENDING' && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-700 border border-orange-200">
+                        {t('status.pending')}
+                      </span>
+                    )}
+                    {order.status === 'IN_PROGRESS' && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700 border border-blue-200">
+                        {t('status.inProgress')}
+                      </span>
+                    )}
+                    {order.status === 'COMPLETED' && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700 border border-green-200">
+                        {t('status.completed')}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {order.testDescription && (
+                    <p className="text-sm text-gray-600">{t('noteLabel')} {order.testDescription}</p>
+                  )}
+                  <p className="text-xs text-gray-400 mt-1">
+                    {t('orderedAt')} {format(new Date(order.orderedAt), 'HH:mm - dd/MM/yyyy')}
+                  </p>
+
+                  {/* Result Box if COMPLETED */}
+                  {order.status === 'COMPLETED' && order.result && (
+                    <div className={`mt-3 p-3 rounded-lg border ${order.result.isAbnormal ? 'bg-red-50 border-red-200 text-red-900' : 'bg-green-50 border-green-200 text-green-900'}`}>
+                      <div className="flex items-start gap-2">
+                        {order.result.isAbnormal ? (
+                          <WarningCircleIcon size={20} weight="fill" className="text-red-500 shrink-0 mt-0.5" />
+                        ) : (
+                          <CheckCircleIcon size={20} weight="fill" className="text-green-500 shrink-0 mt-0.5" />
+                        )}
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold mb-1">
+                            {order.result.isAbnormal ? t('abnormal') : t('normal')}
+                          </p>
+                          <p className="text-[13px]">{order.result.resultText || t('noDetailDesc')}</p>
+                          {order.result.abnormalNote && order.result.isAbnormal && (
+                            <p className="text-[13px] font-bold mt-1 text-red-700">{t('noteLabel')} {order.result.abnormalNote}</p>
+                          )}
+                          {order.result.resultFileUrl && (
+                            <a 
+                              href={order.result.resultFileUrl} 
+                              target="_blank" 
+                              rel="noreferrer"
+                              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-md text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                            >
+                              <FilePdfIcon size={16} className="text-red-500" />
+                              {t('viewFile')}
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+                
+                {/* Delete action only allowed when PENDING */}
+                {order.status === 'PENDING' && (
+                  <button
+                    type="button"
+                    onClick={() => removeOrder(order.id)}
+                    className="shrink-0 p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                    title={t('deleteAction')}
+                  >
+                    <TrashIcon size={20} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

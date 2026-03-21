@@ -164,7 +164,7 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
                 <Textarea
                   {...register('doctorNotes')}
                   className="w-full text-sm shadow-sm min-h-[60px]"
-                  placeholder="Ghi chú dành riêng cho bác sĩ..."
+                  placeholder={t('placeholders.doctorNotes')}
                 />
               </div>
             </div>
@@ -238,7 +238,7 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
               {/* Informational Box (Hardcoded layout matching design) */}
               <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-100">
                 <InfoIcon size={20} className="text-blue-600 shrink-0" weight="fill" />
-                <p className="text-xs text-blue-700 font-medium">Bệnh nhân chưa có lịch sử khám trước đó trên hệ thống.</p>
+                <p className="text-xs text-blue-700 font-medium">{t('messages.noHistoryMsg')}</p>
               </div>
             </div>
           </div>
@@ -265,7 +265,7 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
                       )}
                     >
                       <CalendarBlankIcon size={20} className="mr-2 text-gray-400" />
-                      {watchFollowUpDate ? format(new Date(watchFollowUpDate), "dd/MM/yyyy") : <span>Chọn ngày...</span>}
+                      {watchFollowUpDate ? format(new Date(watchFollowUpDate), "dd/MM/yyyy") : <span>{t('placeholders.selectDate')}</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -307,9 +307,9 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
           type="button"
           onClick={handleSubmit((data: CreateMedicalRecordDto) => onSubmit(data, true))}
           disabled={isSavingRecord || isFinishing || !watchDiagnosisCode}
-          className="bg-green-600 hover:bg-green-700 text-white h-10 px-6 font-semibold shadow-sm"
+          className="bg-green-600 hover:bg-green-700 text-white h-10 px-6 font-semibold shadow-sm cursor-pointer"
         >
-          Hoàn tất & gọi khám tiếp
+          {t('actions.finishAndNext')}
         </Button>
       </footer>
     </form>

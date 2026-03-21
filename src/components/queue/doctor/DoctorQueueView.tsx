@@ -97,7 +97,7 @@ export function DoctorQueueView({
             <div className="border-2 border-dashed border-[#c4c6cf]/30 rounded-xl py-12 flex items-center justify-center text-[#44474e]/50 bg-[#f3f4f9]/30">
               <div className="flex flex-col items-center">
                 <ClipboardTextIcon size={48} className="mb-3 opacity-30" />
-                <p className="text-sm font-semibold tracking-tight">Hết danh sách chờ hôm nay</p>
+                <p className="text-sm font-semibold tracking-tight">{t('emptyQueue')}</p>
               </div>
             </div>
           ) : (

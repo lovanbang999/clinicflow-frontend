@@ -63,7 +63,7 @@ export function DoctorHistoryTab({ history, isLoading }: DoctorHistoryTabProps) 
             >
               {/* Date Column */}
               <div className="flex flex-col items-center justify-center px-3 py-2.5 bg-gray-50/80 rounded-xl border border-gray-100/60 w-[84px] shrink-0">
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 text-center leading-tight">Ngày<br/>Khám</span>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 text-center leading-tight whitespace-pre-line">{t('dateColumn')}</span>
                 <span className="text-[13px] font-bold text-gray-900">{dateStr}</span>
               </div>
 

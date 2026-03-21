@@ -1,4 +1,5 @@
 import type { QueueRecord } from '@/lib/api/queue';
+import { useTranslations } from 'next-intl';
 import { CheckIcon, WarningCircleIcon, WarningIcon, PhoneIcon } from '@phosphor-icons/react';
 
 interface DoctorPatientBannerProps {
@@ -10,12 +11,14 @@ function getInitials(name: string) {
 }
 
 export function DoctorPatientBanner({ item }: DoctorPatientBannerProps) {
+  const tBanner = useTranslations('dashboard.doctor.workspace.examView.patientBanner');
+  const tQueue = useTranslations('dashboard.doctor.workspace.queueView');
+
   const patient = item.booking.patientProfile;
   const name = patient?.fullName ?? 'N/A';
   const bookingCode = item.booking.bookingCode ?? '';
   const age = patient?.dateOfBirth ? new Date().getFullYear() - new Date(patient.dateOfBirth).getFullYear() : '?';
-  // Use fallback for simple strings, properly handled via dashboard.json structure if available
-  const genderStr = patient?.gender === 'MALE' ? 'Nam' : patient?.gender === 'FEMALE' ? 'Nữ' : 'Khác';
+  const genderStr = patient?.gender === 'MALE' ? tQueue('gender.male') : patient?.gender === 'FEMALE' ? tQueue('gender.female') : tQueue('gender.other');
   const initials = getInitials(name);
   const phone = patient?.phone ?? '';
 
@@ -28,7 +31,7 @@ export function DoctorPatientBanner({ item }: DoctorPatientBannerProps) {
           <div className="w-20 h-20 rounded-lg bg-blue-50 text-blue-600 font-bold text-2xl flex items-center justify-center border border-gray-100">
             {initials}
           </div>
-          <div className="absolute -bottom-1 -right-1 bg-green-500 border-4 border-white w-6 h-6 rounded-full flex items-center justify-center" title="Đang khám">
+          <div className="absolute -bottom-1 -right-1 bg-green-500 border-4 border-white w-6 h-6 rounded-full flex items-center justify-center" title={tBanner('examining')}>
             <CheckIcon weight="bold" className="text-white text-[12px]" />
           </div>
         </div>
@@ -40,9 +43,9 @@ export function DoctorPatientBanner({ item }: DoctorPatientBannerProps) {
           </div>
           
           <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span>{age} Tuổi</span>
+            <span>{age} {tBanner('age')}</span>
             <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-            <span>Giới tính: {genderStr}</span>
+            <span>{tBanner('gender')} {genderStr}</span>
             {phone && (
               <>
                 <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
@@ -55,9 +58,9 @@ export function DoctorPatientBanner({ item }: DoctorPatientBannerProps) {
           
           <div className="flex flex-wrap gap-2 mt-2">
             {patient?.allergies && (
-              <span className="flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1 rounded-md text-xs font-semibold border border-red-100">
+              <span className="flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1 rounded-md text-xs font-semibold border border-red-100 cursor-pointer">
                 <WarningIcon size={14} weight="bold" /> 
-                Dị ứng: {patient.allergies}
+                {tBanner('allergy')} {patient.allergies}
               </span>
             )}
             {patient?.chronicConditions && (
