@@ -165,12 +165,35 @@ export function useBookings() {
     } catch (err) {
       const error = err as Error;
       setError(error);
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Failed to check-in patient';
+      const errorMessage =
+        error && 'response' in error
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (error as any).response?.data?.message
+          : 'Failed to check-in patient';
       toast.error(errorMessage);
       return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Complete booking (Finish visit)
+  const completeBooking = useCallback(async (id: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      await bookingsApi.complete(id);
+      return true;
+    } catch (err) {
+      const error = err as Error;
+      setError(error);
+      const errorMessage =
+        error && 'response' in error
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (error as any).response?.data?.message
+          : 'Failed to complete visit';
+      toast.error(errorMessage);
+      return false;
     } finally {
       setIsLoading(false);
     }
@@ -187,5 +210,6 @@ export function useBookings() {
     getBookingById,
     fetchReceptionistStats,
     checkInPatient,
+    completeBooking,
   };
 }

@@ -41,9 +41,74 @@
       "actions": "Actions"
     }
   },
+  "emr": {
+    "consultation": {
+      "title": "Medical Consultation",
+      "subtitle": "Enter the clinical findings and diagnosis below."
+    },
+    "form": {
+      "title": "Consultation Result",
+      "chiefComplaint": "Reason for Visit (Chief Complaint)",
+      "clinicalFindings": "Clinical Results & Findings",
+      "diagnosis": "Diagnosis (ICD-10 Code)",
+      "treatmentPlan": "Treatment Plan / Prescriptions",
+      "followUpDate": "Follow-up Date",
+      "placeholders": {
+        "chiefComplaint": "Patient presents with...",
+        "clinicalFindings": "Vitals stable. Throat shows mild erythema...",
+        "diagnosis": "Search ICD-10... e.g., J00",
+        "treatmentPlan": "Rest, fluids, Paracetamol 500mg prn..."
+      },
+      "actions": {
+        "saveDraft": "Save Draft",
+        "finishVisit": "Finish & Generate Invoice",
+        "callNext": "Call Next Patient",
+        "print": "Print",
+        "share": "Share"
+      },
+      "sections": {
+        "clinicalExam": "Clinical Examination",
+        "instructionsNotes": "Instructions & Notes",
+        "diagnosis": "Diagnosis",
+        "followUp": "Follow-up Appointment"
+      },
+      "fields": {
+        "chiefComplaint": "Reason for Visit & Clinical Findings",
+        "clinicalFindings": "Clinical Results",
+        "treatmentPlan": "Treatment Instructions",
+        "internalNotes": "Internal Notes",
+        "icd10": "ICD-10 Code",
+        "confirmedDiagnosis": "Confirmed Diagnosis",
+        "appointmentDate": "Appointment Date"
+      },
+      "labels": {
+        "diagnosisTemplate": "Diagnosis Template",
+        "lastVisit": "Last visit ({date}): {diagnosis}",
+        "days7": "7 Days",
+        "days14": "14 Days",
+        "days30": "30 Days"
+      },
+      "messages": {
+        "visitCompleted": "Visit completed successfully!",
+        "savedDraft": "Draft saved successfully!",
+        "saveError": "Failed to save medical record."
+      }
+    },
+    "patientInfo": {
+      "noData": "No patient selected",
+      "yearsOld": "years old",
+      "medicalHistory": "Medical History",
+      "allergies": "Prominent Allergies",
+      "noneReported": "None reported",
+      "chronicConditions": "Chronic Conditions",
+      "recentVisits": "Recent Visits",
+      "noRecentVisits": "No recent visits",
+      "dr": "Dr."
+    }
+  },
   "doctor": {
     "title": "Doctor",
-    "dashboard": "Dashboard",
+    "dashboard": "Workspace",
     "greeting": "Hello {name}, you have patients waiting",
     "schedule": "Schedule",
     "patients": "Patients",
@@ -52,6 +117,104 @@
       "title": "Page Not Found",
       "description": "The page you are looking for does not exist or has been moved.",
       "backToDashboard": "Back to Dashboard"
+    },
+    "workspace": {
+      "confirmNoShow": "Mark this patient as no-show?",
+      "queue": {
+        "title": "Today's Queue",
+        "autoUpdate": "Auto-updating",
+        "loading": "Loading...",
+        "empty": "No patients currently in the queue",
+        "minuteUnit": "min",
+        "noShowLabel": "No-show",
+        "doneLabel": "Done",
+        "stats": {
+          "waiting": "Waiting",
+          "completed": "Completed",
+          "noShow": "No-show"
+        },
+        "status": {
+          "inProgress": "Examining",
+          "waiting": "Waiting",
+          "noShow": "No-show",
+          "completed": "Completed"
+        }
+      },
+      "queueView": {
+        "title": "Today's Queue",
+        "live": "Live",
+        "stats": {
+          "waiting": "Waiting",
+          "completed": "Completed",
+          "noShow": "No-show"
+        },
+        "avgWaitTime": "Avg Wait Time:",
+        "minutes": "min",
+        "tags": {
+          "urgent": "Urgent",
+          "allergy": "Allergy",
+          "firstVisit": "First Visit",
+          "bhyt": "Insurance"
+        },
+        "status": {
+          "inProgress": "In Progress",
+          "waiting": "Waiting",
+          "urgent": "Urgent",
+          "noShow": "No-show",
+          "completed": "Completed"
+        },
+        "actions": {
+          "enterExam": "Enter Room",
+          "callPatient": "Call Patient"
+        },
+        "infoNote": "You can only <strong>Enter Room</strong> with the currently called patient. Waiting patients are for reference only and cannot be examined yet."
+      },
+      "examView": {
+        "title": "Medical Examination",
+        "startedAt": "Started at:",
+        "endExam": "End Examination",
+        "endExamConfirm": {
+          "title": "End Examination?",
+          "desc": "Unfinished EMR will be saved as draft. You will return to the queue and can call the next patient.",
+          "cancel": "Continue Exam",
+          "confirm": "End Exam"
+        },
+        "vitals": {
+          "bloodPressure": "Blood Pressure",
+          "pulse": "Pulse",
+          "spo2": "SpO2",
+          "temperature": "Temperature",
+          "weight": "Weight",
+          "height": "Height",
+          "bmi": "BMI"
+        },
+        "tabs": {
+          "emr": "Exam & EMR",
+          "history": "Visit History",
+          "rx": "Prescription",
+          "lab": "Lab Orders"
+        }
+      },
+      "historyTab": {
+        "title": "Visit History ({count})",
+        "loading": "Loading history...",
+        "empty": "No visit history data available",
+        "noRecord": "No diagnosis",
+        "completed": "Completed"
+      },
+      "patient": {
+        "noneSelected": "No patient selected",
+        "noShow": "No-show",
+        "fullProfile": "Full Profile",
+        "inProgress": "Examining",
+        "markedNoShow": "Marked as no-show",
+        "fields": {
+          "bloodType": "Blood Type",
+          "height": "Height",
+          "weight": "Weight",
+          "lastVisit": "Last Visit"
+        }
+      }
     }
   },
   "receptionist": {

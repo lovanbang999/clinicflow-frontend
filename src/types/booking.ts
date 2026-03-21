@@ -30,6 +30,12 @@ export interface Booking {
     fullName: string;
     phone: string;
     patientCode: string;
+    dateOfBirth?: string;
+    gender?: string;
+    allergies?: string;
+    chronicConditions?: string;
+    weightKg?: number;
+    heightCm?: number;
   };
   doctor?: {
     id: string;
