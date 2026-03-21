@@ -57,14 +57,17 @@
         "chiefComplaint": "Bệnh nhân có triệu chứng...",
         "clinicalFindings": "Sinh hiệu ổn định. Họng hơi đỏ...",
         "diagnosis": "Tìm mã ICD-10... VD: J00",
-        "treatmentPlan": "Nghỉ ngơi, uống nước, Paracetamol 500mg..."
+        "treatmentPlan": "Nghỉ ngơi, uống nước, Paracetamol 500mg...",
+        "doctorNotes": "Ghi chú dành riêng cho bác sĩ...",
+        "selectDate": "Chọn ngày..."
       },
       "actions": {
         "saveDraft": "Lưu nháp",
         "finishVisit": "Hoàn tất & Tạo hóa đơn",
         "callNext": "Gọi đi bệnh nhân tiếp theo",
         "print": "In",
-        "share": "Chia sẻ"
+        "share": "Chia sẻ",
+        "finishAndNext": "Hoàn tất & gọi khám tiếp"
       },
       "sections": {
         "clinicalExam": "Khám lâm sàng",
@@ -104,6 +107,9 @@
       "recentVisits": "Lịch sử khám gần đây",
       "noRecentVisits": "Không có lịch sử khám",
       "dr": "BS."
+    },
+    "messages": {
+      "noHistoryMsg": "Bệnh nhân chưa có lịch sử khám trước đó trên hệ thống."
     }
   },
   "doctor": {
@@ -167,7 +173,16 @@
           "enterExam": "Vào phòng khám",
           "callPatient": "Gọi vào khám"
         },
-        "infoNote": "Chỉ có thể <strong>Vào phòng khám</strong> với bệnh nhân đang được gọi. Các bệnh nhân đang chờ chỉ hiển thị để tham khảo — không thể chỉnh sửa."
+        "infoNote": "Chỉ có thể <strong>Vào phòng khám</strong> với bệnh nhân đang được gọi. Các bệnh nhân đang chờ chỉ hiển thị để tham khảo — không thể chỉnh sửa.",
+        "statusLabel": "Trạng thái",
+        "gender": {
+          "male": "Nam",
+          "female": "Nữ",
+          "other": "Khác"
+        },
+        "age": "tuổi",
+        "generalExam": "Khám tổng quát",
+        "emptyQueue": "Hết danh sách chờ hôm nay"
       },
       "examView": {
         "title": "Đang khám bệnh",
@@ -193,6 +208,20 @@
           "history": "Lịch sử khám",
           "rx": "Đơn thuốc",
           "lab": "Xét nghiệm"
+        },
+        "loading": "Đang tải hồ sơ khám...",
+        "fetchError": "Lỗi khi tải thông tin bệnh nhân",
+        "patientBanner": {
+          "examining": "Đang khám",
+          "age": "Tuổi",
+          "gender": "Giới tính:",
+          "allergy": "Dị ứng:"
+        },
+        "vitalsStatus": {
+          "underweight": "Thiếu cân",
+          "normal": "Bình thường",
+          "overweight": "Thừa cân",
+          "obese": "Béo phì"
         }
       },
       "historyTab": {
@@ -200,7 +229,8 @@
         "loading": "Đang tải lịch sử...",
         "empty": "Chưa có dữ liệu lịch sử khám",
         "noRecord": "Chưa có chẩn đoán",
-        "completed": "Hoàn thành"
+        "completed": "Hoàn thành",
+        "dateColumn": "Ngày\nKhám"
       },
       "patient": {
         "noneSelected": "Chưa chọn bệnh nhân",
@@ -214,6 +244,47 @@
           "weight": "Cân nặng",
           "lastVisit": "Khám trước"
         }
+      },
+      "labTab": {
+        "createOrder": "Tạo chỉ định mới",
+        "testName": "Tên XN / Dịch vụ (*)",
+        "testNamePlaceholder": "VD: Siêu âm tuyến giáp...",
+        "description": "Lưu ý / Mô tả",
+        "descriptionPlaceholder": "VD: Kiểm tra kỹ thùy trái...",
+        "submitBtn": "Chỉ định",
+        "listTitle": "Danh sách đã chỉ định ({count})",
+        "emptyList": "Chưa có chỉ định cận lâm sàng nào.",
+        "status": {
+          "pending": "Chờ kết quả",
+          "inProgress": "Đang thực hiện",
+          "completed": "Đã có kết quả"
+        },
+        "noteLabel": "Lưu ý:",
+        "orderedAt": "Chỉ định lúc:",
+        "abnormal": "Bất thường",
+        "normal": "Bình thường",
+        "noDetailDesc": "Không có mô tả chi tiết",
+        "viewFile": "Xem / Tải file kết quả",
+        "deleteAction": "Hủy chỉ định"
+      },
+      "prescriptionTab": {
+        "title": "Đơn thuốc",
+        "addMedicine": "Thêm thuốc",
+        "emptyList": "Chưa có đơn thuốc nào được kê. Bấm \"Thêm thuốc\" để bắt đầu.",
+        "deleteAction": "Xóa thuốc",
+        "medicineName": "Tên thuốc (*)",
+        "medicinePlaceholder": "VD: Paracetamol 500mg",
+        "dosage": "Liều dùng (*)",
+        "dosagePlaceholder": "VD: 1 viên",
+        "frequency": "Tần suất (*)",
+        "frequencyPlaceholder": "VD: Sáng 1, Tối 1",
+        "durationDays": "Số ngày",
+        "durationPlaceholder": "Ngày",
+        "quantity": "SL (*)",
+        "quantityPlaceholder": "SL",
+        "unit": "ĐVT (*)",
+        "unitPlaceholder": "Viên",
+        "instructionsPlaceholder": "Ghi chú thêm (VD: Uống sau ăn no)..."
       }
     }
   },
@@ -224,7 +295,49 @@
     "checkIn": "Check-in",
     "walkinBooking": "Đặt lịch khám",
     "queue": "Hàng đợi",
+    "labs": "Xét nghiệm",
     "reports": "Báo cáo",
+    "labManagement": {
+      "title": "Quản lý Xét nghiệm",
+      "subtitle": "Cập nhật kết quả xét nghiệm cho bệnh nhân từ phòng Lab",
+      "columns": {
+        "time": "Thời gian gọi",
+        "patient": "Bệnh nhân / Mã ca khám",
+        "testName": "Yêu cầu xét nghiệm",
+        "doctor": "Chỉ định bởi",
+        "status": "Trạng thái",
+        "actions": "Thao tác"
+      },
+      "status": {
+        "pending": "CHỜ KẾT QUẢ",
+        "inProgress": "ĐANG THỰC HIỆN"
+      },
+      "actions": {
+        "enterResult": "Nhập Kết Quả"
+      },
+      "loading": "Đang tải dữ liệu...",
+      "empty": "Không có phiếu xét nghiệm nào đang chờ.",
+      "dr": "BS.",
+      "modal": {
+        "title": "Nhập Kết Quả Xét Nghiệm",
+        "patientInfo": "Bệnh nhân:",
+        "testInfo": "Yêu cầu:",
+        "fileAttachmentLabel": "Tệp đính kèm (PDF, Ảnh)",
+        "fileSizeHint": "Hỗ trợ file Tối đa 10MB",
+        "textResultLabel": "Kết quả bằng chữ (Tùy chọn)",
+        "textResultPlaceholder": "Ví dụ: Chỉ số xét nghiệm bình thường...",
+        "abnormalFlag": "Cảnh báo Bất thường (Red Flag)",
+        "abnormalNoteLabel": "Ghi chú cảnh báo cho Bác sĩ",
+        "abnormalNotePlaceholder": "Ghi rõ chỉ số nào bất thường...",
+        "cancel": "Hủy bỏ",
+        "submit": "Hoàn thành Cập nhật",
+        "uploading": "Đang tải file lên...",
+        "submitting": "Đang lưu...",
+        "success": "Đã lưu kết quả xét nghiệm!",
+        "uploadError": "Lỗi khi tải lên file đính kèm",
+        "saveError": "Có lỗi khi lưu kết quả"
+      }
+    },
     "queueManagement": {
       "title": "Quản lý Hàng Đợi Trực Tiếp",
       "overview": "Theo dõi và quản lý bệnh nhân vào khám theo thời gian thực",

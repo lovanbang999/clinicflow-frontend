@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { queueApi } from '@/lib/api/queue';
 import type { QueueRecord } from '@/lib/api/queue';
 import { DoctorExamView } from '@/components/queue/doctor/DoctorExamView';
@@ -13,6 +14,7 @@ export default function DoctorExamPage() {
   const params = useParams();
   const id = params.id as string;
   const locale = params.locale as string;
+  const t = useTranslations('dashboard.doctor.workspace.examView');
   const [record, setRecord] = useState<QueueRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,14 +28,14 @@ export default function DoctorExamPage() {
         setRecord(res);
       } catch (err) {
         console.error(err);
-        toast.error('Lỗi khi tải thông tin bệnh nhân');
+        toast.error(t('fetchError'));
         router.push(`/${locale}/doctor`);
       } finally {
         setIsLoading(false);
       }
     }
     void fetchRecord();
-  }, [id, locale, router]);
+  }, [id, locale, router, t]);
 
   if (isLoading) {
     return (

@@ -57,14 +57,17 @@
         "chiefComplaint": "Patient presents with...",
         "clinicalFindings": "Vitals stable. Throat shows mild erythema...",
         "diagnosis": "Search ICD-10... e.g., J00",
-        "treatmentPlan": "Rest, fluids, Paracetamol 500mg prn..."
+        "treatmentPlan": "Rest, fluids, Paracetamol 500mg prn...",
+        "doctorNotes": "Notes for doctor only...",
+        "selectDate": "Select date..."
       },
       "actions": {
         "saveDraft": "Save Draft",
         "finishVisit": "Finish & Generate Invoice",
         "callNext": "Call Next Patient",
         "print": "Print",
-        "share": "Share"
+        "share": "Share",
+        "finishAndNext": "Complete & Call Next"
       },
       "sections": {
         "clinicalExam": "Clinical Examination",
@@ -104,6 +107,9 @@
       "recentVisits": "Recent Visits",
       "noRecentVisits": "No recent visits",
       "dr": "Dr."
+    },
+    "messages": {
+      "noHistoryMsg": "The patient currently has no prior visits recorded in the system."
     }
   },
   "doctor": {
@@ -167,7 +173,16 @@
           "enterExam": "Enter Room",
           "callPatient": "Call Patient"
         },
-        "infoNote": "You can only <strong>Enter Room</strong> with the currently called patient. Waiting patients are for reference only and cannot be examined yet."
+        "infoNote": "You can only <strong>Enter Room</strong> with the currently called patient. Waiting patients are for reference only and cannot be examined yet.",
+        "statusLabel": "Status",
+        "gender": {
+          "male": "Male",
+          "female": "Female",
+          "other": "Other"
+        },
+        "age": "yrs",
+        "generalExam": "General Exam",
+        "emptyQueue": "No patients currently in queue"
       },
       "examView": {
         "title": "Medical Examination",
@@ -193,6 +208,20 @@
           "history": "Visit History",
           "rx": "Prescription",
           "lab": "Lab Orders"
+        },
+        "loading": "Loading medical record...",
+        "fetchError": "Error loading patient information",
+        "patientBanner": {
+          "examining": "Examining",
+          "age": "Age",
+          "gender": "Gender:",
+          "allergy": "Allergies:"
+        },
+        "vitalsStatus": {
+          "underweight": "Underweight",
+          "normal": "Normal",
+          "overweight": "Overweight",
+          "obese": "Obese"
         }
       },
       "historyTab": {
@@ -200,7 +229,8 @@
         "loading": "Loading history...",
         "empty": "No visit history data available",
         "noRecord": "No diagnosis",
-        "completed": "Completed"
+        "completed": "Completed",
+        "dateColumn": "Visit\nDate"
       },
       "patient": {
         "noneSelected": "No patient selected",
@@ -214,6 +244,47 @@
           "weight": "Weight",
           "lastVisit": "Last Visit"
         }
+      },
+      "labTab": {
+        "createOrder": "New Lab Order",
+        "testName": "Test Name / Service (*)",
+        "testNamePlaceholder": "e.g. Thyroid Ultrasound...",
+        "description": "Notes / Description",
+        "descriptionPlaceholder": "e.g. Check left lobe carefully...",
+        "submitBtn": "Order",
+        "listTitle": "Ordered Tests ({count})",
+        "emptyList": "No lab orders created yet.",
+        "status": {
+          "pending": "Pending",
+          "inProgress": "In Progress",
+          "completed": "Result Available"
+        },
+        "noteLabel": "Note:",
+        "orderedAt": "Ordered at:",
+        "abnormal": "Abnormal",
+        "normal": "Normal",
+        "noDetailDesc": "No detailed description",
+        "viewFile": "View / Download Result",
+        "deleteAction": "Cancel order"
+      },
+      "prescriptionTab": {
+        "title": "Prescription",
+        "addMedicine": "Add Medicine",
+        "emptyList": "No medicines prescribed yet. Click \"Add Medicine\" to start.",
+        "deleteAction": "Remove from prescription",
+        "medicineName": "Medicine Name (*)",
+        "medicinePlaceholder": "e.g. Paracetamol 500mg",
+        "dosage": "Dosage (*)",
+        "dosagePlaceholder": "e.g. 1 pill",
+        "frequency": "Frequency (*)",
+        "frequencyPlaceholder": "e.g. Morning 1, Evening 1",
+        "durationDays": "Duration (Days)",
+        "durationPlaceholder": "Days",
+        "quantity": "Qty (*)",
+        "quantityPlaceholder": "Qty",
+        "unit": "Unit (*)",
+        "unitPlaceholder": "Pill",
+        "instructionsPlaceholder": "Additional notes (e.g. After meal)..."
       }
     }
   },
@@ -224,7 +295,49 @@
     "checkIn": "Check-in",
     "walkinBooking": "Walk-in Booking",
     "queue": "Queue",
+    "labs": "Laboratory",
     "reports": "Reports",
+    "labManagement": {
+      "title": "Laboratory Management",
+      "subtitle": "Update lab test results for patients",
+      "columns": {
+        "time": "Order Time",
+        "patient": "Patient / Booking ID",
+        "testName": "Test Request",
+        "doctor": "Ordered By",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "status": {
+        "pending": "PENDING",
+        "inProgress": "IN PROGRESS"
+      },
+      "actions": {
+        "enterResult": "Enter Result"
+      },
+      "loading": "Loading orders...",
+      "empty": "No pending lab orders.",
+      "dr": "Dr.",
+      "modal": {
+        "title": "Enter Lab Results",
+        "patientInfo": "Patient:",
+        "testInfo": "Test Request:",
+        "fileAttachmentLabel": "File Attachment (PDF, Images)",
+        "fileSizeHint": "Max size 10MB supported",
+        "textResultLabel": "Text Result (Optional)",
+        "textResultPlaceholder": "Example: Basic indices are normal...",
+        "abnormalFlag": "Abnormal Warning (Red Flag)",
+        "abnormalNoteLabel": "Warning Note for Doctor",
+        "abnormalNotePlaceholder": "Specify which indices are abnormal...",
+        "cancel": "Cancel",
+        "submit": "Complete Update",
+        "uploading": "Uploading file...",
+        "submitting": "Saving...",
+        "success": "Lab result saved successfully!",
+        "uploadError": "Error uploading file attachment",
+        "saveError": "Error saving result"
+      }
+    },
     "queueManagement": {
       "title": "Live Queue Management",
       "overview": "Monitor and manage live patient check-ins",

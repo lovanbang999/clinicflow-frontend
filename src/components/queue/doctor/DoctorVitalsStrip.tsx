@@ -21,10 +21,10 @@ export function DoctorVitalsStrip({ item }: DoctorVitalsStripProps) {
     const calcBmi = patient.weightKg / (hInMeters * hInMeters);
     bmi = calcBmi.toFixed(1);
     
-    if (calcBmi < 18.5) bmiStatus = 'Thiếu cân';
-    else if (calcBmi < 25) bmiStatus = 'Bình thường';
-    else if (calcBmi < 30) bmiStatus = 'Thừa cân';
-    else bmiStatus = 'Béo phì';
+    if (calcBmi < 18.5) bmiStatus = t('vitalsStatus.underweight');
+    else if (calcBmi < 25) bmiStatus = t('vitalsStatus.normal');
+    else if (calcBmi < 30) bmiStatus = t('vitalsStatus.overweight');
+    else bmiStatus = t('vitalsStatus.obese');
   }
 
   return (

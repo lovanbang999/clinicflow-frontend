@@ -48,7 +48,7 @@ export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardPr
   const bookingCode = item.booking.bookingCode ?? '';
   const serviceName = item.booking.service?.name ?? '';
   const age = patient?.dateOfBirth ? new Date().getFullYear() - new Date(patient.dateOfBirth).getFullYear() : '?';
-  const genderStr = patient?.gender === 'MALE' ? 'Nam' : patient?.gender === 'FEMALE' ? 'Nữ' : 'Khác';
+  const genderStr = patient?.gender === 'MALE' ? t('gender.male') : patient?.gender === 'FEMALE' ? t('gender.female') : t('gender.other');
   
   const initials = getInitials(name);
   const avatarColors = getAvatarColors(name);
@@ -114,10 +114,10 @@ export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardPr
             <div className="flex flex-wrap items-center gap-3 text-[#44474e]">
               <div className="flex items-center gap-1.5 text-sm">
                 <ClipboardTextIcon size={18} className="opacity-60" weight="fill" />
-                <span className="font-medium">{serviceName || 'Khám tổng quát'}</span>
+                <span className="font-medium">{serviceName || t('generalExam')}</span>
               </div>
               <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50"></span>
-              <p className="text-sm font-medium">{age} tuổi</p>
+              <p className="text-sm font-medium">{age} {t('age')}</p>
               <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50"></span>
               <p className="text-sm font-medium">{genderStr}</p>
             </div>
@@ -143,7 +143,7 @@ export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardPr
         {/* Right Section */}
         <div className="flex items-center justify-between sm:justify-end gap-10 border-t lg:border-t-0 pt-4 lg:pt-0 border-[#c4c6cf]/10 shrink-0">
           <div className="text-right hidden sm:block">
-            <p className="text-[10px] text-[#44474e] font-bold uppercase tracking-widest mb-1.5">Trạng thái</p>
+            <p className="text-[10px] text-[#44474e] font-bold uppercase tracking-widest mb-1.5">{t('statusLabel')}</p>
             <span className={`inline-flex items-center gap-1.5 px-4 py-1 rounded-lg font-bold text-xs border ${statusBg}`}>
               {statusLbl}
             </span>

@@ -129,7 +129,7 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-12 gap-3 text-[#4b5f73]">
             <SpinnerIcon size={28} className="animate-spin text-[#1570ef]" />
-            <span className="text-[12px]">Đang tải hồ sơ khám...</span>
+            <span className="text-[12px]">{t('loading')}</span>
           </div>
         ) : (
           <>
