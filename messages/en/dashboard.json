@@ -248,7 +248,9 @@
       "labTab": {
         "createOrder": "New Lab Order",
         "testName": "Test Name / Service (*)",
-        "testNamePlaceholder": "e.g. Thyroid Ultrasound...",
+        "testNamePlaceholder": "E.g. Thyroid ultrasound...",
+        "selectService": "-- Select Lab/Clinical Service --",
+        "customService": "Other (Enter custom test name)",
         "description": "Notes / Description",
         "descriptionPlaceholder": "e.g. Check left lobe carefully...",
         "submitBtn": "Order",
@@ -296,6 +298,7 @@
     "walkinBooking": "Walk-in Booking",
     "queue": "Queue",
     "labs": "Laboratory",
+    "billing": "Billing",
     "reports": "Reports",
     "labManagement": {
       "title": "Laboratory Management",
@@ -530,7 +533,103 @@
         "createSuccess": "Patient created successfully",
         "createError": "Error creating patient",
         "bookingSuccess": "Booking successful!",
-        "bookingError": "Error booking"
+        "bookingError": "Error creating booking"
+      }
+    },
+    "billingManagement": {
+      "title": "Billing Management",
+      "subtitle": "List of invoices for the day",
+      "filter": {
+        "all": "All Statuses",
+        "draft": "Draft (DRAFT)",
+        "open": "Open (OPEN)",
+        "issued": "Pending Finalize (ISSUED)",
+        "paid": "Paid (PAID)"
+      },
+      "table": {
+        "invoiceNumber": "Invoice # / Date",
+        "patientDoctor": "Patient / Doctor",
+        "status": "Status",
+        "total": "Total Amount",
+        "paid": "Paid",
+        "actions": "Actions",
+        "empty": "No invoices found",
+        "unknown": "Unknown",
+        "viewDetails": "View details / Pay"
+      },
+      "status": {
+        "draft": "Draft",
+        "open": "Open (Collect Payment)",
+        "issued": "Issued (Examined)",
+        "paid": "Paid"
+      },
+      "detail": {
+        "title": "Invoice Details",
+        "status": "Status:",
+        "createdAt": "Created at:",
+        "printBtn": "Print",
+        "payBtn": "Receive Payment",
+        "finalizeBtn": "Finalize Invoice",
+        "finalizeConfirm": "Are you sure you want to finalize this invoice? It will be locked and cannot be modified.",
+        "itemsTitle": "Service Details",
+        "tables": {
+          "serviceName": "Service Name",
+          "qty": "Qty",
+          "price": "Unit Price",
+          "total": "Total"
+        },
+        "labLabel": "Lab / Clinical Test",
+        "totalLabel": "Total:",
+        "paymentHistoryTitle": "Payment History",
+        "emptyPayments": "No payment transactions yet.",
+        "paymentTable": {
+          "time": "Time",
+          "method": "Method",
+          "amount": "Amount"
+        },
+        "summaryTitle": "Financial Summary",
+        "totalIncurred": "Total Incurred:",
+        "paidLabel": "Amount Paid:",
+        "debtLabel": "Remaining Debt:",
+        "patientInfoTitle": "Patient Information",
+        "patientLabels": {
+          "name": "Name:",
+          "code": "Patient ID:",
+          "phone": "Phone:",
+          "doctor": "Doctor:"
+        }
+      },
+      "paymentModal": {
+        "title": "Payment Processing",
+        "desc": "Invoice #:",
+        "totalAmount": "Total Due:",
+        "paidAmount": "Paid:",
+        "remaining": "Remaining:",
+        "payAmountLabel": "Payment Amount (*)",
+        "fullPaymentHint": "Click to fill remaining amount",
+        "methodLabel": "Payment Method",
+        "methods": {
+          "CASH": "Cash",
+          "CREDIT_CARD": "Credit Card",
+          "BANK_TRANSFER": "Bank Transfer",
+          "E_WALLET": "E-Wallet",
+          "INSURANCE": "Insurance"
+        },
+        "applyToLabOrderId": "Apply to Lab Order (Optional)",
+        "selectLabService": "-- Select a lab order --",
+        "labRemaining": "Remaining:",
+        "cancelBtn": "Cancel",
+        "submitBtn": "Confirm & Record",
+        "processing": "Processing..."
+      },
+      "messages": {
+        "loadListFailed": "Failed to load invoices",
+        "loadDetailFailed": "Failed to load invoice details",
+        "paymentFailed": "Payment failed",
+        "paymentSuccess": "Payment recorded successfully",
+        "finalizeFailed": "Failed to finalize invoice",
+        "finalizeSuccess": "Invoice finalized successfully",
+        "errorTitle": "Billing Error"
       }
     }
   },

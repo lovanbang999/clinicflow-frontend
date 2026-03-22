@@ -249,6 +249,8 @@
         "createOrder": "Tạo chỉ định mới",
         "testName": "Tên XN / Dịch vụ (*)",
         "testNamePlaceholder": "VD: Siêu âm tuyến giáp...",
+        "selectService": "-- Chọn dịch vụ xét nghiệm/CLS --",
+        "customService": "Khác (Nhập tên xét nghiệm thủ công)",
         "description": "Lưu ý / Mô tả",
         "descriptionPlaceholder": "VD: Kiểm tra kỹ thùy trái...",
         "submitBtn": "Chỉ định",
@@ -296,6 +298,7 @@
     "walkinBooking": "Đặt lịch khám",
     "queue": "Hàng đợi",
     "labs": "Xét nghiệm",
+    "billing": "Thanh toán",
     "reports": "Báo cáo",
     "labManagement": {
       "title": "Quản lý Xét nghiệm",
@@ -531,6 +534,102 @@
         "createError": "Lỗi tạo bệnh nhân",
         "bookingSuccess": "Đặt lịch thành công!",
         "bookingError": "Lỗi đặt lịch"
+      }
+    },
+    "billingManagement": {
+      "title": "Quản lý thu ngân",
+      "subtitle": "Danh sách hóa đơn của bệnh nhân trong ngày",
+      "filter": {
+        "all": "Tất cả trạng thái",
+        "draft": "Bản nháp (DRAFT)",
+        "open": "Đang mở (OPEN)",
+        "issued": "Chờ chốt (ISSUED)",
+        "paid": "Đã thanh toán (PAID)"
+      },
+      "table": {
+        "invoiceNumber": "Mã HĐ / Ngày tạo",
+        "patientDoctor": "Bệnh nhân / Bác sĩ",
+        "status": "Trạng thái HĐ",
+        "total": "Tổng tiền",
+        "paid": "Đã thu",
+        "actions": "Thao tác",
+        "empty": "Không tìm thấy hóa đơn nào",
+        "unknown": "Không rõ",
+        "viewDetails": "Xem chi tiết / Thanh toán"
+      },
+      "status": {
+        "draft": "Bản nháp",
+        "open": "Đang mở (Thu tiền)",
+        "issued": "Chờ chốt (BS đã khám)",
+        "paid": "Đã thanh toán"
+      },
+      "detail": {
+        "title": "Chi tiết Hóa đơn",
+        "status": "Trạng thái:",
+        "createdAt": "Tạo lúc:",
+        "printBtn": "In hóa đơn",
+        "payBtn": "Thu tiền",
+        "finalizeBtn": "Chốt Hóa Đơn",
+        "finalizeConfirm": "Bạn có chắc chắn muốn chốt hóa đơn này? Hóa đơn sẽ được khóa và không thể thay đổi.",
+        "itemsTitle": "Chi tiết dịch vụ",
+        "tables": {
+          "serviceName": "Tên dịch vụ",
+          "qty": "SL",
+          "price": "Đơn giá",
+          "total": "Thành tiền"
+        },
+        "labLabel": "Xét nghiệm / Cận lâm sàng",
+        "totalLabel": "Tổng cộng:",
+        "paymentHistoryTitle": "Lịch sử thanh toán",
+        "emptyPayments": "Chưa có giao dịch thanh toán nào.",
+        "paymentTable": {
+          "time": "Thời gian",
+          "method": "Hình thức",
+          "amount": "Số tiền"
+        },
+        "summaryTitle": "Tổng kết tài chính",
+        "totalIncurred": "Tổng phát sinh:",
+        "paidLabel": "Đã thanh toán:",
+        "debtLabel": "Còn nợ:",
+        "patientInfoTitle": "Thông tin Bệnh nhân",
+        "patientLabels": {
+          "name": "Họ tên:",
+          "code": "Mã BN:",
+          "phone": "SĐT:",
+          "doctor": "Bác sĩ:"
+        }
+      },
+      "paymentModal": {
+        "title": "Thu tiền & Thanh toán",
+        "desc": "Mã hóa đơn:",
+        "totalAmount": "Tổng phải thu:",
+        "paidAmount": "Đã thu:",
+        "remaining": "Còn lại:",
+        "payAmountLabel": "Số tiền thu (*)",
+        "fullPaymentHint": "Nhấp để điền nhanh số tiền còn lại",
+        "methodLabel": "Hình thức thanh toán",
+        "methods": {
+          "CASH": "Tiền mặt",
+          "CREDIT_CARD": "Thẻ tín dụng",
+          "BANK_TRANSFER": "Chuyển khoản",
+          "E_WALLET": "Ví điện tử",
+          "INSURANCE": "Bảo hiểm Y tế"
+        },
+        "applyToLabOrderId": "Áp dụng cho Dịch vụ Xét nghiệm (Tùy chọn)",
+        "selectLabService": "-- Chọn phiếu chỉ định xét nghiệm --",
+        "labRemaining": "Còn phải thu:",
+        "cancelBtn": "Hủy bỏ",
+        "submitBtn": "Xác nhận & Ghi nhận",
+        "processing": "Đang xử lý..."
+      },
+      "messages": {
+        "loadListFailed": "Lỗi khi tải danh sách hóa đơn",
+        "loadDetailFailed": "Lỗi khi tải chi tiết hóa đơn",
+        "paymentFailed": "Thanh toán thất bại",
+        "paymentSuccess": "Đã ghi nhận thanh toán",
+        "finalizeFailed": "Chốt hóa đơn thất bại",
+        "finalizeSuccess": "Đã chốt hóa đơn thành công",
+        "errorTitle": "Lỗi thanh toán"
       }
     }
   },

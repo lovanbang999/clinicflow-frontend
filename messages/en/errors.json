@@ -55,7 +55,17 @@
     "timeout": "Request timeout"
   },
   "server": {
-    "error": "Server error. Please try again later"
+    "error": "Internal server error. Please try again later"
+  },
+  "billing": {
+    "invoice": {
+      "notFound": "Invoice not found",
+      "alreadyPaid": "This invoice is already paid",
+      "finalized": "This invoice is finalized and cannot be modified"
+    },
+    "payment": {
+      "failed": "Payment failed. Please try again"
+    }
   },
   "generic": "An error occurred. Please try again"
 }

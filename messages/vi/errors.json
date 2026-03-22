@@ -57,5 +57,15 @@
   "server": {
     "error": "Lỗi máy chủ. Vui lòng thử lại sau"
   },
+  "billing": {
+    "invoice": {
+      "notFound": "Không tìm thấy hóa đơn",
+      "alreadyPaid": "Hóa đơn này đã được thanh toán",
+      "finalized": "Hóa đơn này đã được chốt, không thể thay đổi"
+    },
+    "payment": {
+      "failed": "Thanh toán thất bại. Vui lòng thử lại"
+    }
+  },
   "generic": "Đã có lỗi xảy ra. Vui lòng thử lại"
 }
