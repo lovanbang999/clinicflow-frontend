@@ -9,6 +9,19 @@ import {
   OffDay,
 } from '@/types';
 
+export interface AffectedAppointment {
+  id: string;
+  patientName: string;
+  patientPhone: string;
+  serviceName: string;
+  startTime: string;
+  status: string;
+}
+
+export interface CreateOffDayResult extends OffDay {
+  affectedAppointments: AffectedAppointment[];
+}
+
 export const schedulesApi = {
   // Get available time slots
   getAvailableSlots: async (params: AvailableSlotsQuery): Promise<TimeSlot[]> => {
@@ -17,7 +30,6 @@ export const schedulesApi = {
       data: { availableSlots: string[]; total: number };
     }>('/schedules/available-slots', { params });
     
-    // Transform string array to TimeSlot format
     return response.data.data.availableSlots.map(time => ({
       time,
       available: true,
@@ -32,17 +44,47 @@ export const schedulesApi = {
     return response.data.suggestions;
   },
 
-  // Get doctor working hours
-  getDoctorWorkingHours: async (doctorId: string): Promise<WorkingHours[]> => {
-    const response = await apiClient.get<WorkingHours[]>(`/schedules/doctor/${doctorId}/working-hours`);
-    return response.data;
+  // Working Hours
+
+  // Get working hours for a doctor (uses the correct backend path)
+  getWorkingHours: async (doctorId: string): Promise<WorkingHours[]> => {
+    const response = await apiClient.get<{ data: WorkingHours[] }>(`/schedules/working-hours/${doctorId}`);
+    return response.data.data;
   },
 
-  // Set working hours (admin/doctor)
-  setWorkingHours: async (data: Omit<WorkingHours, 'id'>): Promise<WorkingHours> => {
-    const response = await apiClient.post<WorkingHours>('/schedules/working-hours', data);
-    return response.data;
+  // Save (create or update) working hours for one day
+  saveWorkingHours: async (data: Omit<WorkingHours, 'id'>): Promise<WorkingHours> => {
+    const response = await apiClient.post<{ data: WorkingHours }>('/schedules/working-hours', data);
+    return response.data.data;
   },
+
+  // Delete working hours for a specific day
+  deleteWorkingHours: async (doctorId: string, dayOfWeek: string): Promise<void> => {
+    await apiClient.delete(`/schedules/working-hours/${doctorId}/${dayOfWeek}`);
+  },
+
+  // Off Days
+
+  // Get off days for a doctor
+  getOffDays: async (doctorId: string, startDate?: string, endDate?: string): Promise<OffDay[]> => {
+    const response = await apiClient.get<{ data: OffDay[] }>(`/schedules/off-days/${doctorId}`, {
+      params: { startDate, endDate },
+    });
+    return response.data.data;
+  },
+
+  // Create an off day (returns affected appointments)
+  createOffDay: async (data: Omit<OffDay, 'id'>): Promise<CreateOffDayResult> => {
+    const response = await apiClient.post<{ data: CreateOffDayResult }>('/schedules/off-days', data);
+    return response.data.data;
+  },
+
+  // Delete off day by doctorId + date
+  deleteOffDay: async (doctorId: string, date: string): Promise<void> => {
+    await apiClient.delete(`/schedules/off-days/${doctorId}/${date}`);
+  },
+
+  // Break Times
 
   // Add break time
   addBreakTime: async (data: Omit<BreakTime, 'id'>): Promise<BreakTime> => {
@@ -50,9 +92,16 @@ export const schedulesApi = {
     return response.data;
   },
 
-  // Add off day
-  addOffDay: async (data: Omit<OffDay, 'id'>): Promise<OffDay> => {
-    const response = await apiClient.post<OffDay>('/schedules/off-days', data);
-    return response.data;
+  // Legacy aliases kept for backward compatibility
+  getDoctorWorkingHours: async (doctorId: string): Promise<WorkingHours[]> => {
+    return schedulesApi.getWorkingHours(doctorId);
+  },
+
+  setWorkingHours: async (data: Omit<WorkingHours, 'id'>): Promise<WorkingHours> => {
+    return schedulesApi.saveWorkingHours(data);
+  },
+
+  addOffDay: async (data: Omit<OffDay, 'id'>): Promise<CreateOffDayResult> => {
+    return schedulesApi.createOffDay(data);
   },
 };
