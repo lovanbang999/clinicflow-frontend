@@ -35,6 +35,7 @@ export interface CreateLabOrderDto {
   bookingId: string;
   testName: string;
   testDescription?: string;
+  serviceId?: string;
 }
 
 export interface UploadLabResultDto {

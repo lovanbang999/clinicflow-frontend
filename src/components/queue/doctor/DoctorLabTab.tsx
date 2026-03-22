@@ -1,39 +1,81 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLabOrders } from '@/lib/hooks/useLabOrders';
+import { servicesApi } from '@/lib/api/services';
+import { Service } from '@/types';
 import { SpinnerIcon, TrashIcon, FlaskIcon, CheckCircleIcon, WarningCircleIcon, FilePdfIcon } from '@phosphor-icons/react';
 import { format } from 'date-fns';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface DoctorLabTabProps {
   bookingId: string;
 }
 
-const COMMON_TESTS = [
-  'Công thức máu toàn phần (CBC)',
-  'Đường huyết lúc đói (FBG)',
-  'Chức năng gan (AST, ALT)',
-  'Chức năng thận (Urea, Creatinine)',
-  'Tổng phân tích nước tiểu',
-  'Siêu âm ổ bụng tổng quát'
-];
-
 export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
+  const locale = useLocale();
   const t = useTranslations('dashboard.doctor.workspace.labTab');
   const { orders, isLoading, isSubmitting, addOrder, removeOrder } = useLabOrders(bookingId);
-  const [testName, setTestName] = useState('');
+  
+  const [services, setServices] = useState<Service[]>([]);
+  const [loadingServices, setLoadingServices] = useState(false);
+  
+  const [selectedServiceId, setSelectedServiceId] = useState<string>('');
+  const [customTestName, setCustomTestName] = useState('');
   const [testDescription, setTestDescription] = useState('');
 
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        setLoadingServices(true);
+        const data = await servicesApi.getAll({ isActive: true });
+        // Optionally filter by category if needed, but for now we list all active services
+        // since the old requirements stated they want to select generic services
+        setServices(data || []);
+      } catch (error) {
+        console.error('Failed to fetch services', error);
+      } finally {
+        setLoadingServices(false);
+      }
+    }
+    fetchServices();
+  }, []);
+
   const handleAddOrder = async () => {
-    if (!testName.trim()) return;
-    const success = await addOrder({ testName, testDescription });
+    let finalTestName = '';
+    let serviceId: string | undefined = undefined;
+
+    if (selectedServiceId && selectedServiceId !== 'CUSTOM') {
+      const selectedSvc = services.find(s => s.id === selectedServiceId);
+      if (selectedSvc) {
+        finalTestName = selectedSvc.name;
+        serviceId = selectedSvc.id;
+      }
+    } else {
+      finalTestName = customTestName;
+    }
+
+    if (!finalTestName.trim()) return;
+
+    const success = await addOrder({ 
+      testName: finalTestName, 
+      testDescription,
+      serviceId
+    });
+    
     if (success) {
-      setTestName('');
+      setSelectedServiceId('');
+      setCustomTestName('');
       setTestDescription('');
     }
+  };
+
+  const isFormValid = () => {
+    if (selectedServiceId && selectedServiceId !== 'CUSTOM') return true;
+    if (selectedServiceId === 'CUSTOM' && customTestName.trim()) return true;
+    return false;
   };
 
   return (
@@ -46,29 +88,35 @@ export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
           {t('createOrder')}
         </h3>
         <div className="space-y-4">
-          <div className="flex flex-wrap gap-2 mb-2">
-            {COMMON_TESTS.map((test) => (
-              <button
-                key={test}
-                type="button"
-                onClick={() => setTestName(test)}
-                className="px-3 py-1.5 text-xs font-medium bg-gray-50 hover:bg-blue-50 hover:text-blue-700 text-gray-600 border border-gray-200 rounded-lg transition-colors cursor-pointer"
-              >
-                + {test}
-              </button>
-            ))}
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div className="md:col-span-5">
               <label className="text-xs font-semibold text-gray-600 mb-1 block">{t('testName')}</label>
-              <Input
-                value={testName}
-                onChange={(e) => setTestName(e.target.value)}
-                placeholder={t('testNamePlaceholder')}
-                className="h-10 text-sm shadow-sm"
-              />
+              <div className="space-y-2">
+                <select
+                  value={selectedServiceId}
+                  onChange={(e) => setSelectedServiceId(e.target.value)}
+                  className="w-full h-10 text-sm shadow-sm border border-gray-200 rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+                >
+                  <option value="">{t('selectService')}</option>
+                  {services.map((svc) => (
+                    <option key={svc.id} value={svc.id}>
+                      {svc.name} - {new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: locale === 'vi' ? 'VND' : 'USD' }).format(svc.price)}
+                    </option>
+                  ))}
+                  <option value="CUSTOM">{t('customService')}</option>
+                </select>
+
+                {selectedServiceId === 'CUSTOM' && (
+                  <Input
+                    value={customTestName}
+                    onChange={(e) => setCustomTestName(e.target.value)}
+                    placeholder={t('testNamePlaceholder')}
+                    className="h-10 text-sm shadow-sm"
+                  />
+                )}
+              </div>
             </div>
+            
             <div className="md:col-span-5">
               <label className="text-xs font-semibold text-gray-600 mb-1 block">{t('description')}</label>
               <Input
@@ -78,11 +126,12 @@ export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
                 className="h-10 text-sm shadow-sm"
               />
             </div>
+            
             <div className="md:col-span-2 flex items-end">
               <Button
                 type="button"
                 className="w-full h-10 font-bold bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
-                disabled={!testName.trim() || isSubmitting}
+                disabled={!isFormValid() || isSubmitting || loadingServices}
                 onClick={handleAddOrder}
               >
                 {isSubmitting ? <SpinnerIcon className="animate-spin" /> : t('submitBtn')}
