@@ -1,24 +1,35 @@
 'use client';
 
-import { useRef } from 'react';
+
 import { useTranslations } from 'next-intl';
-import { CheckCircleIcon, PrinterIcon } from '@phosphor-icons/react';
+import { CheckCircleIcon, MoneyIcon, SpinnerIcon } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../WalkinBookingContext';
+import { useRouter } from 'next/navigation';
+
+import { useState } from 'react';
 
 export function CompletedBooking() {
   const t = useTranslations('dashboard.receptionist.walkinBookingForm.success');
-  const printRef = useRef<HTMLDivElement>(null);
-  const { selectedPatient, handleReset } = useWalkinBooking();
+  const router = useRouter();
+  const { selectedPatient, completedBooking, handleReset } = useWalkinBooking();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const handlePrint = () => {
-    if (!printRef.current) return;
-    const printContent = printRef.current.innerHTML;
-    const originalContent = document.body.innerHTML;
-    
-    document.body.innerHTML = printContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-    window.location.reload();
+  const handlePay = async () => {
+    if (!completedBooking?.id) {
+      router.push('/receptionist/billing');
+      return;
+    }
+
+    try {
+      setIsRedirecting(true);
+      // Phương án B: redirect to the booking invoices page
+      router.push(`/receptionist/billing/booking/${completedBooking.id}`);
+    } catch (error) {
+      console.error('Failed to redirect to billing:', error);
+      router.push('/receptionist/billing');
+    } finally {
+      setIsRedirecting(false);
+    }
   };
 
   return (
@@ -31,7 +42,7 @@ export function CompletedBooking() {
         <p className="text-slate-500 mt-2">{t('message')}</p>
       </div>
 
-      <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8" ref={printRef}>
+      <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
         <div className="text-center pb-4 border-b border-dashed border-slate-300 mb-4">
           <h3 className="font-bold text-lg text-[#1570EF]">{t('clinicName')}</h3>
           <p className="text-sm text-slate-500">{t('receiptTitle')}</p>
@@ -50,11 +61,12 @@ export function CompletedBooking() {
 
       <div className="flex gap-4">
         <button
-          onClick={handlePrint}
-          className="flex-1 flex items-center justify-center gap-2 bg-[#1570EF] text-white py-2.5 rounded-lg font-medium hover:bg-[#0F5ED4] transition cursor-pointer"
+          onClick={handlePay}
+          disabled={isRedirecting}
+          className="flex-1 flex items-center justify-center gap-2 bg-[#1392ec] text-white py-2.5 rounded-lg font-medium hover:bg-[#1180d0] transition cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <PrinterIcon size={18} />
-          {t('printBtn')}
+          {isRedirecting ? <SpinnerIcon className="animate-spin" size={18} /> : <MoneyIcon size={18} />}
+          {t('payBtn')}
         </button>
         <button
           onClick={handleReset}

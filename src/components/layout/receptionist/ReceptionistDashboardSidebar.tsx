@@ -15,6 +15,7 @@ import {
   UserIcon,
   ChartLineIcon,
   FlaskIcon,
+  ReceiptIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -25,14 +26,14 @@ type NavItem = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'dashboard',       href: '/receptionist',          icon: HouseIcon,     exact: true },
-  { key: 'patients',        href: '/receptionist/patients', icon: UserIcon,      exact: false },
-  { key: 'checkIn',         href: '/receptionist/check-in', icon: ClipboardIcon, exact: false },
-  { key: 'queue',           href: '/receptionist/queue',    icon: ClockIcon,     exact: false },
-  { key: 'labs',            href: '/receptionist/labs',     icon: FlaskIcon,     exact: false },
-  { key: 'walkinBooking',   href: '/receptionist/walkin-booking', icon: ClipboardIcon, exact: false },
-  { key: 'billing',         href: '/receptionist/billing',  icon: ChartLineIcon, exact: false },
-  { key: 'reports',         href: '/receptionist/reports',  icon: ChartLineIcon, exact: false },
+  { key: 'dashboard',       href: '/receptionist',                 icon: HouseIcon,     exact: true },
+  { key: 'checkIn',         href: '/receptionist/check-in',        icon: ClipboardIcon, exact: false },
+  { key: 'walkinBooking',   href: '/receptionist/walkin-booking',  icon: ClipboardIcon, exact: false },
+  { key: 'billing',         href: '/receptionist/billing',         icon: ReceiptIcon, exact: false },
+  { key: 'patients',        href: '/receptionist/patients',        icon: UserIcon,      exact: false },
+  { key: 'queue',           href: '/receptionist/queue',           icon: ClockIcon,     exact: false },
+  { key: 'labs',            href: '/receptionist/labs',            icon: FlaskIcon,     exact: false },
+  { key: 'reports',         href: '/receptionist/reports',         icon: ChartLineIcon, exact: false },
 ];
 
 export function ReceptionistDashboardSidebar() {

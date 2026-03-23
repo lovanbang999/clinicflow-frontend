@@ -94,7 +94,8 @@
       "messages": {
         "visitCompleted": "Visit completed successfully!",
         "savedDraft": "Draft saved successfully!",
-        "saveError": "Failed to save medical record."
+        "saveError": "Failed to save medical record.",
+        "noHistoryMsg": "The patient currently has no prior visits recorded in the system."
       }
     },
     "patientInfo": {
@@ -523,7 +524,7 @@
         "patientLabel": "Patient:",
         "receptionistLabel": "Booked by:",
         "receptionistName": "Sarah Jenkins (Receptionist)",
-        "printBtn": "Print Receipt",
+        "payBtn": "Payment",
         "newBookingBtn": "New Booking"
       },
       "toasts": {
@@ -541,10 +542,10 @@
       "subtitle": "List of invoices for the day",
       "filter": {
         "all": "All Statuses",
-        "draft": "Draft (DRAFT)",
-        "open": "Open (OPEN)",
-        "issued": "Pending Finalize (ISSUED)",
-        "paid": "Paid (PAID)"
+        "draft": "Draft",
+        "open": "Open",
+        "issued": "Issued",
+        "paid": "Paid"
       },
       "table": {
         "invoiceNumber": "Invoice # / Date",
@@ -555,7 +556,8 @@
         "actions": "Actions",
         "empty": "No invoices found",
         "unknown": "Unknown",
-        "viewDetails": "View details / Pay"
+        "viewDetails": "View details / Pay",
+        "type": "Type"
       },
       "status": {
         "draft": "Draft",
@@ -607,6 +609,7 @@
         "remaining": "Remaining:",
         "payAmountLabel": "Payment Amount (*)",
         "fullPaymentHint": "Click to fill remaining amount",
+        "fullPaymentShortcut": "All",
         "methodLabel": "Payment Method",
         "methods": {
           "CASH": "Cash",
@@ -630,6 +633,33 @@
         "finalizeFailed": "Failed to finalize invoice",
         "finalizeSuccess": "Invoice finalized successfully",
         "errorTitle": "Billing Error"
+      },
+      "bookingInvoices": {
+        "title": "Booking Invoices",
+        "bookingCode": "Booking Code:",
+        "totalInvoices": "Total Invoices",
+        "paidInvoices": "Paid",
+        "unpaidInvoices": "Unpaid",
+        "createNewInvoice": "Create New Invoice",
+        "types": {
+          "CONSULTATION": "Consultation",
+          "LAB": "Laboratory",
+          "PHARMACY": "Pharmacy"
+        },
+        "pendingLabAlert": "There are {count} pending lab orders unpaid.",
+        "createLabInvoice": "Create Lab Invoice",
+        "labInvoiceHint": "A Lab Invoice will automatically include all pending lab orders.",
+        "invoiceList": "INVOICE LIST ({count})",
+        "emptyInvoiceList": "No invoices created.",
+        "totalBookingAmount": "Total Booking Amount",
+        "paidInvoiceCount": "({paid}/{total} paid invoices)",
+        "otherServices": "+{count} other services...",
+        "totalAmount": "Total Amount",
+        "viewDetails": "View details",
+        "pay": "Pay",
+        "paid": "Paid",
+        "printInvoice": "Print",
+        "printTicket": "Print Ticket"
       }
     }
   },

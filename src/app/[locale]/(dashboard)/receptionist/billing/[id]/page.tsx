@@ -7,13 +7,14 @@ import { InvoiceStatus, PaymentMethod } from '@/lib/api/billing';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   CaretLeftIcon,
   MoneyIcon,
-  CheckCircleIcon,
   PrinterIcon,
+  StethoscopeIcon,
+  TestTubeIcon,
+  PillIcon,
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PaymentModal } from '@/components/dashboard/billing/PaymentModal';
@@ -21,6 +22,8 @@ import { InvoiceServiceList } from '@/components/dashboard/billing/InvoiceServic
 import { InvoicePaymentHistory } from '@/components/dashboard/billing/InvoicePaymentHistory';
 import { InvoiceSummary } from '@/components/dashboard/billing/InvoiceSummary';
 import { InvoicePatientInfo } from '@/components/dashboard/billing/InvoicePatientInfo';
+import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
+import { InvoiceStatusBadge } from '@/components/dashboard/billing/InvoiceStatusBadge';
 import { useTranslations, useLocale } from 'next-intl';
 
 export default function InvoiceDetailPage() {
@@ -28,10 +31,11 @@ export default function InvoiceDetailPage() {
   const router = useRouter();
   const id = params.id as string;
   const t = useTranslations('dashboard.receptionist.billingManagement');
+  const tTypes = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices.types');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
   
-  const { currentInvoice, loadingInvoice, fetchInvoiceById, addPayment, finalizeInvoice } = useBilling();
+  const { currentInvoice, loadingInvoice, fetchInvoiceById, addPayment } = useBilling();
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
 
   useEffect(() => {
@@ -61,32 +65,17 @@ export default function InvoiceDetailPage() {
     fetchInvoiceById(currentInvoice.id); // refresh
   };
 
-  const handleFinalize = async () => {
-    if (window.confirm(t('detail.finalizeConfirm'))) {
-      await finalizeInvoice(currentInvoice.id);
-      fetchInvoiceById(currentInvoice.id);
-    }
+  // Map InvoiceType to icon + label
+  const invoiceTypeContent: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
+    CONSULTATION: { label: tTypes('CONSULTATION'), icon: <StethoscopeIcon size={14} weight="bold" />, color: 'text-blue-600 bg-blue-50' },
+    LAB:          { label: tTypes('LAB'), icon: <TestTubeIcon size={14} weight="bold" />, color: 'text-violet-600 bg-violet-50' },
+    PHARMACY:     { label: tTypes('PHARMACY'), icon: <PillIcon size={14} weight="bold" />, color: 'text-emerald-600 bg-emerald-50' },
   };
+  const typeInfo = invoiceTypeContent[currentInvoice.invoiceType] ?? { label: currentInvoice.invoiceType, icon: null, color: 'text-slate-600 bg-slate-50' };
 
-  const remainingTotal = Number(currentInvoice.totalAmount) - Number(currentInvoice.paidAmount);
-  
-  const getStatusBadge = (status: InvoiceStatus) => {
-    switch (status) {
-      case InvoiceStatus.DRAFT:
-        return <Badge className="bg-slate-100 text-slate-600 border-slate-200">{t('status.draft')}</Badge>;
-      case InvoiceStatus.OPEN:
-        return <Badge className="bg-blue-100 text-blue-600 border-blue-200">{t('status.open')}</Badge>;
-      case InvoiceStatus.ISSUED:
-        return <Badge className="bg-amber-100 text-amber-600 border-amber-200">{t('status.issued')}</Badge>;
-      case InvoiceStatus.PAID:
-        return <Badge className="bg-emerald-100 text-emerald-600 border-emerald-200">{t('status.paid')}</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  };
 
   return (
-    <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
+    <div className="mx-auto p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -101,7 +90,7 @@ export default function InvoiceDetailPage() {
               {t('detail.title')} <span className="text-[#1392ec] cursor-pointer">#{currentInvoice.invoiceNumber}</span>
             </h1>
             <div className="text-sm text-slate-500 mt-1 flex items-center gap-2">
-              {t('detail.status')} {getStatusBadge(currentInvoice.status)}
+              {t('detail.status')} <InvoiceStatusBadge status={currentInvoice.status} />
               <span className="text-slate-300">|</span>
               {t('detail.createdAt')} {format(new Date(currentInvoice.createdAt), 'HH:mm - dd/MM/yyyy', { locale: dateLocale })}
             </div>
@@ -109,6 +98,12 @@ export default function InvoiceDetailPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* InvoiceType badge */}
+          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${typeInfo.color}`}>
+            {typeInfo.icon}
+            {typeInfo.label}
+          </span>
+
           {currentInvoice.status === InvoiceStatus.PAID && (
             <Button
               variant="outline"
@@ -126,16 +121,6 @@ export default function InvoiceDetailPage() {
             >
               <MoneyIcon size={18} weight="bold" className="mr-2" />
               {t('detail.payBtn')}
-            </Button>
-          )}
-
-          {(currentInvoice.status === InvoiceStatus.ISSUED || (currentInvoice.status === InvoiceStatus.OPEN && remainingTotal <= 0)) && (
-            <Button
-              onClick={handleFinalize}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer"
-            >
-              <CheckCircleIcon size={18} weight="bold" className="mr-2" />
-              {t('detail.finalizeBtn')}
             </Button>
           )}
         </div>
@@ -161,6 +146,9 @@ export default function InvoiceDetailPage() {
         invoice={currentInvoice}
         onPaymentSubmitted={handlePaymentSubmit}
       />
+
+      {/* Hidden area for printing only */}
+      <PrintableInvoice invoice={currentInvoice} />
     </div>
   );
 }

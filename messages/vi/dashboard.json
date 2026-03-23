@@ -94,7 +94,8 @@
       "messages": {
         "visitCompleted": "Hoàn tất buổi khám thành công!",
         "savedDraft": "Đã lưu nháp!",
-        "saveError": "Không thể lưu kết quả khám."
+        "saveError": "Không thể lưu kết quả khám.",
+        "noHistoryMsg": "Bệnh nhân chưa có lịch sử khám trước đó trên hệ thống."
       }
     },
     "patientInfo": {
@@ -523,7 +524,7 @@
         "patientLabel": "Bệnh nhân:",
         "receptionistLabel": "Người đặt:",
         "receptionistName": "Sarah Jenkins (Lễ tân)",
-        "printBtn": "In phiếu",
+        "payBtn": "Thanh toán",
         "newBookingBtn": "Đặt lịch mới"
       },
       "toasts": {
@@ -541,10 +542,10 @@
       "subtitle": "Danh sách hóa đơn của bệnh nhân trong ngày",
       "filter": {
         "all": "Tất cả trạng thái",
-        "draft": "Bản nháp (DRAFT)",
-        "open": "Đang mở (OPEN)",
-        "issued": "Chờ chốt (ISSUED)",
-        "paid": "Đã thanh toán (PAID)"
+        "draft": "Bản nháp",
+        "open": "Đang mở",
+        "issued": "Chờ chốt",
+        "paid": "Đã thanh toán"
       },
       "table": {
         "invoiceNumber": "Mã HĐ / Ngày tạo",
@@ -555,7 +556,8 @@
         "actions": "Thao tác",
         "empty": "Không tìm thấy hóa đơn nào",
         "unknown": "Không rõ",
-        "viewDetails": "Xem chi tiết / Thanh toán"
+        "viewDetails": "Xem chi tiết / Thanh toán",
+        "type": "Loại"
       },
       "status": {
         "draft": "Bản nháp",
@@ -607,6 +609,7 @@
         "remaining": "Còn lại:",
         "payAmountLabel": "Số tiền thu (*)",
         "fullPaymentHint": "Nhấp để điền nhanh số tiền còn lại",
+        "fullPaymentShortcut": "Tất cả",
         "methodLabel": "Hình thức thanh toán",
         "methods": {
           "CASH": "Tiền mặt",
@@ -630,6 +633,33 @@
         "finalizeFailed": "Chốt hóa đơn thất bại",
         "finalizeSuccess": "Đã chốt hóa đơn thành công",
         "errorTitle": "Lỗi thanh toán"
+      },
+      "bookingInvoices": {
+        "title": "Hoá đơn lượt khám",
+        "bookingCode": "Mã booking:",
+        "totalInvoices": "Tổng hoá đơn",
+        "paidInvoices": "Đã thu",
+        "unpaidInvoices": "Chưa thu",
+        "createNewInvoice": "Lập hoá đơn mới",
+        "types": {
+          "CONSULTATION": "Khám",
+          "LAB": "Cận lâm sàng",
+          "PHARMACY": "Thuốc"
+        },
+        "pendingLabAlert": "Có {count} chỉ định cận lâm sàng chưa thu tiền.",
+        "createLabInvoice": "Lập hoá đơn CLS",
+        "labInvoiceHint": "Hoá đơn CLS sẽ tự điền danh sách XN chưa thu tiền của bác sĩ.",
+        "invoiceList": "DANH SÁCH HOÁ ĐƠN ({count})",
+        "emptyInvoiceList": "Chưa có hoá đơn nào.",
+        "totalBookingAmount": "Tổng cộng lượt khám",
+        "paidInvoiceCount": "({paid}/{total} hoá đơn đã thu)",
+        "otherServices": "+{count} dịch vụ khác...",
+        "totalAmount": "Tổng cộng",
+        "viewDetails": "Xem chi tiết",
+        "pay": "Thu tiền",
+        "paid": "Đã thu",
+        "printInvoice": "In HĐ",
+        "printTicket": "In Phiếu STT"
       }
     }
   },

@@ -27,8 +27,8 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
   // lab items that are not fully paid
   const labItems = invoice.items?.filter(item => item.isLab && item.labOrderId) || [];
   
-  const totalAmount = Number(invoice.totalAmount);
-  const paidAmount = Number(invoice.paidAmount);
+  const totalAmount = Number(invoice.totalAmount || 0);
+  const paidAmount = Number(invoice.paidAmount || 0);
   const remainingGlobal = totalAmount - paidAmount;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,7 +61,7 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="p-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl cursor-default">
             <MoneyIcon size={24} className="text-[#1392ec]" weight="duotone" />
@@ -69,7 +69,7 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 py-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
           <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-2 cursor-pointer">
             <div className="flex justify-between text-sm">
               <span className="text-slate-500">{t('desc')}</span>
@@ -107,7 +107,7 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
                   <option value="">{t('selectLabService')}</option>
                   {labItems.map(item => (
                     <option key={item.id} value={item.labOrderId}>
-                      {item.name} - {formatCurrency(item.totalPrice)} {t('labRemaining')}
+                      {item.itemName} - {formatCurrency(item.totalPrice)} {t('labRemaining')}
                     </option>
                   ))}
                 </select>
@@ -135,7 +135,7 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
                   className="absolute right-2 top-1.5 bottom-1.5 px-3 text-xs font-semibold text-[#1392ec] bg-blue-50 hover:bg-blue-100 rounded-md transition-colors cursor-pointer"
                   title={t('fullPaymentHint')}
                 >
-                  Tất cả
+                  {t('fullPaymentShortcut')}
                 </button>
               </div>
             </div>
@@ -155,25 +155,25 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
               </select>
             </div>
           </div>
-
+          <DialogFooter className="gap-2 pt-4 mt-4 border-t border-slate-100">
+            <Button 
+              type="button"
+              variant="outline" 
+              onClick={onClose}
+              className="cursor-pointer"
+            >
+              {t('cancelBtn')}
+            </Button>
+            <Button 
+              type="submit"
+              disabled={!amount || amount <= 0 || isSubmiting}
+              className="bg-[#1392ec] hover:bg-[#1180d0] text-white cursor-pointer"
+            >
+              {isSubmiting ? <SpinnerIcon className="animate-spin mr-2" /> : null}
+              {isSubmiting ? t('processing') : t('submitBtn')}
+            </Button>
+          </DialogFooter>
         </form>
-        <DialogFooter className="gap-2 sm:gap-0">
-          <Button 
-            variant="outline" 
-            onClick={onClose}
-            className="cursor-pointer"
-          >
-            {t('cancelBtn')}
-          </Button>
-          <Button 
-            disabled={!amount || amount <= 0 || isSubmiting}
-            onClick={handleSubmit} 
-            className="bg-[#1392ec] hover:bg-[#1180d0] text-white cursor-pointer"
-          >
-            {isSubmiting ? <SpinnerIcon className="animate-spin mr-2" /> : null}
-            {isSubmiting ? t('processing') : t('submitBtn')}
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
