@@ -98,6 +98,67 @@ export function usePendingLabOrders(autoRefresh = false) {
   };
 }
 
+export function useReadyLabOrders(autoRefresh = false) {
+  const [orders, setOrders] = useState<LabOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchReadyOrders = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await labOrdersApi.getReadyToPerformOrders();
+      setOrders(data);
+    } catch (error) {
+      console.error('Error fetching ready lab orders:', error);
+      toast.error('Lỗi khi tải danh sách phiếu cần thực hiện');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void fetchReadyOrders();
+    if (autoRefresh) {
+      const intervalId = setInterval(fetchReadyOrders, 30000);
+      return () => clearInterval(intervalId);
+    }
+  }, [fetchReadyOrders, autoRefresh]);
+
+  return {
+    orders,
+    isLoading,
+    refetch: fetchReadyOrders,
+  };
+}
+
+export function useLabOrder(orderId: string) {
+  const [order, setOrder] = useState<LabOrder | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchOrder = useCallback(async () => {
+    if (!orderId) return;
+    try {
+      setIsLoading(true);
+      const data = await labOrdersApi.getOrderById(orderId);
+      setOrder(data);
+    } catch (error) {
+      console.error('Error fetching lab order:', error);
+      toast.error('Lỗi khi lấy thông tin chỉ định');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [orderId]);
+
+  useEffect(() => {
+    void fetchOrder();
+  }, [fetchOrder]);
+
+  return {
+    order,
+    isLoading,
+    refetch: fetchOrder,
+  };
+}
+
 export function useLabOrderActions() {
   const [isUploading, setIsUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -127,5 +188,19 @@ export function useLabOrderActions() {
     }
   };
 
-  return { uploadFile, submitResult, isUploading, isSubmitting };
+  const updateStatus = async (orderId: string, status: LabOrder['status']) => {
+    try {
+      setIsSubmitting(true);
+      await labOrdersApi.updateOrderStatus(orderId, status);
+      return true;
+    } catch (error) {
+      console.error(error);
+      toast.error('Có lỗi xảy ra khi cập nhật trạng thái');
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return { uploadFile, submitResult, updateStatus, isUploading, isSubmitting };
 }
