@@ -1337,5 +1337,61 @@
       "notes": "Ghi Chú Thêm",
       "notesPlaceholder": "Bất kỳ hướng dẫn cụ thể nào..."
     }
+  },
+  "technician": {
+    "dashboard": "Bảng điều khiển KTV",
+    "title": "Kỹ thuật viên",
+    "labWorklist": "Hàng đợi Cận lâm sàng",
+    "worklist": {
+      "title": "Danh sách Cận lâm sàng",
+      "subtitle": "Danh sách các chỉ định xét nghiệm/chẩn đoán hình ảnh đã thanh toán và đang chờ thực hiện.",
+      "searchPlaceholder": "Tìm tên hoặc mã bệnh nhân...",
+      "columns": {
+        "stt": "STT",
+        "patient": "Bệnh nhân",
+        "service": "Dịch vụ",
+        "status": "Trạng thái",
+        "date": "Ngày chỉ định",
+        "actions": "Thao tác"
+      },
+      "status": {
+        "pending": "Chờ thanh toán",
+        "paid": "Chờ thực hiện",
+        "inProgress": "Đang thực hiện",
+        "completed": "Đã có kết quả"
+      },
+      "actions": {
+        "process": "Tiếp nhận",
+        "result": "Nhập kết quả"
+      },
+      "empty": "Không có bệnh nhân nào đang chờ."
+    },
+    "result": {
+      "title": "Nhập Kết Quả Cận Lâm Sàng",
+      "back": "Quay lại danh sách",
+      "patientInfo": "Thông tin bệnh nhân",
+      "orderInfo": "Thông tin chỉ định",
+      "testName": "Tên dịch vụ",
+      "doctor": "Bác sĩ chỉ định",
+      "notes": "Ghi chú của bác sĩ",
+      "form": {
+        "fullNameLabel": "Họ và Tên",
+        "patientCodeLabel": "Mã Bệnh Nhân",
+        "genderLabel": "Giới Tính",
+        "birthYearLabel": "Năm Sinh",
+        "resultText": "Nội dung kết quả / Chẩn đoán",
+        "resultTextPlaceholder": "Nhập chi tiết kết quả siêu âm, x-quang, hoặc xét nghiệm...",
+        "attachment": "Đính kèm tệp (Tùy chọn)",
+        "attachmentHint": "Hỗ trợ PDF, JPG, PNG tối đa 10MB",
+        "clickToUpload": "Nhấp để tải tệp lên",
+        "save": "Lưu & Hoàn tất",
+        "saving": "Đang lưu...",
+        "cancel": "Hủy"
+      },
+      "messages": {
+        "success": "Đã lưu kết quả thành công!",
+        "error": "Có lỗi xảy ra khi lưu kết quả."
+      }
+    }
   }
 }

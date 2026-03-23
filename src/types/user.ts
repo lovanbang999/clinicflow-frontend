@@ -1,4 +1,4 @@
-export type UserRole = 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN';
+export type UserRole = 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN' | 'TECHNICIAN';
 
 export type Gender = 'MALE' | 'FEMALE' | 'OTHER';
 

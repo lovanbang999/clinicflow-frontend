@@ -56,8 +56,28 @@ export const labOrdersApi = {
     return response.data.data;
   },
 
+  getOrderById: async (id: string): Promise<LabOrder> => {
+    const response = await apiClient.get(`/lab-orders/${id}`);
+    return response.data.data;
+  },
+
   getPendingOrders: async (): Promise<LabOrder[]> => {
     const response = await apiClient.get('/lab-orders/pending');
+    return response.data.data;
+  },
+
+  getReadyToPerformOrders: async (): Promise<LabOrder[]> => {
+    const response = await apiClient.get('/lab-orders/pending-ready');
+    return response.data.data;
+  },
+
+  updateOrderStatus: async (
+    labOrderId: string,
+    status: LabOrder['status'],
+  ): Promise<LabOrder> => {
+    const response = await apiClient.patch(`/lab-orders/${labOrderId}/status`, {
+      status,
+    });
     return response.data.data;
   },
 
