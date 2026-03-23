@@ -12,7 +12,19 @@ import {
   CheckCircleIcon,
   PrinterIcon,
   TicketIcon,
+  ArrowUDownLeftIcon,
 } from '@phosphor-icons/react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 function formatVND(val: number) {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
@@ -24,12 +36,14 @@ export function InvoiceCard({
   onView,
   onPrintInvoice,
   onPrintTicket,
+  onDelete,
 }: {
   invoice: Invoice;
   onPay: (invoice: Invoice) => void;
   onView: (invoice: Invoice) => void;
   onPrintInvoice: (invoice: Invoice) => void;
   onPrintTicket: (invoice: Invoice) => void;
+  onDelete?: (invoice: Invoice) => void;
 }) {
   const t = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices');
   const locale = useLocale();
@@ -130,6 +144,38 @@ export function InvoiceCard({
             >
               {t('pay')}
             </Button>
+          )}
+          
+          {invoice.status === InvoiceStatus.DRAFT && onDelete && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50 cursor-pointer h-8 px-3 text-xs gap-1.5"
+                >
+                  <ArrowUDownLeftIcon size={14} weight="bold" />
+                  {t('undo')}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t('undo')}</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t('confirmUndo')}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="cursor-pointer">{t('cancel') || 'Hủy'}</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => onDelete(invoice)}
+                    className="bg-rose-600 hover:bg-rose-700 text-white cursor-pointer"
+                  >
+                    {t('confirm') || 'Xác nhận'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
 
           {isPaid && (

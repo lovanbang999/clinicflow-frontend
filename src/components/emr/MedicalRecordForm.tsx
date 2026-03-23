@@ -72,6 +72,16 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
       await upsertRecord(data);
       if (finalize) {
         toast.success(t('messages.visitCompleted') || 'Visit completed');
+        // Notify that pharmacy invoice was auto-created if prescription exists
+        const hasPrescription = data.prescriptionItems && data.prescriptionItems.length > 0;
+        if (hasPrescription) {
+          setTimeout(() => {
+            toast.info(t('messages.pharmacyInvoiceCreated') || 'Đơn thuốc đã được tạo hoá đơn', {
+              description: t('messages.pharmacyInvoiceDesc') || 'Hệ thống đã tự động tạo Hoá đơn Thuốc. Lễ tân sẽ thu tiền thuốc cho bệnh nhân.',
+              duration: 6000,
+            });
+          }, 500);
+        }
         if (onFinished) onFinished();
       } else {
         toast.success(t('messages.savedDraft') || 'Draft saved');

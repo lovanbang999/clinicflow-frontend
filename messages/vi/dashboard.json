@@ -95,7 +95,9 @@
         "visitCompleted": "Hoàn tất buổi khám thành công!",
         "savedDraft": "Đã lưu nháp!",
         "saveError": "Không thể lưu kết quả khám.",
-        "noHistoryMsg": "Bệnh nhân chưa có lịch sử khám trước đó trên hệ thống."
+        "noHistoryMsg": "Bệnh nhân chưa có lịch sử khám trước đó trên hệ thống.",
+        "pharmacyInvoiceCreated": "Đã tạo Hoá đơn Thuốc",
+        "pharmacyInvoiceDesc": "Hệ thống đã tự động tạo Hoá đơn Thuốc cho đơn này. Lễ tân vui lòng thu tiền thuốc cho bệnh nhân."
       }
     },
     "patientInfo": {
@@ -257,8 +259,13 @@
         "submitBtn": "Chỉ định",
         "listTitle": "Danh sách đã chỉ định ({count})",
         "emptyList": "Chưa có chỉ định cận lâm sàng nào.",
+        "printOrderBtn": "In Phiếu Chỉ Định",
+        "printSuccess": "Đã in Phiếu Chỉ Định",
+        "paymentReminder": "Vui lòng dặn bệnh nhân mang phiếu ra quầy lễ tân thanh toán trước khi xét nghiệm.",
+        "printTitle": "PHIẾU CHỈ ĐỊNH CẬN LÂM SÀNG",
         "status": {
           "pending": "Chờ kết quả",
+          "paid": "Đã thanh toán (Sẵn sàng XN)",
           "inProgress": "Đang thực hiện",
           "completed": "Đã có kết quả"
         },
@@ -540,6 +547,9 @@
     "billingManagement": {
       "title": "Quản lý thu ngân",
       "subtitle": "Danh sách hóa đơn của bệnh nhân trong ngày",
+      "searchPlaceholder": "Tìm Mã Khám / Tên BN...",
+      "searchNotFound": "Không tìm thấy Mã Khám hoặc Bệnh nhân.",
+      "searchError": "Có lỗi xảy ra khi tìm kiếm.",
       "filter": {
         "all": "Tất cả trạng thái",
         "draft": "Bản nháp",
@@ -657,9 +667,13 @@
         "totalAmount": "Tổng cộng",
         "viewDetails": "Xem chi tiết",
         "pay": "Thu tiền",
+        "undo": "Hoàn tác",
+        "confirmUndo": "Bạn có chắc chắn muốn huỷ hoá đơn nháp này không? Các chỉ định xét nghiệm liên quan sẽ quay trở lại trạng thái chờ thu tiền.",
         "paid": "Đã thu",
         "printInvoice": "In HĐ",
-        "printTicket": "In Phiếu STT"
+        "printTicket": "In Phiếu STT",
+        "cancel": "Bỏ qua",
+        "confirm": "Đồng ý"
       }
     }
   },

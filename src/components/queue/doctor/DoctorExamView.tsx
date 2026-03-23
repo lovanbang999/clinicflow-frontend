@@ -147,7 +147,12 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
             </div>
 
             <div className={activeTab === 'lab' ? "animate-in fade-in duration-300 block" : "hidden"}>
-              <DoctorLabTab bookingId={item.booking.id} />
+              <DoctorLabTab 
+                bookingId={item.booking.id} 
+                patientProfile={item.booking.patientProfile}
+                doctorName={item.booking.doctor?.fullName}
+                bookingCode={item.booking.bookingCode}
+              />
             </div>
 
             <div className={activeTab === 'hist' ? "animate-in fade-in duration-300 block" : "hidden"}>

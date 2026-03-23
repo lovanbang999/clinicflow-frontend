@@ -157,6 +157,27 @@ export const useBilling = () => {
     }
   }, [handleError]);
 
+  const deleteInvoice = useCallback(async (id: string, bookingId: string) => {
+    try {
+      setProcessingPayment(true);
+      await billingApi.deleteInvoice(id);
+      
+      // Remove from bookingInvoices list
+      setBookingInvoices((prev) => prev.filter((inv) => inv.id !== id));
+      
+      // Refresh pending lab orders to show them again
+      await fetchPendingLabOrders(bookingId);
+      
+      toast.success('Đã huỷ hoá đơn nháp thành công');
+      return true;
+    } catch (err) {
+      handleError(err, 'generic');
+      throw err;
+    } finally {
+      setProcessingPayment(false);
+    }
+  }, [handleError, fetchPendingLabOrders]);
+
   const addPayment = useCallback(async (id: string, data: AddPaymentDto) => {
     try {
       setProcessingPayment(true);
@@ -212,11 +233,10 @@ export const useBilling = () => {
     loadingInvoice,
     fetchInvoiceById,
 
-    // Booking-scoped invoice list (Phương án B)
+    // Booking-scoped invoice list    // Invoices by booking
     bookingInvoices,
     loadingBookingInvoices,
     fetchInvoicesByBooking,
-    createInvoice,
 
     // Pending unbilled lab orders (for billing alert banner)
     pendingLabOrders,
@@ -225,6 +245,8 @@ export const useBilling = () => {
 
     // Payment actions
     processingPayment,
+    createInvoice,
+    deleteInvoice,
     addPayment,
     finalizeInvoice,
   };

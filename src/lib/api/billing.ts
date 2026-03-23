@@ -163,9 +163,13 @@ export const billingApi = {
     return response.data.data as Invoice;
   },
 
+  deleteInvoice: async (id: string): Promise<void> => {
+    await apiClient.delete(`/billing/invoices/${id}`);
+  },
+
   // Finalize an invoice (manual fallback)
-  finalizeInvoice: async (invoiceId: string): Promise<Invoice> => {
-    const response = await apiClient.post<ApiResponse<Invoice>>(`/billing/invoices/${invoiceId}/finalize`);
+  finalizeInvoice: async (id: string): Promise<Invoice> => {
+    const response = await apiClient.post<ApiResponse<Invoice>>(`/billing/invoices/${id}/finalize`);
     return response.data.data as Invoice;
   },
 

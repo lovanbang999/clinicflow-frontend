@@ -1,12 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useBilling } from '@/lib/hooks/useBilling';
 import { InvoiceStatus } from '@/lib/api/billing';
+import { bookingsApi } from '@/lib/api/bookings';
 import { Card } from '@/components/ui/card';
-import { ReceiptIcon } from '@phosphor-icons/react';
+import { ReceiptIcon, MagnifyingGlassIcon, SpinnerIcon } from '@phosphor-icons/react';
 import { BillingTable } from '@/components/dashboard/billing/BillingTable';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -17,12 +21,36 @@ import {
 
 export default function BillingPage() {
   const t = useTranslations('dashboard.receptionist.billingManagement');
+  const router = useRouter();
   const { invoices, loading, fetchInvoices } = useBilling();
+  
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | string>('ALL_STATUS');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   
   useEffect(() => {
     fetchInvoices({ status: statusFilter === 'ALL_STATUS' ? undefined : statusFilter as InvoiceStatus });
   }, [fetchInvoices, statusFilter]);
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    setIsSearching(true);
+    try {
+      const { bookings } = await bookingsApi.getAll({ search: searchQuery.trim() });
+      if (bookings && bookings.length > 0) {
+        // Redirect to the first matching booking
+        router.push(`/receptionist/billing/booking/${bookings[0].id}`);
+      } else {
+        toast.error(t('searchNotFound'));
+      }
+    } catch {
+      toast.error(t('searchError'));
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
   return (
     <div className="mx-auto p-6 space-y-6">
@@ -35,13 +63,25 @@ export default function BillingPage() {
           <p className="text-sm text-slate-500 mt-1">{t('subtitle')}</p>
         </div>
 
-        {/* Filter */}
-        <div className="flex items-center gap-2 min-w-48">
+        {/* Search & Filter */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+          <form onSubmit={handleSearch} className="relative w-full sm:w-64">
+            <Input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t('searchPlaceholder')}
+              className="pl-9 h-9 rounded-lg border-slate-200 bg-white shadow-none focus-visible:ring-1 focus-visible:ring-[#1392ec]"
+            />
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+              {isSearching ? <SpinnerIcon className="animate-spin" /> : <MagnifyingGlassIcon />}
+            </div>
+          </form>
+
           <Select
             value={statusFilter}
             onValueChange={(value) => setStatusFilter(value as InvoiceStatus | '')}
           >
-            <SelectTrigger className="w-full h-9 rounded-lg border-slate-200 bg-white cursor-pointer shadow-none focus:ring-[#1392ec]/20">
+            <SelectTrigger className="w-full sm:w-48 h-9 rounded-lg border-slate-200 bg-white cursor-pointer shadow-none focus:ring-[#1392ec]/20">
               <SelectValue placeholder={t('filter.all')} />
             </SelectTrigger>
             <SelectContent position="popper" align="end" className="rounded-xl border-slate-200">
