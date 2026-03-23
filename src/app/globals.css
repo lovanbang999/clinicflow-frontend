@@ -208,18 +208,23 @@
   
   /* Only show the printable area */
   #printable-invoice, #printable-invoice *,
-  #printable-lab-order, #printable-lab-order * {
+  #printable-lab-order, #printable-lab-order *,
+  #printable-prescription, #printable-prescription * {
     visibility: visible;
   }
   
-  #printable-invoice, #printable-lab-order {
-    position: absolute;
+  #printable-invoice, #printable-lab-order, #printable-prescription {
+    display: block !important;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
+    height: auto;
     margin: 0;
     padding: 0;
     visibility: visible !important;
+    background: white !important;
+    z-index: 9999;
   }
 
   /* Reset layout for print */

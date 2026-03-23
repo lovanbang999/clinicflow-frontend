@@ -28,7 +28,7 @@ export function PrintableQueueTicket({ invoice }: { invoice: Invoice }) {
         <div className="text-center mb-6 border-b-2 border-slate-900 pb-4">
           <h1 className="text-2xl font-bold text-slate-900">SMART CLINIC</h1>
           <p className="text-[10px] font-bold text-slate-600 mt-1">HỆ THỐNG PHÒNG KHÁM THÔNG MINH</p>
-          <p className="text-[10px] text-slate-500 mt-1">123 Healthcare Ave, District 1, HCM</p>
+          <p className="text-[10px] text-slate-500 mt-1">Số 123 Xã Đàn, Đống Đa, Hà Nội</p>
         </div>
 
         {/* Ticket Number */}

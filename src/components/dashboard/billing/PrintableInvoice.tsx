@@ -22,7 +22,7 @@ export function PrintableInvoice({ invoice }: { invoice: Invoice }) {
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">SMART CLINIC</h1>
           <p className="text-sm mt-1 font-medium text-slate-600">HỆ THỐNG PHÒNG KHÁM ĐA KHOA THÔNG MINH</p>
           <div className="mt-4 text-xs space-y-1 text-slate-700">
-             <p><span className="font-bold">Địa chỉ:</span> 123 Healthcare Ave, District 1, HCM</p>
+             <p><span className="font-bold">Địa chỉ:</span> Số 123 Xã Đàn, Đống Đa, Hà Nội</p>
              <p><span className="font-bold">Hotline:</span> 1900 1234 - <span className="font-bold">Website:</span> smartclinic.vn</p>
              <p><span className="font-bold">Mã số thuế:</span> 0102030405</p>
           </div>
@@ -122,7 +122,7 @@ export function PrintableInvoice({ invoice }: { invoice: Invoice }) {
         </div>
         <div className="space-y-20">
              <div className="space-y-1">
-                <p className="italic text-[10px] text-slate-500">HCM, {format(new Date(), 'dd/MM/yyyy')}</p>
+                <p className="italic text-[10px] text-slate-500">Hà Nội, {format(new Date(), 'dd/MM/yyyy')}</p>
                 <p className="font-bold uppercase text-xs underline decoration-2 underline-offset-4">Xác nhận của Bệnh viện</p>
              </div>
              <div className="w-24 h-24 border-2 border-red-500/30 rounded-full mx-auto flex items-center justify-center text-red-500/30 font-black text-[10px] uppercase rotate-[-15deg]">
