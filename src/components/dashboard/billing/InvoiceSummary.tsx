@@ -8,7 +8,12 @@ export function InvoiceSummary({ invoice }: { invoice: Invoice }) {
   const t = useTranslations('dashboard.receptionist.billingManagement.detail');
   const locale = useLocale();
 
-  const remainingTotal = Number(invoice.totalAmount) - Number(invoice.paidAmount);
+  const totalA = Number(invoice.totalAmount || 0);
+  // Calculate paidAmount from payments array to ensure it's always accurate even if root field is lagging
+  const paidA = invoice.payments && invoice.payments.length > 0 
+    ? invoice.payments.reduce((acc, p) => acc + Number(p.amountPaid || 0), 0)
+    : Number(invoice.paidAmount || 0);
+  const remainingTotal = totalA - paidA;
 
   const formatCurrency = (val: number | string) => {
     return new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: locale === 'vi' ? 'VND' : 'USD' }).format(Number(val));
@@ -25,13 +30,13 @@ export function InvoiceSummary({ invoice }: { invoice: Invoice }) {
           </div>
           <div className="flex justify-between text-slate-600">
             <span>{t('paidLabel')}</span>
-            <span className="font-medium text-emerald-600">{formatCurrency(invoice.paidAmount)}</span>
+            <span className="font-medium text-emerald-600">{formatCurrency(paidA)}</span>
           </div>
           {/* Visual Progress Bar */}
-          <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden cursor-pointer" title={`${Math.min(100, (Number(invoice.paidAmount) / Number(invoice.totalAmount)) * 100).toFixed(0)}% paid`}>
+          <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden cursor-pointer" title={`${Math.min(100, totalA > 0 ? (paidA / totalA) * 100 : 0).toFixed(0)}% paid`}>
             <div 
               className={`h-full ${remainingTotal <= 0 ? 'bg-emerald-500' : 'bg-[#1392ec]'}`}
-              style={{ width: `${Math.min(100, (Number(invoice.paidAmount) / Number(invoice.totalAmount)) * 100)}%` }}
+              style={{ width: `${Math.min(100, totalA > 0 ? (paidA / totalA) * 100 : 0)}%` }}
             />
           </div>
           <div className="flex justify-between items-center pt-3 border-t border-blue-100 text-base">

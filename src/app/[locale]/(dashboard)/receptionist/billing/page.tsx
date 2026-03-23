@@ -7,18 +7,25 @@ import { Card } from '@/components/ui/card';
 import { ReceiptIcon } from '@phosphor-icons/react';
 import { BillingTable } from '@/components/dashboard/billing/BillingTable';
 import { useTranslations } from 'next-intl';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function BillingPage() {
   const t = useTranslations('dashboard.receptionist.billingManagement');
   const { invoices, loading, fetchInvoices } = useBilling();
-  const [statusFilter, setStatusFilter] = useState<InvoiceStatus | ''>('');
+  const [statusFilter, setStatusFilter] = useState<InvoiceStatus | string>('ALL_STATUS');
   
   useEffect(() => {
-    fetchInvoices({ status: statusFilter || undefined });
+    fetchInvoices({ status: statusFilter === 'ALL_STATUS' ? undefined : statusFilter as InvoiceStatus });
   }, [fetchInvoices, statusFilter]);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="mx-auto p-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
@@ -29,18 +36,22 @@ export default function BillingPage() {
         </div>
 
         {/* Filter */}
-        <div className="flex items-center gap-2">
-          <select
+        <div className="flex items-center gap-2 min-w-48">
+          <Select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as InvoiceStatus | '')}
-            className="h-9 px-3 text-sm rounded-lg border border-slate-200 text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#1392ec]/20 cursor-pointer"
+            onValueChange={(value) => setStatusFilter(value as InvoiceStatus | '')}
           >
-            <option value="">{t('filter.all')}</option>
-            <option value={InvoiceStatus.DRAFT}>{t('filter.draft')}</option>
-            <option value={InvoiceStatus.OPEN}>{t('filter.open')}</option>
-            <option value={InvoiceStatus.ISSUED}>{t('filter.issued')}</option>
-            <option value={InvoiceStatus.PAID}>{t('filter.paid')}</option>
-          </select>
+            <SelectTrigger className="w-full h-9 rounded-lg border-slate-200 bg-white cursor-pointer shadow-none focus:ring-[#1392ec]/20">
+              <SelectValue placeholder={t('filter.all')} />
+            </SelectTrigger>
+            <SelectContent position="popper" align="end" className="rounded-xl border-slate-200">
+              <SelectItem value="ALL_STATUS" className="cursor-pointer">{t('filter.all')}</SelectItem>
+              <SelectItem value={InvoiceStatus.DRAFT} className="cursor-pointer">{t('filter.draft')}</SelectItem>
+              <SelectItem value={InvoiceStatus.OPEN} className="cursor-pointer">{t('filter.open')}</SelectItem>
+              <SelectItem value={InvoiceStatus.ISSUED} className="cursor-pointer">{t('filter.issued')}</SelectItem>
+              <SelectItem value={InvoiceStatus.PAID} className="cursor-pointer">{t('filter.paid')}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
