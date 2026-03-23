@@ -6,15 +6,26 @@ import { Input } from '@/components/ui/input';
 import { useLabOrders } from '@/lib/hooks/useLabOrders';
 import { servicesApi } from '@/lib/api/services';
 import { Service } from '@/types';
-import { SpinnerIcon, TrashIcon, FlaskIcon, CheckCircleIcon, WarningCircleIcon, FilePdfIcon } from '@phosphor-icons/react';
+import { SpinnerIcon, TrashIcon, FlaskIcon, CheckCircleIcon, WarningCircleIcon, FilePdfIcon, PrinterIcon } from '@phosphor-icons/react';
 import { format } from 'date-fns';
 import { useTranslations, useLocale } from 'next-intl';
+import { toast } from 'sonner';
+import { PrintableLabOrder } from './PrintableLabOrder';
 
 interface DoctorLabTabProps {
   bookingId: string;
+  patientProfile?: {
+    fullName: string;
+    patientCode?: string;
+    dateOfBirth?: string;
+    gender?: string;
+    phone?: string;
+  };
+  doctorName?: string;
+  bookingCode?: string;
 }
 
-export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
+export function DoctorLabTab({ bookingId, patientProfile, doctorName, bookingCode }: DoctorLabTabProps) {
   const locale = useLocale();
   const t = useTranslations('dashboard.doctor.workspace.labTab');
   const { orders, isLoading, isSubmitting, addOrder, removeOrder } = useLabOrders(bookingId);
@@ -143,9 +154,30 @@ export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
 
       {/* List Section */}
       <div className="bg-white border border-gray-200/80 rounded-xl shadow-sm overflow-hidden p-6">
-        <h3 className="text-[16px] font-bold text-gray-900 mb-4">
-          {t('listTitle', { count: orders.length })}
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-[16px] font-bold text-gray-900">
+            {t('listTitle', { count: orders.length })}
+          </h3>
+          {orders.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                window.print();
+                setTimeout(() => {
+                  toast.success(t('printSuccess') || 'Đã in Phiếu Chỉ Định', {
+                    description: t('paymentReminder') || 'Vui lòng dặn bệnh nhân mang phiếu ra quầy lễ tân thanh toán.',
+                    duration: 5000,
+                  });
+                }, 500);
+              }}
+              className="h-8 gap-1.5 font-bold text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 cursor-pointer"
+            >
+              <PrinterIcon size={16} weight="bold" />
+              {t('printOrderBtn') || 'In Phiếu Chỉ Định'}
+            </Button>
+          )}
+        </div>
         
         {isLoading ? (
           <div className="flex justify-center p-8">
@@ -166,6 +198,12 @@ export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
                     {order.status === 'PENDING' && (
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-700 border border-orange-200">
                         {t('status.pending')}
+                      </span>
+                    )}
+                    {order.status === 'PAID' && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                        <CheckCircleIcon size={10} weight="fill" />
+                        {t('status.paid')}
                       </span>
                     )}
                     {order.status === 'IN_PROGRESS' && (
@@ -222,7 +260,7 @@ export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
 
                 </div>
                 
-                {/* Delete action only allowed when PENDING */}
+                {/* Delete action only allowed when PENDING (before payment) */}
                 {order.status === 'PENDING' && (
                   <button
                     type="button"
@@ -238,6 +276,13 @@ export function DoctorLabTab({ bookingId }: DoctorLabTabProps) {
           </div>
         )}
       </div>
+
+      <PrintableLabOrder
+        patientProfile={patientProfile}
+        doctorName={doctorName}
+        bookingCode={bookingCode}
+        labOrders={orders.filter(o => o.status === 'PENDING')} // Usually only print pending ones
+      />
     </div>
   );
 }

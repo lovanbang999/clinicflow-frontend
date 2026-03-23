@@ -95,7 +95,9 @@
         "visitCompleted": "Visit completed successfully!",
         "savedDraft": "Draft saved successfully!",
         "saveError": "Failed to save medical record.",
-        "noHistoryMsg": "The patient currently has no prior visits recorded in the system."
+        "noHistoryMsg": "The patient currently has no prior visits recorded in the system.",
+        "pharmacyInvoiceCreated": "Pharmacy Invoice Created",
+        "pharmacyInvoiceDesc": "The system automatically created a Pharmacy Invoice for this prescription. The receptionist should collect payment from the patient."
       }
     },
     "patientInfo": {
@@ -257,8 +259,13 @@
         "submitBtn": "Order",
         "listTitle": "Ordered Tests ({count})",
         "emptyList": "No lab orders created yet.",
+        "printOrderBtn": "Print Lab Order",
+        "printSuccess": "Order Printed Successfully",
+        "paymentReminder": "Please remind the patient to pay at the reception desk before testing.",
+        "printTitle": "LABORATORY ORDER TICKET",
         "status": {
           "pending": "Pending",
+          "paid": "Paid (Ready to Perform)",
           "inProgress": "In Progress",
           "completed": "Result Available"
         },
@@ -540,6 +547,9 @@
     "billingManagement": {
       "title": "Billing Management",
       "subtitle": "List of invoices for the day",
+      "searchPlaceholder": "Search Booking / Patient...",
+      "searchNotFound": "Booking or Patient not found.",
+      "searchError": "An error occurred during search.",
       "filter": {
         "all": "All Statuses",
         "draft": "Draft",
@@ -657,9 +667,13 @@
         "totalAmount": "Total Amount",
         "viewDetails": "View details",
         "pay": "Pay",
+        "undo": "Undo",
+        "confirmUndo": "Are you sure you want to cancel this draft invoice? Any linked lab orders will return to pending payment status.",
         "paid": "Paid",
         "printInvoice": "Print",
-        "printTicket": "Print Ticket"
+        "printTicket": "Print Ticket",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
       }
     }
   },

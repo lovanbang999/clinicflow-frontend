@@ -48,6 +48,7 @@ export default function BookingInvoicesPage() {
     processingPayment,
     pendingLabOrders,
     fetchPendingLabOrders,
+    deleteInvoice,
   } = useBilling();
 
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
@@ -307,6 +308,7 @@ export default function BookingInvoicesPage() {
                 onView={(inv) => router.push(`/receptionist/billing/${inv.id}`)}
                 onPrintInvoice={handlePrintInvoice}
                 onPrintTicket={handlePrintTicket}
+                onDelete={(inv) => deleteInvoice(inv.id, bookingId)}
               />
             ))}
           </div>

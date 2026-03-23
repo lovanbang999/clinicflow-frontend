@@ -207,11 +207,12 @@
   }
   
   /* Only show the printable area */
-  #printable-invoice, #printable-invoice * {
+  #printable-invoice, #printable-invoice *,
+  #printable-lab-order, #printable-lab-order * {
     visibility: visible;
   }
   
-  #printable-invoice {
+  #printable-invoice, #printable-lab-order {
     position: absolute;
     left: 0;
     top: 0;

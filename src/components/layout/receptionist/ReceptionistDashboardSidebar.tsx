@@ -16,6 +16,7 @@ import {
   ChartLineIcon,
   FlaskIcon,
   ReceiptIcon,
+  CalendarIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -28,7 +29,7 @@ type NavItem = {
 export const NAV_ITEMS: NavItem[] = [
   { key: 'dashboard',       href: '/receptionist',                 icon: HouseIcon,     exact: true },
   { key: 'checkIn',         href: '/receptionist/check-in',        icon: ClipboardIcon, exact: false },
-  { key: 'walkinBooking',   href: '/receptionist/walkin-booking',  icon: ClipboardIcon, exact: false },
+  { key: 'walkinBooking',   href: '/receptionist/walkin-booking',  icon: CalendarIcon, exact: false },
   { key: 'billing',         href: '/receptionist/billing',         icon: ReceiptIcon, exact: false },
   { key: 'patients',        href: '/receptionist/patients',        icon: UserIcon,      exact: false },
   { key: 'queue',           href: '/receptionist/queue',           icon: ClockIcon,     exact: false },

@@ -15,7 +15,7 @@ export interface LabOrder {
   bookingId: string;
   testName: string;
   testDescription?: string;
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  status: 'PENDING' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   orderedAt: string;
   result?: LabResult;
   // Included in pending lists
