@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { bookingsApi } from '@/lib/api/bookings';
 import type { CreateMedicalRecordDto } from '@/lib/api/medical-records';
@@ -15,6 +15,7 @@ import { DoctorVitalsStrip } from './DoctorVitalsStrip';
 
 import { DoctorPrescriptionTab } from './DoctorPrescriptionTab';
 import { DoctorLabTab } from './DoctorLabTab';
+import { PrintablePrescription } from './PrintablePrescription';
 
 interface DoctorExamViewProps {
   item: QueueRecord;
@@ -45,6 +46,11 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
       completeVisit: false,
       prescriptionItems: [],
     }
+  });
+
+  const watchedValues = useWatch({
+    control: methods.control,
+    name: ['prescriptionItems', 'diagnosisName', 'diagnosisCode', 'treatmentPlan']
   });
 
   useEffect(() => {
@@ -143,7 +149,7 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
             </div>
 
             <div className={activeTab === 'rx' ? "animate-in fade-in duration-300 block" : "hidden"}>
-              <DoctorPrescriptionTab bookingId={item.booking.id} />
+              <DoctorPrescriptionTab />
             </div>
 
             <div className={activeTab === 'lab' ? "animate-in fade-in duration-300 block" : "hidden"}>
@@ -164,6 +170,19 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
           </>
         )}
       </main>
+
+      {/* Hidden printable components */}
+      <PrintablePrescription
+        patientProfile={item.booking.patientProfile}
+        doctorName={item.booking.doctor?.fullName}
+        prescriptionItems={watchedValues?.[0] || []}
+        diagnosisName={watchedValues?.[1]}
+        diagnosisCode={watchedValues?.[2]}
+        treatmentPlan={watchedValues?.[3]}
+        bookingCode={item.booking.bookingCode}
+        weight={item.booking.patientProfile?.weightKg?.toString()}
+        height={item.booking.patientProfile?.heightCm?.toString()}
+      />
     </div>
     </FormProvider>
   );

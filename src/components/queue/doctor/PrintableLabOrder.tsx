@@ -39,7 +39,7 @@ export function PrintableLabOrder({
       <div className="flex justify-between items-start border-b-2 border-black pb-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold uppercase">Phòng Khám Đa Khoa SmartClinic</h1>
-          <p className="text-sm">123 Đường ABC, Quận XYZ, TP.HCM</p>
+          <p className="text-sm">Số 123 Xã Đàn, Đống Đa, Hà Nội</p>
           <p className="text-sm">Hotline: 1900 1234</p>
         </div>
         <div className="text-right">

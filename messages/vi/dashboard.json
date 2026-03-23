@@ -294,7 +294,11 @@
         "quantityPlaceholder": "SL",
         "unit": "ĐVT (*)",
         "unitPlaceholder": "Viên",
-        "instructionsPlaceholder": "Ghi chú thêm (VD: Uống sau ăn no)..."
+        "instructionsPlaceholder": "Ghi chú thêm (VD: Uống sau ăn no)...",
+        "printBtn": "In đơn thuốc",
+        "printTitle": "ĐƠN THUỐC",
+        "confirmBtn": "Xác nhận thêm",
+        "editAction": "Sửa"
       }
     }
   },

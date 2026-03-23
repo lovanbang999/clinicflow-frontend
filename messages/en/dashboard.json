@@ -294,7 +294,11 @@
         "quantityPlaceholder": "Qty",
         "unit": "Unit (*)",
         "unitPlaceholder": "Pill",
-        "instructionsPlaceholder": "Additional notes (e.g. After meal)..."
+        "instructionsPlaceholder": "Additional notes (e.g. After meal)...",
+        "printBtn": "Print Prescription",
+        "printTitle": "PRESCRIPTION",
+        "confirmBtn": "Confirm Add",
+        "editAction": "Edit"
       }
     }
   },

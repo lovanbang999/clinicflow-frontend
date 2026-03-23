@@ -42,6 +42,16 @@ export interface PatientHistoryResponse {
   recentVisits: VisitHistoryItem[];
 }
 
+export interface PrescriptionItemDto {
+  medicineName: string;
+  dosage: string;
+  frequency: string;
+  durationDays?: number;
+  quantity: number;
+  unit: string;
+  instructions?: string;
+}
+
 export interface CreateMedicalRecordDto {
   bookingId: string;
   chiefComplaint?: string;
@@ -54,15 +64,7 @@ export interface CreateMedicalRecordDto {
   followUpNote?: string;
   isFinalized?: boolean;
   completeVisit?: boolean;
-  prescriptionItems?: {
-    medicineName: string;
-    dosage: string;
-    frequency: string;
-    durationDays?: number;
-    quantity: number;
-    unit: string;
-    instructions?: string;
-  }[];
+  prescriptionItems?: PrescriptionItemDto[];
 }
 
 export interface ICD10Record {
