@@ -9,6 +9,7 @@ import {
   ListInvoicesParams,
   AddPaymentDto,
   CreateInvoiceDto,
+  AddInvoiceItemDto,
 } from '../api/billing';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
@@ -221,6 +222,32 @@ export const useBilling = () => {
     }
   }, [handleError, t]);
 
+  const addItemToInvoice = useCallback(async (invoiceId: string, data: AddInvoiceItemDto) => {
+    try {
+      const updatedInvoice = await billingApi.addItemToInvoice(invoiceId, data);
+      setCurrentInvoice(updatedInvoice);
+      setBookingInvoices((prev) =>
+        prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
+      );
+      toast.success('Đã thêm dịch vụ');
+      return updatedInvoice;
+    } catch (err) {
+      handleError(err, 'generic');
+      throw err;
+    }
+  }, [handleError]);
+
+  const removeItemFromInvoice = useCallback(async (invoiceId: string, itemId: string, onRefresh?: () => void) => {
+    try {
+      await billingApi.removeItemFromInvoice(invoiceId, itemId);
+      onRefresh?.();
+      toast.success('Đã xoá dịch vụ');
+    } catch (err) {
+      handleError(err, 'generic');
+      throw err;
+    }
+  }, [handleError]);
+
   return {
     // Global invoice list
     invoices,
@@ -249,5 +276,7 @@ export const useBilling = () => {
     deleteInvoice,
     addPayment,
     finalizeInvoice,
+    addItemToInvoice,
+    removeItemFromInvoice,
   };
 };

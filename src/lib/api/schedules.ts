@@ -63,6 +63,23 @@ export const schedulesApi = {
     await apiClient.delete(`/schedules/working-hours/${doctorId}/${dayOfWeek}`);
   },
 
+  // Bulk update working hours
+  bulkUpdateWorkingHours: async (data: {
+    doctorId: string;
+    items: {
+      dayOfWeek: string;
+      startTime: string;
+      endTime: string;
+      enabled: boolean;
+    }[];
+  }): Promise<WorkingHours[]> => {
+    const response = await apiClient.post<{ data: WorkingHours[] }>(
+      '/schedules/working-hours/bulk',
+      data,
+    );
+    return response.data.data;
+  },
+
   // Off Days
 
   // Get off days for a doctor

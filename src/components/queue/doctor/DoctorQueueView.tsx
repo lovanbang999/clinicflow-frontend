@@ -8,7 +8,8 @@ import type { QueueRecord } from '@/lib/api/queue';
 import { BookingStatus } from '@/types';
 import { DoctorQueueCard } from './DoctorQueueCard';
 import { PrintableExaminationResult } from './PrintableExaminationResult';
-import type { CreateMedicalRecordDto } from '@/lib/api/medical-records';
+import { PrintablePrescription } from './PrintablePrescription';
+import type { CreateMedicalRecordDto, PrescriptionItemDto } from '@/lib/api/medical-records';
 
 interface DoctorQueueViewProps {
   queueItems: QueueRecord[];
@@ -57,8 +58,8 @@ export function DoctorQueueView({
         : queueItems.filter(q => q.booking.status === activeFilter as BookingStatus);
 
   return (
-    <div className="flex flex-col flex-1 min-w-0 bg-[#f8f9ff] text-[#191c20] overflow-y-auto no-scrollbar" id="queue-mode">
-      <div className="p-8 mx-auto w-full">
+    <div className="flex flex-col flex-1 min-w-0 bg-[#f8f9ff] text-[#191c20] overflow-y-auto no-scrollbar print:overflow-visible print:h-auto print:bg-white" id="queue-mode">
+      <div className="p-8 mx-auto w-full print:hidden">
         {/* Header & Stats */}
         <section className="mb-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -186,21 +187,6 @@ export function DoctorQueueView({
           )}
         </div>
 
-        {/* Hidden printing component */}
-        {selectedPrintRecord && (
-          <div className="hidden print:block">
-            <PrintableExaminationResult 
-              patientProfile={selectedPrintRecord.booking.patientProfile}
-              doctorName={selectedPrintRecord.booking.doctor?.fullName}
-              medicalRecord={{
-                ...selectedPrintRecord.booking.medicalRecord,
-                bookingId: selectedPrintRecord.booking.id,
-              } as CreateMedicalRecordDto}
-              bookingCode={selectedPrintRecord.booking.bookingCode}
-            />
-          </div>
-        )}
-
         {/* Footer info note */}
         {queueItems.length > 0 && (
           <div className="mt-12 bg-[#e0efff]/30 p-5 rounded-xl flex items-start gap-4 border border-[#1275e2]/10">
@@ -217,6 +203,46 @@ export function DoctorQueueView({
           </div>
         )}
       </div>
+
+      {/* Hidden printing component */}
+      {selectedPrintRecord && (
+        <div className="hidden print:block print:w-full print:h-auto print:bg-white">
+          <PrintableExaminationResult 
+              patientProfile={selectedPrintRecord.booking.patientProfile}
+              doctorName={selectedPrintRecord.booking.doctor?.fullName}
+              medicalRecord={{
+                ...selectedPrintRecord.booking.medicalRecord,
+                bookingId: selectedPrintRecord.booking.id,
+              } as CreateMedicalRecordDto}
+              bookingCode={selectedPrintRecord.booking.bookingCode}
+            />
+            
+            {/* Also print prescription if it exists */}
+            {selectedPrintRecord.booking.medicalRecord?.prescription && (
+              <div className="print-page-break-before">
+                <PrintablePrescription
+                  patientProfile={selectedPrintRecord.booking.patientProfile}
+                  doctorName={selectedPrintRecord.booking.doctor?.fullName}
+                  prescriptionItems={(selectedPrintRecord.booking.medicalRecord.prescription.items || []).map((p) => ({
+                    medicineName: p.medicineName,
+                    dosage: p.dosage,
+                    frequency: p.frequency,
+                    durationDays: p.durationDays,
+                    quantity: p.quantity,
+                    unit: p.unit,
+                    instructions: p.instructions,
+                  })) as PrescriptionItemDto[]}
+                  diagnosisName={selectedPrintRecord.booking.medicalRecord.diagnosisName}
+                  diagnosisCode={selectedPrintRecord.booking.medicalRecord.diagnosisCode}
+                  treatmentPlan={selectedPrintRecord.booking.medicalRecord.treatmentPlan}
+                  bookingCode={selectedPrintRecord.booking.bookingCode}
+                  weight={selectedPrintRecord.booking.patientProfile?.weightKg?.toString()}
+                  height={selectedPrintRecord.booking.patientProfile?.heightCm?.toString()}
+                />
+              </div>
+            )}
+          </div>
+        )}
     </div>
   );
 }

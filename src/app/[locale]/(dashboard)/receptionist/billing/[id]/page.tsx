@@ -35,7 +35,7 @@ export default function InvoiceDetailPage() {
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
   
-  const { currentInvoice, loadingInvoice, fetchInvoiceById, addPayment } = useBilling();
+  const { currentInvoice, loadingInvoice, fetchInvoiceById, addPayment, addItemToInvoice, removeItemFromInvoice } = useBilling();
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
 
   useEffect(() => {
@@ -129,7 +129,17 @@ export default function InvoiceDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Items & Payments */}
         <div className="lg:col-span-2 space-y-6">
-          <InvoiceServiceList invoice={currentInvoice} />
+          <InvoiceServiceList
+            invoice={currentInvoice}
+            onAddItem={async (itemName, unitPrice, quantity) => {
+              await addItemToInvoice(currentInvoice.id, { itemName, unitPrice, quantity });
+              fetchInvoiceById(currentInvoice.id);
+            }}
+            onRemoveItem={async (itemId) => {
+              await removeItemFromInvoice(currentInvoice.id, itemId);
+              fetchInvoiceById(currentInvoice.id);
+            }}
+          />
           <InvoicePaymentHistory invoice={currentInvoice} />
         </div>
 

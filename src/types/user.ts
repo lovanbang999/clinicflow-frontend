@@ -19,6 +19,14 @@ export interface User {
     id: string;
     patientCode: string;
   };
+  doctorProfile?: {
+    id: string;
+    specialties?: string[];
+    qualifications?: string[];
+    bio?: string;
+    yearsOfExperience?: number;
+    rating?: number;
+  };
 }
 
 export interface UpdateProfileDto {
