@@ -119,6 +119,13 @@ export interface AddPaymentDto {
   labOrderId?: string;
 }
 
+export interface AddInvoiceItemDto {
+  itemName: string;
+  unitPrice: number;
+  quantity?: number;
+  serviceId?: string;
+}
+
 export interface ListInvoicesParams {
   status?: InvoiceStatus;
   invoiceType?: InvoiceType;
@@ -165,6 +172,17 @@ export const billingApi = {
 
   deleteInvoice: async (id: string): Promise<void> => {
     await apiClient.delete(`/billing/invoices/${id}`);
+  },
+
+  // Add a line item to a DRAFT/OPEN invoice
+  addItemToInvoice: async (invoiceId: string, data: AddInvoiceItemDto): Promise<Invoice> => {
+    const response = await apiClient.post<ApiResponse<Invoice>>(`/billing/invoices/${invoiceId}/items`, data);
+    return response.data.data as Invoice;
+  },
+
+  // Remove a line item from a DRAFT/OPEN invoice
+  removeItemFromInvoice: async (invoiceId: string, itemId: string): Promise<void> => {
+    await apiClient.delete(`/billing/invoices/${invoiceId}/items/${itemId}`);
   },
 
   // Finalize an invoice (manual fallback)

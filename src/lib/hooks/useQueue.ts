@@ -23,12 +23,34 @@ export function useQueue(doctorId?: string) {
       setError(null);
       const today = format(new Date(), 'yyyy-MM-dd');
       
-      const [queueRes, statsRes] = await Promise.all([
+      const [queueRes, completedRes, statsRes] = await Promise.all([
         queueApi.getAll({ doctorId, date: today, limit: 50 }),
+        bookingsApi.getAll({ doctorId, date: today, status: 'COMPLETED', limit: 100 }),
         queueApi.getStatistics(doctorId, today)
       ]);
 
-      setQueueItems(queueRes.queueRecords || []);
+      const activeQueue = queueRes.queueRecords || [];
+      
+      // Transform completed bookings into QueueRecord format for UI compatibility
+      const completedQueue: QueueRecord[] = (completedRes.bookings || []).map(booking => ({
+        id: `completed-${booking.id}`,
+        bookingId: booking.id,
+        doctorId: booking.doctorId,
+        queueDate: today,
+        queuePosition: 0,
+        estimatedWaitMinutes: 0,
+        booking: booking
+      }));
+
+      // Merge avoiding duplicates (though COMPLETED shouldn't be in active queue)
+      const merged = [...activeQueue];
+      completedQueue.forEach(item => {
+        if (!merged.find(m => m.bookingId === item.bookingId)) {
+          merged.push(item);
+        }
+      });
+
+      setQueueItems(merged);
       setStats(statsRes);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to fetch queue data';

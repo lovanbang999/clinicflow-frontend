@@ -21,7 +21,8 @@ export const bookingsApi = {
     doctorId?: string;
     patientProfileId?: string;
     date?: string;
-    search?: string;
+    limit?: number;
+    page?: number;
   }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> }> => {
     const response = await apiClient.get<{ data: { bookings: Booking[], pagination: Record<string, unknown> } }>('/bookings', { params });
     return response.data.data;

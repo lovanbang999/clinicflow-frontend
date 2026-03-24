@@ -607,6 +607,19 @@
         },
         "labLabel": "Xét nghiệm / Cận lâm sàng",
         "totalLabel": "Tổng cộng:",
+        "addService": {
+          "addBtn": "Thêm dịch vụ",
+          "formTitle": "Thêm dịch vụ phát sinh",
+          "nameLabel": "Tên dịch vụ",
+          "namePlaceholder": "Vd: Siêu âm ổ bụng, Tư vấn thêm...",
+          "priceLabel": "Đơn giá (₫)",
+          "pricePlaceholder": "0",
+          "qtyLabel": "SL",
+          "cancelBtn": "Huỷ",
+          "confirmBtn": "Xác nhận thêm",
+          "addingBtn": "Đang thêm...",
+          "deleteTitle": "Xoá dịch vụ"
+        },
         "paymentHistoryTitle": "Lịch sử thanh toán",
         "emptyPayments": "Chưa có giao dịch thanh toán nào.",
         "paymentTable": {
@@ -850,7 +863,8 @@
           "Doctor": "Bác sĩ",
           "Patient": "Bệnh nhân",
           "Receptionist": "Lễ tân",
-          "Admin": "Quản trị viên"
+          "Admin": "Quản trị viên",
+          "Technician": "Kỹ thuật viên"
         },
         "statuses": {
           "Active": "Đang hoạt động",
@@ -1351,6 +1365,89 @@
       },
       "notes": "Ghi Chú Thêm",
       "notesPlaceholder": "Bất kỳ hướng dẫn cụ thể nào..."
+    }
+  },
+  "doctorSettings": {
+    "title": "Trang Cá Nhân",
+    "subtitle": "Quản lý thông tin hồ sơ của bạn",
+    "tabs": {
+      "personalInfo": "Thông Tin Cá Nhân",
+      "professionalProfile": "Hồ Sơ Chuyên Môn",
+      "security": "Bảo Mật"
+    },
+    "personal": {
+      "title": "Thông Tin Cá Nhân",
+      "fullName": "Họ và tên *",
+      "phone": "Số điện thoại",
+      "phonePlaceholder": "0912...",
+      "email": "Email",
+      "saving": "Đang lưu...",
+      "saveBtn": "Lưu Thay Đổi"
+    },
+    "professional": {
+      "title": "Hồ Sơ Chuyên Môn",
+      "specialties": "Chuyên Khoa",
+      "experience": "Số Năm Kinh Nghiệm",
+      "experiencePlaceholder": "Ví dụ: 5",
+      "qualifications": "Bằng Cấp / Chứng Chỉ",
+      "qualificationsPlaceholder": "Ví dụ: Thạc sĩ Y khoa, Chuyên khoa II...",
+      "addQualification": "Thêm",
+      "bio": "Giới Thiệu Bản Thân",
+      "bioPlaceholder": "Mô tả kinh nghiệm, phong cách khám, thế mạnh của bạn...",
+      "saving": "Đang lưu...",
+      "saveBtn": "Lưu Hồ Sơ",
+      "successToast": "Hồ sơ chuyên môn đã được cập nhật",
+      "errorToast": "Cập nhật thất bại"
+    },
+    "security": {
+      "title": "Đổi Mật Khẩu",
+      "currentPassword": "Mật khẩu hiện tại *",
+      "newPassword": "Mật khẩu mới *",
+      "confirmPassword": "Xác nhận mật khẩu mới *",
+      "saving": "Đang đổi...",
+      "saveBtn": "Đổi Mật Khẩu",
+      "passwordMismatch": "Mật khẩu mới không khớp",
+      "passwordLength": "Mật khẩu mới phải có ít nhất 8 ký tự"
+    }
+  },
+  "doctorWorkingHours": {
+    "title": "Lịch làm việc theo tuần",
+    "subtitle": "Cấu hình giờ làm việc từng ngày. Mỗi thay đổi cần lưu riêng hoặc lưu tất cả cùng lúc.",
+    "unsavedDays": "ngày chưa lưu",
+    "saveAll": "Lưu tất cả",
+    "invalidTimeError": "Giờ bắt đầu phải trước giờ kết thúc",
+    "noChangesError": "Không có thay đổi nào cần lưu",
+    "from": "Từ",
+    "to": "đến",
+    "invalidHours": "Giờ không hợp lệ",
+    "saveThisDay": "Lưu ngày này",
+    "deleteThisDay": "Xóa ca làm việc ngày này",
+    "turnOffDay": "Tắt ngày này",
+    "turnOnDay": "Bật ngày này",
+    "daysPerWeek": "ngày làm việc/tuần",
+    "total": "Tổng",
+    "perWeek": "/tuần",
+    "rememberToSave": "Nhớ lưu trước khi rời trang!"
+  },
+  "adminAnalytics": {
+    "title": "Báo Cáo & Thống Kê",
+    "subtitle": "Tổng quan hoạt động phòng khám",
+    "kpi": {
+      "totalUsers": "Tổng Người Dùng",
+      "doctorsCount": "Bác sĩ: {count}",
+      "totalBookings": "Tổng Lịch Hẹn",
+      "allTime": "Toàn bộ thời gian",
+      "growthRate": "Tỷ Lệ Tăng Trưởng",
+      "revenueGrowth": "doanh thu",
+      "comparedToLastMonth": "So với tháng trước",
+      "totalRevenue": "Tổng Doanh Thu",
+      "thisMonth": "Tháng này: {amount}"
+    },
+    "bookingStatus": {
+      "upcoming": "Chờ Xử Lý",
+      "inProgress": "Đang Khám",
+      "completed": "Hoàn Thành",
+      "cancelled": "Đã Hủy"
     }
   },
   "technician": {

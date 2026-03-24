@@ -62,6 +62,28 @@ export const useDoctorSchedule = () => {
     }
   }, []);
 
+  const bulkUpdateWorkingHours = useCallback(
+    async (
+      doctorId: string,
+      items: { dayOfWeek: DayOfWeek; startTime: string; endTime: string; enabled: boolean }[],
+    ) => {
+      try {
+        setSavingHours(true);
+        const updated = await schedulesApi.bulkUpdateWorkingHours({ doctorId, items });
+        setWorkingHours(updated);
+        toast.success('Đã lưu tất cả thay đổi');
+        return updated;
+      } catch (err) {
+        const error = err as Error;
+        toast.error(error.message || 'Lưu tất cả thay đổi thất bại');
+        throw error;
+      } finally {
+        setSavingHours(false);
+      }
+    },
+    [],
+  );
+
   // Off Days
   const [offDays, setOffDays] = useState<OffDay[]>([]);
   const [loadingOffDays, setLoadingOffDays] = useState(false);
@@ -150,6 +172,7 @@ export const useDoctorSchedule = () => {
     fetchWorkingHours,
     saveWorkingHours,
     deleteWorkingHours,
+    bulkUpdateWorkingHours,
     // Off days
     offDays,
     loadingOffDays,

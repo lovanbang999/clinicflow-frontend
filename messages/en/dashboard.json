@@ -607,6 +607,19 @@
         },
         "labLabel": "Lab / Clinical Test",
         "totalLabel": "Total:",
+        "addService": {
+          "addBtn": "Add Service",
+          "formTitle": "Add Additional Service",
+          "nameLabel": "Service Name",
+          "namePlaceholder": "e.g., Abdominal Ultrasound, Consultation...",
+          "priceLabel": "Unit Price ($)",
+          "pricePlaceholder": "0",
+          "qtyLabel": "Qty",
+          "cancelBtn": "Cancel",
+          "confirmBtn": "Confirm Add",
+          "addingBtn": "Adding...",
+          "deleteTitle": "Delete Service"
+        },
         "paymentHistoryTitle": "Payment History",
         "emptyPayments": "No payment transactions yet.",
         "paymentTable": {
@@ -850,7 +863,8 @@
           "Doctor": "Doctor",
           "Patient": "Patient",
           "Receptionist": "Receptionist",
-          "Admin": "Admin"
+          "Admin": "Admin",
+          "Technician": "Technician"
         },
         "statuses": {
           "Active": "Active",
@@ -1351,6 +1365,89 @@
       },
       "notes": "Additional Notes",
       "notesPlaceholder": "Any specific instructions for this slot..."
+    }
+  },
+  "doctorSettings": {
+    "title": "Profile Info",
+    "subtitle": "Manage your profile information",
+    "tabs": {
+      "personalInfo": "Personal Info",
+      "professionalProfile": "Professional Profile",
+      "security": "Security"
+    },
+    "personal": {
+      "title": "Personal Information",
+      "fullName": "Full Name *",
+      "phone": "Phone Number",
+      "phonePlaceholder": "0912...",
+      "email": "Email",
+      "saving": "Saving...",
+      "saveBtn": "Save Changes"
+    },
+    "professional": {
+      "title": "Professional Profile",
+      "specialties": "Specialties",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "e.g., 5",
+      "qualifications": "Qualifications",
+      "qualificationsPlaceholder": "e.g., MD, Specialist Level II...",
+      "addQualification": "Add",
+      "bio": "About Yourself",
+      "bioPlaceholder": "Describe your experience, approach to care, strengths...",
+      "saving": "Saving...",
+      "saveBtn": "Save Profile",
+      "successToast": "Professional profile updated successfully",
+      "errorToast": "Failed to update profile"
+    },
+    "security": {
+      "title": "Change Password",
+      "currentPassword": "Current Password *",
+      "newPassword": "New Password *",
+      "confirmPassword": "Confirm New Password *",
+      "saving": "Changing...",
+      "saveBtn": "Change Password",
+      "passwordMismatch": "New passwords do not match",
+      "passwordLength": "New password must be at least 8 characters"
+    }
+  },
+  "doctorWorkingHours": {
+    "title": "Weekly Working Hours",
+    "subtitle": "Configure working hours for each day. Save changes individually or all at once.",
+    "unsavedDays": "unsaved days",
+    "saveAll": "Save All",
+    "invalidTimeError": "Start time must be before end time",
+    "noChangesError": "No changes to save",
+    "from": "From",
+    "to": "to",
+    "invalidHours": "Invalid hours",
+    "saveThisDay": "Save this day",
+    "deleteThisDay": "Delete this day's shift",
+    "turnOffDay": "Turn off this day",
+    "turnOnDay": "Turn on this day",
+    "daysPerWeek": "working days/week",
+    "total": "Total",
+    "perWeek": "/week",
+    "rememberToSave": "Remember to save before leaving!"
+  },
+  "adminAnalytics": {
+    "title": "Reports & Analytics",
+    "subtitle": "Overview of clinic activity",
+    "kpi": {
+      "totalUsers": "Total Users",
+      "doctorsCount": "Doctors: {count}",
+      "totalBookings": "Total Bookings",
+      "allTime": "All time",
+      "growthRate": "Growth Rate",
+      "revenueGrowth": "revenue",
+      "comparedToLastMonth": "Compared to last month",
+      "totalRevenue": "Total Revenue",
+      "thisMonth": "This month: {amount}"
+    },
+    "bookingStatus": {
+      "upcoming": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
     }
   },
   "technician": {

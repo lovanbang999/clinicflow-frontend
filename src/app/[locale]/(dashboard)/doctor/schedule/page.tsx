@@ -27,7 +27,8 @@ export default function DoctorSchedulePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="h-full overflow-y-auto no-scrollbar">
+      <div className="max-w-4xl mx-auto p-6 space-y-6 pb-20">
       {/* Page header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Quản lý lịch</h1>
@@ -62,6 +63,7 @@ export default function DoctorSchedulePage() {
       {activeTab === 'off-days' && (
         <DoctorOffDayCalendar doctorId={user.id} />
       )}
+      </div>
     </div>
   );
 }

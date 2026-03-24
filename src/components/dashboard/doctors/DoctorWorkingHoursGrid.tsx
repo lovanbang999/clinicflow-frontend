@@ -5,14 +5,13 @@ import { toast } from 'sonner';
 import {
   ClockIcon,
   FloppyDiskIcon,
-  TrashIcon,
   CheckCircleIcon,
   WarningIcon,
 } from '@phosphor-icons/react';
-import { Card } from '@/components/ui/card';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { DoctorWorkingHoursDayCard } from './DoctorWorkingHoursDayCard';
 import { DayOfWeek, WorkingHours } from '@/types';
 import { useDoctorSchedule } from '@/lib/hooks/useDoctorSchedule';
 import { Badge } from '@/components/ui/badge';
@@ -76,8 +75,17 @@ function formatDuration(start: string, end: string) {
 }
 
 export function DoctorWorkingHoursGrid({ doctorId }: Props) {
-  const { workingHours, loadingHours, savingHours, fetchWorkingHours, saveWorkingHours, deleteWorkingHours } =
-    useDoctorSchedule();
+  const t = useTranslations('dashboard.doctorWorkingHours');
+
+  const {
+    workingHours,
+    loadingHours,
+    savingHours,
+    fetchWorkingHours,
+    saveWorkingHours,
+    deleteWorkingHours,
+    bulkUpdateWorkingHours,
+  } = useDoctorSchedule();
 
   const [config, setConfig] = useState<Record<DayOfWeek, DayConfig>>(() =>
     buildInitialConfig([]),
@@ -122,7 +130,7 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
         return;
       }
       if (strToMinutes(c.startTime) >= strToMinutes(c.endTime)) {
-        toast.error('Giờ bắt đầu phải trước giờ kết thúc');
+        toast.error(t('invalidTimeError'));
         return;
       }
       try {
@@ -132,17 +140,36 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
         /* toast inside hook */
       }
     },
-    [config, doctorId, saveWorkingHours, deleteWorkingHours],
+    [config, doctorId, saveWorkingHours, deleteWorkingHours, t],
   );
 
   const handleSaveAll = useCallback(async () => {
     const dirtyDays = DAYS_OF_WEEK.filter(({ key }) => config[key].dirty);
     if (dirtyDays.length === 0) {
-      toast.info('Không có thay đổi nào cần lưu');
+      toast.info(t('noChangesError'));
       return;
     }
-    await Promise.all(dirtyDays.map(({ key }) => handleSave(key)));
-  }, [config, handleSave]);
+
+    const items = dirtyDays.map(({ key }) => ({
+      dayOfWeek: key,
+      startTime: config[key].startTime,
+      endTime: config[key].endTime,
+      enabled: config[key].enabled,
+    }));
+
+    try {
+      await bulkUpdateWorkingHours(doctorId, items);
+      setConfig((prev) => {
+        const next = { ...prev };
+        dirtyDays.forEach(({ key }) => {
+          next[key] = { ...next[key], dirty: false };
+        });
+        return next;
+      });
+    } catch {
+      /* toast inside hook */
+    }
+  }, [config, doctorId, bulkUpdateWorkingHours, t]);
 
   // Preview: total working hours per week
   const weeklyHours = DAYS_OF_WEEK.reduce((acc, { key }) => {
@@ -161,17 +188,17 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
         <div className="flex items-center gap-3">
           <ClockIcon size={20} weight="duotone" className="text-[#1392ec]" />
           <div>
-            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Lịch làm việc theo tuần</h2>
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">{t('title')}</h2>
             <p className="text-xs text-slate-500">
-              Cấu hình giờ làm việc từng ngày. Mỗi thay đổi cần lưu riêng hoặc lưu tất cả cùng lúc.
+              {t('subtitle')}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {dirtyCount > 0 && (
-            <Badge variant="outline" className="border-amber-400 text-amber-600 bg-amber-50 text-xs">
-              <WarningIcon size={12} className="mr-1" /> {dirtyCount} ngày chưa lưu
+            <Badge variant="outline" className="border-amber-400 text-amber-600 bg-amber-50 text-xs gap-1">
+              <WarningIcon size={12} /> {dirtyCount} {t('unsavedDays')}
             </Badge>
           )}
           <Button
@@ -181,7 +208,7 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
             className="h-8 px-3 bg-[#1392ec] hover:bg-[#1180d0] text-white rounded-lg text-xs font-bold cursor-pointer"
           >
             <FloppyDiskIcon size={14} weight="bold" className="mr-1" />
-            Lưu tất cả
+            {t('saveAll')}
           </Button>
         </div>
       </div>
@@ -201,128 +228,20 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
             const duration  = c.enabled ? formatDuration(c.startTime, c.endTime) : null;
 
             return (
-              <Card
+              <DoctorWorkingHoursDayCard
                 key={key}
-                className={cn(
-                  'flex items-center gap-4 px-4 py-3 rounded-xl border transition-all duration-150',
-                  c.enabled
-                    ? 'border-[#1392ec]/30 bg-blue-50/40 dark:bg-blue-950/20'
-                    : 'border-slate-200 bg-white dark:bg-slate-900',
-                  c.dirty && 'ring-1 ring-amber-400/60',
-                )}
-              >
-                {/* Day label */}
-                <div className="w-24 shrink-0">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={cn(
-                        'inline-flex items-center justify-center w-8 h-8 rounded-lg text-xs font-bold',
-                        c.enabled
-                          ? 'bg-[#1392ec] text-white'
-                          : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500',
-                      )}
-                    >
-                      {short}
-                    </span>
-                    <span
-                      className={cn(
-                        'text-sm font-semibold',
-                        c.enabled ? 'text-slate-900 dark:text-slate-100' : 'text-slate-400',
-                      )}
-                    >
-                      {label}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Toggle */}
-                <button
-                  onClick={() => toggleDay(key)}
-                  className={cn(
-                    'relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none cursor-pointer shrink-0',
-                    c.enabled ? 'bg-[#1392ec]' : 'bg-slate-200 dark:bg-slate-700',
-                  )}
-                  aria-label={c.enabled ? 'Tắt ngày này' : 'Bật ngày này'}
-                >
-                  <span
-                    className={cn(
-                      'inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform',
-                      c.enabled ? 'translate-x-4' : 'translate-x-1',
-                    )}
-                  />
-                </button>
-
-                {/* Time pickers */}
-                <div
-                  className={cn(
-                    'flex items-center gap-2 flex-1 transition-opacity',
-                    !c.enabled && 'opacity-30 pointer-events-none',
-                  )}
-                >
-                  <label className="text-xs text-slate-500 shrink-0">Từ</label>
-                  <input
-                    type="time"
-                    value={c.startTime}
-                    onChange={(e) => updateTime(key, 'startTime', e.target.value)}
-                    className="h-8 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 cursor-pointer"
-                  />
-                  <label className="text-xs text-slate-500 shrink-0">đến</label>
-                  <input
-                    type="time"
-                    value={c.endTime}
-                    onChange={(e) => updateTime(key, 'endTime', e.target.value)}
-                    className="h-8 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 cursor-pointer"
-                  />
-
-                  {/* Duration badge */}
-                  {duration && (
-                    <Badge
-                      variant="outline"
-                      className={cn(
-                        'ml-2 text-xs',
-                        isValid
-                          ? 'border-emerald-300 text-emerald-600 bg-emerald-50'
-                          : 'border-red-300 text-red-500 bg-red-50',
-                      )}
-                    >
-                      <ClockIcon size={11} className="mr-1" />
-                      {isValid ? duration : 'Giờ không hợp lệ'}
-                    </Badge>
-                  )}
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-1 shrink-0">
-                  {c.dirty && (
-                    <>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleSave(key)}
-                        disabled={savingHours}
-                        className="h-8 px-2 text-[#1392ec] hover:bg-[#1392ec]/10 rounded-lg cursor-pointer"
-                        title="Lưu ngày này"
-                      >
-                        <FloppyDiskIcon size={15} weight="bold" />
-                      </Button>
-                    </>
-                  )}
-                  {!c.dirty && c.enabled && (
-                    <CheckCircleIcon size={18} weight="fill" className="text-emerald-500" />
-                  )}
-                  {c.enabled && !c.dirty && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => { toggleDay(key); }}
-                      className="h-8 px-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg cursor-pointer"
-                      title="Xóa ca làm việc ngày này"
-                    >
-                      <TrashIcon size={14} weight="bold" />
-                    </Button>
-                  )}
-                </div>
-              </Card>
+                dayKey={key}
+                label={label}
+                short={short}
+                config={c}
+                isValid={isValid}
+                duration={duration}
+                savingHours={savingHours}
+                toggleDay={toggleDay}
+                updateTime={updateTime}
+                handleSave={handleSave}
+                t={t}
+              />
             );
           })}
         </div>
@@ -333,15 +252,15 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
         <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
           <CheckCircleIcon size={16} weight="duotone" className="text-emerald-500" />
           <span>
-            <strong>{DAYS_OF_WEEK.filter(({ key }) => config[key].enabled).length}</strong> ngày làm việc/tuần
+            <strong>{DAYS_OF_WEEK.filter(({ key }) => config[key].enabled).length}</strong> {t('daysPerWeek')}
           </span>
           <span className="mx-1 text-slate-300">|</span>
           <ClockIcon size={14} className="text-[#1392ec]" />
-          <span>Tổng <strong>{minutesToStr(weeklyHours)}</strong>/tuần</span>
+          <span>{t('total')} <strong>{minutesToStr(weeklyHours)}</strong>{t('perWeek')}</span>
         </div>
         {dirtyCount > 0 && (
           <span className="text-xs text-amber-600 font-medium">
-            Nhớ lưu trước khi rời trang!
+            {t('rememberToSave')}
           </span>
         )}
       </div>

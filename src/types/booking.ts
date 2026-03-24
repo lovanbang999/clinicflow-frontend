@@ -9,6 +9,22 @@ export enum BookingStatus {
   NO_SHOW = 'NO_SHOW',
 }
 
+export enum LabOrderStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export interface LabOrder {
+  id: string;
+  testName: string;
+  testDescription?: string;
+  status: LabOrderStatus | string;
+  orderedAt: string;
+}
+
 export interface Booking {
   id: string;
   bookingCode?: string;
@@ -47,18 +63,31 @@ export interface Booking {
     durationMinutes: number;
     price: number;
   };
-  medicalRecord?: {
-    id: string;
-    isFinalized: boolean;
-    chiefComplaint?: string;
-    clinicalFindings?: string;
-    diagnosisCode?: string;
-    diagnosisName?: string;
-    treatmentPlan?: string;
-    doctorNotes?: string;
-    followUpDate?: string;
-    followUpNote?: string;
-  };
+    medicalRecord?: {
+      id: string;
+      isFinalized: boolean;
+      chiefComplaint?: string;
+      clinicalFindings?: string;
+      diagnosisCode?: string;
+      diagnosisName?: string;
+      treatmentPlan?: string;
+      doctorNotes?: string;
+      followUpDate?: string;
+      followUpNote?: string;
+      prescription?: {
+        id: string;
+        items: Array<{
+          medicineName: string;
+          dosage: string;
+          frequency: string;
+          durationDays?: number;
+          quantity: number;
+          unit: string;
+          instructions?: string;
+        }>;
+      };
+      labOrders?: LabOrder[];
+    };
   queueRecord?: QueueRecord;
 }
 
