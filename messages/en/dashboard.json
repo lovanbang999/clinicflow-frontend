@@ -154,6 +154,9 @@
         "live": "Live",
         "stats": {
           "waiting": "Waiting",
+          "inExam": "In Exam",
+          "waitingResults": "Waiting Results",
+          "inProgress": "In Progress",
           "completed": "Completed",
           "noShow": "No-show"
         },
@@ -173,8 +176,9 @@
           "completed": "Completed"
         },
         "actions": {
-          "enterExam": "Enter Room",
-          "callPatient": "Call Patient"
+          "enterExam": "Enter Consultation",
+          "callPatient": "Call Patient",
+          "printResult": "Print Result"
         },
         "infoNote": "You can only <strong>Enter Room</strong> with the currently called patient. Waiting patients are for reference only and cannot be examined yet.",
         "statusLabel": "Status",
@@ -185,7 +189,8 @@
         },
         "age": "yrs",
         "generalExam": "General Exam",
-        "emptyQueue": "No patients currently in queue"
+        "emptyQueue": "No patients currently in queue",
+        "emptyTab": "No patients found in this category"
       },
       "examView": {
         "title": "Medical Examination",
@@ -213,6 +218,12 @@
           "lab": "Lab Orders"
         },
         "loading": "Loading medical record...",
+        "printModal": {
+          "title": "Examination completed!",
+          "description": "Patient <name>{fullName}</name>'s record has been saved. Would you like to print the clinical report before continuing?",
+          "skip": "Skip",
+          "printAndContinue": "Print & Continue"
+        },
         "fetchError": "Error loading patient information",
         "patientBanner": {
           "examining": "Examining",

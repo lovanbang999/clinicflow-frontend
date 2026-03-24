@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { CreateMedicalRecordDto, ICD10Record } from '@/lib/api/medical-records';
-import { useIcd10Search, useMedicalRecordActions } from '@/lib/hooks/useMedicalRecords';
-import { toast } from 'sonner';
+import { useIcd10Search } from '@/lib/hooks/useMedicalRecords';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -21,28 +20,26 @@ interface MedicalRecordFormProps {
   visible?: boolean;
 }
 
-export function MedicalRecordForm({ isLoading, onFinished, visible = true }: MedicalRecordFormProps) {
+export function MedicalRecordForm({ isLoading, visible = true }: MedicalRecordFormProps) {
   const t = useTranslations('dashboard.emr.form');
 
   const { results: icdResults, search: searchIcd, setResults: setIcdResults } = useIcd10Search();
-  const { upsertRecord, isPerformingAction: isSavingRecord } = useMedicalRecordActions();
 
-  const [isFinishing, setIsFinishing] = useState(false);
   const [icdSearchTerm, setIcdSearchTerm] = useState('');
   const [showIcdDropdown, setShowIcdDropdown] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch } = useFormContext<CreateMedicalRecordDto>();
+  const { register, setValue, watch } = useFormContext<CreateMedicalRecordDto>();
 
   const watchDiagnosisName = watch('diagnosisName');
   const watchDiagnosisCode = watch('diagnosisCode');
   const watchFollowUpDate = watch('followUpDate');
 
-  useEffect(() => {
-    if (watchDiagnosisName && !icdSearchTerm) {
-      setIcdSearchTerm(`${watchDiagnosisCode} - ${watchDiagnosisName}`);
-    }
-  }, [watchDiagnosisName, watchDiagnosisCode, icdSearchTerm]);
+  // Sync ICD search term with diagnosis during render if not already set
+  // This avoids cascading renders from useEffect. It's safe because it's conditional.
+  if (watchDiagnosisName && !icdSearchTerm) {
+    setIcdSearchTerm(`${watchDiagnosisCode} - ${watchDiagnosisName}`);
+  }
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -63,37 +60,6 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
     setShowIcdDropdown(false);
   };
 
-  const onSubmit = async (data: CreateMedicalRecordDto, finalize: boolean = false) => {
-    try {
-      setIsFinishing(finalize);
-      data.isFinalized = finalize;
-      data.completeVisit = finalize;
-      
-      await upsertRecord(data);
-      if (finalize) {
-        toast.success(t('messages.visitCompleted') || 'Visit completed');
-        // Notify that pharmacy invoice was auto-created if prescription exists
-        const hasPrescription = data.prescriptionItems && data.prescriptionItems.length > 0;
-        if (hasPrescription) {
-          setTimeout(() => {
-            toast.info(t('messages.pharmacyInvoiceCreated') || 'Đơn thuốc đã được tạo hoá đơn', {
-              description: t('messages.pharmacyInvoiceDesc') || 'Hệ thống đã tự động tạo Hoá đơn Thuốc. Lễ tân sẽ thu tiền thuốc cho bệnh nhân.',
-              duration: 6000,
-            });
-          }, 500);
-        }
-        if (onFinished) onFinished();
-      } else {
-        toast.success(t('messages.savedDraft') || 'Draft saved');
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Error';
-      toast.error(t('messages.saveError') || 'Error saving', { description: msg });
-    } finally {
-      setIsFinishing(false);
-    }
-  };
-
   const addDaysToFollowUp = (days: number) => {
     const d = new Date();
     d.setDate(d.getDate() + days);
@@ -110,7 +76,7 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
   }
 
   return (
-    <form className={cn("flex flex-col relative", visible && "h-full")}>
+    <div className={cn("flex flex-col relative", visible && "h-full")}>
       
       {/* Bento Layout Grid */}
       <div className={cn("grid grid-cols-12 gap-6 items-start pb-24", !visible && "hidden")}>
@@ -128,7 +94,9 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
             
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">{t('fields.chiefComplaint')}</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  {t('fields.chiefComplaint')} <span className="text-red-500">*</span>
+                </label>
                 <Textarea
                   {...register('chiefComplaint', { required: true })}
                   className="w-full text-sm shadow-sm min-h-[80px]"
@@ -200,7 +168,9 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
             
             <div className="space-y-5">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('fields.icd10')}</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                  {t('fields.icd10')} <span className="text-red-500">*</span>
+                </label>
                 <div className="relative">
                   <MagnifyingGlassIcon size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                   <Input
@@ -298,30 +268,8 @@ export function MedicalRecordForm({ isLoading, onFinished, visible = true }: Med
               </div>
             </div>
           </div>
-
         </div>
       </div>
-
-      {/* Sticky Bottom Bar */}
-      <footer className="fixed bottom-0 right-0 left-0 md:left-64 flex justify-end items-center px-8 py-4 gap-3 z-40 bg-white border-t border-gray-200 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleSubmit((data: CreateMedicalRecordDto) => onSubmit(data, false))}
-          disabled={isSavingRecord || isFinishing}
-          className="bg-gray-50 hover:bg-gray-100 text-gray-700 h-10 px-6 font-semibold border-gray-200"
-        >
-          {t('actions.saveDraft')}
-        </Button>
-        <Button
-          type="button"
-          onClick={handleSubmit((data: CreateMedicalRecordDto) => onSubmit(data, true))}
-          disabled={isSavingRecord || isFinishing || !watchDiagnosisCode}
-          className="bg-green-600 hover:bg-green-700 text-white h-10 px-6 font-semibold shadow-sm cursor-pointer"
-        >
-          {t('actions.finishAndNext')}
-        </Button>
-      </footer>
-    </form>
+    </div>
   );
 }

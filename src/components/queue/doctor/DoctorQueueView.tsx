@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
+
 import { useTranslations } from 'next-intl';
 import { InfoIcon, SpinnerIcon, TimerIcon, ClipboardTextIcon } from '@phosphor-icons/react';
 import type { QueueRecord } from '@/lib/api/queue';
 import { BookingStatus } from '@/types';
 import { DoctorQueueCard } from './DoctorQueueCard';
+import { PrintableExaminationResult } from './PrintableExaminationResult';
+import type { CreateMedicalRecordDto } from '@/lib/api/medical-records';
 
 interface DoctorQueueViewProps {
   queueItems: QueueRecord[];
@@ -26,9 +30,31 @@ export function DoctorQueueView({
 }: DoctorQueueViewProps) {
   const t = useTranslations('dashboard.doctor.workspace.queueView');
 
+  const inExam = queueItems.filter((q) => q.booking.status === BookingStatus.IN_PROGRESS && !q.booking.medicalRecord).length;
+  const waitingResults = queueItems.filter((q) => q.booking.status === BookingStatus.IN_PROGRESS && q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized).length;
   const waiting = queueItems.filter((q) => q.booking.status === BookingStatus.CHECKED_IN).length;
   const completed = queueItems.filter((q) => q.booking.status === BookingStatus.COMPLETED).length;
   const noShow = queueItems.filter((q) => q.booking.status === BookingStatus.NO_SHOW).length;
+
+  type FilterType = 'IN_EXAM' | 'WAITING_RESULTS' | BookingStatus.CHECKED_IN | BookingStatus.COMPLETED | BookingStatus.NO_SHOW;
+  const [activeFilter, setActiveFilter] = useState<FilterType>(BookingStatus.CHECKED_IN);
+  const [selectedPrintRecord, setSelectedPrintRecord] = useState<QueueRecord | null>(null);
+
+  const handleDirectPrint = (record: QueueRecord) => {
+    setSelectedPrintRecord(record);
+    // Give time for state to update and component to render
+    setTimeout(() => {
+      window.print();
+      // Clean up after print (though hidden in UI, good for state)
+      setTimeout(() => setSelectedPrintRecord(null), 1000);
+    }, 300);
+  };
+
+  const filteredItems = activeFilter === 'IN_EXAM'
+      ? queueItems.filter(q => q.booking.status === BookingStatus.IN_PROGRESS && !q.booking.medicalRecord)
+      : activeFilter === 'WAITING_RESULTS'
+        ? queueItems.filter(q => q.booking.status === BookingStatus.IN_PROGRESS && q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized)
+        : queueItems.filter(q => q.booking.status === activeFilter as BookingStatus);
 
   return (
     <div className="flex flex-col flex-1 min-w-0 bg-[#f8f9ff] text-[#191c20] overflow-y-auto no-scrollbar" id="queue-mode">
@@ -48,25 +74,72 @@ export function DoctorQueueView({
               </div>
               
               {/* Filters / Stats pills */}
-              <div className="flex items-center gap-2 p-1 bg-[#f3f4f9] rounded-lg w-fit">
-                <button className="px-5 py-2 rounded-lg bg-white shadow-sm text-[#1275e2] font-bold text-sm flex items-center gap-2 transition-all">
+              <div className="flex items-center gap-2 p-1 bg-[#f3f4f9] rounded-lg w-fit overflow-x-auto no-scrollbar">
+                <button 
+                  onClick={() => setActiveFilter(BookingStatus.CHECKED_IN)}
+                  className={`cursor-pointer whitespace-nowrap px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all ${
+                    activeFilter === BookingStatus.CHECKED_IN ? 'bg-white shadow-sm text-[#1275e2] font-bold' : 'text-[#44474e] hover:bg-gray-200/50'
+                  }`}
+                >
                   {t('stats.waiting')}
-                  <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg bg-[#1275e2] text-white text-[10px]">
+                  <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg text-[10px] ${
+                    activeFilter === BookingStatus.CHECKED_IN ? 'bg-[#1275e2] text-white' : 'bg-[#e2e2e9] text-[#44474e]'
+                  }`}>
                     {waiting}
                   </span>
                 </button>
-                <div className="cursor-default px-5 py-2 rounded-lg text-[#44474e] font-semibold text-sm flex items-center gap-2 transition-all">
+                <button 
+                  onClick={() => setActiveFilter('IN_EXAM')}
+                  className={`cursor-pointer whitespace-nowrap px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all ${
+                    activeFilter === 'IN_EXAM' ? 'bg-white shadow-sm text-[#1275e2] font-bold' : 'text-[#44474e] hover:bg-gray-200/50'
+                  }`}
+                >
+                  {t('stats.inExam', { defaultMessage: 'Đang khám' })}
+                  <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg text-[10px] ${
+                    activeFilter === 'IN_EXAM' ? 'bg-[#1275e2] text-white' : 'bg-[#e2e2e9] text-[#44474e]'
+                  }`}>
+                    {inExam}
+                  </span>
+                </button>
+                <button 
+                  onClick={() => setActiveFilter('WAITING_RESULTS')}
+                  className={`cursor-pointer whitespace-nowrap px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all ${
+                    activeFilter === 'WAITING_RESULTS' ? 'bg-white shadow-sm text-[#1275e2] font-bold' : 'text-[#44474e] hover:bg-gray-200/50'
+                  }`}
+                >
+                  {t('stats.waitingResults', { defaultMessage: 'Chờ kết quả' })}
+                  <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg text-[10px] ${
+                    activeFilter === 'WAITING_RESULTS' ? 'bg-[#1275e2] text-white' : 'bg-[#e2e2e9] text-[#44474e]'
+                  }`}>
+                    {waitingResults}
+                  </span>
+                </button>
+                <button 
+                  onClick={() => setActiveFilter(BookingStatus.COMPLETED)}
+                  className={`cursor-pointer whitespace-nowrap px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all ${
+                    activeFilter === BookingStatus.COMPLETED ? 'bg-white shadow-sm text-[#1275e2] font-bold' : 'text-[#44474e] hover:bg-gray-200/50'
+                  }`}
+                >
                   {t('stats.completed')}
-                  <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg bg-[#e2e2e9] text-[#44474e] text-[10px]">
+                  <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg text-[10px] ${
+                    activeFilter === BookingStatus.COMPLETED ? 'bg-[#1275e2] text-white' : 'bg-[#e2e2e9] text-[#44474e]'
+                  }`}>
                     {completed}
                   </span>
-                </div>
-                <div className="cursor-default px-5 py-2 rounded-lg text-[#44474e] font-semibold text-sm flex items-center gap-2 transition-all">
+                </button>
+                <button 
+                  onClick={() => setActiveFilter(BookingStatus.NO_SHOW)}
+                  className={`cursor-pointer whitespace-nowrap px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all ${
+                    activeFilter === BookingStatus.NO_SHOW ? 'bg-white shadow-sm text-[#1275e2] font-bold' : 'text-[#44474e] hover:bg-gray-200/50'
+                  }`}
+                >
                   {t('stats.noShow')}
-                  <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg bg-[#e2e2e9] text-[#44474e] text-[10px]">
+                  <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-lg text-[10px] ${
+                    activeFilter === BookingStatus.NO_SHOW ? 'bg-[#1275e2] text-white' : 'bg-[#e2e2e9] text-[#44474e]'
+                  }`}>
                     {noShow}
                   </span>
-                </div>
+                </button>
               </div>
             </div>
 
@@ -93,24 +166,40 @@ export function DoctorQueueView({
             <div className="border-2 border-dashed border-[#c4c6cf]/30 rounded-xl py-12 flex flex-col items-center justify-center text-[#44474e] bg-[#f3f4f9]/30">
               <SpinnerIcon size={40} className="animate-spin text-[#1275e2] mb-3" />
             </div>
-          ) : queueItems.length === 0 ? (
+          ) : filteredItems.length === 0 ? (
             <div className="border-2 border-dashed border-[#c4c6cf]/30 rounded-xl py-12 flex items-center justify-center text-[#44474e]/50 bg-[#f3f4f9]/30">
               <div className="flex flex-col items-center">
                 <ClipboardTextIcon size={48} className="mb-3 opacity-30" />
-                <p className="text-sm font-semibold tracking-tight">{t('emptyQueue')}</p>
+                <p className="text-sm font-semibold tracking-tight">{t('emptyTab')}</p>
               </div>
             </div>
           ) : (
-            queueItems.map((item) => (
+            filteredItems.map((item) => (
               <DoctorQueueCard
                 key={item.id}
                 item={item}
                 onCall={onCallPatient}
                 onEnterExam={onEnterExam}
+                onPrint={() => handleDirectPrint(item)}
               />
             ))
           )}
         </div>
+
+        {/* Hidden printing component */}
+        {selectedPrintRecord && (
+          <div className="hidden print:block">
+            <PrintableExaminationResult 
+              patientProfile={selectedPrintRecord.booking.patientProfile}
+              doctorName={selectedPrintRecord.booking.doctor?.fullName}
+              medicalRecord={{
+                ...selectedPrintRecord.booking.medicalRecord,
+                bookingId: selectedPrintRecord.booking.id,
+              } as CreateMedicalRecordDto}
+              bookingCode={selectedPrintRecord.booking.bookingCode}
+            />
+          </div>
+        )}
 
         {/* Footer info note */}
         {queueItems.length > 0 && (

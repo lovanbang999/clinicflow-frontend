@@ -47,6 +47,18 @@ export interface Booking {
     durationMinutes: number;
     price: number;
   };
+  medicalRecord?: {
+    id: string;
+    isFinalized: boolean;
+    chiefComplaint?: string;
+    clinicalFindings?: string;
+    diagnosisCode?: string;
+    diagnosisName?: string;
+    treatmentPlan?: string;
+    doctorNotes?: string;
+    followUpDate?: string;
+    followUpNote?: string;
+  };
   queueRecord?: QueueRecord;
 }
 
