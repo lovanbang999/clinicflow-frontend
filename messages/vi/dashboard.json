@@ -154,6 +154,9 @@
         "live": "Live",
         "stats": {
           "waiting": "Đang chờ",
+          "inExam": "Đang khám",
+          "waitingResults": "Chờ kết quả",
+          "inProgress": "Đang khám / Chờ KQ",
           "completed": "Hoàn thành",
           "noShow": "No-show"
         },
@@ -174,7 +177,8 @@
         },
         "actions": {
           "enterExam": "Vào phòng khám",
-          "callPatient": "Gọi vào khám"
+          "callPatient": "Gọi vào khám",
+          "printResult": "In phiếu kết quả"
         },
         "infoNote": "Chỉ có thể <strong>Vào phòng khám</strong> với bệnh nhân đang được gọi. Các bệnh nhân đang chờ chỉ hiển thị để tham khảo — không thể chỉnh sửa.",
         "statusLabel": "Trạng thái",
@@ -185,7 +189,8 @@
         },
         "age": "tuổi",
         "generalExam": "Khám tổng quát",
-        "emptyQueue": "Hết danh sách chờ hôm nay"
+        "emptyQueue": "Hết danh sách chờ hôm nay",
+        "emptyTab": "Không có bệnh nhân nào trong mục này"
       },
       "examView": {
         "title": "Đang khám bệnh",
@@ -213,6 +218,12 @@
           "lab": "Xét nghiệm"
         },
         "loading": "Đang tải hồ sơ khám...",
+        "printModal": {
+          "title": "Hoàn tất khám thành công!",
+          "description": "Hồ sơ bệnh nhân <name>{fullName}</name> đã được lưu. Bạn có muốn in Phiếu kết quả khám bệnh trước khi tiếp tục?",
+          "skip": "Bỏ qua",
+          "printAndContinue": "In & Tiếp tục"
+        },
         "fetchError": "Lỗi khi tải thông tin bệnh nhân",
         "patientBanner": {
           "examining": "Đang khám",

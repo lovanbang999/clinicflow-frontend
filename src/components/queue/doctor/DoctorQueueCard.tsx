@@ -8,13 +8,15 @@ import {
   GenderFemaleIcon, 
   GenderMaleIcon, 
   GenderNeuterIcon,
-  ClipboardTextIcon
+  ClipboardTextIcon,
+  PrinterIcon
 } from '@phosphor-icons/react';
 
 interface DoctorQueueCardProps {
   item: QueueRecord;
   onCall: (id: string) => void;
   onEnterExam: (id: string) => void;
+  onPrint?: (id: string) => void;
 }
 
 function getInitials(name: string) {
@@ -38,7 +40,7 @@ function getAvatarColors(name: string) {
   return colors[charCode % colors.length];
 }
 
-export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardProps) {
+export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint }: DoctorQueueCardProps) {
   const t = useTranslations('dashboard.doctor.workspace.queueView');
   console.log('item', item.booking.id);
 
@@ -68,7 +70,6 @@ export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardPr
     statusBg = 'bg-[#ffdad6] text-[#ba1a1a] border-[#ba1a1a]/10';
     statusLbl = t('status.noShow');
   } else if (status === BookingStatus.COMPLETED) {
-    isOpacified = true;
     statusBg = 'bg-[#e0efff] text-[#1275e2] border-[#1275e2]/10';
     statusLbl = t('status.completed');
   } else if (status === BookingStatus.CHECKED_IN) {
@@ -135,6 +136,12 @@ export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardPr
                     {patient.chronicConditions}
                   </span>
                 )}
+                {item.booking.medicalRecord && !item.booking.medicalRecord.isFinalized && (
+                  <span className="px-2 py-1 rounded-md bg-[#fff7d1] text-[#725a00] text-[10px] font-bold border border-[#725a00]/20 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#725a00] animate-pulse"></span>
+                    {t('tags.draft', { defaultMessage: 'Bản nháp' })}
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -164,6 +171,14 @@ export function DoctorQueueCard({ item, onCall, onEnterExam }: DoctorQueueCardPr
             >
               {t('actions.callPatient')}
               <ArrowRightIcon size={18} className="transition-transform group-hover/btn:translate-x-1" weight="bold" />
+            </button>
+          ) : status === BookingStatus.COMPLETED ? (
+            <button
+              onClick={() => onPrint?.(item.booking.id)}
+              className="h-12 px-8 rounded-xl bg-[#edf1f8] text-[#1275e2] font-bold border border-[#1275e2]/30 hover:bg-[#e0efff] active:scale-[0.98] transition-all flex items-center gap-2 group/btn cursor-pointer"
+            >
+              {t('actions.printResult')}
+              <PrinterIcon size={18} className="transition-transform group-hover/btn:scale-110" weight="bold" />
             </button>
           ) : null}
         </div>
