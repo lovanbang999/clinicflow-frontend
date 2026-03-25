@@ -58,5 +58,11 @@
     "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Mark all as read",
+    "empty": "You have no notifications",
+    "viewAll": "View all"
   }
 }

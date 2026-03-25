@@ -48,6 +48,10 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
       label: t('bookings'),
       href: '/patient/bookings',
     },
+    {
+      label: t('history'),
+      href: '/patient/history',
+    },
   ];
 
   return (

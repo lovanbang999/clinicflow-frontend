@@ -4,11 +4,13 @@ import { useTranslations } from 'next-intl';
 import {
   useAdminStats,
   useAdminTopDoctors,
+  useAdminTopServices,
 } from '@/lib/hooks/useAdminDashboard';
 import { AdminKpiCard, TrendUpBadge, TrendDownBadge, StableBadge } from '@/components/dashboard/AdminKpiCard';
 import { UsersIcon, CalendarCheckIcon, CurrencyCircleDollarIcon } from '@phosphor-icons/react';
 import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
 import { AdminTopDoctors } from '@/components/dashboard/AdminTopDoctors';
+import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
 import { AdminRecentActivity } from '@/components/dashboard/AdminRecentActivity';
 
 export default function AdminDashboardPage() {
@@ -17,6 +19,7 @@ export default function AdminDashboardPage() {
   // Each section loads its own data independently
   const { data: stats, loading: statsLoading } = useAdminStats();
   const { data: topDoctors, loading: topDoctorsLoading } = useAdminTopDoctors();
+  const { data: topServices, loading: topServicesLoading } = useAdminTopServices();
 
   const fmt = (n: number) => new Intl.NumberFormat('en-US').format(n);
   const fmtRev = (n: number) =>
@@ -65,7 +68,7 @@ export default function AdminDashboardPage() {
     : [];
 
   // If ALL sections are loading, show a full-page skeleton
-  const allLoading = statsLoading && topDoctorsLoading;
+  const allLoading = statsLoading && topDoctorsLoading && topServicesLoading;
 
   if (allLoading) {
     return (
@@ -112,12 +115,18 @@ export default function AdminDashboardPage() {
         <AdminRevenueTrendChart />
       </div>
 
-      {/* Row 3: Top Doctors + Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      {/* Row 3: Top Doctors + Top Services + Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {topDoctorsLoading ? (
           <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-64" />
         ) : (
           <AdminTopDoctors doctors={topDoctors} />
+        )}
+
+        {topServicesLoading ? (
+          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-64" />
+        ) : (
+          <AdminTopServices services={topServices} />
         )}
 
         <AdminRecentActivity />

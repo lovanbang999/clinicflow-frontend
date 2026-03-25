@@ -58,5 +58,11 @@
     "profile": "Thông tin cá nhân",
     "settings": "Cài đặt",
     "logout": "Đăng xuất"
+  },
+  "notifications": {
+    "title": "Thông báo",
+    "markAllAsRead": "Đánh dấu tất cả đã đọc",
+    "empty": "Bạn chưa có thông báo nào",
+    "viewAll": "Xem tất cả"
   }
 }

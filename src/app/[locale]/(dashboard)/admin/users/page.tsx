@@ -83,11 +83,6 @@ export default function AdminUsersPage() {
     setSearch('');
   };
 
-  const handleUserAdded = () => {
-    setPage(1);
-    fetchUsers({ page: 1, limit });
-    fetchStats();
-  };
 
   const handleUserUpdated = () => {
     fetchUsers({
@@ -145,7 +140,6 @@ export default function AdminUsersPage() {
           onToggleRole={toggleRole}
           onToggleStatus={toggleStatus}
           onClearFilters={clearFilters}
-          onUserAdded={handleUserAdded}
         />
 
         <AdminUserTable

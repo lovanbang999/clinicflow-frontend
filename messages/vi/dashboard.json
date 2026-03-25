@@ -3,6 +3,7 @@
     "title": "Bảng điều khiển",
     "book": "Đặt lịch khám",
     "bookings": "Lịch hẹn của tôi",
+    "history": "Lịch sử khám",
     "profile": "Thông tin cá nhân",
     "welcome": "Chào mừng, {name}!",
     "welcomeDefault": "Chào mừng, Bệnh nhân!",
@@ -768,6 +769,11 @@
       "visits": "{count} lượt khám",
       "emptyTitle": "Chưa có dữ liệu",
       "emptySubtitle": "Bảng xếp hạng sẽ xuất hiện khi có lịch hẹn hoàn thành"
+    },
+    "topServices": {
+      "title": "Dịch vụ nổi bật",
+      "subtitle": "Theo lượt đặt tháng này",
+      "noData": "Chưa có dữ liệu dịch vụ"
     },
     "recentActivity": {
       "title": "Hoạt động gần đây",

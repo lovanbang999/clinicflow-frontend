@@ -13,6 +13,7 @@ import { ConfirmBookingModal } from '@/components/receptionist/check-in/ConfirmB
 import { toast } from 'sonner';
 import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/bookings';
 import { doctorsApi } from '@/lib/api/doctors';
+import { servicesApi } from '@/lib/api/services';
 
 interface DoctorOption {
   id: string;
@@ -38,6 +39,8 @@ export default function ReceptionistCheckInPage() {
   const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [doctors, setDoctors] = useState<DoctorOption[]>([]);
+  const [selectedServiceId, setSelectedServiceId] = useState<string>('');
+  const [services, setServices] = useState<{ id: string; name: string }[]>([]);
 
   // Cancel modal state
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -49,13 +52,15 @@ export default function ReceptionistCheckInPage() {
   const [bookingToConfirm, setBookingToConfirm] = useState<Booking | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
 
-  // Fetch doctors once on mount
+  // Fetch doctors and services once on mount
   useEffect(() => {
     doctorsApi.getAll({ limit: 100 }).then((list) => {
       setDoctors(list.map((d) => ({ id: d.id, fullName: d.fullName })));
-    }).catch(() => {
-      // Non-critical: filter will just have no doctor options
-    });
+    }).catch(() => {});
+
+    servicesApi.getAll().then((data) => {
+      setServices(data.map((s) => ({ id: s.id, name: s.name })));
+    }).catch(() => {});
   }, []);
 
   const loadBookings = useCallback(async () => {
@@ -65,6 +70,7 @@ export default function ReceptionistCheckInPage() {
       limit: 10,
       ...(selectedDate ? { date: selectedDate } : {}),
       ...(selectedDoctorId ? { doctorId: selectedDoctorId } : {}),
+      ...(selectedServiceId ? { serviceId: selectedServiceId } : {}),
       ...(searchQuery ? { search: searchQuery } : {}),
     } as Parameters<typeof fetchBookings>[0]);
 
@@ -73,7 +79,7 @@ export default function ReceptionistCheckInPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setTotalBookings((data.pagination as any).total || 0);
     }
-  }, [activeTab, currentPage, selectedDate, selectedDoctorId, searchQuery, fetchBookings]);
+  }, [activeTab, currentPage, selectedDate, selectedDoctorId, selectedServiceId, searchQuery, fetchBookings]);
 
   const loadStats = useCallback(async () => {
     const data = await fetchReceptionistStats();
@@ -109,6 +115,11 @@ export default function ReceptionistCheckInPage() {
 
   const handleDoctorChange = (doctorId: string) => {
     setSelectedDoctorId(doctorId);
+    setCurrentPage(1);
+  };
+
+  const handleServiceChange = (serviceId: string) => {
+    setSelectedServiceId(serviceId);
     setCurrentPage(1);
   };
 
@@ -215,6 +226,9 @@ export default function ReceptionistCheckInPage() {
           selectedDoctorId={selectedDoctorId}
           onDoctorChange={handleDoctorChange}
           doctors={doctors}
+          selectedServiceId={selectedServiceId}
+          onServiceChange={handleServiceChange}
+          services={services}
         />
       </div>
 
