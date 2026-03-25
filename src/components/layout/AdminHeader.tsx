@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import { Bell } from 'lucide-react';
+import { NotificationBell } from './NotificationBell';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
 import { NAV_ITEMS } from './AdminSidebar';
 
@@ -35,10 +35,7 @@ export default function AdminHeader() {
         <LanguageSwitcher />
 
         {/* Notifications */}
-        <button className="relative text-[#64748b] hover:text-[#1392ec] transition-colors p-1">
-          <Bell size={24} />
-          <span className="absolute top-0 right-0 size-3 bg-red-500 border-2 border-white rounded-full" />
-        </button>
+        <NotificationBell />
 
         {/* User profile */}
         <div className="flex items-center gap-3 pl-5 border-l border-[#e5e7eb]">

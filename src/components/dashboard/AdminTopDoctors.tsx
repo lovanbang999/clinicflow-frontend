@@ -3,12 +3,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-interface TopDoctor {
-  id: string;
-  fullName: string;
-  visitCount: number;
-  avatar?: string | null;
-}
+import { TopDoctorItem } from '@/lib/api/dashboard';
 
 const AVATAR_COLORS = [
   'bg-blue-100 text-blue-600',
@@ -84,10 +79,11 @@ function EmptyTopDoctors({ t }: { t: ReturnType<typeof useTranslations> }) {
   );
 }
 
-export function AdminTopDoctors({ doctors }: { doctors: TopDoctor[] }) {
+export function AdminTopDoctors({ doctors }: { doctors: TopDoctorItem[] }) {
   const t = useTranslations('dashboard.admin.topDoctors');
-  const max = Math.max(...doctors.map((d) => d.visitCount), 1);
-  const isEmpty = doctors.length === 0;
+  const docList = Array.isArray(doctors) ? doctors : [];
+  const max = Math.max(...docList.map((d) => d.patientsCount), 1);
+  const isEmpty = docList.length === 0;
 
   return (
     <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm flex flex-col">
@@ -105,14 +101,14 @@ export function AdminTopDoctors({ doctors }: { doctors: TopDoctor[] }) {
         <EmptyTopDoctors t={t} />
       ) : (
         <div className="space-y-4">
-          {doctors.map((doc, i) => {
-            const initials = doc.fullName
+          {docList.map((doc, i) => {
+            const initials = doc.name
               .split(' ')
               .map((n) => n[0])
               .join('')
               .toUpperCase()
               .slice(0, 2);
-            const barPct = Math.round((doc.visitCount / max) * 100);
+            const barPct = Math.round((doc.patientsCount / max) * 100);
             return (
               <div key={doc.id}>
                 <div className="flex items-center gap-3 mb-1.5">
@@ -127,10 +123,10 @@ export function AdminTopDoctors({ doctors }: { doctors: TopDoctor[] }) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline justify-between mb-1.5">
                       <p className="text-sm font-semibold text-[#111518] truncate pr-2">
-                        {doc.fullName}
+                        {doc.name}
                       </p>
                       <span className="text-xs font-bold text-[#64748b] shrink-0 whitespace-nowrap">
-                        {t('visits', { count: doc.visitCount })}
+                        {t('visits', { count: doc.patientsCount })}
                       </span>
                     </div>
                     <div className="w-full h-1.5 bg-[#f1f5f9] rounded-full overflow-hidden">

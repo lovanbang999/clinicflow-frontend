@@ -24,7 +24,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Smart Clinic - Đặt lịch khám nhanh chóng, tiện lợi',
+  title: 'Phòng Khám SmartClinic - Đặt lịch khám nhanh chóng, tiện lợi',
   description: 'Hệ thống quản lý đặt lịch và hàng đợi thông minh cho phòng khám',
 };
 

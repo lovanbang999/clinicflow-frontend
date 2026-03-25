@@ -28,11 +28,14 @@ import {
   eachDayOfInterval,
   format
 } from 'date-fns';
+import { vi } from 'date-fns/locale';
+
+const DAY_LABELS_VI = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 
 export function MasterSchedule() {
   const t = useTranslations('dashboard.scheduleManagement');
   const [filterActive, setFilterActive] = useState<string>('all');
-  const [viewMode, setViewMode] = useState<'week' | 'day'>('day');
+  const [viewMode, setViewMode] = useState<'week' | 'day'>('week');
   const [isAddSlotOpen, setIsAddSlotOpen] = useState<boolean>(false);
   const [currentDate] = useState<Date>(new Date());
 
@@ -68,6 +71,16 @@ export function MasterSchedule() {
     return Array.from(docMap.values());
   }, [schedules]);
 
+  // Week days for the current week (Mon-Sun)
+  const weekDays = useMemo(() =>
+    eachDayOfInterval({
+      start: startOfWeek(currentDate, { weekStartsOn: 1 }),
+      end: endOfWeek(currentDate, { weekStartsOn: 1 }),
+    }),
+    [currentDate]
+  );
+
+  // Day-view helpers (unchanged)
   const getHeaderColumns = () => {
     if (viewMode === 'day') {
       return Array.from({ length: 24 }).map((_, i) => ({
@@ -75,85 +88,45 @@ export function MasterSchedule() {
         key: `hour-${i}`
       }));
     }
-
-    const days = eachDayOfInterval({
-      start: startOfWeek(currentDate, { weekStartsOn: 1 }),
-      end: endOfWeek(currentDate, { weekStartsOn: 1 })
-    });
-    return days.map(d => ({
-      label: format(d, 'EEE (dd/MM)'),
+    return weekDays.map(d => ({
+      label: format(d, 'EEE (dd/MM)', { locale: vi }),
       key: d.toISOString()
     }));
   };
-
-  const columns = getHeaderColumns();
 
   const parseTimeStr = (t: string) => {
     const [h, m] = t.split(':').map(Number);
     return h * 60 + m;
   };
 
-  const getSlotStyle = (start: string, end: string, dateStr: string) => {
+  const getSlotStyleDay = (start: string, end: string) => {
     const startMins = parseTimeStr(start);
     const endMins = parseTimeStr(end);
-
-    if (viewMode === 'day') {
-      const totalViewMins = 24 * 60;
-      const displayStart = Math.min(Math.max(startMins, 0), totalViewMins);
-      const displayEnd = Math.min(Math.max(endMins, 0), totalViewMins);
-
-      if (displayStart >= displayEnd) return { display: 'none' };
-
-      return {
-        left: `${(displayStart / totalViewMins) * 100}%`,
-        width: `${((displayEnd - displayStart) / totalViewMins) * 100}%`,
-      };
-    }
-
-    const slotDate = new Date(dateStr);
-    const colIndex = columns.findIndex(c => {
-      const colDate = new Date(c.key);
-      return colDate.getFullYear() === slotDate.getFullYear() &&
-        colDate.getMonth() === slotDate.getMonth() &&
-        colDate.getDate() === slotDate.getDate();
-    });
-
-    if (colIndex === -1) return { display: 'none' };
-
-    const widthPerCol = 100 / columns.length;
-    const leftRaw = colIndex * widthPerCol;
-    const timeFraction = startMins / (24 * 60);
-
+    const totalViewMins = 24 * 60;
+    const displayStart = Math.min(Math.max(startMins, 0), totalViewMins);
+    const displayEnd = Math.min(Math.max(endMins, 0), totalViewMins);
+    if (displayStart >= displayEnd) return { display: 'none' };
     return {
-      left: `${leftRaw + widthPerCol * timeFraction}%`,
-      width: `${widthPerCol * 0.8}%`,
-      top: '20%',
-      height: '60%'
+      left: `${(displayStart / totalViewMins) * 100}%`,
+      width: `${((displayEnd - displayStart) / totalViewMins) * 100}%`,
     };
   };
 
   const getDoctorColor = (doctorId: string) => {
     const idx = [...doctorId].reduce((acc, char) => acc + char.charCodeAt(0), 0) % 5;
     const colors = [
-      { bg: 'bg-blue-100', border: 'border-[#1392ec]', text: 'text-[#1392ec]', textDark: 'text-blue-900', textLight: 'text-[#1392ec]/70' },
-      { bg: 'bg-purple-100', border: 'border-purple-500', text: 'text-purple-600', textDark: 'text-purple-900', textLight: 'text-purple-700' },
-      { bg: 'bg-emerald-100', border: 'border-emerald-500', text: 'text-emerald-600', textDark: 'text-emerald-900', textLight: 'text-emerald-700' },
-      { bg: 'bg-amber-100', border: 'border-amber-500', text: 'text-amber-600', textDark: 'text-amber-900', textLight: 'text-amber-700' },
-      { bg: 'bg-rose-100', border: 'border-rose-500', text: 'text-rose-600', textDark: 'text-rose-900', textLight: 'text-rose-700' },
+      { bg: 'bg-blue-100', border: 'border-[#1392ec]', text: 'text-[#1392ec]', textDark: 'text-blue-900', textLight: 'text-[#1392ec]/70', pill: 'bg-blue-100 text-blue-800 border-blue-200' },
+      { bg: 'bg-green-100', border: 'border-green-500', text: 'text-green-600', textDark: 'text-green-900', textLight: 'text-green-700', pill: 'bg-green-100 text-green-800 border-green-200' },
+      { bg: 'bg-emerald-100', border: 'border-emerald-500', text: 'text-emerald-600', textDark: 'text-emerald-900', textLight: 'text-emerald-700', pill: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+      { bg: 'bg-amber-100', border: 'border-amber-500', text: 'text-amber-600', textDark: 'text-amber-900', textLight: 'text-amber-700', pill: 'bg-amber-100 text-amber-800 border-amber-200' },
+      { bg: 'bg-rose-100', border: 'border-rose-500', text: 'text-rose-600', textDark: 'text-rose-900', textLight: 'text-rose-700', pill: 'bg-rose-100 text-rose-800 border-rose-200' },
     ];
     return colors[idx];
   };
 
-  const getContainerWidth = () => {
-    if (viewMode === 'day') return 'min-w-[1920px]'; // 24 hours * 80px
-    return 'min-w-[1000px]';
-  };
-
   const getDateHeaderLabel = () => {
-    if (viewMode === 'day') {
-      return format(currentDate, 'MMM d, yyyy');
-    }
-    return `${format(startOfWeek(currentDate, { weekStartsOn: 1 }), 'MMM d')} - ${format(endOfWeek(currentDate, { weekStartsOn: 1 }), 'MMM d, yyyy')}`;
+    if (viewMode === 'day') return format(currentDate, 'dd MMM yyyy', { locale: vi });
+    return `${format(startOfWeek(currentDate, { weekStartsOn: 1 }), 'dd/MM', { locale: vi })} — ${format(endOfWeek(currentDate, { weekStartsOn: 1 }), 'dd/MM/yyyy', { locale: vi })}`;
   };
 
   const FILTER_OPTIONS = [
@@ -168,8 +141,207 @@ export function MasterSchedule() {
     canceled: { wrapper: 'bg-red-50 text-red-700 border-red-200', dot: 'bg-red-500' },
   };
 
+  // WEEK TABLE VIEW
+  const WeekTableView = () => (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr className="bg-slate-50 border-b border-slate-200">
+            {/* Doctor column */}
+            <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-48 sticky left-0 bg-slate-50 z-10 border-r border-slate-200">
+              {t('masterSchedule.doctors')}
+            </th>
+            {weekDays.map((day, i) => {
+              const isToday = format(day, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+              return (
+                <th key={day.toISOString()} className={cn(
+                  'px-3 py-3 text-center text-xs font-bold uppercase tracking-wider border-r border-slate-100 min-w-[110px]',
+                  isToday ? 'text-[#1392ec] bg-blue-50/60' : 'text-slate-500'
+                )}>
+                  <div className="font-bold">{DAY_LABELS_VI[i]}</div>
+                  <div className={cn('text-[11px] font-normal mt-0.5', isToday ? 'text-[#1392ec]' : 'text-slate-400')}>
+                    {format(day, 'dd/MM')}
+                  </div>
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100">
+          {loadingList ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <tr key={i}>
+                <td colSpan={8} className="px-4 py-3"><Skeleton className="h-10 w-full rounded-lg" /></td>
+              </tr>
+            ))
+          ) : doctors.length === 0 ? (
+            <tr>
+              <td colSpan={8} className="px-4 py-10 text-center text-slate-400 text-sm">
+                {t('masterSchedule.noData') ?? 'Không có lịch nào trong tuần này'}
+              </td>
+            </tr>
+          ) : (
+            doctors.map((doc) => {
+              const color = getDoctorColor(doc.id);
+              return (
+                <tr key={doc.id} className="hover:bg-slate-50/70 transition-colors">
+                  {/* Doctor cell */}
+                  <td className="px-4 py-3 sticky left-0 bg-white z-10 border-r border-slate-200">
+                    <div className="flex items-center gap-2.5">
+                      <div className={cn('size-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0', color.bg, color.text)}>
+                        {doc.fullName.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-slate-900 text-sm truncate max-w-[120px]" title={doc.fullName}>BS. {doc.fullName}</p>
+                        <p className="text-[11px] text-slate-400 truncate max-w-[120px]">
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                          {(doc as any).doctorProfile?.specialties?.[0] ?? 'Đa khoa'}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  {/* Day cells */}
+                  {weekDays.map((day) => {
+                    const dayStr = format(day, 'yyyy-MM-dd');
+                    const daySlots = schedules.filter(s =>
+                      s.doctorId === doc.id &&
+                      format(new Date(s.date), 'yyyy-MM-dd') === dayStr
+                    );
+                    const isToday = dayStr === format(new Date(), 'yyyy-MM-dd');
+                    return (
+                      <td key={day.toISOString()} className={cn(
+                        'px-2 py-2 align-top border-r border-slate-100 min-h-[60px]',
+                        isToday && 'bg-blue-50/30'
+                      )}>
+                        {daySlots.length === 0 ? (
+                          <span className="text-slate-200 text-xs select-none">—</span>
+                        ) : (
+                          <div className="flex flex-col gap-1">
+                            {daySlots.map(slot => (
+                              <div
+                                key={slot.id}
+                                title={`${slot.type ?? 'Lịch khám'} · ${slot.startTime}–${slot.endTime} · ${slot.maxPatients} BN`}
+                                className={cn(
+                                  'text-[11px] font-medium rounded-md px-2 py-1 border leading-tight',
+                                  slot.isActive ? color.pill : 'bg-slate-100 text-slate-400 border-slate-200 line-through'
+                                )}
+                              >
+                                <span className="font-bold">{slot.startTime}</span>
+                                <span className="mx-0.5 opacity-60">–</span>
+                                <span className="font-bold">{slot.endTime}</span>
+                                <span className="ml-1 opacity-60 text-[10px]">({slot.maxPatients}BN)</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  // DAY GANTT VIEW
+  const columns = getHeaderColumns();
+
+  const DayGanttView = () => (
+    <div className="flex flex-1 overflow-hidden relative">
+      <div className="flex-1 overflow-auto bg-white relative flex">
+        <div className="w-56 shrink-0 flex flex-col border-r border-[#e5e7eb] sticky left-0 z-20 bg-white shadow-[1px_0_0_0_#e5e7eb]">
+          <div className="h-12 border-b border-[#e5e7eb] bg-[#f8fafc] flex items-center px-4 font-bold text-xs text-[#64748b] uppercase tracking-wider shrink-0">
+            {t('masterSchedule.doctors')}
+          </div>
+          <div className="flex-1 flex flex-col">
+            {loadingList ? (
+              <div className="p-4 space-y-4">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            ) : doctors.length === 0 ? (
+              <div className="p-4 text-xs text-[#64748b] text-center mt-4">Không có lịch</div>
+            ) : (
+              doctors.map((doc) => {
+                const color = getDoctorColor(doc.id);
+                return (
+                  <div key={doc.id} className="flex items-center px-4 h-[88px] shrink-0 border-b border-[#e5e7eb] bg-white">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className={cn("size-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0", color.bg, color.text)}>
+                        {doc.fullName.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <p className="text-sm font-bold text-[#111518] truncate w-28" title={doc.fullName}>{doc.fullName}</p>
+                        <p className="text-xs text-[#64748b] truncate w-28">
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                          {(doc as any).doctorProfile?.specialties?.[0] ?? 'Đa khoa'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col flex-1 shrink-0">
+          <div className="h-12 flex border-b border-[#e5e7eb] bg-[#f8fafc] shrink-0 min-w-[1920px]">
+            {columns.map((col) => (
+              <div key={col.key} className="flex-1 border-r border-[#e5e7eb]/50 flex items-center justify-center text-xs font-medium text-[#64748b]">
+                {col.label}
+              </div>
+            ))}
+          </div>
+          <div className="flex-1 flex flex-col min-w-[1920px]">
+            {!loadingList && doctors.map((doc) => {
+              const docSlots = schedules.filter(s => s.doctorId === doc.id);
+              const color = getDoctorColor(doc.id);
+              return (
+                <div key={doc.id} className="h-[88px] shrink-0 border-b border-[#e5e7eb] relative">
+                  <div className="absolute inset-0 flex pointer-events-none">
+                    {columns.map((col, idx) => (
+                      <div key={col.key + idx} className="flex-1 border-r border-[#e5e7eb]/20" />
+                    ))}
+                  </div>
+                  {docSlots.map(slot => {
+                    const style = getSlotStyleDay(slot.startTime, slot.endTime);
+                    if (style.display === 'none') return null;
+                    return (
+                      <div
+                        key={slot.id}
+                        className={cn(
+                          "absolute top-3 bottom-3 border-l-4 rounded-r-md px-2 py-1.5 cursor-pointer hover:shadow-md transition-shadow overflow-hidden",
+                          color.bg, color.border,
+                          !slot.isActive && "opacity-60 bg-gray-100 border-gray-400"
+                        )}
+                        style={style}
+                        title={`${slot.type ?? 'Lịch khám'} · ${slot.startTime}–${slot.endTime} · ${slot.maxPatients} BN`}
+                      >
+                        <p className={cn('text-xs font-bold leading-tight line-clamp-1', !slot.isActive ? 'text-gray-700' : color.textDark)}>
+                          {slot.startTime}–{slot.endTime}
+                        </p>
+                        <p className={cn('text-[10px]', !slot.isActive ? 'text-gray-500' : color.textLight)}>
+                          {slot.maxPatients} BN {!slot.isActive && '(Đã tắt)'}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <Card className="rounded-2xl border-[#e5e7eb] shadow-sm overflow-hidden flex flex-col h-[600px] p-0 gap-0">
+    <Card className="rounded-2xl border-[#e5e7eb] shadow-sm overflow-hidden flex flex-col p-0 gap-0">
+      {/* Header controls */}
       <div className="p-6 border-b border-[#e5e7eb] flex justify-between items-center shrink-0">
         <div className="flex items-center gap-4">
           <h3 className="text-lg font-bold text-[#111518]">{t('masterSchedule.title')}</h3>
@@ -201,9 +373,7 @@ export function MasterSchedule() {
               {t('masterSchedule.day')}
             </Button>
           </div>
-          <div className="text-sm font-semibold text-[#64748b]">
-            {getDateHeaderLabel()}
-          </div>
+          <div className="text-sm font-semibold text-[#64748b]">{getDateHeaderLabel()}</div>
         </div>
         <div className="flex gap-3">
           <DropdownMenu>
@@ -220,9 +390,7 @@ export function MasterSchedule() {
                 <FunnelIcon size={16} weight={filterActive !== 'all' ? 'fill' : 'bold'} />
                 {t('masterSchedule.filter')}
                 {filterActive !== 'all' && (
-                  <span className="size-4 rounded-full bg-[#1392ec] text-white text-[10px] flex items-center justify-center font-bold">
-                    1
-                  </span>
+                  <span className="size-4 rounded-full bg-[#1392ec] text-white text-[10px] flex items-center justify-center font-bold">1</span>
                 )}
               </Button>
             </DropdownMenuTrigger>
@@ -240,12 +408,7 @@ export function MasterSchedule() {
                     onCheckedChange={() => setFilterActive(isActive ? 'all' : value)}
                     className="cursor-pointer"
                   >
-                    <span
-                      className={cn(
-                        'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium border',
-                        styles.wrapper,
-                      )}
-                    >
+                    <span className={cn('inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium border', styles.wrapper)}>
                       <span className={cn('size-1.5 rounded-full', styles.dot)} />
                       {label}
                     </span>
@@ -274,115 +437,9 @@ export function MasterSchedule() {
         </div>
       </div>
 
-      <div className="flex flex-1 overflow-hidden relative">
-        {/* Scrollable container for the horizontal grid */}
-        <div className="flex-1 overflow-auto bg-white relative flex">
-          {/* Fixed Left Sidebar for DOCTORS */}
-          <div className="w-56 shrink-0 flex flex-col border-r border-[#e5e7eb] sticky left-0 z-20 bg-white shadow-[1px_0_0_0_#e5e7eb]">
-            <div className="h-12 border-b border-[#e5e7eb] bg-[#f8fafc] flex items-center px-4 font-bold text-xs text-[#64748b] uppercase tracking-wider shrink-0">
-              {t('masterSchedule.doctors')}
-            </div>
-            <div className="flex-1 flex flex-col">
-              {loadingList ? (
-                <div className="p-4 space-y-4">
-                  <Skeleton className="h-12 w-full" />
-                  <Skeleton className="h-12 w-full" />
-                  <Skeleton className="h-12 w-full" />
-                </div>
-              ) : doctors.length === 0 ? (
-                <div className="p-4 text-xs text-[#64748b] text-center mt-4">No schedules found</div>
-              ) : (
-                doctors.map((doc) => {
-                  const color = getDoctorColor(doc.id);
-                  return (
-                    <div key={doc.id} className="flex items-center px-4 h-[88px] shrink-0 border-b border-[#e5e7eb] bg-white">
-                      <div className="flex items-center gap-3 overflow-hidden">
-                        <div className={cn("size-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0", color.bg, color.text)}>
-                          {doc.fullName.slice(0, 2).toUpperCase()}
-                        </div>
-                        <div className="flex flex-col min-w-0">
-                          <p className="text-sm font-bold text-[#111518] truncate w-28" title={doc.fullName}>{doc.fullName}</p>
-                          <p className="text-xs text-[#64748b] truncate w-28">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {(doc as any).doctorProfile?.specialties?.[0] || 'General'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-          {/* Scrollable Timeline Area */}
-          <div className="flex flex-col flex-1 shrink-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNjAiIGhlaWdodD0iODgiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0wIDg4TDAgMEw2MCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmMWY1ZjkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIgLz48L3N2Zz4=')]">
-            {/* Header Row */}
-            <div className={cn("h-12 flex border-b border-[#e5e7eb] bg-[#f8fafc] shrink-0", getContainerWidth())}>
-              {columns.map((col) => (
-                <div key={col.key} className="flex-1 border-r border-[#e5e7eb]/50 flex items-center justify-center text-xs font-medium text-[#64748b]">
-                  {col.label}
-                </div>
-              ))}
-            </div>
-
-            {/* Body Rows */}
-            <div className={cn("flex-1 flex flex-col", getContainerWidth())}>
-              {!loadingList && doctors.map((doc) => {
-                // Get slots for this doctor
-                const docSlots = schedules.filter(s => s.doctorId === doc.id);
-
-                return (
-                  <div key={doc.id} className="h-[88px] shrink-0 border-b border-[#e5e7eb] relative">
-
-                    {/* Grid Lines Overlay per row */}
-                    <div className="absolute inset-0 flex pointer-events-none">
-                      {columns.map((col, idx) => (
-                        <div key={col.key + idx} className="flex-1 border-r border-[#e5e7eb]/20" />
-                      ))}
-                    </div>
-
-                    {/* Render Slots */}
-                    {docSlots.map(slot => {
-                      const style = getSlotStyle(slot.startTime, slot.endTime, slot.date);
-                      const color = getDoctorColor(doc.id);
-                      if (style.display === 'none') return null;
-
-                      return (
-                        <div
-                          key={slot.id}
-                          className={cn(
-                            "absolute top-3 bottom-3 border-l-4 rounded-r-md px-2 py-1.5 cursor-pointer hover:shadow-md transition-shadow overflow-hidden group",
-                            color.bg, color.border,
-                            !slot.isActive && "opacity-60 bg-gray-100 border-gray-400"
-                          )}
-                          style={style}
-                          title={`${slot.type || 'Schedule'}\n${format(new Date(slot.date), 'MMM dd')} ${slot.startTime} - ${slot.endTime}\nPatients: ${slot.maxPatients}`}
-                        >
-                          <p className={cn(
-                            "text-xs font-bold leading-tight line-clamp-1",
-                            !slot.isActive ? 'text-gray-700' : color.textDark
-                          )}>
-                            {slot.type || 'Schedule'}
-                            {!slot.isActive && ' (Canceled)'}
-                          </p>
-                          <div className="flex justify-between items-center mt-0.5">
-                            <p className={cn(
-                              "text-[10px] whitespace-nowrap",
-                              !slot.isActive ? 'text-gray-500' : color.textLight
-                            )}>
-                              {viewMode !== 'day' ? format(new Date(slot.date), 'MMM dd') : ''} {slot.startTime}-{slot.endTime}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+      {/* Content */}
+      <div className={cn('flex flex-col', viewMode === 'week' ? 'overflow-auto' : 'flex-1 overflow-hidden h-[520px]')}>
+        {viewMode === 'week' ? WeekTableView() : DayGanttView()}
       </div>
 
       <AddSlotDialog

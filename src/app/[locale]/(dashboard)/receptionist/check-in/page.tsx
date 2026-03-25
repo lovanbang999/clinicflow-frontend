@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useBookings } from '@/lib/hooks/useBookings';
 import { Booking, BookingStatus } from '@/types';
 import { CheckInStats } from '@/components/receptionist/check-in/CheckInStats';
@@ -20,7 +21,8 @@ interface DoctorOption {
 
 export default function ReceptionistCheckInPage() {
   const t = useTranslations('dashboard.receptionist.checkInManagement');
-  const { fetchBookings, cancelBooking, fetchReceptionistStats, checkInPatient } = useBookings();
+  const router = useRouter();
+  const { fetchBookings, cancelBooking, fetchReceptionistStats } = useBookings();
 
   // Table state
   const [activeTab, setActiveTab] = useState<BookingStatus | string>(BookingStatus.PENDING);
@@ -158,21 +160,29 @@ export default function ReceptionistCheckInPage() {
     }
   };
 
-  // Check-in Booking
-  const handleCheckInClick = async (booking: Booking) => {
-    const result = await checkInPatient(booking.id);
+  // Check-in: redirect to billing page for fee collection (B1)
+  // The billing page handles CONSULTATION invoice + check-in automatically
+  const handleCheckInClick = (booking: Booking) => {
+    router.push(`/receptionist/billing/booking/${booking.id}`);
+  };
+
+  // Fallback direct check-in used only internally (e.g., from billing page)
+  const handleDirectCheckIn = async (booking: Booking) => {
+    const result = await bookingsApi.checkIn(booking.id);
     if (result) {
       toast.success(
         <div className="flex flex-col gap-1">
-          <p className="font-semibold text-emerald-800">Bệnh nhân đã được Check-in!</p>
+          <p className="font-semibold text-emerald-800">{t('checkInSuccess')}</p>
           <p className="text-sm">STT: <span className="font-bold">{result.queue?.queuePosition}</span></p>
-          <p className="text-sm">Thời gian chờ dự kiến: {result.queue?.estimatedWaitMinutes} phút</p>
+          <p className="text-sm">{t('estimatedWait', { minutes: result.queue?.estimatedWaitMinutes })}</p>
         </div>
       );
       loadBookings();
       loadStats();
     }
   };
+
+  void handleDirectCheckIn;
 
   return (
     <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-slate-50/50">

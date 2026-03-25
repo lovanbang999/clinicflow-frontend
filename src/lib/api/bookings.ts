@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus } from '@/types';
+import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus, DashboardData } from '@/types';
 
 export interface StatTrend {
   value: number;
@@ -21,6 +21,7 @@ export const bookingsApi = {
     doctorId?: string;
     patientProfileId?: string;
     date?: string;
+    search?: string;
     limit?: number;
     page?: number;
   }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> }> => {
@@ -92,6 +93,12 @@ export const bookingsApi = {
   // Get receptionist check-in stats
   getReceptionistStats: async (): Promise<ReceptionistStatsResponse> => {
     const response = await apiClient.get<{ data: ReceptionistStatsResponse }>('/bookings/dashboard/receptionist-stats');
+    return response.data.data;
+  },
+
+  // Get patient dashboard stats
+  getPatientDashboardStats: async (): Promise<DashboardData> => {
+    const response = await apiClient.get<{ data: DashboardData }>('/bookings/dashboard/stats');
     return response.data.data;
   },
 };
