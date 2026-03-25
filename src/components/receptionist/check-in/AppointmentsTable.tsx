@@ -11,6 +11,7 @@ import {
   UserCircleIcon,
   XIcon,
   MagnifyingGlassIcon,
+  StethoscopeIcon,
 } from '@phosphor-icons/react';
 import { Booking, BookingStatus } from '@/types';
 import { BookingTableBody } from './BookingTableBody';
@@ -40,6 +41,9 @@ interface AppointmentsTableProps {
   selectedDoctorId: string;
   onDoctorChange: (doctorId: string) => void;
   doctors: Doctor[];
+  selectedServiceId: string;
+  onServiceChange: (serviceId: string) => void;
+  services: { id: string; name: string }[];
 }
 
 export function AppointmentsTable({
@@ -59,12 +63,17 @@ export function AppointmentsTable({
   selectedDoctorId,
   onDoctorChange,
   doctors,
+  selectedServiceId,
+  onServiceChange,
+  services,
 }: AppointmentsTableProps) {
   const t = useTranslations('dashboard.receptionist.checkInManagement');
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isDoctorDropdownOpen, setIsDoctorDropdownOpen] = useState(false);
+  const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   const doctorDropdownRef = useRef<HTMLDivElement>(null);
+  const serviceDropdownRef = useRef<HTMLDivElement>(null);
 
   const tabs: { labelKey: string; value: BookingStatus | string }[] = [
     { labelKey: 'stats.pending', value: BookingStatus.PENDING },
@@ -79,15 +88,20 @@ export function AppointmentsTable({
   const todayStr = format(new Date(), 'yyyy-MM-dd');
   const selectedDateObj = selectedDate ? parseISO(selectedDate) : undefined;
   const selectedDoctor = doctors.find((d) => d.id === selectedDoctorId) ?? null;
+  const selectedService = services.find((s) => s.id === selectedServiceId) ?? null;
   const isDateFiltered = Boolean(selectedDate);
   const isTodaySelected = selectedDate === todayStr;
   const isDoctorFiltered = Boolean(selectedDoctorId);
+  const isServiceFiltered = Boolean(selectedServiceId);
 
   // Close doctor dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (doctorDropdownRef.current && !doctorDropdownRef.current.contains(e.target as Node)) {
         setIsDoctorDropdownOpen(false);
+      }
+      if (serviceDropdownRef.current && !serviceDropdownRef.current.contains(e.target as Node)) {
+        setIsServiceDropdownOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -235,6 +249,59 @@ export function AppointmentsTable({
             {/* Divider */}
             <div className="h-5 w-px bg-slate-200" />
 
+            {/* Service dropdown */}
+            <div className="relative" ref={serviceDropdownRef}>
+              <button
+                onClick={() => setIsServiceDropdownOpen((v) => !v)}
+                className={`flex items-center gap-2 px-3 py-1.5 border rounded-lg text-sm font-medium transition-colors cursor-pointer min-w-[140px] ${
+                  isServiceFiltered
+                    ? 'border-[#1570EF] bg-[#1570EF]/5 text-[#1570EF]'
+                    : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                }`}
+              >
+                <StethoscopeIcon size={16} />
+                <span className="truncate max-w-[130px]">
+                  {selectedService ? selectedService.name : 'Tất cả dịch vụ'}
+                </span>
+                <CaretDownIcon size={14} className="ml-auto shrink-0" />
+              </button>
+
+              {isServiceDropdownOpen && (
+                <div className="absolute right-0 top-full mt-1 w-56 bg-white border border-slate-200 rounded-xl shadow-lg z-20 overflow-hidden">
+                  <div className="max-h-60 overflow-y-auto">
+                    <button
+                      onClick={() => { onServiceChange(''); setIsServiceDropdownOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer flex items-center gap-2 ${
+                        !selectedServiceId
+                          ? 'bg-[#1570EF]/5 text-[#1570EF] font-semibold'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
+                      <StethoscopeIcon size={16} />
+                      Tất cả dịch vụ
+                    </button>
+                    <div className="border-t border-slate-100" />
+                    {services.map((service) => (
+                      <button
+                        key={service.id}
+                        onClick={() => { onServiceChange(service.id); setIsServiceDropdownOpen(false); }}
+                        className={`w-full text-left px-4 py-2.5 text-sm transition-colors cursor-pointer ${
+                          selectedServiceId === service.id
+                            ? 'bg-[#1570EF]/5 text-[#1570EF] font-semibold'
+                            : 'text-slate-700 hover:bg-slate-50'
+                        }`}
+                      >
+                        {service.name}
+                      </button>
+                    ))}
+                    {services.length === 0 && (
+                      <p className="px-4 py-3 text-sm text-slate-400 text-center">Chưa có dịch vụ</p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Doctor dropdown */}
             <div className="relative" ref={doctorDropdownRef}>
               <button
@@ -289,9 +356,9 @@ export function AppointmentsTable({
             </div>
 
             {/* Clear all */}
-            {(isDateFiltered || isDoctorFiltered) && (
+            {(isDateFiltered || isDoctorFiltered || isServiceFiltered) && (
               <button
-                onClick={() => { onDateChange(''); onDoctorChange(''); }}
+                onClick={() => { onDateChange(''); onDoctorChange(''); onServiceChange(''); }}
                 className="text-xs font-medium text-slate-400 hover:text-rose-500 transition-colors cursor-pointer px-1"
               >
                 {t('filters.clearAll')}

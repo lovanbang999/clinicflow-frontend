@@ -177,7 +177,7 @@ export function MasterSchedule() {
           ) : doctors.length === 0 ? (
             <tr>
               <td colSpan={8} className="px-4 py-10 text-center text-slate-400 text-sm">
-                {t('masterSchedule.noData') ?? 'Không có lịch nào trong tuần này'}
+                {t.has('masterSchedule.noData') ? t('masterSchedule.noData') : 'Không có lịch nào trong tuần này'}
               </td>
             </tr>
           ) : (

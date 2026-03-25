@@ -19,6 +19,7 @@ export const bookingsApi = {
   getAll: async (params?: {
     status?: BookingStatus | string;
     doctorId?: string;
+    serviceId?: string;
     patientProfileId?: string;
     date?: string;
     search?: string;

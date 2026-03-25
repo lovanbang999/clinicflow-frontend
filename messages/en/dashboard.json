@@ -3,6 +3,7 @@
     "title": "Dashboard",
     "book": "Book Appointment",
     "bookings": "My Appointments",
+    "history": "Medical History",
     "profile": "Profile",
     "welcome": "Welcome, {name}!",
     "welcomeDefault": "Welcome, Patient!",
@@ -768,6 +769,11 @@
       "visits": "{count} visits",
       "emptyTitle": "No data available yet",
       "emptySubtitle": "Doctor rankings will appear once appointments are completed"
+    },
+    "topServices": {
+      "title": "Top Services",
+      "subtitle": "By bookings this month",
+      "noData": "No service data available yet"
     },
     "recentActivity": {
       "title": "Recent Activity",

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
 import { useTranslations } from 'next-intl';
 import {
   AreaChart,
@@ -9,6 +10,7 @@ import {
   YAxis,
   CartesianGrid,
 } from 'recharts';
+import { DownloadSimple as DownloadIcon } from '@phosphor-icons/react';
 import {
   ChartContainer,
   ChartTooltip,
@@ -45,6 +47,8 @@ function formatDay(dateStr: string): string {
 
 export function AdminRevenueTrendChart() {
   const [range, setRange] = useState<'week' | 'month' | 'quarter'>('month');
+  const [isExporting, setIsExporting] = useState(false);
+  const chartRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('dashboard.admin.chart');
 
   const { data, loading } = useAdminRevenueChart(range);
@@ -54,6 +58,26 @@ export function AdminRevenueTrendChart() {
     revenue: point.revenue,
   }));
 
+  const handleExport = async () => {
+    if (!chartRef.current) return;
+    try {
+      setIsExporting(true);
+      const canvas = await html2canvas(chartRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+      });
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `revenue-chart-${range}-${new Date().toISOString().split('T')[0]}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Failed to export chart', err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm">
       {/* Header */}
@@ -62,19 +86,30 @@ export function AdminRevenueTrendChart() {
           <h3 className="text-base font-bold text-[#111518]">{t('revenueTrend')}</h3>
           <p className="text-[#94a3b8] text-xs font-medium mt-0.5">{t('clinicalEarnings')}</p>
         </div>
-        <Select value={range} onValueChange={(v) => setRange(v as 'week' | 'month' | 'quarter')}>
-          <SelectTrigger
-            size="sm"
-            className="w-[140px] text-xs font-semibold text-[#64748b] border-[#e5e7eb] bg-[#f8fafc] rounded-lg"
+        <div className="flex items-center gap-3">
+          <Select value={range} onValueChange={(v) => setRange(v as 'week' | 'month' | 'quarter')}>
+            <SelectTrigger
+              size="sm"
+              className="w-[140px] text-xs font-semibold text-[#64748b] border-[#e5e7eb] bg-[#f8fafc] rounded-lg"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent position='popper' side='bottom'>
+              <SelectItem value="week">Past Week</SelectItem>
+              <SelectItem value="month">Past Month</SelectItem>
+              <SelectItem value="quarter">Past Quarter</SelectItem>
+            </SelectContent>
+          </Select>
+          <button
+            onClick={handleExport}
+            disabled={isExporting || loading}
+            className="flex items-center justify-center gap-2 h-9 px-3 rounded-lg border border-[#e5e7eb] bg-white text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Export PNG"
           >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent position='popper' side='bottom'>
-            <SelectItem value="week">Past Week</SelectItem>
-            <SelectItem value="month">Past Month</SelectItem>
-            <SelectItem value="quarter">Past Quarter</SelectItem>
-          </SelectContent>
-        </Select>
+            <DownloadIcon size={16} weight="bold" />
+            <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Export'}</span>
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -82,7 +117,8 @@ export function AdminRevenueTrendChart() {
           <div className="size-6 border-2 border-[#1392ec] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <ChartContainer config={chartConfig} className="h-[200px] w-full">
+        <div ref={chartRef} className="pt-2 bg-white pb-2 pr-4">
+          <ChartContainer config={chartConfig} className="h-[200px] w-full">
           <AreaChart
             data={chartData}
             margin={{ top: 8, right: 4, left: 0, bottom: 0 }}
@@ -150,6 +186,7 @@ export function AdminRevenueTrendChart() {
             />
           </AreaChart>
         </ChartContainer>
+      </div>
       )}
     </div>
   );

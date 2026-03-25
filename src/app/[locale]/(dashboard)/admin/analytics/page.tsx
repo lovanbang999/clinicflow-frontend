@@ -4,11 +4,13 @@ import {
   useAdminStats,
   useAdminTopDoctors,
   useAdminRevenueChart,
+  useAdminTopServices,
 } from '@/lib/hooks/useAdminDashboard';
 import { useTranslations } from 'next-intl';
 import { AdminKpiCard, TrendUpBadge, StableBadge } from '@/components/dashboard/AdminKpiCard';
 import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
 import { AdminTopDoctors } from '@/components/dashboard/AdminTopDoctors';
+import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   UsersIcon,
@@ -30,6 +32,7 @@ export default function AdminReportsPage() {
 
   const { data: stats, loading: loadingStats } = useAdminStats();
   const { data: topDoctors, loading: loadingTopDoctors } = useAdminTopDoctors();
+  const { data: topServices, loading: loadingTopServices } = useAdminTopServices();
   useAdminRevenueChart('month');
 
   return (
@@ -97,18 +100,25 @@ export default function AdminReportsPage() {
         )}
       </div>
 
-      {/* Revenue Chart + Top Doctors */}
+      {/* Revenue Chart + Top Doctors + Top Services */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <AdminRevenueTrendChart />
         </div>
-        <div>
+        <div className="space-y-4">
           {loadingTopDoctors ? (
             <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
             </div>
           ) : (
             <AdminTopDoctors doctors={topDoctors ?? []} />
+          )}
+          {loadingTopServices ? (
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
+              {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
+            </div>
+          ) : (
+            <AdminTopServices services={topServices ?? []} />
           )}
         </div>
       </div>

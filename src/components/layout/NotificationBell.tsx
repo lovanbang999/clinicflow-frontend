@@ -4,12 +4,15 @@ import { useState, useRef, useEffect } from 'react';
 import { Bell, Check } from 'lucide-react';
 import { useNotifications } from '@/lib/hooks/useNotifications';
 import { formatDistanceToNow } from 'date-fns';
-import { vi } from 'date-fns/locale';
+import { vi, enUS } from 'date-fns/locale';
+import { useTranslations, useLocale } from 'next-intl';
 
 export function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false);
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations('common.notifications');
+  const currentLocale = useLocale();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -48,7 +51,7 @@ export function NotificationBell() {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 lg:w-96 bg-white rounded-xl shadow-xl shadow-slate-200/50 border border-slate-100 z-50 overflow-hidden flex flex-col max-h-[32rem]">
           <div className="flex items-center justify-between p-4 border-b border-slate-100 bg-slate-50">
-            <h3 className="font-semibold text-slate-800">Thông báo</h3>
+            <h3 className="font-semibold text-slate-800">{t('title')}</h3>
             {unreadCount > 0 && (
               <button
                 onClick={(e) => {
@@ -56,10 +59,10 @@ export function NotificationBell() {
                   void markAllAsRead();
                 }}
                 className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition-colors"
-                title="Đánh dấu tất cả đã đọc"
+                title={t('markAllAsRead')}
               >
                 <Check className="w-3.5 h-3.5" />
-                Đánh dấu tất cả đã đọc
+                {t('markAllAsRead')}
               </button>
             )}
           </div>
@@ -70,7 +73,7 @@ export function NotificationBell() {
                 <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-3">
                   <Bell className="w-6 h-6 text-slate-300" />
                 </div>
-                <p className="text-slate-500 text-sm">Bạn chưa có thông báo nào</p>
+                <p className="text-slate-500 text-sm">{t('empty')}</p>
               </div>
             ) : (
               <div className="flex flex-col">
@@ -91,7 +94,7 @@ export function NotificationBell() {
                           {notif.title}
                         </p>
                         <span className="text-[10px] text-slate-400 whitespace-nowrap shrink-0 mt-0.5">
-                          {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale: vi })}
+                          {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale: currentLocale === 'vi' ? vi : enUS })}
                         </span>
                       </div>
                       <p className={`text-xs line-clamp-2 ${!notif.isRead ? 'text-slate-700' : 'text-slate-500'}`}>
@@ -110,7 +113,7 @@ export function NotificationBell() {
           {notifications.length > 0 && (
             <div className="p-3 bg-slate-50 border-t border-slate-100 text-center">
               <button className="text-sm text-blue-600 font-medium hover:text-blue-800 transition-colors">
-                Xem tất cả
+                {t('viewAll')}
               </button>
             </div>
           )}

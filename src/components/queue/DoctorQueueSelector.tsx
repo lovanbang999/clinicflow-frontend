@@ -2,7 +2,7 @@
 
 import { useDoctors } from '@/lib/hooks/useDoctors';
 import { cn } from '@/lib/utils';
-import { CheckIcon } from '@phosphor-icons/react';
+import { CheckCircleIcon } from '@phosphor-icons/react';
 
 interface DoctorQueueSelectorProps {
   onSelect: (doctorId: string, doctorName: string) => void;
@@ -13,7 +13,7 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
   const { doctors } = useDoctors();
 
   return (
-    <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+    <div className="flex items-center gap-3 mb-6 flex-wrap pb-2">
       {doctors.map((doctor) => {
         const isSelected = selectedDoctorId === doctor.id;
         return (
@@ -21,20 +21,30 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
             key={doctor.id}
             onClick={() => onSelect(doctor.id, doctor.fullName)}
             className={cn(
-              "flex items-center gap-3 px-4 py-2 rounded-xl border transition-all shrink-0 cursor-pointer",
+              "group relative flex items-center gap-3 px-4 py-2.5 rounded-2xl border transition-all duration-300 shrink-0 cursor-pointer overflow-hidden",
               isSelected 
-                ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/20" 
-                : "bg-white border-slate-100 text-slate-600 hover:border-blue-200 hover:bg-slate-50"
+                ? "bg-slate-900 border-slate-900 shadow-md transform scale-[1.02]" 
+                : "bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:shadow-sm hover:bg-slate-50"
             )}
           >
+            {isSelected && (
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent opacity-50" />
+            )}
             <div className={cn(
-                "w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs",
-                isSelected ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400"
+                "relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shadow-sm transition-colors",
+                isSelected ? "bg-blue-500 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
             )}>
               {doctor.fullName.charAt(0)}
             </div>
-            <span className="font-bold text-sm whitespace-nowrap">{doctor.fullName}</span>
-            {isSelected && <CheckIcon size={16} weight="bold" />}
+            <span className={cn(
+              "relative z-10 font-medium text-sm whitespace-nowrap transition-colors",
+              isSelected ? "text-white font-semibold" : "text-slate-700"
+            )}>
+              {doctor.fullName}
+            </span>
+            {isSelected && (
+              <CheckCircleIcon size={18} weight="fill" className="relative z-10 text-white ml-1 animate-in zoom-in duration-300" />
+            )}
           </button>
         );
       })}
