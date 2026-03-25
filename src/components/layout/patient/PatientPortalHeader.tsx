@@ -13,12 +13,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { 
-  UserCircleIcon, 
-  SignOutIcon, 
+import {
+  UserCircleIcon,
+  SignOutIcon,
   GearIcon,
   ListIcon,
-  XIcon 
+  XIcon
 } from '@phosphor-icons/react';
 import { useState } from 'react';
 
@@ -51,6 +51,10 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
     {
       label: t('history'),
       href: '/patient/history',
+    },
+    {
+      label: t('invoices'),
+      href: '/patient/invoices',
     },
   ];
 
@@ -94,67 +98,70 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
               <span className="absolute top-2 md:top-2.5 right-2 md:right-2.5 block h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
             </button>
             <div className="hidden sm:block h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-2.5 pl-1 cursor-pointer p-1.5 rounded-xl transition-colors">
-                  <div className="text-right hidden sm:block">
-                    <p className="text-sm font-bold leading-tight text-slate-900 dark:text-white">{user.fullName}</p>
-                    <p className="text-[11px] font-medium text-slate-500 dark:text-slate-500 uppercase tracking-wider">Patient ID: #{user.id.substring(0, 5)}</p>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-blue-400 flex items-center justify-center text-white text-sm font-bold ring-2 ring-white dark:ring-slate-800 shadow-md">
-                      {user.fullName.substring(0, 2).toUpperCase()}
+            
+            {/* Desktop Avatar Dropdown */}
+            <div className="hidden md:block">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-2.5 pl-1 cursor-pointer p-1.5 rounded-xl transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                    <div className="text-right hidden sm:block">
+                      <p className="text-sm font-bold leading-tight text-slate-900 dark:text-white">{user.fullName}</p>
+                      <p className="text-[11px] font-medium text-slate-500 dark:text-slate-500 uppercase tracking-wider">Patient ID: #{user.id.substring(0, 5)}</p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-blue-400 flex items-center justify-center text-white text-sm font-bold ring-2 ring-white dark:ring-slate-800 shadow-md">
+                        {user.fullName.substring(0, 2).toUpperCase()}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 mt-2 p-2 rounded-2xl shadow-xl border-slate-100 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl">
-                <DropdownMenuLabel className="font-normal px-2 py-3">
-                  <div className="flex flex-col space-y-1.5">
-                    <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">{user.fullName}</p>
-                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                      Patient ID: #{user.id.substring(0, 5)}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 mb-1" />
-                <div className="py-1">
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
-                    <Link href="/patient/profile" className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
-                        <UserCircleIcon weight="fill" className="text-lg" />
-                      </div>
-                      <span className="font-semibold text-sm">My Profile</span>
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
-                    <Link href="/patient/settings" className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                        <GearIcon weight="fill" className="text-lg" />
-                      </div>
-                      <span className="font-semibold text-sm">Settings</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </div>
-                <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 my-1" />
-                <DropdownMenuItem
-                  className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 text-red-600 focus:text-red-700 bg-red-50/50 hover:bg-red-50 focus:bg-red-100 dark:text-red-400 dark:focus:text-red-300 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:focus:bg-red-500/30 transition-colors"
-                  onClick={() => logout()}
-                >
-                  <div className="flex items-center gap-3 w-full">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-red-500">
-                      <SignOutIcon weight="bold" className="text-lg" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-64 mt-2 p-2 rounded-2xl shadow-xl border-slate-100 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl">
+                  <DropdownMenuLabel className="font-normal px-2 py-3 border-b border-slate-100 dark:border-slate-800 mb-2">
+                    <div className="flex flex-col space-y-1.5">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">{user.fullName}</p>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Patient ID: #{user.id.substring(0, 5)}
+                      </p>
                     </div>
-                    <span className="font-bold text-sm">Logout</span>
+                  </DropdownMenuLabel>
+                  <div className="py-1">
+                    <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
+                      <Link href="/patient/profile" className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
+                          <UserCircleIcon weight="fill" className="text-lg" />
+                        </div>
+                        <span className="font-semibold text-sm">{t('myProfile')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 focus:bg-slate-50 dark:focus:bg-slate-800 transition-colors">
+                      <Link href="/patient/settings" className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                          <GearIcon weight="fill" className="text-lg" />
+                        </div>
+                        <span className="font-semibold text-sm">{t('settings')}</span>
+                      </Link>
+                    </DropdownMenuItem>
                   </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 my-1" />
+                  <DropdownMenuItem
+                    className="cursor-pointer rounded-xl px-3 py-2.5 mx-1 mt-1 text-red-600 focus:text-red-700 bg-red-50/50 hover:bg-red-50 focus:bg-red-100 dark:text-red-400 dark:focus:text-red-300 dark:bg-red-500/10 dark:hover:bg-red-500/20 dark:focus:bg-red-500/30 transition-colors"
+                    onClick={() => logout()}
+                  >
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-red-500">
+                        <SignOutIcon weight="bold" className="text-lg" />
+                      </div>
+                      <span className="font-bold text-sm">{t('logout')}</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
 
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex md:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all"
+              className="flex md:hidden p-2 text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all"
             >
               {isMobileMenuOpen ? <XIcon size={24} weight="bold" /> : <ListIcon size={24} weight="bold" />}
             </button>
@@ -164,28 +171,78 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
 
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 animate-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-80px)] overflow-y-auto">
           <div className="p-4 space-y-2">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href || pathname.endsWith(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
+            {/* Mobile User Info */}
+            <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800/40 p-2 rounded-[1rem] border border-slate-100 dark:border-slate-800/60">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-blue-500 to-blue-400 flex items-center justify-center text-white text-xl font-black ring-4 ring-white dark:ring-slate-900 shadow-xl">
+                {user.fullName.substring(0, 2).toUpperCase()}
+              </div>
+              <div className="flex flex-col">
+                <p className="text-lg font-black text-slate-900 dark:text-white leading-tight">{user.fullName}</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-0.5">#{user.id.substring(0, 8)}</p>
+              </div>
+            </div>
+
+            {/* Nav Items */}
+            <div className="space-y-1.5">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href || pathname.endsWith(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`flex items-center justify-between px-5 py-4 rounded-2xl text-sm font-black transition-all ${isActive
+                        ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-500'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+                      }`}
+                  >
+                    <span className="uppercase tracking-tight">{item.label}</span>
+                    {isActive && <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]" />}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="h-px bg-slate-100 dark:bg-slate-800 mx-2" />
+
+            <div className="space-y-4">
+              <div className="px-2">
+                <LanguageSwitcher />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3 px-2">
+                <Link 
+                  href="/patient/profile" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                    isActive
-                      ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-500'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
-                  }`}
+                  className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:bg-slate-50 transition-colors"
                 >
-                  {item.label}
+                  <UserCircleIcon size={24} weight="fill" className="text-blue-500" />
+                  <span className="text-[10px] font-black uppercase mt-2 tracking-widest text-slate-600 dark:text-slate-400">{t('myProfile')}</span>
                 </Link>
-              );
-            })}
-            <div className="h-px bg-slate-100 dark:bg-slate-800 my-2" />
-            <div className="px-4 py-2">
-              <LanguageSwitcher />
+                <Link 
+                  href="/patient/settings" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:bg-slate-50 transition-colors"
+                >
+                  <GearIcon size={24} weight="fill" className="text-slate-500 dark:text-slate-400" />
+                  <span className="text-[10px] font-black uppercase mt-2 tracking-widest text-slate-600 dark:text-slate-400">{t('settings')}</span>
+                </Link>
+              </div>
+
+              <div className="px-2">
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 font-black uppercase tracking-widest text-sm hover:bg-red-100 dark:hover:bg-red-500/20 transition-all border border-red-100 dark:border-red-500/20 active:scale-[0.98]"
+                >
+                  <SignOutIcon size={18} weight="bold" />
+                  {t('logout')}
+                </button>
+              </div>
             </div>
           </div>
         </div>

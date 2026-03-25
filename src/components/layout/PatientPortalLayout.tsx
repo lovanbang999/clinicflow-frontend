@@ -6,18 +6,29 @@ import { useEffect, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { PatientPortalHeader } from './patient/PatientPortalHeader';
 import { PatientPortalFooter } from './patient/PatientPortalFooter';
-import { PatientPortalDarkModeToggle } from './patient/PatientPortalDarkModeToggle';
+
+import { useThemeStore } from '@/lib/store/themeStore';
 
 export function PatientPortalLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { isAuthenticated, user, _hasHydrated } = useAuthStore();
+  const { isDark } = useThemeStore();
   const [isClient, setIsClient] = useState(false);
-  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }, [isDark, isClient]);
 
   useEffect(() => {
     if (!_hasHydrated || !isClient) return;
@@ -26,15 +37,6 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
       router.push('/login');
     }
   }, [_hasHydrated, isAuthenticated, isClient, router]);
-
-  const toggleDarkMode = () => {
-    setIsDark(!isDark);
-    if (!isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
 
   if (!_hasHydrated || !isClient || !isAuthenticated || !user) {
     return (
@@ -45,7 +47,7 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className={`min-h-screen flex flex-col items-center bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 transition-colors duration-200 ${isDark ? 'dark' : ''}`}>
+    <div className={`min-h-screen flex flex-col items-center bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 transition-colors duration-200`}>
       <PatientPortalHeader user={user} />
   
       {/* Main Content */}
@@ -53,7 +55,6 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
         {children}
       </main>
       <PatientPortalFooter />
-      <PatientPortalDarkModeToggle isDark={isDark} toggleDarkMode={toggleDarkMode} />
     </div>
   );
 }
