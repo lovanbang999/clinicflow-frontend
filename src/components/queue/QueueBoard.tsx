@@ -39,7 +39,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
     await markNoShow(bookingId);
   };
 
-  const handleCompleteVisit = async (_bookingId: string) => {
+  const handleCompleteVisit = async () => {
     // Note: completion is now typically handled via the EMR form in the doctor workspace.
     // If called from here (e.g. receptionist view), we might want different behavior,
     // but we're removing the doctor-specific redirection to the consultation page.
@@ -161,7 +161,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                         <div className="flex items-center gap-2 justify-end">
                           {isDoctorView && item.booking.status === BookingStatus.IN_PROGRESS && (
                             <button
-                              onClick={() => handleCompleteVisit(item.booking.id)}
+                              onClick={() => handleCompleteVisit()}
                               className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2 cursor-pointer"
                             >
                               {t('completeVisit')}

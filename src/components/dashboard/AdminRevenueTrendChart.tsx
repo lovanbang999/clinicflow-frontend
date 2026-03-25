@@ -37,15 +37,20 @@ function formatMonth(dateStr: string): string {
   return d.toLocaleString('en-US', { month: 'short' });
 }
 
+// Format "YYYY-MM-DD" -> "Jan 01", etc.
+function formatDay(dateStr: string): string {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleString('en-US', { month: 'short', day: 'numeric' });
+}
+
 export function AdminRevenueTrendChart() {
-  const [range, setRange] = useState<'6m' | 'ytd'>('6m');
+  const [range, setRange] = useState<'week' | 'month' | 'quarter'>('month');
   const t = useTranslations('dashboard.admin.chart');
 
-  const months = range === '6m' ? 6 : new Date().getMonth() + 1;
-  const { data, loading } = useAdminRevenueChart(months);
+  const { data, loading } = useAdminRevenueChart(range);
 
-  const chartData = (data?.chart ?? []).map((point) => ({
-    month: formatMonth(point.date),
+  const chartData = (data ?? []).map((point) => ({
+    label: range === 'quarter' ? formatMonth(point.date) : formatDay(point.date),
     revenue: point.revenue,
   }));
 
@@ -57,16 +62,17 @@ export function AdminRevenueTrendChart() {
           <h3 className="text-base font-bold text-[#111518]">{t('revenueTrend')}</h3>
           <p className="text-[#94a3b8] text-xs font-medium mt-0.5">{t('clinicalEarnings')}</p>
         </div>
-        <Select value={range} onValueChange={(v) => setRange(v as '6m' | 'ytd')}>
+        <Select value={range} onValueChange={(v) => setRange(v as 'week' | 'month' | 'quarter')}>
           <SelectTrigger
             size="sm"
             className="w-[140px] text-xs font-semibold text-[#64748b] border-[#e5e7eb] bg-[#f8fafc] rounded-lg"
           >
             <SelectValue />
           </SelectTrigger>
-          <SelectContent align="end">
-            <SelectItem value="6m">{t('last6Months')}</SelectItem>
-            <SelectItem value="ytd">{t('yearToDate')}</SelectItem>
+          <SelectContent position='popper' side='bottom'>
+            <SelectItem value="week">Past Week</SelectItem>
+            <SelectItem value="month">Past Month</SelectItem>
+            <SelectItem value="quarter">Past Quarter</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -95,7 +101,7 @@ export function AdminRevenueTrendChart() {
             />
 
             <XAxis
-              dataKey="month"
+              dataKey="label"
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 11, fill: '#cbd5e1', fontWeight: 600 }}

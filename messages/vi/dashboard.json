@@ -736,7 +736,9 @@
       "allSpecialistsActive": "Tất cả bác sĩ đang hoạt động",
       "upcoming": "{count} sắp tới",
       "vsLastMonth": "so với tháng trước",
-      "thisMonth": "+{count} tháng này"
+      "thisMonth": "+{count} tháng này",
+      "today": "{count} hôm nay",
+      "todayOnly": "Hôm nay"
     },
     "chart": {
       "revenueTrend": "Xu hướng doanh thu",
@@ -1328,7 +1330,8 @@
         "canceled": "Đã hủy"
       },
       "status": "Trạng thái lịch hẹn",
-      "clearAll": "Xóa tất cả"
+      "clearAll": "Xóa tất cả",
+      "noData": "Không có lịch làm việc nào trong tuần này"
     },
     "addSlot": {
       "title": "Thêm Lịch Khám Mới",

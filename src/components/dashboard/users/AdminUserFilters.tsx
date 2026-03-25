@@ -50,7 +50,7 @@ interface AdminUserFiltersProps {
   onToggleRole: (role: UserRole) => void;
   onToggleStatus: (status: Status) => void;
   onClearFilters: () => void;
-  onUserAdded: () => void;
+  // onUserAdded: () => void;
 }
 
 export function AdminUserFilters({
@@ -61,7 +61,7 @@ export function AdminUserFilters({
   onToggleRole,
   onToggleStatus,
   onClearFilters,
-  onUserAdded,
+  // onUserAdded,
 }: AdminUserFiltersProps) {
   const t = useTranslations('dashboard.admin.userManagement');
   const hasActiveFilters = selectedRoles.size > 0 || selectedStatuses.size > 0;

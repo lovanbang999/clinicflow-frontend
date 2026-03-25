@@ -736,7 +736,9 @@
       "allSpecialistsActive": "All specialists active",
       "upcoming": "{count} upcoming",
       "vsLastMonth": "vs last month",
-      "thisMonth": "+{count} this month"
+      "thisMonth": "+{count} this month",
+      "today": "{count} today",
+      "todayOnly": "Today"
     },
     "chart": {
       "revenueTrend": "Revenue Trend",
@@ -1328,7 +1330,8 @@
         "canceled": "Canceled"
       },
       "status": "Appointment Status",
-      "clearAll": "Clear All"
+      "clearAll": "Clear All",
+      "noData": "No schedules found for this week"
     },
     "addSlot": {
       "title": "Add New Schedule Slot",

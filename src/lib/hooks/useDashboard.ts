@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { dashboardApi } from '@/lib/api/dashboard';
+import { bookingsApi } from '@/lib/api/bookings';
 import { DashboardData } from '@/types';
 import { toast } from 'sonner';
 
@@ -15,7 +15,7 @@ export function useDashboard() {
       try {
         setIsLoading(true);
         setError(null);
-        const dashboardData = await dashboardApi.getPatientStats();
+        const dashboardData = await bookingsApi.getPatientDashboardStats();
         setData(dashboardData);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to fetch dashboard';
