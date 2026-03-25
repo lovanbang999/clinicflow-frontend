@@ -6,11 +6,10 @@ import { PatientStatsGrid } from '@/components/patient/PatientStatsGrid';
 import { NextAppointmentCard } from '@/components/patient/NextAppointmentCard';
 import { RecentActivityList } from '@/components/patient/RecentActivityList';
 import { RecommendedSpecialists } from '@/components/patient/RecommendedSpecialists';
+import { RecentInvoicesWidget } from '@/components/dashboard/patient/RecentInvoicesWidget';
 
 export default function PatientDashboardPage() {
   const { data } = useDashboard();
-
-  console.log(data);
 
   // Derived stats from data, defaulting to 0
   const upcoming = data?.stats.upcomingBookings || 0;
@@ -31,11 +30,14 @@ export default function PatientDashboardPage() {
 
       <NextAppointmentCard nextBooking={data?.nextBooking} />
 
-      {/* Two columns: Recent Activity & Specialists */}
+      {/* Two columns: Recent Activity & Recent Invoices */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <RecentActivityList />
-        <RecommendedSpecialists />
+        <RecentInvoicesWidget />
       </section>
+
+      {/* Full width or large section: Recommended Specialists */}
+      <RecommendedSpecialists />
     </div>
   );
 }

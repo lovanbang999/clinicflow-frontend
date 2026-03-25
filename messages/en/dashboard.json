@@ -12,7 +12,36 @@
     "completed": "Completed",
     "queue": "In Queue",
     "totalVisits": "Total Visits",
-    "nextAppointment": "Next Appointment"
+    "nextAppointment": "Next Appointment",
+    "invoices": "My Invoices",
+    "myProfile": "My Profile",
+    "invoicesSubtitle": "View and manage your billing transactions",
+    "noInvoices": "No invoices found",
+    "recentInvoices": "Recent Invoices",
+    "invoiceNumber": "Invoice #",
+    "total": "Total",
+    "status": "Status",
+    "viewDetail": "View Detail",
+    "date": "Date",
+    "settings": "Settings",
+    "settingsSubtitle": "Manage your preferences and app appearance",
+    "appearance": "Appearance",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "security": "Security",
+    "changePassword": "Change Password",
+    "notifications": "Notifications",
+    "medicalHistory": {
+      "title": "Medical History",
+      "subtitle": "{count} visits completed",
+      "noHistory": "No medical history recorded",
+      "doctorLabel": "Doctor:",
+      "emptyTitle": "No history yet",
+      "emptyDesc": "History will appear after you complete an appointment",
+      "completed": "Completed"
+    },
+    "logout": "Logout"
   },
   "queue": {
     "boardTitle": "Live Queue - {doctor}",
@@ -589,7 +618,8 @@
         "draft": "Draft",
         "open": "Open (Collect Payment)",
         "issued": "Issued (Examined)",
-        "paid": "Paid"
+        "paid": "Paid",
+        "cancelled": "Cancelled"
       },
       "detail": {
         "title": "Invoice Details",

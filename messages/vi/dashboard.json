@@ -12,7 +12,36 @@
     "completed": "Đã hoàn thành",
     "queue": "Hàng đợi",
     "totalVisits": "Tổng lượt khám",
-    "nextAppointment": "Lịch hẹn sắp tới"
+    "nextAppointment": "Lịch hẹn sắp tới",
+    "invoices": "Hóa đơn của tôi",
+    "myProfile": "Hồ sơ của tôi",
+    "invoicesSubtitle": "Xem và quản lý các giao dịch thanh toán",
+    "noInvoices": "Chưa có hóa đơn nào",
+    "recentInvoices": "Hóa đơn gần đây",
+    "invoiceNumber": "Mã hóa đơn",
+    "total": "Tổng tiền",
+    "status": "Trạng thái",
+    "viewDetail": "Xem chi tiết",
+    "date": "Ngày",
+    "settings": "Cài đặt",
+    "settingsSubtitle": "Quản lý tùy chọn cá nhân và giao diện ứng dụng",
+    "appearance": "Giao diện",
+    "darkMode": "Chế độ tối",
+    "lightMode": "Chế độ sáng",
+    "language": "Ngôn ngữ",
+    "security": "Bảo mật",
+    "changePassword": "Đổi mật khẩu",
+    "notifications": "Thông báo",
+    "medicalHistory": {
+      "title": "Lịch sử khám bệnh",
+      "subtitle": "{count} lần khám đã hoàn thành",
+      "noHistory": "Chưa có lịch sử khám bệnh",
+      "doctorLabel": "Bác sĩ:",
+      "emptyTitle": "Chưa có lịch sử khám",
+      "emptyDesc": "Lịch sử sẽ xuất hiện sau khi bạn hoàn thành lịch hẹn",
+      "completed": "Hoàn thành"
+    },
+    "logout": "Đăng xuất"
   },
   "queue": {
     "boardTitle": "Hàng Đợi Khám - {doctor}",
@@ -589,7 +618,8 @@
         "draft": "Bản nháp",
         "open": "Đang mở (Thu tiền)",
         "issued": "Chờ chốt (BS đã khám)",
-        "paid": "Đã thanh toán"
+        "paid": "Đã thanh toán",
+        "cancelled": "Đã hủy"
       },
       "detail": {
         "title": "Chi tiết Hóa đơn",

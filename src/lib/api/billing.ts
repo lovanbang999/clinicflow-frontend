@@ -198,4 +198,13 @@ export const billingApi = {
     );
     return response.data.data ?? [];
   },
+
+  // List invoices for the logged-in patient
+  listMyInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: Record<string, unknown> }> => {
+    const response = await apiClient.get<ApiResponse<{ invoices?: Invoice[], pagination?: Record<string, unknown> }>>('/billing/my-invoices', { params });
+    if (response.data.data?.invoices) {
+      return response.data.data as { invoices: Invoice[], pagination: Record<string, unknown> };
+    }
+    return { invoices: response.data.data as unknown as Invoice[], pagination: {} };
+  },
 };
