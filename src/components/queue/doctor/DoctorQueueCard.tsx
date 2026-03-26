@@ -3,13 +3,16 @@
 import { useTranslations } from 'next-intl';
 import { BookingStatus } from '@/types';
 import type { QueueRecord } from '@/lib/api/queue';
-import { 
-  ArrowRightIcon, 
-  GenderFemaleIcon, 
-  GenderMaleIcon, 
+import {
+  ArrowRightIcon,
+  GenderFemaleIcon,
+  GenderMaleIcon,
   GenderNeuterIcon,
   ClipboardTextIcon,
-  PrinterIcon
+  PrinterIcon,
+  QueueIcon,
+  CalendarBlankIcon,
+  ClockIcon,
 } from '@phosphor-icons/react';
 
 interface DoctorQueueCardProps {
@@ -84,7 +87,7 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint }: DoctorQu
         <div className="flex items-start sm:items-center gap-5">
           {/* Avatar */}
           <div className="relative shrink-0">
-            <div 
+            <div
               className="w-16 h-16 rounded-xl flex items-center justify-center font-bold text-xl"
               style={{ background: isOpacified ? '#f3f4f9' : avatarColors.bg, color: isOpacified ? '#44474e' : avatarColors.text }}
             >
@@ -110,17 +113,48 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint }: DoctorQu
               <span className="px-2 py-0.5 rounded-lg bg-[#f3f4f9] text-[#44474e] text-[10px] font-bold tracking-tight border border-[#c4c6cf]/30">
                 {bookingCode}
               </span>
+              {/* PRE-BOOKED / WALK-IN badge */}
+              {item.isPreBooked ? (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#eff6ff] text-[#1275e2] text-[10px] font-bold border border-[#93c5fd]/60">
+                  <CalendarBlankIcon size={10} weight="fill" />
+                  Đặt trước
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold border border-[#86efac]/60">
+                  <QueueIcon size={10} weight="fill" />
+                  Walk-in
+                </span>
+              )}
             </div>
-            
+
             <div className="flex flex-wrap items-center gap-3 text-[#44474e]">
               <div className="flex items-center gap-1.5 text-sm">
                 <ClipboardTextIcon size={18} className="opacity-60" weight="fill" />
                 <span className="font-medium">{serviceName || t('generalExam')}</span>
               </div>
-              <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50"></span>
+              <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50" />
               <p className="text-sm font-medium">{age} {t('age')}</p>
-              <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50"></span>
+              <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50" />
               <p className="text-sm font-medium">{genderStr}</p>
+              {/* Scheduled time (pre-booking) or estimated time (walk-in) */}
+              {item.isPreBooked && item.scheduledTime && (
+                <>
+                  <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50" />
+                  <div className="flex items-center gap-1 text-sm text-[#1275e2] font-medium">
+                    <ClockIcon size={14} weight="fill" />
+                    {item.scheduledTime}
+                  </div>
+                </>
+              )}
+              {!item.isPreBooked && item.booking.estimatedTime && (
+                <>
+                  <span className="w-1 h-1 rounded-full bg-[#c4c6cf] opacity-50" />
+                  <div className="flex items-center gap-1 text-sm text-[#16a34a] font-medium">
+                    <ClockIcon size={14} weight="fill" />
+                    ~{new Date(item.booking.estimatedTime).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Tags (if any exist on the patient) */}

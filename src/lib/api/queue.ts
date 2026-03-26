@@ -8,6 +8,8 @@ export interface QueueRecord {
   queueDate: string;
   queuePosition: number;
   estimatedWaitMinutes: number;
+  isPreBooked: boolean;      // Priority sort: pre-bookings with due time get called first
+  scheduledTime?: string | null; // Denorm from Booking.startTime
   booking: Booking;
 }
 
