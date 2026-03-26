@@ -600,7 +600,9 @@
         "draft": "Draft",
         "open": "Open",
         "issued": "Issued",
-        "paid": "Paid"
+        "paid": "Paid",
+        "cancelled": "Cancelled",
+        "refunded": "Refunded"
       },
       "table": {
         "invoiceNumber": "Invoice # / Date",
@@ -757,6 +759,7 @@
       "patientManagement": "Patient Management",
       "schedules": "Schedules",
       "analytics": "Analytics",
+      "billingManagement": "Invoice History",
       "settings": "Settings"
     },
     "kpi": {
@@ -791,6 +794,19 @@
       "newPatients": "New Patients",
       "successRate": "Success Rate",
       "revenue": "Revenue"
+    },
+    "billingManagement": {
+      "title": "System Invoice History",
+      "subtitle": "View and manage all invoices from clinic services",
+      "filter": {
+        "typePlaceholder": "Invoice Type",
+        "clear": "Clear filters"
+      },
+      "pagination": {
+        "showing": "Showing {start} - {end} of {total} invoices",
+        "previous": "Previous",
+        "next": "Next"
+      }
     },
     "topDoctors": {
       "title": "Top Doctors",

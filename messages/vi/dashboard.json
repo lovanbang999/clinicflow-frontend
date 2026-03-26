@@ -600,7 +600,9 @@
         "draft": "Bản nháp",
         "open": "Đang mở",
         "issued": "Chờ chốt",
-        "paid": "Đã thanh toán"
+        "paid": "Đã thanh toán",
+        "cancelled": "Đã hủy",
+        "refunded": "Đã hoàn tiền"
       },
       "table": {
         "invoiceNumber": "Mã HĐ / Ngày tạo",
@@ -757,6 +759,7 @@
       "patientManagement": "Quản lý bệnh nhân",
       "schedules": "Lịch làm việc",
       "analytics": "Phân tích",
+      "billingManagement": "Lịch sử hóa đơn",
       "settings": "Cài đặt"
     },
     "kpi": {
@@ -791,6 +794,19 @@
       "newPatients": "Bệnh nhân mới",
       "successRate": "Tỷ lệ thành công",
       "revenue": "Doanh thu"
+    },
+    "billingManagement": {
+      "title": "Lịch sử hóa đơn hệ thống",
+      "subtitle": "Xem và quản lý tất cả hóa đơn từ các dịch vụ của phòng khám",
+      "filter": {
+        "typePlaceholder": "Loại Hóa Đơn",
+        "clear": "Xóa lọc"
+      },
+      "pagination": {
+        "showing": "Hiển thị {start} - {end} của {total} hóa đơn",
+        "previous": "Trước",
+        "next": "Tiếp theo"
+      }
     },
     "topDoctors": {
       "title": "Bác sĩ nổi bật",
