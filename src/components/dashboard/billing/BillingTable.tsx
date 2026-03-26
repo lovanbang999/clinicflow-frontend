@@ -12,12 +12,20 @@ import { useTranslations, useLocale } from 'next-intl';
 interface BillingTableProps {
   invoices: Invoice[];
   loading: boolean;
+  basePath?: string;
+  tPath?: string;
 }
 
-export function BillingTable({ invoices, loading }: BillingTableProps) {
+export function BillingTable({ 
+  invoices, 
+  loading, 
+  basePath = '/receptionist/billing',
+  tPath = 'dashboard.receptionist.billingManagement'
+}: BillingTableProps) {
   const router = useRouter();
-  const t = useTranslations('dashboard.receptionist.billingManagement');
-  const tTypes = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices.types');
+  const tNamespace = tPath as 'dashboard.receptionist.billingManagement' | 'dashboard.admin.billingManagement';
+  const t = useTranslations(tNamespace);
+  const tTypes = useTranslations(`${tNamespace}.bookingInvoices.types` as "dashboard.receptionist.billingManagement.bookingInvoices.types" | "dashboard.admin.billingManagement.bookingInvoices.types");
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 
@@ -96,7 +104,7 @@ export function BillingTable({ invoices, loading }: BillingTableProps) {
             invoices.map((inv) => (
               <tr key={inv.id} className="hover:bg-slate-50/50 transition-colors">
                 <td className="px-6 py-4">
-                  <p className="font-semibold text-slate-800 cursor-pointer hover:underline hover:text-[#1392ec]" onClick={() => router.push(`/receptionist/billing/${inv.id}`)}>{inv.invoiceNumber}</p>
+                  <p className="font-semibold text-slate-800 cursor-pointer hover:underline hover:text-[#1392ec]" onClick={() => router.push(`${basePath}/${inv.id}`)}>{inv.invoiceNumber}</p>
                   <p className="text-xs text-slate-500">
                     {format(new Date(inv.createdAt), 'HH:mm - dd/MM', { locale: dateLocale })}
                   </p>
@@ -121,7 +129,7 @@ export function BillingTable({ invoices, loading }: BillingTableProps) {
                 </td>
                 <td className="px-6 py-4 text-center">
                   <button
-                    onClick={() => router.push(`/receptionist/billing/${inv.id}`)}
+                    onClick={() => router.push(`${basePath}/${inv.id}`)}
                     className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-blue-50 text-[#1392ec] hover:bg-blue-100 cursor-pointer transition-colors"
                     title={t('table.viewDetails')}
                   >

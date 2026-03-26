@@ -15,6 +15,7 @@ import {
   ChartBarIcon,
   GearSixIcon,
   SignOutIcon,
+  CurrencyCircleDollarIcon,
   type Icon,
   WheelchairIcon,
 } from '@phosphor-icons/react';
@@ -33,6 +34,7 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'patientManagement', href: '/admin/patients',        icon: WheelchairIcon,    exact: false },
   { key: 'serviceManagement', href: '/admin/services',        icon: SyringeIcon,       exact: false },
   { key: 'schedules',         href: '/admin/schedules',       icon: CalendarBlankIcon, exact: false },
+  { key: 'billingManagement', href: '/admin/invoices',       icon: CurrencyCircleDollarIcon, exact: false },
   { key: 'analytics',         href: '/admin/analytics',       icon: ChartBarIcon,      exact: false },
   { key: 'settings',          href: '/admin/settings',        icon: GearSixIcon,       exact: false },
 ];
