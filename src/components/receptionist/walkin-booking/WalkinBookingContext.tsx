@@ -13,6 +13,9 @@ import { useTranslations } from 'next-intl';
 interface WalkinBookingContextType {
   currentStep: number;
   setCurrentStep: (step: number) => void;
+  // Booking type: pre-booking (fixed slot) or walk-in (queue)
+  bookingType: 'PRE_BOOKING' | 'WALK_IN';
+  setBookingType: (type: 'PRE_BOOKING' | 'WALK_IN') => void;
   // Patient Selection
   searchQuery: string;
   setSearchQuery: (query: string) => void;
@@ -66,6 +69,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const t = useTranslations('dashboard.receptionist.walkinBookingForm');
   // State from previous WalkinBookingForm
   const [currentStep, setCurrentStep] = useState(1);
+  const [bookingType, setBookingType] = useState<'PRE_BOOKING' | 'WALK_IN'>('WALK_IN');
 
   // Patient Selection
   const [searchQuery, setSearchQuery] = useState('');
@@ -187,32 +191,40 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   };
 
   const handleSubmitBooking = async () => {
-    if (!selectedPatient || !selectedService || !selectedDoctor || !selectedDate || !selectedSlot) {
+    const isWalkIn = bookingType === 'WALK_IN';
+
+    if (!selectedPatient || !selectedService || !selectedDoctor || !selectedDate) {
+      toast.error(t('toasts.fillAllSteps'));
+      return;
+    }
+    if (!isWalkIn && !selectedSlot) {
       toast.error(t('toasts.fillAllSteps'));
       return;
     }
     setIsSubmitting(true);
     try {
-        const booking = await bookingsApi.createReceptionistBooking({
-            patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id, // Fallback if profile not loaded
-            serviceId: selectedService.id,
-            doctorId: selectedDoctor.id,
-            bookingDate: format(selectedDate, 'yyyy-MM-dd'),
-            startTime: selectedSlot,
-            patientNotes,
-        });
-        setCompletedBooking(booking);
-        toast.success(t('toasts.bookingSuccess'));
+      const booking = await bookingsApi.createReceptionistBooking({
+        patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id,
+        serviceId: selectedService.id,
+        doctorId: selectedDoctor.id,
+        bookingDate: format(selectedDate, 'yyyy-MM-dd'),
+        startTime: isWalkIn ? undefined : (selectedSlot ?? undefined),
+        isPreBooked: !isWalkIn,
+        patientNotes,
+      });
+      setCompletedBooking(booking);
+      toast.success(t('toasts.bookingSuccess'));
     } catch (err) {
-        console.error(err);
-        toast.error(t('toasts.bookingError'));
+      console.error(err);
+      toast.error(t('toasts.bookingError'));
     } finally {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
   const handleReset = () => {
     setCurrentStep(1);
+    setBookingType('WALK_IN');
     setSelectedPatient(null);
     setSearchQuery('');
     setSearchResults([]);
@@ -228,7 +240,8 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     if (step === 1) return selectedPatient !== null;
     if (step === 2) return selectedService !== null;
     if (step === 3) return selectedDoctor !== null;
-    if (step === 4) return selectedSlot !== null;
+    // Step 4 (time): walk-in doesn't need a slot  
+    if (step === 4) return bookingType === 'WALK_IN' ? true : selectedSlot !== null;
     return false;
   };
 
@@ -242,6 +255,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     <WalkinBookingContext.Provider
       value={{
         currentStep, setCurrentStep,
+        bookingType, setBookingType,
         searchQuery, setSearchQuery, isSearching, selectedPatient, searchResults,
         pagination, setPage,
         showCreateForm, setShowCreateForm, newPatient, setNewPatient, isCreatingPatient,

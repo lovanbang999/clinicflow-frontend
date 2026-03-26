@@ -32,14 +32,16 @@ export interface Booking {
   doctorId: string;
   serviceId: string;
   bookingDate: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string | null;   // null for walk-in bookings
+  endTime?: string | null;     // null for walk-in bookings
+  isPreBooked: boolean;        // true = slot reserved, false = walk-in queue
+  estimatedTime?: string | null; // Calculated for walk-in patients
   status: BookingStatus;
   patientNotes?: string;
   doctorNotes?: string;
   createdAt: string;
   updatedAt: string;
-  
+
   // Populated fields
   patientProfile?: {
     id: string;
@@ -96,6 +98,8 @@ export interface QueueRecord {
   bookingId: string;
   queuePosition: number;
   estimatedWaitMinutes: number;
+  isPreBooked: boolean;     // Denorm from Booking
+  scheduledTime?: string | null; // Denorm from Booking.startTime
   createdAt: string;
 }
 
@@ -104,7 +108,8 @@ export interface CreateBookingDto {
   doctorId: string;
   serviceId: string;
   bookingDate: string;
-  startTime: string;
+  startTime?: string;      // Required for pre-bookings, omit for walk-in
+  isPreBooked?: boolean;   // true = pre-booking, false = walk-in queue
   patientNotes?: string;
 }
 
