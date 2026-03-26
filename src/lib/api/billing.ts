@@ -136,14 +136,21 @@ export interface ListInvoicesParams {
   limit?: number;
 }
 
+export interface PaginationData {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 export const billingApi = {
   // List invoices
-  listInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: Record<string, unknown> }> => {
-    const response = await apiClient.get<ApiResponse<{ invoices?: Invoice[], pagination?: Record<string, unknown> }>>('/billing/invoices', { params });
+  listInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: PaginationData }> => {
+    const response = await apiClient.get<ApiResponse<{ invoices?: Invoice[], pagination?: PaginationData }>>('/billing/invoices', { params });
     if (response.data.data?.invoices) {
-      return response.data.data as { invoices: Invoice[], pagination: Record<string, unknown> };
+      return response.data.data as { invoices: Invoice[], pagination: PaginationData };
     }
-    return { invoices: response.data.data as unknown as Invoice[], pagination: {} };
+    return { invoices: response.data.data as unknown as Invoice[], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
   },
 
   // List all invoices for a booking (Phương án B: multiple invoices per booking)
