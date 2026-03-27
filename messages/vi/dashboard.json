@@ -1477,7 +1477,24 @@
       },
       "status": "Trạng thái lịch hẹn",
       "clearAll": "Xóa tất cả",
-      "noData": "Không có lịch làm việc nào trong tuần này"
+      "noData": "Không có lịch làm việc nào trong tuần này",
+      "prevWeek": "Tuần trước",
+      "nextWeek": "Tuần tiếp",
+      "prevDay": "Ngày trước",
+      "nextDay": "Ngày tiếp",
+      "today": "Hôm nay",
+      "filterDoctor": "Bác sĩ",
+      "allDoctors": "Tất cả bác sĩ",
+      "clearDoctorFilter": "Xóa bộ lọc bác sĩ",
+      "slot": {
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa lịch",
+        "restore": "Khôi phục",
+        "confirmDelete": "Xóa lịch này?",
+        "confirmDeleteDesc": "Thao tác này sẽ tắt lịch. Các lịch hẹn hiện tại sẽ không bị ảnh hưởng.",
+        "cancel": "Hủy",
+        "confirm": "Xóa"
+      }
     },
     "addSlot": {
       "title": "Thêm Lịch Khám Mới",
