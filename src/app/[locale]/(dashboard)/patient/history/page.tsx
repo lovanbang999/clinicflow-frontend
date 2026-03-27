@@ -43,7 +43,13 @@ function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) 
               <span className="hidden sm:inline">·</span>
               <div className="flex items-center gap-1">
                 <ClockIcon size={12} />
-                <span>{booking.startTime} – {booking.endTime}</span>
+                <span>
+                  {booking.startTime ? (
+                    `${booking.startTime} – ${booking.endTime}`
+                  ) : (
+                    locale === 'vi' ? 'Hàng đợi / Chờ khám' : 'Queue / Walk-in'
+                  )}
+                </span>
               </div>
             </div>
           </div>
@@ -127,7 +133,7 @@ export default function PatientMedicalHistoryPage() {
             <StethoscopeIcon size={40} className="text-slate-300 dark:text-slate-600" weight="duotone" />
           </div>
           <div className="space-y-1">
-            <p className="text-lg font-black text-slate-800 dark:text-white uppercase tracking-tighter italic">{t('emptyTitle')}</p>
+            <p className="text-lg font-black text-slate-800 dark:text-white uppercase tracking-tighter">{t('emptyTitle')}</p>
             <p className="text-sm text-slate-500 dark:text-slate-400 max-w-[200px] leading-relaxed mx-auto">{t('emptyDesc')}</p>
           </div>
         </div>

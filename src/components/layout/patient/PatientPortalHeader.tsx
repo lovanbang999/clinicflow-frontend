@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { BellIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { NotificationBell } from '@/components/layout/NotificationBell';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,22 +39,27 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
     {
       label: t('title'),
       href: '/patient',
+      exact: true,
     },
     {
       label: t('book'),
       href: '/patient/book',
+      exact: false,
     },
     {
       label: t('bookings'),
-      href: '/patient/bookings',
+      href: '/patient/my-bookings',
+      exact: false,
     },
     {
       label: t('history'),
       href: '/patient/history',
+      exact: false,
     },
     {
       label: t('invoices'),
       href: '/patient/invoices',
+      exact: false,
     },
   ];
 
@@ -70,9 +75,10 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
               <span className="text-lg md:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">Smart Clinic</span>
             </Link>
             <nav className="hidden md:flex items-center gap-8">
-
               {navItems.map((item) => {
-                const isActive = pathname === item.href || pathname.endsWith(item.href);
+                const isActive = item.exact 
+                  ? pathname === item.href 
+                  : pathname === item.href || pathname.startsWith(item.href + '/');
 
                 return (
                   <Link
@@ -93,10 +99,9 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
             <div className="hidden sm:block">
               <LanguageSwitcher />
             </div>
-            <button className="p-2 md:p-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all relative cursor-pointer">
-              <BellIcon weight="bold" className="text-[20px] md:text-[24px]" />
-              <span className="absolute top-2 md:top-2.5 right-2 md:right-2.5 block h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900"></span>
-            </button>
+
+            <NotificationBell />
+            
             <div className="hidden sm:block h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
             
             {/* Desktop Avatar Dropdown */}
@@ -187,7 +192,9 @@ export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
             {/* Nav Items */}
             <div className="space-y-1.5">
               {navItems.map((item) => {
-                const isActive = pathname === item.href || pathname.endsWith(item.href);
+                const isActive = item.exact 
+                  ? pathname === item.href 
+                  : pathname === item.href || pathname.startsWith(item.href + '/');
                 return (
                   <Link
                     key={item.href}

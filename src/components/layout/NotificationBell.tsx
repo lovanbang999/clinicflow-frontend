@@ -27,9 +27,11 @@ export function NotificationBell() {
   const getIconColor = (type: string) => {
     switch (type) {
       case 'BOOKING_CONFIRMED': return 'bg-green-100 text-green-600';
-      case 'BOOKING_REMINDER': return 'bg-blue-100 text-blue-600';
+      case 'BOOKING_CONFIRMED': return 'bg-green-100 text-green-600';
+      case 'APPOINTMENT_REMINDER': return 'bg-blue-100 text-blue-600';
       case 'BOOKING_CANCELLED': return 'bg-red-100 text-red-600';
-      case 'LAB_RESULT': return 'bg-purple-100 text-purple-600';
+      case 'LAB_RESULT_READY': return 'bg-purple-100 text-purple-600';
+      case 'INVOICE_ISSUED': return 'bg-amber-100 text-amber-600';
       default: return 'bg-slate-100 text-slate-600';
     }
   };
@@ -37,8 +39,9 @@ export function NotificationBell() {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
+        id="notification-bell-btn"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-full hover:bg-slate-100 transition-colors focus:outline-none"
+        className="relative p-2 rounded-full hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer"
       >
         <Bell className="w-6 h-6 text-slate-600" />
         {unreadCount > 0 && (
@@ -54,11 +57,12 @@ export function NotificationBell() {
             <h3 className="font-semibold text-slate-800">{t('title')}</h3>
             {unreadCount > 0 && (
               <button
+                id="mark-all-read-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   void markAllAsRead();
                 }}
-                className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition-colors"
+                className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 transition-colors cursor-pointer"
                 title={t('markAllAsRead')}
               >
                 <Check className="w-3.5 h-3.5" />
@@ -80,6 +84,7 @@ export function NotificationBell() {
                 {notifications.map((notif) => (
                   <button
                     key={notif.id}
+                    id={`notification-item-${notif.id}`}
                     onClick={() => !notif.isRead && markAsRead(notif.id)}
                     className={`w-full text-left p-4 hover:bg-slate-50 transition-colors border-b border-slate-50 flex gap-3 ${
                       !notif.isRead ? 'bg-blue-50/30' : ''
@@ -98,7 +103,7 @@ export function NotificationBell() {
                         </span>
                       </div>
                       <p className={`text-xs line-clamp-2 ${!notif.isRead ? 'text-slate-700' : 'text-slate-500'}`}>
-                        {notif.body}
+                        {notif.content}
                       </p>
                     </div>
                     {!notif.isRead && (
@@ -112,7 +117,7 @@ export function NotificationBell() {
           
           {notifications.length > 0 && (
             <div className="p-3 bg-slate-50 border-t border-slate-100 text-center">
-              <button className="text-sm text-blue-600 font-medium hover:text-blue-800 transition-colors">
+              <button className="text-sm text-blue-600 font-medium hover:text-blue-800 transition-colors cursor-pointer">
                 {t('viewAll')}
               </button>
             </div>
