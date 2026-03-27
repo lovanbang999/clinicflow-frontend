@@ -790,7 +790,8 @@
         "week": "Tuần này",
         "month": "Tháng này",
         "quarter": "Quý này"
-      }
+      },
+      "noActivity": "Không có dữ liệu trong khoảng thời gian này"
     },
     "bookingOverview": {
       "title": "Tổng quan lịch hẹn",
@@ -1499,24 +1500,38 @@
     "rememberToSave": "Nhớ lưu trước khi rời trang!"
   },
   "adminAnalytics": {
-    "title": "Báo Cáo & Thống Kê",
-    "subtitle": "Tổng quan hoạt động phòng khám",
-    "kpi": {
-      "totalUsers": "Tổng Người Dùng",
-      "doctorsCount": "Bác sĩ: {count}",
-      "totalBookings": "Tổng Lịch Hẹn",
-      "allTime": "Toàn bộ thời gian",
-      "growthRate": "Tỷ Lệ Tăng Trưởng",
-      "revenueGrowth": "doanh thu",
-      "comparedToLastMonth": "So với tháng trước",
-      "totalRevenue": "Tổng Doanh Thu",
-      "thisMonth": "Tháng này: {amount}"
+    "title": "Thống kê & Phân tích",
+    "subtitle": "Báo cáo chuyên sâu về hiệu suất và tăng trưởng của phòng khám",
+    "filter": {
+      "pick-date": "Chọn mốc thời gian",
+      "to": "đến",
+      "select-range": "Chọn khoảng thời gian"
     },
-    "bookingStatus": {
-      "upcoming": "Chờ Xử Lý",
-      "inProgress": "Đang Khám",
-      "completed": "Hoàn Thành",
-      "cancelled": "Đã Hủy"
+    "kpi": {
+      "totalUsers": "Tổng số bệnh nhân",
+      "totalBookings": "Tổng số lịch hẹn",
+      "growthRate": "Tỷ lệ tăng trưởng",
+      "totalRevenue": "Tổng doanh thu",
+      "doctorsCount": "{count} bác sĩ hoạt động",
+      "allTime": "Toàn thời gian",
+      "revenueGrowth": "Tăng trưởng doanh thu",
+      "comparedToLastMonth": "So với tháng trước",
+      "thisMonth": "Doanh thu kỳ này: {amount}"
+    },
+    "charts": {
+      "serviceDistribution": "Cơ cấu dịch vụ",
+      "serviceDistributionDesc": "Tỷ trọng doanh thu theo từng loại dịch vụ",
+      "revenue": "Doanh thu",
+      "bookings": "lịch hẹn",
+      "appointmentStatus": "Trạng thái lịch hẹn",
+      "appointmentStatusDesc": "Phân bổ kết quả các cuộc hẹn trong kỳ",
+      "statusCompleted": "Hoàn thành",
+      "statusUpcoming": "Sắp tới",
+      "statusCancelled": "Đã hủy",
+      "statusInProgress": "Đang khám",
+      "count": "Số lượng",
+      "totalBookings": "Tổng số ca",
+      "successRate": "Tỷ lệ thành công"
     }
   },
   "technician": {
