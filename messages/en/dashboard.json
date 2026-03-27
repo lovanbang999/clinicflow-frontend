@@ -790,7 +790,8 @@
         "week": "This Week",
         "month": "This Month",
         "quarter": "This Quarter"
-      }
+      },
+      "noActivity": "No activity recorded for this period"
     },
     "bookingOverview": {
       "title": "Booking Overview",
@@ -1498,27 +1499,41 @@
     "perWeek": "/week",
     "rememberToSave": "Remember to save before leaving!"
   },
-  "adminAnalytics": {
-    "title": "Reports & Analytics",
-    "subtitle": "Overview of clinic activity",
-    "kpi": {
-      "totalUsers": "Total Users",
-      "doctorsCount": "Doctors: {count}",
-      "totalBookings": "Total Bookings",
-      "allTime": "All time",
-      "growthRate": "Growth Rate",
-      "revenueGrowth": "revenue",
-      "comparedToLastMonth": "Compared to last month",
-      "totalRevenue": "Total Revenue",
-      "thisMonth": "This month: {amount}"
+    "adminAnalytics": {
+      "title": "Statistics & Analytics",
+      "subtitle": "In-depth reports on clinic performance and growth",
+      "filter": {
+        "pick-date": "Pick a date",
+        "to": "to",
+        "select-range": "Select date range"
+      },
+      "kpi": {
+        "totalUsers": "Total Patients",
+        "totalBookings": "Total Bookings",
+        "growthRate": "Growth Rate",
+        "totalRevenue": "Total Revenue",
+        "doctorsCount": "{count} active doctors",
+        "allTime": "All time",
+        "revenueGrowth": "Revenue Growth",
+        "comparedToLastMonth": "Compared to last month",
+        "thisMonth": "Period revenue: {amount}"
+      },
+      "charts": {
+        "serviceDistribution": "Service Distribution",
+        "serviceDistributionDesc": "Revenue distribution by service type",
+        "revenue": "Revenue",
+        "bookings": "bookings",
+        "appointmentStatus": "Appointment Status",
+        "appointmentStatusDesc": "Breakdown of appointment results",
+        "statusCompleted": "Completed",
+        "statusUpcoming": "Upcoming",
+        "statusCancelled": "Cancelled",
+        "statusInProgress": "In Progress",
+        "count": "Count",
+        "totalBookings": "Total Cases",
+        "successRate": "Success Rate"
+      }
     },
-    "bookingStatus": {
-      "upcoming": "Pending",
-      "inProgress": "In Progress",
-      "completed": "Completed",
-      "cancelled": "Cancelled"
-    }
-  },
   "technician": {
     "dashboard": "Technician Dashboard",
     "title": "Technician",

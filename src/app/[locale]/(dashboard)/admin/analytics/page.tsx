@@ -5,13 +5,9 @@ import {
   useAdminTopDoctors,
   useAdminRevenueChart,
   useAdminTopServices,
+  useAdminBookingOverview,
 } from '@/lib/hooks/useAdminDashboard';
 import { useTranslations } from 'next-intl';
-import { AdminKpiCard, TrendUpBadge, StableBadge } from '@/components/dashboard/AdminKpiCard';
-import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
-import { AdminTopDoctors } from '@/components/dashboard/AdminTopDoctors';
-import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
-import { Skeleton } from '@/components/ui/skeleton';
 import {
   UsersIcon,
   CalendarBlankIcon,
@@ -19,6 +15,17 @@ import {
   CheckCircleIcon,
   ClipboardTextIcon,
 } from '@phosphor-icons/react';
+import * as React from 'react';
+import { AdminKpiCard, TrendUpBadge, StableBadge } from '@/components/dashboard/AdminKpiCard';
+import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
+import { AdminTopDoctors } from '@/components/dashboard/AdminTopDoctors';
+import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
+import { DateRangePicker } from '@/components/dashboard/DateRangePicker';
+import { AdminServiceDistributionChart } from '@/components/dashboard/AdminServiceDistributionChart';
+import { AdminAppointmentStatusChart } from '@/components/dashboard/AdminAppointmentStatusChart';
+import { Skeleton } from '@/components/ui/skeleton';
+import { DateRange } from 'react-day-picker';
+import { startOfMonth, endOfMonth } from 'date-fns';
 
 function formatVND(val: number): string {
   if (val >= 1_000_000_000) return `${(val / 1_000_000_000).toFixed(1)}B ₫`;
@@ -27,25 +34,42 @@ function formatVND(val: number): string {
   return `${val} ₫`;
 }
 
-export default function AdminReportsPage() {
+export default function AdminAnalyticsPage() {
   const t = useTranslations('dashboard.adminAnalytics');
 
-  const { data: stats, loading: loadingStats } = useAdminStats();
-  const { data: topDoctors, loading: loadingTopDoctors } = useAdminTopDoctors();
-  const { data: topServices, loading: loadingTopServices } = useAdminTopServices();
-  useAdminRevenueChart('month');
+  // Default to current month
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: startOfMonth(new Date()),
+    to: endOfMonth(new Date()),
+  });
+
+  // Convert DateRange to Api DateRange
+  const apiRange = React.useMemo(() => ({
+    from: date?.from?.toISOString(),
+    to: date?.to?.toISOString(),
+  }), [date]);
+
+  const { data: stats, loading: loadingStats } = useAdminStats(apiRange);
+  const { data: topDoctors, loading: loadingTopDoctors } = useAdminTopDoctors(apiRange);
+  const { data: topServices, loading: loadingTopServices } = useAdminTopServices(apiRange);
+  const { data: bookingOverview, loading: loadingBooking } = useAdminBookingOverview(apiRange);
+  const { data: revenueData, loading: loadingRevenue } = useAdminRevenueChart('month', apiRange);
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="px-8 py-6  space-y-6 mx-auto">
       {/* Page Header */}
-      <div className="flex items-center gap-3">
-        <div className="size-9 rounded-xl bg-[#1392ec]/10 text-[#1392ec] flex items-center justify-center">
-          <ClipboardTextIcon size={20} weight="duotone" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="size-9 rounded-xl bg-[#1392ec]/10 text-[#1392ec] flex items-center justify-center">
+            <ClipboardTextIcon size={20} weight="duotone" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-slate-900">{t('title')}</h1>
+            <p className="text-xs text-slate-500 mt-0.5">{t('subtitle')}</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-xl font-bold text-slate-900">{t('title')}</h1>
-          <p className="text-xs text-slate-500 mt-0.5">{t('subtitle')}</p>
-        </div>
+
+        <DateRangePicker date={date} setDate={setDate} />
       </div>
 
       {/* KPI Cards */}
@@ -100,12 +124,33 @@ export default function AdminReportsPage() {
         )}
       </div>
 
-      {/* Revenue Chart + Top Doctors + Top Services */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2">
-          <AdminRevenueTrendChart />
+      {/* Revenue Trend - Main Focus */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+        <div className="lg:col-span-2 h-full">
+          <AdminRevenueTrendChart 
+            data={revenueData} 
+            loading={loadingRevenue} 
+            isExternalRange={!!date?.from}
+            chartHeight="h-full min-h-[300px]"
+          />
         </div>
-        <div className="space-y-4">
+        
+        <div className="h-full">
+          <AdminAppointmentStatusChart 
+            overview={bookingOverview} 
+            loading={loadingBooking} 
+          />
+        </div>
+      </div>
+
+      {/* Secondary Row: Service Dist + Ranking */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <AdminServiceDistributionChart 
+          services={topServices} 
+          loading={loadingTopServices} 
+        />
+        
+        <div className="space-y-6">
           {loadingTopDoctors ? (
             <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
@@ -113,6 +158,7 @@ export default function AdminReportsPage() {
           ) : (
             <AdminTopDoctors doctors={topDoctors ?? []} />
           )}
+          
           {loadingTopServices ? (
             <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
@@ -122,8 +168,6 @@ export default function AdminReportsPage() {
           )}
         </div>
       </div>
-
-
     </div>
   );
 }

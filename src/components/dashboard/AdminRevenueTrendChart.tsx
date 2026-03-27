@@ -25,6 +25,14 @@ import html2canvas from 'html2canvas';
 import { useTranslations } from 'next-intl';
 import { DownloadIcon, UserIcon } from '@phosphor-icons/react';
 import { useAdminRevenueChart } from '@/lib/hooks/useAdminDashboard';
+import { RevenueChartItem } from '@/lib/api/dashboard';
+
+interface AdminRevenueTrendChartProps {
+  data?: RevenueChartItem[];
+  loading?: boolean;
+  isExternalRange?: boolean;
+  chartHeight?: string;
+}
 
 const chartConfig = {
   revenue: {
@@ -45,16 +53,25 @@ function formatDay(dateStr: string): string {
   return d.toLocaleString('en-US', { month: 'short', day: 'numeric' });
 }
 
-export function AdminRevenueTrendChart() {
-  const [range, setRange] = useState<'week' | 'month' | 'quarter'>('week');
+export function AdminRevenueTrendChart({ 
+  data: externalData, 
+  loading: externalLoading,
+  isExternalRange = false,
+  chartHeight = 'h-[200px]' 
+}: AdminRevenueTrendChartProps) {
+  const [range, setRange] = useState<'week' | 'month' | 'quarter'>('month');
   const [isExporting, setIsExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('dashboard.admin.chart');
 
-  const { data, loading } = useAdminRevenueChart(range);
+  // If external data is NOT provided, use internal hook
+  const { data: internalData, loading: internalLoading } = useAdminRevenueChart(range);
+  
+  const data = externalData || internalData;
+  const loading = externalLoading !== undefined ? externalLoading : internalLoading;
 
   const chartData = (data ?? []).map((point) => ({
-    label: range === 'quarter' ? formatMonth(point.date) : formatDay(point.date),
+    label: isExternalRange ? formatDay(point.date) : (range === 'quarter' ? formatMonth(point.date) : formatDay(point.date)),
     revenue: point.revenue,
   }));
 
@@ -112,7 +129,7 @@ export function AdminRevenueTrendChart() {
   };
 
   return (
-    <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm">
+    <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm h-full flex flex-col">
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
         <div>
@@ -120,19 +137,21 @@ export function AdminRevenueTrendChart() {
           <p className="text-[#94a3b8] text-xs font-medium mt-0.5">{t('clinicalEarnings')}</p>
         </div>
         <div className="flex items-center gap-3">
-          <Select value={range} onValueChange={(v) => setRange(v as 'week' | 'month' | 'quarter')}>
-            <SelectTrigger
-              size="sm"
-              className="w-[140px] text-xs font-semibold text-[#64748b] border-[#e5e7eb] bg-[#f8fafc] rounded-lg"
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent position='popper' side='bottom'>
-              <SelectItem value="week">{t('ranges.week')}</SelectItem>
-              <SelectItem value="month">{t('ranges.month')}</SelectItem>
-              <SelectItem value="quarter">{t('ranges.quarter')}</SelectItem>
-            </SelectContent>
-          </Select>
+          {!isExternalRange && (
+            <Select value={range} onValueChange={(v) => setRange(v as 'week' | 'month' | 'quarter')}>
+              <SelectTrigger
+                size="sm"
+                className="w-[140px] text-xs font-semibold text-[#64748b] border-[#e5e7eb] bg-[#f8fafc] rounded-lg"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent position='popper' side='bottom'>
+                <SelectItem value="week">{t('ranges.week')}</SelectItem>
+                <SelectItem value="month">{t('ranges.month')}</SelectItem>
+                <SelectItem value="quarter">{t('ranges.quarter')}</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
           <button
             onClick={handleExport}
             disabled={isExporting || loading}
@@ -157,8 +176,8 @@ export function AdminRevenueTrendChart() {
           <p className="text-sm text-slate-400">{t('noActivity')}</p>
         </div>
       ) : (
-        <div ref={chartRef} className="pt-2 bg-white pb-2 pr-4">
-          <ChartContainer config={chartConfig} className="h-[200px] w-full">
+        <div ref={chartRef} className="pt-2 bg-white pb-2 pr-4 flex-1">
+          <ChartContainer config={chartConfig} className={`w-full ${chartHeight}`}>
           <AreaChart
             data={chartData}
             margin={{ top: 8, right: 4, left: 0, bottom: 0 }}

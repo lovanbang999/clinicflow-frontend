@@ -37,35 +37,65 @@ export interface TopServiceItem {
   estimatedRevenue: number;
 }
 
+export interface BookingOverview {
+  total: number;
+  completed: number;
+  upcoming: number;
+  cancelled: number;
+  inProgress: number;
+  completedPct: number;
+  upcomingPct: number;
+  cancelledPct: number;
+}
+
+export interface DateRange {
+  from?: string;
+  to?: string;
+}
+
 export const dashboardApi = {
-  // Stats
   // Stats (Overview)
-  getAdminStats: async (): Promise<AdminDashboardOverview> => {
-    const response = await apiClient.get<ApiResponse<AdminDashboardOverview>>('/admin/dashboard/overview');
-    if (!response.data.data) throw new Error('Failed to fetch admin dashboard overview');
+  getAdminStats: async (range?: DateRange): Promise<AdminDashboardOverview> => {
+    const response = await apiClient.get<ApiResponse<AdminDashboardOverview>>('/admin/analytics/overview', {
+      params: range,
+    });
+    if (!response.data.data) throw new Error('Failed to fetch admin stats overview');
     return response.data.data;
   },
 
   // Revenue Chart
-  getAdminRevenueChart: async (period: 'week' | 'month' | 'quarter'): Promise<RevenueChartItem[]> => {
-    const response = await apiClient.get<ApiResponse<{ chart: RevenueChartItem[] }>>('/admin/dashboard/revenue-chart', {
-      params: { period },
+  getAdminRevenueChart: async (period?: 'week' | 'month' | 'quarter', range?: DateRange): Promise<RevenueChartItem[]> => {
+    const response = await apiClient.get<ApiResponse<{ chart: RevenueChartItem[] }>>('/admin/analytics/revenue-chart', {
+      params: { ...range, period },
     });
     if (!response.data.data) throw new Error('Failed to fetch revenue chart');
     return response.data.data.chart;
   },
 
   // Top Doctors
-  getAdminTopDoctors: async (): Promise<TopDoctorItem[]> => {
-    const response = await apiClient.get<ApiResponse<{ topDoctors: TopDoctorItem[] }>>('/admin/dashboard/top-doctors');
+  getAdminTopDoctors: async (range?: DateRange): Promise<TopDoctorItem[]> => {
+    const response = await apiClient.get<ApiResponse<{ topDoctors: TopDoctorItem[] }>>('/admin/analytics/top-doctors', {
+      params: range,
+    });
     if (!response.data.data) throw new Error('Failed to fetch top doctors');
     return response.data.data.topDoctors;
   },
 
   // Top Services
-  getAdminTopServices: async (): Promise<TopServiceItem[]> => {
-    const response = await apiClient.get<ApiResponse<{ topServices: TopServiceItem[] }>>('/admin/dashboard/top-services');
+  getAdminTopServices: async (range?: DateRange): Promise<TopServiceItem[]> => {
+    const response = await apiClient.get<ApiResponse<{ topServices: TopServiceItem[] }>>('/admin/analytics/top-services', {
+      params: range,
+    });
     if (!response.data.data) throw new Error('Failed to fetch top services');
     return response.data.data.topServices;
+  },
+
+  // Booking Overview (Status Chart)
+  getBookingOverview: async (range?: DateRange): Promise<BookingOverview> => {
+    const response = await apiClient.get<ApiResponse<BookingOverview>>('/admin/analytics/booking-overview', {
+      params: range,
+    });
+    if (!response.data.data) throw new Error('Failed to fetch booking overview');
+    return response.data.data;
   },
 };
