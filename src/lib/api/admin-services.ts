@@ -11,6 +11,9 @@ export interface AdminService {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
+  category?: string | null;
+  preparationNotes?: string | null;
+  tags: string[];
   isActive: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -27,6 +30,19 @@ export interface ServiceStats {
 export interface ServiceFiltersQuery {
   isActive?: boolean;
   search?: string;
+  category?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface PaginatedServices {
+  services: AdminService[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
 export interface AdminCreateServiceDto {
@@ -36,6 +52,9 @@ export interface AdminCreateServiceDto {
   price: number;
   durationMinutes: number;
   maxSlotsPerHour: number;
+  category?: string;
+  preparationNotes?: string;
+  tags?: string[];
   isActive?: boolean;
 }
 
@@ -65,16 +84,21 @@ export const adminServicesApi = {
   },
 
   // GET /admin/services
-  getServices: async (filters?: ServiceFiltersQuery): Promise<AdminService[]> => {
+  getServices: async (
+    filters?: ServiceFiltersQuery,
+  ): Promise<PaginatedServices> => {
     try {
-      const res = await apiClient.get<ApiResponse<AdminService[]>>(
+      const res = await apiClient.get<ApiResponse<PaginatedServices>>(
         '/admin/services',
         { params: filters },
       );
-      const raw = res.data;
-      // Backend wraps in { success, data, ... }
-      const list = Array.isArray(raw.data) ? raw.data : [];
-      return list;
+      if (!res.data.data) {
+        return {
+          services: [],
+          pagination: { total: 0, page: 1, limit: 10, totalPages: 0 },
+        };
+      }
+      return res.data.data;
     } catch (error) {
       return handleError(error);
     }
