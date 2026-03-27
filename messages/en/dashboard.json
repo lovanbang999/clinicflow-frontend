@@ -1477,7 +1477,24 @@
       },
       "status": "Appointment Status",
       "clearAll": "Clear All",
-      "noData": "No schedules found for this week"
+      "noData": "No schedules found for this week",
+      "prevWeek": "Previous Week",
+      "nextWeek": "Next Week",
+      "prevDay": "Previous Day",
+      "nextDay": "Next Day",
+      "today": "Today",
+      "filterDoctor": "Doctor",
+      "allDoctors": "All Doctors",
+      "clearDoctorFilter": "Clear Doctor Filter",
+      "slot": {
+        "edit": "Edit Slot",
+        "delete": "Delete Slot",
+        "restore": "Restore Slot",
+        "confirmDelete": "Delete this slot?",
+        "confirmDeleteDesc": "This will deactivate the slot. Existing bookings will not be affected.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      }
     },
     "addSlot": {
       "title": "Add New Schedule Slot",
