@@ -2,7 +2,14 @@ import api from './client';
 
 export interface InAppNotification {
   id: string;
-  type: 'APPOINTMENT_REMINDER' | 'BOOKING_CONFIRMED' | 'BOOKING_CANCELLED' | 'LAB_RESULT_READY' | 'INVOICE_ISSUED' | 'SYSTEM';
+  type:
+    | 'APPOINTMENT_REMINDER'
+    | 'BOOKING_CONFIRMED'
+    | 'BOOKING_CANCELLED'
+    | 'LAB_RESULT_READY'
+    | 'INVOICE_ISSUED'
+    | 'SYSTEM'
+    | 'ADMIN_ACTIVITY';
   title: string;
   content: string;
   isRead: boolean;

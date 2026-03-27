@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { TopServiceItem } from '@/lib/api/dashboard';
-import { ArrowUpRightIcon } from '@phosphor-icons/react';
+import Link from 'next/link';
 
 const SERVICE_COLORS = [
   'bg-blue-100 text-blue-600',
@@ -32,7 +32,7 @@ function ServiceInitials({ name, colorClass }: { name: string; colorClass: strin
 }
 
 export function AdminTopServices({ services }: Props) {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('dashboard.admin.topServices');
   const safeServices = Array.isArray(services) ? services : [];
 
   const fmtRev = (n: number) =>
@@ -43,20 +43,22 @@ export function AdminTopServices({ services }: Props) {
   const maxCount = Math.max(...safeServices.map((s) => s.bookingsCount), 1);
 
   return (
-    <div className="bg-white rounded-2xl border border-[#e5e7eb] shadow-sm p-5 flex flex-col gap-4">
+    <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-sm font-bold text-slate-800">{t('topServices.title')}</h3>
-          <p className="text-xs text-slate-400 mt-0.5">{t('topServices.subtitle')}</p>
+          <h3 className="text-sm font-bold text-slate-800">{t('title')}</h3>
+          <p className="text-xs text-slate-400 mt-0.5">{t('subtitle')}</p>
         </div>
-        <ArrowUpRightIcon size={18} className="text-slate-300" />
+        <Link href="/admin/services" className="text-[#1392ec] text-xs font-bold hover:underline">
+          {t('viewAll')}
+        </Link>
       </div>
 
       {/* List */}
       {safeServices.length === 0 ? (
         <div className="flex-1 flex items-center justify-center py-8 text-sm text-slate-400">
-          {t('topServices.noData')}
+          {t('noData')}
         </div>
       ) : (
         <ul className="space-y-3">

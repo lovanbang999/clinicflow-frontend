@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { dashboardApi, AdminStatsResponse, RevenueChartItem, TopDoctorItem, TopServiceItem } from '@/lib/api/dashboard';
+import { dashboardApi, AdminDashboardOverview, RevenueChartItem, TopDoctorItem, TopServiceItem } from '@/lib/api/dashboard';
 import { toast } from 'sonner';
 
 // Hook: KPI Overview
 export const useAdminStats = () => {
-  const [data, setData] = useState<AdminStatsResponse | null>(null);
+  const [data, setData] = useState<AdminDashboardOverview | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetch = useCallback(async () => {

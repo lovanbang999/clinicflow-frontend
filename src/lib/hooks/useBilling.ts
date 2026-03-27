@@ -47,7 +47,7 @@ export const useBilling = () => {
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(false);
-  const [pagination, setPagination] = useState<Record<string, unknown>>({});
+  const [pagination, setPagination] = useState<any>({});
   
   // Single invoice detail
   const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null);

@@ -39,6 +39,7 @@ export function useQueue(doctorId?: string) {
         queueDate: today,
         queuePosition: 0,
         estimatedWaitMinutes: 0,
+        isPreBooked: booking.startTime !== null,
         booking: booking
       }));
 

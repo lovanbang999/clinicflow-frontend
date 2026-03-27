@@ -772,13 +772,25 @@
       "vsLastMonth": "so với tháng trước",
       "thisMonth": "+{count} tháng này",
       "today": "{count} hôm nay",
-      "todayOnly": "Hôm nay"
+      "todayOnly": "Hôm nay",
+      "thisMonthOnly": "Chỉ tính tháng này",
+      "revenueGrowth": "Tăng trưởng doanh thu"
     },
     "chart": {
       "revenueTrend": "Xu hướng doanh thu",
+      "export": "Xuất file",
+      "export-hint": "Xuất biểu đồ",
+      "revenueProgress": "Tiến độ doanh thu",
+      "revenueSubtitle": "Theo dõi hiệu suất doanh thu của phòng khám",
       "clinicalEarnings": "Tăng trưởng doanh thu phòng khám",
       "last6Months": "6 tháng gần đây",
-      "yearToDate": "Từ đầu năm"
+      "yearToDate": "Từ đầu năm",
+      "ranges": {
+        "today": "Hôm nay",
+        "week": "Tuần này",
+        "month": "Tháng này",
+        "quarter": "Quý này"
+      }
     },
     "bookingOverview": {
       "title": "Tổng quan lịch hẹn",
@@ -787,6 +799,20 @@
       "upcoming": "Sắp tới",
       "cancelled": "Đã hủy",
       "total": "Tổng cộng"
+    },
+    "recentActivity": {
+      "title": "Hoạt động gần đây",
+      "subtitle": "Cập nhật hệ thống thời gian thực",
+      "noActivity": "Chưa có hoạt động nào",
+      "viewAll": "Xem tất cả",
+      "newPatientRegistered": "Bệnh nhân mới đăng ký",
+      "appointmentConfirmed": "Lịch hẹn đã xác nhận",
+      "paymentReceived": "Đã nhận thanh toán",
+      "appointmentCancelled": "Lịch hẹn đã hủy",
+      "newServiceAdded": "Thêm dịch vụ mới",
+      "doctorProfileUpdated": "Cập nhật hồ sơ bác sĩ",
+      "scheduleUpdated": "Cập nhật lịch làm việc",
+      "newUserAccountCreated": "Tạo tài khoản người dùng mới"
     },
     "monthlyStats": {
       "title": "Tháng này",
@@ -819,20 +845,8 @@
     "topServices": {
       "title": "Dịch vụ nổi bật",
       "subtitle": "Theo lượt đặt tháng này",
-      "noData": "Chưa có dữ liệu dịch vụ"
-    },
-    "recentActivity": {
-      "title": "Hoạt động gần đây",
-      "subtitle": "Sự kiện hệ thống mới nhất",
-      "viewAll": "Xem tất cả",
-      "newPatientRegistered": "Bệnh nhân mới đăng ký",
-      "appointmentConfirmed": "Lịch hẹn đã xác nhận",
-      "paymentReceived": "Đã nhận thanh toán",
-      "appointmentCancelled": "Lịch hẹn đã hủy",
-      "newServiceAdded": "Thêm dịch vụ mới",
-      "doctorProfileUpdated": "Cập nhật hồ sơ bác sĩ",
-      "scheduleUpdated": "Cập nhật lịch làm việc",
-      "newUserAccountCreated": "Tạo tài khoản người dùng mới"
+      "noData": "Chưa có dữ liệu dịch vụ",
+      "viewAll": "Xem tất cả"
     },
     "userManagement": {
       "addUser": {

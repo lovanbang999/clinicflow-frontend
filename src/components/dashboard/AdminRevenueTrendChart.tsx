@@ -1,8 +1,5 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
-import { useTranslations } from 'next-intl';
 import {
   AreaChart,
   Area,
@@ -10,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
 } from 'recharts';
-import { DownloadSimple as DownloadIcon } from '@phosphor-icons/react';
 import {
   ChartContainer,
   ChartTooltip,
@@ -24,6 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useState, useRef } from 'react';
+import html2canvas from 'html2canvas';
+import { useTranslations } from 'next-intl';
+import { DownloadIcon, UserIcon } from '@phosphor-icons/react';
 import { useAdminRevenueChart } from '@/lib/hooks/useAdminDashboard';
 
 const chartConfig = {
@@ -46,7 +46,7 @@ function formatDay(dateStr: string): string {
 }
 
 export function AdminRevenueTrendChart() {
-  const [range, setRange] = useState<'week' | 'month' | 'quarter'>('month');
+  const [range, setRange] = useState<'week' | 'month' | 'quarter'>('week');
   const [isExporting, setIsExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('dashboard.admin.chart');
@@ -65,6 +65,39 @@ export function AdminRevenueTrendChart() {
       const canvas = await html2canvas(chartRef.current, {
         backgroundColor: '#ffffff',
         scale: 2,
+        logging: false,
+        useCORS: true,
+        onclone: (clonedDoc) => {
+          // Find all elements in the cloned document and strip oklch/lab colors if they exist
+          // Although we changed globals.css, Tailwind or other libraries might still inject them.
+          const elements = clonedDoc.getElementsByTagName('*');
+          for (let i = 0; i < elements.length; i++) {
+            const el = elements[i] as HTMLElement;
+            if (el.style) {
+              // Simple cleanup - if any style contains 'oklch' or 'lab', we clear it or try to fallback
+              // This is a safety measure.
+              const style = el.style as unknown as Record<string, string>;
+              const styleKeys = Object.keys(style);
+              styleKeys.forEach(key => {
+                const val = style[key];
+                if (typeof val === 'string' && (val.includes('oklch') || val.includes('lab'))) {
+                  style[key] = ''; // Remove problematic style
+                }
+              });
+            }
+          }
+          
+          // Also check for <style> tags and remove oklch/lab definitions
+          const styles = clonedDoc.getElementsByTagName('style');
+          for (let i = 0; i < styles.length; i++) {
+            let content = styles[i].innerHTML;
+            if (content.includes('oklch(') || content.includes('lab(')) {
+              // Regex to remove properties using oklch or lab
+              content = content.replace(/[a-z-]+\s*:\s*(oklch|lab)\([^)]+\);?/g, '');
+              styles[i].innerHTML = content;
+            }
+          }
+        }
       });
       const dataUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
@@ -95,19 +128,19 @@ export function AdminRevenueTrendChart() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent position='popper' side='bottom'>
-              <SelectItem value="week">Past Week</SelectItem>
-              <SelectItem value="month">Past Month</SelectItem>
-              <SelectItem value="quarter">Past Quarter</SelectItem>
+              <SelectItem value="week">{t('ranges.week')}</SelectItem>
+              <SelectItem value="month">{t('ranges.month')}</SelectItem>
+              <SelectItem value="quarter">{t('ranges.quarter')}</SelectItem>
             </SelectContent>
           </Select>
           <button
             onClick={handleExport}
             disabled={isExporting || loading}
             className="flex items-center justify-center gap-2 h-9 px-3 rounded-lg border border-[#e5e7eb] bg-white text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Export PNG"
+            title={t('export-hint')}
           >
             <DownloadIcon size={16} weight="bold" />
-            <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Export'}</span>
+            <span className="hidden sm:inline">{isExporting ? '...' : t('export')}</span>
           </button>
         </div>
       </div>
@@ -115,6 +148,13 @@ export function AdminRevenueTrendChart() {
       {loading ? (
         <div className="h-[200px] flex items-center justify-center">
           <div className="size-6 border-2 border-[#1392ec] border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : chartData.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <div className="size-12 rounded-full bg-slate-50 flex items-center justify-center mb-3">
+            <UserIcon weight="fill" className="text-slate-300 text-2xl" />
+          </div>
+          <p className="text-sm text-slate-400">{t('noActivity')}</p>
         </div>
       ) : (
         <div ref={chartRef} className="pt-2 bg-white pb-2 pr-4">

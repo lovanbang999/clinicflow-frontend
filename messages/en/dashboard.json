@@ -772,13 +772,25 @@
       "vsLastMonth": "vs last month",
       "thisMonth": "+{count} this month",
       "today": "{count} today",
-      "todayOnly": "Today"
+      "todayOnly": "Today",
+      "thisMonthOnly": "This month only",
+      "revenueGrowth": "Revenue growth"
     },
     "chart": {
       "revenueTrend": "Revenue Trend",
+      "export": "Export",
+      "export-hint": "Export chart",
+      "revenueProgress": "Revenue Progress",
+      "revenueSubtitle": "Track your clinic's revenue performance",
       "clinicalEarnings": "Clinical earnings growth",
       "last6Months": "Last 6 Months",
-      "yearToDate": "Year to Date"
+      "yearToDate": "Year to Date",
+      "ranges": {
+        "today": "Today",
+        "week": "This Week",
+        "month": "This Month",
+        "quarter": "This Quarter"
+      }
     },
     "bookingOverview": {
       "title": "Booking Overview",
@@ -819,11 +831,13 @@
     "topServices": {
       "title": "Top Services",
       "subtitle": "By bookings this month",
-      "noData": "No service data available yet"
+      "noData": "No service data available yet",
+      "viewAll": "View All"
     },
     "recentActivity": {
       "title": "Recent Activity",
-      "subtitle": "Latest system events",
+      "subtitle": "Real-time system updates",
+      "noActivity": "No recent activity",
       "viewAll": "View All",
       "newPatientRegistered": "New patient registered",
       "appointmentConfirmed": "Appointment confirmed",

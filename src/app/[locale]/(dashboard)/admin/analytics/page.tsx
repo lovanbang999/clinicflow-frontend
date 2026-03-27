@@ -65,16 +65,16 @@ export default function AdminReportsPage() {
               iconBg="bg-blue-50"
               iconColor="text-[#1392ec]"
               title={t('kpi.totalUsers')}
-              value={(stats?.newPatients.value ?? 0).toLocaleString('vi-VN')}
-              badge={<TrendUpBadge value={`+${stats?.newPatients.trend ?? 0}%`} />}
-              sub={t('kpi.doctorsCount', { count: 0 })}
+              value={(stats?.totalUsers ?? 0).toLocaleString('vi-VN')}
+              badge={<TrendUpBadge value={`+${stats?.trends.newPatientsThisMonth ?? 0}`} />}
+              sub={t('kpi.doctorsCount', { count: stats?.totalDoctors ?? 0 })}
             />
             <AdminKpiCard
               icon={CalendarBlankIcon}
               iconBg="bg-amber-50"
               iconColor="text-amber-600"
               title={t('kpi.totalBookings')}
-              value={(stats?.appointments.value ?? 0).toLocaleString('vi-VN')}
+              value={(stats?.totalBookings ?? 0).toLocaleString('vi-VN')}
               badge={<StableBadge />}
               sub={t('kpi.allTime')}
             />
@@ -83,7 +83,7 @@ export default function AdminReportsPage() {
               iconBg="bg-emerald-50"
               iconColor="text-emerald-600"
               title={t('kpi.growthRate')}
-              value={`${stats?.revenue.trend ?? 0}%`}
+              value={`${stats?.trends.revenueGrowthPct ?? 0}%`}
               badge={<TrendUpBadge value={t('kpi.revenueGrowth')} />}
               sub={t('kpi.comparedToLastMonth')}
             />
@@ -92,9 +92,9 @@ export default function AdminReportsPage() {
               iconBg="bg-purple-50"
               iconColor="text-purple-600"
               title={t('kpi.totalRevenue')}
-              value={formatVND(stats?.revenue.value ?? 0)}
-              badge={<TrendUpBadge value={`+${stats?.revenue.trend ?? 0}%`} />}
-              sub={t('kpi.thisMonth', { amount: 0 })}
+              value={formatVND(stats?.totalRevenue ?? 0)}
+              badge={<TrendUpBadge value={`+${stats?.trends.revenueGrowthPct ?? 0}%`} />}
+              sub={t('kpi.thisMonth', { amount: formatVND(stats?.trends.currentMonthRevenue ?? 0) })}
             />
           </>
         )}
