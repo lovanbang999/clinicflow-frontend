@@ -31,8 +31,12 @@ type Props = {
   isLoading: boolean;
   page: number;
   onPageChange: (p: number) => void;
+  totalPages: number;
+  total: number;
   filterActive: FilterActive;
   onFilterChange: (f: FilterActive) => void;
+  filterCategory: string;
+  onCategoryChange: (c: string) => void;
   search: string;
   onSearchChange: (v: string) => void;
   onAddService: () => void;
@@ -46,8 +50,12 @@ export function ServiceTable({
   isLoading,
   page,
   onPageChange,
+  totalPages,
+  total,
   filterActive,
   onFilterChange,
+  filterCategory,
+  onCategoryChange,
   search,
   onSearchChange,
   onAddService,
@@ -57,10 +65,8 @@ export function ServiceTable({
 }: Props) {
   const t = useTranslations('dashboard.serviceManagement.table');
 
-  const totalPages = Math.max(1, Math.ceil(services.length / LIMIT));
-  const paged = services.slice((page - 1) * LIMIT, page * LIMIT);
-  const from = services.length > 0 ? (page - 1) * LIMIT + 1 : 0;
-  const to = (page - 1) * LIMIT + paged.length;
+  const from = total > 0 ? (page - 1) * LIMIT + 1 : 0;
+  const to = Math.min(page * LIMIT, total);
 
   const FILTER_OPTIONS: { value: 'active' | 'inactive'; label: string }[] = [
     { value: 'active', label: t('statusActive') },
@@ -99,7 +105,7 @@ export function ServiceTable({
               className="w-full bg-[#f8fafc] border border-[#e5e7eb] rounded-xl py-2 pl-9 pr-3 text-sm text-[#111518] placeholder:text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] transition-all"
             />
           </div>
-          {/* Filter */}
+          {/* Filter Status */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
@@ -152,7 +158,63 @@ export function ServiceTable({
                     onClick={() => onFilterChange('all')}
                     className="w-full text-center text-xs text-[#64748b] hover:text-red-500 py-1.5 transition-colors cursor-pointer font-medium"
                   >
-                    Clear All
+                    Clear Status Filter
+                  </button>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Filter Category */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={cn(
+                  'flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-semibold transition-all cursor-pointer',
+                  filterCategory !== 'all'
+                    ? 'border-[#1392ec] text-[#1392ec] bg-[#1392ec]/5 hover:bg-[#1392ec]/10'
+                    : 'border-[#e5e7eb] text-[#64748b] hover:bg-gray-50 hover:text-[#111518]',
+                )}
+              >
+                <FunnelIcon size={18} weight={filterCategory !== 'all' ? 'fill' : 'regular'} />
+                {t('filterCategory')}
+                {filterCategory !== 'all' && (
+                  <span className="size-5 rounded-full bg-[#1392ec] text-white text-xs flex items-center justify-center font-bold">
+                    1
+                  </span>
+                )}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="text-xs text-[#94a3b8] uppercase tracking-wider font-bold">
+                {t('categoriesLabel')}
+              </DropdownMenuLabel>
+              {[
+                'Khám bệnh',
+                'Xét nghiệm',
+                'Chẩn đoán hình ảnh',
+                'Thủ thuật/Phẫu thuật',
+                'Tiêm chủng',
+                'Phục hồi chức năng',
+                'Khác',
+              ].map((cat) => (
+                <DropdownMenuCheckboxItem
+                  key={cat}
+                  checked={filterCategory === cat}
+                  onCheckedChange={() => onCategoryChange(filterCategory === cat ? 'all' : cat)}
+                  className="cursor-pointer"
+                >
+                  {cat}
+                </DropdownMenuCheckboxItem>
+              ))}
+              {filterCategory !== 'all' && (
+                <>
+                  <DropdownMenuSeparator />
+                  <button
+                    onClick={() => onCategoryChange('all')}
+                    className="w-full text-center text-xs text-[#64748b] hover:text-red-500 py-1.5 transition-colors cursor-pointer font-medium"
+                  >
+                    {t('clearCategoryFilter')}
                   </button>
                 </>
               )}
@@ -189,14 +251,14 @@ export function ServiceTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e5e7eb]">
-            {paged.length === 0 ? (
+            {services.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-16 text-center text-[#94a3b8] text-sm">
                   {t('empty')}
                 </td>
               </tr>
             ) : (
-              paged.map((svc, idx) => (
+              services.map((svc, idx) => (
                 <ServiceTableRow
                   key={svc.id}
                   service={svc}

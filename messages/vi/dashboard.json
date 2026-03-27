@@ -1367,7 +1367,10 @@
       "previous": "Trước",
       "next": "Tiếp",
       "empty": "Không tìm thấy dịch vụ nào",
-      "searchPlaceholder": "Tìm kiếm..."
+      "searchPlaceholder": "Tìm kiếm...",
+      "filterCategory": "Danh mục",
+      "categoriesLabel": "Danh mục",
+      "clearCategoryFilter": "Xóa bộ lọc danh mục"
     },
     "addService": {
       "title": "Thêm dịch vụ mới",
@@ -1382,6 +1385,14 @@
       "durationPlaceholder": "vd. 30",
       "maxSlots": "Slot tối đa / giờ",
       "maxSlotsPlaceholder": "vd. 3",
+      "icon": "Biểu tượng",
+      "iconPlaceholder": "Chọn biểu tượng",
+      "category": "Danh mục",
+      "categoryPlaceholder": "Chọn danh mục",
+      "preparationNotes": "Lưu ý chuẩn bị",
+      "preparationNotesPlaceholder": "Hướng dẫn cho bệnh nhân (vd. nhịn ăn 8h)...",
+      "tags": "Thẻ",
+      "tagsPlaceholder": "thẻ1, thẻ2...",
       "status": "Hoạt động",
       "statusDesc": "Cho phép đặt lịch dịch vụ này",
       "cancel": "Hủy",
@@ -1407,6 +1418,14 @@
       "durationPlaceholder": "vd. 30",
       "maxSlots": "Slot tối đa / giờ",
       "maxSlotsPlaceholder": "vd. 3",
+      "icon": "Biểu tượng",
+      "iconPlaceholder": "Chọn biểu tượng",
+      "category": "Danh mục",
+      "categoryPlaceholder": "Chọn danh mục",
+      "preparationNotes": "Lưu ý chuẩn bị",
+      "preparationNotesPlaceholder": "Hướng dẫn cho bệnh nhân (vd. nhịn ăn 8h)...",
+      "tags": "Thẻ",
+      "tagsPlaceholder": "thẻ1, thẻ2...",
       "status": "Hoạt động",
       "statusDesc": "Cho phép đặt lịch dịch vụ này",
       "cancel": "Hủy",
@@ -1427,6 +1446,10 @@
       "cancel": "Hủy",
       "confirm": "Xóa dịch vụ",
       "deleting": "Đang xóa..."
+    },
+    "iconPicker": {
+      "searchPlaceholder": "Tìm kiếm biểu tượng...",
+      "noResults": "Không tìm thấy biểu tượng nào"
     }
   },
   "scheduleManagement": {

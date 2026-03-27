@@ -1367,7 +1367,10 @@
       "previous": "Prev",
       "next": "Next",
       "empty": "No services found",
-      "searchPlaceholder": "Search..."
+      "searchPlaceholder": "Search...",
+      "filterCategory": "Category",
+      "categoriesLabel": "Categories",
+      "clearCategoryFilter": "Clear Category Filter"
     },
     "addService": {
       "title": "Add New Service",
@@ -1382,6 +1385,14 @@
       "durationPlaceholder": "e.g. 30",
       "maxSlots": "Max Slots / Hour",
       "maxSlotsPlaceholder": "e.g. 3",
+      "icon": "Icon",
+      "iconPlaceholder": "Choose icon",
+      "category": "Category",
+      "categoryPlaceholder": "Select category",
+      "preparationNotes": "Preparation Notes",
+      "preparationNotesPlaceholder": "Instructions for patient (e.g. fast for 8h)...",
+      "tags": "Tags",
+      "tagsPlaceholder": "tag1, tag2...",
       "status": "Active",
       "statusDesc": "Make this service available for booking",
       "cancel": "Cancel",
@@ -1407,6 +1418,14 @@
       "durationPlaceholder": "e.g. 30",
       "maxSlots": "Max Slots / Hour",
       "maxSlotsPlaceholder": "e.g. 3",
+      "icon": "Icon",
+      "iconPlaceholder": "Choose icon",
+      "category": "Category",
+      "categoryPlaceholder": "Select category",
+      "preparationNotes": "Preparation Notes",
+      "preparationNotesPlaceholder": "Instructions for patient (e.g. fast for 8h)...",
+      "tags": "Tags",
+      "tagsPlaceholder": "tag1, tag2...",
       "status": "Active",
       "statusDesc": "Make this service available for booking",
       "cancel": "Cancel",
@@ -1427,6 +1446,10 @@
       "cancel": "Cancel",
       "confirm": "Delete Service",
       "deleting": "Deleting..."
+    },
+    "iconPicker": {
+      "searchPlaceholder": "Search icons...",
+      "noResults": "No icons found"
     }
   },
   "scheduleManagement": {

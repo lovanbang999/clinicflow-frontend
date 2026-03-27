@@ -14,6 +14,12 @@ import {
 export const useAdminServices = () => {
   // List
   const [services, setServices] = useState<AdminService[]>([]);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    limit: 10,
+    totalPages: 0,
+  });
   const [loadingList, setLoadingList] = useState(false);
 
   // Stats (stat cards)
@@ -25,7 +31,8 @@ export const useAdminServices = () => {
     setLoadingList(true);
     try {
       const data = await adminServicesApi.getServices(filters);
-      setServices(data);
+      setServices(data.services);
+      setPagination(data.pagination);
     } catch (err) {
       const error = err as Error;
       console.error('[useAdminServices.fetchServices]', error);
@@ -51,7 +58,9 @@ export const useAdminServices = () => {
   }, []);
 
   // Create
-  const createService = async (dto: AdminCreateServiceDto): Promise<AdminService> => {
+  const createService = async (
+    dto: AdminCreateServiceDto,
+  ): Promise<AdminService> => {
     try {
       const created = await adminServicesApi.createService(dto);
       toast.success('Service created successfully');
@@ -107,6 +116,7 @@ export const useAdminServices = () => {
   return {
     // State
     services,
+    pagination,
     loadingList,
     stats,
     loadingStats,
