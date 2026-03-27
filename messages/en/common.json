@@ -17,6 +17,9 @@
   "next": "Next",
   "previous": "Previous",
   "welcome": "Welcome",
+  "actions": "Actions",
+  "noData": "No data available",
+  "walkIn": "Walk-in",
   "profile": {
     "title": "Profile",
     "accountInfo": "Account Information",
