@@ -1,168 +1,132 @@
 'use client';
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import {
-  GearIcon,
-  ClockIcon,
-  BellIcon,
-  FloppyDiskIcon,
-} from '@phosphor-icons/react';
-import { Button } from '@/components/ui/button';
-
-interface SystemConfig {
-  clinicOpenTime: string;
-  clinicCloseTime: string;
-  noShowGraceMinutes: number;
-  reminderHours24: boolean;
-  reminderHours1: boolean;
-}
-
-const DEFAULTS: SystemConfig = {
-  clinicOpenTime: '07:00',
-  clinicCloseTime: '17:00',
-  noShowGraceMinutes: 30,
-  reminderHours24: true,
-  reminderHours1: true,
-};
-
-function SectionCard({ title, icon: Icon, children }: {
-  title: string;
-  icon: React.ElementType;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
-      <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-        <div className="size-8 rounded-xl bg-[#1392ec]/10 flex items-center justify-center">
-          <Icon size={16} weight="duotone" className="text-[#1392ec]" />
-        </div>
-        <h3 className="text-sm font-bold text-slate-800">{title}</h3>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-function FieldRow({ label, description, children }: { label: string; description?: string; children: React.ReactNode }) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div className="flex-1">
-        <p className="text-sm font-semibold text-slate-700">{label}</p>
-        {description && <p className="text-xs text-slate-400 mt-0.5">{description}</p>}
-      </div>
-      <div className="shrink-0">{children}</div>
-    </div>
-  );
-}
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Building2, 
+  CalendarClock, 
+  BellRing, 
+  ShieldAlert, 
+  LayoutDashboard,
+  Save
+} from 'lucide-react';
+import { ClinicProfileTab } from '@/components/dashboard/settings/ClinicProfileTab';
+import { BookingRulesTab } from '@/components/dashboard/settings/BookingRulesTab';
+import { NotificationsTab } from '@/components/dashboard/settings/NotificationsTab';
+import { SecurityTab } from '@/components/dashboard/settings/SecurityTab';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useAdminSettings } from '@/lib/hooks/useAdminSettings';
 
 export default function AdminSystemConfigPage() {
-  const [config, setConfig] = useState<SystemConfig>(DEFAULTS);
-  const [saving, setSaving] = useState(false);
+  const t = useTranslations('dashboard.admin.settings');
+  const { 
+    settings, 
+    loading, 
+    saving, 
+    updateClinicProfile, 
+    updateBookingRules, 
+    updateNotifications 
+  } = useAdminSettings();
 
-  const handleSave = async () => {
-    setSaving(true);
-    try {
-      // API call would go here: await configApi.save(config);
-      await new Promise((r) => setTimeout(r, 600)); // Simulate API
-      toast.success('Đã lưu cấu hình hệ thống');
-    } catch {
-      toast.error('Lưu thất bại, vui lòng thử lại');
-    } finally {
-      setSaving(false);
-    }
-  };
+  if (loading) {
+    return (
+      <div className="p-8 max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500">
+        <div className="space-y-2">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-5 w-96" />
+        </div>
+        <div className="space-y-4">
+          <Skeleton className="h-12 w-full max-w-md rounded-xl" />
+          <Skeleton className="h-[400px] w-full rounded-2xl" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!settings) return null;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="size-9 rounded-xl bg-[#1392ec]/10 text-[#1392ec] flex items-center justify-center">
-            <GearIcon size={20} weight="duotone" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-900">Cấu hình hệ thống</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Thiết lập thông số vận hành phòng khám</p>
-          </div>
+    <div className="p-8 mx-auto space-y-8 animate-in slide-in-from-bottom-4 duration-700">
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+            <LayoutDashboard className="w-8 h-8 text-blue-600" />
+            {t('title')}
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400 max-w-2xl">
+            {t('subtitle')}
+          </p>
         </div>
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          className="h-9 px-4 bg-[#1392ec] hover:bg-[#1180d0] text-white rounded-xl text-sm font-bold cursor-pointer"
-        >
-          <FloppyDiskIcon size={15} weight="bold" className="mr-1.5" />
-          {saving ? 'Đang lưu…' : 'Lưu cấu hình'}
-        </Button>
       </div>
 
-      {/* Working Hours */}
-      <SectionCard title="Giờ làm việc phòng khám" icon={ClockIcon}>
-        <FieldRow label="Giờ mở cửa" description="Thời gian bắt đầu nhận bệnh nhân">
-          <input
-            type="time"
-            value={config.clinicOpenTime}
-            onChange={(e) => setConfig((p) => ({ ...p, clinicOpenTime: e.target.value }))}
-            className="h-9 rounded-lg border border-slate-200 bg-white text-sm px-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 cursor-pointer"
-          />
-        </FieldRow>
-        <FieldRow label="Giờ đóng cửa" description="Thời gian kết thúc nhận lịch hẹn">
-          <input
-            type="time"
-            value={config.clinicCloseTime}
-            onChange={(e) => setConfig((p) => ({ ...p, clinicCloseTime: e.target.value }))}
-            className="h-9 rounded-lg border border-slate-200 bg-white text-sm px-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 cursor-pointer"
-          />
-        </FieldRow>
-        <FieldRow
-          label="Thời gian chờ tối đa (No-show)"
-          description="Số phút chờ trước khi đánh dấu bệnh nhân vắng mặt"
-        >
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              min={5}
-              max={120}
-              value={config.noShowGraceMinutes}
-              onChange={(e) => setConfig((p) => ({ ...p, noShowGraceMinutes: Number(e.target.value) }))}
-              className="h-9 w-20 rounded-lg border border-slate-200 bg-white text-sm px-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 text-center"
-            />
-            <span className="text-sm text-slate-500">phút</span>
-          </div>
-        </FieldRow>
-      </SectionCard>
+      <Tabs defaultValue="clinic" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:max-w-3xl h-auto p-1 bg-slate-100 dark:bg-slate-800/50 backdrop-blur-md rounded-2xl overflow-hidden shadow-sm">
+          <TabsTrigger 
+            value="clinic" 
+            className="rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-md transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <Building2 className="w-4 h-4" />
+            <span className="hidden sm:inline">{t('clinicProfile')}</span>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="booking" 
+            className="rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-green-600 data-[state=active]:shadow-md transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <CalendarClock className="w-4 h-4" />
+            <span className="hidden sm:inline">{t('bookingRules')}</span>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="notifications" 
+            className="rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-md transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <BellRing className="w-4 h-4" />
+            <span className="hidden sm:inline">{t('notifications')}</span>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="security" 
+            className="rounded-xl py-3 data-[state=active]:bg-white data-[state=active]:text-slate-600 data-[state=active]:shadow-md transition-all flex items-center gap-2 cursor-pointer"
+          >
+            <ShieldAlert className="w-4 h-4" />
+            <span className="hidden sm:inline">{t('security')}</span>
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Reminders */}
-      <SectionCard title="Nhắc lịch hẹn tự động" icon={BellIcon}>
-        <FieldRow label="Nhắc nhở trước 24 giờ" description="Gửi email cho bệnh nhân trước ngày hẹn 1 ngày">
-          <button
-            onClick={() => setConfig((p) => ({ ...p, reminderHours24: !p.reminderHours24 }))}
-            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${
-              config.reminderHours24 ? 'bg-[#1392ec]' : 'bg-slate-200'
-            }`}
-          >
-            <span
-              className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
-                config.reminderHours24 ? 'translate-x-4' : 'translate-x-1'
-              }`}
-            />
-          </button>
-        </FieldRow>
-        <FieldRow label="Nhắc nhở trước 1 giờ" description="Gửi email cho bệnh nhân trước giờ hẹn 1 tiếng">
-          <button
-            onClick={() => setConfig((p) => ({ ...p, reminderHours1: !p.reminderHours1 }))}
-            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none cursor-pointer ${
-              config.reminderHours1 ? 'bg-[#1392ec]' : 'bg-slate-200'
-            }`}
-          >
-            <span
-              className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
-                config.reminderHours1 ? 'translate-x-4' : 'translate-x-1'
-              }`}
-            />
-          </button>
-        </FieldRow>
-      </SectionCard>
+        <TabsContent value="clinic" className="animate-in fade-in zoom-in-95 duration-500">
+          <ClinicProfileTab 
+            data={settings.clinic} 
+            onSave={updateClinicProfile} 
+            loading={saving} 
+          />
+        </TabsContent>
+
+        <TabsContent value="booking" className="animate-in fade-in zoom-in-95 duration-500">
+          <BookingRulesTab 
+            data={settings.booking} 
+            onSave={updateBookingRules} 
+            loading={saving} 
+          />
+        </TabsContent>
+
+        <TabsContent value="notifications" className="animate-in fade-in zoom-in-95 duration-500">
+          <NotificationsTab 
+            data={settings.notification} 
+            onSave={updateNotifications} 
+            loading={saving} 
+          />
+        </TabsContent>
+
+        <TabsContent value="security" className="animate-in fade-in zoom-in-95 duration-500">
+          <SecurityTab />
+        </TabsContent>
+      </Tabs>
+      
+      {/* Aesthetic Footer Note */}
+      <div className="flex items-center justify-center gap-2 text-xs text-slate-400 pt-4 opacity-50">
+        <Save className="w-3 h-3" />
+        <span>{t('securityNoticeDesc')}</span>
+      </div>
     </div>
   );
 }
