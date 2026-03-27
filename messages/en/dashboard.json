@@ -399,13 +399,14 @@
       "overview": "Monitor and manage live patient check-ins",
       "chooseDoctor": "Doctor selection"
     },
-    "greetingTitle": "Dashboard - {date} 👋",
+    "greetingTitle": "Dashboard - {date}",
     "overview": "Clinic overview today",
     "stats": {
       "totalAppointments": "Total Appointments",
       "checkedIn": "Checked-in",
       "waiting": "Waiting",
-      "inQueue": "In Queue"
+      "inQueue": "In Queue",
+      "completed": "Completed"
     },
     "searchCheckIn": {
       "title": "Search & Check-in",

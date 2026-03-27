@@ -399,13 +399,14 @@
       "overview": "Theo dõi và quản lý bệnh nhân vào khám theo thời gian thực",
       "chooseDoctor": "Chọn bác sĩ"
     },
-    "greetingTitle": "Tổng quan - {date} 👋",
+    "greetingTitle": "Tổng quan - {date}",
     "overview": "Tình hình phòng khám hôm nay",
     "stats": {
       "totalAppointments": "T.Cộng lịch hẹn",
       "checkedIn": "Đã Check-in",
       "waiting": "Đang chờ",
-      "inQueue": "Trong hàng đợi"
+      "inQueue": "Trong hàng đợi",
+      "completed": "Đã xong"
     },
     "searchCheckIn": {
       "title": "Tìm kiếm & Check-in",

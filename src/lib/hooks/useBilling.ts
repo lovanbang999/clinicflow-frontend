@@ -10,6 +10,7 @@ import {
   AddPaymentDto,
   CreateInvoiceDto,
   AddInvoiceItemDto,
+  PaginationData,
 } from '../api/billing';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
@@ -47,7 +48,12 @@ export const useBilling = () => {
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(false);
-  const [pagination, setPagination] = useState<any>({});
+  const [pagination, setPagination] = useState<PaginationData>({
+    total: 0,
+    page: 1,
+    limit: 10,
+    totalPages: 0
+  });
   
   // Single invoice detail
   const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null);

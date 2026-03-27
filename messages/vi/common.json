@@ -17,6 +17,9 @@
   "next": "Tiếp theo",
   "previous": "Trước",
   "welcome": "Chào mừng",
+  "actions": "Thao tác",
+  "noData": "Không có dữ liệu",
+  "walkIn": "Khám vãng lai",
   "profile": {
     "title": "Thông tin cá nhân",
     "accountInfo": "Thông tin tài khoản",
