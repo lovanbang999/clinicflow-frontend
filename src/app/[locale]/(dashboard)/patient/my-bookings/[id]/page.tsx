@@ -120,7 +120,9 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
     ? format(createdAt, 'dd/MM/yyyy · HH:mm', { locale: dateLocale })
     : '—';
     
-  const timeRange = `${booking.startTime} – ${booking.endTime}`;
+  const timeRange = booking.startTime 
+    ? `${booking.startTime} – ${booking.endTime}`
+    : (locale === 'vi' ? 'Hàng đợi / Chờ khám' : 'Queue / Walk-in');
   const bookingCode = booking.bookingCode ?? booking.id.slice(0, 8).toUpperCase();
   const duration = booking.service?.durationMinutes
     ? `${booking.service.durationMinutes} ${td('minutesShort')}`

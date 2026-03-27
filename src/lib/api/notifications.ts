@@ -2,11 +2,12 @@ import api from './client';
 
 export interface InAppNotification {
   id: string;
-  type: 'BOOKING_CONFIRMED' | 'BOOKING_REMINDER' | 'BOOKING_CANCELLED' | 'LAB_RESULT' | 'GENERAL';
+  type: 'APPOINTMENT_REMINDER' | 'BOOKING_CONFIRMED' | 'BOOKING_CANCELLED' | 'LAB_RESULT_READY' | 'INVOICE_ISSUED' | 'SYSTEM';
   title: string;
-  body: string;
+  content: string;
   isRead: boolean;
   createdAt: string;
+  metadata?: Record<string, unknown>;
 }
 
 export const notificationsApi = {

@@ -22,11 +22,11 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 
-  const dateTime = nextBooking ? parse(
+  const dateTime = nextBooking?.startTime ? parse(
     nextBooking.startTime,
     'HH:mm',
     new Date()
-  ) : new Date();
+  ) : null;
 
   if (!nextBooking) {
     return (
@@ -86,7 +86,7 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
               <ClockIcon weight="fill" className="text-blue-500 text-xl" />
               <div>
                 <p className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-tight">Time</p>
-                <p className="text-sm font-semibold">{format(dateTime, 'HH:mm')}</p>
+                <p className="text-sm font-semibold">{dateTime ? format(dateTime, 'HH:mm') : 'Hàng đợi / Chờ khám'}</p>
               </div>
             </div>
 
