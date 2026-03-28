@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import { BellIcon } from '@phosphor-icons/react';
+import { NotificationBell } from '@/components/layout/NotificationBell';
 import { LanguageSwitcher } from '../../common/LanguageSwitcher';
 import { NAV_ITEMS_TECHNICIAN } from './TechnicianDashboardSidebar';
 
@@ -35,11 +35,7 @@ export function TechnicianDashboardHeader() {
       <div className="flex items-center gap-5">
         <LanguageSwitcher />
 
-        {/* Notifications */}
-        <button className="relative text-[#64748b] hover:text-[#1392ec] transition-colors p-1 cursor-pointer">
-          <BellIcon size={24} weight="regular" />
-          <span className="absolute top-0 right-0 size-3 bg-red-500 border-2 border-white rounded-full" />
-        </button>
+        <NotificationBell />
 
         {/* User profile */}
         <div className="flex items-center gap-3 pl-5 border-l border-[#e5e7eb]">
