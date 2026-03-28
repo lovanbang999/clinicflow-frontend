@@ -1002,6 +1002,9 @@
             "action": "Thao tác"
           }
         },
+        "prescriptions": {
+          "title": "Danh sách đơn thuốc"
+        },
         "comingSoon": {
           "title": "Không tìm thấy dữ liệu",
           "desc": "Nội dung cho tab này sẽ sớm được cập nhật."
@@ -1626,27 +1629,40 @@
           "bp": "Huyết áp",
           "heart": "Nhịp tim"
         },
+        "status": {
+          "active": "Hoạt động"
+        },
         "conditions": {
-          "title": "Tình trạng hiện tại"
+          "title": "Tình trạng hiện tại",
+          "empty": "Không có bệnh lý mãn tính nào được ghi nhận."
         },
         "allergies": {
-          "title": "Dị ứng & Rủi ro"
+          "title": "Dị ứng & Rủi ro",
+          "empty": "Không có dị ứng nào được ghi nhận."
         },
         "activity": {
-          "title": "Hoạt động gần đây"
+          "title": "Hoạt động gần đây",
+          "empty": "Chưa có hoạt động nào."
         },
         "medicalRecords": {
           "title": "Lịch sử hồ sơ bệnh án",
           "add": "Thêm mới",
+          "empty": "Không tìm thấy hồ sơ bệnh án nào.",
+          "defaultDiagnosis": "Khám tư vấn",
           "columns": {
             "date": "Ngày",
             "diagnosis": "Chẩn đoán",
             "action": "Thao tác"
           }
         },
+        "prescriptions": {
+          "title": "Danh sách đơn thuốc",
+          "empty": "Không tìm thấy đơn thuốc nào.",
+          "label": "Đơn:"
+        },
         "comingSoon": {
-          "title": "Không tìm thấy dữ liệu",
-          "desc": "Nội dung cho tab này sẽ sớm được cập nhật."
+          "title": "Tính năng sắp ra mắt",
+          "desc": "Nội dung cho tab này đang được phát triển."
         }
       }
     }

@@ -681,6 +681,9 @@
             "action": "Action"
           }
         },
+        "prescriptions": {
+          "title": "Prescription List"
+        },
         "comingSoon": {
           "title": "Coming Soon",
           "desc": "This content is coming soon."
@@ -1590,27 +1593,40 @@
           "bp": "BP",
           "heart": "Heart"
         },
+        "status": {
+          "active": "Active"
+        },
         "conditions": {
-          "title": "Active Conditions"
+          "title": "Current Conditions",
+          "empty": "No active conditions recorded."
         },
         "allergies": {
-          "title": "Allergies & Risks"
+          "title": "Allergies & Risks",
+          "empty": "No allergies recorded."
         },
         "activity": {
-          "title": "Recent Activity"
+          "title": "Recent Activity",
+          "empty": "No recent activity."
         },
         "medicalRecords": {
           "title": "Medical Records History",
           "add": "Add",
+          "empty": "No medical records found.",
+          "defaultDiagnosis": "Consultation",
           "columns": {
             "date": "Date",
             "diagnosis": "Diagnosis",
             "action": "Action"
           }
         },
+        "prescriptions": {
+          "title": "Prescription List",
+          "empty": "No prescriptions found.",
+          "label": "Rx:"
+        },
         "comingSoon": {
-          "title": "No records found",
-          "desc": "The content for this tab is coming soon."
+          "title": "Feature Coming Soon",
+          "desc": "This content is currently under development."
         }
       }
     }
