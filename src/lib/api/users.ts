@@ -26,6 +26,22 @@ export interface CreateGuestPatientDto {
 
 export type QuickCreatePatientDto = RegisterPatientDto | CreateGuestPatientDto;
 
+export interface ReceptionistPatientStats {
+  totalPatients: number;
+  newToday: number;
+  activeAppointments: number;
+}
+
+export interface PatientFilters {
+  search?: string;
+  isGuest?: boolean;
+  gender?: string;
+  status?: string;
+  bloodType?: string;
+  page?: number;
+  limit?: number;
+}
+
 export const usersApi = {
   // Get current user profile
   getMyProfile: async (): Promise<User> => {
@@ -104,19 +120,65 @@ export const usersApi = {
     }
   },
 
-  // Search patients (includes both accounts and guests for RECEPTIONIST/ADMIN)
-  searchPatients: async (search: string, page: number = 1, limit: number = 5): Promise<UsersListResponse> => {
+  // List patients with filters (RECEPTIONIST/ADMIN)
+  getReceptionistPatients: async (filters: PatientFilters): Promise<UsersListResponse> => {
     try {
       const response = await apiClient.get<ApiResponse<UsersListResponse>>('/users/receptionist/patients', {
-        params: { search, page, limit },
+        params: filters,
       });
-      return response.data.data || { users: [], pagination: { total: 0, page: 1, limit: 5, totalPages: 0 } };
+      return response.data.data || { users: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
     } catch (error) {
       if (error instanceof AxiosError && error.response?.data) {
         throw error.response.data as ApiError;
       }
       throw error;
     }
+  },
+
+  // Get patient statistics (RECEPTIONIST/ADMIN)
+  getReceptionistPatientsStats: async (): Promise<ReceptionistPatientStats> => {
+    try {
+      const response = await apiClient.get<ApiResponse<ReceptionistPatientStats>>('/users/receptionist/patients/stats');
+      if (!response.data.data) {
+        throw new Error('Failed to fetch statistics');
+      }
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data as ApiError;
+      }
+      throw error;
+    }
+  },
+
+  // Update patient profile (RECEPTIONIST/ADMIN)
+  updatePatientProfile: async (id: string, data: Partial<RegisterPatientDto & { 
+    bloodType?: string; 
+    nationalId?: string; 
+    insuranceNumber?: string;
+    insuranceProvider?: string;
+    insuranceExpiry?: string;
+    allergies?: string;
+    chronicConditions?: string;
+    familyHistory?: string;
+  }>): Promise<User> => {
+    try {
+      const response = await apiClient.patch<ApiResponse<User>>(`/users/receptionist/patients/${id}`, data);
+      if (!response.data.data) {
+        throw new Error('Failed to update patient profile');
+      }
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data as ApiError;
+      }
+      throw error;
+    }
+  },
+
+  // Search patients (Legacy wrapper)
+  searchPatients: async (search: string, page: number = 1, limit: number = 5): Promise<UsersListResponse> => {
+    return usersApi.getReceptionistPatients({ search, page, limit });
   },
 
   // Create patient with system account
