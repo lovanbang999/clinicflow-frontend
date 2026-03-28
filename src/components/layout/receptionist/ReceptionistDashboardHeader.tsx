@@ -17,9 +17,9 @@ export function ReceptionistDashboardHeader() {
       ? pathname === item.href || pathname.endsWith(item.href)
       : pathname.includes(item.href),
   );
-  
-  const pageTitle = activeItem 
-    ? t(activeItem.key === 'reports' ? 'reports.nav' : activeItem.key) 
+
+  const pageTitle = activeItem
+    ? t(activeItem.key === 'reports' ? 'reports.nav' : activeItem.key === 'settings' ? 'settings.nav' : activeItem.key)
     : t('dashboard');
 
   const initials = user?.fullName

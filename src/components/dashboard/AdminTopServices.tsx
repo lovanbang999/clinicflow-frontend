@@ -14,6 +14,7 @@ const SERVICE_COLORS = [
 
 interface Props {
   services: TopServiceItem[];
+  viewAllHref?: string;
 }
 
 function ServiceInitials({ name, colorClass }: { name: string; colorClass: string }) {
@@ -31,7 +32,7 @@ function ServiceInitials({ name, colorClass }: { name: string; colorClass: strin
   );
 }
 
-export function AdminTopServices({ services }: Props) {
+export function AdminTopServices({ services, viewAllHref = '/admin/services' }: Props) {
   const t = useTranslations('dashboard.admin.topServices');
   const safeServices = Array.isArray(services) ? services : [];
 
@@ -50,7 +51,7 @@ export function AdminTopServices({ services }: Props) {
           <h3 className="text-sm font-bold text-slate-800">{t('title')}</h3>
           <p className="text-xs text-slate-400 mt-0.5">{t('subtitle')}</p>
         </div>
-        <Link href="/admin/services" className="text-[#1392ec] text-xs font-bold hover:underline">
+        <Link href={viewAllHref} className="text-[#1392ec] text-xs font-bold hover:underline">
           {t('viewAll')}
         </Link>
       </div>
