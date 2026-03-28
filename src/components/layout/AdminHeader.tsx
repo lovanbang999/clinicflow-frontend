@@ -32,7 +32,7 @@ export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
     <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-4 sm:px-8 shrink-0">
       {/* Title & Toggle */}
       <div className="flex items-center gap-3">
-        <button 
+        <button
           onClick={onMenuToggle}
           className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
         >

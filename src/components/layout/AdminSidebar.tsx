@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import {
   SquaresFourIcon,
-  UsersIcon,
   StethoscopeIcon,
   SyringeIcon,
   CalendarBlankIcon,
@@ -18,6 +17,7 @@ import {
   CurrencyCircleDollarIcon,
   type Icon,
   WheelchairIcon,
+  IdentificationBadgeIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -29,7 +29,7 @@ type NavItem = {
 
 export const NAV_ITEMS: NavItem[] = [
   { key: 'dashboard',         href: '/admin',                 icon: SquaresFourIcon,   exact: true },
-  { key: 'userManagement',    href: '/admin/users',           icon: UsersIcon,         exact: false },
+  { key: 'userManagement',    href: '/admin/users',           icon: IdentificationBadgeIcon, exact: false },
   { key: 'doctorManagement',  href: '/admin/doctors',         icon: StethoscopeIcon,   exact: false },
   { key: 'patientManagement', href: '/admin/patients',        icon: WheelchairIcon,    exact: false },
   { key: 'serviceManagement', href: '/admin/services',        icon: SyringeIcon,       exact: false },

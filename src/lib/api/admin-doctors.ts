@@ -103,13 +103,10 @@ export const adminDoctorsApi = {
     }
   },
 
-  // POST /admin/users (role = DOCTOR)
+  // POST /admin/doctors
   createDoctor: async (data: AdminCreateDoctorDto): Promise<BackendUser> => {
     try {
-      const response = await apiClient.post<ApiResponse<BackendUser>>('/admin/users', {
-        ...data,
-        role: 'DOCTOR',
-      });
+      const response = await apiClient.post<ApiResponse<BackendUser>>('/admin/doctors', data);
       if (!response.data.data) throw new Error('Failed to create doctor');
       return response.data.data;
     } catch (error) {

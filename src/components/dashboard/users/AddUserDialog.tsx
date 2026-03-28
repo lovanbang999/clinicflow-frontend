@@ -44,7 +44,7 @@ const DEFAULT_FORM: AddUserForm = {
   password: '',
 };
 
-const ROLES: Role[] = ['DOCTOR', 'PATIENT', 'RECEPTIONIST', 'ADMIN'];
+const ROLES: Role[] = ['ADMIN', 'RECEPTIONIST', 'TECHNICIAN'];
 
 const ROLE_STYLES: Record<string, string> = {
   DOCTOR: 'bg-blue-50 text-blue-700',

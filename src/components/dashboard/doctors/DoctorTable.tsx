@@ -23,7 +23,6 @@ type Props = {
   onPrevPage: () => void;
   onNextPage: () => void;
   onAddDoctor: () => void;
-  onSchedule?: (doctor: Doctor) => void;
   onEdit?: (doctor: Doctor) => void;
   onMore?: (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => void;
 };
@@ -42,7 +41,6 @@ export function DoctorTable({
   onPrevPage,
   onNextPage,
   onAddDoctor,
-  onSchedule,
   onEdit,
   onMore,
 }: Props) {
@@ -101,7 +99,6 @@ export function DoctorTable({
                 <DoctorTableRow
                   key={doctor.id}
                   doctor={doctor}
-                  onSchedule={onSchedule}
                   onEdit={onEdit}
                   onMore={onMore}
                 />
