@@ -54,6 +54,7 @@ export default function AdminPatientsPage() {
     fetchStats,
     createPatient,
     updatePatient,
+    exportPatients,
   } = useAdminPatients();
 
   // Fetch KPI stats once on mount
@@ -138,7 +139,12 @@ export default function AdminPatientsPage() {
             setIsAddModalOpen(true);
           }}
           onExport={() => {
-            // TODO: trigger export
+            exportPatients({
+              search: debouncedSearch || undefined,
+              gender:    selectedGenders.size    > 0 ? [...selectedGenders].join(',')    : undefined,
+              status:    selectedStatuses.size   > 0 ? [...selectedStatuses].join(',')   : undefined,
+              bloodType: selectedBloodTypes.size > 0 ? [...selectedBloodTypes].join(',') : undefined,
+            });
           }}
         />
 

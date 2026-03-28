@@ -138,4 +138,20 @@ export const adminPatientsApi = {
       throw error;
     }
   },
+
+  // GET /admin/patients/export
+  exportPatients: async (query: PatientSearchQuery): Promise<Blob> => {
+    try {
+      const response = await apiClient.get('/admin/patients/export', {
+        params: query,
+        responseType: 'blob',
+      });
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data) {
+        throw error.response.data;
+      }
+      throw error;
+    }
+  },
 };

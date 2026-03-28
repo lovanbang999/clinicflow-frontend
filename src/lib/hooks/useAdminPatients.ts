@@ -90,6 +90,28 @@ export const useAdminPatients = () => {
     }
   };
 
+  const exportPatients = useCallback(async (query: PatientSearchQuery) => {
+    try {
+      const blob = await adminPatientsApi.exportPatients(query);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        `smartclinic_patients_${new Date().toISOString().split('T')[0]}.xlsx`,
+      );
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success('Patients exported successfully');
+    } catch (err) {
+      const error = err as Error;
+      console.error('[useAdminPatients.exportPatients] error:', error);
+      toast.error(error.message || 'Failed to export patients');
+    }
+  }, []);
+
   return {
     // List
     patients,
@@ -103,5 +125,6 @@ export const useAdminPatients = () => {
     // Mutations
     createPatient,
     updatePatient,
+    exportPatients,
   };
 };
