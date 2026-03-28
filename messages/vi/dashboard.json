@@ -1024,7 +1024,7 @@
     },
     "nav": {
       "dashboard": "Tổng quan",
-      "userManagement": "Quản lý người dùng",
+      "userManagement": "Quản lý nhân sự",
       "doctorManagement": "Quản lý bác sĩ",
       "serviceManagement": "Quản lý dịch vụ",
       "patientManagement": "Quản lý bệnh nhân",
@@ -1178,8 +1178,8 @@
     },
     "userManagement": {
       "addUser": {
-        "button": "Thêm người dùng",
-        "title": "Thêm hồ sơ người dùng mới",
+        "button": "Thêm nhân sự",
+        "title": "Thêm hồ sơ nhân sự mới",
         "fullName": "Họ và tên",
         "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
         "email": "Địa chỉ email",
@@ -1205,7 +1205,7 @@
         }
       },
       "editUser": {
-        "title": "Chỉnh sửa hồ sơ người dùng",
+        "title": "Sửa hồ sơ nhân sự",
         "fullName": "Họ và tên",
         "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
         "email": "Địa chỉ email",
@@ -1226,9 +1226,9 @@
           "roleRequired": "Vui lòng chọn vai trò"
         }
       },
-      "title": "Quản lý người dùng",
+      "title": "Quản lý nhân sự",
       "stats": {
-        "totalUsers": "Tổng người dùng",
+        "totalUsers": "Tổng nhân sự",
         "newToday": "Mới hôm nay",
         "activeNow": "Đang hoạt động",
         "suspended": "Đã đình chỉ",
@@ -1236,7 +1236,7 @@
         "alert": "Cảnh báo"
       },
       "table": {
-        "title": "Tất cả người dùng",
+        "title": "Tất cả nhân sự",
         "subtitle": "Quản lý quyền truy cập hệ thống",
         "filter": "Lọc",
         "clear": "Xóa",
@@ -1275,11 +1275,11 @@
         }
       },
       "dialogs": {
-        "suspendTitle": "Đình chỉ người dùng",
-        "suspendDesc": "Bạn có chắc muốn đình chỉ {name}? Người dùng này sẽ không thể đăng nhập vào hệ thống.",
-        "reinstateTitle": "Khôi phục người dùng",
+        "suspendTitle": "Đình chỉ nhân sự",
+        "suspendDesc": "Bạn có chắc muốn đình chỉ {name}? Nhân sự này sẽ không thể đăng nhập vào hệ thống.",
+        "reinstateTitle": "Khôi phục nhân sự",
         "reinstateDesc": "Bạn có chắc muốn khôi phục quyền truy cập cho {name}?",
-        "deleteTitle": "Xóa người dùng",
+        "deleteTitle": "Xóa nhân sự",
         "deleteDesc": "Bạn có chắc muốn xóa {name}? Đây là thao tác xóa mềm, dữ liệu sẽ được ẩn đi nhưng vẫn lưu log.",
         "cancel": "Hủy"
       }
@@ -1538,11 +1538,14 @@
         "cancel": "Hủy",
         "save": "Lưu bệnh nhân",
         "saving": "Đang lưu...",
+        "createAppAccountCheckbox": "Tạo tài khoản cho bệnh nhân này?",
+        "createAppAccountDesc": "Bệnh nhân có thể đăng nhập vào hệ thống để xem hồ sơ và đặt lịch hẹn.",
         "errors": {
           "nameRequired": "Họ và tên là bắt buộc",
           "dobRequired": "Ngày sinh là bắt buộc",
           "genderRequired": "Giới tính là bắt buộc",
-          "phoneRequired": "Số điện thoại là bắt buộc"
+          "phoneRequired": "Số điện thoại là bắt buộc",
+          "emailRequired": "Email là bắt buộc khi tạo tài khoản"
         }
       },
       "editPatientModal": {

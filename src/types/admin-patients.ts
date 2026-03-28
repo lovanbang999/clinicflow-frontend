@@ -58,6 +58,7 @@ export interface AdminCreatePatientDto {
   chronicConditions?: string;
   familyHistory?: string;
   bloodType?: string;
+  createAppAccount?: boolean;
 }
 
 export type AdminUpdatePatientDto = Partial<AdminCreatePatientDto>;

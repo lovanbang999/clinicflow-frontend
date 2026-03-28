@@ -195,7 +195,6 @@ export default function AdminDoctorsPage() {
         onPrevPage={() => setPage((p) => p - 1)}
         onNextPage={() => setPage((p) => p + 1)}
         onAddDoctor={handleAddDoctor}
-        onSchedule={handleSchedule}
         onEdit={handleEdit}
         onMore={handleMore}
       />

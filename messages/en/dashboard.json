@@ -1024,7 +1024,7 @@
     },
     "nav": {
       "dashboard": "Dashboard",
-      "userManagement": "User Management",
+      "userManagement": "Staff Management",
       "doctorManagement": "Doctor Management",
       "serviceManagement": "Service Management",
       "patientManagement": "Patient Management",
@@ -1178,8 +1178,8 @@
     },
     "userManagement": {
       "addUser": {
-        "button": "Add User",
-        "title": "Add New User Profile",
+        "button": "Add Staff",
+        "title": "Add New Staff Profile",
         "fullName": "Full Name",
         "fullNamePlaceholder": "e.g. Dr. Robert Fox",
         "email": "Email Address",
@@ -1205,7 +1205,7 @@
         }
       },
       "editUser": {
-        "title": "Edit User Profile",
+        "title": "Edit Staff Profile",
         "fullName": "Full Name",
         "fullNamePlaceholder": "e.g. Dr. Robert Fox",
         "email": "Email Address",
@@ -1226,9 +1226,9 @@
           "roleRequired": "Please select a role"
         }
       },
-      "title": "User Management",
+      "title": "Staff Management",
       "stats": {
-        "totalUsers": "Total Users",
+        "totalUsers": "Total Staff",
         "newToday": "New Today",
         "activeNow": "Active Now",
         "suspended": "Suspended",
@@ -1236,7 +1236,7 @@
         "alert": "Alert"
       },
       "table": {
-        "title": "All Users",
+        "title": "All Staff",
         "subtitle": "Manage system access and permissions",
         "filter": "Filter",
         "clear": "Clear",
@@ -1275,11 +1275,11 @@
         }
       },
       "dialogs": {
-        "suspendTitle": "Suspend User",
-        "suspendDesc": "Are you sure you want to suspend {name}? This user will no longer be able to log in.",
-        "reinstateTitle": "Reinstate User",
+        "suspendTitle": "Suspend Staff",
+        "suspendDesc": "Are you sure you want to suspend {name}? This staff member will no longer be able to log in.",
+        "reinstateTitle": "Reinstate Staff",
         "reinstateDesc": "Are you sure you want to reinstate access for {name}?",
-        "deleteTitle": "Delete User",
+        "deleteTitle": "Delete Staff",
         "deleteDesc": "Are you sure you want to delete {name}? This is a soft delete, meaning the data will be hidden but retained in logs.",
         "cancel": "Cancel"
       }
@@ -1502,11 +1502,14 @@
         "cancel": "Cancel",
         "save": "Create Patient",
         "saving": "Creating...",
+        "createAppAccountCheckbox": "Create Account for this patient?",
+        "createAppAccountDesc": "Patients can log in to the system to view records and book appointments.",
         "errors": {
           "nameRequired": "Full name is required",
           "dobRequired": "Date of birth is required",
           "genderRequired": "Gender is required",
-          "phoneRequired": "Phone number is required"
+          "phoneRequired": "Phone number is required",
+          "emailRequired": "Email is required for account creation"
         }
       },
       "editPatientModal": {

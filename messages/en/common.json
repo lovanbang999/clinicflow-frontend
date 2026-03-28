@@ -57,6 +57,7 @@
     "RECEPTIONIST": "Receptionist",
     "PATIENT": "Patient"
   },
+  "underDevelopment": "Feature under development",
   "menu": {
     "profile": "Profile",
     "settings": "Settings",

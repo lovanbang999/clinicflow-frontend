@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { CircleNotchIcon } from '@phosphor-icons/react';
+import { toast } from 'sonner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useAdminPatients } from '@/lib/hooks/useAdminPatients';
 import { PatientKpiCards } from '@/components/dashboard/patients/PatientKpiCards';
@@ -23,6 +25,7 @@ const LIMIT = 10;
 export default function AdminPatientsPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const tCommon = useTranslations('common');
   const debouncedSearch = useDebounce(search, 500);
 
   // Quick view state
@@ -146,13 +149,11 @@ export default function AdminPatientsPage() {
             setSelectedPatient(patient);
             setIsQuickViewOpen(true);
           }}
-          onMedicalHistory={(patient) => {
-            // TODO: open medical history drawer
-            console.log('history', patient.id);
+          onMedicalHistory={() => {
+            toast.info(tCommon('underDevelopment'));
           }}
-          onBookAppointment={(patient) => {
-            // TODO: open booking dialog
-            console.log('book', patient.id);
+          onBookAppointment={() => {
+            toast.info(tCommon('underDevelopment'));
           }}
           onEdit={(patient) => {
             setEditPatientId(patient.id);

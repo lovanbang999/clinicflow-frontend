@@ -3,7 +3,6 @@
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import {
-  CalendarBlankIcon,
   PencilSimpleIcon,
   DotsThreeVerticalIcon,
 } from '@phosphor-icons/react';
@@ -13,15 +12,13 @@ import { BackendUser } from '@/types';
 import { getInitials } from '@/lib/utils/helpers';
 
 type Props = {
-  // Support both the local mock Doctor type and the real BackendUser from the API
   doctor: Doctor;
   backendDoctor?: BackendUser;
-  onSchedule?: (doctor: Doctor) => void;
   onEdit?: (doctor: Doctor) => void;
   onMore?: (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => void;
 };
 
-export function DoctorTableRow({ doctor, onSchedule, onEdit, onMore }: Props) {
+export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
   const t = useTranslations('dashboard.admin.doctorManagement');
   const moreButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -86,13 +83,6 @@ export function DoctorTableRow({ doctor, onSchedule, onEdit, onMore }: Props) {
       {/* Actions */}
       <td className="px-6 py-4 whitespace-nowrap text-right">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            title={t('table.actions.schedule')}
-            onClick={() => onSchedule?.(doctor)}
-            className="p-2 text-[#64748b] hover:text-[#1392ec] hover:bg-[#1392ec]/10 rounded-lg transition-colors cursor-pointer"
-          >
-            <CalendarBlankIcon size={20} />
-          </button>
           <button
             title={t('table.actions.edit')}
             onClick={() => onEdit?.(doctor)}

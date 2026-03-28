@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 import type { AdminCreatePatientDto } from '@/types';
 
 type PatientAddModalProps = {
@@ -37,6 +38,8 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
     insuranceNumber: '',
     insuranceExpiry: '',
   });
+
+  const [createAppAccount, setCreateAppAccount] = useState(false);
 
   const [allergies, setAllergies] = useState<string[]>([]);
   const [chronicConditions, setChronicConditions] = useState<string[]>([]);
@@ -76,6 +79,9 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
     if (!formData.dateOfBirth.trim()) newErrors.dateOfBirth = t('errors.dobRequired');
     if (!formData.gender.trim()) newErrors.gender = t('errors.genderRequired');
     if (!formData.phone.trim()) newErrors.phone = t('errors.phoneRequired');
+    if (createAppAccount && !formData.email.trim()) {
+      newErrors.email = t('errors.emailRequired');
+    }
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -98,6 +104,7 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
         insuranceProvider: formData.insuranceProvider,
         insuranceNumber: formData.insuranceNumber,
         insuranceExpiry: formData.insuranceExpiry,
+        createAppAccount,
       };
       
       await onSubmit(payload);
@@ -118,6 +125,7 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
       });
       setAllergies([]);
       setChronicConditions([]);
+      setCreateAppAccount(false);
       onClose();
     } catch (err) {
       console.error(err);
@@ -199,14 +207,20 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
                   {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                 </div>
                 <div className="form-group">
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">{t('email')}</label>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    {t('email')} {createAppAccount && <span className="text-red-500">*</span>}
+                  </label>
                   <input
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-[#1392ec] outline-none transition-all dark:text-white"
+                    className={cn(
+                      "w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-[#1392ec] outline-none transition-all dark:text-white",
+                      errors.email && "border-red-400 focus:ring-red-400"
+                    )}
                     placeholder={t('emailPlaceholder')}
                   />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
                 <div className="form-group md:col-span-2">
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">{t('address')}</label>
@@ -385,6 +399,27 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
                   />
                 </div>
               </div>
+            </section>
+
+            <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />
+
+            <section className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800/50">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={createAppAccount}
+                  onChange={(e) => setCreateAppAccount(e.target.checked)}
+                  className="mt-1 size-4 shrink-0 rounded text-[#1392ec] focus:ring-[#1392ec] border-slate-300"
+                />
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    {t('createAppAccountCheckbox') || 'Tạo tài khoản App cho bệnh nhân này?'}
+                  </span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    {t('createAppAccountDesc') || 'Bệnh nhân có thể đăng nhập vào hệ thống (Ứng dụng trên điện thoại/Website) để xem hồ sơ và đặt lịch hẹn.'}
+                  </span>
+                </div>
+              </label>
             </section>
           </form>
         </div>

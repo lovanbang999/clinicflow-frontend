@@ -140,6 +140,7 @@ export default function AdminUsersPage() {
           onToggleRole={toggleRole}
           onToggleStatus={toggleStatus}
           onClearFilters={clearFilters}
+          onUserAdded={handleUserUpdated}
         />
 
         <AdminUserTable
