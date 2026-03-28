@@ -43,7 +43,7 @@ export function AdminTopServices({ services }: Props) {
   const maxCount = Math.max(...safeServices.map((s) => s.bookingsCount), 1);
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm flex flex-col">
+    <div className="h-full bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div>

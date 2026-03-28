@@ -352,7 +352,39 @@
     "queue": "Queue",
     "labs": "Laboratory",
     "billing": "Billing",
-    "reports": "Reports",
+    "reports": {
+      "nav": "Reports",
+      "title": "Reports & Analytics",
+      "subtitle": "Monitor clinic operational and financial performance",
+      "kpis": {
+        "revenue": "Total Revenue",
+        "revenueSub": "Based on paid invoices",
+        "checkIns": "Check-ins",
+        "checkInsSub": "Patients received",
+        "newPatients": "New Patients",
+        "newPatientsSub": "New profiles registered",
+        "pendingInvoices": "Pending Invoices",
+        "pendingInvoicesSub": "Unpaid service bills"
+      },
+      "charts": {
+        "revenueTrend": "Revenue & Check-in Trend",
+        "revenue": "Revenue",
+        "appointments": "Appointments",
+        "appointmentStatus": "Appointment Status",
+        "bookingSources": "Booking Sources",
+        "serviceDemand": "Service Demand",
+        "paymentMethods": "Payment Methods",
+        "paymentMethodsSub": "Actual cashflow details",
+        "transactions": "transactions",
+        "noTransactions": "No transactions yet"
+      },
+      "table": {
+        "serviceName": "Service Name",
+        "count": "Bookings",
+        "amount": "Amount",
+        "method": "Method"
+      }
+    },
     "labManagement": {
       "title": "Laboratory Management",
       "subtitle": "Update lab test results for patients",

@@ -75,7 +75,7 @@ export function ReceptionistDashboardSidebar() {
               )}
             >
               <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} />
-              <span>{t(item.key)}</span>
+              <span>{t(item.key === 'reports' ? 'reports.nav' : item.key)}</span>
             </Link>
           );
         })}
