@@ -5,7 +5,7 @@ import { PatientWelcomeBanner } from '@/components/patient/PatientWelcomeBanner'
 import { PatientStatsGrid } from '@/components/patient/PatientStatsGrid';
 import { NextAppointmentCard } from '@/components/patient/NextAppointmentCard';
 import { RecentActivityList } from '@/components/patient/RecentActivityList';
-import { RecommendedSpecialists } from '@/components/patient/RecommendedSpecialists';
+import { QuickActionBar } from '@/components/patient/QuickActionBar';
 import { RecentInvoicesWidget } from '@/components/dashboard/patient/RecentInvoicesWidget';
 
 export default function PatientDashboardPage() {
@@ -18,8 +18,10 @@ export default function PatientDashboardPage() {
   const total = data?.stats.totalBookings || 0;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 md:space-y-10 pb-10">
       <PatientWelcomeBanner />
+      
+      <QuickActionBar />
 
       <PatientStatsGrid 
         upcoming={upcoming}
@@ -37,7 +39,7 @@ export default function PatientDashboardPage() {
       </section>
 
       {/* Full width or large section: Recommended Specialists */}
-      <RecommendedSpecialists />
+      {/* <RecommendedSpecialists /> */}
     </div>
   );
 }

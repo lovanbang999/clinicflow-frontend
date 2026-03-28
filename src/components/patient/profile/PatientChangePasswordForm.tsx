@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-
 import { useProfile } from '@/lib/hooks/useProfile';
 import { LockKeyIcon, FloppyDiskIcon, CircleNotchIcon, EyeIcon, EyeSlashIcon } from '@phosphor-icons/react';
 
