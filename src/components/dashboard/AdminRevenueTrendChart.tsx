@@ -133,7 +133,7 @@ export function AdminRevenueTrendChart({
   };
 
   return (
-    <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm h-full flex flex-col">
+    <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm h-full flex flex-col min-w-0 overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
         <div>
@@ -180,7 +180,7 @@ export function AdminRevenueTrendChart({
           <p className="text-sm text-slate-400">{t('noActivity')}</p>
         </div>
       ) : (
-        <div ref={chartRef} className="pt-2 bg-white pb-2 pr-4 flex-1">
+        <div ref={chartRef} className="pt-2 bg-white pb-2 pr-4 flex-1 min-w-0">
           <ChartContainer config={chartConfig} className={`w-full ${chartHeight}`}>
           <AreaChart
             data={chartData}
