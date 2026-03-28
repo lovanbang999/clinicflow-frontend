@@ -9,7 +9,7 @@ import Image from 'next/image';
 import {
   ListChecksIcon,
   SignOutIcon,
-  SquaresFour as SquaresFourIcon,
+  SquaresFourIcon,
   type Icon,
 } from '@phosphor-icons/react';
 

@@ -1938,7 +1938,7 @@
     }
   },
   "technician": {
-    "dashboard": "Bảng điều khiển Kỹ thuật viên",
+    "dashboard": "Bảng điều khiển",
     "statsSubtitle": "Theo dõi nhiệm vụ hàng ngày và các phiếu xét nghiệm theo thời gian thực.",
     "labWorklist": "Hàng đợi Xét nghiệm & Chẩn đoán",
     "worklistSubtitle": "Xem các chỉ định chờ thực hiện, nhập kết quả và quản lý hàng đợi.",
