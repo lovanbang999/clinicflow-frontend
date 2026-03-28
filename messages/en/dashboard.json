@@ -1949,6 +1949,39 @@
       "statusUpdateError": "Error updating status",
       "fetchHistoryError": "Error loading test history"
     },
+    "settings": "Settings",
+    "settingsContent": {
+      "title": "Account Settings",
+      "subtitle": "Manage your profile information and account security.",
+      "tabs": {
+        "account": "Account Profile",
+        "security": "Security & Password"
+      },
+      "account": {
+        "title": "Profile Details",
+        "desc": "Update your name, contact phone, and address.",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "Enter your full name",
+        "phone": "Phone Number",
+        "phonePlaceholder": "Enter your phone number",
+        "address": "Address",
+        "addressPlaceholder": "Enter your current address",
+        "email": "Email Address",
+        "saveBtn": "Save Changes",
+        "savingBtn": "Saving..."
+      },
+      "security": {
+        "title": "Update Password",
+        "desc": "Ensure your account is using a long, random password to stay secure.",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm New Password",
+        "saveBtn": "Update Password",
+        "savingBtn": "Updating...",
+        "passwordMinLength": "Password must be at least 6 characters",
+        "passwordMismatch": "New passwords do not match"
+      }
+    },
     "stats": {
       "pending": "Waiting",
       "inProgress": "In Progress",
