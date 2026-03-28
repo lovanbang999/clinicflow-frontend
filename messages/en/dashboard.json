@@ -1409,6 +1409,25 @@
         "confirm": "Remove Doctor",
         "deleting": "Removing..."
       },
+      "detailSheet": {
+        "title": "Doctor Details",
+        "sections": {
+          "professional": "Professional Information",
+          "about": "About",
+          "system": "System Information"
+        },
+        "fields": {
+          "specialties": "Specialties",
+          "qualifications": "Qualifications & Certifications",
+          "experience": "Experience",
+          "years": "{count} years",
+          "role": "Role",
+          "phone": "Phone Number",
+          "joinDate": "Member since",
+          "bio": "Biography",
+          "noBio": "No biography provided."
+        }
+      },
       "moreMenu": {
         "viewDetail": "View Details",
         "viewSchedule": "View Schedule",
