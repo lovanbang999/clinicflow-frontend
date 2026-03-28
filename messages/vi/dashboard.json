@@ -1409,6 +1409,25 @@
         "confirm": "Xóa bác sĩ",
         "deleting": "Đang xóa..."
       },
+      "detailSheet": {
+        "title": "Thông tin chi tiết bác sĩ",
+        "sections": {
+          "professional": "Thông tin chuyên môn",
+          "about": "Giới thiệu",
+          "system": "Thông tin hệ thống"
+        },
+        "fields": {
+          "specialties": "Chuyên khoa",
+          "qualifications": "Bằng cấp & Chứng chỉ",
+          "experience": "Kinh nghiệm",
+          "years": "{count} năm",
+          "role": "Vai trò",
+          "phone": "Số điện thoại",
+          "joinDate": "Ngày gia nhập",
+          "bio": "Tiểu sử",
+          "noBio": "Chưa có thông tin tiểu sử."
+        }
+      },
       "moreMenu": {
         "viewDetail": "Xem chi tiết",
         "viewSchedule": "Xem lịch làm việc",

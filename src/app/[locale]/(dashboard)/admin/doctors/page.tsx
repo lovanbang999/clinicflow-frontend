@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  MOCK_DOCTORS,
+  type DoctorStatus,
+  type Specialty,
+  type Doctor,
+} from '@/components/dashboard/doctors/types';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { DoctorStatCards } from '@/components/dashboard/doctors/DoctorStatCards';
 import { DoctorTable } from '@/components/dashboard/doctors/DoctorTable';
@@ -7,14 +13,12 @@ import { AddDoctorDialog } from '@/components/dashboard/doctors/AddDoctorDialog'
 import { EditDoctorDialog } from '@/components/dashboard/doctors/EditDoctorDialog';
 import { DeleteDoctorDialog } from '@/components/dashboard/doctors/DeleteDoctorDialog';
 import { DoctorMoreMenu } from '@/components/dashboard/doctors/DoctorMoreMenu';
-import {
-  MOCK_DOCTORS,
-  type DoctorStatus,
-  type Specialty,
-  type Doctor,
-} from '@/components/dashboard/doctors/types';
 import { BackendUser } from '@/types';
 import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
+import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
+import { DoctorDetailSheet } from '@/components/dashboard/doctors/DoctorDetailSheet';
+
 
 const LIMIT = 10;
 
@@ -38,6 +42,7 @@ export default function AdminDoctorsPage() {
   const [selectedSpecialties, setSelectedSpecialties] = useState<Set<Specialty>>(new Set());
   const [selectedStatuses, setSelectedStatuses] = useState<Set<DoctorStatus>>(new Set());
   const [page, setPage] = useState(1);
+  const tCommon = useTranslations('common');
 
   // API hook
   const {
@@ -80,6 +85,11 @@ export default function AdminDoctorsPage() {
   const moreAnchor = useRef<HTMLButtonElement | null>(null);
   const [moreDoctor, setMoreDoctor] = useState<BackendUser | null>(null);
   const [moreOpen, setMoreOpen] = useState(false);
+
+  // Detail sheet
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [detailDoctor, setDetailDoctor] = useState<BackendUser | null>(null);
+
 
   // Filter handlers
   const toggleSpecialty = (sp: Specialty) => {
@@ -142,11 +152,6 @@ export default function AdminDoctorsPage() {
     setEditOpen(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSchedule = (_doctor: Doctor) => {
-    // TODO: navigate to schedule page for this doctor
-  };
-
   const handleMore = (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => {
     const bu = findBackendUser(doctor);
     if (!bu) return;
@@ -165,14 +170,15 @@ export default function AdminDoctorsPage() {
     setDeleteOpen(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleViewDetail = (_doctor: BackendUser) => {
-    // TODO: open detail side panel / navigate to detail page
+  const handleViewDetail = (doctor: BackendUser) => {
+    setDetailDoctor(doctor);
+    setDetailOpen(true);
   };
+
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleViewSchedule = (_doctor: BackendUser) => {
-    // TODO: navigate to schedule page
+    toast.success(tCommon('underDevelopment'));
   };
 
   return (
@@ -244,6 +250,17 @@ export default function AdminDoctorsPage() {
           onDelete={handleDelete}
         />
       )}
+
+      {/* Detail Sheet */}
+      <DoctorDetailSheet 
+        isOpen={detailOpen}
+        onClose={() => {
+          setDetailOpen(false);
+          setDetailDoctor(null);
+        }}
+        doctor={detailDoctor}
+      />
     </div>
+
   );
 }
