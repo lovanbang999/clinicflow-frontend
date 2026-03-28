@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { usersApi } from '@/lib/api/users';
@@ -10,10 +10,28 @@ export function useProfile() {
   const t = useTranslations('dashboard'); // or create "profile" namespace if you want
   const tErrors = useTranslations('errors');
 
-  const { setUser } = useAuthStore();
+  const { setUser, user: authUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
 
-  const updateProfile = async (payload: UpdateProfileDto) => {
+  const fetchProfile = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const profile = await usersApi.getMyProfile();
+      setUser(profile);
+      return profile;
+    } catch (error) {
+      const err = error as ApiError;
+      showApiErrorToast(err, tErrors, {
+        title: t('common.errorTitle'),
+        fallbackKey: 'generic',
+      });
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [setUser, t, tErrors]);
+
+  const updateProfile = useCallback(async (payload: UpdateProfileDto) => {
     try {
       setIsLoading(true);
       const updatedUser = await usersApi.updateMyProfile(payload);
@@ -34,9 +52,9 @@ export function useProfile() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [setUser, t, tErrors]);
 
-  const uploadAvatar = async (file: File) => {
+  const uploadAvatar = useCallback(async (file: File) => {
     try {
       setIsLoading(true);
 
@@ -63,9 +81,9 @@ export function useProfile() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [t, tErrors]);
 
-  const changePassword = async (payload: {
+  const changePassword = useCallback(async (payload: {
     currentPassword: string;
     newPassword: string;
   }) => {
@@ -86,10 +104,12 @@ export function useProfile() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [t, tErrors]);
 
   return {
+    user: authUser,
     isLoading,
+    fetchProfile,
     updateProfile,
     uploadAvatar,
     changePassword
