@@ -211,6 +211,7 @@ export default function ReceptionistReportsPage() {
                   bookingsCount: s.count,
                   estimatedRevenue: 0
                 }))} 
+                viewAllHref="/receptionist/walkin-booking"
               />
             )}
          </div>
