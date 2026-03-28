@@ -774,6 +774,43 @@
         "bookingError": "Error creating booking"
       }
     },
+    "settings": {
+      "nav": "Settings",
+      "title": "Account Settings",
+      "subtitle": "Manage your personal information and account security.",
+      "tabs": {
+        "account": "Profile",
+        "security": "Security"
+      },
+      "account": {
+        "title": "Personal Information",
+        "desc": "Update your profile information",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "EX: Nguyen Van A",
+        "phone": "Phone Number",
+        "phonePlaceholder": "EX: 0901234567",
+        "email": "Email (View Only)",
+        "address": "Address",
+        "addressPlaceholder": "EX: 123 Street ABC, District 1...",
+        "saveBtn": "Save Changes",
+        "savingBtn": "Saving...",
+        "successToast": "Profile updated!",
+        "errorToast": "Error updating profile"
+      },
+      "security": {
+        "title": "Change Password",
+        "desc": "Ensure your account is using a strong password.",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "passwordMinLength": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match",
+        "saveBtn": "Update Password",
+        "savingBtn": "Updating...",
+        "successToast": "Password changed successfully!",
+        "errorToast": "Error changing password"
+      }
+    },
     "billingManagement": {
       "title": "Billing Management",
       "subtitle": "List of invoices for the day",

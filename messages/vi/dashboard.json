@@ -645,6 +645,43 @@
         "bookingError": "Lỗi đặt lịch"
       }
     },
+    "settings": {
+      "nav": "Cài đặt",
+      "title": "Cài đặt tài khoản",
+      "subtitle": "Quản lý thông tin cá nhân và bảo mật tài khoản.",
+      "tabs": {
+        "account": "Hồ sơ",
+        "security": "Bảo mật"
+      },
+      "account": {
+        "title": "Thông tin cá nhân",
+        "desc": "Cập nhật thông tin hồ sơ của bạn",
+        "fullName": "Họ và tên",
+        "fullNamePlaceholder": "VD: Nguyễn Văn A",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "VD: 0901234567",
+        "email": "Email (Chỉ xem)",
+        "address": "Địa chỉ",
+        "addressPlaceholder": "VD: 123 Đường ABC, Quận 1...",
+        "saveBtn": "Lưu thay đổi",
+        "savingBtn": "Đang lưu...",
+        "successToast": "Đã cập nhật hồ sơ!",
+        "errorToast": "Lỗi cập nhật hồ sơ"
+      },
+      "security": {
+        "title": "Đổi mật khẩu",
+        "desc": "Đảm bảo tài khoản của bạn đang sử dụng mật khẩu mạnh.",
+        "currentPassword": "Mật khẩu hiện tại",
+        "newPassword": "Mật khẩu mới",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+        "passwordMismatch": "Mật khẩu xác nhận không khớp",
+        "saveBtn": "Cập nhật mật khẩu",
+        "savingBtn": "Đang cập nhật...",
+        "successToast": "Đổi mật khẩu thành công!",
+        "errorToast": "Lỗi đổi mật khẩu"
+      }
+    },
     "billingManagement": {
       "title": "Quản lý thu ngân",
       "subtitle": "Danh sách hóa đơn của bệnh nhân trong ngày",

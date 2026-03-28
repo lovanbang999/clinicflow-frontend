@@ -17,6 +17,7 @@ import {
   FlaskIcon,
   ReceiptIcon,
   CalendarIcon,
+  GearIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -35,6 +36,7 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'queue',           href: '/receptionist/queue',           icon: ClockIcon,     exact: false },
   { key: 'labs',            href: '/receptionist/labs',            icon: FlaskIcon,     exact: false },
   { key: 'reports',         href: '/receptionist/reports',         icon: ChartLineIcon, exact: false },
+  { key: 'settings',        href: '/receptionist/settings',        icon: GearIcon,      exact: false },
 ];
 
 export function ReceptionistDashboardSidebar() {
@@ -75,7 +77,7 @@ export function ReceptionistDashboardSidebar() {
               )}
             >
               <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} />
-              <span>{t(item.key === 'reports' ? 'reports.nav' : item.key)}</span>
+              <span>{t(item.key === 'reports' ? 'reports.nav' : item.key === 'settings' ? 'settings.nav' : item.key)}</span>
             </Link>
           );
         })}
