@@ -1903,8 +1903,16 @@
     },
   "technician": {
     "dashboard": "Technician Dashboard",
-    "title": "Technician",
+    "statsSubtitle": "Monitor your daily tasks and laboratory orders in real-time.",
     "labWorklist": "Lab Worklist",
+    "worklistSubtitle": "View pending orders, enter results, and manage your laboratory queue.",
+    "goToWorklist": "Go to Worklist",
+    "title": "Technician",
+    "doctorPrefix": "Dr.",
+    "sidebar": {
+      "smartClinic": "Smart Clinic",
+      "healthcare": "Healthcare"
+    },
     "worklist": {
       "title": "Laboratory & Imaging Worklist",
       "subtitle": "List of paid lab orders waiting to be performed or resulted.",
@@ -1928,6 +1936,60 @@
         "result": "Enter Result"
       },
       "empty": "No patients are currently waiting."
+    },
+    "messages": {
+      "statusUpdated": "Status updated to In Progress",
+      "fetchError": "Error loading lab orders",
+      "createSuccess": "Lab order assigned successfully",
+      "createError": "Error creating lab order",
+      "cancelSuccess": "Lab order cancelled",
+      "cancelError": "Error cancelling lab order",
+      "fetchPendingError": "Error loading pending orders",
+      "fetchSingleError": "Error loading order details",
+      "statusUpdateError": "Error updating status",
+      "fetchHistoryError": "Error loading test history"
+    },
+    "stats": {
+      "pending": "Waiting",
+      "inProgress": "In Progress",
+      "completedToday": "Completed Today"
+    },
+    "tabs": {
+      "pending": "Pending (Paid)",
+      "inProgress": "In Progress",
+      "history": "History (Completed)"
+    },
+    "workspace": {
+      "title": "Enter Lab/Imaging Result",
+      "submit": "Submit Result",
+      "patientInfo": "Patient Information",
+      "orderInfo": "Order Details",
+      "doctorNotes": "Doctor's Notes",
+      "resultEntry": "Result Entry",
+      "textResult": "Text Result",
+      "textPlaceholder": "Enter detailed results for ultrasound, x-ray, or lab tests...",
+      "uploadFile": "Attachment / Result File",
+      "abnormalFlag": "Mark as Abnormal",
+      "abnormalNote": "Abnormal Note / Risk Alert",
+      "abnormalNotePlaceholder": "Describe the specific risk or abnormal finding...",
+      "cancel": "Cancel",
+      "patient": "Patient",
+      "age": "Age",
+      "gender": {
+        "label": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "doctor": "Requesting Doctor",
+      "noNotes": "No additional notes.",
+      "uploadBtn": "Upload File",
+      "fileAttached": "Result file attached",
+      "abnormalHint": "Mark if the result has high risk indicators",
+      "success": "Result saved successfully!",
+      "fileUploadSuccess": "File attached successfully",
+      "fileUploadError": "Error uploading file",
+      "saveError": "Error saving results"
     },
     "result": {
       "title": "Enter Lab/Imaging Result",

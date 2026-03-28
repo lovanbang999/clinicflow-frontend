@@ -1,8 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { labOrdersApi, type LabOrder, type CreateLabOrderDto, type UploadLabResultDto } from '../api/lab-orders';
 import { toast } from 'sonner';
 
 export function useLabOrders(bookingId: string) {
+  const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,27 +17,27 @@ export function useLabOrders(bookingId: string) {
       setOrders(data);
     } catch (error) {
       console.error('Error fetching lab orders:', error);
-      toast.error('Lỗi khi tải danh sách phiếu xét nghiệm');
+      toast.error(t('fetchError'));
     } finally {
       setIsLoading(false);
     }
-  }, [bookingId]);
+  }, [bookingId, t]);
 
   useEffect(() => {
     void fetchOrders();
-  }, [fetchOrders]);
+  }, [fetchOrders, t]);
 
   const addOrder = async (dto: Omit<CreateLabOrderDto, 'bookingId'>) => {
     try {
       setIsSubmitting(true);
       const newOrder = await labOrdersApi.createOrder({ ...dto, bookingId });
       setOrders((prev) => [newOrder, ...prev]);
-      toast.success('Chỉ định xét nghiệm thành công');
+      toast.success(t('createSuccess'));
       return true;
     } catch (error) {
       console.error(error);
       const e = error as { response?: { data?: { message?: string } } };
-      const msg = e.response?.data?.message || 'Có lỗi xảy ra khi tạo chỉ định';
+      const msg = e.response?.data?.message || t('createError');
       toast.error(msg);
       return false;
     } finally {
@@ -47,11 +49,11 @@ export function useLabOrders(bookingId: string) {
     try {
       await labOrdersApi.deleteOrder(id);
       setOrders((prev) => prev.filter((o) => o.id !== id));
-      toast.success('Đã hủy phiếu chỉ định');
+      toast.success(t('cancelSuccess'));
     } catch (error) {
       console.error(error);
       const e = error as { response?: { data?: { message?: string } } };
-      const msg = e.response?.data?.message || 'Lỗi khi hủy phiếu xét nghiệm';
+      const msg = e.response?.data?.message || t('cancelError');
       toast.error(msg);
     }
   };
@@ -67,6 +69,7 @@ export function useLabOrders(bookingId: string) {
 }
 
 export function usePendingLabOrders(autoRefresh = false) {
+  const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -77,11 +80,11 @@ export function usePendingLabOrders(autoRefresh = false) {
       setOrders(data);
     } catch (error) {
       console.error('Error fetching pending lab orders:', error);
-      toast.error('Lỗi khi tải danh sách phiếu xét nghiệm');
+      toast.error(t('fetchError'));
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void fetchPendingOrders();
@@ -89,7 +92,7 @@ export function usePendingLabOrders(autoRefresh = false) {
       const intervalId = setInterval(fetchPendingOrders, 30000);
       return () => clearInterval(intervalId);
     }
-  }, [fetchPendingOrders, autoRefresh]);
+  }, [fetchPendingOrders, autoRefresh, t]);
 
   return {
     orders,
@@ -99,6 +102,7 @@ export function usePendingLabOrders(autoRefresh = false) {
 }
 
 export function useReadyLabOrders(autoRefresh = false) {
+  const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -109,11 +113,11 @@ export function useReadyLabOrders(autoRefresh = false) {
       setOrders(data);
     } catch (error) {
       console.error('Error fetching ready lab orders:', error);
-      toast.error('Lỗi khi tải danh sách phiếu cần thực hiện');
+      toast.error(t('fetchPendingError'));
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void fetchReadyOrders();
@@ -121,7 +125,7 @@ export function useReadyLabOrders(autoRefresh = false) {
       const intervalId = setInterval(fetchReadyOrders, 30000);
       return () => clearInterval(intervalId);
     }
-  }, [fetchReadyOrders, autoRefresh]);
+  }, [fetchReadyOrders, autoRefresh, t]);
 
   return {
     orders,
@@ -131,6 +135,7 @@ export function useReadyLabOrders(autoRefresh = false) {
 }
 
 export function useLabOrder(orderId: string) {
+  const t = useTranslations('dashboard.technician.messages');
   const [order, setOrder] = useState<LabOrder | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -142,15 +147,15 @@ export function useLabOrder(orderId: string) {
       setOrder(data);
     } catch (error) {
       console.error('Error fetching lab order:', error);
-      toast.error('Lỗi khi lấy thông tin chỉ định');
+      toast.error(t('fetchSingleError'));
     } finally {
       setIsLoading(false);
     }
-  }, [orderId]);
+  }, [orderId, t]);
 
   useEffect(() => {
     void fetchOrder();
-  }, [fetchOrder]);
+  }, [fetchOrder, t]);
 
   return {
     order,
@@ -160,6 +165,7 @@ export function useLabOrder(orderId: string) {
 }
 
 export function useLabOrderActions() {
+  const t = useTranslations('dashboard.technician.messages');
   const [isUploading, setIsUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -195,7 +201,7 @@ export function useLabOrderActions() {
       return true;
     } catch (error) {
       console.error(error);
-      toast.error('Có lỗi xảy ra khi cập nhật trạng thái');
+      toast.error(t('statusUpdateError'));
       throw error;
     } finally {
       setIsSubmitting(false);
@@ -203,4 +209,60 @@ export function useLabOrderActions() {
   };
 
   return { uploadFile, submitResult, updateStatus, isUploading, isSubmitting };
+}
+
+export function useTechnicianStats(autoRefresh = false) {
+  const [stats, setStats] = useState<{ pending: number; inProgress: number; completedToday: number }>({
+    pending: 0,
+    inProgress: 0,
+    completedToday: 0,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchStats = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await labOrdersApi.getTechnicianStats();
+      setStats(data);
+    } catch (error) {
+      console.error('Error fetching technician stats:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void fetchStats();
+    if (autoRefresh) {
+      const intervalId = setInterval(fetchStats, 30000);
+      return () => clearInterval(intervalId);
+    }
+  }, [fetchStats, autoRefresh]);
+
+  return { stats, isLoading, refetch: fetchStats };
+}
+
+export function useTechnicianHistory() {
+  const t = useTranslations('dashboard.technician.messages');
+  const [orders, setOrders] = useState<LabOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchHistory = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const data = await labOrdersApi.getTechnicianHistory();
+      setOrders(data);
+    } catch (error) {
+      console.error('Error fetching technician history:', error);
+      toast.error(t('fetchHistoryError'));
+    } finally {
+      setIsLoading(false);
+    }
+  }, [t]);
+
+  useEffect(() => {
+    void fetchHistory();
+  }, [fetchHistory, t]);
+
+  return { orders, isLoading, refetch: fetchHistory };
 }
