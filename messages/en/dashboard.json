@@ -701,19 +701,39 @@
       "service": {
         "title": "Select Service",
         "desc": "Choose the clinical service requested",
-        "mins": "mins"
+        "mins": "mins",
+        "changeBtn": "Change",
+        "selectedBadge": "Selected Service"
       },
       "doctor": {
         "title": "Choose Doctor",
-        "desc": "Select from available practitioners today",
+        "desc": "Select from available practitioners",
+        "descWithService": "Doctors specializing in {service}",
         "available": "Available",
         "selectedBtn": "Selected",
         "selectBtn": "Select",
-        "generalPractitioner": "General Practitioner"
+        "generalPractitioner": "General Practitioner",
+        "changeBtn": "Change",
+        "noDocForService": "No doctors available for this service",
+        "noDocDesc": "Please contact admin to assign a doctor",
+        "loadingDoctors": "Loading doctors..."
       },
       "time": {
         "title": "Appointment Time",
-        "desc": "Select the earliest available time slot"
+        "desc": "Choose schedule type and time",
+        "walkInLabel": "Walk-in",
+        "walkInDesc": "Join the queue, no time slot needed",
+        "preBookingLabel": "Pre-Booking",
+        "preBookingDesc": "Pick a specific date and time slot",
+        "walkInQueueLabel": "Patient will be queued immediately after booking",
+        "walkInQueueDesc": "Estimated wait time will update automatically based on today's doctor schedule.",
+        "dateLabel": "Select Date",
+        "today": "Today",
+        "selectSlotLabel": "Select Time Slot",
+        "selectDoctorFirst": "Please select a doctor first to see available slots",
+        "loadingSlots": "Loading available slots...",
+        "noSlotsAvailable": "No available time slots",
+        "noSlotsDesc": "The doctor has no schedule or is fully booked for this day. Please try another date."
       },
       "summary": {
         "title": "Booking Summary",
@@ -722,12 +742,15 @@
         "serviceLabel": "Service",
         "doctorLabel": "Doctor",
         "scheduledForLabel": "Scheduled For",
+        "walkInTypeLabel": "Booking Type",
+        "walkInQueueTime": "Queue (auto time)",
+        "scheduledAt": "{date} at {time}",
         "notSelected": "Not selected",
         "editBtn": "Edit",
         "changeBtn": "Change",
-        "todayAt": "Today, {time} AM",
         "serviceFee": "Service Fee",
-        "confirmBtn": "Confirm Walk-in Appointment",
+        "confirmBtn": "Confirm Appointment",
+        "confirmWalkIn": "Add to Queue",
         "notice": "By confirming, the patient will be added to the queue immediately. Ensure all details are correct."
       },
       "success": {
