@@ -1985,6 +1985,39 @@
       "statusUpdateError": "Có lỗi xảy ra khi cập nhật trạng thái",
       "fetchHistoryError": "Lỗi khi tải lịch sử xét nghiệm"
     },
+    "settings": "Cài đặt",
+    "settingsContent": {
+      "title": "Cài đặt tài khoản",
+      "subtitle": "Quản lý thông tin hồ sơ và bảo mật tài khoản của bạn.",
+      "tabs": {
+        "account": "Hồ sơ cá nhân",
+        "security": "Bảo mật & Mật khẩu"
+      },
+      "account": {
+        "title": "Chi tiết hồ sơ",
+        "desc": "Cập nhật họ tên, số điện thoại liên lạc và địa chỉ của bạn.",
+        "fullName": "Họ và tên",
+        "fullNamePlaceholder": "Nhập họ và tên của bạn",
+        "phone": "Số điện thoại",
+        "phonePlaceholder": "Nhập số điện thoại của bạn",
+        "address": "Địa chỉ",
+        "addressPlaceholder": "Nhập địa chỉ hiện tại của bạn",
+        "email": "Địa chỉ Email",
+        "saveBtn": "Lưu thay đổi",
+        "savingBtn": "Đang lưu..."
+      },
+      "security": {
+        "title": "Cập nhật mật khẩu",
+        "desc": "Đảm bảo tài khoản của bạn đang sử dụng mật khẩu dài và ngẫu nhiên để giữ an toàn.",
+        "currentPassword": "Mật khẩu hiện tại",
+        "newPassword": "Mật khẩu mới",
+        "confirmPassword": "Xác nhận mật khẩu mới",
+        "saveBtn": "Cập nhật mật khẩu",
+        "savingBtn": "Đang cập nhật...",
+        "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+        "passwordMismatch": "Mật khẩu mới không khớp"
+      }
+    },
     "stats": {
       "pending": "Đang chờ",
       "inProgress": "Đang thực hiện",
