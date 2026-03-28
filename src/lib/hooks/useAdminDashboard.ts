@@ -27,22 +27,27 @@ export const useAdminStats = (range?: DateRange) => {
 };
 
 // Hook: Revenue Chart
-export const useAdminRevenueChart = (period: 'week' | 'month' | 'quarter' = 'month', range?: DateRange) => {
+export const useAdminRevenueChart = (period: 'week' | 'month' | 'quarter' = 'month', range?: DateRange, enabled = true) => {
   const [data, setData] = useState<RevenueChartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetch = useCallback(async () => {
+    if (!enabled) {
+      setLoading(false);
+      return;
+    }
     try {
       setLoading(true);
       const result = await dashboardApi.getAdminRevenueChart(period, range);
       setData(result);
     } catch (err) {
       console.error('[useAdminRevenueChart]', err);
-      toast.error('Failed to load revenue chart');
+      // Only toast error if enabled
+      if (enabled) toast.error('Failed to load revenue chart');
     } finally {
       setLoading(false);
     }
-  }, [period, range]);
+  }, [period, range, enabled]);
 
   useEffect(() => { fetch(); }, [fetch]);
   return { data, loading, refetch: fetch };

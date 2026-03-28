@@ -65,7 +65,11 @@ export function AdminRevenueTrendChart({
   const t = useTranslations('dashboard.admin.chart');
 
   // If external data is NOT provided, use internal hook
-  const { data: internalData, loading: internalLoading } = useAdminRevenueChart(range);
+  const { data: internalData, loading: internalLoading } = useAdminRevenueChart(
+    range, 
+    undefined,
+    !externalData && !isExternalRange
+  );
   
   const data = externalData || internalData;
   const loading = externalLoading !== undefined ? externalLoading : internalLoading;
