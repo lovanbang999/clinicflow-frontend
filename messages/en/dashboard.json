@@ -1898,7 +1898,9 @@
         "statusInProgress": "In Progress",
         "count": "Count",
         "totalBookings": "Total Cases",
-        "successRate": "Success Rate"
+        "successRate": "Success Rate",
+        "emptyTitle": "No data available",
+        "emptySubtitle": "Distribution chart will appear when service revenue data is available"
       }
     },
   "technician": {

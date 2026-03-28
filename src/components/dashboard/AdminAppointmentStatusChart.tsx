@@ -39,15 +39,15 @@ export function AdminAppointmentStatusChart({ overview, loading }: AdminAppointm
   }
 
   return (
-    <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden h-full flex flex-col">
+    <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden h-full flex flex-col min-w-0">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm font-semibold text-slate-900">{t('charts.appointmentStatus')}</CardTitle>
         <CardDescription className="text-[10px] uppercase tracking-wider font-bold text-slate-400">
           {t('charts.appointmentStatusDesc')}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col flex-1">
-        <div className="flex-1 min-h-[280px] w-full mt-2">
+      <CardContent className="flex flex-col flex-1 min-w-0">
+        <div className="flex-1 min-h-[280px] w-full mt-2 min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie

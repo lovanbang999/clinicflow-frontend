@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-
 import { TopDoctorItem } from '@/lib/api/dashboard';
 
 const AVATAR_COLORS = [
@@ -86,7 +85,7 @@ export function AdminTopDoctors({ doctors }: { doctors: TopDoctorItem[] }) {
   const isEmpty = docList.length === 0;
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm flex flex-col">
+    <div className="h-full bg-white rounded-2xl p-6 border border-[#e5e7eb] shadow-sm flex flex-col">
       <div className="flex justify-between items-center mb-5">
         <div>
           <h3 className="text-base font-bold text-[#111518]">{t('title')}</h3>
@@ -129,7 +128,7 @@ export function AdminTopDoctors({ doctors }: { doctors: TopDoctorItem[] }) {
                         {t('visits', { count: doc.patientsCount })}
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-[#f1f5f9] rounded-full overflow-hidden">
+                    <div className="w-full max-w-[200px] h-1.5 bg-[#f1f5f9] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#1392ec]/70 rounded-full transition-all duration-500"
                         style={{ width: `${barPct}%` }}

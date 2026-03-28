@@ -39,7 +39,11 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'settings',          href: '/admin/settings',        icon: GearSixIcon,       exact: false },
 ];
 
-export default function AdminSidebar() {
+interface AdminSidebarProps {
+  onNavItemClick?: () => void;
+}
+
+export default function AdminSidebar({ onNavItemClick }: AdminSidebarProps) {
   const pathname = usePathname();
   const { logout } = useAuth();
   const t = useTranslations('dashboard.admin');
@@ -68,6 +72,7 @@ export default function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavItemClick}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium',
                 isActive

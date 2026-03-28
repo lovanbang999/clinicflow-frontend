@@ -76,7 +76,7 @@ export function AdminTopServices({ services, viewAllHref = '/admin/services' }: 
                     <span className="text-xs text-slate-500 shrink-0">{svc.bookingsCount} lịch</span>
                   </div>
                   {/* Progress bar */}
-                  <div className="mt-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="mt-1 h-1.5 bg-slate-100 rounded-full overflow-hidden max-w-[200px]">
                     <div
                       className="h-full bg-[#1392ec] rounded-full transition-all duration-500"
                       style={{ width: `${barPct}%` }}

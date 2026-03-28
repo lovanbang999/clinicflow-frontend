@@ -56,9 +56,9 @@ export default function AdminAnalyticsPage() {
   const { data: revenueData, loading: loadingRevenue } = useAdminRevenueChart('month', apiRange);
 
   return (
-    <div className="px-8 py-6  space-y-6 mx-auto">
+    <div className="px-4 sm:px-8 py-6 space-y-6 mx-auto min-w-0 overflow-hidden">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="size-9 rounded-xl bg-[#1392ec]/10 text-[#1392ec] flex items-center justify-center">
             <ClipboardTextIcon size={20} weight="duotone" />
@@ -73,7 +73,7 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {loadingStats ? (
           [1, 2, 3, 4].map((i) => (
             <div key={i} className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
@@ -126,7 +126,7 @@ export default function AdminAnalyticsPage() {
 
       {/* Revenue Trend - Main Focus */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-        <div className="lg:col-span-2 h-full">
+        <div className="lg:col-span-2 h-full min-w-0">
           <AdminRevenueTrendChart 
             data={revenueData} 
             loading={loadingRevenue} 
@@ -135,7 +135,7 @@ export default function AdminAnalyticsPage() {
           />
         </div>
         
-        <div className="h-full">
+        <div className="h-full min-w-0">
           <AdminAppointmentStatusChart 
             overview={bookingOverview} 
             loading={loadingBooking} 
@@ -143,24 +143,28 @@ export default function AdminAnalyticsPage() {
         </div>
       </div>
 
-      {/* Secondary Row: Service Dist + Ranking */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AdminServiceDistributionChart 
-          services={topServices} 
-          loading={loadingTopServices} 
-        />
+      {/* Secondary Row: Service Dist + Rankings side-by-side */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="min-w-0 h-full">
+          <AdminServiceDistributionChart 
+            services={topServices} 
+            loading={loadingTopServices} 
+          />
+        </div>
         
-        <div className="space-y-6">
+        <div className="min-w-0 h-full">
           {loadingTopDoctors ? (
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 h-full">
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
             </div>
           ) : (
             <AdminTopDoctors doctors={topDoctors ?? []} />
           )}
-          
+        </div>
+
+        <div className="min-w-0 h-full">
           {loadingTopServices ? (
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3">
+            <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 h-full">
               {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
             </div>
           ) : (

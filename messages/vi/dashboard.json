@@ -1934,7 +1934,9 @@
       "statusInProgress": "Đang khám",
       "count": "Số lượng",
       "totalBookings": "Tổng số ca",
-      "successRate": "Tỷ lệ thành công"
+      "successRate": "Tỷ lệ thành công",
+      "emptyTitle": "Chưa có dữ liệu",
+      "emptySubtitle": "Biểu đồ phân bổ sẽ hiển thị khi có dữ liệu doanh thu dịch vụ"
     }
   },
   "technician": {
