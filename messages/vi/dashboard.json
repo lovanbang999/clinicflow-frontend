@@ -737,6 +737,135 @@
         "cancel": "Bỏ qua",
         "confirm": "Đồng ý"
       }
+    },
+    "patientManagement": {
+      "title": "Quản lý Bệnh nhân",
+      "description": "Quản lý hồ sơ và tiếp nhận bệnh nhân của phòng khám",
+      "actions": {
+        "register": "Đăng ký mới",
+        "guest": "Tiếp nhận vãng lai",
+        "viewDetail": "Xem chi tiết",
+        "edit": "Chỉnh sửa",
+        "book": "Đặt lịch",
+        "checkIn": "Check-in"
+      },
+      "stats": {
+        "totalPatients": "Tổng bệnh nhân",
+        "newToday": "Bệnh nhân mới hôm nay",
+        "activeAppointments": "Lịch hẹn đang hoạt động"
+      },
+      "search": {
+        "placeholder": "Tìm tên, mã BN, hoặc số điện thoại..."
+      },
+      "table": {
+        "patient": "Bệnh nhân",
+        "code": "Mã BN",
+        "contact": "Liên hệ",
+        "gender": "Giới tính",
+        "status": "Trạng thái",
+        "actions": "Thao tác",
+        "pagination": {
+          "showing": "Hiển thị <range>{valRange}</range> trên <total>{valTotal}</total> kết quả",
+          "prev": "Trước",
+          "next": "Sau"
+        }
+      },
+      "registrationModal": {
+        "title": "Đăng ký Bệnh nhân",
+        "subtitle": "Tạo hồ sơ mới cho bệnh nhân trong hệ thống",
+        "tabs": {
+          "standard": "Đăng ký chuẩn",
+          "guest": "Tiếp nhận vãng lai"
+        },
+        "form": {
+          "fullName": "Họ và tên (*)",
+          "phone": "Số điện thoại (*)",
+          "email": "Email",
+          "dob": "Ngày sinh",
+          "gender": "Giới tính",
+          "address": "Địa chỉ",
+          "bloodType": "Nhóm máu",
+          "nationalId": "Số CCCD / CMND",
+          "placeholders": {
+            "fullName": "Nguyễn Văn A",
+            "phone": "0901234567",
+            "email": "example@mail.com",
+            "address": "Địa chỉ thường trú...",
+            "nationalId": "012345678901"
+          },
+          "genderOptions": {
+            "select": "Chọn giới tính",
+            "male": "Nam",
+            "female": "Nữ",
+            "other": "Khác"
+          },
+          "bloodTypeOptions": {
+            "unknown": "Không rõ"
+          }
+        },
+        "validation": {
+          "fullNameRequired": "Họ tên là bắt buộc",
+          "phoneRequired": "Số điện thoại là bắt buộc",
+          "emailRequired": "Email là bắt buộc cho tài khoản hệ thống",
+          "dobRequired": "Ngày sinh là bắt buộc",
+          "genderRequired": "Giới tính là bắt buộc"
+        },
+        "actions": {
+          "cancel": "Hủy",
+          "register": "Đăng ký",
+          "registering": "Đang đăng ký..."
+        }
+      },
+      "editModal": {
+        "title": "Chỉnh sửa Hồ sơ",
+        "subtitle": "Cập nhật thông tin chi tiết của bệnh nhân",
+        "actions": {
+          "cancel": "Hủy",
+          "save": "Lưu thay đổi",
+          "saving": "Đang lưu..."
+        }
+      },
+      "quickView": {
+        "title": "Xem nhanh hồ sơ",
+        "bookAppt": "Đặt lịch",
+        "edit": "Chỉnh sửa",
+        "tabs": {
+          "overview": "Tổng quan",
+          "medical_records": "Hồ sơ bệnh án",
+          "prescriptions": "Đơn thuốc",
+          "lab_results": "Kết quả xét nghiệm",
+          "appointments": "Lịch hẹn"
+        },
+        "vitals": {
+          "weight": "Cân nặng",
+          "height": "Chiều cao",
+          "bmi": "BMI",
+          "bp": "Huyết áp",
+          "heart": "Nhịp tim"
+        },
+        "conditions": {
+          "title": "Tình trạng hiện tại"
+        },
+        "allergies": {
+          "title": "Dị ứng & Rủi ro"
+        },
+        "activity": {
+          "title": "Hoạt động gần đây"
+        },
+        "medicalRecords": {
+          "title": "Lịch sử hồ sơ bệnh án",
+          "add": "Thêm mới",
+          "columns": {
+            "date": "Ngày",
+            "diagnosis": "Chẩn đoán",
+            "action": "Thao tác"
+          }
+        },
+        "comingSoon": {
+          "title": "Không tìm thấy dữ liệu",
+          "desc": "Nội dung cho tab này sẽ sớm được cập nhật."
+        }
+      }
     }
   },
   "admin": {
@@ -1185,6 +1314,42 @@
           "doctor": "Bác sĩ",
           "status": "Trạng thái",
           "actions": "Thao tác"
+        },
+        "registrationModal": {
+          "title": "Đăng ký Bệnh nhân",
+          "subtitle": "Tạo hồ sơ mới cho bệnh nhân",
+          "tabs": {
+            "standard": "Đăng ký chuẩn",
+            "guest": "Tiếp nhận vãng lai"
+          },
+          "form": {
+            "fullName": "Họ và tên (*)",
+            "dob": "Ngày sinh (*)",
+            "gender": "Giới tính (*)",
+            "phone": "Số điện thoại (*)",
+            "email": "Email",
+            "address": "Địa chỉ",
+            "bloodType": "Nhóm máu",
+            "insurance": "Bảo hiểm y tế",
+            "insuranceNumber": "Số thẻ BHYT",
+            "insuranceExpiry": "Ngày hết hạn",
+            "allergies": "Dị ứng",
+            "chronicConditions": "Bệnh lý mãn tính"
+          },
+          "actions": {
+            "cancel": "Hủy",
+            "register": "Đăng ký",
+            "registering": "Đang đăng ký..."
+          }
+        },
+        "editModal": {
+          "title": "Chỉnh sửa Hồ sơ",
+          "subtitle": "Cập nhật thông tin bệnh nhân",
+          "actions": {
+            "cancel": "Hủy",
+            "save": "Lưu thay đổi",
+            "saving": "Đang lưu..."
+          }
         },
         "statuses": {
           "active": "Đang hoạt động",

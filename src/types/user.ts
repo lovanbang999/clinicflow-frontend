@@ -18,6 +18,17 @@ export interface User {
   patientProfile?: {
     id: string;
     patientCode: string;
+    isGuest: boolean;
+    bloodType?: string;
+    nationalId?: string;
+    insuranceNumber?: string;
+    insuranceProvider?: string;
+    insuranceExpiry?: string;
+    allergies?: string;
+    chronicConditions?: string;
+    familyHistory?: string;
+    heightCm?: number;
+    weightKg?: number;
   };
   doctorProfile?: {
     id: string;
