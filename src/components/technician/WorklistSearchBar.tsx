@@ -22,7 +22,7 @@ export function WorklistSearchBar({
   const t = useTranslations('dashboard.technician.worklist');
 
   return (
-    <div className="px-8 pb-4 shrink-0 flex items-center justify-between gap-4">
+    <div className="pb-4 shrink-0 flex items-center justify-between gap-4">
       <div className="flex items-center bg-white border border-[#e5e7eb] rounded-xl px-3 py-2 w-full max-w-sm focus-within:ring-2 ring-[#1392ec]/20 transition-all">
         <MagnifyingGlassIcon size={20} weight="bold" className="text-[#64748b]" />
         <input

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import {
   ListChecksIcon,
   SignOutIcon,
+  SquaresFour as SquaresFourIcon,
   type Icon,
 } from '@phosphor-icons/react';
 
@@ -20,6 +21,7 @@ type NavItem = {
 };
 
 export const NAV_ITEMS_TECHNICIAN: NavItem[] = [
+  { key: 'dashboard', href: '/technician', icon: SquaresFourIcon, exact: true },
   { key: 'labWorklist', href: '/technician/lab-worklist', icon: ListChecksIcon, exact: false },
 ];
 
@@ -37,7 +39,7 @@ export function TechnicianDashboardSidebar() {
         <div>
           <h1 className="text-[#111518] text-lg font-bold leading-none">Smart Clinic</h1>
           <p className="text-[#1392ec]/70 text-xs font-semibold uppercase tracking-wider mt-1">
-            Healthcare
+            {t('sidebar.healthcare')}
           </p>
         </div>
       </div>

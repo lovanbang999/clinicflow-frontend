@@ -71,6 +71,16 @@ export const labOrdersApi = {
     return response.data.data;
   },
 
+  getTechnicianStats: async (): Promise<{ pending: number; inProgress: number; completedToday: number }> => {
+    const response = await apiClient.get('/lab-orders/technician/stats');
+    return response.data.data;
+  },
+
+  getTechnicianHistory: async (): Promise<LabOrder[]> => {
+    const response = await apiClient.get('/lab-orders/technician/history');
+    return response.data.data;
+  },
+
   updateOrderStatus: async (
     labOrderId: string,
     status: LabOrder['status'],

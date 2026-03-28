@@ -8,7 +8,8 @@ import {
   SpinnerIcon, 
   FileTextIcon,
   PlayIcon,
-  PencilSimpleLineIcon
+  PencilSimpleLineIcon,
+  EyeIcon
 } from '@phosphor-icons/react';
 
 interface WorklistTableProps {
@@ -83,7 +84,7 @@ export const WorklistTable = memo(function WorklistTable({
                 <td className="px-5 py-4">
                   <div className="font-medium text-slate-900">{order.testName}</div>
                   {order.booking?.doctor?.fullName && (
-                    <div className="text-xs text-slate-500">BS. {order.booking.doctor.fullName}</div>
+                    <div className="text-xs text-slate-500">{t('doctorPrefix')} {order.booking.doctor.fullName}</div>
                   )}
                 </td>
                 <td className="px-5 py-4">{getStatusBadge(order.status)}</td>
@@ -109,6 +110,17 @@ export const WorklistTable = memo(function WorklistTable({
                       className="border-blue-600 text-blue-600 hover:bg-blue-50 gap-2 cursor-pointer transition-all"
                     >
                       <PencilSimpleLineIcon size={16} weight="bold" />
+                      {t('actions.result')}
+                    </Button>
+                  )}
+                  {order.status === 'COMPLETED' && (
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => onResult(order)}
+                      className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 gap-2 cursor-pointer transition-all"
+                    >
+                      <EyeIcon size={16} weight="bold" />
                       {t('actions.result')}
                     </Button>
                   )}
