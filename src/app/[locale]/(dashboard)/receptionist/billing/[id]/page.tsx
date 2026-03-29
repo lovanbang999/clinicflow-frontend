@@ -56,11 +56,19 @@ export default function InvoiceDetailPage() {
     );
   }
 
-  const handlePaymentSubmit = async (amount: number, method: PaymentMethod, labOrderId?: string) => {
+  const handlePaymentSubmit = async (
+    amount: number,
+    method: PaymentMethod,
+    labOrderId?: string,
+    insuranceCovered?: number,
+    insuranceNumber?: string,
+  ) => {
     await addPayment(currentInvoice.id, {
       amountPaid: amount,
       paymentMethod: method,
       labOrderId,
+      insuranceCovered,
+      insuranceNumber,
     });
     fetchInvoiceById(currentInvoice.id); // refresh
   };
