@@ -114,9 +114,13 @@ export interface LabOrderForBilling {
 export interface AddPaymentDto {
   amountPaid: number;
   paymentMethod: PaymentMethod;
-  transactionId?: string;
-  isInsurance?: boolean;
+  /** BHYT: amount covered by insurance */
+  insuranceCovered?: number;
+  /** BHYT: patient insurance card number */
+  insuranceNumber?: string;
+  transactionRef?: string;
   labOrderId?: string;
+  notes?: string;
 }
 
 export interface AddInvoiceItemDto {

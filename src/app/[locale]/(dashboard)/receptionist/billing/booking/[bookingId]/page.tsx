@@ -71,12 +71,20 @@ export default function BookingInvoicesPage() {
     setPaymentModalOpen(true);
   };
 
-  const handlePaymentSubmit = async (amount: number, method: PaymentMethod, labOrderId?: string) => {
+  const handlePaymentSubmit = async (
+    amount: number,
+    method: PaymentMethod,
+    labOrderId?: string,
+    insuranceCovered?: number,
+    insuranceNumber?: string,
+  ) => {
     if (!selectedInvoice) return;
     await addPayment(selectedInvoice.id, {
       amountPaid: amount,
       paymentMethod: method,
       labOrderId,
+      insuranceCovered,
+      insuranceNumber,
     });
     
     // Auto check-in if consultation
