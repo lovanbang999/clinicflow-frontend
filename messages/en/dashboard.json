@@ -225,6 +225,32 @@
     "schedule": "Schedule",
     "patients": "Patients",
     "settings": "Settings",
+    "schedulePage": {
+      "offDays": {
+        "title": "Register Off Day",
+        "description": "Select a date on the calendar to register an off day. The system will warn you if any appointments are affected.",
+        "legend": {
+          "offDay": "Off Day",
+          "selected": "Selected"
+        },
+        "form": {
+          "title": "Register off day on {date}",
+          "reasonPlaceholder": "Reason for off day (optional)…",
+          "confirmBtn": "Confirm Off Day"
+        },
+        "list": {
+          "title": "Registered Off Days",
+          "empty": "No off days registered yet",
+          "cancelBtn": "Cancel registration"
+        },
+        "affectedModal": {
+          "title": "Affected Appointments",
+          "description": "Off day on {date} will be registered. There are {count} appointments that will be affected:",
+          "footerNote": "Confirming will AUTOMATICALLY CANCEL the appointments above. Please contact patients afterward to reschedule.",
+          "understandBtn": "Confirm & Cancel Appointments"
+        }
+      }
+    },
     "notFound": {
       "title": "Page Not Found",
       "description": "The page you are looking for does not exist or has been moved.",

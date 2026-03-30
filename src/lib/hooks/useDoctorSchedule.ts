@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { schedulesApi, AffectedAppointment } from '@/lib/api/schedules';
+import { schedulesApi, AffectedAppointment, PreviewOffDayResult } from '@/lib/api/schedules';
 import { WorkingHours, OffDay, DayOfWeek } from '@/types';
 import { toast } from 'sonner';
 
@@ -97,6 +97,11 @@ export const useDoctorSchedule = () => {
     affectedAppointments: AffectedAppointment[];
   } | null>(null);
 
+  const previewOffDay = useCallback(async (doctorId: string, date: string): Promise<PreviewOffDayResult> => {
+    const result = await schedulesApi.previewOffDay(doctorId, date);
+    return result;
+  }, []);
+
   const fetchOffDays = useCallback(async (doctorId: string, startDate?: string, endDate?: string) => {
     try {
       setLoadingOffDays(true);
@@ -118,24 +123,22 @@ export const useDoctorSchedule = () => {
    * Returns { confirmed: true } if saved immediately, { confirmed: false, affectedAppointments } if needs dialog.
    */
   const requestOffDay = useCallback(
-    async (doctorId: string, date: string, reason: string) => {
+    async (doctorId: string, date: string, reason: string, cancelAffected = false) => {
       try {
         setSavingOffDay(true);
-        const result = await schedulesApi.createOffDay({ doctorId, date, reason });
+        const result = await schedulesApi.createOffDay({ doctorId, date, reason, cancelAffected });
         const { affectedAppointments, ...offDay } = result;
 
         // Always add to state – off day is created regardless
         setOffDays((prev) => [...prev, offDay]);
 
-        if (affectedAppointments.length > 0) {
-          // Warn the user about affected appointments
-          setPendingOffDay({ doctorId, date, reason, affectedAppointments });
-          toast.warning(`Đã đăng ký nghỉ. Có ${affectedAppointments.length} lịch hẹn bị ảnh hưởng!`);
-          return { confirmed: true, affectedAppointments };
+        if (cancelAffected && (result.cancelledCount ?? 0) > 0) {
+          toast.success(`Đã đăng ký nghỉ và hủy ${result.cancelledCount} lịch hẹn.`);
+        } else {
+          toast.success('Đã đăng ký nghỉ thành công');
         }
 
-        toast.success('Đã đăng ký nghỉ thành công');
-        return { confirmed: true, affectedAppointments: [] };
+        return { confirmed: true, affectedAppointments, cancelledCount: result.cancelledCount ?? 0 };
       } catch (err) {
         const error = err as Error;
         toast.error(error.message || 'Đăng ký nghỉ thất bại');
@@ -180,6 +183,7 @@ export const useDoctorSchedule = () => {
     pendingOffDay,
     clearPendingOffDay,
     fetchOffDays,
+    previewOffDay,
     requestOffDay,
     deleteOffDay,
   };

@@ -20,6 +20,11 @@ export interface AffectedAppointment {
 
 export interface CreateOffDayResult extends OffDay {
   affectedAppointments: AffectedAppointment[];
+  cancelledCount?: number;
+}
+
+export interface PreviewOffDayResult {
+  affectedAppointments: AffectedAppointment[];
 }
 
 export const schedulesApi = {
@@ -90,8 +95,16 @@ export const schedulesApi = {
     return response.data.data;
   },
 
-  // Create an off day (returns affected appointments)
-  createOffDay: async (data: Omit<OffDay, 'id'>): Promise<CreateOffDayResult> => {
+  // Preview affected appointments (no off day is created)
+  previewOffDay: async (doctorId: string, date: string): Promise<PreviewOffDayResult> => {
+    const response = await apiClient.get<{ data: PreviewOffDayResult }>('/schedules/off-days/preview', {
+      params: { doctorId, date },
+    });
+    return response.data.data;
+  },
+
+  // Create an off day (returns affected appointments; optionally cancels them)
+  createOffDay: async (data: Omit<OffDay, 'id'> & { cancelAffected?: boolean }): Promise<CreateOffDayResult> => {
     const response = await apiClient.post<{ data: CreateOffDayResult }>('/schedules/off-days', data);
     return response.data.data;
   },
