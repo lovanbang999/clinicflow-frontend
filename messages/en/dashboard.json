@@ -344,7 +344,8 @@
         "actions": {
           "enterExam": "Enter Consultation",
           "callPatient": "Call Patient",
-          "printResult": "Print Result"
+          "printResult": "Print Result",
+          "finishCurrentFirst": "Finish/draft current exam first"
         },
         "infoNote": "You can only <strong>Enter Room</strong> with the currently called patient. Waiting patients are for reference only and cannot be examined yet.",
         "statusLabel": "Status",
