@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DoctorPatientSummary } from '@/types';
@@ -27,7 +29,7 @@ export default function DoctorPatientsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 md:p-8 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -42,7 +44,7 @@ export default function DoctorPatientsPage() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <CardTitle className="text-lg font-medium">Danh sách bệnh nhân</CardTitle>
+            <CardTitle className="text-lg font-medium">{t('doctor.patientsPage.listTitle')}</CardTitle>
             <div className="relative w-full sm:w-72">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input
@@ -63,7 +65,7 @@ export default function DoctorPatientsPage() {
             <div className="flex flex-col items-center justify-center py-12 text-slate-500">
               <User className="h-12 w-12 text-slate-300 mb-4" />
               <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">{t('doctor.patientsPage.empty')}</h3>
-              <p className="mt-1">Hãy thử thay đổi từ khóa tìm kiếm.</p>
+              <p className="mt-1">{t('doctor.patientsPage.emptyDesc')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -87,12 +89,12 @@ export default function DoctorPatientsPage() {
                       <td className="px-4 py-3">
                         <div>{patient.phone || '--'}</div>
                         <div className="text-xs text-slate-500 mt-0.5">
-                          {patient.gender === 'MALE' ? 'Nam' : patient.gender === 'FEMALE' ? 'Nữ' : 'Khác'}
+                          {patient.gender === 'MALE' ? t('doctor.patientsPage.table.male') : patient.gender === 'FEMALE' ? t('doctor.patientsPage.table.female') : t('doctor.patientsPage.table.other')}
                         </div>
                       </td>
                       <td className="px-4 py-3">
                         <Badge variant="secondary" className="font-normal">
-                          {patient.totalVisits} lần
+                          {patient.totalVisits} {t('doctor.patientsPage.times')}
                         </Badge>
                       </td>
                       <td className="px-4 py-3">
@@ -122,7 +124,7 @@ export default function DoctorPatientsPage() {
           {/* Pagination could go here */}
           {!loading && total > 0 && (
             <div className="mt-4 text-sm text-slate-500 text-center">
-              Hiển thị {patients.length} trên tổng {total} bệnh nhân
+              {t('doctor.patientsPage.showingCount', { count: patients.length, total: total })}
             </div>
           )}
         </CardContent>

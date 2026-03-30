@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { useParams } from 'next/navigation';
@@ -22,6 +23,7 @@ interface DoctorPatientDrawerProps {
 }
 
 export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatientDrawerProps) {
+  const t = useTranslations('dashboard');
   const params = useParams();
   const locale = params.locale === 'vi' ? vi : enUS;
   
@@ -82,7 +84,7 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
                 <div className="text-sm text-slate-500">{visit.serviceName}</div>
               </div>
               <Badge variant="outline" className="text-xs font-normal">
-                Bs. {visit.doctorName}
+                {t('doctor.patientsPage.drawer.dr')} {visit.doctorName}
               </Badge>
             </div>
 
@@ -90,7 +92,7 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
               <div className="bg-blue-50/50 dark:bg-blue-900/10 p-3 rounded-md">
                 <div className="flex items-center text-xs font-medium text-blue-700 dark:text-blue-400 mb-1">
                   <Activity className="h-3.5 w-3.5 mr-1" />
-                  Chẩn đoán
+                  {t('doctor.patientsPage.drawer.diagnosis')}
                 </div>
                 <p className="text-sm text-slate-700 dark:text-slate-300">
                   {visit.medicalRecord.diagnosisName}
@@ -102,7 +104,7 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
               <div className="bg-emerald-50/50 dark:bg-emerald-900/10 p-3 rounded-md">
                 <div className="flex items-center text-xs font-medium text-emerald-700 dark:text-emerald-400 mb-1">
                   <Pill className="h-3.5 w-3.5 mr-1" />
-                  Đơn thuốc ({visit.prescription?.items.length})
+                  {t('doctor.patientsPage.drawer.prescription', { count: visit.prescription?.items.length || 0 })}
                 </div>
                 <div className="text-sm text-slate-700 dark:text-slate-300 line-clamp-2">
                   {visit.prescription?.items.map((item: { medicineName: string }) => item.medicineName).join(', ')}
@@ -120,9 +122,9 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
       <DialogContent className="sm:max-w-xl md:max-w-2xl overflow-hidden flex flex-col p-0 max-h-[90vh]">
         <div className="p-6 pb-4 border-b">
           <DialogHeader>
-            <DialogTitle className="text-xl">Hồ sơ y tế bệnh nhân</DialogTitle>
+            <DialogTitle className="text-xl">{t('doctor.patientsPage.drawer.title')}</DialogTitle>
             <DialogDescription>
-              Xem chi tiết hồ sơ sức khỏe và lịch sử khám.
+              {t('doctor.patientsPage.drawer.desc')}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -144,27 +146,27 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
                 <div className="space-y-4">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-100 flex items-center">
                     <User className="h-4 w-4 mr-2 text-primary" />
-                    Thông tin cơ bản
+                    {t('doctor.patientsPage.drawer.basicInfo')}
                   </h3>
                   <div className="grid grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
                     <div>
-                      <div className="text-xs text-slate-500">Họ tên / Mã BN</div>
+                      <div className="text-xs text-slate-500">{t('doctor.patientsPage.drawer.nameId')}</div>
                       <div className="font-medium">{historyData.patientProfile.fullName}</div>
                       <div className="text-sm text-slate-600">{historyData.patientProfile.patientCode}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-slate-500">Ngày sinh / Tuổi</div>
+                      <div className="text-xs text-slate-500">{t('doctor.patientsPage.drawer.dobAge')}</div>
                       <div className="font-medium">{formatDate(historyData.patientProfile.dateOfBirth)}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-slate-500">Giới tính / Nhóm máu</div>
+                      <div className="text-xs text-slate-500">{t('doctor.patientsPage.drawer.genderBlood')}</div>
                       <div className="font-medium">
-                        {historyData.patientProfile.gender === 'MALE' ? 'Nam' : historyData.patientProfile.gender === 'FEMALE' ? 'Nữ' : 'Khác'}
+                        {historyData.patientProfile.gender === 'MALE' ? t('doctor.patientsPage.table.male') : historyData.patientProfile.gender === 'FEMALE' ? t('doctor.patientsPage.table.female') : t('doctor.patientsPage.table.other')}
                         {historyData.patientProfile.bloodType ? ` - ${historyData.patientProfile.bloodType}` : ''}
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-slate-500">Liên hệ</div>
+                      <div className="text-xs text-slate-500">{t('doctor.patientsPage.drawer.contact')}</div>
                       <div className="font-medium">{historyData.patientProfile.phone || '--'}</div>
                     </div>
                   </div>
@@ -174,13 +176,13 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
                     <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200/50 dark:border-amber-800/50">
                       {historyData.patientProfile.allergies && (
                         <div className="mb-2">
-                          <span className="text-xs font-semibold text-amber-800 dark:text-amber-500 uppercase">Dị ứng</span>
+                          <span className="text-xs font-semibold text-amber-800 dark:text-amber-500 uppercase">{t('doctor.patientsPage.drawer.allergies')}</span>
                           <p className="text-sm text-amber-900 dark:text-amber-100">{historyData.patientProfile.allergies}</p>
                         </div>
                       )}
                       {historyData.patientProfile.chronicConditions && (
                         <div>
-                          <span className="text-xs font-semibold text-amber-800 dark:text-amber-500 uppercase">Bệnh mãn tính</span>
+                          <span className="text-xs font-semibold text-amber-800 dark:text-amber-500 uppercase">{t('doctor.patientsPage.drawer.chronic')}</span>
                           <p className="text-sm text-amber-900 dark:text-amber-100">{historyData.patientProfile.chronicConditions}</p>
                         </div>
                       )}
@@ -192,13 +194,13 @@ export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatie
                 <div className="space-y-4">
                   <h3 className="font-semibold text-slate-900 dark:text-slate-100 flex items-center">
                     <Clock className="h-4 w-4 mr-2 text-primary" />
-                    Lịch sử khám ({historyData.recentVisits?.length || 0})
+                    {t('doctor.patientsPage.drawer.historyTitle', { count: historyData.recentVisits?.length || 0 })}
                   </h3>
                   
                   <div className="pt-2">
                     {!historyData.recentVisits || historyData.recentVisits.length === 0 ? (
                       <div className="text-center py-8 text-slate-500">
-                        Chưa có lịch sử khám trước đó (tại tab này).
+                        {t('doctor.patientsPage.drawer.noHistory')}
                       </div>
                     ) : (
                       historyData.recentVisits.map(renderTimelineItem)
