@@ -99,6 +99,8 @@ export interface CreateInvoiceDto {
   bookingId: string;
   invoiceType?: InvoiceType;
   notes?: string;
+  labOrderIds?: string[];
+  items?: AddInvoiceItemDto[];
 }
 
 export interface LabOrderForBilling {

@@ -23,6 +23,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { PaymentModal } from '@/components/dashboard/billing/PaymentModal';
 import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
 import { PrintableQueueTicket } from '@/components/dashboard/billing/PrintableQueueTicket';
+import { QuickAddInvoiceModal } from '@/components/dashboard/billing/QuickAddInvoiceModal';
+import { AddInvoiceItemDto } from '@/lib/api/billing';
 
 import { useTranslations } from 'next-intl';
 import { InvoiceCard } from '@/components/dashboard/billing/InvoiceCard';
@@ -54,6 +56,9 @@ export default function BookingInvoicesPage() {
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
   const [creatingType, setCreatingType] = useState<InvoiceType | null>(null);
+  
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
+  const [quickAddType, setQuickAddType] = useState<InvoiceType>(InvoiceType.CONSULTATION);
   
   // Printing states
   const [printingContent, setPrintingContent] = useState<'invoice' | 'ticket' | null>(null);
@@ -103,12 +108,25 @@ export default function BookingInvoicesPage() {
     void fetchPendingLabOrders(bookingId);
   };
 
-  const handleCreateInvoice = async (type: InvoiceType) => {
-    setCreatingType(type);
+  const handleCreateInvoice = (type: InvoiceType) => {
+    setQuickAddType(type);
+    setIsQuickAddOpen(true);
+  };
+
+  const handleQuickAddSubmit = async (labOrderIds: string[], items: AddInvoiceItemDto[]) => {
     try {
-      await createInvoice({ bookingId, invoiceType: type });
-      // Refresh pending labs after creating LAB invoice
+      setCreatingType(quickAddType);
+      await createInvoice({ 
+        bookingId, 
+        invoiceType: quickAddType,
+        labOrderIds,
+        items
+      });
+      setIsQuickAddOpen(false);
+      void fetchInvoicesByBooking(bookingId);
       void fetchPendingLabOrders(bookingId);
+    } catch (e) {
+      console.error(e);
     } finally {
       setCreatingType(null);
     }
@@ -186,7 +204,7 @@ export default function BookingInvoicesPage() {
         <div>
           <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 text-slate-800">
             <ReceiptIcon size={28} weight="duotone" className="text-[#1392ec]" />
-            Patient Visit Hub
+            {t('patientVisitHub')}
           </h1>
           <p className="text-sm text-slate-500 mt-0.5 font-medium">
             {t('bookingCode')}: <span className="font-mono text-slate-700 tracking-wide">{bookingId}</span>
@@ -204,13 +222,13 @@ export default function BookingInvoicesPage() {
         {/* LEFT COLUMN: Service Details (62%) */}
         <div className="lg:col-span-8 space-y-6">
           <h2 className="text-base font-bold text-slate-800 flex items-center gap-2">
-            <span className="w-1.5 h-5 bg-[#1392ec] rounded-full"></span> Chi tiết Dịch vụ & Chỉ định
+            <span className="w-1.5 h-5 bg-[#1392ec] rounded-full"></span> {t('serviceDetailTitle')}
           </h2>
 
           {/* Consultation Section */}
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-2">
-              <StethoscopeIcon size={18} /> Phí Khám Bệnh
+              <StethoscopeIcon size={18} /> {t('consultationSection')}
             </h3>
             {consultationInvoices.length > 0 ? (
               consultationInvoices.map(inv => (
@@ -218,9 +236,9 @@ export default function BookingInvoicesPage() {
               ))
             ) : (
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 flex items-center justify-between">
-                <span className="text-slate-500 text-sm">Chưa tạo hóa đơn Khám.</span>
+                <span className="text-slate-500 text-sm">{t('emptyConsultation')}</span>
                 <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.CONSULTATION)} disabled={processingPayment || creatingType !== null} className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer h-8 text-xs">
-                  {creatingType === InvoiceType.CONSULTATION ? '⏳' : <PlusIcon size={14} className="mr-1" />} Tạo HĐ Khám
+                  {creatingType === InvoiceType.CONSULTATION ? '⏳' : <PlusIcon size={14} className="mr-1" />} {t('createConsultationInvoice')}
                 </Button>
               </div>
             )}
@@ -229,7 +247,7 @@ export default function BookingInvoicesPage() {
           {/* Laboratory Section */}
           <div className="space-y-3 pt-2">
             <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-2">
-              <TestTubeIcon size={18} /> Xét Nghiệm
+              <TestTubeIcon size={18} /> {t('labSection')}
             </h3>
             
             {hasPendingLabs && (
@@ -262,7 +280,7 @@ export default function BookingInvoicesPage() {
               ))
             ) : (!hasPendingLabs && (
               <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 text-center">
-                <span className="text-slate-400 text-sm font-medium">Không có phiếu xét nghiệm nào.</span>
+                <span className="text-slate-400 text-sm font-medium">{t('emptyLab')}</span>
               </div>
             ))}
           </div>
@@ -270,7 +288,7 @@ export default function BookingInvoicesPage() {
           {/* Pharmacy Section */}
           <div className="space-y-3 pt-2">
             <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-2">
-              <PillIcon size={18} /> Đơn Thuốc
+              <PillIcon size={18} /> {t('pharmacySection')}
             </h3>
             {pharmacyInvoices.length > 0 ? (
               pharmacyInvoices.map(inv => (
@@ -278,9 +296,9 @@ export default function BookingInvoicesPage() {
               ))
             ) : (
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 flex items-center justify-between">
-                <span className="text-slate-500 text-sm">Chưa có hoặc chưa tạo HĐ Thuốc.</span>
+                <span className="text-slate-500 text-sm">{t('emptyPharmacy')}</span>
                 <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.PHARMACY)} disabled={processingPayment || creatingType !== null} className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer h-8 text-xs">
-                  {creatingType === InvoiceType.PHARMACY ? '⏳' : <PlusIcon size={14} className="mr-1" />} Tạo HĐ Thuốc
+                  {creatingType === InvoiceType.PHARMACY ? '⏳' : <PlusIcon size={14} className="mr-1" />} {t('createPharmacyInvoice')}
                 </Button>
               </div>
             )}
@@ -293,26 +311,26 @@ export default function BookingInvoicesPage() {
             <Card className="rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="p-5 bg-slate-50/80 border-b border-slate-100">
                 <h3 className="font-bold text-slate-800 flex items-center gap-2">
-                  <ReceiptIcon size={20} weight="fill" className="text-slate-400" /> Thanh Toán (Cart)
+                  <ReceiptIcon size={20} weight="fill" className="text-slate-400" /> {t('cartTitle')}
                 </h3>
               </div>
               
               <div className="p-5 space-y-4">
                 <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-500 text-sm">Tổng Hóa Đơn ({totalInvoices})</span>
+                  <span className="text-slate-500 text-sm">{t('grandTotal')} ({totalInvoices})</span>
                   <span className="font-semibold text-slate-800">{formatVND(grandTotal)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center pb-3 border-b border-slate-100">
                   <span className="text-slate-500 text-sm flex items-center gap-1.5">
-                    <CheckCircleIcon size={16} weight="fill" className="text-emerald-500" /> Đã thu ({paidCount})
+                    <CheckCircleIcon size={16} weight="fill" className="text-emerald-500" /> {t('paidAmountLabel')} ({paidCount})
                   </span>
                   <span className="font-semibold text-emerald-600">{formatVND(paidTotal)}</span>
                 </div>
 
                 <div className="flex justify-between items-center">
                   <span className="text-slate-700 font-medium flex items-center gap-1.5">
-                    <ClockIcon size={16} weight="fill" className="text-amber-500" /> Còn nợ ({pendingCount})
+                    <ClockIcon size={16} weight="fill" className="text-amber-500" /> {t('debtAmountLabel')} ({pendingCount})
                   </span>
                   <span className="text-xl font-bold text-amber-600">{formatVND(unpaidTotal)}</span>
                 </div>
@@ -321,14 +339,14 @@ export default function BookingInvoicesPage() {
               {pendingCount > 0 && (
                 <div className="p-5 pt-0">
                   <div className="rounded-xl bg-amber-50 p-3 mb-4">
-                    <p className="text-xs text-amber-700 font-medium">Bạn có {pendingCount} hóa đơn chưa thanh toán. Hãy nhấn &quot;Thu Tiền&quot; trực tiếp trên từng hóa đơn ở cột bên trái.</p>
+                    <p className="text-xs text-amber-700 font-medium">{t('debtWarning', { count: pendingCount })}</p>
                   </div>
                 </div>
               )}
             </Card>
 
             <Card className="rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
-              <p className="text-sm font-semibold text-slate-700">Tạo Dịch Vụ Nhanh</p>
+              <p className="text-sm font-semibold text-slate-700">{t('quickAddService')}</p>
               <div className="flex flex-col gap-2">
                 {INVOICE_TYPES.map((cfg) => {
                   const alreadyHas = existingTypes.has(cfg.type);
@@ -342,7 +360,7 @@ export default function BookingInvoicesPage() {
                     >
                       {creatingType === cfg.type ? <span className="animate-spin w-4 text-center">⏳</span> : cfg.icon}
                       {cfg.label}
-                      {alreadyHas && <Badge variant="secondary" className="ml-auto text-[10px] h-4 px-1">Đã có</Badge>}
+                      {alreadyHas && <Badge variant="secondary" className="ml-auto text-[10px] h-4 px-1">{t('alreadyCreated')}</Badge>}
                     </Button>
                   );
                 })}
@@ -365,6 +383,16 @@ export default function BookingInvoicesPage() {
           onPaymentSubmitted={handlePaymentSubmit}
         />
       )}
+
+      {/* Quick Add Modal */}
+      <QuickAddInvoiceModal
+        isOpen={isQuickAddOpen}
+        onClose={() => setIsQuickAddOpen(false)}
+        invoiceType={quickAddType}
+        pendingLabOrders={pendingLabOrders}
+        onSubmit={handleQuickAddSubmit}
+        isSubmitting={creatingType !== null}
+      />
 
       {/* Hidden print area */}
       {printingContent === 'invoice' && printingInvoice && (
