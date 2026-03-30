@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus, DashboardData } from '@/types';
+import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus, DashboardData, DoctorPatientSummary } from '@/types';
 
 export interface StatTrend {
   value: number;
@@ -100,6 +100,18 @@ export const bookingsApi = {
   // Get patient dashboard stats
   getPatientDashboardStats: async (): Promise<DashboardData> => {
     const response = await apiClient.get<{ data: DashboardData }>('/bookings/dashboard/stats');
+    return response.data.data;
+  },
+
+  // Get unique patients for a doctor
+  getDoctorPatients: async (params?: {
+    search?: string;
+    limit?: number;
+    page?: number;
+  }): Promise<{ patients: DoctorPatientSummary[]; pagination: Record<string, unknown> }> => {
+    const response = await apiClient.get<{
+      data: { patients: DoctorPatientSummary[]; pagination: Record<string, unknown> };
+    }>('/bookings/doctor/my-patients', { params });
     return response.data.data;
   },
 };

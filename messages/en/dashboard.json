@@ -225,6 +225,20 @@
     "schedule": "Schedule",
     "patients": "Patients",
     "settings": "Settings",
+    "patientsPage": {
+      "title": "My Patients",
+      "description": "Manage your patient list and view their medical history.",
+      "searchPlaceholder": "Search by name, patient ID or phone...",
+      "table": {
+        "patient": "Patient / ID",
+        "contact": "Contact / Gender",
+        "visits": "Total Visits",
+        "lastVisit": "Last Visit",
+        "action": "Action"
+      },
+      "empty": "No patients found.",
+      "viewProfile": "View Profile"
+    },
     "schedulePage": {
       "offDays": {
         "title": "Register Off Day",

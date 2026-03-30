@@ -225,6 +225,20 @@
     "schedule": "Lịch làm việc",
     "patients": "Bệnh nhân",
     "settings": "Cài đặt",
+    "patientsPage": {
+      "title": "Bệnh nhân của tôi",
+      "description": "Quản lý danh sách bệnh nhân đã từng khám và xem hồ sơ y tế.",
+      "searchPlaceholder": "Tìm tên, mã BN hoặc SĐT...",
+      "table": {
+        "patient": "Bệnh nhân / Mã",
+        "contact": "Liên hệ / Giới tính",
+        "visits": "Tổng lượt khám",
+        "lastVisit": "Khám lần cuối",
+        "action": "Hành động"
+      },
+      "empty": "Không tìm thấy bệnh nhân nào.",
+      "viewProfile": "Xem hồ sơ"
+    },
     "schedulePage": {
       "offDays": {
         "title": "Đăng ký nghỉ",
