@@ -118,3 +118,17 @@ export interface UpdateBookingStatusDto {
   reason?: string;
   doctorNotes?: string;
 }
+
+export interface DoctorPatientSummary {
+  id: string; // patientProfileId
+  patientCode: string;
+  fullName: string;
+  phone: string;
+  gender: string;
+  dateOfBirth: string | null;
+  bloodType: string | null;
+  allergies: string | null;
+  totalVisits: number;
+  lastVisitDate: string | null;
+  lastServiceName: string | null;
+}

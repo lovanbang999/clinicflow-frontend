@@ -225,6 +225,43 @@
     "schedule": "Lịch làm việc",
     "patients": "Bệnh nhân",
     "settings": "Cài đặt",
+    "patientsPage": {
+      "title": "Bệnh nhân của tôi",
+      "description": "Quản lý danh sách bệnh nhân đã từng khám và xem hồ sơ y tế.",
+      "searchPlaceholder": "Tìm tên, mã BN hoặc SĐT...",
+      "table": {
+        "patient": "Bệnh nhân / Mã",
+        "contact": "Liên hệ / Giới tính",
+        "visits": "Tổng lượt khám",
+        "lastVisit": "Khám lần cuối",
+        "action": "Hành động",
+        "male": "Nam",
+        "female": "Nữ",
+        "other": "Khác"
+      },
+      "empty": "Không tìm thấy bệnh nhân nào.",
+      "viewProfile": "Xem hồ sơ",
+      "listTitle": "Danh sách bệnh nhân",
+      "emptyDesc": "Hãy thử thay đổi từ khóa tìm kiếm.",
+      "times": "lần",
+      "showingCount": "Hiển thị {count} trên tổng {total} bệnh nhân",
+      "drawer": {
+        "title": "Hồ sơ y tế bệnh nhân",
+        "desc": "Xem chi tiết hồ sơ sức khỏe và lịch sử khám.",
+        "basicInfo": "Thông tin cơ bản",
+        "nameId": "Họ tên / Mã BN",
+        "dobAge": "Ngày sinh / Tuổi",
+        "genderBlood": "Giới tính / Nhóm máu",
+        "contact": "Liên hệ",
+        "allergies": "Dị ứng",
+        "chronic": "Bệnh mãn tính",
+        "historyTitle": "Lịch sử khám ({count})",
+        "noHistory": "Chưa có lịch sử khám trước đó (tại tab này).",
+        "diagnosis": "Chẩn đoán",
+        "prescription": "Đơn thuốc ({count})",
+        "dr": "Bs."
+      }
+    },
     "schedulePage": {
       "offDays": {
         "title": "Đăng ký nghỉ",

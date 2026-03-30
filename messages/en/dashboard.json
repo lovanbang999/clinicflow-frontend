@@ -225,6 +225,43 @@
     "schedule": "Schedule",
     "patients": "Patients",
     "settings": "Settings",
+    "patientsPage": {
+      "title": "My Patients",
+      "description": "Manage your patient list and view their medical history.",
+      "searchPlaceholder": "Search by name, patient ID or phone...",
+      "table": {
+        "patient": "Patient / ID",
+        "contact": "Contact / Gender",
+        "visits": "Total Visits",
+        "lastVisit": "Last Visit",
+        "action": "Action",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "empty": "No patients found.",
+      "viewProfile": "View Profile",
+      "listTitle": "Patient List",
+      "emptyDesc": "Please try changing the search keyword.",
+      "times": "times",
+      "showingCount": "Showing {count} out of {total} patients",
+      "drawer": {
+        "title": "Patient Medical Profile",
+        "desc": "View detailed health records and visit history.",
+        "basicInfo": "Basic Information",
+        "nameId": "Full Name / ID",
+        "dobAge": "Date of Birth / Age",
+        "genderBlood": "Gender / Blood Type",
+        "contact": "Contact",
+        "allergies": "Allergies",
+        "chronic": "Chronic Conditions",
+        "historyTitle": "Visit History ({count})",
+        "noHistory": "No previous visit history available (in this tab).",
+        "diagnosis": "Diagnosis",
+        "prescription": "Prescription ({count})",
+        "dr": "Dr."
+      }
+    },
     "schedulePage": {
       "offDays": {
         "title": "Register Off Day",

@@ -1,0 +1,91 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { bookingsApi } from '../api/bookings';
+import { DoctorPatientSummary } from '@/types';
+import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
+
+export function useDoctorPatients() {
+  const [patients, setPatients] = useState<DoctorPatientSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [totalPages, setTotalPages] = useState(1);
+
+  const t = useTranslations('dashboard');
+  const limit = 10;
+  
+  // Use a ref to store the latest search query to prevent race conditions
+  const queryRef = useRef(searchQuery);
+
+  const fetchPatients = useCallback(async (currentPage: number, search: string) => {
+    try {
+      setLoading(true);
+      const data = await bookingsApi.getDoctorPatients({
+        page: currentPage,
+        limit,
+        search: search || undefined,
+      });
+      
+      // If the search query has changed since we made the request, discard the results
+      if (queryRef.current !== search) return;
+
+      setPatients(data.patients);
+      // Fallbacks in case pagination metadata is partial
+      const pagination = data.pagination as { total?: number; totalPages?: number };
+      setTotal(pagination?.total || 0);
+      setTotalPages(pagination?.totalPages || 1);
+    } catch (error: unknown) {
+      if (queryRef.current !== search) return;
+      const errResponse = (error as { response?: { data?: { message?: string } } });
+      toast.error(t('common.error'), {
+        description: errResponse.response?.data?.message || t('common.fetchError')
+      });
+    } finally {
+      if (queryRef.current === search) {
+        setLoading(false);
+      }
+    }
+  }, [t]);
+
+  // Debounced search
+  useEffect(() => {
+    queryRef.current = searchQuery;
+    const timeoutId = setTimeout(() => {
+      setPage(1); // Reset page on new search
+      fetchPatients(1, searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery, fetchPatients]);
+
+  // Fetch on page change
+  useEffect(() => {
+    // Prevent double fetch if search query just changed (handled by the effect above)
+    if (page === 1 && searchQuery !== queryRef.current) return;
+    
+    fetchPatients(page, queryRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, fetchPatients]);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
+
+  return {
+    patients,
+    loading,
+    total,
+    page,
+    totalPages,
+    searchQuery,
+    setPage,
+    handleSearch,
+    clearSearch,
+    refetch: () => fetchPatients(page, searchQuery),
+  };
+}
