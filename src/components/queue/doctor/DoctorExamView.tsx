@@ -175,12 +175,13 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
     }
   };
 
-  const onSaveDraft = methods.handleSubmit(async (data) => {
+  const onSaveDraft = async () => {
+    const data = methods.getValues();
     const success = await onSubmit(data, false);
     if (success) {
       onExit();
     }
-  });
+  };
 
   const onFinishVisit = methods.handleSubmit(async (data) => {
     await onSubmit(data, true);

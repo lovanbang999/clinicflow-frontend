@@ -344,7 +344,8 @@
         "actions": {
           "enterExam": "Vào phòng khám",
           "callPatient": "Gọi vào khám",
-          "printResult": "In phiếu kết quả"
+          "printResult": "In phiếu kết quả",
+          "finishCurrentFirst": "Hoàn tất/lưu nháp ca hiện tại trước"
         },
         "infoNote": "Chỉ có thể <strong>Vào phòng khám</strong> với bệnh nhân đang được gọi. Các bệnh nhân đang chờ chỉ hiển thị để tham khảo — không thể chỉnh sửa.",
         "statusLabel": "Trạng thái",

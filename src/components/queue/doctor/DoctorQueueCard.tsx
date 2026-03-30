@@ -20,6 +20,7 @@ interface DoctorQueueCardProps {
   onCall: (id: string) => void;
   onEnterExam: (id: string) => void;
   onPrint?: (id: string) => void;
+  isCallDisabled?: boolean;
 }
 
 function getInitials(name: string) {
@@ -43,7 +44,7 @@ function getAvatarColors(name: string) {
   return colors[charCode % colors.length];
 }
 
-export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint }: DoctorQueueCardProps) {
+export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisabled }: DoctorQueueCardProps) {
   const t = useTranslations('dashboard.doctor.workspace.queueView');
   console.log('item', item.booking.id);
 
@@ -200,11 +201,17 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint }: DoctorQu
             </button>
           ) : status === BookingStatus.CHECKED_IN ? (
             <button
+              disabled={isCallDisabled}
               onClick={() => onCall(item.booking.id)}
-              className="h-12 px-8 rounded-xl bg-white text-[#1275e2] font-bold shadow-sm shadow-[#1275e2]/5 border border-[#1275e2]/30 hover:bg-[#e0efff]/50 active:scale-[0.98] transition-all flex items-center gap-2 group/btn cursor-pointer"
+              className={`h-12 px-8 rounded-xl font-bold shadow-sm flex items-center gap-2 transition-all group/btn ${
+                isCallDisabled 
+                  ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
+                  : 'bg-white text-[#1275e2] shadow-[#1275e2]/5 border border-[#1275e2]/30 hover:bg-[#e0efff]/50 active:scale-[0.98] cursor-pointer'
+              }`}
+              title={isCallDisabled ? t('actions.finishCurrentFirst', { defaultMessage: 'Hoàn tất/lưu nháp ca hiện tại trước' }) : ''}
             >
               {t('actions.callPatient')}
-              <ArrowRightIcon size={18} className="transition-transform group-hover/btn:translate-x-1" weight="bold" />
+              <ArrowRightIcon size={18} className={`transition-transform ${!isCallDisabled ? 'group-hover/btn:translate-x-1' : ''}`} weight="bold" />
             </button>
           ) : status === BookingStatus.COMPLETED ? (
             <button
