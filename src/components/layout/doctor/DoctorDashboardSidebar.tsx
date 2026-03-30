@@ -23,10 +23,10 @@ type NavItem = {
 };
 
 export const NAV_ITEMS_DOCTOR: NavItem[] = [
-  { key: 'dashboard', href: '/doctor',            icon: HouseIcon,          exact: true },
-  { key: 'schedule',  href: '/doctor/schedule',   icon: CalendarCheckIcon,  exact: false },
-  { key: 'patients',  href: '/doctor/patients',   icon: UsersIcon,          exact: false },
-  { key: 'settings',  href: '/doctor/settings',   icon: GearIcon,           exact: false },
+  { key: 'dashboard', href: '/doctor', icon: HouseIcon, exact: true },
+  { key: 'schedule', href: '/doctor/schedule', icon: CalendarCheckIcon, exact: false },
+  { key: 'patients', href: '/doctor/patients', icon: UsersIcon, exact: false },
+  { key: 'settings', href: '/doctor/settings', icon: GearIcon, exact: false },
 ];
 
 export function DoctorDashboardSidebar() {
@@ -53,17 +53,17 @@ export function DoctorDashboardSidebar() {
         {NAV_ITEMS_DOCTOR.map((item) => {
           let isActive = false;
           if (item.key === 'dashboard') {
-             const doctorPathIndex = pathname.indexOf('/doctor');
-             if (doctorPathIndex !== -1) {
-               const pathAfterDoctor = pathname.substring(doctorPathIndex + '/doctor'.length);
-               const segments = pathAfterDoctor.split('/').filter(Boolean);
-               const firstSegment = segments[0];
-               if (!firstSegment || !['schedule', 'patients', 'settings'].includes(firstSegment)) {
-                 isActive = true;
-               }
-             }
+            const doctorPathIndex = pathname.indexOf('/doctor');
+            if (doctorPathIndex !== -1) {
+              const pathAfterDoctor = pathname.substring(doctorPathIndex + '/doctor'.length);
+              const segments = pathAfterDoctor.split('/').filter(Boolean);
+              const firstSegment = segments[0];
+              if (!firstSegment || !['schedule', 'patients', 'settings'].includes(firstSegment)) {
+                isActive = true;
+              }
+            }
           } else {
-             isActive = pathname.includes(item.href);
+            isActive = pathname.includes(item.href);
           }
           const IconComponent = item.icon;
           return (
