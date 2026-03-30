@@ -51,9 +51,20 @@ export function DoctorDashboardSidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-2 space-y-1">
         {NAV_ITEMS_DOCTOR.map((item) => {
-          const isActive = item.exact
-            ? pathname === item.href || pathname.endsWith(item.href)
-            : pathname.includes(item.href);
+          let isActive = false;
+          if (item.key === 'dashboard') {
+             const doctorPathIndex = pathname.indexOf('/doctor');
+             if (doctorPathIndex !== -1) {
+               const pathAfterDoctor = pathname.substring(doctorPathIndex + '/doctor'.length);
+               const segments = pathAfterDoctor.split('/').filter(Boolean);
+               const firstSegment = segments[0];
+               if (!firstSegment || !['schedule', 'patients', 'settings'].includes(firstSegment)) {
+                 isActive = true;
+               }
+             }
+          } else {
+             isActive = pathname.includes(item.href);
+          }
           const IconComponent = item.icon;
           return (
             <Link
