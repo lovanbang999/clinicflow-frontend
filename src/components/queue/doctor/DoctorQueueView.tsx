@@ -182,6 +182,7 @@ export function DoctorQueueView({
                 onCall={onCallPatient}
                 onEnterExam={onEnterExam}
                 onPrint={() => handleDirectPrint(item)}
+                isCallDisabled={inExam > 0}
               />
             ))
           )}
