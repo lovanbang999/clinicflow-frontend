@@ -75,7 +75,7 @@ export function OverviewCards() {
         </div>
         <div>
           <p className="text-3xl font-bold text-slate-900">{completedToday}</p>
-          <p className="text-sm font-medium text-slate-400">{t('completed') ?? 'Đã xong'}</p>
+          <p className="text-sm font-medium text-slate-400">{t('completed')}</p>
         </div>
       </div>
     </section>

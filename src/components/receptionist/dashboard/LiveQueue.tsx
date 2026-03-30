@@ -23,7 +23,7 @@ export function LiveQueue() {
              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
            </span>
-           <span className="text-[10px] font-bold text-red-600 uppercase tracking-tight">Live</span>
+           <span className="text-[10px] font-bold text-red-600 uppercase tracking-tight">{t('liveLabel')}</span>
         </div>
       </div>
 
@@ -37,7 +37,7 @@ export function LiveQueue() {
             <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                <MonitorPlayIcon className="text-slate-200 h-10 w-10" />
             </div>
-            <p className="text-slate-400 text-sm font-medium">Hàng đợi đang trống</p>
+            <p className="text-slate-400 text-sm font-medium">{t('empty')}</p>
           </div>
         ) : (
           queueRecords.map((record) => (
@@ -61,7 +61,7 @@ export function LiveQueue() {
                 <div className="flex items-center gap-2">
                   <p className="font-bold text-slate-900 truncate">{record.booking.patientProfile?.fullName}</p>
                   {record.isPreBooked && (
-                     <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase">Hẹn trước</span>
+                     <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase">{t('preBooked')}</span>
                   )}
                 </div>
                 <div className="flex items-center gap-2 mt-0.5">
@@ -70,7 +70,7 @@ export function LiveQueue() {
                    </p>
                    <span className="w-1 h-1 bg-slate-200 rounded-full"></span>
                    <p className="text-[11px] text-slate-500 font-bold truncate">
-                     {record.estimatedWaitMinutes}m chờ
+                     {t('waitMin', { min: record.estimatedWaitMinutes })}
                    </p>
                 </div>
               </div>
@@ -78,7 +78,7 @@ export function LiveQueue() {
               {record.booking.status !== BookingStatus.IN_PROGRESS && (
                 <button 
                   onClick={() => promoteQueue(record.bookingId)}
-                  title="Đẩy lên ưu tiên"
+                  title={t('promoteBtn')}
                   className="w-10 h-10 bg-slate-50 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded-lg flex items-center justify-center transition-all cursor-pointer group-hover:scale-105 active:scale-95"
                 >
                   <ArrowUpIcon weight="bold" size={18} />
@@ -87,7 +87,7 @@ export function LiveQueue() {
               
               {record.booking.status === BookingStatus.IN_PROGRESS && (
                  <div className="bg-blue-50 text-blue-600 px-2 py-1 rounded text-[10px] font-black uppercase tracking-wider">
-                   Đang khám
+                   {t('inProgress')}
                  </div>
               )}
             </div>

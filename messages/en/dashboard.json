@@ -62,24 +62,36 @@
       "new": "New"
     },
     "noDoctors": "No doctors available at the moment.",
+    "doctorPrefix": "Dr.",
+    "withDoctor": "with",
     "invoices": "My Invoices",
     "myProfile": "My Profile",
     "invoicesSubtitle": "View and manage your billing transactions",
     "noInvoices": "No invoices found",
+    "noInvoicesDesc": "Invoices from your medical visits will appear here.",
+    "service": "Service",
+    "otherServices": "+{count} other services",
     "recentInvoices": "Recent Invoices",
     "invoiceNumber": "Invoice #",
     "total": "Total",
-    "status": "Status",
+    "status": {
+      "label": "Status",
+      "paid": "PAID",
+      "pending": "PENDING"
+    },
     "viewDetail": "View Detail",
     "date": "Date",
     "settings": "Settings",
     "settingsSubtitle": "Manage your preferences and app appearance",
     "appearance": "Appearance",
     "darkMode": "Dark Mode",
+    "darkModeDesc": "Using dark mode helps reduce eye strain",
     "lightMode": "Light Mode",
+    "lightModeDesc": "Using traditional light interface",
     "language": "Language",
     "security": "Security",
     "changePassword": "Change Password",
+    "changePasswordDesc": "Update account security password",
     "notifications": "Notifications",
     "medicalHistory": {
       "title": "Medical History",
@@ -118,7 +130,18 @@
       "status": "Status",
       "waitTime": "Wait Time",
       "actions": "Actions"
-    }
+    },
+    "selectDoctorDesc": "Please select a doctor above to view the queue",
+    "patientsUnit": "patients",
+    "live": "Live",
+    "offline": "Offline",
+    "inExamLabel": "In Exam",
+    "inRoom": "In Room",
+    "emptyClinic": "Empty Clinic",
+    "waitingForNext": "Waiting for next patient",
+    "waitingList": "Waiting List",
+    "loadingList": "Loading list...",
+    "estimatedTime": "~{time} mins"
   },
   "emr": {
     "consultation": {
@@ -390,6 +413,126 @@
         "printTitle": "PRESCRIPTION",
         "confirmBtn": "Confirm Add",
         "editAction": "Edit"
+      },
+      "printables": {
+        "exam": {
+          "clinicName": "SmartClinic Center",
+          "address": "123 Xa Dan, Dong Da, Hanoi",
+          "contact": "Hotline: 1900 1234 - Website: smartclinic.vn",
+          "title": "Examination Result Form",
+          "printDate": "Date:",
+          "patientCode": "Patient ID:",
+          "fullName": "Full Name:",
+          "age": "Age:",
+          "gender": "Gender:",
+          "addressLabel": "Address:",
+          "weight": "Weight:",
+          "height": "Height:",
+          "phone": "Phone:",
+          "reasonLabel": "1. Chief Complaint & Symptoms",
+          "clinicalLabel": "2. Clinical Findings",
+          "diagnosisLabel": "3. Diagnosis",
+          "treatmentLabel": "4. Treatment Plan & Advice",
+          "followUpLabel": "5. Follow-up Appointment",
+          "followUpNote": "* Please bring this form on your next visit.",
+          "dateFormat": "Date: {month}/{day}/{year}",
+          "doctorTitle": "Attending Doctor",
+          "signatureNote": "(Sign & full name)",
+          "slogan": "SmartClinic - Dedication - Professionalism - Efficiency"
+        },
+        "lab": {
+          "title": "LABORATORY ORDER FORM",
+          "printDate": "Print Date:",
+          "patientInfoTitle": "Patient Information",
+          "doctorLabel": "Ordering Doctor:",
+          "servicesTitle": "Ordered Tests",
+          "colStt": "No.",
+          "colName": "Test Name / Procedure",
+          "colNote": "Notes",
+          "importantNote": "Important Notes:",
+          "instruction1": "Please bring this form to the reception desk for payment",
+          "instruction1Suffix": " before proceeding to the laboratory.",
+          "instruction2": "After receiving the results, please return to the clinic for doctor consultation.",
+          "doctorTitle": "Ordering Doctor"
+        },
+        "prescription": {
+          "printTitle": "PRESCRIPTION",
+          "diagnosisLabelTitle": "Diagnosis:",
+          "noDiagnosis": "No specific diagnosis yet",
+          "adviceLabel": "Advice:",
+          "prescriptionTitle": "Medication List",
+          "colStt": "No.",
+          "colMedicine": "Medicine Name / Dosage",
+          "colQuantity": "Qty",
+          "colUnit": "Unit",
+          "emptyPrescription": "No medicine prescribed",
+          "duration": "For {days} days",
+          "instructions": "Inst: {instructions}",
+          "footerNoteTitle": "Pharmacy Notes:",
+          "footerNote1": "* Please bring this prescription to the Pharmacy to purchase medicine.",
+          "footerNote2": "* Check medicine name, quantity, and expiry date before leaving.",
+          "footerNote3": "* Follow up as scheduled or when abnormal signs appear.",
+          "slogan": "SmartClinic - Bringing smiles and health to the community"
+        },
+        "invoice": {
+          "clinicName": "SMART CLINIC",
+          "clinicSub": "SMART GENERAL POLYCLINIC SYSTEM",
+          "address": "123 Xa Dan, Dong Da, Hanoi",
+          "contact": "1900 1234",
+          "taxId": "0102030405",
+          "title": "SERVICE INVOICE",
+          "printDate": "Print Date:",
+          "patientInfo": "Patient Information",
+          "fullName": "Full Name:",
+          "patientCode": "Patient Code:",
+          "phone": "Phone:",
+          "orderInfo": "Order Information",
+          "doctor": "Doctor:",
+          "status": "Status:",
+          "colService": "Service / Description",
+          "colQuantity": "Qty",
+          "colPrice": "Unit Price",
+          "colTotal": "Total",
+          "emptyData": "No service data",
+          "labBadge": "LAB",
+          "totalCost": "Total Expenses:",
+          "paidAmount": "Amount Paid:",
+          "grandTotal": "GRAND TOTAL:",
+          "inWords": "(In words: ........................................................................................)",
+          "sigPatient": "Patient",
+          "sigCashier": "Cashier",
+          "signed": "(Signed)",
+          "datePlace": "Hanoi, {date}",
+          "clinicConfirm": "Clinic Confirmation",
+          "paidStamp": "SMART CLINIC\nPAID",
+          "footerText": "For any inquiries, please contact Hotline 1900 1234. Thank you for choosing Smart Clinic!"
+        },
+        "ticket": {
+          "clinicName": "SMART CLINIC",
+          "address": "123 Xa Dan, Dong Da, Hanoi",
+          "contact": "Hotline: 1900 1234",
+          "title": "WAITING TICKET",
+          "printTime": "Printed:",
+          "patientInfo": "Patient Info:",
+          "fullName": "Full Name:",
+          "dob": "DOB:",
+          "phone": "Phone:",
+          "serviceInfo": "Service Info:",
+          "department": "Department:",
+          "doctor": "Doctor:",
+          "room": "Room:",
+          "roomNumber": "Room {room}",
+          "queueNumber": "Your Queue Number",
+          "queueNumberSuffix": "",
+          "estimatedWait": "Estimated Wait Time:",
+          "waitUnit": "mins",
+          "waitingCount": "Patients waiting before you:",
+          "instructionTitle": "Note:",
+          "instruction1": "Please wait in the clinic waiting area.",
+          "instruction2": "Pay attention to the display screen or audio announcements.",
+          "instruction3": "Thank you!",
+          "greeting": "Wishing you good health!"
+        }
       }
     }
   },
@@ -494,7 +637,9 @@
     "searchCheckIn": {
       "title": "Search & Check-in",
       "placeholder": "Search by name, phone or booking ID...",
-      "emptyState": "Enter patient information to start check-in"
+      "emptyState": "Enter patient information to start check-in",
+      "walkIn": "Walk-in",
+      "noResults": "No matching appointments found"
     },
     "checkInManagement": {
       "title": "Check-in Dashboard",
@@ -511,7 +656,9 @@
         "clearDate": "Clear date",
         "clearAll": "Clear filters",
         "allDoctors": "All Doctors",
-        "noDoctors": "No doctors found"
+        "noDoctors": "No doctors found",
+        "allServices": "All Services",
+        "noServices": "No services available"
       },
       "table": {
         "bookingId": "Booking ID",
@@ -563,6 +710,15 @@
     "patientManagement": {
       "title": "Patient Management",
       "description": "Manage patient records and reception workflow of the clinic",
+      "messages": {
+        "registerSuccess": "New patient registered successfully!",
+        "registerError": "Error registering patient",
+        "guestSuccess": "Walk-in patient received successfully!",
+        "guestError": "Error receiving patient",
+        "updateSuccess": "Patient information updated!",
+        "updateError": "Error updating information",
+        "bookDev": "Booking feature for {name} is under development"
+      },
       "actions": {
         "register": "New Registration",
         "guest": "Walk-in Reception",
@@ -703,8 +859,10 @@
         "patient": "Patient",
         "service": "Service",
         "doctor": "Doctor",
-        "status": "Status"
-      }
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "noData": "No upcoming appointments"
     },
     "walkinBookingForm": {
       "pageTitle": "New Walk-in Booking",
@@ -1193,6 +1351,12 @@
         "typePlaceholder": "Invoice Type",
         "clear": "Clear filters"
       },
+      "detail": {
+        "notFound": "Invoice not found",
+        "back": "Back",
+        "subtitle": "System invoice details",
+        "fetchError": "Failed to load invoice details"
+      },
       "pagination": {
         "showing": "Showing {start} - {end} of {total} invoices",
         "previous": "Previous",
@@ -1211,7 +1375,9 @@
       "title": "Top Services",
       "subtitle": "By bookings this month",
       "noData": "No service data available yet",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "bookings": "{count} bookings",
+      "revenue": "~{amount} estimated"
     },
     "recentActivity": {
       "title": "Recent Activity",

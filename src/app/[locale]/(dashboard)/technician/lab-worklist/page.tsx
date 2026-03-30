@@ -48,7 +48,7 @@ export default function TechnicianWorklistPage() {
     if (isSubmitting) return;
     try {
       await updateStatus(order.id, 'IN_PROGRESS');
-      toast.success('Đã chuyển trạng thái sang Đang thực hiện');
+      toast.success(t('messages.statusUpdated'));
       refetchReady();
     } catch (error) {
       console.error(error);

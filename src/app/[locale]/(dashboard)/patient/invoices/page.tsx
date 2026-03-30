@@ -101,7 +101,7 @@ export default function PatientInvoicesPage() {
           <div>
             <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase italic tracking-tight">{t('noInvoices')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-[250px]">
-              Các hóa đơn phát sinh từ việc khám bệnh sẽ xuất hiện tại đây.
+              {t('noInvoicesDesc')}
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function PatientInvoicesPage() {
                     {t('date')}
                   </th>
                   <th className="px-6 py-4 font-bold text-slate-400 uppercase tracking-widest text-[10px] h-12">
-                    Dịch vụ
+                    {t('service')}
                   </th>
                   <th className="px-6 py-4 font-bold text-slate-400 uppercase tracking-widest text-[10px] h-12">
                     {t('status')}
@@ -156,7 +156,7 @@ export default function PatientInvoicesPage() {
                         {inv.items?.[0]?.itemName ?? 'Consultation'}
                       </p>
                       {inv.items.length > 1 && (
-                        <p className="text-xs text-slate-400 mt-0.5">+{inv.items.length - 1} dịch vụ khác</p>
+                        <p className="text-xs text-slate-400 mt-0.5">{t('otherServices', { count: inv.items.length - 1 })}</p>
                       )}
                     </td>
                     <td className="px-6 py-5">

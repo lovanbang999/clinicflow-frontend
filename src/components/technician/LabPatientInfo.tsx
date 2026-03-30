@@ -12,6 +12,7 @@ interface LabPatientInfoProps {
 
 export function LabPatientInfo({ patientProfile, bookingCode }: LabPatientInfoProps) {
   const t = useTranslations('dashboard.technician.result');
+  const tCommon = useTranslations('common.profile');
 
   if (!patientProfile) return null;
 
@@ -40,7 +41,7 @@ export function LabPatientInfo({ patientProfile, bookingCode }: LabPatientInfoPr
               {t('form.genderLabel')}
             </p>
             <p className="text-slate-900">
-              {patientProfile.gender === 'MALE' ? 'Nam' : patientProfile.gender === 'FEMALE' ? 'Nữ' : 'Khác'}
+              {patientProfile.gender === 'MALE' ? tCommon('male') : patientProfile.gender === 'FEMALE' ? tCommon('female') : tCommon('other')}
             </p>
           </div>
           {patientProfile.dateOfBirth && (

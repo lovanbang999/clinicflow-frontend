@@ -67,7 +67,7 @@ export function AdminRecentActivity() {
           <div className="size-12 rounded-full bg-slate-50 flex items-center justify-center mb-3">
             <UserIcon weight="fill" className="text-slate-300 text-2xl" />
           </div>
-          <p className="text-sm text-slate-400">Chưa có hoạt động nào</p>
+          <p className="text-sm text-slate-400">{t('noActivity')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3.5">

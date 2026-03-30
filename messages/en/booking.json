@@ -80,7 +80,9 @@
     "backToList": "Back to Appointments",
     "cancelAppointment": "Cancel Appointment",
     "createdAt": "Booked on",
-    "price": "Service Fee"
+    "price": "Service Fee",
+    "notFound": "Appointment not found",
+    "queueTitle": "Queue / Walk-in"
   },
   "bookingId": "Booking ID",
   "service": "Service",

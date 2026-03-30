@@ -153,10 +153,10 @@ export function PatientEditModal({
           <form id="edit-patient-form" onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Info Section */}
             <div>
-              <h4 className="text-xs font-bold text-[#1392ec] uppercase tracking-widest mb-4">Thông tin cơ bản</h4>
+              <h4 className="text-xs font-bold text-[#1392ec] uppercase tracking-widest mb-4">{t('sectionBasic')}</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">HỌ VÀ TÊN (*)</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.fullName')}</label>
                   <input
                     name="fullName"
                     value={formData.fullName}
@@ -170,7 +170,7 @@ export function PatientEditModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">SỐ ĐIỆN THOẠI (*)</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.phone')}</label>
                   <input
                     name="phone"
                     value={formData.phone}
@@ -184,7 +184,7 @@ export function PatientEditModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">EMAIL</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.email')}</label>
                   <input
                     name="email"
                     value={formData.email}
@@ -194,7 +194,7 @@ export function PatientEditModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">NGÀY SINH</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.dob')}</label>
                   <input
                     type="date"
                     name="dateOfBirth"
@@ -205,22 +205,22 @@ export function PatientEditModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">GIỚI TÍNH</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.gender')}</label>
                   <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 bg-white border border-[#e5e7eb] rounded-xl text-sm focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] outline-none transition-all"
                   >
-                    <option value="">Chọn giới tính</option>
-                    <option value="MALE">Nam</option>
-                    <option value="FEMALE">Nữ</option>
-                    <option value="OTHER">Khác</option>
+                    <option value="">{t('form.genderOptions.select')}</option>
+                    <option value="MALE">{t('form.genderOptions.male')}</option>
+                    <option value="FEMALE">{t('form.genderOptions.female')}</option>
+                    <option value="OTHER">{t('form.genderOptions.other')}</option>
                   </select>
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">ĐỊA CHỈ</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.address')}</label>
                   <input
                     name="address"
                     value={formData.address}
@@ -235,10 +235,10 @@ export function PatientEditModal({
 
             {/* Medical & Insurance Section */}
             <div>
-              <h4 className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-4">Y tế & Bảo hiểm</h4>
+              <h4 className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-4">{t('sectionMedical')}</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">SỐ CCCD / CMND</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.nationalId')}</label>
                   <input
                     name="nationalId"
                     value={formData.nationalId}
@@ -247,14 +247,14 @@ export function PatientEditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">NHÓM MÁU</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.bloodType')}</label>
                   <select
                     name="bloodType"
                     value={formData.bloodType}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 bg-white border border-[#e5e7eb] rounded-xl text-sm focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] outline-none transition-all"
                   >
-                    <option value="">Không rõ</option>
+                    <option value="">{t('form.bloodTypeOptions.unknown')}</option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
                     <option value="B+">B+</option>
@@ -266,7 +266,7 @@ export function PatientEditModal({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">SỐ THẺ BHYT</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.insuranceNumber')}</label>
                   <input
                     name="insuranceNumber"
                     value={formData.insuranceNumber}
@@ -275,17 +275,17 @@ export function PatientEditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">NHÀ CUNG CẤP BH</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.insuranceProvider')}</label>
                   <input
                     name="insuranceProvider"
                     value={formData.insuranceProvider}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 bg-white border border-[#e5e7eb] rounded-xl text-sm focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] outline-none transition-all"
-                    placeholder="VD: BHYT Việt Nam, Bảo Việt..."
+                    placeholder={t('form.insuranceProviderPlaceholder')}
                   />
                 </div>
                 <div className="col-span-2">
-                   <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">HẾT HẠN BẢO HIỂM</label>
+                   <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.insuranceExpiry')}</label>
                    <input
                     type="date"
                     name="insuranceExpiry"
@@ -295,25 +295,25 @@ export function PatientEditModal({
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">DỊ ỨNG</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.allergies')}</label>
                   <textarea
                     name="allergies"
                     value={formData.allergies}
                     onChange={handleChange}
                     rows={2}
                     className="w-full px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl text-sm focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] outline-none transition-all resize-none"
-                    placeholder="VD: Hải sản, Paracetamol..."
+                    placeholder={t('form.allergiesPlaceholder')}
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">BỆNH LÝ MÃN TÍNH</label>
+                  <label className="block text-xs font-bold text-[#64748b] mb-1.5 px-0.5">{t('form.chronicConditions')}</label>
                   <textarea
                     name="chronicConditions"
                     value={formData.chronicConditions}
                     onChange={handleChange}
                     rows={2}
                     className="w-full px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl text-sm focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] outline-none transition-all resize-none"
-                    placeholder="VD: Cao huyết áp, Tiểu đường..."
+                    placeholder={t('form.chronicConditionsPlaceholder')}
                   />
                 </div>
               </div>

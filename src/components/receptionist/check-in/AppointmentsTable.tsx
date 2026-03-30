@@ -261,7 +261,7 @@ export function AppointmentsTable({
               >
                 <StethoscopeIcon size={16} />
                 <span className="truncate max-w-[130px]">
-                  {selectedService ? selectedService.name : 'Tất cả dịch vụ'}
+                  {selectedService ? selectedService.name : t('filters.allServices')}
                 </span>
                 <CaretDownIcon size={14} className="ml-auto shrink-0" />
               </button>
@@ -278,7 +278,7 @@ export function AppointmentsTable({
                       }`}
                     >
                       <StethoscopeIcon size={16} />
-                      Tất cả dịch vụ
+                      {t('filters.allServices')}
                     </button>
                     <div className="border-t border-slate-100" />
                     {services.map((service) => (
@@ -295,7 +295,7 @@ export function AppointmentsTable({
                       </button>
                     ))}
                     {services.length === 0 && (
-                      <p className="px-4 py-3 text-sm text-slate-400 text-center">Chưa có dịch vụ</p>
+                      <p className="px-4 py-3 text-sm text-slate-400 text-center">{t('filters.noServices')}</p>
                     )}
                   </div>
                 </div>

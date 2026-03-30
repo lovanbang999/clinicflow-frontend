@@ -15,7 +15,6 @@ import { useDebounce } from '@/lib/hooks/useDebounce';
 
 export function SearchCheckIn() {
   const t = useTranslations('dashboard.receptionist.searchCheckIn');
-  const tCommon = useTranslations('common');
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 500);
   
@@ -43,7 +42,7 @@ export function SearchCheckIn() {
           className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-bold text-sm bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
         >
           <PlusIcon weight="bold" size={14} />
-          {tCommon?.('walkIn') ?? 'Khám vãng lai'}
+          {t('walkIn')}
         </Link>
       </div>
       
@@ -100,7 +99,7 @@ export function SearchCheckIn() {
              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                <MagnifyingGlassIcon className="text-slate-200 h-10 w-10" />
              </div>
-             <p className="text-slate-400 text-sm font-medium">Không tìm thấy lịch hẹn trùng khớp</p>
+             <p className="text-slate-400 text-sm font-medium">{t('noResults')}</p>
           </div>
         ) : (
           <div className="h-full flex flex-col items-center justify-center py-8 text-center">

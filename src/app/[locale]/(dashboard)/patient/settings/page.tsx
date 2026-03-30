@@ -44,7 +44,7 @@ export default function PatientSettingsPage() {
                 <div>
                   <p className="font-bold text-slate-900 dark:text-white">{t('darkMode')}</p>
                   <p className="text-xs font-medium text-slate-500 dark:text-slate-500">
-                    {isDark ? 'Sử dụng giao diện tối giúp mắt dễ chịu hơn' : 'Sử dụng giao diện sáng truyền thống'}
+                    {isDark ? t('darkModeDesc') : t('lightModeDesc')}
                   </p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function PatientSettingsPage() {
                 </div>
                 <div>
                   <p className="font-bold text-slate-900 dark:text-white">{t('changePassword')}</p>
-                  <p className="text-xs font-medium text-slate-500">Cập nhật mật khẩu bảo mật tài khoản</p>
+                  <p className="text-xs font-medium text-slate-500">{t('changePasswordDesc')}</p>
                 </div>
               </div>
               <CaretRightIcon className="text-slate-300 group-hover:text-slate-500 transition-colors" weight="bold" />

@@ -58,7 +58,7 @@ export function RecommendedSpecialists() {
                   </div>
                 )}
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white leading-tight">Dr. {doctor.fullName}</p>
+                  <p className="font-bold text-slate-900 dark:text-white leading-tight">{t('doctorPrefix')} {doctor.fullName}</p>
                   <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
                     {doctor.specialties && doctor.specialties.length > 0 ? doctor.specialties[0] : t('defaults.specialty')} • {doctor.rating > 0 ? `${doctor.rating} ★` : t('defaults.new')}
                   </p>

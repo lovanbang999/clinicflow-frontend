@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { billingApi, Invoice } from '@/lib/api/billing';
 import { useState, useEffect, useCallback } from 'react';
 import { InvoiceCard } from '@/components/dashboard/billing/InvoiceCard';
@@ -15,6 +16,7 @@ import { toast } from 'sonner';
 export default function AdminInvoiceDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const t = useTranslations('dashboard.admin.billingManagement.detail');
   
   const invoiceId = params.id as string;
 
@@ -28,11 +30,11 @@ export default function AdminInvoiceDetailPage() {
       setInvoice(result);
     } catch (err) {
       console.error('[AdminInvoiceDetail]', err);
-      toast.error('Không thể tải chi tiết hóa đơn');
+      toast.error(t('fetchError'));
     } finally {
       setLoading(false);
     }
-  }, [invoiceId]);
+  }, [invoiceId, t]);
 
   useEffect(() => {
     if (invoiceId) fetchInvoice();
@@ -59,8 +61,8 @@ export default function AdminInvoiceDetailPage() {
   if (!invoice) {
     return (
       <div className="p-6 text-center">
-        <h2 className="text-xl font-bold">Không tìm thấy hóa đơn</h2>
-        <button onClick={() => router.back()} className="mt-4 text-[#1392ec] underline cursor-pointer">Quay lại</button>
+        <h2 className="text-xl font-bold">{t('notFound')}</h2>
+        <button onClick={() => router.back()} className="mt-4 text-[#1392ec] underline cursor-pointer">{t('back')}</button>
       </div>
     );
   }
@@ -81,7 +83,7 @@ export default function AdminInvoiceDetailPage() {
           <h1 className="text-2xl font-bold text-slate-800">
             {invoice.invoiceNumber}
           </h1>
-          <p className="text-slate-500">Chi tiết hóa đơn hệ thống</p>
+          <p className="text-slate-500">{t('subtitle')}</p>
         </div>
       </div>
 

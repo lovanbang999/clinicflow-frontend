@@ -13,7 +13,7 @@ import {
   LabOrderForBilling,
   AddInvoiceItemDto,
 } from '@/lib/api/billing';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { servicesApi } from '@/lib/api/services';
 import { Service } from '@/types';
 import { Input } from '@/components/ui/input';
@@ -44,6 +44,7 @@ export function QuickAddInvoiceModal({
   isSubmitting,
 }: QuickAddInvoiceModalProps) {
   const t = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices.quickAddModal');
+  const locale = useLocale();
 
   const [selectedLabOrderIds, setSelectedLabOrderIds] = useState<Set<string>>(new Set());
   const [manualItems, setManualItems] = useState<AddInvoiceItemDto[]>([]);
@@ -119,6 +120,12 @@ export function QuickAddInvoiceModal({
       setNewUnitPrice('');
     }
   };
+
+  const formatCurrency = (val: number | string) =>
+    new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {
+      style: 'currency',
+      currency: locale === 'vi' ? 'VND' : 'USD',
+    }).format(Number(val));
 
   const handleSubmit = async () => {
     await onSubmit(Array.from(selectedLabOrderIds), manualItems);
@@ -202,12 +209,12 @@ export function QuickAddInvoiceModal({
                     <div className="flex-1">
                       <p className="font-semibold text-slate-700">{item.itemName}</p>
                       <p className="text-xs text-slate-500">
-                        {item.quantity} x {new Intl.NumberFormat('vi-VN').format(item.unitPrice)} đ
+                        {item.quantity} x {formatCurrency(item.unitPrice)}
                       </p>
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="font-bold text-blue-700">
-                        {new Intl.NumberFormat('vi-VN').format(Number(item.quantity) * Number(item.unitPrice))} đ
+                        {formatCurrency(Number(item.quantity) * Number(item.unitPrice))}
                       </span>
                       <Button
                         variant="ghost"
@@ -236,7 +243,7 @@ export function QuickAddInvoiceModal({
                     <option value="">{t('selectService')}</option>
                     {services.map((svc) => (
                       <option key={svc.id} value={svc.id}>
-                        {svc.name} - {new Intl.NumberFormat('vi-VN').format(svc.price)} đ
+                        {svc.name} - {formatCurrency(svc.price)}
                       </option>
                     ))}
                   </select>

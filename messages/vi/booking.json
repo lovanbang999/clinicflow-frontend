@@ -80,7 +80,9 @@
     "backToList": "Quay lại danh sách",
     "cancelAppointment": "Hủy lịch hẹn",
     "createdAt": "Đặt lịch lúc",
-    "price": "Phí dịch vụ"
+    "price": "Phí dịch vụ",
+    "notFound": "Không tìm thấy lịch hẹn",
+    "queueTitle": "Hàng đợi / Chờ khám"
   },
   "bookingId": "Mã booking",
   "service": "Dịch vụ",
