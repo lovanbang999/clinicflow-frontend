@@ -195,6 +195,7 @@
     }
   },
   "doctor": {
+    "healthcare": "Healthcare",
     "title": "Doctor",
     "dashboard": "Workspace",
     "greeting": "Hello {name}, you have patients waiting",
@@ -393,6 +394,7 @@
     }
   },
   "receptionist": {
+    "healthcare": "Healthcare",
     "title": "Receptionist",
     "dashboard": "Dashboard",
     "patients": "Patients",

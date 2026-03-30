@@ -43,7 +43,7 @@ export function DoctorDashboardSidebar() {
         <div>
           <h1 className="text-[#111518] text-lg font-bold leading-none">Smart Clinic</h1>
           <p className="text-[#1392ec]/70 text-xs font-semibold uppercase tracking-wider mt-1">
-            Healthcare
+            {t('healthcare')}
           </p>
         </div>
       </div>

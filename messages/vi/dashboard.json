@@ -195,6 +195,7 @@
     }
   },
   "doctor": {
+    "healthcare": "Chăm sóc sức khỏe",
     "title": "Bác sĩ",
     "dashboard": "Workspace",
     "greeting": "Xin chào {name}, bạn có bệnh nhân đang chờ",
@@ -393,6 +394,7 @@
     }
   },
   "receptionist": {
+    "healthcare": "Chăm sóc sức khỏe",
     "reports": {
       "nav": "Báo cáo",
       "title": "Báo cáo & Thống kê",
@@ -2033,7 +2035,7 @@
     "doctorPrefix": "BS.",
     "sidebar": {
       "smartClinic": "Smart Clinic",
-      "healthcare": "Healthcare"
+      "healthcare": "Chăm sóc sức khỏe"
     },
     "worklist": {
       "title": "Danh sách Cận lâm sàng",
