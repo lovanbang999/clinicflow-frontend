@@ -61,7 +61,10 @@ export function RecentActivityList() {
         }));
 
         const formatMoney = (amount: number) =>
-          new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+          new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {
+            style: 'currency',
+            currency: locale === 'vi' ? 'VND' : 'USD',
+          }).format(amount);
 
         const invoiceItems: ActivityItem[] = invoices.map(inv => ({
           id: `invoice-${inv.id}`,
@@ -85,7 +88,7 @@ export function RecentActivityList() {
     };
     
     fetchActivity();
-  }, [t]);
+  }, [t, locale]);
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">

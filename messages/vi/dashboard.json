@@ -62,24 +62,36 @@
       "new": "Mới"
     },
     "noDoctors": "Không có bác sĩ nào vào lúc này.",
+    "doctorPrefix": "BS.",
+    "withDoctor": "với",
     "invoices": "Hóa đơn của tôi",
     "myProfile": "Hồ sơ của tôi",
     "invoicesSubtitle": "Xem và quản lý các giao dịch thanh toán",
     "noInvoices": "Chưa có hóa đơn nào",
+    "noInvoicesDesc": "Các hóa đơn phát sinh từ việc khám bệnh sẽ xuất hiện tại đây.",
+    "service": "Dịch vụ",
+    "otherServices": "+{count} dịch vụ khác",
     "recentInvoices": "Hóa đơn gần đây",
     "invoiceNumber": "Mã hóa đơn",
     "total": "Tổng tiền",
-    "status": "Trạng thái",
+    "status": {
+      "label": "Trạng thái",
+      "paid": "ĐÃ THANH TOÁN",
+      "pending": "CHỜ THANH TOÁN"
+    },
     "viewDetail": "Xem chi tiết",
     "date": "Ngày",
     "settings": "Cài đặt",
     "settingsSubtitle": "Quản lý tùy chọn cá nhân và giao diện ứng dụng",
     "appearance": "Giao diện",
     "darkMode": "Chế độ tối",
+    "darkModeDesc": "Sử dụng giao diện tối giúp mắt dễ chịu hơn",
     "lightMode": "Chế độ sáng",
+    "lightModeDesc": "Sử dụng giao diện sáng truyền thống",
     "language": "Ngôn ngữ",
     "security": "Bảo mật",
     "changePassword": "Đổi mật khẩu",
+    "changePasswordDesc": "Cập nhật mật khẩu bảo mật tài khoản",
     "notifications": "Thông báo",
     "medicalHistory": {
       "title": "Lịch sử khám bệnh",
@@ -118,7 +130,18 @@
       "status": "Trạng thái",
       "waitTime": "T.gian chờ",
       "actions": "Thao tác"
-    }
+    },
+    "selectDoctorDesc": "Vui lòng chọn một bác sĩ ở trên để xem hàng đợi",
+    "patientsUnit": "bệnh nhân",
+    "live": "Live",
+    "offline": "Offline",
+    "inExamLabel": "Đang Khám",
+    "inRoom": "In Room",
+    "emptyClinic": "Phòng khám trống",
+    "waitingForNext": "Đang chờ gọi bệnh nhân tiếp theo",
+    "waitingList": "Danh Sách Chờ",
+    "loadingList": "Đang tải danh sách...",
+    "estimatedTime": "~{time} ph"
   },
   "emr": {
     "consultation": {
@@ -390,6 +413,126 @@
         "printTitle": "ĐƠN THUỐC",
         "confirmBtn": "Xác nhận thêm",
         "editAction": "Sửa"
+      },
+      "printables": {
+        "exam": {
+          "clinicName": "Phòng Khám Đa Khoa SmartClinic",
+          "address": "Số 123 Xã Đàn, Đống Đa, Hà Nội",
+          "contact": "Hotline: 1900 1234 - Website: smartclinic.vn",
+          "title": "Phiếu Kết Quả Khám Bệnh",
+          "printDate": "Ngày khám:",
+          "patientCode": "Mã BN:",
+          "fullName": "Họ và tên:",
+          "age": "Tuổi:",
+          "gender": "Giới tính:",
+          "addressLabel": "Địa chỉ:",
+          "weight": "Cân nặng:",
+          "height": "Chiều cao:",
+          "phone": "SĐT:",
+          "reasonLabel": "1. Lý do khám & Triệu chứng",
+          "clinicalLabel": "2. Kết quả khám lâm sàng",
+          "diagnosisLabel": "3. Chẩn đoán xác định",
+          "treatmentLabel": "4. Hướng dẫn điều trị & Lời dặn",
+          "followUpLabel": "5. Hẹn tái khám",
+          "followUpNote": "* Vui lòng mang theo phiếu này khi tái khám.",
+          "dateFormat": "Ngày {day} tháng {month} năm {year}",
+          "doctorTitle": "Bác sĩ điều trị",
+          "signatureNote": "(Ký và ghi rõ họ tên)",
+          "slogan": "SmartClinic - Tận tâm - Chuyên nghiệp - Hiệu quả"
+        },
+        "lab": {
+          "title": "PHIẾU CHỈ ĐỊNH CẬN LÂM SÀNG",
+          "printDate": "Ngày in:",
+          "patientInfoTitle": "Thông tin bệnh nhân",
+          "doctorLabel": "Bác sĩ chỉ định:",
+          "servicesTitle": "Danh sách chỉ định",
+          "colStt": "STT",
+          "colName": "Tên Xét Nghiệm / Cận Lâm Sàng",
+          "colNote": "Ghi chú",
+          "importantNote": "Lưu ý quan trọng:",
+          "instruction1": "Vui lòng mang phiếu này ra quầy lễ tân để thanh toán",
+          "instruction1Suffix": " trước khi thực hiện xét nghiệm.",
+          "instruction2": "Sau khi có kết quả, vui lòng mang kết quả quay lại phòng khám ban đầu để bác sĩ tư vấn.",
+          "doctorTitle": "Bác sĩ chỉ định"
+        },
+        "prescription": {
+          "printTitle": "ĐƠN THUỐC",
+          "diagnosisLabelTitle": "Chẩn đoán:",
+          "noDiagnosis": "Chưa có chẩn đoán cụ thể",
+          "adviceLabel": "Lời dặn:",
+          "prescriptionTitle": "Danh mục thuốc",
+          "colStt": "STT",
+          "colMedicine": "Tên thuốc / Hàm lượng",
+          "colQuantity": "Số lượng",
+          "colUnit": "ĐVT",
+          "emptyPrescription": "Chưa có thuốc trong đơn",
+          "duration": "Dùng trong {days} ngày",
+          "instructions": "HDSĐ: {instructions}",
+          "footerNoteTitle": "Cộng dược:",
+          "footerNote1": "* Bệnh nhân vui lòng mang đơn thuốc này đến Nhà thuốc để mua thuốc.",
+          "footerNote2": "* Kiểm tra tên thuốc, số lượng và hạn sử dụng trước khi rời quầy.",
+          "footerNote3": "* Tái khám đúng hẹn hoặc khi có dấu hiệu bất thường.",
+          "slogan": "SmartClinic - Mang lại nụ cười và sức khỏe cho cộng đồng"
+        },
+        "invoice": {
+          "clinicName": "SMART CLINIC",
+          "clinicSub": "HỆ THỐNG PHÒNG KHÁM ĐA KHOA THÔNG MINH",
+          "address": "Số 123 Xã Đàn, Đống Đa, Hà Nội",
+          "contact": "1900 1234",
+          "taxId": "0102030405",
+          "title": "HÓA ĐƠN DỊCH VỤ",
+          "printDate": "Ngày in:",
+          "patientInfo": "Thông tin bệnh nhân",
+          "fullName": "Họ và tên:",
+          "patientCode": "Mã bệnh nhân:",
+          "phone": "Số điện thoại:",
+          "orderInfo": "Thông tin chỉ định",
+          "doctor": "Bác sĩ khám:",
+          "status": "Trạng thái:",
+          "colService": "Dịch vụ / Chỉ định",
+          "colQuantity": "SL",
+          "colPrice": "Đơn giá",
+          "colTotal": "Thành tiền",
+          "emptyData": "Không có dữ liệu dịch vụ",
+          "labBadge": "CLS",
+          "totalCost": "Tổng chi phí phát sinh:",
+          "paidAmount": "Số tiền đã thanh toán:",
+          "grandTotal": "TỔNG CỘNG:",
+          "inWords": "(Bằng chữ: ........................................................................................)",
+          "sigPatient": "Phần Bệnh nhân",
+          "sigCashier": "Phần Thu ngân",
+          "signed": "(Đã ký)",
+          "datePlace": "Hà Nội, {date}",
+          "clinicConfirm": "Xác nhận của Bệnh viện",
+          "paidStamp": "SMART CLINIC\nPAID",
+          "footerText": "Mọi thắc mắc vui lòng liên hệ Hotline 1900 1234. Cảm ơn quý khách đã tin tưởng sử dụng dịch vụ tại Smart Clinic!"
+        },
+        "ticket": {
+          "clinicName": "SMART CLINIC",
+          "address": "Số 123 Xã Đàn, Đống Đa, Hà Nội",
+          "contact": "Hotline: 1900 1234",
+          "title": "PHIẾU CHỜ KHÁM",
+          "printTime": "Thời gian in:",
+          "patientInfo": "Thông tin bệnh nhân:",
+          "fullName": "Họ và tên:",
+          "dob": "Ngày sinh:",
+          "phone": "SĐT:",
+          "serviceInfo": "Thông tin dịch vụ:",
+          "department": "Chuyên khoa:",
+          "doctor": "Bác sĩ:",
+          "room": "Phòng khám:",
+          "roomNumber": "Phòng {room}",
+          "queueNumber": "Số Thứ Tự Của Bạn",
+          "queueNumberSuffix": "",
+          "estimatedWait": "Thời gian chờ dự kiến:",
+          "waitUnit": "phút",
+          "waitingCount": "Số người đang chờ trước bạn:",
+          "instructionTitle": "Lưu ý:",
+          "instruction1": "Vui lòng ngồi chờ tại khu vực Phòng khám.",
+          "instruction2": "Để ý màn hình hiển thị hoặc lắng nghe loa thông báo.",
+          "instruction3": "Xin cảm ơn!",
+          "greeting": "Kính chúc quý khách sức khỏe!"
+        }
       }
     }
   },
@@ -494,7 +637,9 @@
     "searchCheckIn": {
       "title": "Tìm kiếm & Check-in",
       "placeholder": "Tìm theo Tên, SĐT, Mã lịch...",
-      "emptyState": "Nhập thông tin bệnh nhân để bắt đầu Check-in"
+      "emptyState": "Nhập thông tin bệnh nhân để bắt đầu Check-in",
+      "walkIn": "Khám vãng lai",
+      "noResults": "Không tìm thấy lịch hẹn trùng khớp"
     },
     "checkInManagement": {
       "title": "Bảng Điều Khiển Lịch Khám",
@@ -511,7 +656,9 @@
         "clearDate": "Xóa ngày",
         "clearAll": "Xóa bộ lọc",
         "allDoctors": "Tất cả bác sĩ",
-        "noDoctors": "Không tìm thấy bác sĩ"
+        "noDoctors": "Không tìm thấy bác sĩ",
+        "allServices": "Tất cả dịch vụ",
+        "noServices": "Chưa có dịch vụ"
       },
       "table": {
         "bookingId": "Mã đặt lịch",
@@ -562,7 +709,12 @@
     },
     "liveQueue": {
       "title": "Hàng đợi Live ({count})",
-      "promoteBtn": "Ưu tiên"
+      "promoteBtn": "Ưu tiên",
+      "liveLabel": "Live",
+      "empty": "Hàng đợi đang trống",
+      "preBooked": "Hẹn trước",
+      "waitMin": "{min}m chờ",
+      "inProgress": "Đang khám"
     },
     "upcomingAppointments": {
       "title": "Lịch chờ khám",
@@ -571,8 +723,10 @@
         "patient": "Bệnh nhân",
         "service": "Dịch vụ",
         "doctor": "Bác sĩ",
-        "status": "Trạng thái"
-      }
+        "status": "Trạng thái",
+        "actions": "Thao tác"
+      },
+      "noData": "Không có lịch hẹn nào sắp tới"
     },
     "walkinBookingForm": {
       "pageTitle": "Đặt lịch khám mới",
@@ -930,6 +1084,15 @@
     "patientManagement": {
       "title": "Quản lý Bệnh nhân",
       "description": "Quản lý hồ sơ và tiếp nhận bệnh nhân của phòng khám",
+      "messages": {
+        "registerSuccess": "Đã đăng ký bệnh nhân mới!",
+        "registerError": "Lỗi khi đăng ký bệnh nhân",
+        "guestSuccess": "Đã tiếp nhận bệnh nhân vãng lai!",
+        "guestError": "Lỗi khi tiếp nhận bệnh nhân",
+        "updateSuccess": "Đã cập nhật thông tin bệnh nhân!",
+        "updateError": "Lỗi khi cập nhật thông tin",
+        "bookDev": "Tính năng đặt lịch cho {name} đang được phát triển"
+      },
       "actions": {
         "register": "Đăng ký mới",
         "guest": "Tiếp nhận vãng lai",
@@ -1008,6 +1171,39 @@
       "editModal": {
         "title": "Chỉnh sửa Hồ sơ",
         "subtitle": "Cập nhật thông tin chi tiết của bệnh nhân",
+        "sectionBasic": "Thông tin cơ bản",
+        "sectionMedical": "Y tế & Bảo hiểm",
+        "form": {
+          "fullName": "HỌ VÀ TÊN (*)",
+          "phone": "SỐ ĐIỆN THOẠI (*)",
+          "email": "EMAIL",
+          "dob": "NGÀY SINH",
+          "gender": "GIỚI TÍNH",
+          "genderOptions": {
+            "select": "Chọn giới tính",
+            "male": "Nam",
+            "female": "Nữ",
+            "other": "Khác"
+          },
+          "address": "ĐỊA CHỈ",
+          "nationalId": "SỐ CCCD / CMND",
+          "bloodType": "NHÓM MÁU",
+          "bloodTypeOptions": {
+            "unknown": "Không rõ"
+          },
+          "insuranceNumber": "SỐ THẺ BHYT",
+          "insuranceProvider": "NHÀ CUNG CẤP BH",
+          "insuranceProviderPlaceholder": "VD: BHYT Việt Nam, Bảo Việt...",
+          "insuranceExpiry": "HẾT HẠN BẢO HIỂM",
+          "allergies": "DỊ ỨNG",
+          "allergiesPlaceholder": "VD: Hải sản, Paracetamol...",
+          "chronicConditions": "BỆNH LÝ MÃN TÍNH",
+          "chronicConditionsPlaceholder": "VD: Cao huyết áp, Tiểu đường..."
+        },
+        "errors": {
+          "fullName": "Họ tên là bắt buộc",
+          "phone": "Số điện thoại là bắt buộc"
+        },
         "actions": {
           "cancel": "Hủy",
           "save": "Lưu thay đổi",
@@ -1207,6 +1403,12 @@
         "typePlaceholder": "Loại Hóa Đơn",
         "clear": "Xóa lọc"
       },
+      "detail": {
+        "notFound": "Không tìm thấy hóa đơn",
+        "back": "Quay lại",
+        "subtitle": "Chi tiết hóa đơn hệ thống",
+        "fetchError": "Không thể tải chi tiết hóa đơn"
+      },
       "pagination": {
         "showing": "Hiển thị {start} - {end} của {total} hóa đơn",
         "previous": "Trước",
@@ -1225,7 +1427,9 @@
       "title": "Dịch vụ nổi bật",
       "subtitle": "Theo lượt đặt tháng này",
       "noData": "Chưa có dữ liệu dịch vụ",
-      "viewAll": "Xem tất cả"
+      "viewAll": "Xem tất cả",
+      "bookings": "{count} lịch",
+      "revenue": "~{amount} dự kiến"
     },
     "userManagement": {
       "addUser": {

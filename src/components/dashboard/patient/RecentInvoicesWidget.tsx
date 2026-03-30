@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { billingApi, Invoice, InvoiceStatus } from '@/lib/api/billing';
 import { format } from 'date-fns';
 import {
@@ -13,6 +13,7 @@ import Link from 'next/link';
 
 export function RecentInvoicesWidget() {
   const t = useTranslations('dashboard.patient');
+  const locale = useLocale();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +32,10 @@ export function RecentInvoicesWidget() {
   }, []);
 
   const formatMoney = (amount: number) =>
-    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {
+      style: 'currency',
+      currency: locale === 'vi' ? 'VND' : 'USD',
+    }).format(amount);
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col h-full">
@@ -87,7 +91,7 @@ export function RecentInvoicesWidget() {
                     {formatMoney(inv.totalAmount)}
                   </p>
                   <p className={`text-[10px] font-bold mt-0.5 ${inv.status === InvoiceStatus.PAID ? 'text-emerald-500' : 'text-amber-500'}`}>
-                    {inv.status === InvoiceStatus.PAID ? 'PAID' : 'PENDING'}
+                    {inv.status === InvoiceStatus.PAID ? t('status.paid') : t('status.pending')}
                   </p>
                 </div>
               </div>

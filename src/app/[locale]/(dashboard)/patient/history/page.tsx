@@ -18,7 +18,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 
 function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) {
-  const t = useTranslations('dashboard.patient.medicalHistory');
+  const t = useTranslations('dashboard.patient.labels');
+  const tHistory = useTranslations('dashboard.patient.medicalHistory');
   const dateLocale = locale === 'vi' ? vi : undefined;
   const bookingDate = new Date(booking.bookingDate);
   const formattedDate = isValid(bookingDate)
@@ -47,7 +48,7 @@ function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) 
                   {booking.startTime ? (
                     `${booking.startTime} – ${booking.endTime}`
                   ) : (
-                    locale === 'vi' ? 'Hàng đợi / Chờ khám' : 'Queue / Walk-in'
+                    t('waitingQueue')
                   )}
                 </span>
               </div>
@@ -56,14 +57,14 @@ function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) 
         </div>
         <span className="text-[10px] sm:text-xs font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20 px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
           <div className="w-1 h-1 rounded-full bg-emerald-500" />
-          {t('completed')}
+          {tHistory('completed')}
         </span>
       </div>
 
       {/* Doctor */}
       <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 border-t border-slate-50 dark:border-slate-800/50 pt-3">
         <UserIcon size={14} className="text-slate-400" />
-        <span className="font-medium">{t('doctorLabel')}</span>
+        <span className="font-medium">{tHistory('doctorLabel')}</span>
         <span className="font-bold text-slate-800 dark:text-slate-200">{booking.doctor?.fullName ?? '—'}</span>
       </div>
 

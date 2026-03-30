@@ -75,37 +75,37 @@ export default function ReceptionistPatientsPage() {
   const handleRegisterStandard = async (data: RegisterPatientDto) => {
     try {
       await registerPatient(data);
-      toast.success('Đã đăng ký bệnh nhân mới!');
+      toast.success(t('messages.registerSuccess'));
       fetchPatients({ search: debouncedSearch, page, limit: LIMIT });
       fetchStats();
     } catch {
-      toast.error('Lỗi khi đăng ký bệnh nhân');
+      toast.error(t('messages.registerError'));
     }
   };
 
   const handleRegisterGuest = async (data: CreateGuestPatientDto) => {
     try {
       await createGuestPatient(data);
-      toast.success('Đã tiếp nhận bệnh nhân vãng lai!');
+      toast.success(t('messages.guestSuccess'));
       fetchPatients({ search: debouncedSearch, page, limit: LIMIT });
       fetchStats();
     } catch {
-      toast.error('Lỗi khi tiếp nhận bệnh nhân');
+      toast.error(t('messages.guestError'));
     }
   };
 
   const handleUpdate = async (id: string, data: Partial<RegisterPatientDto>) => {
     try {
       await updatePatient(id, data);
-      toast.success('Đã cập nhật thông tin bệnh nhân!');
+      toast.success(t('messages.updateSuccess'));
       fetchPatients({ search: debouncedSearch, page, limit: LIMIT });
     } catch {
-      toast.error('Lỗi khi cập nhật thông tin');
+      toast.error(t('messages.updateError'));
     }
   };
 
   const handleBook = (patient: User) => {
-    toast.info(`Tính năng đặt lịch cho ${patient.fullName} đang được phát triển`);
+    toast.info(t('messages.bookDev', { name: patient.fullName }));
   };
 
   return (

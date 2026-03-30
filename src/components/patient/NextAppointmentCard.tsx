@@ -65,7 +65,7 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
             </div>
             <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-tight mb-0.5">{nextBooking.service.name}</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Dr. {nextBooking.doctor.fullName}
+              {t('doctorPrefix')} {nextBooking.doctor.fullName}
             </p>
           </div>
         </div>
@@ -81,7 +81,7 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
 
           <h2 className="hidden md:block text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">{nextBooking.service.name}</h2>
           <p className="hidden md:block text-slate-500 dark:text-slate-400 mb-6 text-lg">
-            with <span className="text-slate-900 dark:text-white font-semibold">Dr. {nextBooking.doctor.fullName}</span>
+            {t('withDoctor')} <span className="text-slate-900 dark:text-white font-semibold">{t('doctorPrefix')} {nextBooking.doctor.fullName}</span>
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-8 w-full">

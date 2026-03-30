@@ -76,7 +76,7 @@ export function PatientTable({
                 colSpan={columns.length}
                 className="px-4 py-16 text-center text-sm text-[#94a3b8]"
               >
-                Không tìm thấy bệnh nhân nào
+                {t('table.empty') ?? 'Không tìm thấy bệnh nhân nào'}
               </td>
             </tr>
           ) : (
@@ -109,7 +109,7 @@ export function PatientTable({
                       </span>
                       {patient.patientProfile?.isGuest && (
                         <span className="text-[10px] text-amber-600 font-bold bg-amber-50 px-1.5 py-0.5 rounded uppercase tracking-wider">
-                          Vãng lai
+                          {t('table.guest') ?? 'Vãng lai'}
                         </span>
                       )}
                     </div>
@@ -141,7 +141,7 @@ export function PatientTable({
                       ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
                       : 'bg-slate-100 text-slate-500 border border-slate-200'
                   }`}>
-                    {patient.isActive ? 'Hoạt động' : 'Tạm khóa'}
+                    {patient.isActive ? (t('table.statusActive') ?? 'Hoạt động') : (t('table.statusInactive') ?? 'Tạm khóa')}
                   </span>
                 </td>
 

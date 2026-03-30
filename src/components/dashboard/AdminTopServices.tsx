@@ -73,7 +73,7 @@ export function AdminTopServices({ services, viewAllHref = '/admin/services' }: 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-sm font-semibold text-slate-800 truncate">{svc.name}</span>
-                    <span className="text-xs text-slate-500 shrink-0">{svc.bookingsCount} lịch</span>
+                    <span className="text-xs text-slate-500 shrink-0">{t('bookings', { count: svc.bookingsCount })}</span>
                   </div>
                   {/* Progress bar */}
                   <div className="mt-1 h-1.5 bg-slate-100 rounded-full overflow-hidden max-w-[200px]">
@@ -82,7 +82,7 @@ export function AdminTopServices({ services, viewAllHref = '/admin/services' }: 
                       style={{ width: `${barPct}%` }}
                     />
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5">~{fmtRev(svc.estimatedRevenue)} dự kiến</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{t('revenue', { amount: fmtRev(svc.estimatedRevenue) })}</p>
                 </div>
               </li>
             );

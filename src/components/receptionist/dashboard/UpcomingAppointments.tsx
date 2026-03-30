@@ -9,7 +9,6 @@ import { BookingStatus } from '@/types';
 
 export function UpcomingAppointments() {
   const t = useTranslations('dashboard.receptionist.upcomingAppointments');
-  const tCommon = useTranslations('common');
   const { upcomingBookings, loadingUpcoming, checkIn, isCheckingIn } = useReceptionistDashboard();
 
   return (
@@ -30,7 +29,7 @@ export function UpcomingAppointments() {
               <th className="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">{t('table.service')}</th>
               <th className="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">{t('table.doctor')}</th>
               <th className="px-6 py-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">{t('table.status')}</th>
-              <th className="px-6 py-4 text-right text-[11px] font-bold text-slate-400 uppercase tracking-wider">{tCommon?.('actions') ?? 'Thao tác'}</th>
+              <th className="px-6 py-4 text-right text-[11px] font-bold text-slate-400 uppercase tracking-wider">{t('table.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -43,7 +42,7 @@ export function UpcomingAppointments() {
             ) : upcomingBookings.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-10 text-center text-slate-400 text-sm">
-                  {tCommon?.('noData') ?? 'Không có lịch hẹn nào sắp tới'}
+                  {t('noData')}
                 </td>
               </tr>
             ) : (

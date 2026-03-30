@@ -68,7 +68,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
           <UsersIcon size={32} className="text-slate-400" />
         </div>
         <p className="text-slate-600 font-medium">{t('selectDoctor')}</p>
-        <p className="text-slate-400 text-sm mt-1">Vui lòng chọn một bác sĩ ở trên để xem hàng đợi</p>
+        <p className="text-slate-400 text-sm mt-1">{t('selectDoctorDesc')}</p>
       </div>
     );
   }
@@ -92,7 +92,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
               <p className="text-sm font-semibold text-slate-500">{t('stats.totalInQueue')}</p>
               <div className="flex items-baseline gap-2">
                 <p className="text-3xl font-extrabold text-slate-900">{stats?.totalQueued || 0}</p>
-                <span className="text-sm text-slate-400 font-medium mt-1 pr-2">bệnh nhân</span>
+                <span className="text-sm text-slate-400 font-medium mt-1 pr-2">{t('patientsUnit')}</span>
               </div>
             </div>
           </div>
@@ -120,12 +120,12 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-slate-800 flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse ring-4 ring-emerald-500/20" />
-              {doctorName ? `Đang Khám - ${doctorName}` : 'Đang Khám'}
+              {doctorName ? `${t('inExamLabel')} - ${doctorName}` : t('inExamLabel')}
             </h3>
             {isConnected ? (
-              <span className="text-[10px] uppercase tracking-wider font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Live</span>
+              <span className="text-[10px] uppercase tracking-wider font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">{t('live')}</span>
             ) : (
-              <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">Offline</span>
+              <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">{t('offline')}</span>
             )}
           </div>
 
@@ -144,7 +144,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                          {item.queuePosition}
                        </span>
                        <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md uppercase tracking-wide">
-                         In Room
+                         {t('inRoom')}
                        </span>
                      </div>
                      <p className="font-extrabold text-lg text-slate-900 truncate">
@@ -175,15 +175,15 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
               <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-3">
                 <CheckIcon size={24} className="text-slate-300" weight="bold" />
               </div>
-              <p className="font-medium text-slate-500">Phòng khám trống</p>
-              <p className="text-xs text-slate-400 mt-1">Đang chờ gọi bệnh nhân tiếp theo</p>
+              <p className="font-medium text-slate-500">{t('emptyClinic')}</p>
+              <p className="text-xs text-slate-400 mt-1">{t('waitingForNext')}</p>
             </div>
           )}
         </div>
 
         {/* RIGHT COLUMN: Waiting List Table */}
         <div className="lg:col-span-8 flex flex-col h-full">
-          <h3 className="font-bold text-slate-800 mb-4 pb-1 border-b border-transparent">Danh Sách Chờ ({waitingItems.length})</h3>
+          <h3 className="font-bold text-slate-800 mb-4 pb-1 border-b border-transparent">{t('waitingList')} ({waitingItems.length})</h3>
           
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex-1 flex flex-col">
             <div className="overflow-x-auto">
@@ -203,7 +203,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                       <td colSpan={5} className="px-5 py-10 text-center text-slate-400">
                         <div className="flex items-center justify-center gap-2 text-sm font-medium">
                            <span className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                           Đang tải danh sách...
+                           {t('loadingList')}
                         </div>
                       </td>
                     </tr>
@@ -237,7 +237,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                           <td className="px-5 py-4">
                             <div className="flex items-center gap-1.5 text-slate-500 font-medium">
                               <TimerIcon size={16} />
-                              <span className="text-xs">~{item.estimatedWaitMinutes} ph</span>
+                              <span className="text-xs">{t('estimatedTime', { time: item.estimatedWaitMinutes })}</span>
                             </div>
                           </td>
                           <td className="px-5 py-4 text-right">

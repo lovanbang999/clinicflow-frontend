@@ -97,7 +97,7 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
         <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
           <WarningIcon size={28} weight="fill" className="text-red-400" />
         </div>
-        <p className="text-base font-semibold text-slate-700">Appointment not found</p>
+        <p className="text-base font-semibold text-slate-700">{td('notFound')}</p>
         <button
           onClick={() => router.back()}
           className="px-4 py-2 bg-[#1570EF] text-white text-sm font-semibold rounded-xl cursor-pointer"
@@ -122,7 +122,7 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
     
   const timeRange = booking.startTime 
     ? `${booking.startTime} – ${booking.endTime}`
-    : (locale === 'vi' ? 'Hàng đợi / Chờ khám' : 'Queue / Walk-in');
+    : td('queueTitle');
   const bookingCode = booking.bookingCode ?? booking.id.slice(0, 8).toUpperCase();
   const duration = booking.service?.durationMinutes
     ? `${booking.service.durationMinutes} ${td('minutesShort')}`
