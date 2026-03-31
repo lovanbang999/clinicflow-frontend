@@ -8,24 +8,19 @@ import {
   OperationalStats, 
   DateRange 
 } from '@/lib/api/receptionist-analytics';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export const useReceptionistOverview = (range?: DateRange) => {
   const [data, setData] = useState<ReceptionistOverview | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { execute, isLoading: loading } = useApiHandler();
 
   const fetch = useCallback(async () => {
-    try {
-      setLoading(true);
-      const result = await receptionistAnalyticsApi.getOverview(range);
-      setData(result);
-    } catch (err) {
-      console.error('[useReceptionistOverview]', err);
-      toast.error('Failed to load overview stats');
-    } finally {
-      setLoading(false);
-    }
-  }, [range]);
+    const result = await execute(
+      () => receptionistAnalyticsApi.getOverview(range),
+      { errorFallbackMsg: 'Failed to load overview stats' }
+    );
+    if (result) setData(result);
+  }, [range, execute]);
 
   useEffect(() => { fetch(); }, [fetch]);
   return { data, loading, refetch: fetch };
@@ -33,20 +28,15 @@ export const useReceptionistOverview = (range?: DateRange) => {
 
 export const useReceptionistRevenueTrend = (range?: DateRange) => {
   const [data, setData] = useState<RevenueTrendItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { execute, isLoading: loading } = useApiHandler();
 
   const fetch = useCallback(async () => {
-    try {
-      setLoading(true);
-      const result = await receptionistAnalyticsApi.getRevenueTrend(range);
-      setData(result);
-    } catch (err) {
-      console.error('[useReceptionistRevenueTrend]', err);
-      toast.error('Failed to load revenue trend');
-    } finally {
-      setLoading(false);
-    }
-  }, [range]);
+    const result = await execute(
+      () => receptionistAnalyticsApi.getRevenueTrend(range),
+      { errorFallbackMsg: 'Failed to load revenue trend' }
+    );
+    if (result) setData(result);
+  }, [range, execute]);
 
   useEffect(() => { fetch(); }, [fetch]);
   return { data, loading, refetch: fetch };
@@ -54,20 +44,15 @@ export const useReceptionistRevenueTrend = (range?: DateRange) => {
 
 export const useReceptionistOperationalStats = (range?: DateRange) => {
   const [data, setData] = useState<OperationalStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { execute, isLoading: loading } = useApiHandler();
 
   const fetch = useCallback(async () => {
-    try {
-      setLoading(true);
-      const result = await receptionistAnalyticsApi.getOperationalStats(range);
-      setData(result);
-    } catch (err) {
-      console.error('[useReceptionistOperationalStats]', err);
-      toast.error('Failed to load operational stats');
-    } finally {
-      setLoading(false);
-    }
-  }, [range]);
+    const result = await execute(
+      () => receptionistAnalyticsApi.getOperationalStats(range),
+      { errorFallbackMsg: 'Failed to load operational stats' }
+    );
+    if (result) setData(result);
+  }, [range, execute]);
 
   useEffect(() => { fetch(); }, [fetch]);
   return { data, loading, refetch: fetch };
