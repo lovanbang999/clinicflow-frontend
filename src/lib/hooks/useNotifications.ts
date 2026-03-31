@@ -2,27 +2,28 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { notificationsApi, InAppNotification } from '../api/notifications';
 import { io, Socket } from 'socket.io-client';
 import { useAuthStore } from '../store/authStore';
+import { useApiHandler } from './useApiHandler';
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:8080';
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState<InAppNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const { execute: executeFetch, isLoading: loading } = useApiHandler();
+  const { execute: executeAction } = useApiHandler();
   const { user } = useAuthStore();
   const socketRef = useRef<Socket | null>(null);
 
   const fetchNotifications = useCallback(async () => {
-    try {
-      const data = await notificationsApi.getMyNotifications();
+    const data = await executeFetch(
+      () => notificationsApi.getMyNotifications(),
+      { showErrorToast: false } // silent fail usually for meta-data like notifications
+    );
+    if (data) {
       setNotifications(data.notifications || []);
       setUnreadCount(data.unreadCount || 0);
-    } catch (error) {
-      console.error('Failed to fetch notifications', error);
-    } finally {
-      setLoading(false);
     }
-  }, []);
+  }, [executeFetch]);
 
   // WebSocket Connection
   useEffect(() => {
@@ -34,7 +35,6 @@ export function useNotifications() {
     });
 
     socket.on('connect', () => {
-      console.log('Connected to notification socket');
       socket.emit('authenticate', user.id);
     });
 
@@ -52,29 +52,34 @@ export function useNotifications() {
   }, [user?.id]);
 
   const markAsRead = async (id: string) => {
-    try {
-      await notificationsApi.markAsRead(id);
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
-      );
-      setUnreadCount((prev) => Math.max(0, prev - 1));
-    } catch (error) {
-      console.error('Failed to mark notification as read', error);
-    }
+    await executeAction(
+      async () => {
+        await notificationsApi.markAsRead(id);
+        setNotifications((prev) =>
+          prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
+        );
+        setUnreadCount((prev) => Math.max(0, prev - 1));
+      },
+      { showErrorToast: false }
+    );
   };
 
   const markAllAsRead = async () => {
-    try {
-      await notificationsApi.markAllAsRead();
-      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-      setUnreadCount(0);
-    } catch (error) {
-      console.error('Failed to mark all notifications as read', error);
-    }
+    await executeAction(
+      async () => {
+        await notificationsApi.markAllAsRead();
+        setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+        setUnreadCount(0);
+      },
+      { showErrorToast: false }
+    );
   };
 
   useEffect(() => {
-    fetchNotifications();
+    const timer = setTimeout(() => {
+      void fetchNotifications();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchNotifications]);
 
   return {

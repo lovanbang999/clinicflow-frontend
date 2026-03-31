@@ -122,7 +122,7 @@ export default function PatientInvoicesPage() {
                     {t('service')}
                   </th>
                   <th className="px-6 py-4 font-bold text-slate-400 uppercase tracking-widest text-[10px] h-12">
-                    {t('status')}
+                    {t('status.label')}
                   </th>
                   <th className="px-6 py-4 font-bold text-slate-400 uppercase tracking-widest text-[10px] h-12 text-right">
                     {t('total')}

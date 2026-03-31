@@ -294,23 +294,27 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
       </main>
 
       {/* Hidden printable components */}
-      <PrintablePrescription
-        patientProfile={item.booking.patientProfile}
-        doctorName={item.booking.doctor?.fullName}
-        prescriptionItems={watchedValues?.[0] || []}
-        diagnosisName={watchedValues?.[1]}
-        diagnosisCode={watchedValues?.[2]}
-        treatmentPlan={watchedValues?.[3]}
-        bookingCode={item.booking.bookingCode}
-        weight={item.booking.patientProfile?.weightKg?.toString()}
-        height={item.booking.patientProfile?.heightCm?.toString()}
-      />
-      <PrintableExaminationResult
-         patientProfile={item.booking.patientProfile}
-         doctorName={item.booking.doctor?.fullName}
-         medicalRecord={lastRecordData || methods.getValues()}
-         bookingCode={item.booking.bookingCode}
-      />
+      {(activeTab === 'rx' || showPrintModal) && (
+        <PrintablePrescription
+          patientProfile={item.booking.patientProfile}
+          doctorName={item.booking.doctor?.fullName}
+          prescriptionItems={watchedValues?.[0] || []}
+          diagnosisName={watchedValues?.[1]}
+          diagnosisCode={watchedValues?.[2]}
+          treatmentPlan={watchedValues?.[3]}
+          bookingCode={item.booking.bookingCode}
+          weight={item.booking.patientProfile?.weightKg?.toString()}
+          height={item.booking.patientProfile?.heightCm?.toString()}
+        />
+      )}
+      {(activeTab === 'emr' || showPrintModal) && (
+        <PrintableExaminationResult
+           patientProfile={item.booking.patientProfile}
+           doctorName={item.booking.doctor?.fullName}
+           medicalRecord={lastRecordData || methods.getValues()}
+           bookingCode={item.booking.bookingCode}
+        />
+      )}
 
       {/* Completion & Print Modal */}
       <Dialog open={showPrintModal} onOpenChange={setShowPrintModal}>

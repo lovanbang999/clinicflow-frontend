@@ -2,72 +2,54 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { settingsApi, AdminSettings, ClinicProfile, BookingRules, NotificationConfig } from '@/lib/api/settings';
-import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
+import { useApiHandler } from './useApiHandler';
 
 export const useAdminSettings = () => {
   const t = useTranslations('dashboard.admin.settings');
   const [settings, setSettings] = useState<AdminSettings | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const { execute, isLoading: loading } = useApiHandler();
+  const { execute: executeSave, isLoading: saving } = useApiHandler();
 
   const fetchSettings = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await settingsApi.getAllSettings();
+    const data = await execute(() => settingsApi.getAllSettings());
+    if (data) {
       setSettings(data);
-    } catch (err) {
-      console.error('[useAdminSettings]', err);
-      toast.error(t('loadError') || 'Failed to load settings');
-    } finally {
-      setLoading(false);
     }
-  }, [t]);
+  }, [execute]);
 
   useEffect(() => {
-    fetchSettings();
+    const timer = setTimeout(() => {
+      fetchSettings();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchSettings]);
 
   const updateClinicProfile = async (data: Partial<ClinicProfile>): Promise<void> => {
-    setSaving(true);
-    try {
-      const updated = await settingsApi.updateClinicProfile(data);
-      setSettings(prev => prev ? { ...prev, clinic: updated } : null);
-      toast.success(t('saveSuccess'));
-    } catch (err) {
-      toast.error(t('saveError'));
-      throw err;
-    } finally {
-      setSaving(false);
-    }
+    await executeSave(() => settingsApi.updateClinicProfile(data), {
+      onSuccessMsg: t('saveSuccess'),
+      onSuccess: (updated) => {
+        setSettings(prev => prev ? { ...prev, clinic: updated } : null);
+      }
+    });
   };
 
   const updateBookingRules = async (data: Partial<BookingRules>): Promise<void> => {
-    setSaving(true);
-    try {
-      const updated = await settingsApi.updateBookingRules(data);
-      setSettings(prev => prev ? { ...prev, booking: updated } : null);
-      toast.success(t('saveSuccess'));
-    } catch (err) {
-      toast.error(t('saveError'));
-      throw err;
-    } finally {
-      setSaving(false);
-    }
+    await executeSave(() => settingsApi.updateBookingRules(data), {
+      onSuccessMsg: t('saveSuccess'),
+      onSuccess: (updated) => {
+        setSettings(prev => prev ? { ...prev, booking: updated } : null);
+      }
+    });
   };
 
   const updateNotifications = async (data: Partial<NotificationConfig>): Promise<void> => {
-    setSaving(true);
-    try {
-      const updated = await settingsApi.updateNotifications(data);
-      setSettings(prev => prev ? { ...prev, notification: updated } : null);
-      toast.success(t('saveSuccess'));
-    } catch (err) {
-      toast.error(t('saveError'));
-      throw err;
-    } finally {
-      setSaving(false);
-    }
+    await executeSave(() => settingsApi.updateNotifications(data), {
+      onSuccessMsg: t('saveSuccess'),
+      onSuccess: (updated) => {
+        setSettings(prev => prev ? { ...prev, notification: updated } : null);
+      }
+    });
   };
 
   return {

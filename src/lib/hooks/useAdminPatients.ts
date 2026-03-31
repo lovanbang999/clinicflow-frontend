@@ -9,7 +9,7 @@ import {
   AdminCreatePatientDto,
   AdminUpdatePatientDto,
 } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 interface PatientPagination {
   total: number;
@@ -26,91 +26,81 @@ export const useAdminPatients = () => {
     limit: 10,
     totalPages: 0,
   });
-  const [loadingList, setLoadingList] = useState(false);
+  
+  const { execute, isLoading: loadingList } = useApiHandler();
 
   const [kpiData, setKpiData] = useState<PatientKpiData | null>(null);
-  const [loadingKpi, setLoadingKpi] = useState(false);
+  const { execute: executeKpi, isLoading: loadingKpi } = useApiHandler();
 
   // Fetch list
 
   const fetchPatients = useCallback(async (query: PatientSearchQuery) => {
-    try {
-      setLoadingList(true);
-      const res = await adminPatientsApi.getPatients(query);
+    const res = await execute(
+      () => adminPatientsApi.getPatients(query),
+      { errorFallbackMsg: 'fetchPatientsError' }
+    );
+    if (res) {
       setPatients(res.data);
       setPagination(res.meta);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminPatients.fetchPatients] error:', error);
-      toast.error(error.message || 'Failed to fetch patients');
-    } finally {
-      setLoadingList(false);
     }
-  }, []);
+  }, [execute]);
 
   // Fetch KPI stats
 
   const fetchStats = useCallback(async () => {
-    try {
-      setLoadingKpi(true);
-      const data = await adminPatientsApi.getStats();
+    const data = await executeKpi(
+      () => adminPatientsApi.getStats(),
+      { errorFallbackMsg: 'fetchPatientStatsError' }
+    );
+    if (data) {
       setKpiData(data);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminPatients.fetchStats] error:', error);
-      toast.error(error.message || 'Failed to fetch patient statistics');
-    } finally {
-      setLoadingKpi(false);
     }
-  }, []);
+  }, [executeKpi]);
 
   // Mutations
 
   const createPatient = async (data: AdminCreatePatientDto) => {
-    try {
-      const newPatient = await adminPatientsApi.createPatient(data);
-      toast.success('Patient created successfully');
-      return newPatient;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to create patient');
-      throw error;
-    }
+    return execute(
+      () => adminPatientsApi.createPatient(data),
+      {
+        onSuccessMsg: 'createPatientSuccess',
+        errorFallbackMsg: 'createPatientError'
+      }
+    );
   };
 
   const updatePatient = async (id: string, data: AdminUpdatePatientDto) => {
-    try {
-      const updated = await adminPatientsApi.updatePatient(id, data);
-      toast.success('Patient updated successfully');
-      return updated;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update patient');
-      throw error;
-    }
+    return execute(
+      () => adminPatientsApi.updatePatient(id, data),
+      {
+        onSuccessMsg: 'updatePatientSuccess',
+        errorFallbackMsg: 'updatePatientError'
+      }
+    );
   };
 
   const exportPatients = useCallback(async (query: PatientSearchQuery) => {
-    try {
-      const blob = await adminPatientsApi.exportPatients(query);
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute(
-        'download',
-        `smartclinic_patients_${new Date().toISOString().split('T')[0]}.xlsx`,
-      );
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-      toast.success('Patients exported successfully');
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminPatients.exportPatients] error:', error);
-      toast.error(error.message || 'Failed to export patients');
-    }
-  }, []);
+    await execute(
+      async () => {
+        const blob = await adminPatientsApi.exportPatients(query);
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          `smartclinic_patients_${new Date().toISOString().split('T')[0]}.xlsx`,
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      },
+      {
+        onSuccessMsg: 'exportPatientsSuccess',
+        errorFallbackMsg: 'exportPatientsError'
+      }
+    );
+  }, [execute]);
 
   return {
     // List

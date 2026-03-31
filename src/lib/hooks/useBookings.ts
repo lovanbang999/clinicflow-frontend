@@ -1,36 +1,24 @@
 import { useState, useCallback } from 'react';
 import { bookingsApi, ReceptionistStatsResponse } from '../api/bookings';
 import { CreateBookingDto, Booking, BookingStatus } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export function useBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const { execute, isLoading, error } = useApiHandler();
 
   // Fetch my bookings
   const fetchMyBookings = useCallback(async (): Promise<Booking[]> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await bookingsApi.getMyBookings();
-      setBookings(data);
-      return data;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Failed to load appointments';
-      
-      toast.error(errorMessage);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    const res = await execute(
+      async () => {
+        const data = await bookingsApi.getMyBookings();
+        setBookings(data);
+        return data;
+      },
+      { errorFallbackMsg: 'fetchAppointmentsError' }
+    );
+    return res || [];
+  }, [execute]);
 
   // Fetch all bookings with filters
   const fetchBookings = useCallback(async (params?: {
@@ -41,164 +29,92 @@ export function useBookings() {
     date?: string;
     search?: string;
   }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> } | null> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await bookingsApi.getAll(params);
-      setBookings(data.bookings);
-      return data;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Failed to load bookings';
-      
-      toast.error(errorMessage);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    return execute(
+      async () => {
+        const data = await bookingsApi.getAll(params);
+        setBookings(data.bookings);
+        return data;
+      },
+      { errorFallbackMsg: 'fetchBookingsError' }
+    ).then(res => res || null);
+  }, [execute]);
 
   // Create booking
   const createBooking = useCallback(async (data: CreateBookingDto): Promise<Booking | null> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const booking = await bookingsApi.create(data);
-      toast.success('Booking created successfully');
-      return booking;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Đặt lịch thất bại. Vui lòng thử lại.';
-      
-      toast.error(errorMessage);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    return execute(
+      async () => {
+        const booking = await bookingsApi.create(data);
+        return booking;
+      },
+      { 
+        onSuccessMsg: 'createBookingSuccess',
+        errorFallbackMsg: 'createBookingError' 
+      }
+    ).then(res => res || null);
+  }, [execute]);
 
   // Cancel booking
   const cancelBooking = useCallback(async (id: string, reason?: string): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      await bookingsApi.cancel(id, reason);
-      toast.success('Appointment cancelled successfully');
-      return true;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Failed to cancel appointment';
-      
-      toast.error(errorMessage);
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    const res = await execute(
+      async () => {
+        await bookingsApi.cancel(id, reason);
+        return true;
+      },
+      { 
+        onSuccessMsg: 'cancelAppointmentSuccess',
+        errorFallbackMsg: 'cancelAppointmentError',
+        onError: () => {}
+      }
+    );
+    return res === true;
+  }, [execute]);
 
   // Get booking by ID
   const getBookingById = useCallback(async (id: string): Promise<Booking | null> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const booking = await bookingsApi.getById(id);
-      return booking;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Failed to load booking details';
-      
-      toast.error(errorMessage);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    return execute(
+      async () => {
+        const booking = await bookingsApi.getById(id);
+        return booking;
+      },
+      { errorFallbackMsg: 'fetchBookingDetailsError' }
+    ).then(res => res || null);
+  }, [execute]);
 
   // Fetch receptionist check-in stats
   const fetchReceptionistStats = useCallback(async (): Promise<ReceptionistStatsResponse | null> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      return await bookingsApi.getReceptionistStats();
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      
-      const errorMessage = error && 'response' in error
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ? (error as any).response?.data?.message
-        : 'Failed to load booking statistics';
-      
-      toast.error(errorMessage);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    return execute(
+      async () => {
+        return await bookingsApi.getReceptionistStats();
+      },
+      { errorFallbackMsg: 'fetchBookingStatsError' }
+    ).then(res => res || null);
+  }, [execute]);
 
   // Check-in patient
   const checkInPatient = useCallback(async (id: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await bookingsApi.checkIn(id);
-      return data;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      const errorMessage =
-        error && 'response' in error
-          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (error as any).response?.data?.message
-          : 'Failed to check-in patient';
-      toast.error(errorMessage);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    return execute(
+      async () => {
+        const data = await bookingsApi.checkIn(id);
+        return data;
+      },
+      { errorFallbackMsg: 'checkInPatientError' }
+    ).then(res => res || null);
+  }, [execute]);
 
   // Complete booking (Finish visit)
   const completeBooking = useCallback(async (id: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      await bookingsApi.complete(id);
-      return true;
-    } catch (err) {
-      const error = err as Error;
-      setError(error);
-      const errorMessage =
-        error && 'response' in error
-          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (error as any).response?.data?.message
-          : 'Failed to complete visit';
-      toast.error(errorMessage);
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    const res = await execute(
+      async () => {
+        await bookingsApi.complete(id);
+        return true;
+      },
+      { 
+        errorFallbackMsg: 'completeVisitError',
+        onError: () => {}
+      }
+    );
+    return res === true;
+  }, [execute]);
 
   return {
     bookings,

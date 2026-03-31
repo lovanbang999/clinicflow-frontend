@@ -40,8 +40,26 @@ export default function BillingPage() {
     try {
       const { bookings } = await bookingsApi.getAll({ search: searchQuery.trim() });
       if (bookings && bookings.length > 0) {
-        // Redirect to the first matching booking
-        router.push(`/receptionist/billing/booking/${bookings[0].id}`);
+        // Sort to prioritize active bookings (IN_PROGRESS > CONFIRMED > PENDING > others)
+        const sortedBookings = [...bookings].sort((a, b) => {
+          const statusOrder: Record<string, number> = {
+            'IN_PROGRESS': 0,
+            'CONFIRMED': 1,
+            'PENDING': 2,
+            'COMPLETED': 3,
+            'CANCELLED': 4,
+          };
+          const orderA = statusOrder[a.status] ?? 99;
+          const orderB = statusOrder[b.status] ?? 99;
+          
+          if (orderA !== orderB) return orderA - orderB;
+          
+          // If same priority, latest created first
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+
+        // Redirect to the most relevant booking
+        router.push(`/receptionist/billing/booking/${sortedBookings[0].id}`);
       } else {
         toast.error(t('searchNotFound'));
       }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { toast } from 'sonner';
 import {
   adminServicesApi,
   type AdminService,
@@ -10,6 +9,7 @@ import {
   type AdminCreateServiceDto,
   type AdminUpdateServiceDto,
 } from '@/lib/api/admin-services';
+import { useApiHandler } from './useApiHandler';
 
 export const useAdminServices = () => {
   // List
@@ -20,97 +20,85 @@ export const useAdminServices = () => {
     limit: 10,
     totalPages: 0,
   });
-  const [loadingList, setLoadingList] = useState(false);
-
+  
+  const { execute, isLoading: loadingList } = useApiHandler();
+  
   // Stats (stat cards)
   const [stats, setStats] = useState<ServiceStats | null>(null);
-  const [loadingStats, setLoadingStats] = useState(false);
+  const { execute: executeStats, isLoading: loadingStats } = useApiHandler();
 
   // Fetch all services
   const fetchServices = useCallback(async (filters?: ServiceFiltersQuery) => {
-    setLoadingList(true);
-    try {
-      const data = await adminServicesApi.getServices(filters);
+    const data = await execute(
+      () => adminServicesApi.getServices(filters),
+      { errorFallbackMsg: 'fetchServicesApiError' }
+    );
+    if (data) {
       setServices(data.services);
       setPagination(data.pagination);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminServices.fetchServices]', error);
-      toast.error(error.message || 'Failed to fetch services');
-    } finally {
-      setLoadingList(false);
     }
-  }, []);
+  }, [execute]);
 
   // Fetch stat cards
   const fetchStats = useCallback(async () => {
-    setLoadingStats(true);
-    try {
-      const data = await adminServicesApi.getStatistics();
+    const data = await executeStats(
+      () => adminServicesApi.getStatistics(),
+      { 
+        showErrorToast: false, // Stats are non-critical — fail silently in UI
+      }
+    );
+    if (data) {
       setStats(data);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminServices.fetchStats]', error);
-      // Stats are non-critical — fail silently in UI
-    } finally {
-      setLoadingStats(false);
     }
-  }, []);
+  }, [executeStats]);
 
   // Create
   const createService = async (
     dto: AdminCreateServiceDto,
-  ): Promise<AdminService> => {
-    try {
-      const created = await adminServicesApi.createService(dto);
-      toast.success('Service created successfully');
-      return created;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to create service');
-      throw error;
-    }
+  ): Promise<AdminService | undefined> => {
+    return execute(
+      () => adminServicesApi.createService(dto),
+      {
+        onSuccessMsg: 'createServiceApiSuccess',
+        errorFallbackMsg: 'createServiceApiError'
+      }
+    );
   };
 
   // Update
   const updateService = async (
     id: string,
     dto: AdminUpdateServiceDto,
-  ): Promise<AdminService> => {
-    try {
-      const updated = await adminServicesApi.updateService(id, dto);
-      toast.success('Service updated successfully');
-      return updated;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update service');
-      throw error;
-    }
+  ): Promise<AdminService | undefined> => {
+    return execute(
+      () => adminServicesApi.updateService(id, dto),
+      {
+        onSuccessMsg: 'updateServiceApiSuccess',
+        errorFallbackMsg: 'updateServiceApiError'
+      }
+    );
   };
 
   // Delete
   const deleteService = async (id: string): Promise<void> => {
-    try {
-      await adminServicesApi.deleteService(id);
-      toast.success('Service deleted successfully');
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to delete service');
-      throw error;
-    }
+    await execute(
+      () => adminServicesApi.deleteService(id),
+      {
+        onSuccessMsg: 'deleteServiceApiSuccess',
+        errorFallbackMsg: 'deleteServiceApiError'
+      }
+    );
   };
 
   // Restore
-  const restoreService = async (id: string): Promise<AdminService> => {
-    try {
-      const restored = await adminServicesApi.restoreService(id);
-      toast.success('Service restored successfully');
-      return restored;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to restore service');
-      throw error;
-    }
+  const restoreService = async (id: string): Promise<AdminService | undefined> => {
+    return execute(
+      () => adminServicesApi.restoreService(id),
+      {
+        onSuccessMsg: 'restoreServiceApiSuccess',
+        errorFallbackMsg: 'restoreServiceApiError'
+      }
+    );
   };
 
   return {

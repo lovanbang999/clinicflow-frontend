@@ -1,129 +1,72 @@
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/lib/store/authStore';
 import { authApi } from '@/lib/api/auth';
 import type { LoginRequest, RegisterRequest } from '@/types/auth';
 import { toast } from 'sonner';
-import { ApiError } from '@/types';
-import { getErrorKey } from '@/lib/utils/error-helper';
+import { useApiHandler } from './useApiHandler';
 
 export const useAuth = () => {
   const router = useRouter();
   const t = useTranslations('auth');
-  const tErrors = useTranslations('errors');
   
   const {
     user,
     isAuthenticated,
-    isLoading,
+    isLoading: storeLoading,
     login: setLogin,
     logout: clearAuth,
     setLoading,
   } = useAuthStore();
 
-  const [localLoading, setLocalLoading] = useState(false);
+  const { execute, isLoading: actionLoading } = useApiHandler();
 
   const login = async (credentials: LoginRequest) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.login(credentials);
-
-      if (response.success) {
-        const { user, accessToken, refreshToken } = response.data;
-        setLogin(user, accessToken, refreshToken);
-
-        // Show success toast
+    return execute(
+      async () => {
+        setLoading(true);
+        const response = await authApi.login(credentials);
+        if (!response.success) throw new Error(response.message || 'Login failed');
+        
+        const { user: authedUser, accessToken, refreshToken } = response.data;
+        setLogin(authedUser, accessToken, refreshToken);
+        
+        // Show success toast manually because dynamic description is used
         toast.success(t('login.success'), {
-          description: t('login.successDescription', { name: user.fullName }),
+          description: t('login.successDescription', { name: authedUser.fullName }),
         });
 
-        // Redirect based on role
-        switch (user.role) {
-          case 'ADMIN':
-            router.push('/admin');
-            break;
-          case 'DOCTOR':
-            router.push('/doctor');
-            break;
-          case 'RECEPTIONIST':
-            router.push('/receptionist');
-            break;
-          case 'PATIENT':
-            router.push('/patient');
-            break;
-          default:
-            router.push('/');
+        switch (authedUser.role) {
+          case 'ADMIN': router.push('/admin'); break;
+          case 'DOCTOR': router.push('/doctor'); break;
+          case 'RECEPTIONIST': router.push('/receptionist'); break;
+          case 'PATIENT': router.push('/patient'); break;
+          default: router.push('/');
         }
-
         return response;
+      },
+      {
+        showSuccessToast: false, // Handled manually above
+        errorFallbackMsg: t('login.failed'),
       }
-
-      throw new Error(response.message || 'Login failed');
-    } catch (err) {
-      const error = err as ApiError;
-      
-      // Get error message key from messageCode
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
-      }
-
-      // Show error toast with translated message
-      toast.error(t('login.failed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   const register = async (data: RegisterRequest) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.register(data);
-
-      if (response.success) {
-        // Show success toast
-        toast.success(t('register.success'), {
-          description: t('register.successDescription'),
-        });
-
-        // Redirect to email verification page
-        router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+    return execute(
+      async () => {
+        setLoading(true);
+        const response = await authApi.register(data);
+        if (!response.success) throw new Error(response.message || 'Registration failed');
         
+        router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         return response;
+      },
+      {
+        onSuccessMsg: t('register.success'),
+        errorFallbackMsg: t('register.failed'),
       }
-
-      throw new Error(response.message || 'Registration failed');
-    } catch (err) {
-      const error = err as ApiError;
-      
-      // Get error message key from messageCode
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
-      }
-
-      // Show error toast with translated message
-      toast.error(t('register.failed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   const logout = async () => {
@@ -147,175 +90,76 @@ export const useAuth = () => {
   };
 
   const verifyEmail = async (email: string, otp: string) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.verifyEmail({ email, code: otp });
-
-      toast.success(t('verify.success'), {
-        description: t('verify.successDescription'),
-      });
-
-      // Redirect to login after a short delay (page shows success state first)
-      setTimeout(() => router.push('/login'), 2000);
-
-      return response;
-    } catch (err) {
-      const error = err as ApiError;
-      
-      // Get error message key from messageCode
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
+    return execute(
+      async () => {
+        setLoading(true);
+        const response = await authApi.verifyEmail({ email, code: otp });
+        setTimeout(() => router.push('/login'), 2000);
+        return response;
+      },
+      {
+        onSuccessMsg: t('verify.success'),
+        errorFallbackMsg: t('verify.failed'),
       }
-
-      toast.error(t('verify.failed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   const resendVerification = async (email: string) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.resendVerification(email);
-
-      toast.success(t('verify.resendSuccess'), {
-        description: t('verify.resendSuccessDescription'),
-      });
-
-      return response;
-    } catch (err) {
-      const error = err as ApiError;
-      
-      // Get error message key from messageCode
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
+    return execute(
+      async () => {
+        setLoading(true);
+        return await authApi.resendVerification(email);
+      },
+      {
+        onSuccessMsg: t('verify.resendSuccess'),
+        errorFallbackMsg: t('verify.resendFailed'),
       }
-
-      toast.error(t('verify.resendFailed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   const forgotPassword = async (email: string) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.forgotPassword(email);
-
-      toast.success(t('forgotPassword.success'), {
-        description: t('forgotPassword.successDescription'),
-      });
-
-      return response;
-    } catch (err) {
-      const error = err as ApiError;
-      
-      // Get error message key from messageCode
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
+    return execute(
+      async () => {
+        setLoading(true);
+        return await authApi.forgotPassword(email);
+      },
+      {
+        onSuccessMsg: t('forgotPassword.success'),
+        errorFallbackMsg: t('forgotPassword.failed'),
       }
-
-      toast.error(t('forgotPassword.failed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   const verifyResetOtp = async (email: string, code: string) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.verifyResetOtp(email, code);
-
-      toast.success(t('forgotPassword.verifyOtpSuccess'), {
-        description: t('forgotPassword.verifyOtpSuccessDescription'),
-      });
-
-      return response;
-    } catch (err) {
-      const error = err as ApiError;
-
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
+    return execute(
+      async () => {
+        setLoading(true);
+        return await authApi.verifyResetOtp(email, code);
+      },
+      {
+        onSuccessMsg: t('forgotPassword.verifyOtpSuccess'),
+        errorFallbackMsg: t('forgotPassword.verifyOtpFailed'),
       }
-
-      toast.error(t('forgotPassword.verifyOtpFailed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   const resetPassword = async (email: string, code: string, newPassword: string) => {
-    try {
-      setLoading(true);
-      setLocalLoading(true);
-
-      const response = await authApi.resetPassword(email, code, newPassword);
-
-      toast.success(t('forgotPassword.resetSuccess'), {
-        description: t('forgotPassword.resetSuccessDescription'),
-      });
-
-      return response;
-    } catch (err) {
-      const error = err as ApiError;
-
-      const errorKey = getErrorKey(error.messageCode, 'generic');
-      let errorMessage = tErrors(errorKey);
-      if (errorMessage === errorKey) {
-        errorMessage = error.message || tErrors('generic');
+    return execute(
+      async () => {
+        setLoading(true);
+        return await authApi.resetPassword(email, code, newPassword);
+      },
+      {
+        onSuccessMsg: t('forgotPassword.resetSuccess'),
+        errorFallbackMsg: t('forgotPassword.resetFailed'),
       }
-
-      toast.error(t('forgotPassword.resetFailed'), {
-        description: errorMessage,
-      });
-
-      throw err;
-    } finally {
-      setLoading(false);
-      setLocalLoading(false);
-    }
+    ).finally(() => setLoading(false));
   };
 
   return {
     user,
     isAuthenticated,
-    isLoading: isLoading || localLoading,
+    isLoading: storeLoading || actionLoading,
     login,
     register,
     logout,

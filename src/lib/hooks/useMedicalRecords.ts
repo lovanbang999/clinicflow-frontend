@@ -2,13 +2,14 @@
 
 import { useState, useCallback } from 'react';
 import { medicalRecordsApi, ICD10Record, CreateMedicalRecordDto } from '@/lib/api/medical-records';
+import { useApiHandler } from './useApiHandler';
 
 /**
  * Hook for searching ICD-10 medical codes
  */
 export function useIcd10Search() {
   const [results, setResults] = useState<ICD10Record[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const { execute, isLoading } = useApiHandler();
 
   const search = useCallback(async (query: string) => {
     if (!query) {
@@ -16,21 +17,21 @@ export function useIcd10Search() {
       return;
     }
 
-    try {
-      setIsSearching(true);
-      const data = await medicalRecordsApi.searchICD10(query);
-      setResults(data);
-    } catch (error) {
-      console.error('Error searching ICD-10:', error);
-      setResults([]);
-    } finally {
-      setIsSearching(false);
-    }
-  }, []);
+    await execute(
+      async () => {
+        const data = await medicalRecordsApi.searchICD10(query);
+        setResults(data);
+      },
+      {
+        errorFallbackMsg: 'searchIcd10Error',
+        showErrorToast: false // Match old behaviour, just console error if needed, but we'll let it toast since it's an API error
+      }
+    );
+  }, [execute]);
 
   return {
     results,
-    isSearching,
+    isSearching: isLoading,
     search,
     setResults,
   };
@@ -40,23 +41,22 @@ export function useIcd10Search() {
  * Hook for medical record actions (upsert, etc.)
  */
 export function useMedicalRecordActions() {
-  const [isPerformingAction, setIsPerformingAction] = useState(false);
+  const { execute, isLoading } = useApiHandler();
 
   const upsertRecord = useCallback(async (data: CreateMedicalRecordDto) => {
-    try {
-      setIsPerformingAction(true);
-      const result = await medicalRecordsApi.upsertMedicalRecord(data);
-      return result;
-    } catch (error) {
-      console.error('Error upserting medical record:', error);
-      throw error;
-    } finally {
-      setIsPerformingAction(false);
-    }
-  }, []);
+    return execute(
+      async () => {
+        const result = await medicalRecordsApi.upsertMedicalRecord(data);
+        return result;
+      },
+      {
+        errorFallbackMsg: 'upsertMedicalRecordError'
+      }
+    );
+  }, [execute]);
 
   return {
-    isPerformingAction,
+    isPerformingAction: isLoading,
     upsertRecord,
   };
 }

@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { apiClient } from './client';
 import {
   ApiResponse,
@@ -13,8 +12,7 @@ import {
 export const adminPatientsApi = {
   // GET /admin/patients/stats
   getStats: async (): Promise<PatientKpiData> => {
-    try {
-      const response = await apiClient.get<ApiResponse<PatientKpiData>>(
+    const response = await apiClient.get<ApiResponse<PatientKpiData>>(
         '/admin/patients/stats',
       );
 
@@ -23,20 +21,13 @@ export const adminPatientsApi = {
       }
 
       return response.data.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 
   // GET /admin/patients?search=&page=&limit=&gender=&status=&bloodType=
   getPatients: async (
     query: PatientSearchQuery,
   ): Promise<PatientSearchResponse> => {
-    try {
-      const response = await apiClient.get<ApiResponse<PatientSearchResponse>>(
+    const response = await apiClient.get<ApiResponse<PatientSearchResponse>>(
         '/admin/patients',
         { params: query },
       );
@@ -46,18 +37,11 @@ export const adminPatientsApi = {
       }
 
       return response.data.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 
   // POST /admin/patients
   createPatient: async (data: AdminCreatePatientDto): Promise<PatientRow> => {
-    try {
-      const response = await apiClient.post<ApiResponse<PatientRow>>(
+    const response = await apiClient.post<ApiResponse<PatientRow>>(
         '/admin/patients',
         data,
       );
@@ -67,18 +51,11 @@ export const adminPatientsApi = {
       }
 
       return response.data.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 
   // GET /admin/patients/:id
   getPatientById: async (id: string): Promise<PatientRow> => {
-    try {
-      const response = await apiClient.get<ApiResponse<PatientRow>>(
+    const response = await apiClient.get<ApiResponse<PatientRow>>(
         `/admin/patients/${id}`,
       );
 
@@ -87,21 +64,14 @@ export const adminPatientsApi = {
       }
 
       return response.data.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 
   // PATCH /admin/patients/:id
   updatePatient: async (
     id: string,
     data: AdminUpdatePatientDto,
   ): Promise<PatientRow> => {
-    try {
-      const response = await apiClient.patch<ApiResponse<PatientRow>>(
+    const response = await apiClient.patch<ApiResponse<PatientRow>>(
         `/admin/patients/${id}`,
         data,
       );
@@ -111,18 +81,11 @@ export const adminPatientsApi = {
       }
 
       return response.data.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 
   // GET /admin/patients/:id/health-profile
   getPatientHealthProfile: async (id: string): Promise<PatientRow> => {
-    try {
-      const response = await apiClient.get<ApiResponse<PatientRow>>(
+    const response = await apiClient.get<ApiResponse<PatientRow>>(
         `/admin/patients/${id}/health-profile`,
       );
 
@@ -131,27 +94,14 @@ export const adminPatientsApi = {
       }
 
       return response.data.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 
   // GET /admin/patients/export
   exportPatients: async (query: PatientSearchQuery): Promise<Blob> => {
-    try {
-      const response = await apiClient.get('/admin/patients/export', {
+    const response = await apiClient.get('/admin/patients/export', {
         params: query,
         responseType: 'blob',
       });
       return response.data;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response?.data) {
-        throw error.response.data;
-      }
-      throw error;
-    }
-  },
+},
 };

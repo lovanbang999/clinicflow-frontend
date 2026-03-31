@@ -1,4 +1,9 @@
 {
+  "common": {
+    "errorTitle": "Lỗi",
+    "errorDescription": "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+    "error": "Lỗi"
+  },
   "patient": {
     "title": "Bảng điều khiển",
     "book": "Đặt lịch khám",
@@ -1180,6 +1185,10 @@
         "gender": "Giới tính",
         "status": "Trạng thái",
         "actions": "Thao tác",
+        "empty": "Không tìm thấy bệnh nhân nào",
+        "guest": "Vãng lai",
+        "statusActive": "Hoạt động",
+        "statusInactive": "Tạm khóa",
         "pagination": {
           "showing": "Hiển thị <range>{valRange}</range> trên <total>{valTotal}</total> kết quả",
           "prev": "Trước",
@@ -2306,6 +2315,7 @@
       "healthcare": "Chăm sóc sức khỏe"
     },
     "worklist": {
+      "doctorPrefix": "BS.",
       "title": "Danh sách Cận lâm sàng",
       "subtitle": "Danh sách các chỉ định xét nghiệm/chẩn đoán hình ảnh đã thanh toán và đang chờ thực hiện.",
       "searchPlaceholder": "Tìm tên hoặc mã bệnh nhân...",

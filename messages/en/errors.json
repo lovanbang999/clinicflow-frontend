@@ -44,7 +44,10 @@
     "notFound": "Booking not found",
     "duplicate": "You already have a booking at this time",
     "invalidDate": "Invalid booking date",
-    "invalidTransition": "Cannot change booking to this status"
+    "invalidTransition": "Cannot change booking to this status",
+    "update": {
+      "doctorBusy": "The doctor is currently busy with another patient"
+    }
   },
   "queue": {
     "notFound": "Queue entry not found",

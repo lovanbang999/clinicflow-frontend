@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useBilling } from '@/lib/hooks/useBilling';
 import { Invoice, InvoiceType, InvoiceStatus, PaymentMethod } from '@/lib/api/billing';
 import { bookingsApi } from '@/lib/api/bookings';
+import { Booking } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -53,6 +54,8 @@ export default function BookingInvoicesPage() {
     deleteInvoice,
   } = useBilling();
 
+  const [booking, setBooking] = useState<Booking | null>(null);
+  const [loadingBooking, setLoadingBooking] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
   const [creatingType, setCreatingType] = useState<InvoiceType | null>(null);
@@ -68,6 +71,13 @@ export default function BookingInvoicesPage() {
     if (bookingId) {
       void fetchInvoicesByBooking(bookingId);
       void fetchPendingLabOrders(bookingId);
+      
+      // Fetch booking details for the header
+      setLoadingBooking(true);
+      bookingsApi.getById(bookingId)
+        .then(setBooking)
+        .catch(err => console.error("Failed to fetch booking", err))
+        .finally(() => setLoadingBooking(false));
     }
   }, [bookingId, fetchInvoicesByBooking, fetchPendingLabOrders]);
 
@@ -204,10 +214,10 @@ export default function BookingInvoicesPage() {
         <div>
           <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 text-slate-800">
             <ReceiptIcon size={28} weight="duotone" className="text-[#1392ec]" />
-            {t('patientVisitHub')}
+            {loadingBooking ? <Skeleton className="h-8 w-48" /> : (booking?.patientProfile?.fullName || t('patientVisitHub'))}
           </h1>
           <p className="text-sm text-slate-500 mt-0.5 font-medium">
-            {t('bookingCode')}: <span className="font-mono text-slate-700 tracking-wide">{bookingId}</span>
+            {t('bookingCode')}: <span className="font-mono text-slate-700 tracking-wide">{loadingBooking ? '...' : (booking?.bookingCode || bookingId)}</span>
           </p>
         </div>
       </div>

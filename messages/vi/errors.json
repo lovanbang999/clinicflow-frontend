@@ -44,7 +44,10 @@
     "notFound": "Không tìm thấy lịch hẹn",
     "duplicate": "Bạn đã có lịch hẹn vào thời gian này",
     "invalidDate": "Ngày đặt lịch không hợp lệ",
-    "invalidTransition": "Không thể chuyển sang trạng thái này"
+    "invalidTransition": "Không thể chuyển sang trạng thái này",
+    "update": {
+      "doctorBusy": "Bác sĩ đang trong một ca khám khác"
+    }
   },
   "queue": {
     "notFound": "Không tìm thấy hàng đợi",

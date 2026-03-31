@@ -1,6 +1,4 @@
-import { AxiosError } from 'axios';
 import { apiClient } from './client';
-import { ApiError } from 'next/dist/server/api-utils';
 import { ApiResponse, BackendUser } from '@/types';
 
 // Backend returns `doctors` key (not `users`) for the list endpoint

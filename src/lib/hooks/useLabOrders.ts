@@ -1,61 +1,60 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { labOrdersApi, type LabOrder, type CreateLabOrderDto, type UploadLabResultDto } from '../api/lab-orders';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export function useLabOrders(bookingId: string) {
   const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { execute: executeFetch, isLoading } = useApiHandler();
+  const { execute: executeSubmit, isLoading: isSubmitting } = useApiHandler();
 
   const fetchOrders = useCallback(async () => {
     if (!bookingId) return;
-    try {
-      setIsLoading(true);
-      const data = await labOrdersApi.getOrdersByBooking(bookingId);
-      setOrders(data);
-    } catch (error) {
-      console.error('Error fetching lab orders:', error);
-      toast.error(t('fetchError'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [bookingId, t]);
+    await executeFetch(
+      async () => {
+        const data = await labOrdersApi.getOrdersByBooking(bookingId);
+        setOrders(data);
+      },
+      { errorFallbackMsg: t('fetchError') }
+    );
+  }, [bookingId, t, executeFetch]);
 
   useEffect(() => {
-    void fetchOrders();
+    const timer = setTimeout(() => {
+      void fetchOrders();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchOrders, t]);
 
   const addOrder = async (dto: Omit<CreateLabOrderDto, 'bookingId'>) => {
-    try {
-      setIsSubmitting(true);
-      const newOrder = await labOrdersApi.createOrder({ ...dto, bookingId });
-      setOrders((prev) => [newOrder, ...prev]);
-      toast.success(t('createSuccess'));
-      return true;
-    } catch (error) {
-      console.error(error);
-      const e = error as { response?: { data?: { message?: string } } };
-      const msg = e.response?.data?.message || t('createError');
-      toast.error(msg);
-      return false;
-    } finally {
-      setIsSubmitting(false);
-    }
+    const res = await executeSubmit(
+      async () => {
+        const newOrder = await labOrdersApi.createOrder({ ...dto, bookingId });
+        setOrders((prev) => [newOrder, ...prev]);
+        return true;
+      },
+      {
+        onSuccessMsg: t('createSuccess'),
+        errorFallbackMsg: t('createError'),
+        onError: () => {}
+      }
+    );
+    return res === true;
   };
 
   const removeOrder = async (id: string) => {
-    try {
-      await labOrdersApi.deleteOrder(id);
-      setOrders((prev) => prev.filter((o) => o.id !== id));
-      toast.success(t('cancelSuccess'));
-    } catch (error) {
-      console.error(error);
-      const e = error as { response?: { data?: { message?: string } } };
-      const msg = e.response?.data?.message || t('cancelError');
-      toast.error(msg);
-    }
+    await executeSubmit(
+      async () => {
+        await labOrdersApi.deleteOrder(id);
+        setOrders((prev) => prev.filter((o) => o.id !== id));
+      },
+      {
+        onSuccessMsg: t('cancelSuccess'),
+        errorFallbackMsg: t('cancelError'),
+        onError: () => {}
+      }
+    );
   };
 
   return {
@@ -71,28 +70,32 @@ export function useLabOrders(bookingId: string) {
 export function usePendingLabOrders(autoRefresh = false) {
   const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { execute, isLoading } = useApiHandler();
 
   const fetchPendingOrders = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const data = await labOrdersApi.getPendingOrders();
-      setOrders(data);
-    } catch (error) {
-      console.error('Error fetching pending lab orders:', error);
-      toast.error(t('fetchError'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [t]);
+    await execute(
+      async () => {
+        const data = await labOrdersApi.getPendingOrders();
+        setOrders(data);
+      },
+      { errorFallbackMsg: t('fetchError') }
+    );
+  }, [t, execute]);
 
   useEffect(() => {
-    void fetchPendingOrders();
+    const timer = setTimeout(() => {
+      void fetchPendingOrders();
+    }, 0);
+    
     if (autoRefresh) {
       const intervalId = setInterval(fetchPendingOrders, 30000);
-      return () => clearInterval(intervalId);
+      return () => {
+        clearTimeout(timer);
+        clearInterval(intervalId);
+      };
     }
-  }, [fetchPendingOrders, autoRefresh, t]);
+    return () => clearTimeout(timer);
+  }, [fetchPendingOrders, autoRefresh]);
 
   return {
     orders,
@@ -104,28 +107,32 @@ export function usePendingLabOrders(autoRefresh = false) {
 export function useReadyLabOrders(autoRefresh = false) {
   const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { execute, isLoading } = useApiHandler();
 
   const fetchReadyOrders = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const data = await labOrdersApi.getReadyToPerformOrders();
-      setOrders(data);
-    } catch (error) {
-      console.error('Error fetching ready lab orders:', error);
-      toast.error(t('fetchPendingError'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [t]);
+    await execute(
+      async () => {
+        const data = await labOrdersApi.getReadyToPerformOrders();
+        setOrders(data);
+      },
+      { errorFallbackMsg: t('fetchPendingError') }
+    );
+  }, [t, execute]);
 
   useEffect(() => {
-    void fetchReadyOrders();
+    const timer = setTimeout(() => {
+      void fetchReadyOrders();
+    }, 0);
+    
     if (autoRefresh) {
       const intervalId = setInterval(fetchReadyOrders, 30000);
-      return () => clearInterval(intervalId);
+      return () => {
+        clearTimeout(timer);
+        clearInterval(intervalId);
+      };
     }
-  }, [fetchReadyOrders, autoRefresh, t]);
+    return () => clearTimeout(timer);
+  }, [fetchReadyOrders, autoRefresh]);
 
   return {
     orders,
@@ -137,24 +144,24 @@ export function useReadyLabOrders(autoRefresh = false) {
 export function useLabOrder(orderId: string) {
   const t = useTranslations('dashboard.technician.messages');
   const [order, setOrder] = useState<LabOrder | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { execute, isLoading } = useApiHandler();
 
   const fetchOrder = useCallback(async () => {
     if (!orderId) return;
-    try {
-      setIsLoading(true);
-      const data = await labOrdersApi.getOrderById(orderId);
-      setOrder(data);
-    } catch (error) {
-      console.error('Error fetching lab order:', error);
-      toast.error(t('fetchSingleError'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [orderId, t]);
+    await execute(
+      async () => {
+        const data = await labOrdersApi.getOrderById(orderId);
+        setOrder(data);
+      },
+      { errorFallbackMsg: t('fetchSingleError') }
+    );
+  }, [orderId, t, execute]);
 
   useEffect(() => {
-    void fetchOrder();
+    const timer = setTimeout(() => {
+      void fetchOrder();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchOrder, t]);
 
   return {
@@ -166,46 +173,38 @@ export function useLabOrder(orderId: string) {
 
 export function useLabOrderActions() {
   const t = useTranslations('dashboard.technician.messages');
-  const [isUploading, setIsUploading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { execute: executeUpload, isLoading: isUploading } = useApiHandler();
+  const { execute: executeSubmit, isLoading: isSubmitting } = useApiHandler();
 
   const uploadFile = async (file: File): Promise<string | null> => {
-    try {
-      setIsUploading(true);
-      return await labOrdersApi.uploadResultFile(file);
-    } catch (error) {
-      console.error(error);
-      return null;
-    } finally {
-      setIsUploading(false);
-    }
+    const res = await executeUpload(
+      async () => {
+        return await labOrdersApi.uploadResultFile(file);
+      },
+      { onError: () => {} }
+    );
+    return res || null;
   };
 
   const submitResult = async (orderId: string, data: UploadLabResultDto) => {
-    try {
-      setIsSubmitting(true);
-      await labOrdersApi.addResult(orderId, data);
-      return true;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    } finally {
-      setIsSubmitting(false);
-    }
+    const res = await executeSubmit(
+      async () => {
+        await labOrdersApi.addResult(orderId, data);
+        return true;
+      }
+    );
+    return res === true; // throws on error unless onError is caught, but original threw on error.
   };
 
   const updateStatus = async (orderId: string, status: LabOrder['status']) => {
-    try {
-      setIsSubmitting(true);
-      await labOrdersApi.updateOrderStatus(orderId, status);
-      return true;
-    } catch (error) {
-      console.error(error);
-      toast.error(t('statusUpdateError'));
-      throw error;
-    } finally {
-      setIsSubmitting(false);
-    }
+    const res = await executeSubmit(
+      async () => {
+        await labOrdersApi.updateOrderStatus(orderId, status);
+        return true;
+      },
+      { errorFallbackMsg: t('statusUpdateError') }
+    );
+    return res === true; 
   };
 
   return { uploadFile, submitResult, updateStatus, isUploading, isSubmitting };
@@ -217,26 +216,31 @@ export function useTechnicianStats(autoRefresh = false) {
     inProgress: 0,
     completedToday: 0,
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const { execute, isLoading } = useApiHandler();
 
   const fetchStats = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const data = await labOrdersApi.getTechnicianStats();
-      setStats(data);
-    } catch (error) {
-      console.error('Error fetching technician stats:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    await execute(
+      async () => {
+        const data = await labOrdersApi.getTechnicianStats();
+        setStats(data);
+      },
+      { showErrorToast: false, onError: () => {} } // Matches original standard error catch ignoring
+    );
+  }, [execute]);
 
   useEffect(() => {
-    void fetchStats();
+    const timer = setTimeout(() => {
+      void fetchStats();
+    }, 0);
+    
     if (autoRefresh) {
       const intervalId = setInterval(fetchStats, 30000);
-      return () => clearInterval(intervalId);
+      return () => {
+        clearTimeout(timer);
+        clearInterval(intervalId);
+      };
     }
+    return () => clearTimeout(timer);
   }, [fetchStats, autoRefresh]);
 
   return { stats, isLoading, refetch: fetchStats };
@@ -245,23 +249,23 @@ export function useTechnicianStats(autoRefresh = false) {
 export function useTechnicianHistory() {
   const t = useTranslations('dashboard.technician.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { execute, isLoading } = useApiHandler();
 
   const fetchHistory = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const data = await labOrdersApi.getTechnicianHistory();
-      setOrders(data);
-    } catch (error) {
-      console.error('Error fetching technician history:', error);
-      toast.error(t('fetchHistoryError'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [t]);
+    await execute(
+      async () => {
+        const data = await labOrdersApi.getTechnicianHistory();
+        setOrders(data);
+      },
+      { errorFallbackMsg: t('fetchHistoryError') }
+    );
+  }, [t, execute]);
 
   useEffect(() => {
-    void fetchHistory();
+    const timer = setTimeout(() => {
+      void fetchHistory();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchHistory, t]);
 
   return { orders, isLoading, refetch: fetchHistory };

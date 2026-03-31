@@ -10,92 +10,78 @@ import {
   AdminScheduleFilters,
   AdminScheduleListResponse,
 } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export const useAdminSchedules = () => {
   const [schedules, setSchedules] = useState<AdminScheduleSlot[]>([]);
-  const [loadingList, setLoadingList] = useState(false);
   const [meta, setMeta] = useState<AdminScheduleListResponse['meta']>({
     total: 0,
   });
+  
+  const { execute, isLoading: loadingList } = useApiHandler();
 
   const [stats, setStats] = useState<AdminScheduleStats | null>(null);
-  const [loadingStats, setLoadingStats] = useState(false);
+  const { execute: executeStats, isLoading: loadingStats } = useApiHandler();
 
   const fetchSchedules = useCallback(async (filters: AdminScheduleFilters) => {
-    try {
-      setLoadingList(true);
-      const res = await adminSchedulesApi.getSchedules(filters);
+    const res = await execute(
+      () => adminSchedulesApi.getSchedules(filters),
+      { errorFallbackMsg: 'fetchSchedulesError' }
+    );
+    if (res) {
       setSchedules(res.data);
       setMeta(res.meta);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminSchedules.fetchSchedules] error:', error);
-      toast.error(error.message || 'Failed to fetch schedules');
-    } finally {
-      setLoadingList(false);
     }
-  }, []);
+  }, [execute]);
 
   const fetchStats = useCallback(async () => {
-    try {
-      setLoadingStats(true);
-      const data = await adminSchedulesApi.getStatistics();
+    const data = await executeStats(
+      () => adminSchedulesApi.getStatistics(),
+      { errorFallbackMsg: 'fetchScheduleStatsError' }
+    );
+    if (data) {
       setStats(data);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminSchedules.fetchStats] error:', error);
-      toast.error(error.message || 'Failed to fetch schedule statistics');
-    } finally {
-      setLoadingStats(false);
     }
-  }, []);
+  }, [executeStats]);
 
   const createSchedule = async (data: AdminCreateScheduleDto) => {
-    try {
-      const newSchedule = await adminSchedulesApi.createSchedule(data);
-      toast.success('Schedule created successfully');
-      return newSchedule;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to create schedule');
-      throw error;
-    }
+    return execute(
+      () => adminSchedulesApi.createSchedule(data),
+      {
+        onSuccessMsg: 'createScheduleSuccess',
+        errorFallbackMsg: 'createScheduleError'
+      }
+    );
   };
 
   const updateSchedule = async (id: string, data: AdminUpdateScheduleDto) => {
-    try {
-      const updatedSchedule = await adminSchedulesApi.updateSchedule(id, data);
-      toast.success('Schedule updated successfully');
-      return updatedSchedule;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update schedule');
-      throw error;
-    }
+    return execute(
+      () => adminSchedulesApi.updateSchedule(id, data),
+      {
+        onSuccessMsg: 'updateScheduleSuccess',
+        errorFallbackMsg: 'updateScheduleError'
+      }
+    );
   };
 
   const deleteSchedule = async (id: string) => {
-    try {
-      await adminSchedulesApi.deleteSchedule(id);
-      toast.success('Schedule deleted successfully');
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to delete schedule');
-      throw error;
-    }
+    await execute(
+      () => adminSchedulesApi.deleteSchedule(id),
+      {
+        onSuccessMsg: 'deleteScheduleSuccess',
+        errorFallbackMsg: 'deleteScheduleError'
+      }
+    );
   };
 
   const restoreSchedule = async (id: string) => {
-    try {
-      const restored = await adminSchedulesApi.restoreSchedule(id);
-      toast.success('Schedule restored successfully');
-      return restored;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to restore schedule');
-      throw error;
-    }
+    return execute(
+      () => adminSchedulesApi.restoreSchedule(id),
+      {
+        onSuccessMsg: 'restoreScheduleSuccess',
+        errorFallbackMsg: 'restoreScheduleError'
+      }
+    );
   };
 
   return {

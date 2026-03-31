@@ -3,33 +3,28 @@
 import { useState, useEffect } from 'react';
 import { bookingsApi } from '@/lib/api/bookings';
 import { DashboardData } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export function useDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { execute, isLoading, error } = useApiHandler();
 
   useEffect(() => {
     const fetchDashboard = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const dashboardData = await bookingsApi.getPatientDashboardStats();
-        setData(dashboardData);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch dashboard';
-        setError(errorMessage);
-        toast.error('Lỗi', {
-          description: 'Không thể tải thông tin dashboard',
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await execute(
+        async () => {
+          const dashboardData = await bookingsApi.getPatientDashboardStats();
+          setData(dashboardData);
+        },
+        { errorFallbackMsg: 'fetchDashboardInfoError' }
+      );
     };
 
-    void fetchDashboard();
-  }, []);
+    const timer = setTimeout(() => {
+      void fetchDashboard();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [execute]);
 
   return { data, isLoading, error };
 }
