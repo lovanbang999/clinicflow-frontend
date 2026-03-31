@@ -9,7 +9,7 @@ import {
   CreateGuestPatientDto
 } from '@/lib/api/users';
 import { User } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export const useReceptionistPatients = () => {
   const [patients, setPatients] = useState<User[]>([]);
@@ -19,35 +19,26 @@ export const useReceptionistPatients = () => {
     limit: 10,
     totalPages: 0,
   });
-  const [loadingList, setLoadingList] = useState(false);
+  const { execute: executeList, isLoading: loadingList } = useApiHandler();
   const [stats, setStats] = useState<ReceptionistPatientStats | null>(null);
-  const [loadingStats, setLoadingStats] = useState(false);
+  const { execute: executeStats, isLoading: loadingStats } = useApiHandler();
+  const { execute: executeAction } = useApiHandler();
 
   const fetchPatients = useCallback(async (filters: PatientFilters) => {
-    try {
-      setLoadingList(true);
-      const res = await usersApi.getReceptionistPatients(filters);
+    const res = await executeList(
+      () => usersApi.getReceptionistPatients(filters),
+      { errorFallbackMsg: 'Không thể lấy danh sách bệnh nhân' }
+    );
+    if (res) {
       setPatients(res.users);
       setPagination(res.pagination);
-    } catch (err) {
-      console.error('[useReceptionistPatients.fetchPatients] error:', err);
-      toast.error('Không thể lấy danh sách bệnh nhân');
-    } finally {
-      setLoadingList(false);
     }
-  }, []);
+  }, [executeList]);
 
   const fetchStats = useCallback(async () => {
-    try {
-      setLoadingStats(true);
-      const data = await usersApi.getReceptionistPatientsStats();
-      setStats(data);
-    } catch (err) {
-      console.error('[useReceptionistPatients.fetchStats] error:', err);
-    } finally {
-      setLoadingStats(false);
-    }
-  }, []);
+    const data = await executeStats(() => usersApi.getReceptionistPatientsStats());
+    if (data) setStats(data);
+  }, [executeStats]);
 
   const updatePatient = async (id: string, data: Partial<User & { 
     bloodType?: string; 
@@ -59,39 +50,33 @@ export const useReceptionistPatients = () => {
     chronicConditions?: string;
     familyHistory?: string;
   }>) => {
-    try {
-      const updated = await usersApi.updatePatientProfile(id, data);
-      toast.success('Cập nhật thông tin thành công');
-      return updated;
-    } catch (err) {
-      console.error('[useReceptionistPatients.updatePatient] error:', err);
-      toast.error('Cập nhật thất bại');
-      throw err;
-    }
+    return executeAction(
+      () => usersApi.updatePatientProfile(id, data),
+      {
+        onSuccessMsg: 'Cập nhật thông tin thành công',
+        errorFallbackMsg: 'Cập nhật thất bại'
+      }
+    );
   };
 
   const registerPatient = async (data: RegisterPatientDto) => {
-    try {
-      const newUser = await usersApi.registerPatient(data);
-      toast.success('Đăng ký bệnh nhân thành công');
-      return newUser;
-    } catch (err) {
-      console.error('[useReceptionistPatients.registerPatient] error:', err);
-      toast.error('Đăng ký thất bại');
-      throw err;
-    }
+    return executeAction(
+      () => usersApi.registerPatient(data),
+      {
+        onSuccessMsg: 'Đăng ký bệnh nhân thành công',
+        errorFallbackMsg: 'Đăng ký thất bại'
+      }
+    );
   };
 
   const createGuestPatient = async (data: CreateGuestPatientDto) => {
-    try {
-      const newUser = await usersApi.createGuestPatient(data);
-      toast.success('Tạo hồ sơ vãng lai thành công');
-      return newUser;
-    } catch (err) {
-      console.error('[useReceptionistPatients.createGuestPatient] error:', err);
-      toast.error('Tạo hồ sơ thất bại');
-      throw err;
-    }
+    return executeAction(
+      () => usersApi.createGuestPatient(data),
+      {
+        onSuccessMsg: 'Tạo hồ sơ vãng lai thành công',
+        errorFallbackMsg: 'Tạo hồ sơ thất bại'
+      }
+    );
   };
 
   return {
