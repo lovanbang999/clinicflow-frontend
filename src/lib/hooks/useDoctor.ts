@@ -28,5 +28,9 @@ export function useDoctor(id: string) {
     fetchDoctor();
   }, [fetchDoctor]);
 
-  return { doctor, isLoading, error: error || (apiError ? 'Error' : null) };
+  return { 
+    doctor, 
+    isLoading, 
+    error: error || (apiError ? (apiError.message || 'Error') : null) 
+  };
 }

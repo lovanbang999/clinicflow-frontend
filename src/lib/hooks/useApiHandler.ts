@@ -19,6 +19,7 @@ export interface ApiActionOptions<T> {
  */
 export function useApiHandler() {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<ApiError | Error | null>(null);
   const tErrors = useTranslations('errors');
 
   const execute = async <T,>(
@@ -26,7 +27,14 @@ export function useApiHandler() {
     options?: ApiActionOptions<T>
   ): Promise<T | undefined> => {
     try {
-      setIsLoading(true);
+      setError(null);
+      // Use microtask to avoid "setState in effect" warning during synchronous execution
+      // This ensures that the state update happens after the effect finish executing 
+      // its synchronous part.
+      void Promise.resolve().then(() => {
+        setIsLoading(true);
+      });
+      
       const result = await action();
       
       if (options?.showSuccessToast !== false && options?.onSuccessMsg) {
@@ -39,17 +47,15 @@ export function useApiHandler() {
       
       return result;
     } catch (err) {
-      // Because `client.ts` strips the Axios wrapper, err is typically an ApiError
-      const error = err as ApiError;
+      const apiError = err as ApiError;
+      setError(apiError);
       
       if (options?.showErrorToast !== false) {
-        // Resolve mapped translation key for this messageCode
-        const errorKey = getErrorKey(error.messageCode, 'generic');
+        const errorKey = getErrorKey(apiError.messageCode, 'generic');
         let errorMessage = tErrors(errorKey);
         
-        // If the translation dictionary doesn't have the key, fallback to backend message
         if (errorMessage === errorKey) {
-          errorMessage = error.message || tErrors('generic');
+          errorMessage = apiError.message || tErrors('generic');
         }
 
         toast.error(options?.errorFallbackMsg || tErrors('generic'), {
@@ -58,14 +64,14 @@ export function useApiHandler() {
       }
 
       if (options?.onError) {
-        options.onError(error);
+        options.onError(apiError);
       } else {
-        throw error;
+        throw apiError;
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { execute, isLoading };
+  return { execute, isLoading, error };
 }
