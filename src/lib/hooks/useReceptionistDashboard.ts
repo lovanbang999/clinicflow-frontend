@@ -85,7 +85,7 @@ export const useReceptionistDashboard = () => {
         return res;
       },
       {
-        onSuccess: (res) => {
+        onSuccess: () => {
           // Dynamic success message is handled better by specifying onSuccessMsg if static
           // or custom toast if dynamic. Since we want the queue number, use custom toasts.
         },

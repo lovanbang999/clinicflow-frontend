@@ -2,32 +2,31 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { medicalRecordsApi, PatientHistoryResponse } from '@/lib/api/medical-records';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export function usePatientHistory(patientProfileId?: string) {
   const [history, setHistory] = useState<PatientHistoryResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { execute, isLoading, error } = useApiHandler();
 
   const fetchHistory = useCallback(async () => {
     if (!patientProfileId) return;
 
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await medicalRecordsApi.getPatientHistory(patientProfileId);
-      setHistory(data);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Failed to fetch patient history';
-      setError(msg);
-      toast.error('Error fetching patient records', { description: msg });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [patientProfileId]);
+    await execute(
+      async () => {
+        const data = await medicalRecordsApi.getPatientHistory(patientProfileId);
+        setHistory(data);
+      },
+      {
+        errorFallbackMsg: 'Error fetching patient records'
+      }
+    );
+  }, [patientProfileId, execute]);
 
   useEffect(() => {
-    void fetchHistory();
+    const timer = setTimeout(() => {
+      void fetchHistory();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchHistory]);
 
   return {

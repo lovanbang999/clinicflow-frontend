@@ -14,6 +14,7 @@ import {
 } from '../api/billing';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
+import { useApiHandler } from './useApiHandler';
 
 export interface ApiError extends Error {
   messageCode?: string;
@@ -44,10 +45,8 @@ export const getInvoiceTypeLabel = (type: InvoiceType): string => {
 
 export const useBilling = () => {
   const t = useTranslations('dashboard.receptionist.billingManagement.messages');
-  const tErrors = useTranslations('errors');
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState<PaginationData>({
     total: 0,
     page: 1,
@@ -55,228 +54,162 @@ export const useBilling = () => {
     totalPages: 0
   });
   
-  // Single invoice detail
   const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null);
-  const [loadingInvoice, setLoadingInvoice] = useState(false);
-
-  // Invoices list for a specific booking
   const [bookingInvoices, setBookingInvoices] = useState<Invoice[]>([]);
-  const [loadingBookingInvoices, setLoadingBookingInvoices] = useState(false);
-
-  // Pending unbilled lab orders for a booking (for alert banner)
   const [pendingLabOrders, setPendingLabOrders] = useState<LabOrderForBilling[]>([]);
-  const [loadingPendingLabs, setLoadingPendingLabs] = useState(false);
 
-  const [processingPayment, setProcessingPayment] = useState(false);
-
-  const handleError = useCallback((err: unknown, defaultMessageKey: string) => {
-    const error = err as ApiError;
-    const errorKey = getErrorKey(error.messageCode, 'generic');
-    
-    let errorMessage = tErrors(errorKey);
-    if (errorMessage === errorKey) {
-      errorMessage = error.message || tErrors(defaultMessageKey) || t(defaultMessageKey);
-    }
-
-    toast.error(t('errorTitle'), {
-      description: errorMessage,
-    });
-  }, [t, tErrors]);
+  const { execute: executeInvoices, isLoading: loading } = useApiHandler();
+  const { execute: executeCurrentInvoice, isLoading: loadingInvoice } = useApiHandler();
+  const { execute: executeBookingInvoices, isLoading: loadingBookingInvoices } = useApiHandler();
+  const { execute: executePendingLabs, isLoading: loadingPendingLabs } = useApiHandler();
+  const { execute: executePayment, isLoading: processingPayment } = useApiHandler();
 
   const fetchInvoices = useCallback(async (params?: ListInvoicesParams) => {
-    try {
-      setLoading(true);
-      const result = await billingApi.listInvoices(params);
-      setInvoices(result.invoices || []);
-      setPagination(result.pagination || {});
-    } catch (err) {
-      handleError(err, 'loadListFailed');
-    } finally {
-      setLoading(false);
-    }
-  }, [handleError]);
+    await executeInvoices(
+      async () => {
+        const result = await billingApi.listInvoices(params);
+        setInvoices(result.invoices || []);
+        setPagination(result.pagination || {});
+      },
+      { errorFallbackMsg: 'Lỗi tải danh sách' }
+    );
+  }, [executeInvoices]);
 
   const fetchInvoiceById = useCallback(async (id: string) => {
-    try {
-      setLoadingInvoice(true);
-      const invoice = await billingApi.getInvoiceById(id);
-      setCurrentInvoice(invoice);
-      return invoice;
-    } catch (err) {
-      handleError(err, 'loadDetailFailed');
-      return null;
-    } finally {
-      setLoadingInvoice(false);
-    }
-  }, [handleError]);
+    return executeCurrentInvoice(
+      async () => {
+        const invoice = await billingApi.getInvoiceById(id);
+        setCurrentInvoice(invoice);
+        return invoice;
+      },
+      { errorFallbackMsg: 'Lỗi tải chi tiết' }
+    ).then(res => res || null);
+  }, [executeCurrentInvoice]);
 
-  /**
-   * Fetch all invoices for a booking (Phương án B: nhiều invoice/booking).
-   */
   const fetchInvoicesByBooking = useCallback(async (bookingId: string) => {
-    try {
-      setLoadingBookingInvoices(true);
-      const result = await billingApi.listInvoicesByBooking(bookingId);
-      setBookingInvoices(result);
-      return result;
-    } catch (err) {
-      handleError(err, 'loadListFailed');
-      return [];
-    } finally {
-      setLoadingBookingInvoices(false);
-    }
-  }, [handleError]);
+    return executeBookingInvoices(
+      async () => {
+        const result = await billingApi.listInvoicesByBooking(bookingId);
+        setBookingInvoices(result);
+        return result;
+      },
+      { errorFallbackMsg: 'Lỗi tải danh sách' }
+    ).then(res => res || []);
+  }, [executeBookingInvoices]);
 
-  /**
-   * Fetch pending (unbilled) lab orders for a booking.
-   * Used to show billing alert banner: "BN có XN chưa thu tiền".
-   */
   const fetchPendingLabOrders = useCallback(async (bookingId: string) => {
-    try {
-      setLoadingPendingLabs(true);
-      const result = await billingApi.getPendingLabOrdersForBilling(bookingId);
-      setPendingLabOrders(result);
-      return result;
-    } catch {
-      setPendingLabOrders([]);
-      return [];
-    } finally {
-      setLoadingPendingLabs(false);
-    }
-  }, []);
+    return executePendingLabs(
+      async () => {
+        const result = await billingApi.getPendingLabOrdersForBilling(bookingId);
+        setPendingLabOrders(result);
+        return result;
+      },
+      { onError: () => setPendingLabOrders([]) } // silent fail like before
+    ).then(res => res || []);
+  }, [executePendingLabs]);
 
-  /**
-   * Create a new invoice for a booking (chọn loại: Khám / XN / Thuốc).
-   */
   const createInvoice = useCallback(async (dto: CreateInvoiceDto) => {
-    try {
-      setProcessingPayment(true);
-      const invoice = await billingApi.createInvoice(dto);
-      // Refresh booking invoices list
-      setBookingInvoices((prev) => [...prev, invoice]);
-      toast.success('Đã tạo hoá đơn mới');
-      return invoice;
-    } catch (err) {
-      handleError(err, 'generic');
-      throw err;
-    } finally {
-      setProcessingPayment(false);
-    }
-  }, [handleError]);
+    return executePayment(
+      async () => {
+        const invoice = await billingApi.createInvoice(dto);
+        setBookingInvoices((prev) => [...prev, invoice]);
+        return invoice;
+      },
+      { onSuccessMsg: 'Đã tạo hoá đơn mới' }
+    );
+  }, [executePayment]);
 
   const deleteInvoice = useCallback(async (id: string, bookingId: string) => {
-    try {
-      setProcessingPayment(true);
-      await billingApi.deleteInvoice(id);
-      
-      // Remove from bookingInvoices list
-      setBookingInvoices((prev) => prev.filter((inv) => inv.id !== id));
-      
-      // Refresh pending lab orders to show them again
-      await fetchPendingLabOrders(bookingId);
-      
-      toast.success('Đã huỷ hoá đơn nháp thành công');
-      return true;
-    } catch (err) {
-      handleError(err, 'generic');
-      throw err;
-    } finally {
-      setProcessingPayment(false);
-    }
-  }, [handleError, fetchPendingLabOrders]);
+    const res = await executePayment(
+      async () => {
+        await billingApi.deleteInvoice(id);
+        setBookingInvoices((prev) => prev.filter((inv) => inv.id !== id));
+        await fetchPendingLabOrders(bookingId);
+        return true;
+      },
+      { onSuccessMsg: 'Đã huỷ hoá đơn nháp thành công' }
+    );
+    return res === true;
+  }, [executePayment, fetchPendingLabOrders]);
 
   const addPayment = useCallback(async (id: string, data: AddPaymentDto) => {
-    try {
-      setProcessingPayment(true);
-      const updatedInvoice = await billingApi.addPayment(id, data);
-      setCurrentInvoice(updatedInvoice);
-
-      // Update in bookingInvoices list too (if present)
-      setBookingInvoices((prev) =>
-        prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
-      );
-
-      if (updatedInvoice.status === 'PAID') {
-        toast.success('Đã thanh toán & hoàn tất hoá đơn');
-      } else {
-        toast.success(t('paymentSuccess'));
+    return executePayment(
+      async () => {
+        const updatedInvoice = await billingApi.addPayment(id, data);
+        setCurrentInvoice(updatedInvoice);
+        setBookingInvoices((prev) =>
+          prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
+        );
+        return updatedInvoice;
+      },
+      {
+        onSuccess: (updatedInvoice) => {
+          if (updatedInvoice.status === 'PAID') {
+            toast.success('Đã thanh toán & hoàn tất hoá đơn');
+          } else {
+            toast.success(t('paymentSuccess'));
+          }
+        }
       }
-      return updatedInvoice;
-    } catch (err) {
-      handleError(err, 'paymentFailed');
-      throw err;
-    } finally {
-      setProcessingPayment(false);
-    }
-  }, [handleError, t]);
+    );
+  }, [executePayment, t]);
 
   const finalizeInvoice = useCallback(async (id: string) => {
-    try {
-      setProcessingPayment(true);
-      const updatedInvoice = await billingApi.finalizeInvoice(id);
-      setCurrentInvoice(updatedInvoice);
-      setBookingInvoices((prev) =>
-        prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
-      );
-      toast.success(t('finalizeSuccess'));
-      return updatedInvoice;
-    } catch (err) {
-      handleError(err, 'finalizeFailed');
-      throw err;
-    } finally {
-      setProcessingPayment(false);
-    }
-  }, [handleError, t]);
+    return executePayment(
+      async () => {
+        const updatedInvoice = await billingApi.finalizeInvoice(id);
+        setCurrentInvoice(updatedInvoice);
+        setBookingInvoices((prev) =>
+          prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
+        );
+        return updatedInvoice;
+      },
+      { onSuccessMsg: t('finalizeSuccess') }
+    );
+  }, [executePayment, t]);
 
   const addItemToInvoice = useCallback(async (invoiceId: string, data: AddInvoiceItemDto) => {
-    try {
-      const updatedInvoice = await billingApi.addItemToInvoice(invoiceId, data);
-      setCurrentInvoice(updatedInvoice);
-      setBookingInvoices((prev) =>
-        prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
-      );
-      toast.success('Đã thêm dịch vụ');
-      return updatedInvoice;
-    } catch (err) {
-      handleError(err, 'generic');
-      throw err;
-    }
-  }, [handleError]);
+    return executePayment(
+      async () => {
+        const updatedInvoice = await billingApi.addItemToInvoice(invoiceId, data);
+        setCurrentInvoice(updatedInvoice);
+        setBookingInvoices((prev) =>
+          prev.map((inv) => (inv.id === updatedInvoice.id ? updatedInvoice : inv)),
+        );
+        return updatedInvoice;
+      },
+      { onSuccessMsg: 'Đã thêm dịch vụ' }
+    );
+  }, [executePayment]);
 
   const removeItemFromInvoice = useCallback(async (invoiceId: string, itemId: string, onRefresh?: () => void) => {
-    try {
-      await billingApi.removeItemFromInvoice(invoiceId, itemId);
-      onRefresh?.();
-      toast.success('Đã xoá dịch vụ');
-    } catch (err) {
-      handleError(err, 'generic');
-      throw err;
-    }
-  }, [handleError]);
+    await executePayment(
+      async () => {
+        await billingApi.removeItemFromInvoice(invoiceId, itemId);
+        onRefresh?.();
+      },
+      { onSuccessMsg: 'Đã xoá dịch vụ' }
+    );
+  }, [executePayment]);
 
   return {
-    // Global invoice list
     invoices,
     loading,
     pagination,
     fetchInvoices,
     
-    // Single invoice detail
     currentInvoice,
     loadingInvoice,
     fetchInvoiceById,
 
-    // Booking-scoped invoice list    // Invoices by booking
     bookingInvoices,
     loadingBookingInvoices,
     fetchInvoicesByBooking,
 
-    // Pending unbilled lab orders (for billing alert banner)
     pendingLabOrders,
     loadingPendingLabs,
     fetchPendingLabOrders,
 
-    // Payment actions
     processingPayment,
     createInvoice,
     deleteInvoice,

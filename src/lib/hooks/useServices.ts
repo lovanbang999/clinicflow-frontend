@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { servicesApi } from '@/lib/api/services';
 import { Service } from '@/types/service';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 interface UseServicesParams {
   isActive?: boolean;
@@ -13,29 +13,26 @@ interface UseServicesParams {
 export function useServices(params: UseServicesParams = {}) {
   const { isActive, search } = params;
   const [services, setServices] = useState<Service[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { execute, isLoading, error } = useApiHandler();
 
   useEffect(() => {
     const fetchServices = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await servicesApi.getAll({ isActive, search });
-        setServices(data);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch services';
-        setError(errorMessage);
-        toast.error('Lỗi', {
-          description: 'Không thể tải danh sách dịch vụ',
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await execute(
+        async () => {
+          const data = await servicesApi.getAll({ isActive, search });
+          setServices(data);
+        },
+        {
+          errorFallbackMsg: 'Lỗi',
+        }
+      );
     };
 
-    void fetchServices();
-  }, [isActive, search]);
+    const timer = setTimeout(() => {
+      void fetchServices();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [isActive, search, execute]);
 
   return { services, isLoading, error };
 }

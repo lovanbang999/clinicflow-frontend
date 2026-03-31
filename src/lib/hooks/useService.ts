@@ -3,35 +3,32 @@
 import { useState, useEffect } from 'react';
 import { servicesApi } from '@/lib/api/services';
 import { Service } from '@/types/service';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export function useService(id: string) {
   const [service, setService] = useState<Service | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { execute, isLoading, error } = useApiHandler();
 
   useEffect(() => {
     if (!id) return;
 
     const fetchService = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await servicesApi.getById(id);
-        setService(data);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch service details';
-        setError(errorMessage);
-        toast.error('Lỗi', {
-          description: 'Không thể tải chi tiết dịch vụ',
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await execute(
+        async () => {
+          const data = await servicesApi.getById(id);
+          setService(data);
+        },
+        {
+          errorFallbackMsg: 'Lỗi',
+        }
+      );
     };
 
-    void fetchService();
-  }, [id]);
+    const timer = setTimeout(() => {
+      void fetchService();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [id, execute]);
 
   return { service, isLoading, error };
 }
