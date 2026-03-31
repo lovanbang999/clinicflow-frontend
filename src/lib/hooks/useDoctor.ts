@@ -1,38 +1,32 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { doctorsApi } from '@/lib/api/doctors';
 import { Doctor } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export function useDoctor(id: string) {
   const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { execute, isLoading, error: apiError } = useApiHandler();
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchDoctor = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        // Using the api client getById endpoint
-        const data = await doctorsApi.getById(id);
-        setDoctor(data);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch doctor';
-        setError(errorMessage);
-        toast.error('Lỗi', {
-          description: 'Không thể tải thông tin bác sĩ',
-        });
-      } finally {
-        setIsLoading(false);
+  const fetchDoctor = useCallback(async () => {
+    if (!id) return;
+    
+    setError(null);
+    const data = await execute(
+      () => doctorsApi.getById(id),
+      { 
+        errorFallbackMsg: 'Không thể tải thông tin bác sĩ',
+        onError: (err) => setError(err.message || 'Failed to fetch doctor')
       }
-    };
+    );
+    if (data) setDoctor(data);
+  }, [id, execute]);
 
-    if (id) {
-      void fetchDoctor();
-    }
-  }, [id]);
+  useEffect(() => {
+    fetchDoctor();
+  }, [fetchDoctor]);
 
-  return { doctor, isLoading, error };
+  return { doctor, isLoading, error: error || (apiError ? 'Error' : null) };
 }
