@@ -10,7 +10,7 @@ import {
   type AdminDoctorsListResponse,
 } from '@/lib/api/admin-doctors';
 import { BackendUser } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export const useAdminDoctors = () => {
   const [doctors, setDoctors] = useState<AdminDoctorsListResponse['users']>([]);
@@ -20,50 +20,41 @@ export const useAdminDoctors = () => {
     limit: 10,
     totalPages: 0,
   });
-  const [loadingList, setLoadingList] = useState(false);
-
+  
+  const { execute, isLoading: loadingList } = useApiHandler();
+  
   const [stats, setStats] = useState<DoctorStatsResponse | null>(null);
-  const [loadingStats, setLoadingStats] = useState(false);
+  const { execute: executeStats, isLoading: loadingStats } = useApiHandler();
 
   const fetchDoctors = useCallback(async (filters: DoctorFiltersQuery) => {
-    try {
-      setLoadingList(true);
-      const res = await adminDoctorsApi.getDoctors(filters);
+    const res = await execute(
+      () => adminDoctorsApi.getDoctors(filters),
+      { errorFallbackMsg: 'Failed to fetch doctors' }
+    );
+    if (res) {
       setDoctors(res.users);
       setPagination(res.pagination);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminDoctors.fetchDoctors] error:', error);
-      toast.error(error.message || 'Failed to fetch doctors');
-    } finally {
-      setLoadingList(false);
     }
-  }, []);
+  }, [execute]);
 
   const fetchStats = useCallback(async () => {
-    try {
-      setLoadingStats(true);
-      const data = await adminDoctorsApi.getStatistics();
+    const data = await executeStats(
+      () => adminDoctorsApi.getStatistics(),
+      { errorFallbackMsg: 'Failed to fetch doctor statistics' }
+    );
+    if (data) {
       setStats(data);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminDoctors.fetchStats] error:', error);
-      toast.error(error.message || 'Failed to fetch doctor statistics');
-    } finally {
-      setLoadingStats(false);
     }
-  }, []);
+  }, [executeStats]);
 
-  const createDoctor = async (data: AdminCreateDoctorDto): Promise<BackendUser> => {
-    try {
-      const newDoctor = await adminDoctorsApi.createDoctor(data);
-      toast.success('Doctor account created successfully');
-      return newDoctor;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to create doctor');
-      throw error;
-    }
+  const createDoctor = async (data: AdminCreateDoctorDto): Promise<BackendUser | undefined> => {
+    return execute(
+      () => adminDoctorsApi.createDoctor(data),
+      {
+        onSuccessMsg: 'Doctor account created successfully',
+        errorFallbackMsg: 'Failed to create doctor'
+      }
+    );
   };
 
   const updateDoctorProfile = async (
@@ -71,40 +62,39 @@ export const useAdminDoctors = () => {
     profileData: AdminUpdateDoctorProfileDto,
     userData?: { fullName?: string; email?: string; phone?: string; isActive?: boolean },
   ): Promise<void> => {
-    try {
-      const tasks: Promise<unknown>[] = [adminDoctorsApi.updateDoctorProfile(id, profileData)];
-      if (userData && Object.keys(userData).length > 0) {
-        tasks.push(adminDoctorsApi.updateDoctorUser(id, userData));
+    await execute(
+      async () => {
+        const tasks: Promise<unknown>[] = [adminDoctorsApi.updateDoctorProfile(id, profileData)];
+        if (userData && Object.keys(userData).length > 0) {
+          tasks.push(adminDoctorsApi.updateDoctorUser(id, userData));
+        }
+        await Promise.all(tasks);
+      },
+      {
+        onSuccessMsg: 'Doctor updated successfully',
+        errorFallbackMsg: 'Failed to update doctor'
       }
-      await Promise.all(tasks);
-      toast.success('Doctor updated successfully');
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update doctor');
-      throw error;
-    }
+    );
   };
 
   const toggleDoctorStatus = async (id: string, isActive: boolean): Promise<void> => {
-    try {
-      await adminDoctorsApi.toggleStatus(id, { isActive });
-      toast.success(isActive ? 'Doctor reinstated successfully' : 'Doctor suspended successfully');
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update doctor status');
-      throw error;
-    }
+    await execute(
+      () => adminDoctorsApi.toggleStatus(id, { isActive }),
+      {
+        onSuccessMsg: isActive ? 'Doctor reinstated successfully' : 'Doctor suspended successfully',
+        errorFallbackMsg: 'Failed to update doctor status'
+      }
+    );
   };
 
   const deleteDoctor = async (id: string): Promise<void> => {
-    try {
-      await adminDoctorsApi.deleteDoctor(id);
-      toast.success('Doctor removed successfully');
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to delete doctor');
-      throw error;
-    }
+    await execute(
+      () => adminDoctorsApi.deleteDoctor(id),
+      {
+        onSuccessMsg: 'Doctor removed successfully',
+        errorFallbackMsg: 'Failed to delete doctor'
+      }
+    );
   };
 
   return {

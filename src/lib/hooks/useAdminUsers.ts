@@ -10,7 +10,7 @@ import {
   UserFilters,
   UsersListResponse,
 } from '@/types';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export const useAdminUsers = () => {
   const [users, setUsers] = useState<UsersListResponse['users']>([]);
@@ -25,80 +25,69 @@ export const useAdminUsers = () => {
   const [stats, setStats] = useState<AdminUserStats | null>(null);
   const [loadingStats, setLoadingStats] = useState(false);
 
+  const { execute } = useApiHandler();
+
   const fetchUsers = useCallback(async (filters: UserFilters) => {
-    try {
-      setLoadingList(true);
-      const res = await adminUsersApi.getUsers(filters);
-      setUsers(res.users);
-      setPagination(res.pagination);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminUsers.fetchUsers] error:', error);
-      toast.error(error.message || 'Failed to fetch users');
-    } finally {
-      setLoadingList(false);
-    }
-  }, []);
+    execute(
+      async () => {
+        setLoadingList(true);
+        const res = await adminUsersApi.getUsers(filters);
+        setUsers(res.users);
+        setPagination(res.pagination);
+      },
+      { errorFallbackMsg: 'Failed to fetch users' }
+    ).catch(() => {}).finally(() => setLoadingList(false));
+  }, [execute]);
 
   const fetchStats = useCallback(async () => {
-    try {
-      setLoadingStats(true);
-      const data = await adminUsersApi.getStatistics();
-      setStats(data);
-    } catch (err) {
-      const error = err as Error;
-      console.error('[useAdminUsers.fetchStats] error:', error);
-      toast.error(error.message || 'Failed to fetch user statistics');
-    } finally {
-      setLoadingStats(false);
-    }
-  }, []);
+    execute(
+      async () => {
+        setLoadingStats(true);
+        const data = await adminUsersApi.getStatistics();
+        setStats(data);
+      },
+      { errorFallbackMsg: 'Failed to fetch user statistics' }
+    ).catch(() => {}).finally(() => setLoadingStats(false));
+  }, [execute]);
 
   const createUser = async (data: AdminCreateUserDto) => {
-    try {
-      const newUser = await adminUsersApi.createUser(data);
-      toast.success('User created successfully');
-      return newUser;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to create user');
-      throw error;
-    }
+    return execute(
+      () => adminUsersApi.createUser(data),
+      {
+        onSuccessMsg: 'User created successfully',
+        errorFallbackMsg: 'Failed to create user'
+      }
+    );
   };
 
   const suspendUser = async (id: string, data: AdminSuspendUserDto) => {
-    try {
-      const updatedUser = await adminUsersApi.suspendUser(id, data);
-      toast.success(data.isActive ? 'User reinstated successfully' : 'User suspended successfully');
-      return updatedUser;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update user status');
-      throw error;
-    }
+    return execute(
+      () => adminUsersApi.suspendUser(id, data),
+      {
+        onSuccessMsg: data.isActive ? 'User reinstated successfully' : 'User suspended successfully',
+        errorFallbackMsg: 'Failed to update user status'
+      }
+    );
   };
 
   const updateUser = async (id: string, data: AdminUpdateUserDto) => {
-    try {
-      const updatedUser = await adminUsersApi.updateUser(id, data);
-      toast.success('User updated successfully');
-      return updatedUser;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to update user');
-      throw error;
-    }
+    return execute(
+      () => adminUsersApi.updateUser(id, data),
+      {
+        onSuccessMsg: 'User updated successfully',
+        errorFallbackMsg: 'Failed to update user'
+      }
+    );
   };
 
   const deleteUser = async (id: string) => {
-    try {
-      await adminUsersApi.deleteUser(id);
-      toast.success('User deleted successfully');
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message || 'Failed to delete user');
-      throw error;
-    }
+    return execute(
+      () => adminUsersApi.deleteUser(id),
+      {
+        onSuccessMsg: 'User deleted successfully',
+        errorFallbackMsg: 'Failed to delete user'
+      }
+    );
   };
 
   return {

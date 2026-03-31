@@ -2,28 +2,25 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { billingApi, ListInvoicesParams, Invoice, PaginationData } from '@/lib/api/billing';
-import { toast } from 'sonner';
+import { useApiHandler } from './useApiHandler';
 
 export const useAdminInvoices = (initialParams: ListInvoicesParams = { page: 1, limit: 10 }) => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [pagination, setPagination] = useState<PaginationData>({ total: 0, page: 1, limit: 10, totalPages: 0 });
-  const [loading, setLoading] = useState(true);
   const [params, setParams] = useState<ListInvoicesParams>(initialParams);
+  
+  const { execute, isLoading: loading } = useApiHandler();
 
   const fetchInvoices = useCallback(async () => {
-    try {
-      setLoading(true);
-      const result = await billingApi.listInvoices(params);
-      console.log('result: ', result);
+    const result = await execute(
+      () => billingApi.listInvoices(params),
+      { errorFallbackMsg: 'Không thể tải danh sách hóa đơn' }
+    );
+    if (result) {
       setInvoices(result.invoices || []);
       setPagination(result.pagination || {});
-    } catch (err) {
-      console.error('[useAdminInvoices]', err);
-      toast.error('Không thể tải danh sách hóa đơn');
-    } finally {
-      setLoading(false);
     }
-  }, [params]);
+  }, [params, execute]);
 
   useEffect(() => {
     fetchInvoices();

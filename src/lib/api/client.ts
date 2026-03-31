@@ -67,6 +67,10 @@ class ApiClient {
           }
         }
 
+        if (error.response?.data) {
+          return Promise.reject(error.response.data);
+        }
+
         return Promise.reject(error);
       }
     );

@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { apiClient } from './client';
 import { ApiResponse } from '@/types';
 
