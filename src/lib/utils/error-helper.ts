@@ -57,6 +57,7 @@ export const ERROR_MESSAGE_MAP: Record<string, string> = {
   'BOOKING.CREATE.DUPLICATE': 'booking.duplicate',
   'BOOKING.CREATE.INVALID_DATE': 'booking.invalidDate',
   'BOOKING.UPDATE.INVALID_TRANSITION': 'booking.invalidTransition',
+  'BOOKING.UPDATE.DOCTOR_BUSY': 'booking.update.doctorBusy',
   
   // Queue errors
   'QUEUE.NOT_FOUND': 'queue.notFound',

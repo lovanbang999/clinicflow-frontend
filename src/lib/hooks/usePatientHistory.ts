@@ -17,7 +17,7 @@ export function usePatientHistory(patientProfileId?: string) {
         setHistory(data);
       },
       {
-        errorFallbackMsg: 'Error fetching patient records'
+        errorFallbackMsg: 'fetchPatientRecordsError'
       }
     );
   }, [patientProfileId, execute]);

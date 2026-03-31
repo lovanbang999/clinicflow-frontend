@@ -17,7 +17,7 @@ export const useReceptionistOverview = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => receptionistAnalyticsApi.getOverview(range),
-      { errorFallbackMsg: 'Failed to load overview stats' }
+      { errorFallbackMsg: 'fetchOverviewStatsError' }
     );
     if (result) setData(result);
   }, [range, execute]);
@@ -38,7 +38,7 @@ export const useReceptionistRevenueTrend = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => receptionistAnalyticsApi.getRevenueTrend(range),
-      { errorFallbackMsg: 'Failed to load revenue trend' }
+      { errorFallbackMsg: 'fetchRevenueTrendError' }
     );
     if (result) setData(result);
   }, [range, execute]);
@@ -59,7 +59,7 @@ export const useReceptionistOperationalStats = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => receptionistAnalyticsApi.getOperationalStats(range),
-      { errorFallbackMsg: 'Failed to load operational stats' }
+      { errorFallbackMsg: 'fetchOpStatsError' }
     );
     if (result) setData(result);
   }, [range, execute]);

@@ -35,7 +35,7 @@ export const useAdminUsers = () => {
         setUsers(res.users);
         setPagination(res.pagination);
       },
-      { errorFallbackMsg: 'Failed to fetch users' }
+      { errorFallbackMsg: 'fetchUsersError' }
     ).catch(() => {}).finally(() => setLoadingList(false));
   }, [execute]);
 
@@ -46,7 +46,7 @@ export const useAdminUsers = () => {
         const data = await adminUsersApi.getStatistics();
         setStats(data);
       },
-      { errorFallbackMsg: 'Failed to fetch user statistics' }
+      { errorFallbackMsg: 'fetchUserStatsError' }
     ).catch(() => {}).finally(() => setLoadingStats(false));
   }, [execute]);
 
@@ -54,8 +54,8 @@ export const useAdminUsers = () => {
     return execute(
       () => adminUsersApi.createUser(data),
       {
-        onSuccessMsg: 'User created successfully',
-        errorFallbackMsg: 'Failed to create user'
+        onSuccessMsg: 'createUserSuccess',
+        errorFallbackMsg: 'createUserError'
       }
     );
   };
@@ -65,7 +65,7 @@ export const useAdminUsers = () => {
       () => adminUsersApi.suspendUser(id, data),
       {
         onSuccessMsg: data.isActive ? 'User reinstated successfully' : 'User suspended successfully',
-        errorFallbackMsg: 'Failed to update user status'
+        errorFallbackMsg: 'updateUserStatusError'
       }
     );
   };
@@ -74,8 +74,8 @@ export const useAdminUsers = () => {
     return execute(
       () => adminUsersApi.updateUser(id, data),
       {
-        onSuccessMsg: 'User updated successfully',
-        errorFallbackMsg: 'Failed to update user'
+        onSuccessMsg: 'updateUserSuccess',
+        errorFallbackMsg: 'updateUserError'
       }
     );
   };
@@ -84,8 +84,8 @@ export const useAdminUsers = () => {
     return execute(
       () => adminUsersApi.deleteUser(id),
       {
-        onSuccessMsg: 'User deleted successfully',
-        errorFallbackMsg: 'Failed to delete user'
+        onSuccessMsg: 'deleteUserSuccess',
+        errorFallbackMsg: 'deleteUserError'
       }
     );
   };

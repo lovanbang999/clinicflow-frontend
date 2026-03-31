@@ -17,7 +17,7 @@ export function useDoctor(id: string) {
     const data = await execute(
       () => doctorsApi.getById(id),
       { 
-        errorFallbackMsg: 'Không thể tải thông tin bác sĩ',
+        errorFallbackMsg: 'fetchDoctorInfoError',
         onError: (err) => setError(err.message || 'Failed to fetch doctor')
       }
     );

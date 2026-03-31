@@ -23,7 +23,7 @@ export function useIcd10Search() {
         setResults(data);
       },
       {
-        errorFallbackMsg: 'Error searching ICD-10',
+        errorFallbackMsg: 'searchIcd10Error',
         showErrorToast: false // Match old behaviour, just console error if needed, but we'll let it toast since it's an API error
       }
     );
@@ -50,7 +50,7 @@ export function useMedicalRecordActions() {
         return result;
       },
       {
-        errorFallbackMsg: 'Error upserting medical record'
+        errorFallbackMsg: 'upsertMedicalRecordError'
       }
     );
   }, [execute]);

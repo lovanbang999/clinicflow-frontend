@@ -1,4 +1,9 @@
 {
+  "common": {
+    "errorTitle": "Error",
+    "errorDescription": "An error occurred. Please try again later.",
+    "error": "Error"
+  },
   "patient": {
     "title": "Dashboard",
     "book": "Book Appointment",
@@ -806,6 +811,10 @@
         "gender": "Gender",
         "status": "Status",
         "actions": "Actions",
+        "empty": "No patients found",
+        "guest": "Walk-in/Guest",
+        "statusActive": "Active",
+        "statusInactive": "Locked",
         "pagination": {
           "showing": "Showing <range>{valRange}</range> of <total>{valTotal}</total> results",
           "prev": "Previous",
@@ -2232,6 +2241,7 @@
       "healthcare": "Healthcare"
     },
     "worklist": {
+      "doctorPrefix": "Dr.",
       "title": "Laboratory & Imaging Worklist",
       "subtitle": "List of paid lab orders waiting to be performed or resulted.",
       "searchPlaceholder": "Search by patient name or code...",

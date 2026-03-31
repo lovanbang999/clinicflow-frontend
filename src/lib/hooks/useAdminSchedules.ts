@@ -26,7 +26,7 @@ export const useAdminSchedules = () => {
   const fetchSchedules = useCallback(async (filters: AdminScheduleFilters) => {
     const res = await execute(
       () => adminSchedulesApi.getSchedules(filters),
-      { errorFallbackMsg: 'Failed to fetch schedules' }
+      { errorFallbackMsg: 'fetchSchedulesError' }
     );
     if (res) {
       setSchedules(res.data);
@@ -37,7 +37,7 @@ export const useAdminSchedules = () => {
   const fetchStats = useCallback(async () => {
     const data = await executeStats(
       () => adminSchedulesApi.getStatistics(),
-      { errorFallbackMsg: 'Failed to fetch schedule statistics' }
+      { errorFallbackMsg: 'fetchScheduleStatsError' }
     );
     if (data) {
       setStats(data);
@@ -48,8 +48,8 @@ export const useAdminSchedules = () => {
     return execute(
       () => adminSchedulesApi.createSchedule(data),
       {
-        onSuccessMsg: 'Schedule created successfully',
-        errorFallbackMsg: 'Failed to create schedule'
+        onSuccessMsg: 'createScheduleSuccess',
+        errorFallbackMsg: 'createScheduleError'
       }
     );
   };
@@ -58,8 +58,8 @@ export const useAdminSchedules = () => {
     return execute(
       () => adminSchedulesApi.updateSchedule(id, data),
       {
-        onSuccessMsg: 'Schedule updated successfully',
-        errorFallbackMsg: 'Failed to update schedule'
+        onSuccessMsg: 'updateScheduleSuccess',
+        errorFallbackMsg: 'updateScheduleError'
       }
     );
   };
@@ -68,8 +68,8 @@ export const useAdminSchedules = () => {
     await execute(
       () => adminSchedulesApi.deleteSchedule(id),
       {
-        onSuccessMsg: 'Schedule deleted successfully',
-        errorFallbackMsg: 'Failed to delete schedule'
+        onSuccessMsg: 'deleteScheduleSuccess',
+        errorFallbackMsg: 'deleteScheduleError'
       }
     );
   };
@@ -78,8 +78,8 @@ export const useAdminSchedules = () => {
     return execute(
       () => adminSchedulesApi.restoreSchedule(id),
       {
-        onSuccessMsg: 'Schedule restored successfully',
-        errorFallbackMsg: 'Failed to restore schedule'
+        onSuccessMsg: 'restoreScheduleSuccess',
+        errorFallbackMsg: 'restoreScheduleError'
       }
     );
   };

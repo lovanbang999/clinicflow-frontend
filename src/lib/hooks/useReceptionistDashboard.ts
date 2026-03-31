@@ -89,8 +89,8 @@ export const useReceptionistDashboard = () => {
           // Dynamic success message is handled better by specifying onSuccessMsg if static
           // or custom toast if dynamic. Since we want the queue number, use custom toasts.
         },
-        onSuccessMsg: 'Check-in thành công!', // Simplified, details in backend message usually
-        errorFallbackMsg: 'Check-in thất bại'
+        onSuccessMsg: 'checkInSuccess', // Simplified, details in backend message usually
+        errorFallbackMsg: 'checkInError'
       }
     );
   }, [executeCheckIn, fetchStats, fetchUpcoming, fetchQueue]);
@@ -102,8 +102,8 @@ export const useReceptionistDashboard = () => {
     await executePromote(
       () => queueApi.promote(bookingId, reason),
       {
-        onSuccessMsg: 'Đã ưu tiên bệnh nhân trong hàng đợi',
-        errorFallbackMsg: 'Không thể ưu tiên bệnh nhân',
+        onSuccessMsg: 'prioritizePatientSuccess',
+        errorFallbackMsg: 'prioritizePatientError',
         onSuccess: () => fetchQueue()
       }
     );

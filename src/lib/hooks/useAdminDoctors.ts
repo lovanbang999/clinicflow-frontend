@@ -29,7 +29,7 @@ export const useAdminDoctors = () => {
   const fetchDoctors = useCallback(async (filters: DoctorFiltersQuery) => {
     const res = await execute(
       () => adminDoctorsApi.getDoctors(filters),
-      { errorFallbackMsg: 'Failed to fetch doctors' }
+      { errorFallbackMsg: 'fetchDoctorsError' }
     );
     if (res) {
       setDoctors(res.users);
@@ -40,7 +40,7 @@ export const useAdminDoctors = () => {
   const fetchStats = useCallback(async () => {
     const data = await executeStats(
       () => adminDoctorsApi.getStatistics(),
-      { errorFallbackMsg: 'Failed to fetch doctor statistics' }
+      { errorFallbackMsg: 'fetchDoctorStatsError' }
     );
     if (data) {
       setStats(data);
@@ -51,8 +51,8 @@ export const useAdminDoctors = () => {
     return execute(
       () => adminDoctorsApi.createDoctor(data),
       {
-        onSuccessMsg: 'Doctor account created successfully',
-        errorFallbackMsg: 'Failed to create doctor'
+        onSuccessMsg: 'createDoctorSuccess',
+        errorFallbackMsg: 'createDoctorError'
       }
     );
   };
@@ -71,8 +71,8 @@ export const useAdminDoctors = () => {
         await Promise.all(tasks);
       },
       {
-        onSuccessMsg: 'Doctor updated successfully',
-        errorFallbackMsg: 'Failed to update doctor'
+        onSuccessMsg: 'updateDoctorSuccess',
+        errorFallbackMsg: 'updateDoctorError'
       }
     );
   };
@@ -82,7 +82,7 @@ export const useAdminDoctors = () => {
       () => adminDoctorsApi.toggleStatus(id, { isActive }),
       {
         onSuccessMsg: isActive ? 'Doctor reinstated successfully' : 'Doctor suspended successfully',
-        errorFallbackMsg: 'Failed to update doctor status'
+        errorFallbackMsg: 'updateDoctorStatusError'
       }
     );
   };
@@ -91,8 +91,8 @@ export const useAdminDoctors = () => {
     await execute(
       () => adminDoctorsApi.deleteDoctor(id),
       {
-        onSuccessMsg: 'Doctor removed successfully',
-        errorFallbackMsg: 'Failed to delete doctor'
+        onSuccessMsg: 'deleteDoctorSuccess',
+        errorFallbackMsg: 'deleteDoctorError'
       }
     );
   };

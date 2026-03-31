@@ -71,7 +71,7 @@ export const useBilling = () => {
         setInvoices(result.invoices || []);
         setPagination(result.pagination || {});
       },
-      { errorFallbackMsg: 'Lỗi tải danh sách' }
+      { errorFallbackMsg: 'fetchListError' }
     );
   }, [executeInvoices]);
 
@@ -82,7 +82,7 @@ export const useBilling = () => {
         setCurrentInvoice(invoice);
         return invoice;
       },
-      { errorFallbackMsg: 'Lỗi tải chi tiết' }
+      { errorFallbackMsg: 'fetchDetailError' }
     ).then(res => res || null);
   }, [executeCurrentInvoice]);
 
@@ -93,7 +93,7 @@ export const useBilling = () => {
         setBookingInvoices(result);
         return result;
       },
-      { errorFallbackMsg: 'Lỗi tải danh sách' }
+      { errorFallbackMsg: 'fetchListError' }
     ).then(res => res || []);
   }, [executeBookingInvoices]);
 
@@ -115,7 +115,7 @@ export const useBilling = () => {
         setBookingInvoices((prev) => [...prev, invoice]);
         return invoice;
       },
-      { onSuccessMsg: 'Đã tạo hoá đơn mới' }
+      { onSuccessMsg: 'createInvoiceSuccess' }
     );
   }, [executePayment]);
 
@@ -127,7 +127,7 @@ export const useBilling = () => {
         await fetchPendingLabOrders(bookingId);
         return true;
       },
-      { onSuccessMsg: 'Đã huỷ hoá đơn nháp thành công' }
+      { onSuccessMsg: 'cancelDraftInvoiceSuccess' }
     );
     return res === true;
   }, [executePayment, fetchPendingLabOrders]);
@@ -178,7 +178,7 @@ export const useBilling = () => {
         );
         return updatedInvoice;
       },
-      { onSuccessMsg: 'Đã thêm dịch vụ' }
+      { onSuccessMsg: 'addServiceSuccess' }
     );
   }, [executePayment]);
 
@@ -188,7 +188,7 @@ export const useBilling = () => {
         await billingApi.removeItemFromInvoice(invoiceId, itemId);
         onRefresh?.();
       },
-      { onSuccessMsg: 'Đã xoá dịch vụ' }
+      { onSuccessMsg: 'removeServiceSuccess' }
     );
   }, [executePayment]);
 

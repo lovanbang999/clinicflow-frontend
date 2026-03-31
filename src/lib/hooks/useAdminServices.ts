@@ -31,7 +31,7 @@ export const useAdminServices = () => {
   const fetchServices = useCallback(async (filters?: ServiceFiltersQuery) => {
     const data = await execute(
       () => adminServicesApi.getServices(filters),
-      { errorFallbackMsg: 'Failed to fetch services' }
+      { errorFallbackMsg: 'fetchServicesApiError' }
     );
     if (data) {
       setServices(data.services);
@@ -59,8 +59,8 @@ export const useAdminServices = () => {
     return execute(
       () => adminServicesApi.createService(dto),
       {
-        onSuccessMsg: 'Service created successfully',
-        errorFallbackMsg: 'Failed to create service'
+        onSuccessMsg: 'createServiceApiSuccess',
+        errorFallbackMsg: 'createServiceApiError'
       }
     );
   };
@@ -73,8 +73,8 @@ export const useAdminServices = () => {
     return execute(
       () => adminServicesApi.updateService(id, dto),
       {
-        onSuccessMsg: 'Service updated successfully',
-        errorFallbackMsg: 'Failed to update service'
+        onSuccessMsg: 'updateServiceApiSuccess',
+        errorFallbackMsg: 'updateServiceApiError'
       }
     );
   };
@@ -84,8 +84,8 @@ export const useAdminServices = () => {
     await execute(
       () => adminServicesApi.deleteService(id),
       {
-        onSuccessMsg: 'Service deleted successfully',
-        errorFallbackMsg: 'Failed to delete service'
+        onSuccessMsg: 'deleteServiceApiSuccess',
+        errorFallbackMsg: 'deleteServiceApiError'
       }
     );
   };
@@ -95,8 +95,8 @@ export const useAdminServices = () => {
     return execute(
       () => adminServicesApi.restoreService(id),
       {
-        onSuccessMsg: 'Service restored successfully',
-        errorFallbackMsg: 'Failed to restore service'
+        onSuccessMsg: 'restoreServiceApiSuccess',
+        errorFallbackMsg: 'restoreServiceApiError'
       }
     );
   };

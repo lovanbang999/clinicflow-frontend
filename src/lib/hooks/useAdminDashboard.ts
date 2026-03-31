@@ -12,7 +12,7 @@ export const useAdminStats = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => dashboardApi.getAdminStats(range),
-      { errorFallbackMsg: 'Failed to load dashboard stats' }
+      { errorFallbackMsg: 'fetchDashboardStatsError' }
     );
     if (result) setData(result);
   }, [range, execute]);
@@ -38,7 +38,7 @@ export const useAdminRevenueChart = (period: 'week' | 'month' | 'quarter' = 'mon
       () => dashboardApi.getAdminRevenueChart(period, range),
       { 
         showErrorToast: enabled,
-        errorFallbackMsg: 'Failed to load revenue chart'
+        errorFallbackMsg: 'fetchRevenueChartError'
       }
     );
     if (result) setData(result);
@@ -61,7 +61,7 @@ export const useAdminTopDoctors = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => dashboardApi.getAdminTopDoctors(range),
-      { errorFallbackMsg: 'Failed to load top doctors' }
+      { errorFallbackMsg: 'fetchTopDoctorsError' }
     );
     if (result) setData(result);
   }, [range, execute]);
@@ -83,7 +83,7 @@ export const useAdminTopServices = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => dashboardApi.getAdminTopServices(range),
-      { errorFallbackMsg: 'Failed to load top services' }
+      { errorFallbackMsg: 'fetchTopServicesError' }
     );
     if (result) setData(result);
   }, [range, execute]);
@@ -105,7 +105,7 @@ export const useAdminBookingOverview = (range?: DateRange) => {
   const fetch = useCallback(async () => {
     const result = await execute(
       () => dashboardApi.getBookingOverview(range),
-      { errorFallbackMsg: 'Failed to load booking overview' }
+      { errorFallbackMsg: 'fetchBookingOverviewError' }
     );
     if (result) setData(result);
   }, [range, execute]);

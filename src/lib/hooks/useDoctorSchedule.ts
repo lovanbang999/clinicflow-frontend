@@ -14,7 +14,7 @@ export const useDoctorSchedule = () => {
   const fetchWorkingHours = useCallback(async (doctorId: string) => {
     const data = await executeHours(
       () => schedulesApi.getWorkingHours(doctorId),
-      { errorFallbackMsg: 'Không thể tải lịch làm việc' }
+      { errorFallbackMsg: 'fetchScheduleWorkError' }
     );
     if (data) setWorkingHours(data);
   }, [executeHours]);
@@ -31,8 +31,8 @@ export const useDoctorSchedule = () => {
           return saved;
         },
         {
-          onSuccessMsg: 'Đã lưu lịch làm việc',
-          errorFallbackMsg: 'Lưu lịch làm việc thất bại'
+          onSuccessMsg: 'saveScheduleSuccess',
+          errorFallbackMsg: 'saveScheduleWorkError'
         }
       );
     },
@@ -47,7 +47,7 @@ export const useDoctorSchedule = () => {
       },
       {
         onSuccessMsg: 'Đã xóa lịch làm việc ngày ' + dayOfWeek,
-        errorFallbackMsg: 'Xóa lịch làm việc thất bại'
+        errorFallbackMsg: 'deleteScheduleWorkError'
       }
     );
   }, [executeSaveHours]);
@@ -64,8 +64,8 @@ export const useDoctorSchedule = () => {
           return updated;
         },
         {
-          onSuccessMsg: 'Đã lưu tất cả thay đổi',
-          errorFallbackMsg: 'Lưu tất cả thay đổi thất bại'
+          onSuccessMsg: 'saveAllChangesSuccess',
+          errorFallbackMsg: 'saveAllChangesError'
         }
       );
     },
@@ -92,7 +92,7 @@ export const useDoctorSchedule = () => {
   const fetchOffDays = useCallback(async (doctorId: string, startDate?: string, endDate?: string) => {
     const data = await executeOffDays(
       () => schedulesApi.getOffDays(doctorId, startDate, endDate),
-      { errorFallbackMsg: 'Không thể tải danh sách nghỉ' }
+      { errorFallbackMsg: 'fetchLeaveListError' }
     );
     if (data) setOffDays(data);
   }, [executeOffDays]);
@@ -118,8 +118,8 @@ export const useDoctorSchedule = () => {
               // Note: Toast handled by onSuccessMsg if provided, but here we want dynamic msg
             }
           },
-          onSuccessMsg: 'Đã đăng ký nghỉ thành công',
-          errorFallbackMsg: 'Đăng ký nghỉ thất bại'
+          onSuccessMsg: 'registerLeaveSuccess',
+          errorFallbackMsg: 'registerLeaveError'
         }
       );
     },
@@ -135,8 +135,8 @@ export const useDoctorSchedule = () => {
         setOffDays((prev) => prev.filter((od) => od.date !== date));
       },
       {
-        onSuccessMsg: 'Đã hủy đăng ký nghỉ',
-        errorFallbackMsg: 'Hủy nghỉ thất bại'
+        onSuccessMsg: 'cancelLeaveSuccess',
+        errorFallbackMsg: 'cancelLeaveError'
       }
     );
   }, [executeSaveOffDay]);

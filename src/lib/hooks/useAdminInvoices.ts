@@ -14,7 +14,7 @@ export const useAdminInvoices = (initialParams: ListInvoicesParams = { page: 1, 
   const fetchInvoices = useCallback(async () => {
     const result = await execute(
       () => billingApi.listInvoices(params),
-      { errorFallbackMsg: 'Không thể tải danh sách hóa đơn' }
+      { errorFallbackMsg: 'fetchInvoicesListError' }
     );
     if (result) {
       setInvoices(result.invoices || []);

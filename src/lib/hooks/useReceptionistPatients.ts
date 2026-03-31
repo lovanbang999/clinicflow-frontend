@@ -27,7 +27,7 @@ export const useReceptionistPatients = () => {
   const fetchPatients = useCallback(async (filters: PatientFilters) => {
     const res = await executeList(
       () => usersApi.getReceptionistPatients(filters),
-      { errorFallbackMsg: 'Không thể lấy danh sách bệnh nhân' }
+      { errorFallbackMsg: 'fetchPatientsListError' }
     );
     if (res) {
       setPatients(res.users);
@@ -53,8 +53,8 @@ export const useReceptionistPatients = () => {
     return executeAction(
       () => usersApi.updatePatientProfile(id, data),
       {
-        onSuccessMsg: 'Cập nhật thông tin thành công',
-        errorFallbackMsg: 'Cập nhật thất bại'
+        onSuccessMsg: 'updatePatientInfoSuccess',
+        errorFallbackMsg: 'updateFailedError'
       }
     );
   };
@@ -63,8 +63,8 @@ export const useReceptionistPatients = () => {
     return executeAction(
       () => usersApi.registerPatient(data),
       {
-        onSuccessMsg: 'Đăng ký bệnh nhân thành công',
-        errorFallbackMsg: 'Đăng ký thất bại'
+        onSuccessMsg: 'registerPatientSuccess',
+        errorFallbackMsg: 'registrationFailedError'
       }
     );
   };
@@ -73,8 +73,8 @@ export const useReceptionistPatients = () => {
     return executeAction(
       () => usersApi.createGuestPatient(data),
       {
-        onSuccessMsg: 'Tạo hồ sơ vãng lai thành công',
-        errorFallbackMsg: 'Tạo hồ sơ thất bại'
+        onSuccessMsg: 'createWalkInPatientSuccess',
+        errorFallbackMsg: 'createProfileFailedError'
       }
     );
   };

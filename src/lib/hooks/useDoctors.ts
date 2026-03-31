@@ -23,7 +23,7 @@ export function useDoctors(params?: UseDoctorsParams) {
           const data = await doctorsApi.getAll(params);
           setDoctors(data);
         },
-        { errorFallbackMsg: 'Không thể tải danh sách bác sĩ' }
+        { errorFallbackMsg: 'fetchDoctorsErrorVi' }
       );
     };
 

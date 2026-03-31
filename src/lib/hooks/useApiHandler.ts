@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { ApiError } from '@/types';
@@ -21,14 +21,13 @@ export function useApiHandler() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApiError | Error | null>(null);
   const tErrors = useTranslations('errors');
+  const tApi = useTranslations('common.api');
 
-  const execute = async <T,>(
+  const execute = useCallback(async <T,>(
     action: () => Promise<T>,
     options?: ApiActionOptions<T>
   ): Promise<T | undefined> => {
     try {
-      // Use microtask to avoid "setState in effect" warning during synchronous execution
-      // This ensures that all state updates occur after the effect's synchronous execution phase.
       void Promise.resolve().then(() => {
         setError(null);
         setIsLoading(true);
@@ -37,7 +36,13 @@ export function useApiHandler() {
       const result = await action();
       
       if (options?.showSuccessToast !== false && options?.onSuccessMsg) {
-        toast.success(options.onSuccessMsg);
+        // Try to translate the message key, fallback to the string itself if not found
+        // If tApi returns the path (e.g. "common.api.key"), it means the key was missing
+        const translated = tApi(options.onSuccessMsg);
+        const message = translated === `common.api.${options.onSuccessMsg}` 
+          ? options.onSuccessMsg 
+          : translated;
+        toast.success(message);
       }
       
       if (options?.onSuccess) {
@@ -53,11 +58,22 @@ export function useApiHandler() {
         const errorKey = getErrorKey(apiError.messageCode, 'generic');
         let errorMessage = tErrors(errorKey);
         
+        console.log(errorMessage);
+        
         if (errorMessage === errorKey) {
           errorMessage = apiError.message || tErrors('generic');
         }
 
-        toast.error(options?.errorFallbackMsg || tErrors('generic'), {
+        // Translate fallback message if provided
+        let fallbackMsg = tErrors('generic');
+        if (options?.errorFallbackMsg) {
+          const translated = tApi(options.errorFallbackMsg);
+          fallbackMsg = translated === `common.api.${options.errorFallbackMsg}`
+            ? options.errorFallbackMsg
+            : translated;
+        }
+
+        toast.error(fallbackMsg, {
           description: errorMessage,
         });
       }
@@ -70,7 +86,7 @@ export function useApiHandler() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [tErrors, tApi]);
 
   return { execute, isLoading, error };
 }

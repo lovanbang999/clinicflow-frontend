@@ -19,7 +19,7 @@ export function useService(id: string) {
           setService(data);
         },
         {
-          errorFallbackMsg: 'Lỗi',
+          errorFallbackMsg: 'genericErrorTitle',
         }
       );
     };

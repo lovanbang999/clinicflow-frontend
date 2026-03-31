@@ -15,7 +15,7 @@ export function useBookings() {
         setBookings(data);
         return data;
       },
-      { errorFallbackMsg: 'Failed to load appointments' }
+      { errorFallbackMsg: 'fetchAppointmentsError' }
     );
     return res || [];
   }, [execute]);
@@ -35,7 +35,7 @@ export function useBookings() {
         setBookings(data.bookings);
         return data;
       },
-      { errorFallbackMsg: 'Failed to load bookings' }
+      { errorFallbackMsg: 'fetchBookingsError' }
     ).then(res => res || null);
   }, [execute]);
 
@@ -47,8 +47,8 @@ export function useBookings() {
         return booking;
       },
       { 
-        onSuccessMsg: 'Booking created successfully',
-        errorFallbackMsg: 'Đặt lịch thất bại. Vui lòng thử lại.' 
+        onSuccessMsg: 'createBookingSuccess',
+        errorFallbackMsg: 'createBookingError' 
       }
     ).then(res => res || null);
   }, [execute]);
@@ -61,8 +61,8 @@ export function useBookings() {
         return true;
       },
       { 
-        onSuccessMsg: 'Appointment cancelled successfully',
-        errorFallbackMsg: 'Failed to cancel appointment',
+        onSuccessMsg: 'cancelAppointmentSuccess',
+        errorFallbackMsg: 'cancelAppointmentError',
         onError: () => {}
       }
     );
@@ -76,7 +76,7 @@ export function useBookings() {
         const booking = await bookingsApi.getById(id);
         return booking;
       },
-      { errorFallbackMsg: 'Failed to load booking details' }
+      { errorFallbackMsg: 'fetchBookingDetailsError' }
     ).then(res => res || null);
   }, [execute]);
 
@@ -86,7 +86,7 @@ export function useBookings() {
       async () => {
         return await bookingsApi.getReceptionistStats();
       },
-      { errorFallbackMsg: 'Failed to load booking statistics' }
+      { errorFallbackMsg: 'fetchBookingStatsError' }
     ).then(res => res || null);
   }, [execute]);
 
@@ -97,7 +97,7 @@ export function useBookings() {
         const data = await bookingsApi.checkIn(id);
         return data;
       },
-      { errorFallbackMsg: 'Failed to check-in patient' }
+      { errorFallbackMsg: 'checkInPatientError' }
     ).then(res => res || null);
   }, [execute]);
 
@@ -109,7 +109,7 @@ export function useBookings() {
         return true;
       },
       { 
-        errorFallbackMsg: 'Failed to complete visit',
+        errorFallbackMsg: 'completeVisitError',
         onError: () => {}
       }
     );

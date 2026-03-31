@@ -23,7 +23,7 @@ export function useServices(params: UseServicesParams = {}) {
           setServices(data);
         },
         {
-          errorFallbackMsg: 'Lỗi',
+          errorFallbackMsg: 'genericErrorTitle',
         }
       );
     };

@@ -55,7 +55,7 @@ export function useQueue(doctorId?: string) {
         return { items: merged, stats: statsRes };
       },
       { 
-        errorFallbackMsg: 'Failed to fetch queue data',
+        errorFallbackMsg: 'fetchQueueDataError',
         onError: (err) => setError(err.message || 'Fetch error')
       }
     );
@@ -93,8 +93,8 @@ export function useQueue(doctorId?: string) {
     await executeAction(
       () => bookingsApi.startExamination(bookingId),
       {
-        onSuccessMsg: 'Patient called successfully',
-        errorFallbackMsg: 'Failed to call patient',
+        onSuccessMsg: 'callPatientSuccess',
+        errorFallbackMsg: 'callPatientError',
         onSuccess: () => fetchQueueData()
       }
     );
@@ -104,8 +104,8 @@ export function useQueue(doctorId?: string) {
     await executeAction(
       () => bookingsApi.complete(bookingId),
       {
-        onSuccessMsg: 'Consultation completed',
-        errorFallbackMsg: 'Failed to complete visit',
+        onSuccessMsg: 'consultationCompleted',
+        errorFallbackMsg: 'completeVisitError',
         onSuccess: () => fetchQueueData()
       }
     );
@@ -115,8 +115,8 @@ export function useQueue(doctorId?: string) {
     await executeAction(
       () => bookingsApi.markNoShow(bookingId),
       {
-        onSuccessMsg: 'Marked as no-show',
-        errorFallbackMsg: 'Failed to mark no-show',
+        onSuccessMsg: 'markNoShowSuccess',
+        errorFallbackMsg: 'markNoShowError',
         onSuccess: () => fetchQueueData()
       }
     );

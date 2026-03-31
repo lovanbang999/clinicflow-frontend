@@ -16,7 +16,7 @@ export function useDashboard() {
           const dashboardData = await bookingsApi.getPatientDashboardStats();
           setData(dashboardData);
         },
-        { errorFallbackMsg: 'Không thể tải thông tin dashboard' }
+        { errorFallbackMsg: 'fetchDashboardInfoError' }
       );
     };
 

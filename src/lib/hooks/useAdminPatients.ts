@@ -37,7 +37,7 @@ export const useAdminPatients = () => {
   const fetchPatients = useCallback(async (query: PatientSearchQuery) => {
     const res = await execute(
       () => adminPatientsApi.getPatients(query),
-      { errorFallbackMsg: 'Failed to fetch patients' }
+      { errorFallbackMsg: 'fetchPatientsError' }
     );
     if (res) {
       setPatients(res.data);
@@ -50,7 +50,7 @@ export const useAdminPatients = () => {
   const fetchStats = useCallback(async () => {
     const data = await executeKpi(
       () => adminPatientsApi.getStats(),
-      { errorFallbackMsg: 'Failed to fetch patient statistics' }
+      { errorFallbackMsg: 'fetchPatientStatsError' }
     );
     if (data) {
       setKpiData(data);
@@ -63,8 +63,8 @@ export const useAdminPatients = () => {
     return execute(
       () => adminPatientsApi.createPatient(data),
       {
-        onSuccessMsg: 'Patient created successfully',
-        errorFallbackMsg: 'Failed to create patient'
+        onSuccessMsg: 'createPatientSuccess',
+        errorFallbackMsg: 'createPatientError'
       }
     );
   };
@@ -73,8 +73,8 @@ export const useAdminPatients = () => {
     return execute(
       () => adminPatientsApi.updatePatient(id, data),
       {
-        onSuccessMsg: 'Patient updated successfully',
-        errorFallbackMsg: 'Failed to update patient'
+        onSuccessMsg: 'updatePatientSuccess',
+        errorFallbackMsg: 'updatePatientError'
       }
     );
   };
@@ -96,8 +96,8 @@ export const useAdminPatients = () => {
         window.URL.revokeObjectURL(url);
       },
       {
-        onSuccessMsg: 'Patients exported successfully',
-        errorFallbackMsg: 'Failed to export patients'
+        onSuccessMsg: 'exportPatientsSuccess',
+        errorFallbackMsg: 'exportPatientsError'
       }
     );
   }, [execute]);
