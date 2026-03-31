@@ -117,7 +117,10 @@ export const useReceptionistDashboard = () => {
 
   // Initial load
   useEffect(() => {
-    refreshAll();
+    const timer = setTimeout(() => {
+      refreshAll();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [refreshAll]);
 
   return {

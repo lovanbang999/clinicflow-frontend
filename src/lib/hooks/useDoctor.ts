@@ -25,7 +25,10 @@ export function useDoctor(id: string) {
   }, [id, execute]);
 
   useEffect(() => {
-    fetchDoctor();
+    const timer = setTimeout(() => {
+      fetchDoctor();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchDoctor]);
 
   return { 

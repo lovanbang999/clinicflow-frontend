@@ -22,7 +22,12 @@ export const useReceptionistOverview = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };
 
@@ -38,7 +43,12 @@ export const useReceptionistRevenueTrend = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };
 
@@ -54,6 +64,11 @@ export const useReceptionistOperationalStats = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };

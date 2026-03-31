@@ -23,7 +23,10 @@ export const useAdminInvoices = (initialParams: ListInvoicesParams = { page: 1, 
   }, [params, execute]);
 
   useEffect(() => {
-    fetchInvoices();
+    const timer = setTimeout(() => {
+      fetchInvoices();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchInvoices]);
 
   const updateFilters = (newFilters: Partial<ListInvoicesParams>) => {

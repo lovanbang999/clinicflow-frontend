@@ -69,7 +69,10 @@ export function useQueue(doctorId?: string) {
   // Initial fetch and fetch when doctor changes
   useEffect(() => {
     if (doctorId) {
-      void fetchQueueData();
+      const timer = setTimeout(() => {
+        void fetchQueueData();
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [doctorId, fetchQueueData]);
 

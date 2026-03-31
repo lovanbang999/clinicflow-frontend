@@ -17,7 +17,12 @@ export const useAdminStats = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };
 
@@ -39,7 +44,12 @@ export const useAdminRevenueChart = (period: 'week' | 'month' | 'quarter' = 'mon
     if (result) setData(result);
   }, [period, range, enabled, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };
 
@@ -56,7 +66,12 @@ export const useAdminTopDoctors = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };
 
@@ -73,7 +88,12 @@ export const useAdminTopServices = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };
 
@@ -90,6 +110,11 @@ export const useAdminBookingOverview = (range?: DateRange) => {
     if (result) setData(result);
   }, [range, execute]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
   return { data, loading, refetch: fetch };
 };

@@ -76,7 +76,10 @@ export function useNotifications() {
   };
 
   useEffect(() => {
-    void fetchNotifications();
+    const timer = setTimeout(() => {
+      void fetchNotifications();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchNotifications]);
 
   return {

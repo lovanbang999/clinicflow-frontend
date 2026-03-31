@@ -19,7 +19,10 @@ export const useAdminSettings = () => {
   }, [execute]);
 
   useEffect(() => {
-    fetchSettings();
+    const timer = setTimeout(() => {
+      fetchSettings();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [fetchSettings]);
 
   const updateClinicProfile = async (data: Partial<ClinicProfile>): Promise<void> => {
