@@ -27,11 +27,10 @@ export function useApiHandler() {
     options?: ApiActionOptions<T>
   ): Promise<T | undefined> => {
     try {
-      setError(null);
       // Use microtask to avoid "setState in effect" warning during synchronous execution
-      // This ensures that the state update happens after the effect finish executing 
-      // its synchronous part.
+      // This ensures that all state updates occur after the effect's synchronous execution phase.
       void Promise.resolve().then(() => {
+        setError(null);
         setIsLoading(true);
       });
       
