@@ -1,5 +1,6 @@
 import { apiClient } from './client';
 import { ApiResponse, BackendUser } from '@/types';
+import type { AxiosError } from 'axios';
 
 // Backend returns `doctors` key (not `users`) for the list endpoint
 interface AdminDoctorsListRaw {
@@ -57,8 +58,9 @@ export interface DoctorStatsResponse {
 
 // API
 const handleError = (error: unknown): never => {
-  if (error instanceof AxiosError && error.response?.data) {
-    throw error.response.data as ApiError;
+  const axiosErr = error as AxiosError;
+  if (axiosErr?.response?.data) {
+    throw axiosErr.response.data;
   }
   throw error;
 };

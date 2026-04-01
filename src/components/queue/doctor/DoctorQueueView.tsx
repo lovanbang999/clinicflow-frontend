@@ -7,6 +7,7 @@ import { InfoIcon, SpinnerIcon, TimerIcon, ClipboardTextIcon } from '@phosphor-i
 import type { QueueRecord } from '@/lib/api/queue';
 import { BookingStatus } from '@/types';
 import { DoctorQueueCard } from './DoctorQueueCard';
+import { DoctorStatsPanel } from './DoctorStatsPanel';
 import { PrintableExaminationResult } from './PrintableExaminationResult';
 import { PrintablePrescription } from './PrintablePrescription';
 import type { CreateMedicalRecordDto, PrescriptionItemDto } from '@/lib/api/medical-records';
@@ -74,6 +75,8 @@ export function DoctorQueueView({
                 )}
               </div>
               
+              <DoctorStatsPanel />
+
               {/* Filters / Stats pills */}
               <div className="flex items-center gap-2 p-1 bg-[#f3f4f9] rounded-lg w-fit overflow-x-auto no-scrollbar">
                 <button 

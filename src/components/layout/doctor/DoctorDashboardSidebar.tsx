@@ -24,8 +24,8 @@ type NavItem = {
 
 export const NAV_ITEMS_DOCTOR: NavItem[] = [
   { key: 'dashboard', href: '/doctor', icon: HouseIcon, exact: true },
-  { key: 'schedule', href: '/doctor/schedule', icon: CalendarCheckIcon, exact: false },
   { key: 'patients', href: '/doctor/patients', icon: UsersIcon, exact: false },
+  { key: 'schedule', href: '/doctor/schedule', icon: CalendarCheckIcon, exact: false },
   { key: 'settings', href: '/doctor/settings', icon: GearIcon, exact: false },
 ];
 

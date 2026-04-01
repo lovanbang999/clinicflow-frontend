@@ -6,7 +6,12 @@ export interface Service {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
-  category?: string | null;
+  categoryId?: string | null;
+  category?: {
+    id: string;
+    code: string;
+    name: string;
+  } | null;
   preparationNotes?: string | null;
   tags: string[];
   isActive: boolean;
@@ -20,7 +25,7 @@ export interface ServiceForm {
   price: string;
   durationMinutes: string;
   maxSlotsPerHour: string;
-  category: string;
+  categoryId: string;
   preparationNotes: string;
   tags: string; // Comma separated for input
   isActive: boolean;
@@ -33,7 +38,7 @@ export const DEFAULT_SERVICE_FORM: ServiceForm = {
   price: '',
   durationMinutes: '30',
   maxSlotsPerHour: '3',
-  category: 'General',
+  categoryId: '',
   preparationNotes: '',
   tags: '',
   isActive: true,

@@ -20,6 +20,8 @@ import {
 import { cn } from '@/lib/utils';
 import { type Service } from './types';
 import { ServiceTableRow } from './ServiceTableRow';
+import { useAdminCategories } from '@/lib/hooks/useAdminCategories';
+import { useEffect } from 'react';
 
 const COLUMNS = ['service', 'price', 'duration', 'slots', 'status', 'action'] as const;
 const LIMIT = 10;
@@ -64,6 +66,11 @@ export function ServiceTable({
   onRestore,
 }: Props) {
   const t = useTranslations('dashboard.serviceManagement.table');
+  const { categories, fetchCategories } = useAdminCategories();
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const from = total > 0 ? (page - 1) * LIMIT + 1 : 0;
   const to = Math.min(page * LIMIT, total);
@@ -177,7 +184,7 @@ export function ServiceTable({
                 )}
               >
                 <FunnelIcon size={18} weight={filterCategory !== 'all' ? 'fill' : 'regular'} />
-                {t('filterCategory')}
+                {filterCategory !== 'all' ? (categories.find(c => c.id === filterCategory)?.name || t('filterCategory')) : t('filterCategory')}
                 {filterCategory !== 'all' && (
                   <span className="size-5 rounded-full bg-[#1392ec] text-white text-xs flex items-center justify-center font-bold">
                     1
@@ -189,22 +196,14 @@ export function ServiceTable({
               <DropdownMenuLabel className="text-xs text-[#94a3b8] uppercase tracking-wider font-bold">
                 {t('categoriesLabel')}
               </DropdownMenuLabel>
-              {[
-                'Khám bệnh',
-                'Xét nghiệm',
-                'Chẩn đoán hình ảnh',
-                'Thủ thuật/Phẫu thuật',
-                'Tiêm chủng',
-                'Phục hồi chức năng',
-                'Khác',
-              ].map((cat) => (
+              {categories.map((cat) => (
                 <DropdownMenuCheckboxItem
-                  key={cat}
-                  checked={filterCategory === cat}
-                  onCheckedChange={() => onCategoryChange(filterCategory === cat ? 'all' : cat)}
+                  key={cat.id}
+                  checked={filterCategory === cat.id}
+                  onCheckedChange={() => onCategoryChange(filterCategory === cat.id ? 'all' : cat.id)}
                   className="cursor-pointer"
                 >
-                  {cat}
+                  {cat.name}
                 </DropdownMenuCheckboxItem>
               ))}
               {filterCategory !== 'all' && (

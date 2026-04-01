@@ -3,7 +3,7 @@ import { Service, CreateServiceDto, UpdateServiceDto, ApiResponse } from '@/type
 
 export const servicesApi = {
   // Get all services
-  getAll: async (params?: { isActive?: boolean; search?: string }): Promise<Service[]> => {
+  getAll: async (params?: { isActive?: boolean; search?: string; categoryType?: 'EXAMINATION' | 'LAB' }): Promise<Service[]> => {
     const response = await apiClient.get<ApiResponse<Service[]>>('/services', {
       params,
     });

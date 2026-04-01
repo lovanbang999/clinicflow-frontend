@@ -39,7 +39,7 @@ export function ServiceTableRow({ service, index, onEdit, onDelete, onRestore }:
               <p className="text-sm font-bold text-[#111518]">{service.name}</p>
               {service.category && (
                 <span className="px-1.5 py-0.5 rounded-md bg-gray-100 text-[10px] font-bold text-[#64748b] uppercase tracking-wider">
-                  {service.category}
+                  {service.category.name}
                 </span>
               )}
             </div>

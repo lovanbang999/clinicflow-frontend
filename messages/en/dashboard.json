@@ -223,7 +223,7 @@
     }
   },
   "doctor": {
-    "healthcare": "Healthcare",
+    "healthcare": "Medical examination management system",
     "title": "Doctor",
     "dashboard": "Workspace",
     "greeting": "Hello {name}, you have patients waiting",
@@ -365,8 +365,13 @@
         "emptyTab": "No patients found in this category"
       },
       "examView": {
+        "back": "Back",
         "title": "Medical Examination",
         "startedAt": "Started at:",
+        "mainTabs": {
+          "exam": "Examination",
+          "history": "Visit History"
+        },
         "endExam": "End Examination",
         "endExamConfirm": {
           "title": "End Examination?",
@@ -408,6 +413,117 @@
           "normal": "Normal",
           "overweight": "Overweight",
           "obese": "Obese"
+        }
+      },
+      "visit": {
+        "loading": "Loading medical record...",
+        "unlockTitle": "Complete previous step to unlock",
+        "tabLabels": {
+          "symptoms": "① Symptoms",
+          "services": "② Service Orders",
+          "diagnosis": "③ Results & Diagnosis",
+          "prescription": "④ Prescription"
+        },
+        "stepLabels": {
+          "symptoms": "Symptoms",
+          "services": "Orders",
+          "results": "Results / Diag",
+          "prescription": "Rx"
+        },
+        "visitSteps": {
+          "SYMPTOMS_TAKEN": "Symptoms",
+          "SERVICES_ORDERED": "Ordered",
+          "AWAITING_RESULTS": "Wait KTV",
+          "RESULTS_READY": "Results Ready",
+          "DIAGNOSED": "Diagnosed",
+          "PRESCRIBED": "Prescribed",
+          "COMPLETED": "Completed"
+        },
+        "symptoms": {
+          "header": "S1 — Patient Symptom Inquiry",
+          "chiefComplaint": "Chief Complaint / Main Reason",
+          "chiefComplaintPlaceholder": "e.g. Chest pain for 3 days, shortness of breath...",
+          "clinicalFindings": "Clinical Findings",
+          "clinicalFindingsPlaceholder": "Heart/lung sounds, observations...",
+          "doctorNotes": "Doctor Notes",
+          "doctorNotesPlaceholder": "Additional info...",
+          "saving": "Saving...",
+          "save": "Save Symptoms",
+          "success": "Symptoms saved",
+          "error": "Error saving symptoms"
+        },
+        "services": {
+          "header": "S2 — Ordered Services",
+          "count": "services",
+          "empty": "No services ordered yet",
+          "catalog": "Service Catalog",
+          "searchPlaceholder": "Search by name, code...",
+          "emptySearch": "No matching services found",
+          "emptyCatalog": "All services added",
+          "fallbackCategory": "Service",
+          "add": "Add",
+          "ordering": "Ordering...",
+          "successAdd": "Service added",
+          "errorAdd": "Error adding service",
+          "successRemove": "Service removed",
+          "errorRemove": "Error removing service"
+        },
+        "diagnosis": {
+          "headerKtv": "Results from Technicians",
+          "pendingBadge": "pending",
+          "headerForm": "S4 — Results & Diagnosis",
+          "pendingAlert": "⏳ Please wait for technicians to complete {count} services before diagnosing.",
+          "icdCode": "ICD-10 Code",
+          "icdPlaceholder": "e.g. J06.9",
+          "diagnosis": "Diagnosis",
+          "diagnosisPlaceholder": "e.g. Acute upper respiratory infection",
+          "treatment": "Treatment Plan",
+          "treatmentPlaceholder": "Treatment regimen...",
+          "followUpDate": "Follow-up Date",
+          "followUpNote": "Follow-up Instructions",
+          "followUpNotePlaceholder": "Follow-up notes...",
+          "saving": "Saving...",
+          "save": "Save Diagnosis",
+          "pendingWarning": "{count} services still pending",
+          "success": "Diagnosis saved",
+          "error": "Error saving diagnosis"
+        },
+        "prescription": {
+          "header": "S5 — Prescription",
+          "pendingAlert": "🔒 Please complete Diagnosis (S4) before prescribing.",
+          "medicineName": "Medicine Name",
+          "medicineNamePlaceholder": "Ibuprofen",
+          "dosage": "Dosage",
+          "dosagePlaceholder": "400mg",
+          "frequency": "Frequency",
+          "frequencyPlaceholder": "3 times/day",
+          "quantity": "Quantity",
+          "unit": "Unit",
+          "unitPlaceholder": "tabs",
+          "duration": "Days",
+          "durationPlaceholder": "7",
+          "instructions": "Instructions",
+          "instructionsPlaceholder": "Take after meals...",
+          "addMedicine": "Add Medicine",
+          "notes": "Prescription Notes",
+          "notesPlaceholder": "Notes for patient...",
+          "saving": "Saving...",
+          "save": "Complete & Prescribe",
+          "pendingWarning": "Diagnosis (S4) must be completed first",
+          "success": "Prescription saved — visit completed",
+          "error": "Error saving prescription"
+        },
+        "shared": {
+          "status": {
+            "pending": "Pending",
+            "inProgress": "In Progress",
+            "completed": "Results Ready",
+            "cancelled": "Cancelled"
+          },
+          "remove": "Remove",
+          "abnormal": "⚠ Abnormal",
+          "emptyResult": "No text content for result",
+          "viewFile": "📎 View result file"
         }
       },
       "historyTab": {
@@ -606,7 +722,7 @@
     }
   },
   "receptionist": {
-    "healthcare": "Healthcare",
+    "healthcare": "Medical examination management system",
     "title": "Receptionist",
     "dashboard": "Dashboard",
     "patients": "Patients",
@@ -1297,7 +1413,7 @@
     "systemOverview": "System Overview",
     "loading": "Loading...",
     "redirecting": "Redirecting...",
-    "healthcare": "Healthcare",
+    "healthcare": "Medical examination management system",
     "logout": "Logout",
     "notFound": {
       "title": "Page Not Found",
@@ -1308,6 +1424,7 @@
       "dashboard": "Dashboard",
       "userManagement": "Staff Management",
       "doctorManagement": "Doctor Management",
+      "categoryManagement": "Category Management",
       "serviceManagement": "Service Management",
       "patientManagement": "Patient Management",
       "schedules": "Schedules",
@@ -1915,6 +2032,43 @@
           "title": "Feature Coming Soon",
           "desc": "This content is currently under development."
         }
+      }
+    },
+    "categoryManagement": {
+      "title": "Category Management",
+      "description": "Manage service categories in the clinic.",
+      "addCategory": "Add Category",
+      "searchPlaceholder": "Search by code or name...",
+      "table": {
+        "code": "Code",
+        "name": "Category Name",
+        "description": "Description",
+        "isActive": "Status",
+        "actions": "Actions"
+      },
+      "form": {
+        "addTitle": "Add Category",
+        "editTitle": "Edit Category",
+        "code": "Category Code (*)",
+        "codePlaceholder": "e.g. CAT_GENERAL",
+        "name": "Category Name (*)",
+        "namePlaceholder": "e.g. General Exam",
+        "description": "Description",
+        "descriptionPlaceholder": "Detailed description",
+        "isActive": "Active",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "messages": {
+        "created": "Category added successfully!",
+        "updated": "Category updated successfully!",
+        "deleted": "Category deleted successfully!"
+      },
+      "deleteModal": {
+        "title": "Delete Category?",
+        "description": "Are you sure you want to delete this category? The system will reject it if services are linked.",
+        "cancel": "Cancel",
+        "confirm": "Delete"
       }
     }
   },
