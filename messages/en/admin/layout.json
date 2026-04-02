@@ -1,0 +1,26 @@
+{
+  "title": "Administrator",
+  "dashboard": "Admin Dashboard",
+  "systemOverview": "System Overview",
+  "loading": "Loading...",
+  "redirecting": "Redirecting...",
+  "healthcare": "Medical examination management system",
+  "logout": "Logout",
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for doesn't exist or has been moved.",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "userManagement": "Staff Management",
+    "doctorManagement": "Doctor Management",
+    "categoryManagement": "Category Management",
+    "serviceManagement": "Service Management",
+    "patientManagement": "Patient Management",
+    "schedules": "Schedules",
+    "analytics": "Analytics",
+    "billingManagement": "Invoice History",
+    "settings": "Settings"
+  }
+}

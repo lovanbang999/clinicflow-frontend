@@ -1,0 +1,33 @@
+{
+  "nav": "Báo cáo",
+  "title": "Báo cáo & Thống kê",
+  "subtitle": "Theo dõi hiệu suất vận hành và tài chính của phòng khám",
+  "kpis": {
+    "revenue": "Tổng doanh thu",
+    "revenueSub": "Dựa trên hóa đơn đã thanh toán",
+    "checkIns": "Lượt tiếp nhận",
+    "checkInsSub": "Bệnh nhân đã tiếp đón",
+    "newPatients": "Bệnh nhân mới",
+    "newPatientsSub": "Đăng ký hồ sơ mới",
+    "pendingInvoices": "Hóa đơn chờ xử lý",
+    "pendingInvoicesSub": "Phiếu thu chưa hoàn tất"
+  },
+  "charts": {
+    "revenueTrend": "Xu hướng doanh thu & Tiếp nhận",
+    "revenue": "Doanh thu",
+    "appointments": "Lượt khám",
+    "appointmentStatus": "Trạng thái lịch hẹn",
+    "bookingSources": "Nguồn đặt lịch",
+    "serviceDemand": "Nhu cầu dịch vụ",
+    "paymentMethods": "Phương thức thanh toán",
+    "paymentMethodsSub": "Chi tiết dòng tiền thực tế",
+    "transactions": "giao dịch",
+    "noTransactions": "Chưa có giao dịch phát sinh"
+  },
+  "table": {
+    "serviceName": "Tên dịch vụ",
+    "count": "Lượt đặt",
+    "amount": "Số tiền",
+    "method": "Phương thức"
+  }
+}

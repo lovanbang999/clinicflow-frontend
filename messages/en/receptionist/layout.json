@@ -1,0 +1,13 @@
+{
+  "healthcare": "Medical examination management system",
+  "title": "Receptionist",
+  "dashboard": "Dashboard",
+  "patients": "Patients",
+  "checkIn": "Check-in",
+  "walkinBooking": "Walk-in Booking",
+  "queue": "Queue",
+  "labs": "Laboratory",
+  "billing": "Billing",
+  "reports": "Reports",
+  "settings": "Settings"
+}

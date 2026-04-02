@@ -1,0 +1,41 @@
+{
+  "title": "Laboratory Management",
+  "subtitle": "Update lab test results for patients",
+  "columns": {
+    "time": "Order Time",
+    "patient": "Patient / Booking ID",
+    "testName": "Test Request",
+    "doctor": "Ordered By",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "status": {
+    "pending": "PENDING",
+    "inProgress": "IN PROGRESS"
+  },
+  "actions": {
+    "enterResult": "Enter Result"
+  },
+  "loading": "Loading orders...",
+  "empty": "No pending lab orders.",
+  "dr": "Dr.",
+  "modal": {
+    "title": "Enter Lab Results",
+    "patientInfo": "Patient:",
+    "testInfo": "Test Request:",
+    "fileAttachmentLabel": "File Attachment (PDF, Images)",
+    "fileSizeHint": "Max size 10MB supported",
+    "textResultLabel": "Text Result (Optional)",
+    "textResultPlaceholder": "Example: Basic indices are normal...",
+    "abnormalFlag": "Abnormal Warning (Red Flag)",
+    "abnormalNoteLabel": "Warning Note for Doctor",
+    "abnormalNotePlaceholder": "Specify which indices are abnormal...",
+    "cancel": "Cancel",
+    "submit": "Complete Update",
+    "uploading": "Uploading file...",
+    "submitting": "Saving...",
+    "success": "Lab result saved successfully!",
+    "uploadError": "Error uploading file attachment",
+    "saveError": "Error saving result"
+  }
+}

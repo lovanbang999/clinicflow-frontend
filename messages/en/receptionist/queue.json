@@ -1,0 +1,46 @@
+{
+  "queueManagement": {
+    "title": "Live Queue Management",
+    "overview": "Monitor and manage live patient check-ins",
+    "chooseDoctor": "Doctor selection"
+  },
+  "board": {
+    "boardTitle": "Live Queue - {doctor}",
+    "selectDoctor": "Please select a doctor to view the queue",
+    "noData": "No patients currently in queue",
+    "callPatient": "Call Patient",
+    "markNoShow": "Mark No-show",
+    "completeVisit": "Finish Visit",
+    "status": {
+      "waiting": "Waiting",
+      "examining": "Examining",
+      "completed": "Completed",
+      "noShow": "No-show"
+    },
+    "timeUnit": {
+      "minutes": "min"
+    },
+    "stats": {
+      "totalInQueue": "Total in Queue",
+      "avgWaitTime": "Avg. Wait Time"
+    },
+    "table": {
+      "stt": "STT",
+      "patient": "Patient",
+      "status": "Status",
+      "waitTime": "Wait Time",
+      "actions": "Actions"
+    },
+    "selectDoctorDesc": "Please select a doctor above to view the queue",
+    "patientsUnit": "patients",
+    "live": "Live",
+    "offline": "Offline",
+    "inExamLabel": "In Exam",
+    "inRoom": "In Room",
+    "emptyClinic": "Empty Clinic",
+    "waitingForNext": "Waiting for next patient",
+    "waitingList": "Waiting List",
+    "loadingList": "Loading list...",
+    "estimatedTime": "~{time} mins"
+  }
+}

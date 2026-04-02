@@ -1,0 +1,152 @@
+{
+  "dashboard": "Technician Dashboard",
+  "statsSubtitle": "Monitor your daily tasks and laboratory orders in real-time.",
+  "labWorklist": "Lab Worklist",
+  "worklistSubtitle": "View pending orders, enter results, and manage your laboratory queue.",
+  "goToWorklist": "Go to Worklist",
+  "title": "Technician",
+  "doctorPrefix": "Dr.",
+  "sidebar": {
+    "smartClinic": "Smart Clinic",
+    "healthcare": "Healthcare"
+  },
+  "worklist": {
+    "doctorPrefix": "Dr.",
+    "title": "Laboratory & Imaging Worklist",
+    "subtitle": "List of paid lab orders waiting to be performed or resulted.",
+    "searchPlaceholder": "Search by patient name or code...",
+    "columns": {
+      "stt": "No.",
+      "patient": "Patient",
+      "service": "Service",
+      "status": "Status",
+      "date": "Order Date",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending Payment",
+      "paid": "Ready to Perform",
+      "inProgress": "In Progress",
+      "completed": "Resulted"
+    },
+    "actions": {
+      "process": "Process",
+      "result": "Enter Result"
+    },
+    "empty": "No patients are currently waiting."
+  },
+  "messages": {
+    "statusUpdated": "Status updated to In Progress",
+    "fetchError": "Error loading lab orders",
+    "createSuccess": "Lab order assigned successfully",
+    "createError": "Error creating lab order",
+    "cancelSuccess": "Lab order cancelled",
+    "cancelError": "Error cancelling lab order",
+    "fetchPendingError": "Error loading pending orders",
+    "fetchSingleError": "Error loading order details",
+    "statusUpdateError": "Error updating status",
+    "fetchHistoryError": "Error loading test history"
+  },
+  "settings": "Settings",
+  "settingsContent": {
+    "title": "Account Settings",
+    "subtitle": "Manage your profile information and account security.",
+    "tabs": {
+      "account": "Account Profile",
+      "security": "Security & Password"
+    },
+    "account": {
+      "title": "Profile Details",
+      "desc": "Update your name, contact phone, and address.",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "address": "Address",
+      "addressPlaceholder": "Enter your current address",
+      "email": "Email Address",
+      "saveBtn": "Save Changes",
+      "savingBtn": "Saving..."
+    },
+    "security": {
+      "title": "Update Password",
+      "desc": "Ensure your account is using a long, random password to stay secure.",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "saveBtn": "Update Password",
+      "savingBtn": "Updating...",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "passwordMismatch": "New passwords do not match"
+    }
+  },
+  "stats": {
+    "pending": "Waiting",
+    "inProgress": "In Progress",
+    "completedToday": "Completed Today"
+  },
+  "tabs": {
+    "pending": "Pending (Paid)",
+    "inProgress": "In Progress",
+    "history": "History (Completed)"
+  },
+  "workspace": {
+    "title": "Enter Lab/Imaging Result",
+    "submit": "Submit Result",
+    "patientInfo": "Patient Information",
+    "orderInfo": "Order Details",
+    "doctorNotes": "Doctor's Notes",
+    "resultEntry": "Result Entry",
+    "textResult": "Text Result",
+    "textPlaceholder": "Enter detailed results for ultrasound, x-ray, or lab tests...",
+    "uploadFile": "Attachment / Result File",
+    "abnormalFlag": "Mark as Abnormal",
+    "abnormalNote": "Abnormal Note / Risk Alert",
+    "abnormalNotePlaceholder": "Describe the specific risk or abnormal finding...",
+    "cancel": "Cancel",
+    "patient": "Patient",
+    "age": "Age",
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "doctor": "Requesting Doctor",
+    "noNotes": "No additional notes.",
+    "uploadBtn": "Upload File",
+    "fileAttached": "Result file attached",
+    "abnormalHint": "Mark if the result has high risk indicators",
+    "success": "Result saved successfully!",
+    "fileUploadSuccess": "File attached successfully",
+    "fileUploadError": "Error uploading file",
+    "saveError": "Error saving results"
+  },
+  "result": {
+    "title": "Enter Lab/Imaging Result",
+    "back": "Back to worklist",
+    "patientInfo": "Patient Information",
+    "orderInfo": "Order Details",
+    "testName": "Service Name",
+    "doctor": "Requesting Doctor",
+    "notes": "Doctor's Notes",
+    "form": {
+      "fullNameLabel": "Full Name",
+      "patientCodeLabel": "Patient Code",
+      "genderLabel": "Gender",
+      "birthYearLabel": "Birth Year",
+      "resultText": "Result / Diagnosis Details",
+      "resultTextPlaceholder": "Enter detailed results for ultrasound, x-ray, or lab tests...",
+      "attachment": "Attachment (Optional)",
+      "attachmentHint": "PDF, JPG, PNG supported, max 10MB",
+      "clickToUpload": "Click to upload file",
+      "save": "Save Result",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "success": "Result saved successfully!",
+      "error": "Failed to save the result."
+    }
+  }
+}

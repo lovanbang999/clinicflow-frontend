@@ -1,0 +1,66 @@
+{
+  "title": "Bảng Điều Khiển Lịch Khám",
+  "searchPlaceholder": "Tìm bệnh nhân hoặc lịch hẹn...",
+  "stats": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Đã xác nhận",
+    "completed": "Hoàn thành",
+    "cancelled": "Đã hủy"
+  },
+  "filters": {
+    "today": "Hôm nay",
+    "pickDate": "Chọn ngày",
+    "clearDate": "Xóa ngày",
+    "clearAll": "Xóa bộ lọc",
+    "allDoctors": "Tất cả bác sĩ",
+    "noDoctors": "Không tìm thấy bác sĩ",
+    "allServices": "Tất cả dịch vụ",
+    "noServices": "Chưa có dịch vụ"
+  },
+  "table": {
+    "bookingId": "Mã đặt lịch",
+    "time": "Thời gian",
+    "patient": "Bệnh nhân",
+    "doctor": "Bác sĩ",
+    "service": "Dịch vụ",
+    "status": "Trạng thái",
+    "actions": "Thao tác",
+    "confirmBtn": "Xác nhận",
+    "cancelBtn": "Hủy",
+    "checkInBtn": "Vào khám",
+    "confirmedLabel": "Đã xác nhận",
+    "noActions": "Không có",
+    "noData": "Không có lịch hẹn nào"
+  },
+  "pagination": "Hiển thị {start} đến {end} trong số {total} {status}",
+  "cancelModal": {
+    "title": "Hủy lịch hẹn",
+    "appointmentDetails": "Thông tin lịch hẹn",
+    "reasonLabel": "Lý do hủy",
+    "reasons": {
+      "patientRequest": "Bệnh nhân yêu cầu",
+      "providerUnavailable": "Bác sĩ bận",
+      "schedulingConflict": "Trùng lịch",
+      "other": "Khác"
+    },
+    "additionalNotesLabel": "Ghi chú thêm",
+    "additionalNotesPlaceholder": "Cung cấp thêm thông tin về việc hủy lịch...",
+    "cancelBtn": "Quay lại",
+    "confirmCancelBtn": "Xác nhận hủy",
+    "notificationHint": "Thông báo sẽ được gửi tự động đến bệnh nhân.",
+    "success": "Hủy lịch hẹn thành công"
+  },
+  "confirmModal": {
+    "title": "Xác nhận lịch hẹn",
+    "description": "Bạn có chắc muốn xác nhận lịch hẹn này không? Email thông báo sẽ được gửi đến bệnh nhân.",
+    "appointmentDetails": "Thông tin lịch hẹn",
+    "patientLabel": "Bệnh nhân",
+    "bookingIdLabel": "Mã đặt lịch",
+    "timeLabel": "Thời gian",
+    "doctorLabel": "Bác sĩ",
+    "cancelBtn": "Hủy",
+    "confirmBtn": "Xác nhận",
+    "success": "Xác nhận lịch hẹn thành công",
+    "error": "Không thể xác nhận lịch hẹn"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "addUser": {
+    "button": "Thêm nhân sự",
+    "title": "Thêm hồ sơ nhân sự mới",
+    "fullName": "Họ và tên",
+    "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
+    "email": "Địa chỉ email",
+    "emailPlaceholder": "nguyenvana@clinic.com",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "+84 123 456 789",
+    "role": "Vai trò",
+    "rolePlaceholder": "Chọn vai trò",
+    "status": "Trạng thái tài khoản",
+    "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+    "password": "Mật khẩu",
+    "passwordPlaceholder": "Tối thiểu 8 ký tự",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "saving": "Đang lưu...",
+    "errors": {
+      "nameRequired": "Vui lòng nhập họ tên",
+      "emailRequired": "Vui lòng nhập email",
+      "emailInvalid": "Địa chỉ email không hợp lệ",
+      "roleRequired": "Vui lòng chọn vai trò",
+      "passwordRequired": "Vui lòng nhập mật khẩu",
+      "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự"
+    }
+  },
+  "editUser": {
+    "title": "Sửa hồ sơ nhân sự",
+    "fullName": "Họ và tên",
+    "fullNamePlaceholder": "vd. BS. Nguyễn Văn A",
+    "email": "Địa chỉ email",
+    "emailPlaceholder": "nguyenvana@clinic.com",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "+84 123 456 789",
+    "role": "Vai trò",
+    "rolePlaceholder": "Chọn vai trò",
+    "status": "Trạng thái tài khoản",
+    "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
+    "cancel": "Hủy",
+    "save": "Lưu thay đổi",
+    "saving": "Đang lưu...",
+    "errors": {
+      "nameRequired": "Vui lòng nhập họ tên",
+      "emailRequired": "Vui lòng nhập email",
+      "emailInvalid": "Địa chỉ email không hợp lệ",
+      "roleRequired": "Vui lòng chọn vai trò"
+    }
+  },
+  "title": "Quản lý nhân sự",
+  "stats": {
+    "totalUsers": "Tổng nhân sự",
+    "newToday": "Mới hôm nay",
+    "activeNow": "Đang hoạt động",
+    "suspended": "Đã đình chỉ",
+    "now": "Bây giờ",
+    "alert": "Cảnh báo"
+  },
+  "table": {
+    "title": "Tất cả nhân sự",
+    "subtitle": "Quản lý quyền truy cập hệ thống",
+    "filter": "Lọc",
+    "clear": "Xóa",
+    "clearAll": "Xóa tất cả bộ lọc",
+    "empty": "Không có người dùng nào khớp với bộ lọc.",
+    "showing": "Đang hiện",
+    "of": "trong số",
+    "users": "người dùng",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "searchPlaceholder": "Tìm kiếm...",
+    "columns": {
+      "user": "Người dùng",
+      "role": "Vai trò",
+      "status": "Trạng thái",
+      "joinedDate": "Ngày tham gia",
+      "action": "Thao tác"
+    },
+    "roles": {
+      "Doctor": "Bác sĩ",
+      "Patient": "Bệnh nhân",
+      "Receptionist": "Lễ tân",
+      "Admin": "Quản trị viên",
+      "Technician": "Kỹ thuật viên"
+    },
+    "statuses": {
+      "Active": "Đang hoạt động",
+      "Inactive": "Không hoạt động",
+      "Suspended": "Đã bị đình chỉ"
+    },
+    "actions": {
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "suspend": "Đình chỉ",
+      "reinstate": "Khôi phục"
+    }
+  },
+  "dialogs": {
+    "suspendTitle": "Đình chỉ nhân sự",
+    "suspendDesc": "Bạn có chắc muốn đình chỉ {name}? Nhân sự này sẽ không thể đăng nhập vào hệ thống.",
+    "reinstateTitle": "Khôi phục nhân sự",
+    "reinstateDesc": "Bạn có chắc muốn khôi phục quyền truy cập cho {name}?",
+    "deleteTitle": "Xóa nhân sự",
+    "deleteDesc": "Bạn có chắc muốn xóa {name}? Đây là thao tác xóa mềm, dữ liệu sẽ được ẩn đi nhưng vẫn lưu log.",
+    "cancel": "Hủy"
+  }
+}

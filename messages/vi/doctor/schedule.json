@@ -1,0 +1,26 @@
+{
+  "offDays": {
+    "title": "Đăng ký nghỉ",
+    "description": "Chọn ngày trên lịch để đăng ký nghỉ. Hệ thống sẽ cảnh báo nếu có lịch hẹn bị ảnh hưởng.",
+    "legend": {
+      "offDay": "Ngày nghỉ",
+      "selected": "Đang chọn"
+    },
+    "form": {
+      "title": "Đăng ký nghỉ ngày {date}",
+      "reasonPlaceholder": "Lý do nghỉ (tùy chọn)…",
+      "confirmBtn": "Xác nhận nghỉ"
+    },
+    "list": {
+      "title": "Ngày nghỉ đã đăng ký",
+      "empty": "Chưa có ngày nghỉ nào",
+      "cancelBtn": "Hủy đăng ký nghỉ"
+    },
+    "affectedModal": {
+      "title": "Lịch hẹn bị ảnh hưởng",
+      "description": "Ngày nghỉ {date} sẽ được đăng ký. Có {count} lịch hẹn sẽ bị ảnh hưởng:",
+      "footerNote": "Sau khi xác nhận, các lịch hẹn trên sẽ được HỦY TỰ ĐỘNG. Hãy liên hệ lại bệnh nhân sau để sắp xếp lại.",
+      "understandBtn": "Xác nhận nghỉ và hủy lịch hẹn"
+    }
+  }
+}

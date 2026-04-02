@@ -19,6 +19,8 @@
   "welcome": "Welcome",
   "actions": "Actions",
   "noData": "No data available",
+  "error": "An error occurred. Please try again.",
+  "errorTitle": "Error",
   "walkIn": "Walk-in",
   "profile": {
     "title": "Profile",
@@ -49,7 +51,14 @@
     "passwordTooShort": "Password must be at least 6 characters",
     "cannotLoadProfile": "Cannot load user profile",
     "phonePlaceholder": "0987654321",
-    "addressPlaceholder": "123 ABC Street, District 1, HCM"
+    "addressPlaceholder": "123 ABC Street, District 1, HCM",
+    "updateSuccess": "Profile updated successfully",
+    "updateSuccessDescription": "Your personal information has been saved.",
+    "avatarUploadSuccess": "Avatar updated",
+    "avatarUploadSuccessDescription": "Your new profile picture has been uploaded.",
+    "passwordChangeSuccess": "Password changed",
+    "passwordChangeSuccessDescription": "You can now use your new password to log in.",
+    "passwordChangeFailedTitle": "Password change failed"
   },
   "roles": {
     "ADMIN": "Administrator",
@@ -113,6 +122,13 @@
     "updateScheduleError": "Failed to update schedule",
     "deleteScheduleError": "Failed to delete schedule",
     "restoreScheduleError": "Failed to restore schedule",
+    "fetchCategoriesError": "Failed to fetch categories",
+    "createCategorySuccess": "Category created successfully",
+    "createCategoryError": "Failed to create category",
+    "updateCategorySuccess": "Category updated successfully",
+    "updateCategoryError": "Failed to update category",
+    "deleteCategorySuccess": "Category deleted successfully",
+    "deleteCategoryError": "Failed to delete category",
     "createServiceApiSuccess": "Service created successfully",
     "updateServiceApiSuccess": "Service updated successfully",
     "deleteServiceApiSuccess": "Service deleted successfully",
@@ -175,5 +191,9 @@
     "updateFailedError": "Update failed",
     "registrationFailedError": "Registration failed",
     "createProfileFailedError": "Failed to create profile"
+  },
+  "metadata": {
+    "title": "SmartClinic - Fast & Professional Medical Booking",
+    "description": "Smart management system for medical appointments and queues."
   }
 }
