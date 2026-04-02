@@ -22,6 +22,11 @@ export default function BookingsPage() {
   const router = useRouter();
   const { bookings, isLoading, fetchMyBookings, cancelBooking } = useBookings();
 
+  const hour = new Date().getHours();
+  let greetingKey = 'pageGreetingMorning';
+  if (hour >= 12 && hour < 18) greetingKey = 'pageGreetingAfternoon';
+  else if (hour >= 18 || hour < 5) greetingKey = 'pageGreetingEvening';
+
   const [activeTab, setActiveTab]         = useState<FilterTab>('upcoming');
   const [cancellingId, setCancellingId]   = useState<string | null>(null);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
@@ -60,7 +65,7 @@ export default function BookingsPage() {
   };
 
   const handleViewDetails = (id: string) => {
-    router.push(`/patient/bookings/${id}`);
+    router.push(`/patient/my-bookings/${id}`);
   };
 
   return (
@@ -69,7 +74,7 @@ export default function BookingsPage() {
         {/* Page Header */}
         <div className="flex items-end justify-between gap-3">
           <div>
-            <p className="text-sm text-slate-500 font-medium">{t('pageGreeting')}</p>
+            <p className="text-sm text-slate-500 font-medium">{t(greetingKey)}</p>
             <h1 className="text-2xl font-bold text-slate-900 mt-0.5">{t('myAppointments')}</h1>
           </div>
           <button

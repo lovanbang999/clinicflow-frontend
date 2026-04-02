@@ -6,7 +6,7 @@ import { QueueBoard } from '@/components/queue/QueueBoard';
 import { DoctorQueueSelector } from '@/components/queue/DoctorQueueSelector';
 
 export default function ReceptionistQueuePage() {
-  const t = useTranslations('dashboard.receptionist.queueManagement');
+  const t = useTranslations('receptionistQueue.queueManagement');
   const [selectedDoctorId, setSelectedDoctorId] = useState<string | undefined>();
   const [selectedDoctorName, setSelectedDoctorName] = useState<string | undefined>();
 

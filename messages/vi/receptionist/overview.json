@@ -1,0 +1,41 @@
+{
+  "greetingTitle": "Tổng quan - {date}",
+  "overview": "Tình hình phòng khám hôm nay",
+  "stats": {
+    "totalAppointments": "T.Cộng lịch hẹn",
+    "checkedIn": "Đã Check-in",
+    "waiting": "Đang chờ",
+    "inQueue": "Trong hàng đợi",
+    "completed": "Đã xong"
+  },
+  "searchCheckIn": {
+    "title": "Tìm kiếm & Check-in",
+    "placeholder": "Tìm theo Tên, SĐT, Mã lịch...",
+    "emptyState": "Nhập thông tin bệnh nhân để bắt đầu Check-in",
+    "walkIn": "Khám vãng lai",
+    "noResults": "Không tìm thấy lịch hẹn trùng khớp",
+    "checkIn": "Check-in"
+  },
+  "upcomingAppointments": {
+    "title": "Lịch chờ khám",
+    "table": {
+      "time": "Giờ",
+      "patient": "Bệnh nhân",
+      "service": "Dịch vụ",
+      "doctor": "Bác sĩ",
+      "status": "Trạng thái",
+      "actions": "Thao tác",
+      "checkIn": "Check-in"
+    },
+    "noData": "Không có lịch hẹn nào sắp tới"
+  },
+  "liveQueue": {
+    "title": "Hàng đợi Live ({count})",
+    "promoteBtn": "Ưu tiên",
+    "liveLabel": "Live",
+    "empty": "Hàng đợi đang trống",
+    "preBooked": "Hẹn trước",
+    "waitMin": "{min}m chờ",
+    "inProgress": "Đang khám"
+  }
+}

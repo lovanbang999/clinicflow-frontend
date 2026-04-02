@@ -10,7 +10,7 @@ interface InvoiceStatusBadgeProps {
 }
 
 export function InvoiceStatusBadge({ status, className }: InvoiceStatusBadgeProps) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.status');
+  const t = useTranslations('receptionistBilling.status');
 
   const getStatusConfig = (status: InvoiceStatus) => {
     switch (status) {

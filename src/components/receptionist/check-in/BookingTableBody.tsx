@@ -87,7 +87,7 @@ interface BookingTableBodyProps {
 }
 
 export function BookingTableBody({ bookings, onConfirm, onCancel, onCheckIn }: BookingTableBodyProps) {
-  const t = useTranslations('dashboard.receptionist.checkInManagement.table');
+  const t = useTranslations('receptionistCheckIn.table');
 
   if (bookings.length === 0) {
     return (

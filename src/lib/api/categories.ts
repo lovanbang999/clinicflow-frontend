@@ -1,20 +1,20 @@
 import { apiClient } from './client';
-import { Category, CreateCategoryDto, UpdateCategoryDto, ApiResponse } from '@/types';
+import { Category, CreateCategoryDto, UpdateCategoryDto, ApiResponse, PaginatedResult } from '@/types';
 
 export const categoriesApi = {
   // Get all categories
-  getAll: async (params?: { isActive?: boolean }): Promise<Category[]> => {
-    const response = await apiClient.get<ApiResponse<Category[]>>('/categories', {
+  getAll: async (params?: { isActive?: boolean; page?: number; limit?: number }): Promise<PaginatedResult<Category>> => {
+    const response = await apiClient.get<ApiResponse<PaginatedResult<Category>>>('/categories', {
       params,
     });
-    return response.data.data || [];
+    return response.data.data!;
   },
 
   // Get category by ID
   getById: async (id: string): Promise<Category> => {
     const response = await apiClient.get<ApiResponse<Category>>(`/categories/${id}`);
     if (!response.data.data) {
-      throw new Error('Category not found');
+      throw new Error('fetchDetailError');
     }
     return response.data.data;
   },
@@ -23,7 +23,7 @@ export const categoriesApi = {
   create: async (data: CreateCategoryDto): Promise<Category> => {
     const response = await apiClient.post<ApiResponse<Category>>('/categories', data);
     if (!response.data.data) {
-      throw new Error('Failed to create category');
+      throw new Error('createCategoryError');
     }
     return response.data.data;
   },
@@ -32,7 +32,7 @@ export const categoriesApi = {
   update: async (id: string, data: UpdateCategoryDto): Promise<Category> => {
     const response = await apiClient.patch<ApiResponse<Category>>(`/categories/${id}`, data);
     if (!response.data.data) {
-      throw new Error('Failed to update category');
+      throw new Error('updateCategoryError');
     }
     return response.data.data;
   },

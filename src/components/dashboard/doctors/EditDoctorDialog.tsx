@@ -102,7 +102,7 @@ interface EditDoctorDialogProps {
 
 // Main component
 export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }: EditDoctorDialogProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.editDoctor');
+  const t = useTranslations('adminDoctors.editDoctor');
   const { updateDoctorProfile } = useAdminDoctors();
 
   const [form, setForm] = useState<EditDoctorForm>({

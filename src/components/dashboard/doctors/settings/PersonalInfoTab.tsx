@@ -26,7 +26,7 @@ export function PersonalInfoTab({
   savingProfile,
   isLoading,
 }: PersonalInfoTabProps) {
-  const t = useTranslations('dashboard.doctorSettings.personal');
+  const t = useTranslations('doctorSettings.personal');
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">

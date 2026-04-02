@@ -25,7 +25,7 @@ export const WorklistTable = memo(function WorklistTable({
   onProcess,
   onResult,
 }: WorklistTableProps) {
-  const t = useTranslations('dashboard.technician.worklist');
+  const t = useTranslations('technicianWorklist.worklist');
 
   const getStatusBadge = (status: LabOrder['status']) => {
     switch (status) {

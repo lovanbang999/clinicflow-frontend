@@ -1,0 +1,249 @@
+{
+  "kpi": {
+    "totalPatients": "Tổng bệnh nhân",
+    "newThisMonth": "Bệnh nhân mới tháng này",
+    "patientsToday": "Bệnh nhân hôm nay",
+    "activeAppointments": "Lịch hẹn đang hoạt động"
+  },
+  "table": {
+    "title": "Danh sách bệnh nhân",
+    "addPatient": "Thêm bệnh nhân",
+    "filter": "Lọc",
+    "clear": "Xóa bộ lọc",
+    "clearAll": "Xóa tất cả",
+    "genders": {
+      "MALE": "Nam",
+      "FEMALE": "Nữ",
+      "OTHER": "Khác"
+    },
+    "export": "Xuất dữ liệu",
+    "searchPlaceholder": "Tìm bệnh nhân, mã BN, hoặc số điện thoại...",
+    "showing": "Hiển thị",
+    "to": "đến",
+    "of": "trong số",
+    "results": "kết quả",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "empty": "Không tìm thấy bệnh nhân.",
+    "columns": {
+      "patient": "Bệnh nhân",
+      "dob": "Ngày sinh",
+      "gender": "Giới tính",
+      "phone": "Điện thoại",
+      "blood": "Nhóm máu",
+      "lastVisit": "Lần khám cuối",
+      "nextAppt": "Lịch tới",
+      "doctor": "Bác sĩ",
+      "status": "Trạng thái",
+      "actions": "Thao tác"
+    },
+    "registrationModal": {
+      "title": "Đăng ký Bệnh nhân",
+      "subtitle": "Tạo hồ sơ mới cho bệnh nhân",
+      "tabs": {
+        "standard": "Đăng ký chuẩn",
+        "guest": "Tiếp nhận vãng lai"
+      },
+      "form": {
+        "fullName": "Họ và tên (*)",
+        "dob": "Ngày sinh (*)",
+        "gender": "Giới tính (*)",
+        "phone": "Số điện thoại (*)",
+        "email": "Email",
+        "address": "Địa chỉ",
+        "bloodType": "Nhóm máu",
+        "insurance": "Bảo hiểm y tế",
+        "insuranceNumber": "Số thẻ BHYT",
+        "insuranceExpiry": "Ngày hết hạn",
+        "allergies": "Dị ứng",
+        "chronicConditions": "Bệnh lý mãn tính"
+      },
+      "actions": {
+        "cancel": "Hủy",
+        "register": "Đăng ký",
+        "registering": "Đang đăng ký..."
+      }
+    },
+    "editModal": {
+      "title": "Chỉnh sửa Hồ sơ",
+      "subtitle": "Cập nhật thông tin bệnh nhân",
+      "actions": {
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu..."
+      }
+    },
+    "statuses": {
+      "active": "Đang hoạt động",
+      "inactive": "Không hoạt động",
+      "pending": "Chờ xác nhận"
+    },
+    "actions": {
+      "viewProfile": "Xem hồ sơ",
+      "medicalHistory": "Lịch sử khám",
+      "bookAppointment": "Đặt lịch",
+      "edit": "Chỉnh sửa"
+    }
+  },
+  "addPatientModal": {
+    "title": "Thêm bệnh nhân",
+    "subtitle": "Tạo hồ sơ bệnh nhân mới",
+    "sectionBasic": "Thông tin cơ bản",
+    "sectionMedical": "Thông tin y tế",
+    "sectionInsurance": "Thông tin bảo hiểm",
+    "fullName": "Họ và tên *",
+    "fullNamePlaceholder": "VD: Nguyễn Văn A",
+    "dob": "Ngày sinh *",
+    "gender": "Giới tính *",
+    "genderPlaceholder": "Chọn giới tính",
+    "phone": "Số điện thoại *",
+    "phonePlaceholder": "VD: 0912 345 678",
+    "email": "Email",
+    "emailPlaceholder": "nguyenvana@gmail.com",
+    "address": "Địa chỉ",
+    "addressPlaceholder": "VD: 123 Quận 1",
+    "bloodType": "Nhóm máu",
+    "bloodTypePlaceholder": "Chọn nhóm máu",
+    "allergies": "Dị ứng",
+    "addAllergy": "+ Thêm dị ứng",
+    "chronicConditions": "Bệnh mãn tính",
+    "addCondition": "+ Thêm bệnh",
+    "medicalNotes": "Ghi chú y tế",
+    "medicalNotesPlaceholder": "Ghi chú thêm về tình trạng y tế...",
+    "insuranceType": "Loại bảo hiểm",
+    "insuranceTypePlaceholder": "Chọn loại...",
+    "insuranceNumber": "Số bảo hiểm",
+    "insuranceNumberPlaceholder": "VD: BHYT-123",
+    "insuranceExpiry": "Ngày hết hạn",
+    "unknown": "Không xác định",
+    "cancel": "Hủy",
+    "save": "Lưu bệnh nhân",
+    "saving": "Đang lưu...",
+    "createAppAccountCheckbox": "Tạo tài khoản cho bệnh nhân này?",
+    "createAppAccountDesc": "Bệnh nhân có thể đăng nhập vào hệ thống để xem hồ sơ và đặt lịch hẹn.",
+    "errors": {
+      "nameRequired": "Họ và tên là bắt buộc",
+      "dobRequired": "Ngày sinh là bắt buộc",
+      "genderRequired": "Giới tính là bắt buộc",
+      "phoneRequired": "Số điện thoại là bắt buộc",
+      "emailRequired": "Email là bắt buộc khi tạo tài khoản"
+    },
+    "form": {
+      "insuranceProviderPlaceholder": "Bảo hiểm Y tế (BHYT), Bảo hiểm Tư nhân (Private)"
+    },
+    "table": {
+      "genders": {
+        "MALE": "Nam",
+        "FEMALE": "Nữ",
+        "OTHER": "Khác"
+      }
+    }
+  },
+  "editPatientModal": {
+    "title": "Chỉnh sửa bệnh nhân",
+    "subtitle": "Cập nhật thông tin sơ bệnh nhân",
+    "sectionBasic": "Thông tin cơ bản",
+    "sectionMedical": "Thông tin y tế",
+    "sectionInsurance": "Thông tin bảo hiểm",
+    "fullName": "Họ và tên *",
+    "fullNamePlaceholder": "VD: Nguyễn Văn A",
+    "dob": "Ngày sinh *",
+    "gender": "Giới tính *",
+    "genderPlaceholder": "Chọn giới tính",
+    "phone": "Số điện thoại *",
+    "phonePlaceholder": "VD: 0912 345 678",
+    "email": "Email",
+    "emailPlaceholder": "nguyenvana@gmail.com",
+    "address": "Địa chỉ",
+    "addressPlaceholder": "VD: 123 Quận 1",
+    "bloodType": "Nhóm máu",
+    "bloodTypePlaceholder": "Chọn nhóm máu",
+    "allergies": "Dị ứng",
+    "addAllergy": "+ Thêm dị ứng",
+    "chronicConditions": "Bệnh mãn tính",
+    "addCondition": "+ Thêm bệnh",
+    "medicalNotes": "Ghi chú y tế",
+    "medicalNotesPlaceholder": "Ghi chú thêm về tình trạng y tế...",
+    "insuranceType": "Loại bảo hiểm",
+    "insuranceTypePlaceholder": "Chọn loại...",
+    "insuranceNumber": "Số bảo hiểm",
+    "insuranceNumberPlaceholder": "VD: BHYT-123",
+    "insuranceExpiry": "Ngày hết hạn",
+    "unknown": "Không xác định",
+    "cancel": "Hủy",
+    "save": "Lưu thay đổi",
+    "saving": "Đang lưu...",
+    "errors": {
+      "nameRequired": "Họ và tên là bắt buộc",
+      "dobRequired": "Ngày sinh là bắt buộc",
+      "genderRequired": "Giới tính là bắt buộc",
+      "phoneRequired": "Số điện thoại là bắt buộc"
+    },
+    "form": {
+      "insuranceProviderPlaceholder": "Bảo hiểm Y tế (BHYT), Bảo hiểm Tư nhân (Private)"
+    },
+    "table": {
+      "genders": {
+        "MALE": "Nam",
+        "FEMALE": "Nữ",
+        "OTHER": "Khác"
+      }
+    }
+  },
+  "quickView": {
+    "title": "Xem nhanh hồ sơ",
+    "bookAppt": "Đặt lịch",
+    "edit": "Chỉnh sửa",
+    "tabs": {
+      "overview": "Tổng quan",
+      "medical_records": "Hồ sơ bệnh án",
+      "prescriptions": "Đơn thuốc",
+      "lab_results": "Kết quả xét nghiệm",
+      "appointments": "Lịch hẹn"
+    },
+    "vitals": {
+      "weight": "Cân nặng",
+      "height": "Chiều cao",
+      "bmi": "BMI",
+      "bp": "Huyết áp",
+      "heart": "Nhịp tim"
+    },
+    "status": {
+      "active": "Hoạt động",
+      "inactive": "Không hoạt động",
+      "pending": "Chờ xử lý"
+    },
+    "conditions": {
+      "title": "Tình trạng hiện tại",
+      "empty": "Không có bệnh lý mãn tính nào được ghi nhận."
+    },
+    "allergies": {
+      "title": "Dị ứng & Rủi ro",
+      "empty": "Không có dị ứng nào được ghi nhận."
+    },
+    "activity": {
+      "title": "Hoạt động gần đây",
+      "empty": "Chưa có hoạt động nào."
+    },
+    "medicalRecords": {
+      "title": "Lịch sử hồ sơ bệnh án",
+      "add": "Thêm mới",
+      "empty": "Không tìm thấy hồ sơ bệnh án nào.",
+      "defaultDiagnosis": "Khám tư vấn",
+      "columns": {
+        "date": "Ngày",
+        "diagnosis": "Chẩn đoán",
+        "action": "Thao tác"
+      }
+    },
+    "prescriptions": {
+      "title": "Danh sách đơn thuốc",
+      "empty": "Không tìm thấy đơn thuốc nào.",
+      "label": "Đơn:"
+    },
+    "comingSoon": {
+      "title": "Tính năng sắp ra mắt",
+      "desc": "Nội dung cho tab này đang được phát triển."
+    }
+  }
+}

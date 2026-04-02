@@ -1,0 +1,48 @@
+{
+  "title": "Danh mục dịch vụ",
+  "description": "Quản lý các nhóm danh mục dịch vụ của phòng khám.",
+  "addCategory": "Thêm danh mục",
+  "searchPlaceholder": "Tìm kiếm mã, tên danh mục...",
+  "table": {
+    "code": "Mã",
+    "name": "Tên danh mục",
+    "description": "Mô tả",
+    "isActive": "Trạng thái",
+    "actions": "Hành động"
+  },
+  "form": {
+    "addTitle": "Thêm danh mục",
+    "editTitle": "Cập nhật danh mục",
+    "code": "Mã danh mục (*)",
+    "codePlaceholder": "VD: CAT_NOIKHOA",
+    "name": "Tên danh mục (*)",
+    "namePlaceholder": "VD: Nội khoa",
+    "description": "Mô tả",
+    "descriptionPlaceholder": "Mô tả chi tiết",
+    "isActive": "Khả dụng",
+    "cancel": "Hủy",
+    "save": "Lưu"
+  },
+  "messages": {
+    "created": "Đã thêm danh mục!",
+    "updated": "Đã cập nhật danh mục!",
+    "deleted": "Đã xóa danh mục!"
+  },
+  "deleteModal": {
+    "title": "Xóa danh mục?",
+    "description": "Bạn có chắc muốn xóa danh mục này? Kho lưu trữ sẽ báo lỗi nếu danh mục đang được sử dụng.",
+    "cancel": "Hủy",
+    "confirm": "Xóa"
+  },
+  "tableState": {
+    "loading": "Đang tải danh mục...",
+    "empty": "Không tìm thấy danh mục nào"
+  },
+  "pagination": {
+    "showing": "Hiển thị",
+    "of": "trong số",
+    "results": "danh mục",
+    "prev": "Trước",
+    "next": "Sau"
+  }
+}

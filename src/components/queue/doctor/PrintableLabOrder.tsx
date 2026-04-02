@@ -23,9 +23,9 @@ export function PrintableLabOrder({
   labOrders,
   bookingCode,
 }: PrintableLabOrderProps) {
-  const t = useTranslations('dashboard.doctor.workspace.printables.lab');
-  const tExam = useTranslations('dashboard.doctor.workspace.printables.exam');
-  const tQueue = useTranslations('dashboard.doctor.workspace.queueView');
+  const t = useTranslations('doctorWorkspace.printables.lab');
+  const tExam = useTranslations('doctorWorkspace.printables.exam');
+  const tQueue = useTranslations('doctorWorkspace.queueView');
   
   if (!patientProfile || labOrders.length === 0) return null;
 

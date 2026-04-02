@@ -37,7 +37,7 @@ function formatVND(val: number) {
 // Main Page
 
 export default function BookingInvoicesPage() {
-  const t = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices');
+  const t = useTranslations('receptionistBilling.bookingInvoices');
   const params = useParams();
   const router = useRouter();
   const bookingId = params.bookingId as string;

@@ -6,7 +6,7 @@ interface DoctorVitalsStripProps {
 }
 
 export function DoctorVitalsStrip({ item }: DoctorVitalsStripProps) {
-  const t = useTranslations('dashboard.doctor.workspace.examView');
+  const t = useTranslations('doctorWorkspace.examView');
   const patient = item.booking.patientProfile;
 
   // Ideally, these would be fetched from the API based on the last triage reading

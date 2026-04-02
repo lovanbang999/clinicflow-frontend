@@ -21,7 +21,7 @@ interface VisitStepBadgeProps {
 }
 
 export function VisitStepBadge({ step, className, size = 'sm' }: VisitStepBadgeProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit');
+  const t = useTranslations('doctorWorkspace.visit');
   const config = STEP_CONFIG[step] ?? { labelKey: '', color: 'bg-gray-100 text-gray-600 border-gray-200' };
   return (
     <span

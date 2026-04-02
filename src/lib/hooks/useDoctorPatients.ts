@@ -11,7 +11,7 @@ export function useDoctorPatients() {
   const [searchQuery, setSearchQuery] = useState('');
   const [totalPages, setTotalPages] = useState(1);
 
-  const t = useTranslations('dashboard');
+  const t = useTranslations('common');
   const limit = 10;
   
   // Use a ref to store the latest search query to prevent race conditions

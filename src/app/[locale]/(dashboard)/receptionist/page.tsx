@@ -1,19 +1,20 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { OverviewCards } from '@/components/receptionist/dashboard/OverviewCards';
 import { SearchCheckIn } from '@/components/receptionist/dashboard/SearchCheckIn';
 import { LiveQueue } from '@/components/receptionist/dashboard/LiveQueue';
 import { UpcomingAppointments } from '@/components/receptionist/dashboard/UpcomingAppointments';
 
 export default function ReceptionistDashboardPage() {
-  const t = useTranslations('dashboard.receptionist');
+  const t = useTranslations('receptionistOverview');
+  const locale = useLocale();
   
   // Format the current date. For production, consider using a date library
   // and ensuring it matches the locale.
   const today = new Date();
   const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' };
-  const formattedDate = today.toLocaleDateString('en-GB', dateOptions);
+  const formattedDate = today.toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-GB', dateOptions);
 
   return (
     <div className="p-8 space-y-8">

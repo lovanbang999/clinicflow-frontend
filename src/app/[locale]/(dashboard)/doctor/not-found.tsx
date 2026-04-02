@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { WarningCircleIcon, ArrowLeftIcon } from '@phosphor-icons/react';
 
 export default function DoctorNotFound() {
-  const t = useTranslations('dashboard.doctor.notFound');
+  const t = useTranslations('doctorLayout.notFound');
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-8">

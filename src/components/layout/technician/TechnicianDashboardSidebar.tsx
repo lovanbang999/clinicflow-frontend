@@ -30,7 +30,7 @@ export const NAV_ITEMS_TECHNICIAN: NavItem[] = [
 export function TechnicianDashboardSidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const t = useTranslations('dashboard.technician');
+  const t = useTranslations('technicianWorklist');
   const tCommon = useTranslations('common');
 
   return (

@@ -32,7 +32,7 @@ interface PaymentModalProps {
 }
 
 export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: PaymentModalProps) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.paymentModal');
+  const t = useTranslations('receptionistBilling.paymentModal');
   const locale = useLocale();
 
   const [amount, setAmount] = useState<number | ''>('');

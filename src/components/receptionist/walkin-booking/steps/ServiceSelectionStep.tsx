@@ -6,7 +6,7 @@ import { useWalkinBooking } from '../WalkinBookingContext';
 import { Service } from '@/types';
 
 export function ServiceSelectionStep() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.service');
+  const t = useTranslations('receptionistWalkinBooking.service');
   const {
     currentStep,
     setCurrentStep,

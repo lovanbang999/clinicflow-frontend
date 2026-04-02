@@ -104,8 +104,8 @@ interface EditUserDialogProps {
 }
 
 export function EditUserDialog({ user, open, onOpenChange, onUserUpdated }: EditUserDialogProps) {
-  const t = useTranslations('dashboard.admin.userManagement.editUser');
-  const tRoles = useTranslations('dashboard.admin.userManagement.table.roles');
+  const t = useTranslations('adminUsers.editUser');
+  const tRoles = useTranslations('adminUsers.table.roles');
   const { updateUser } = useAdminUsers();
 
   const [form, setForm] = useState<EditUserForm>({

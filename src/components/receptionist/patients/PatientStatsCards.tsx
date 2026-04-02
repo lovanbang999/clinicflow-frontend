@@ -35,7 +35,7 @@ type PatientStatsCardsProps = {
 };
 
 export function PatientStatsCards({ stats, loading }: PatientStatsCardsProps) {
-  const t = useTranslations('dashboard.receptionist.patientManagement');
+  const t = useTranslations('receptionistPatients');
 
   const fmt = (n?: number | null) =>
     n != null ? new Intl.NumberFormat('en-US').format(n) : '--';

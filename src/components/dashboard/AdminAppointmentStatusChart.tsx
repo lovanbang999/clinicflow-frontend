@@ -12,7 +12,7 @@ interface AdminAppointmentStatusChartProps {
 }
 
 export function AdminAppointmentStatusChart({ overview, loading }: AdminAppointmentStatusChartProps) {
-  const t = useTranslations('dashboard.adminAnalytics');
+  const t = useTranslations('adminAnalytics');
 
   const data = [
     { name: t('charts.statusCompleted'), value: overview?.completed ?? 0, color: '#10b981' },

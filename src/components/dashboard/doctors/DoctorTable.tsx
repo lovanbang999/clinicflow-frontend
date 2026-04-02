@@ -44,7 +44,7 @@ export function DoctorTable({
   onEdit,
   onMore,
 }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+  const t = useTranslations('adminDoctors');
   const limit = 10;
   const from = doctors.length > 0 ? (page - 1) * limit + 1 : 0;
   const to = (page - 1) * limit + doctors.length;

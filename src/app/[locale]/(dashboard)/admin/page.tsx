@@ -14,7 +14,7 @@ import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
 import { AdminRecentActivity } from '@/components/dashboard/AdminRecentActivity';
 
 export default function AdminDashboardPage() {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminOverview');
 
   // Each section loads its own data independently
   const { data: stats, loading: statsLoading } = useAdminStats();

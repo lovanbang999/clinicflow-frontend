@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 
 export function RecentInvoicesWidget() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const locale = useLocale();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ export function RecentInvoicesWidget() {
           </div>
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white leading-none">{t('recentInvoices')}</h3>
-            <p className="text-[11px] font-medium text-slate-400 mt-1 uppercase tracking-wider">Billing History</p>
+            <p className="text-[11px] font-medium text-slate-400 mt-1 uppercase tracking-wider">{t('billingHistory')}</p>
           </div>
         </div>
         <Link 

@@ -1,0 +1,238 @@
+{
+  "visit": {
+    "loading": "Loading medical record...",
+    "unlockTitle": "Complete previous step to unlock",
+    "tabLabels": {
+      "symptoms": "① Symptoms",
+      "services": "② Service Orders",
+      "diagnosis": "③ Results & Diagnosis",
+      "prescription": "④ Prescription"
+    },
+    "stepLabels": {
+      "symptoms": "Symptoms",
+      "services": "Orders",
+      "results": "Results / Diag",
+      "prescription": "Rx"
+    },
+    "visitSteps": {
+      "SYMPTOMS_TAKEN": "Symptoms",
+      "SERVICES_ORDERED": "Ordered",
+      "AWAITING_RESULTS": "Wait KTV",
+      "RESULTS_READY": "Results Ready",
+      "DIAGNOSED": "Diagnosed",
+      "PRESCRIBED": "Prescribed",
+      "COMPLETED": "Completed"
+    },
+    "symptoms": {
+      "header": "S1 — Patient Symptom Inquiry",
+      "chiefComplaint": "Chief Complaint / Main Reason",
+      "chiefComplaintPlaceholder": "e.g. Chest pain for 3 days, shortness of breath...",
+      "clinicalFindings": "Clinical Findings",
+      "clinicalFindingsPlaceholder": "Heart/lung sounds, observations...",
+      "doctorNotes": "Doctor Notes",
+      "doctorNotesPlaceholder": "Additional info...",
+      "saving": "Saving...",
+      "save": "Save Symptoms",
+      "success": "Symptoms saved",
+      "error": "Error saving symptoms"
+    },
+    "services": {
+      "header": "S2 — Ordered Services",
+      "count": "services",
+      "empty": "No services ordered yet",
+      "catalog": "Service Catalog",
+      "searchPlaceholder": "Search by name, code...",
+      "emptySearch": "No matching services found",
+      "emptyCatalog": "All services added",
+      "fallbackCategory": "Service",
+      "add": "Add",
+      "ordering": "Ordering...",
+      "successAdd": "Service added",
+      "errorAdd": "Error adding service",
+      "successRemove": "Service removed",
+      "errorRemove": "Error removing service"
+    },
+    "diagnosis": {
+      "headerKtv": "Results from Technicians",
+      "pendingBadge": "pending",
+      "headerForm": "S4 — Results & Diagnosis",
+      "pendingAlert": "⏳ Please wait for technicians to complete {count} services before diagnosing.",
+      "icdCode": "ICD-10 Code",
+      "icdPlaceholder": "e.g. J06.9",
+      "diagnosis": "Diagnosis",
+      "diagnosisPlaceholder": "e.g. Acute upper respiratory infection",
+      "treatment": "Treatment Plan",
+      "treatmentPlaceholder": "Treatment regimen...",
+      "followUpDate": "Follow-up Date",
+      "followUpNote": "Follow-up Instructions",
+      "followUpNotePlaceholder": "Follow-up notes...",
+      "saving": "Saving...",
+      "save": "Save Diagnosis",
+      "pendingWarning": "{count} services still pending",
+      "success": "Diagnosis saved",
+      "error": "Error saving diagnosis"
+    },
+    "prescription": {
+      "header": "S5 — Prescription",
+      "pendingAlert": "🔒 Please complete Diagnosis (S4) before prescribing.",
+      "medicineName": "Medicine Name",
+      "medicineNamePlaceholder": "Ibuprofen",
+      "dosage": "Dosage",
+      "dosagePlaceholder": "400mg",
+      "frequency": "Frequency",
+      "frequencyPlaceholder": "3 times/day",
+      "quantity": "Quantity",
+      "unit": "Unit",
+      "unitPlaceholder": "tabs",
+      "duration": "Days",
+      "durationPlaceholder": "7",
+      "instructions": "Instructions",
+      "instructionsPlaceholder": "Take after meals...",
+      "addMedicine": "Add Medicine",
+      "notes": "Prescription Notes",
+      "notesPlaceholder": "Notes for patient...",
+      "saving": "Saving...",
+      "save": "Complete & Prescribe",
+      "pendingWarning": "Diagnosis (S4) must be completed first",
+      "success": "Prescription saved — visit completed",
+      "error": "Error saving prescription"
+    }
+  },
+  "history": {
+    "title": "Visit History ({count})",
+    "loading": "Loading history...",
+    "empty": "No visit history data available",
+    "noRecord": "No diagnosis",
+    "completed": "Completed",
+    "dateColumn": "Visit\nDate"
+  },
+  "lab": {
+    "createOrder": "New Lab Order",
+    "testName": "Test Name / Service (*)",
+    "testNamePlaceholder": "E.g. Thyroid ultrasound...",
+    "selectService": "-- Select Lab/Clinical Service --",
+    "customService": "Other (Enter custom test name)",
+    "description": "Notes / Description",
+    "descriptionPlaceholder": "e.g. Check left lobe carefully...",
+    "submitBtn": "Order",
+    "listTitle": "Ordered Tests ({count})",
+    "emptyList": "No lab orders created yet.",
+    "printOrderBtn": "Print Lab Order",
+    "printSuccess": "Order Printed Successfully",
+    "paymentReminder": "Please remind the patient to pay at the reception desk before testing.",
+    "printTitle": "LABORATORY ORDER TICKET",
+    "status": {
+      "pending": "Pending",
+      "paid": "Paid (Ready to Perform)",
+      "inProgress": "In Progress",
+      "completed": "Result Available"
+    },
+    "noteLabel": "Note:",
+    "orderedAt": "Ordered at:",
+    "abnormal": "Abnormal",
+    "normal": "Normal",
+    "noDetailDesc": "No detailed description",
+    "viewFile": "View / Download Result",
+    "deleteAction": "Cancel order"
+  },
+  "prescription": {
+    "title": "Prescription",
+    "addMedicine": "Add Medicine",
+    "emptyList": "No medicines prescribed yet. Click \"Add Medicine\" to start.",
+    "deleteAction": "Remove from prescription",
+    "medicineName": "Medicine Name (*)",
+    "medicinePlaceholder": "e.g. Paracetamol 500mg",
+    "dosage": "Dosage (*)",
+    "dosagePlaceholder": "e.g. 1 pill",
+    "frequency": "Frequency (*)",
+    "frequencyPlaceholder": "e.g. Morning 1, Evening 1",
+    "durationDays": "Duration (Days)",
+    "durationPlaceholder": "Days",
+    "quantity": "Qty (*)",
+    "quantityPlaceholder": "Qty",
+    "unit": "Unit (*)",
+    "unitPlaceholder": "Pill",
+    "instructionsPlaceholder": "Additional notes (e.g. After meal)...",
+    "printBtn": "Print Prescription",
+    "printTitle": "PRESCRIPTION",
+    "confirmBtn": "Confirm Add",
+    "editAction": "Edit"
+  },
+  "form": {
+    "title": "Consultation Result",
+    "chiefComplaint": "Reason for Visit (Chief Complaint)",
+    "clinicalFindings": "Clinical Results & Findings",
+    "diagnosis": "Diagnosis (ICD-10 Code)",
+    "treatmentPlan": "Treatment Plan / Prescriptions",
+    "followUpDate": "Follow-up Date",
+    "placeholders": {
+      "chiefComplaint": "Patient presents with...",
+      "clinicalFindings": "Vitals stable. Throat shows mild erythema...",
+      "diagnosis": "Search ICD-10... e.g., J00",
+      "treatmentPlan": "Rest, fluids, Paracetamol 500mg prn...",
+      "doctorNotes": "Notes for doctor only...",
+      "selectDate": "Select date..."
+    },
+    "actions": {
+      "saveDraft": "Save Draft",
+      "finishVisit": "Finish & Generate Invoice",
+      "callNext": "Call Next Patient",
+      "print": "Print",
+      "share": "Share",
+      "finishAndNext": "Complete & Call Next"
+    },
+    "sections": {
+      "clinicalExam": "Clinical Examination",
+      "instructionsNotes": "Instructions & Notes",
+      "diagnosis": "Diagnosis",
+      "followUp": "Follow-up Appointment"
+    },
+    "fields": {
+      "chiefComplaint": "Reason for Visit & Clinical Findings",
+      "clinicalFindings": "Clinical Results",
+      "treatmentPlan": "Treatment Instructions",
+      "internalNotes": "Internal Notes",
+      "icd10": "ICD-10 Code",
+      "confirmedDiagnosis": "Confirmed Diagnosis",
+      "appointmentDate": "Appointment Date"
+    },
+    "labels": {
+      "diagnosisTemplate": "Diagnosis Template",
+      "lastVisit": "Last visit ({date}): {diagnosis}",
+      "days7": "7 Days",
+      "days14": "14 Days",
+      "days30": "30 Days"
+    },
+    "messages": {
+      "visitCompleted": "Visit completed successfully!",
+      "savedDraft": "Draft saved successfully!",
+      "saveError": "Failed to save medical record.",
+      "noHistoryMsg": "The patient currently has no prior visits recorded in the system.",
+      "pharmacyInvoiceCreated": "Pharmacy Invoice Created",
+      "pharmacyInvoiceDesc": "The system automatically created a Pharmacy Invoice for this prescription. The receptionist should collect payment from the patient."
+    }
+  },
+  "shared": {
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Results Ready",
+      "cancelled": "Cancelled"
+    },
+    "remove": "Remove",
+    "abnormal": "⚠ Abnormal",
+    "emptyResult": "No text content for result",
+    "viewFile": "📎 View result file"
+  },
+  "patientInfo": {
+    "noData": "No patient selected",
+    "yearsOld": "years old",
+    "medicalHistory": "Medical History",
+    "allergies": "Prominent Allergies",
+    "noneReported": "None reported",
+    "chronicConditions": "Chronic Conditions",
+    "recentVisits": "Recent Visits",
+    "noRecentVisits": "No recent visits",
+    "dr": "Dr."
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "visit": {
+    "loading": "Đang tải hồ sơ khám...",
+    "unlockTitle": "Hoàn tất bước trước để mở khoá",
+    "tabLabels": {
+      "symptoms": "① Triệu chứng",
+      "services": "② Chỉ định dịch vụ",
+      "diagnosis": "③ Kết quả & Chẩn đoán",
+      "prescription": "④ Kê đơn thuốc"
+    },
+    "stepLabels": {
+      "symptoms": "Triệu chứng",
+      "services": "Chỉ định",
+      "results": "Kết quả / CĐ",
+      "prescription": "Kê đơn"
+    },
+    "visitSteps": {
+      "SYMPTOMS_TAKEN": "Triệu chứng",
+      "SERVICES_ORDERED": "Đã chỉ định",
+      "AWAITING_RESULTS": "Chờ KTV",
+      "RESULTS_READY": "Có kết quả",
+      "DIAGNOSED": "Đã chẩn đoán",
+      "PRESCRIBED": "Đã kê đơn",
+      "COMPLETED": "Hoàn tất"
+    },
+    "symptoms": {
+      "header": "B1 — Hỏi triệu chứng bệnh nhân",
+      "chiefComplaint": "Lý do khám / Triệu chứng chính",
+      "chiefComplaintPlaceholder": "VD: Đau ngực tái phát 3 ngày, khó thở khi leo cầu thang...",
+      "clinicalFindings": "Kết quả thăm khám lâm sàng",
+      "clinicalFindingsPlaceholder": "Kết quả nghe tim phổi, sờ nắn, quan sát...",
+      "doctorNotes": "Ghi chú bác sĩ",
+      "doctorNotesPlaceholder": "Thông tin bổ sung...",
+      "saving": "Đang lưu...",
+      "save": "Lưu triệu chứng",
+      "success": "Đã lưu triệu chứng",
+      "error": "Lỗi lưu triệu chứng"
+    },
+    "services": {
+      "header": "B2 — Dịch vụ đã chỉ định",
+      "count": "dịch vụ",
+      "empty": "Chưa có dịch vụ nào được chỉ định",
+      "catalog": "Danh mục dịch vụ",
+      "searchPlaceholder": "Tìm dịch vụ theo tên, mã...",
+      "emptySearch": "Không tìm thấy dịch vụ phù hợp",
+      "emptyCatalog": "Tất cả dịch vụ đã được thêm",
+      "fallbackCategory": "Dịch vụ",
+      "add": "Thêm",
+      "ordering": "Đang gọi...",
+      "successAdd": "Đã thêm dịch vụ",
+      "errorAdd": "Lỗi thêm dịch vụ",
+      "successRemove": "Đã xoá chỉ định",
+      "errorRemove": "Lỗi xoá chỉ định"
+    },
+    "diagnosis": {
+      "headerKtv": "Kết quả từ Kỹ thuật viên",
+      "pendingBadge": "chờ hoàn thành",
+      "headerForm": "B4 — Đọc kết quả và chẩn đoán",
+      "pendingAlert": "⏳ Vui lòng chờ kỹ thuật viên hoàn thành {count} dịch vụ trước khi nhập chẩn đoán.",
+      "icdCode": "Mã ICD-10",
+      "icdPlaceholder": "VD: J06.9",
+      "diagnosis": "Chẩn đoán",
+      "diagnosisPlaceholder": "VD: Viêm hô hấp trên cấp",
+      "treatment": "Hướng điều trị",
+      "treatmentPlaceholder": "Phác đồ điều trị...",
+      "followUpDate": "Ngày tái khám",
+      "followUpNote": "Hướng dẫn tái khám",
+      "followUpNotePlaceholder": "Ghi chú tái khám...",
+      "saving": "Đang lưu...",
+      "save": "Lưu chẩn đoán",
+      "pendingWarning": "Còn {count} dịch vụ chưa hoàn thành",
+      "success": "Đã lưu chẩn đoán",
+      "error": "Lỗi lưu chẩn đoán"
+    },
+    "prescription": {
+      "header": "B5 — Kê đơn thuốc",
+      "pendingAlert": "🔒 Vui lòng hoàn tất Chẩn đoán (B4) trước khi kê đơn thuốc.",
+      "medicineName": "Tên thuốc",
+      "medicineNamePlaceholder": "Ibuprofen",
+      "dosage": "Liều",
+      "dosagePlaceholder": "400mg",
+      "frequency": "Tần suất",
+      "frequencyPlaceholder": "3 lần/ngày",
+      "quantity": "Số lượng",
+      "unit": "Đơn vị",
+      "unitPlaceholder": "viên",
+      "duration": "Ngày",
+      "durationPlaceholder": "7",
+      "instructions": "Hướng dẫn",
+      "instructionsPlaceholder": "Uống sau ăn...",
+      "addMedicine": "Thêm thuốc",
+      "notes": "Ghi chú đơn thuốc",
+      "notesPlaceholder": "Lưu ý cho bệnh nhân...",
+      "saving": "Đang lưu...",
+      "save": "Hoàn tất & Kê đơn",
+      "pendingWarning": "Cần hoàn tất chẩn đoán (B4) trước khi kê đơn",
+      "success": "Đã lưu đơn thuốc — lần khám hoàn tất",
+      "error": "Lỗi lưu đơn thuốc"
+    }
+  },
+  "history": {
+    "title": "Lịch sử khám ({count})",
+    "loading": "Đang tải lịch sử...",
+    "empty": "Chưa có dữ liệu lịch sử khám",
+    "noRecord": "Chưa có chẩn đoán",
+    "completed": "Hoàn thành",
+    "dateColumn": "Ngày\nKhám"
+  },
+  "lab": {
+    "createOrder": "Tạo chỉ định mới",
+    "testName": "Tên XN / Dịch vụ (*)",
+    "testNamePlaceholder": "VD: Siêu âm tuyến giáp...",
+    "selectService": "-- Chọn dịch vụ xét nghiệm/CLS --",
+    "customService": "Khác (Nhập tên xét nghiệm thủ công)",
+    "description": "Lưu ý / Mô tả",
+    "descriptionPlaceholder": "VD: Kiểm tra kỹ thùy trái...",
+    "submitBtn": "Chỉ định",
+    "listTitle": "Danh sách đã chỉ định ({count})",
+    "emptyList": "Chưa có chỉ định cận lâm sàng nào.",
+    "printOrderBtn": "In Phiếu Chỉ Định",
+    "printSuccess": "Đã in Phiếu Chỉ Định",
+    "paymentReminder": "Vui lòng dặn bệnh nhân mang phiếu ra quầy lễ tân thanh toán trước khi xét nghiệm.",
+    "printTitle": "PHIẾU CHỈ ĐỊNH CẬN LÂM SÀNG",
+    "status": {
+      "pending": "Chờ kết quả",
+      "paid": "Đã thanh toán (Sẵn sàng XN)",
+      "inProgress": "Đang thực hiện",
+      "completed": "Đã có kết quả"
+    },
+    "noteLabel": "Lưu ý:",
+    "orderedAt": "Chỉ định lúc:",
+    "abnormal": "Bất thường",
+    "normal": "Bình thường",
+    "noDetailDesc": "Không có mô tả chi tiết",
+    "viewFile": "Xem / Tải file kết quả",
+    "deleteAction": "Hủy chỉ định"
+  },
+  "prescription": {
+    "title": "Đơn thuốc",
+    "addMedicine": "Thêm thuốc",
+    "emptyList": "Chưa có đơn thuốc nào được kê. Bấm \"Thêm thuốc\" để bắt đầu.",
+    "deleteAction": "Xóa thuốc",
+    "medicineName": "Tên thuốc (*)",
+    "medicinePlaceholder": "VD: Paracetamol 500mg",
+    "dosage": "Liều dùng (*)",
+    "dosagePlaceholder": "VD: 1 viên",
+    "frequency": "Tần suất (*)",
+    "frequencyPlaceholder": "VD: Sáng 1, Tối 1",
+    "durationDays": "Số ngày",
+    "durationPlaceholder": "Ngày",
+    "quantity": "SL (*)",
+    "quantityPlaceholder": "SL",
+    "unit": "ĐVT (*)",
+    "unitPlaceholder": "Viên",
+    "instructionsPlaceholder": "Ghi chú thêm (VD: Uống sau ăn no)...",
+    "printBtn": "In đơn thuốc",
+    "printTitle": "ĐƠN THUỐC",
+    "confirmBtn": "Xác nhận thêm",
+    "editAction": "Sửa"
+  },
+  "form": {
+    "title": "Kết quả tư vấn",
+    "chiefComplaint": "Lý do khám (Triệu chứng chính)",
+    "clinicalFindings": "Kết quả & Phát hiện lâm sàng",
+    "diagnosis": "Chẩn đoán (Mã ICD-10)",
+    "treatmentPlan": "Phác đồ điều trị / Đơn thuốc",
+    "followUpDate": "Ngày tái khám",
+    "placeholders": {
+      "chiefComplaint": "Bệnh nhân có triệu chứng...",
+      "clinicalFindings": "Dấu hiệu sinh tồn ổn định. Họng đỏ nhẹ...",
+      "diagnosis": "Tìm mã ICD-10... VD: J00",
+      "treatmentPlan": "Nghỉ ngơi, uống nhiều nước, Paracetamol 500mg...",
+      "doctorNotes": "Ghi chú cho bác sĩ...",
+      "selectDate": "Chọn ngày..."
+    },
+    "actions": {
+      "saveDraft": "Lưu nháp",
+      "finishVisit": "Hoàn tất & Xuất hóa đơn",
+      "callNext": "Gọi bệnh nhân tiếp theo",
+      "print": "In",
+      "share": "Chia sẻ",
+      "finishAndNext": "Hoàn tất & Gọi tiếp"
+    },
+    "sections": {
+      "clinicalExam": "Khám lâm sàng",
+      "instructionsNotes": "Hướng dẫn & Ghi chú",
+      "diagnosis": "Chẩn đoán",
+      "followUp": "Hẹn tái khám"
+    },
+    "fields": {
+      "chiefComplaint": "Lý do khám & Triệu chứng",
+      "clinicalFindings": "Kết quả lâm sàng",
+      "treatmentPlan": "Hướng dẫn điều trị",
+      "internalNotes": "Ghi chú nội bộ",
+      "icd10": "Mã ICD-10",
+      "confirmedDiagnosis": "Chẩn đoán xác định",
+      "appointmentDate": "Ngày hẹn"
+    },
+    "labels": {
+      "diagnosisTemplate": "Mẫu chẩn đoán",
+      "lastVisit": "Lần khám cuối ({date}): {diagnosis}",
+      "days7": "7 Ngày",
+      "days14": "14 Ngày",
+      "days30": "30 Ngày"
+    },
+    "messages": {
+      "visitCompleted": "Hoàn tất ca khám thành công!",
+      "savedDraft": "Đã lưu bản nháp!",
+      "saveError": "Lỗi khi lưu hồ sơ y tế.",
+      "noHistoryMsg": "Bệnh nhân hiện chưa có lịch sử khám bệnh trên hệ thống.",
+      "pharmacyInvoiceCreated": "Đã tạo hóa đơn nhà thuốc",
+      "pharmacyInvoiceDesc": "Hệ thống đã tự động tạo hóa đơn nhà thuốc cho đơn thuốc này. Lễ tân cần thu tiền từ bệnh nhân."
+    }
+  },
+  "shared": {
+    "status": {
+      "pending": "Chờ thực hiện",
+      "inProgress": "Đang thực hiện",
+      "completed": "Có kết quả",
+      "cancelled": "Đã huỷ"
+    },
+    "remove": "Xoá",
+    "abnormal": "⚠ Bất thường",
+    "emptyResult": "Kết quả chưa có nội dung văn bản",
+    "viewFile": "📎 Xem file kết quả"
+  },
+  "patientInfo": {
+    "noData": "Chưa chọn bệnh nhân",
+    "yearsOld": "tuổi",
+    "medicalHistory": "Tiền sử bệnh lý",
+    "allergies": "Dị ứng nổi bật",
+    "noneReported": "Chưa ghi nhận",
+    "chronicConditions": "Bệnh mãn tính",
+    "recentVisits": "Các lần khám gần đây",
+    "noRecentVisits": "Chưa có dữ liệu khám",
+    "dr": "BS."
+  }
+}

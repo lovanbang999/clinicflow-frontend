@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useWalkinBooking } from '../../WalkinBookingContext';
 
 export function CreatePatientForm() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const {
     newPatient,
     setNewPatient,

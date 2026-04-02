@@ -48,7 +48,7 @@ interface AdminSidebarProps {
 export default function AdminSidebar({ onNavItemClick }: AdminSidebarProps) {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminLayout');
 
   return (
     <aside className="w-64 bg-white border-r border-[#e5e7eb] flex flex-col shrink-0 h-full overflow-y-auto">

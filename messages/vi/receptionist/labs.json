@@ -1,0 +1,41 @@
+{
+  "title": "Quản lý Xét nghiệm",
+  "subtitle": "Cập nhật kết quả xét nghiệm cho bệnh nhân từ phòng Lab",
+  "columns": {
+    "time": "Thời gian gọi",
+    "patient": "Bệnh nhân / Mã ca khám",
+    "testName": "Yêu cầu xét nghiệm",
+    "doctor": "Chỉ định bởi",
+    "status": "Trạng thái",
+    "actions": "Thao tác"
+  },
+  "status": {
+    "pending": "CHỜ KẾT QUẢ",
+    "inProgress": "ĐANG THỰC HIỆN"
+  },
+  "actions": {
+    "enterResult": "Nhập Kết Quả"
+  },
+  "loading": "Đang tải dữ liệu...",
+  "empty": "Không có phiếu xét nghiệm nào đang chờ.",
+  "dr": "BS.",
+  "modal": {
+    "title": "Nhập Kết Quả Xét Nghiệm",
+    "patientInfo": "Bệnh nhân:",
+    "testInfo": "Yêu cầu:",
+    "fileAttachmentLabel": "Tệp đính kèm (PDF, Ảnh)",
+    "fileSizeHint": "Hỗ trợ file Tối đa 10MB",
+    "textResultLabel": "Kết quả bằng chữ (Tùy chọn)",
+    "textResultPlaceholder": "Ví dụ: Chỉ số xét nghiệm bình thường...",
+    "abnormalFlag": "Cảnh báo Bất thường (Red Flag)",
+    "abnormalNoteLabel": "Ghi chú cảnh báo cho Bác sĩ",
+    "abnormalNotePlaceholder": "Ghi rõ chỉ số nào bất thường...",
+    "cancel": "Hủy bỏ",
+    "submit": "Hoàn thành Cập nhật",
+    "uploading": "Đang tải file lên...",
+    "submitting": "Đang lưu...",
+    "success": "Đã lưu kết quả xét nghiệm!",
+    "uploadError": "Lỗi khi tải lên file đính kèm",
+    "saveError": "Có lỗi khi lưu kết quả"
+  }
+}

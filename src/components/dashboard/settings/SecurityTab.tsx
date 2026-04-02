@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ShieldAlert, Rocket } from 'lucide-react';
 
 export const SecurityTab: React.FC = () => {
-  const t = useTranslations('dashboard.admin.settings');
+  const t = useTranslations('adminSettings');
 
   return (
     <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500">

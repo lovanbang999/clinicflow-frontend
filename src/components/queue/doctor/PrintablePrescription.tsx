@@ -33,9 +33,9 @@ export function PrintablePrescription({
   weight,
   height,
 }: PrintablePrescriptionProps) {
-  const t = useTranslations('dashboard.doctor.workspace.printables.prescription');
-  const tExam = useTranslations('dashboard.doctor.workspace.printables.exam');
-  const tQueue = useTranslations('dashboard.doctor.workspace.queueView');
+  const t = useTranslations('doctorWorkspace.printables.prescription');
+  const tExam = useTranslations('doctorWorkspace.printables.exam');
+  const tQueue = useTranslations('doctorWorkspace.queueView');
   
   if (!patientProfile) return null;
 

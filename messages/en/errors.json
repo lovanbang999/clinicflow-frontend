@@ -35,6 +35,11 @@
       "sameAsOld": "New password cannot be the same as old password"
     }
   },
+  "category": {
+    "notFound": "Category not found",
+    "codeExists": "Category code already exists",
+    "hasServices": "Cannot delete category with associated services"
+  },
   "service": {
     "notFound": "Service not found",
     "nameExists": "Service name already exists",

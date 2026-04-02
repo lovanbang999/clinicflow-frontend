@@ -19,7 +19,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAdminSettings } from '@/lib/hooks/useAdminSettings';
 
 export default function AdminSystemConfigPage() {
-  const t = useTranslations('dashboard.admin.settings');
+  const t = useTranslations('adminSettings');
   const { 
     settings, 
     loading, 

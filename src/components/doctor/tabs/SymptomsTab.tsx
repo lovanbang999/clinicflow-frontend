@@ -16,7 +16,7 @@ interface SymptomsTabProps {
 }
 
 export function SymptomsTab({ bookingId, record, onSaved }: SymptomsTabProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit.symptoms');
+  const t = useTranslations('emr.visit.symptoms');
   const [isSaving, setIsSaving] = useState(false);
 
   const { register, handleSubmit } = useForm<SaveSymptomsDto>({

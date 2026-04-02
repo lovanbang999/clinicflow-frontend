@@ -19,7 +19,7 @@ interface DiagnosisTabProps {
 }
 
 export function DiagnosisTab({ bookingId, record, onSaved }: DiagnosisTabProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit.diagnosis');
+  const t = useTranslations('emr.visit.diagnosis');
   const [isSaving, setIsSaving] = useState(false);
   const [icdResults, setIcdResults] = useState<{code: string; name: string}[]>([]);
   const [showIcdDropdown, setShowIcdDropdown] = useState(false);

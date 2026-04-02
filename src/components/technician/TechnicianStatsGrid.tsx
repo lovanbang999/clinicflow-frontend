@@ -5,7 +5,7 @@ import { useTechnicianStats } from '@/lib/hooks/useLabOrders';
 import { HourglassHighIcon, SpinnerGapIcon, CheckCircleIcon } from '@phosphor-icons/react';
 
 export function TechnicianStatsGrid() {
-  const t = useTranslations('dashboard.technician.stats');
+  const t = useTranslations('technicianWorklist.stats');
   const { stats, isLoading } = useTechnicianStats(true); // auto Refresh
 
   const cards = [

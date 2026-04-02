@@ -1,0 +1,14 @@
+{
+  "healthcare": "Hệ thống quản lý khám bệnh",
+  "title": "Bác sĩ",
+  "dashboard": "Workspace",
+  "greeting": "Xin chào {name}, bạn có bệnh nhân đang chờ",
+  "schedule": "Lịch làm việc",
+  "patients": "Bệnh nhân",
+  "settings": "Cài đặt",
+  "notFound": {
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
+    "backToDashboard": "Quay lại Bảng điều khiển"
+  }
+}

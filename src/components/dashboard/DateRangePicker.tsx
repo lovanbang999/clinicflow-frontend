@@ -26,7 +26,7 @@ export function DateRangePicker({
   date,
   setDate,
 }: DateRangePickerProps) {
-  const t = useTranslations('dashboard.adminAnalytics');
+  const t = useTranslations('adminAnalytics');
 
   return (
     <div className={cn('grid gap-2', className)}>

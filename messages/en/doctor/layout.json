@@ -1,0 +1,14 @@
+{
+  "healthcare": "Medical examination management system",
+  "title": "Doctor",
+  "dashboard": "Workspace",
+  "greeting": "Hello {name}, you have patients waiting",
+  "schedule": "Schedule",
+  "patients": "Patients",
+  "settings": "Settings",
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "backToDashboard": "Back to Dashboard"
+  }
+}

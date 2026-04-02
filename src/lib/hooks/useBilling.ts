@@ -44,7 +44,7 @@ export const getInvoiceTypeLabel = (type: InvoiceType): string => {
 };
 
 export const useBilling = () => {
-  const t = useTranslations('dashboard.receptionist.billingManagement.messages');
+  const t = useTranslations('receptionistBilling.messages');
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [pagination, setPagination] = useState<PaginationData>({

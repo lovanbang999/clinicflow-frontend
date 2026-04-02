@@ -18,9 +18,9 @@ import { ProfessionalTab } from '@/components/dashboard/doctors/settings/Profess
 import { SecurityTab } from '@/components/dashboard/doctors/settings/SecurityTab';
 
 export default function DoctorSettingsPage() {
-  const t = useTranslations('dashboard.doctorSettings');
-  const tProf = useTranslations('dashboard.doctorSettings.professional');
-  const tSec = useTranslations('dashboard.doctorSettings.security');
+  const t = useTranslations('doctorSettings');
+  const tProf = useTranslations('doctorSettings.professional');
+  const tSec = useTranslations('doctorSettings.security');
   
   const { user } = useAuthStore();
   const { updateProfile, uploadAvatar, changePassword, isLoading } = useProfile();

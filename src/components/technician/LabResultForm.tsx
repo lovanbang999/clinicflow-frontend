@@ -23,7 +23,7 @@ export function LabResultForm({
   onSubmit, 
   onCancel 
 }: LabResultFormProps) {
-  const t = useTranslations('dashboard.technician.result');
+  const t = useTranslations('technicianWorklist.result');
   const [resultText, setResultText] = useState('');
   const [file, setFile] = useState<File | null>(null);
 

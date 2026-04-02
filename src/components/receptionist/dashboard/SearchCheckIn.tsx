@@ -14,7 +14,7 @@ import { Link } from '@/i18n/navigation';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 
 export function SearchCheckIn() {
-  const t = useTranslations('dashboard.receptionist.searchCheckIn');
+  const t = useTranslations('receptionistOverview.searchCheckIn');
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 500);
   
@@ -89,7 +89,7 @@ export function SearchCheckIn() {
                   className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-4 py-2 rounded-lg text-xs font-bold transition-all disabled:opacity-50 cursor-pointer"
                 >
                   <UserCheckIcon weight="fill" size={16} />
-                  Check-in
+                  {t('checkIn')}
                 </button>
               </div>
             ))}

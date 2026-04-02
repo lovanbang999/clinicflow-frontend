@@ -5,7 +5,7 @@ import { UserIcon, CheckCircleIcon, PhoneCallIcon, PencilSimpleIcon } from '@pho
 import { useWalkinBooking } from '../../WalkinBookingContext';
 
 export function SelectedPatientProfile() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const { selectedPatient, setCurrentStep } = useWalkinBooking();
 
   if (!selectedPatient) return null;

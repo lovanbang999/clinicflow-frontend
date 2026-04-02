@@ -8,7 +8,7 @@ import { AccountProfileTab } from '@/components/receptionist/settings/AccountPro
 import { SecurityTab } from '@/components/receptionist/settings/SecurityTab';
 
 export default function ReceptionistSettingsPage() {
-  const t = useTranslations('dashboard.receptionist.settings');
+  const t = useTranslations('receptionistSettings');
 
   return (
     <div className="p-8 mx-auto space-y-8 animate-in slide-in-from-bottom-4 duration-700">

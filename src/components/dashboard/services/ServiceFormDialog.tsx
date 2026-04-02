@@ -78,8 +78,8 @@ type Props = {
 
 export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpdate }: Props) {
   const isEdit = service !== null;
-  const tAdd = useTranslations('dashboard.serviceManagement.addService');
-  const tEdit = useTranslations('dashboard.serviceManagement.editService');
+  const tAdd = useTranslations('adminServices.addService');
+  const tEdit = useTranslations('adminServices.editService');
   const t = isEdit ? tEdit : tAdd;
 
   const [form, setForm] = useState<ServiceForm>(DEFAULT_SERVICE_FORM);
@@ -112,7 +112,7 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
   const { categories, fetchCategories } = useAdminCategories();
   
   useEffect(() => {
-    fetchCategories({ isActive: true });
+    fetchCategories({ isActive: true, limit: 100 });
   }, [fetchCategories]);
 
   const set = <K extends keyof ServiceForm>(k: K, v: ServiceForm[K]) => {

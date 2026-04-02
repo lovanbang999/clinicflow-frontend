@@ -17,7 +17,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
 export function AdminRecentActivity() {
-  const t = useTranslations('dashboard.admin.recentActivity');
+  const t = useTranslations('adminOverview.recentActivity');
   const { notifications, loading } = useNotifications();
 
   // Filter for admin activity only

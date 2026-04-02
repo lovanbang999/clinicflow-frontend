@@ -9,8 +9,8 @@ export function PrintableQueueTicket({ invoice }: { invoice: Invoice }) {
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
   const queuePosition = invoice.booking?.queueRecord?.queuePosition;
-  const t = useTranslations('dashboard.doctor.workspace.printables.ticket');
-  const tInvoice = useTranslations('dashboard.doctor.workspace.printables.invoice');
+  const t = useTranslations('doctorWorkspace.printables.ticket');
+  const tInvoice = useTranslations('doctorWorkspace.printables.invoice');
 
   return (
     <div id="printable-invoice" className="hidden print:block font-sans text-sm pb-10">

@@ -16,7 +16,7 @@ import { toast } from 'sonner';
 export default function AdminInvoiceDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const t = useTranslations('dashboard.admin.billingManagement.detail');
+  const t = useTranslations('adminInvoices.detail');
   
   const invoiceId = params.id as string;
 

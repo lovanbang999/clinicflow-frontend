@@ -59,7 +59,9 @@
   "reviews": "đánh giá",
   "redirecting": "Bạn sẽ được chuyển hướng đến trang quản lý lịch hẹn...",
   "myAppointments": "Lịch hẹn của tôi",
-  "pageGreeting": "Chào buổi sáng",
+  "pageGreetingMorning": "Chào buổi sáng",
+  "pageGreetingAfternoon": "Chào buổi chiều",
+  "pageGreetingEvening": "Chào buổi tối",
   "downloadReport": "Tải kết quả khám",
   "detail": {
     "title": "Chi tiết lịch hẹn",

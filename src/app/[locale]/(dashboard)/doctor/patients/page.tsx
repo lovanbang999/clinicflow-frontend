@@ -16,7 +16,7 @@ import { useParams } from 'next/navigation';
 // import { DoctorPatientDrawer } from '@/components/dashboard/doctors/DoctorPatientDrawer'; // We will create this next
 
 export default function DoctorPatientsPage() {
-  const t = useTranslations('dashboard');
+  const t = useTranslations('doctorPatients');
   const params = useParams();
   const locale = params.locale === 'vi' ? vi : enUS;
   
@@ -33,10 +33,10 @@ export default function DoctorPatientsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            {t('doctor.patientsPage.title')}
+            {t('title')}
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            {t('doctor.patientsPage.description')}
+            {t('description')}
           </p>
         </div>
       </div>
@@ -44,11 +44,11 @@ export default function DoctorPatientsPage() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <CardTitle className="text-lg font-medium">{t('doctor.patientsPage.listTitle')}</CardTitle>
+            <CardTitle className="text-lg font-medium">{t('listTitle')}</CardTitle>
             <div className="relative w-full sm:w-72">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input
-                placeholder={t('doctor.patientsPage.searchPlaceholder')}
+                placeholder={t('searchPlaceholder')}
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
@@ -64,19 +64,19 @@ export default function DoctorPatientsPage() {
           ) : patients.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-slate-500">
               <User className="h-12 w-12 text-slate-300 mb-4" />
-              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">{t('doctor.patientsPage.empty')}</h3>
-              <p className="mt-1">{t('doctor.patientsPage.emptyDesc')}</p>
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">{t('empty')}</h3>
+              <p className="mt-1">{t('emptyDesc')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800/50 dark:text-slate-400">
                   <tr>
-                    <th className="px-4 py-3 font-medium">{t('doctor.patientsPage.table.patient')}</th>
-                    <th className="px-4 py-3 font-medium">{t('doctor.patientsPage.table.contact')}</th>
-                    <th className="px-4 py-3 font-medium">{t('doctor.patientsPage.table.visits')}</th>
-                    <th className="px-4 py-3 font-medium">{t('doctor.patientsPage.table.lastVisit')}</th>
-                    <th className="px-4 py-3 font-medium text-right">{t('doctor.patientsPage.table.action')}</th>
+                    <th className="px-4 py-3 font-medium">{t('table.patient')}</th>
+                    <th className="px-4 py-3 font-medium">{t('table.contact')}</th>
+                    <th className="px-4 py-3 font-medium">{t('table.visits')}</th>
+                    <th className="px-4 py-3 font-medium">{t('table.lastVisit')}</th>
+                    <th className="px-4 py-3 font-medium text-right">{t('table.action')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
@@ -89,12 +89,12 @@ export default function DoctorPatientsPage() {
                       <td className="px-4 py-3">
                         <div>{patient.phone || '--'}</div>
                         <div className="text-xs text-slate-500 mt-0.5">
-                          {patient.gender === 'MALE' ? t('doctor.patientsPage.table.male') : patient.gender === 'FEMALE' ? t('doctor.patientsPage.table.female') : t('doctor.patientsPage.table.other')}
+                          {patient.gender === 'MALE' ? t('table.male') : patient.gender === 'FEMALE' ? t('table.female') : t('table.other')}
                         </div>
                       </td>
                       <td className="px-4 py-3">
                         <Badge variant="secondary" className="font-normal">
-                          {patient.totalVisits} {t('doctor.patientsPage.times')}
+                          {patient.totalVisits} {t('times')}
                         </Badge>
                       </td>
                       <td className="px-4 py-3">
@@ -111,7 +111,7 @@ export default function DoctorPatientsPage() {
                           onClick={() => setSelectedPatient(patient)}
                         >
                           <FileText className="h-3.5 w-3.5 mr-1.5" />
-                          {t('doctor.patientsPage.viewProfile')}
+                          {t('viewProfile')}
                         </Button>
                       </td>
                     </tr>
@@ -124,7 +124,7 @@ export default function DoctorPatientsPage() {
           {/* Pagination could go here */}
           {!loading && total > 0 && (
             <div className="mt-4 text-sm text-slate-500 text-center">
-              {t('doctor.patientsPage.showingCount', { count: patients.length, total: total })}
+              {t('showingCount', { count: patients.length, total: total })}
             </div>
           )}
         </CardContent>

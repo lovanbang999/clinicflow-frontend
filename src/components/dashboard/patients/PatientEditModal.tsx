@@ -37,7 +37,7 @@ type PatientEditModalProps = {
 };
 
 export function PatientEditModal({ open, patientId, onClose, onSubmit }: PatientEditModalProps) {
-  const t = useTranslations('dashboard.admin.patientManagement.editPatientModal');
+  const t = useTranslations('adminPatients.editPatientModal');
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -251,9 +251,9 @@ export function PatientEditModal({ open, patientId, onClose, onSubmit }: Patient
                       className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-[#1392ec] outline-none transition-all dark:text-white"
                     >
                       <option value="">{t('genderPlaceholder')}</option>
-                      <option value="MALE">Male</option>
-                      <option value="FEMALE">Female</option>
-                      <option value="OTHER">Other</option>
+                      <option value="MALE">{t('table.genders.MALE')}</option>
+                      <option value="FEMALE">{t('table.genders.FEMALE')}</option>
+                      <option value="OTHER">{t('table.genders.OTHER')}</option>
                     </select>
                     {errors.gender && <p className="text-red-500 text-xs mt-1">{errors.gender}</p>}
                   </div>
@@ -431,8 +431,8 @@ export function PatientEditModal({ open, patientId, onClose, onSubmit }: Patient
                       className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-[#1392ec] outline-none transition-all dark:text-white"
                     >
                       <option value="">{t('insuranceTypePlaceholder')}</option>
-                      <option value="BHYT">Bảo hiểm Y tế (BHYT)</option>
-                      <option value="Private">Private Insurance</option>
+                      <option value="BHYT">{t('form.insuranceProviderPlaceholder')?.split(',')[0] || 'BHYT'}</option>
+                      <option value="Private">{t('form.insuranceProviderPlaceholder')?.split(',')[1] || 'Private'}</option>
                     </select>
                   </div>
                   <div className="form-group">

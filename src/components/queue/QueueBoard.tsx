@@ -19,7 +19,7 @@ interface QueueBoardProps {
 }
 
 export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: QueueBoardProps) {
-  const t = useTranslations('dashboard.queue');
+  const t = useTranslations('receptionistQueue.board');
   
   const {
     queueItems,

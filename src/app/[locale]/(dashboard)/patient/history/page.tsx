@@ -34,7 +34,7 @@ export interface PatientHistoryItem {
 }
 
 export function HistoryCard({ visit, locale }: { visit: PatientHistoryItem; locale: string }) {
-  const tHistory = useTranslations('dashboard.patient.medicalHistory');
+  const tHistory = useTranslations('patientOverview.medicalHistory');
   const dateLocale = locale === 'vi' ? vi : undefined;
   const bookingDate = new Date(visit.createdAt);
   const formattedDate = isValid(bookingDate)
@@ -116,9 +116,14 @@ export function HistoryCard({ visit, locale }: { visit: PatientHistoryItem; loca
 }
 
 export default function PatientMedicalHistoryPage() {
-  const t = useTranslations('dashboard.patient.medicalHistory');
+  const t = useTranslations('patientOverview.medicalHistory');
   const tGreeting = useTranslations('booking');
   const locale = useLocale();
+
+  const hour = new Date().getHours();
+  let greetingKey = 'pageGreetingMorning';
+  if (hour >= 12 && hour < 18) greetingKey = 'pageGreetingAfternoon';
+  else if (hour >= 18 || hour < 5) greetingKey = 'pageGreetingEvening';
   
   const { data, isLoading } = useApiData(() => medicalRecordsApi.getMyVisits(1, 50), null);
 
@@ -127,7 +132,7 @@ export default function PatientMedicalHistoryPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:py-8 py-6 space-y-6">
       <div className="space-y-1">
-        <p className="text-xs sm:text-sm text-[#1392ec] font-bold uppercase tracking-wider">{tGreeting('pageGreeting')}</p>
+        <p className="text-xs sm:text-sm text-[#1392ec] font-bold uppercase tracking-wider">{tGreeting(greetingKey)}</p>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">{t('title')}</h1>
         <p className="text-sm text-slate font-medium">
           {visits.length > 0

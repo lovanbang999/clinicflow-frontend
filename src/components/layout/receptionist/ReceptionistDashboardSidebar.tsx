@@ -42,7 +42,7 @@ export const NAV_ITEMS: NavItem[] = [
 export function ReceptionistDashboardSidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const t = useTranslations('dashboard.receptionist');
+  const t = useTranslations('receptionistLayout');
   const tCommon = useTranslations('common');
 
   return (
@@ -77,7 +77,7 @@ export function ReceptionistDashboardSidebar() {
               )}
             >
               <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} />
-              <span>{t(item.key === 'reports' ? 'reports.nav' : item.key === 'settings' ? 'settings.nav' : item.key)}</span>
+              <span>{t(item.key)}</span>
             </Link>
           );
         })}

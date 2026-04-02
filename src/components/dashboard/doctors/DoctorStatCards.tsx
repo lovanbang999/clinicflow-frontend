@@ -51,7 +51,7 @@ type Props = {
 
 // Component
 export function DoctorStatCards({ stats, isLoading }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+  const t = useTranslations('adminDoctors');
 
   if (isLoading) {
     return (

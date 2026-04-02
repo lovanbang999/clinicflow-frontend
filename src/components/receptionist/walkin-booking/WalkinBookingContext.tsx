@@ -66,7 +66,7 @@ interface WalkinBookingContextType {
 const WalkinBookingContext = createContext<WalkinBookingContextType | undefined>(undefined);
 
 export function WalkinBookingProvider({ children }: { children: ReactNode }) {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm');
+  const t = useTranslations('receptionistWalkinBooking');
 
   const [currentStep, setCurrentStep] = useState(1);
   const [bookingType, setBookingType] = useState<'PRE_BOOKING' | 'WALK_IN'>('WALK_IN');

@@ -33,7 +33,7 @@ function ServiceInitials({ name, colorClass }: { name: string; colorClass: strin
 }
 
 export function AdminTopServices({ services, viewAllHref = '/admin/services' }: Props) {
-  const t = useTranslations('dashboard.admin.topServices');
+  const t = useTranslations('adminOverview.topServices');
   const safeServices = Array.isArray(services) ? services : [];
 
   const fmtRev = (n: number) =>

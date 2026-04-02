@@ -35,7 +35,7 @@ function getSlotStyle(start: string, end: string): React.CSSProperties {
 }
 
 export function ScheduleDayGantt({ visibleDoctors, filteredSchedules, loadingList, onEditSlot }: Props) {
-  const tMs = useTranslations('dashboard.scheduleManagement.masterSchedule');
+  const tMs = useTranslations('adminSchedules.masterSchedule');
 
   return (
     <div className="flex flex-1 overflow-hidden relative">

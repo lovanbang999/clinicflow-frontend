@@ -19,6 +19,8 @@
   "welcome": "Chào mừng",
   "actions": "Thao tác",
   "noData": "Không có dữ liệu",
+  "error": "Đã có lỗi xảy ra. Vui lòng thử lại.",
+  "errorTitle": "Lỗi",
   "walkIn": "Khám vãng lai",
   "profile": {
     "title": "Thông tin cá nhân",
@@ -49,7 +51,14 @@
     "passwordTooShort": "Mật khẩu phải có ít nhất 6 ký tự",
     "cannotLoadProfile": "Không thể tải thông tin người dùng",
     "phonePlaceholder": "0987654321",
-    "addressPlaceholder": "123 Đường ABC, Quận 1, HCM"
+    "addressPlaceholder": "123 ABC Street, District 1, HCM",
+    "updateSuccess": "Cập nhật hồ sơ thành công",
+    "updateSuccessDescription": "Thông tin cá nhân của bạn đã được lưu lại.",
+    "avatarUploadSuccess": "Đã cập nhật ảnh đại diện",
+    "avatarUploadSuccessDescription": "Ảnh hồ sơ mới của bạn đã được tải lên thành công.",
+    "passwordChangeSuccess": "Đổi mật khẩu thành công",
+    "passwordChangeSuccessDescription": "Bạn có thể sử dụng mật khẩu mới để đăng nhập từ bây giờ.",
+    "passwordChangeFailedTitle": "Đổi mật khẩu thất bại"
   },
   "roles": {
     "ADMIN": "Quản trị viên",
@@ -114,6 +123,13 @@
     "updateScheduleError": "Cập nhật lịch thất bại",
     "deleteScheduleError": "Xóa lịch thất bại",
     "restoreScheduleError": "Khôi phục lịch thất bại",
+    "fetchCategoriesError": "Không thể tải danh sách danh mục",
+    "createCategorySuccess": "Tạo danh mục thành công",
+    "createCategoryError": "Tạo danh mục thất bại",
+    "updateCategorySuccess": "Cập nhật danh mục thành công",
+    "updateCategoryError": "Cập nhật danh mục thất bại",
+    "deleteCategorySuccess": "Xóa danh mục thành công",
+    "deleteCategoryError": "Xóa danh mục thất bại",
     "createServiceApiSuccess": "Tạo dịch vụ thành công",
     "updateServiceApiSuccess": "Cập nhật dịch vụ thành công",
     "deleteServiceApiSuccess": "Xóa dịch vụ thành công",
@@ -174,7 +190,11 @@
     "createWalkInPatientSuccess": "Tạo hồ sơ vãng lai thành công",
     "fetchPatientsListError": "Không thể lấy danh sách bệnh nhân",
     "updateFailedError": "Cập nhật thất bại",
-    "registrationFailedError": "Đăng ký thất bại",
-    "createProfileFailedError": "Tạo hồ sơ thất bại"
+    "registrationFailedError": "Đăng ký không thành công",
+    "createProfileFailedError": "Tạo hồ sơ không thành công"
+  },
+  "metadata": {
+    "title": "Phòng Khám SmartClinic - Đặt lịch khám nhanh chóng, tiện lợi",
+    "description": "Hệ thống quản lý đặt lịch và hàng đợi thông minh cho phòng khám"
   }
 }

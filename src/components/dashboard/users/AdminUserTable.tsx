@@ -68,7 +68,7 @@ export function AdminUserTable({
   onToggleStatus,
   onDelete,
 }: AdminUserTableProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
   const [suspendConfirmUser, setSuspendConfirmUser] = useState<User | null>(null);
   const [deleteConfirmUser, setDeleteConfirmUser] = useState<User | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>('createdAt');

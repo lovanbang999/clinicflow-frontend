@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 
 export function PrintableInvoice({ invoice }: { invoice: Invoice }) {
-  const t = useTranslations('dashboard.doctor.workspace.printables.invoice');
+  const t = useTranslations('doctorWorkspace.printables.invoice');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 

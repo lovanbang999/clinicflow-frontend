@@ -8,7 +8,7 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const t = useTranslations('dashboard.receptionist.checkInManagement.stats');
+  const t = useTranslations('receptionistCheckIn.stats');
 
   switch (status) {
     case BookingStatus.PENDING:

@@ -54,7 +54,7 @@ interface DoctorVisitTabsProps {
 }
 
 export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit');
+  const t = useTranslations('emr.visit');
   const [record, setRecord] = useState<VisitResultsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabId>('symptoms');

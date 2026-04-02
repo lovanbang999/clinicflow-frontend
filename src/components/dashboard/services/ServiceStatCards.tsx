@@ -39,7 +39,7 @@ type Props = {
 };
 
 export function ServiceStatCards({ stats, isLoading }: Props) {
-  const t = useTranslations('dashboard.serviceManagement.stats');
+  const t = useTranslations('adminServices.stats');
 
   if (isLoading) {
     return (

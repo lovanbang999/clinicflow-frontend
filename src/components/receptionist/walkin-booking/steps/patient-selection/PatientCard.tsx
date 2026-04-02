@@ -11,7 +11,7 @@ interface PatientCardProps {
 }
 
 export function PatientCard({ patient }: PatientCardProps) {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const { selectPatient } = useWalkinBooking();
 
   return (

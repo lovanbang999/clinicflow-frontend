@@ -1,0 +1,38 @@
+{
+  "title": "Lịch sử hóa đơn hệ thống",
+  "subtitle": "Xem và quản lý tất cả hóa đơn từ các dịch vụ của phòng khám",
+  "filter": {
+    "typePlaceholder": "Loại Hóa Đơn",
+    "clear": "Xóa lọc"
+  },
+  "detail": {
+    "notFound": "Không tìm thấy hóa đơn",
+    "back": "Quay lại",
+    "subtitle": "Chi tiết hóa đơn hệ thống",
+    "fetchError": "Không thể tải chi tiết hóa đơn"
+  },
+  "pagination": {
+    "showing": "Hiển thị {start} - {end} của {total} hóa đơn",
+    "previous": "Trước",
+    "next": "Tiếp theo"
+  },
+  "table": {
+    "invoiceNumber": "Mã HĐ / Ngày tạo",
+    "patientDoctor": "Bệnh nhân / Bác sĩ",
+    "status": "Trạng thái HĐ",
+    "total": "Tổng tiền",
+    "paid": "Đã thu",
+    "actions": "Thao tác",
+    "empty": "Không tìm thấy hóa đơn nào",
+    "unknown": "Không rõ",
+    "viewDetails": "Xem chi tiết",
+    "type": "Loại"
+  },
+  "bookingInvoices": {
+    "types": {
+      "CONSULTATION": "Khám",
+      "LAB": "Cận lâm sàng",
+      "PHARMACY": "Thuốc"
+    }
+  }
+}

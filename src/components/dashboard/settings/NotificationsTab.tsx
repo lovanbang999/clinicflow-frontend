@@ -16,7 +16,7 @@ interface NotificationsTabProps {
 }
 
 export const NotificationsTab: React.FC<NotificationsTabProps> = ({ data, onSave, loading }) => {
-  const t = useTranslations('dashboard.admin.settings');
+  const t = useTranslations('adminSettings');
   const [formData, setFormData] = React.useState<NotificationConfig>(data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

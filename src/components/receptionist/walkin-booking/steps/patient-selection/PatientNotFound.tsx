@@ -5,7 +5,7 @@ import { UserPlusIcon } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../../WalkinBookingContext';
 
 export function PatientNotFound() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const { searchQuery, setShowCreateForm } = useWalkinBooking();
 
   return (

@@ -1,0 +1,183 @@
+{
+  "title": "Patient Management",
+  "description": "Manage patient records and reception workflow of the clinic",
+  "messages": {
+    "registerSuccess": "New patient registered successfully!",
+    "registerError": "Error registering patient",
+    "guestSuccess": "Walk-in patient received successfully!",
+    "guestError": "Error receiving patient",
+    "updateSuccess": "Patient information updated!",
+    "updateError": "Error updating information",
+    "bookDev": "Booking feature for {name} is under development"
+  },
+  "actions": {
+    "register": "New Registration",
+    "guest": "Walk-in Reception",
+    "viewDetail": "View Detail",
+    "edit": "Edit",
+    "book": "Book",
+    "checkIn": "Check-in"
+  },
+  "stats": {
+    "totalPatients": "Total Patients",
+    "newToday": "New Patients Today",
+    "activeAppointments": "Active Appointments"
+  },
+  "search": {
+    "placeholder": "Search name, patient code, or phone..."
+  },
+  "table": {
+    "patient": "Patient",
+    "code": "Patient Code",
+    "contact": "Contact",
+    "gender": "Gender",
+    "status": "Status",
+    "actions": "Actions",
+    "empty": "No patients found",
+    "guest": "Walk-in/Guest",
+    "statusActive": "Active",
+    "statusInactive": "Locked",
+    "pagination": {
+      "showing": "Showing <range>{valRange}</range> of <total>{valTotal}</total> results",
+      "prev": "Previous",
+      "next": "Next"
+    }
+  },
+  "registrationModal": {
+    "title": "Patient Registration",
+    "subtitle": "Create a new patient profile in the system",
+    "tabs": {
+      "standard": "Standard Registration",
+      "guest": "Walk-in Reception"
+    },
+    "form": {
+      "fullName": "Full Name (*)",
+      "phone": "Phone Number (*)",
+      "email": "Email",
+      "dob": "Date of Birth",
+      "gender": "Gender",
+      "address": "Address",
+      "bloodType": "Blood Type",
+      "nationalId": "National ID / Citizen ID",
+      "placeholders": {
+        "fullName": "John Doe",
+        "phone": "0901234567",
+        "email": "example@mail.com",
+        "address": "Permanent address...",
+        "nationalId": "012345678901"
+      },
+      "genderOptions": {
+        "select": "Select gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "bloodTypeOptions": {
+        "unknown": "Unknown"
+      }
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "phoneRequired": "Phone number is required",
+      "emailRequired": "Email is required for system accounts",
+      "dobRequired": "Date of birth is required",
+      "genderRequired": "Gender is required"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "register": "Register",
+      "registering": "Registering..."
+    }
+  },
+  "editModal": {
+    "title": "Edit Profile",
+    "subtitle": "Update detailed patient information",
+    "sectionBasic": "Basic Information",
+    "sectionMedical": "Medical & Insurance",
+    "form": {
+      "fullName": "FULL NAME (*)",
+      "phone": "PHONE NUMBER (*)",
+      "email": "EMAIL",
+      "dob": "DATE OF BIRTH",
+      "gender": "GENDER",
+      "genderOptions": {
+        "select": "Select gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "address": "ADDRESS",
+      "nationalId": "NATIONAL ID / CITIZEN ID",
+      "bloodType": "BLOOD TYPE",
+      "bloodTypeOptions": {
+        "unknown": "Unknown"
+      },
+      "insuranceNumber": "INSURANCE NUMBER",
+      "insuranceProvider": "INSURANCE PROVIDER",
+      "insuranceProviderPlaceholder": "E.g.: Vietnam Social Insurance, Bao Viet...",
+      "insuranceExpiry": "INSURANCE EXPIRY",
+      "allergies": "ALLERGIES",
+      "allergiesPlaceholder": "E.g.: Seafood, Paracetamol...",
+      "chronicConditions": "CHRONIC CONDITIONS",
+      "chronicConditionsPlaceholder": "E.g.: Hypertension, Diabetes..."
+    },
+    "errors": {
+      "fullName": "Full name is required",
+      "phone": "Phone number is required"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    }
+  },
+  "quickView": {
+    "title": "Patient Profile Quick View",
+    "bookAppt": "Book",
+    "edit": "Edit",
+    "tabs": {
+      "overview": "Overview",
+      "medical_records": "Medical Records",
+      "prescriptions": "Prescriptions",
+      "lab_results": "Lab Results",
+      "appointments": "Appointments"
+    },
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "guestLabel": "Guest",
+    "vitals": {
+      "weight": "Weight",
+      "height": "Height",
+      "bmi": "BMI",
+      "bp": "Blood Pressure",
+      "heart": "Heart Rate"
+    },
+    "conditions": {
+      "title": "Current Conditions"
+    },
+    "allergies": {
+      "title": "Allergies & Risks"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "lastVisitTitle": "Last Visit Recorded",
+      "lastVisitDesc": "Status check • Automated system"
+    },
+    "medicalRecords": {
+      "title": "Medical Records History",
+      "add": "Add",
+      "columns": {
+        "date": "Date",
+        "diagnosis": "Diagnosis",
+        "action": "Action"
+      }
+    },
+    "prescriptions": {
+      "title": "Prescription List"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "desc": "This content is coming soon."
+    }
+  }
+}

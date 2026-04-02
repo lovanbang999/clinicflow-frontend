@@ -43,7 +43,7 @@ export function QuickAddInvoiceModal({
   onSubmit,
   isSubmitting,
 }: QuickAddInvoiceModalProps) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices.quickAddModal');
+  const t = useTranslations('receptionistBilling.bookingInvoices.quickAddModal');
   const locale = useLocale();
 
   const [selectedLabOrderIds, setSelectedLabOrderIds] = useState<Set<string>>(new Set());

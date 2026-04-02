@@ -8,7 +8,7 @@ import { AccountProfileTab } from '@/components/technician/settings/AccountProfi
 import { SecurityTab } from '@/components/technician/settings/SecurityTab';
 
 export default function TechnicianSettingsPage() {
-  const t = useTranslations('dashboard.technician.settingsContent');
+  const t = useTranslations('technicianWorklist.settingsContent');
 
   return (
     <div className="p-8 mx-auto space-y-8 animate-in slide-in-from-bottom-4 duration-700">

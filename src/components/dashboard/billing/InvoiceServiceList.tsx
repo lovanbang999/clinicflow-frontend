@@ -15,8 +15,8 @@ interface InvoiceServiceListProps {
 }
 
 export function InvoiceServiceList({ invoice, onAddItem, onRemoveItem }: InvoiceServiceListProps) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.detail');
-  const tAdd = useTranslations('dashboard.receptionist.billingManagement.detail.addService');
+  const t = useTranslations('receptionistBilling.detail');
+  const tAdd = useTranslations('receptionistBilling.detail.addService');
   const locale = useLocale();
 
   const [showAddForm, setShowAddForm] = useState(false);

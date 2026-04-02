@@ -19,7 +19,7 @@ interface ServiceOrderCardProps {
 }
 
 export function ServiceOrderCard({ order, onRemove, showResult = false }: ServiceOrderCardProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit.shared');
+  const t = useTranslations('doctorWorkspace.visit.shared');
   const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.PENDING;
   const Icon = cfg.icon;
 

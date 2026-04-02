@@ -9,7 +9,7 @@ interface LabOrderInfoProps {
 }
 
 export function LabOrderInfo({ order }: LabOrderInfoProps) {
-  const t = useTranslations('dashboard.technician.result');
+  const t = useTranslations('technicianWorklist.result');
 
   return (
     <div className="bg-white rounded-xl border border-[#e5e7eb] overflow-hidden">

@@ -23,10 +23,16 @@ const inter = Inter({
   weight: ['300', '400', '500', '600', '700'],
 });
 
-export const metadata: Metadata = {
-  title: 'Phòng Khám SmartClinic - Đặt lịch khám nhanh chóng, tiện lợi',
-  description: 'Hệ thống quản lý đặt lịch và hàng đợi thông minh cho phòng khám',
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const messages = await getMessages({ locale }) as unknown as { common: { metadata: { title: string; description: string } } };
+  const meta = messages.common.metadata;
+
+  return {
+    title: meta.title,
+    description: meta.description,
+  };
+}
 
 type Props = {
   children: React.ReactNode;

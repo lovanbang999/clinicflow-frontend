@@ -37,7 +37,7 @@ export function ProfessionalTab({
   onSave,
   saveProfileLoading,
 }: ProfessionalTabProps) {
-  const t = useTranslations('dashboard.doctorSettings.professional');
+  const t = useTranslations('doctorSettings.professional');
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">

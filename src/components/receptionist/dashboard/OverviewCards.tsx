@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useReceptionistDashboard } from '@/lib/hooks/useReceptionistDashboard';
 
 export function OverviewCards() {
-  const t = useTranslations('dashboard.receptionist.stats');
+  const t = useTranslations('receptionistOverview.stats');
   const { stats, loadingStats, queueRecords } = useReceptionistDashboard();
 
   if (loadingStats && !stats) {

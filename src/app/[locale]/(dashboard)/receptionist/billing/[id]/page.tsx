@@ -30,8 +30,8 @@ export default function InvoiceDetailPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
-  const t = useTranslations('dashboard.receptionist.billingManagement');
-  const tTypes = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices.types');
+  const t = useTranslations('receptionistBilling');
+  const tTypes = useTranslations('receptionistBilling.bookingInvoices.types');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
   

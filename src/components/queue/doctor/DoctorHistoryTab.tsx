@@ -16,7 +16,7 @@ interface DoctorHistoryTabProps {
 }
 
 export function DoctorHistoryTab({ history, isLoading }: DoctorHistoryTabProps) {
-  const t = useTranslations('dashboard.doctor.workspace.historyTab');
+  const t = useTranslations('emr.history');
 
   if (isLoading) {
     return (

@@ -30,7 +30,7 @@ export function DoctorQueueView({
   onEnterExam,
   avgWaitMins = 0,
 }: DoctorQueueViewProps) {
-  const t = useTranslations('dashboard.doctor.workspace.queueView');
+  const t = useTranslations('doctorWorkspace.queueView');
 
   const inExam = queueItems.filter((q) => q.booking.status === BookingStatus.IN_PROGRESS && !q.booking.medicalRecord).length;
   const waitingResults = queueItems.filter((q) => q.booking.status === BookingStatus.IN_PROGRESS && q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized).length;

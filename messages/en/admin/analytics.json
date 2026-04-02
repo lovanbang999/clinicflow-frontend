@@ -1,0 +1,37 @@
+{
+  "title": "Statistics & Analytics",
+  "subtitle": "In-depth reports on clinic performance and growth",
+  "filter": {
+    "pick-date": "Pick a date",
+    "to": "to",
+    "select-range": "Select date range"
+  },
+  "kpi": {
+    "totalUsers": "Total Patients",
+    "totalBookings": "Total Bookings",
+    "growthRate": "Growth Rate",
+    "totalRevenue": "Total Revenue",
+    "doctorsCount": "{count} active doctors",
+    "allTime": "All time",
+    "revenueGrowth": "Revenue Growth",
+    "comparedToLastMonth": "Compared to last month",
+    "thisMonth": "Period revenue: {amount}"
+  },
+  "charts": {
+    "serviceDistribution": "Service Distribution",
+    "serviceDistributionDesc": "Revenue distribution by service type",
+    "revenue": "Revenue",
+    "bookings": "bookings",
+    "appointmentStatus": "Appointment Status",
+    "appointmentStatusDesc": "Breakdown of appointment results",
+    "statusCompleted": "Completed",
+    "statusUpcoming": "Upcoming",
+    "statusCancelled": "Cancelled",
+    "statusInProgress": "In Progress",
+    "count": "Count",
+    "totalBookings": "Total Cases",
+    "successRate": "Success Rate",
+    "emptyTitle": "No data available",
+    "emptySubtitle": "Distribution chart will appear when service revenue data is available"
+  }
+}

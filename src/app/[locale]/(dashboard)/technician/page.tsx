@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/ssr';
 
 export default async function TechnicianDashboardPage() {
-  const t = await getTranslations('dashboard.technician');
+  const t = await getTranslations('technicianWorklist');
 
   return (
     <div className="space-y-8 pb-10 p-8 mx-auto">

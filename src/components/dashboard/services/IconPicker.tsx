@@ -48,7 +48,7 @@ const allLucideIcons: string[] = (() => {
 
 export function IconPicker({ value, onChange, placeholder = 'Select icon' }: IconPickerProps) {
   const [search, setSearch] = useState('');
-  const t = useTranslations('dashboard.serviceManagement.iconPicker');
+  const t = useTranslations('adminServices.iconPicker');
 
   const filteredIcons = useMemo(() => {
     return allLucideIcons

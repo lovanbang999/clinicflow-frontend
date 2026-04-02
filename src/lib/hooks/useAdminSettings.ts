@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useApiHandler } from './useApiHandler';
 
 export const useAdminSettings = () => {
-  const t = useTranslations('dashboard.admin.settings');
+  const t = useTranslations('adminSettings');
   const [settings, setSettings] = useState<AdminSettings | null>(null);
   const { execute, isLoading: loading } = useApiHandler();
   const { execute: executeSave, isLoading: saving } = useApiHandler();

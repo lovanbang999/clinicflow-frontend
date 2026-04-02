@@ -1,0 +1,26 @@
+{
+  "title": "Quản trị viên",
+  "dashboard": "Bảng điều khiển Admin",
+  "systemOverview": "Tổng quan hệ thống",
+  "loading": "Đang tải...",
+  "redirecting": "Đang chuyển hướng...",
+  "healthcare": "Hệ thống quản lý khám bệnh",
+  "logout": "Đăng xuất",
+  "notFound": {
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
+    "backToDashboard": "Quay lại Bảng điều khiển"
+  },
+  "nav": {
+    "dashboard": "Tổng quan",
+    "userManagement": "Quản lý nhân sự",
+    "doctorManagement": "Quản lý bác sĩ",
+    "categoryManagement": "Danh mục dịch vụ",
+    "serviceManagement": "Quản lý dịch vụ",
+    "patientManagement": "Quản lý bệnh nhân",
+    "schedules": "Lịch làm việc",
+    "analytics": "Phân tích",
+    "billingManagement": "Lịch sử hóa đơn",
+    "settings": "Cài đặt"
+  }
+}

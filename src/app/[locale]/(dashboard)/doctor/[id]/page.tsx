@@ -14,7 +14,7 @@ export default function DoctorExamPage() {
   const params = useParams();
   const id = params.id as string;
   const locale = params.locale as string;
-  const t = useTranslations('dashboard.doctor.workspace.examView');
+  const t = useTranslations('doctorWorkspace.examView');
   const [record, setRecord] = useState<QueueRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

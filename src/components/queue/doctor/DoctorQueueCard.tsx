@@ -45,7 +45,7 @@ function getAvatarColors(name: string) {
 }
 
 export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisabled }: DoctorQueueCardProps) {
-  const t = useTranslations('dashboard.doctor.workspace.queueView');
+  const t = useTranslations('doctorWorkspace.queueView');
   console.log('item', item.booking.id);
 
   const status = item.booking.status;

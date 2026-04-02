@@ -16,7 +16,7 @@ interface ReceptionistDashboardLayoutProps {
 export function ReceptionistDashboardLayout({ children }: ReceptionistDashboardLayoutProps) {
   const router = useRouter();
   const { isAuthenticated, _hasHydrated } = useAuthStore();
-  const t = useTranslations('dashboard.admin'); // Reuse loading from admin
+  const t = useTranslations('adminLayout'); // Reuse loading from admin
 
   const isClient = useSyncExternalStore(
     () => () => {},

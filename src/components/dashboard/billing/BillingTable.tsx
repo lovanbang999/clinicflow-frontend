@@ -20,12 +20,12 @@ export function BillingTable({
   invoices, 
   loading, 
   basePath = '/receptionist/billing',
-  tPath = 'dashboard.receptionist.billingManagement'
+  tPath = 'receptionistBilling'
 }: BillingTableProps) {
   const router = useRouter();
-  const tNamespace = tPath as 'dashboard.receptionist.billingManagement' | 'dashboard.admin.billingManagement';
+  const tNamespace = tPath as 'receptionistBilling' | 'adminInvoices';
   const t = useTranslations(tNamespace);
-  const tTypes = useTranslations(`${tNamespace}.bookingInvoices.types` as "dashboard.receptionist.billingManagement.bookingInvoices.types" | "dashboard.admin.billingManagement.bookingInvoices.types");
+  const tTypes = useTranslations(`${tNamespace}.bookingInvoices.types` as 'receptionistBilling.bookingInvoices.types' | 'adminInvoices.bookingInvoices.types');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 

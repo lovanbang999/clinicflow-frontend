@@ -16,7 +16,7 @@ type Props = {
 };
 
 export function SlotPopoverCard({ slot, colorClass, onEdit, onDelete, onRestore }: Props) {
-  const tSlot = useTranslations('dashboard.scheduleManagement.masterSchedule.slot');
+  const tSlot = useTranslations('adminSchedules.masterSchedule.slot');
 
   return (
     <Popover>

@@ -19,7 +19,7 @@ interface AdminDashboardLayoutProps {
 export function AdminDashboardLayout({ children }: AdminDashboardLayoutProps) {
   const router = useRouter();
   const { isAuthenticated, _hasHydrated } = useAuthStore();
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminLayout');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isClient = useSyncExternalStore(

@@ -1,0 +1,81 @@
+{
+  "title": "Schedule Management",
+  "searchPlaceholder": "Search by doctor or date...",
+  "stats": {
+    "totalAppointments": "Total Appointments",
+    "todaysSlots": "Today's Slots",
+    "canceledToday": "Canceled Today",
+    "avgWaitTime": "Avg. Wait Time",
+    "low": "Low"
+  },
+  "masterSchedule": {
+    "title": "Master Schedule",
+    "week": "Week",
+    "day": "Day",
+    "month": "Month",
+    "filter": "Filter",
+    "addSlot": "Add New Slot",
+    "doctors": "Doctors",
+    "filterOptions": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "status": "Appointment Status",
+    "clearAll": "Clear All",
+    "noData": "No schedules found for this week",
+    "prevWeek": "Previous Week",
+    "nextWeek": "Next Week",
+    "prevDay": "Previous Day",
+    "nextDay": "Next Day",
+    "today": "Today",
+    "filterDoctor": "Doctor",
+    "allDoctors": "All Doctors",
+    "clearDoctorFilter": "Clear Doctor Filter",
+    "slot": {
+      "edit": "Edit Slot",
+      "delete": "Delete Slot",
+      "restore": "Restore Slot",
+      "confirmDelete": "Delete this slot?",
+      "confirmDeleteDesc": "This will deactivate the slot. Existing bookings will not be affected.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
+  },
+  "addSlot": {
+    "title": "Add New Schedule Slot",
+    "subtitle": "Create a new availability slot for a doctor.",
+    "doctor": "Select Doctor",
+    "doctorPlaceholder": "Choose a doctor",
+    "date": "Date",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "maxPatients": "Max Patients",
+    "maxPatientsPlaceholder": "e.g. 5",
+    "cancel": "Cancel",
+    "save": "Create Slot",
+    "saving": "Creating...",
+    "errors": {
+      "doctorRequired": "Doctor is required",
+      "dateRequired": "Date is required",
+      "timeRequired": "Start and end time are required",
+      "invalidTime": "End time must be after start time",
+      "maxPatientsRequired": "Max patients must be at least 1"
+    },
+    "sectionGeneral": "General Information",
+    "sectionDetails": "Slot Details",
+    "room": "Room / Location",
+    "roomPlaceholder": "e.g. Room 101",
+    "type": "Appointment Type",
+    "typePlaceholder": "Select type...",
+    "typeOptions": {
+      "checkup": "General Checkup",
+      "followup": "Follow-up",
+      "consultation": "Consultation",
+      "procedure": "Procedure",
+      "therapy": "Therapy"
+    },
+    "notes": "Additional Notes",
+    "notesPlaceholder": "Any specific instructions for this slot..."
+  }
+}

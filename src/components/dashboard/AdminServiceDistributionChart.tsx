@@ -14,7 +14,7 @@ interface AdminServiceDistributionChartProps {
 const COLORS = ['#1392ec', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd'];
 
 export function AdminServiceDistributionChart({ services, loading }: AdminServiceDistributionChartProps) {
-  const t = useTranslations('dashboard.adminAnalytics');
+  const t = useTranslations('adminAnalytics');
 
   const data = services.map(s => ({
     name: s.name,

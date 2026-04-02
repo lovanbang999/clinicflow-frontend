@@ -12,7 +12,7 @@ interface BookingActionsProps {
 }
 
 export function BookingActions({ booking, onConfirm, onCancel, onCheckIn }: BookingActionsProps) {
-  const t = useTranslations('dashboard.receptionist.checkInManagement.table');
+  const t = useTranslations('receptionistCheckIn.table');
 
   if (booking.status === BookingStatus.PENDING) {
     return (

@@ -35,6 +35,11 @@
       "sameAsOld": "Mật khẩu mới không được trùng với mật khẩu cũ"
     }
   },
+  "category": {
+    "notFound": "Không tìm thấy danh mục",
+    "codeExists": "Mã danh mục đã tồn tại",
+    "hasServices": "Không thể xóa danh mục đang chứa dịch vụ"
+  },
   "service": {
     "notFound": "Không tìm thấy dịch vụ",
     "nameExists": "Tên dịch vụ đã tồn tại",

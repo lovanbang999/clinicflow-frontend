@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 
 export const SecurityTab: React.FC = () => {
-  const t = useTranslations('dashboard.technician.settingsContent.security');
+  const t = useTranslations('technicianWorklist.settingsContent.security');
   const { isLoading, changePassword } = useProfile();
   
   const [formData, setFormData] = useState({

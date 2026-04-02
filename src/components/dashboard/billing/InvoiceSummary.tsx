@@ -5,7 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Invoice } from '@/lib/api/billing';
 
 export function InvoiceSummary({ invoice }: { invoice: Invoice }) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.detail');
+  const t = useTranslations('receptionistBilling.detail');
   const locale = useLocale();
 
   const totalA = Number(invoice.totalAmount || 0);

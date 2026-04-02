@@ -21,7 +21,7 @@ interface DeleteDoctorDialogProps {
 }
 
 export function DeleteDoctorDialog({ doctor, open, onOpenChange, onDeleted }: DeleteDoctorDialogProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.deleteDoctor');
+  const t = useTranslations('adminDoctors.deleteDoctor');
   const { deleteDoctor } = useAdminDoctors();
   const [isDeleting, setIsDeleting] = useState(false);
 

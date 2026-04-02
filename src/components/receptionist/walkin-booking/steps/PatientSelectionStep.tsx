@@ -10,7 +10,7 @@ import { CreatePatientForm } from './patient-selection/CreatePatientForm';
 import { SelectedPatientProfile } from './patient-selection/SelectedPatientProfile';
 
 export function PatientSelectionStep() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const {
     currentStep,
     setCurrentStep,

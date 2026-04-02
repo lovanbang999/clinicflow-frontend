@@ -15,7 +15,7 @@ interface ClinicProfileTabProps {
 }
 
 export const ClinicProfileTab: React.FC<ClinicProfileTabProps> = ({ data, onSave, loading }) => {
-  const t = useTranslations('dashboard.admin.settings');
+  const t = useTranslations('adminSettings');
   const [formData, setFormData] = React.useState<ClinicProfile>(data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

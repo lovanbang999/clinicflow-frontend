@@ -16,7 +16,7 @@ export function AdminMonthlyStats({
   successRate,
   revenue,
 }: AdminMonthlyStatsProps) {
-  const t = useTranslations('dashboard.admin.monthlyStats');
+  const t = useTranslations('adminOverview.monthlyStats');
 
   const items = [
     { labelKey: 'bookings', value: bookingCount.toLocaleString(), icon: CalendarBlankIcon, bg: 'bg-blue-50', color: 'text-[#1392ec]', bar: Math.min(bookingCount / 5, 100), barColor: 'bg-[#1392ec]' },

@@ -1,13 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
-import { PlusIcon, PencilSimpleIcon, TrashIcon, CheckCircleIcon, XCircleIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
-
-import { useAdminCategories } from '@/lib/hooks/useAdminCategories';
-import type { Category, CreateCategoryDto } from '@/types';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -24,19 +17,43 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { PlusIcon,
+  PencilSimpleIcon,
+  TrashIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  MagnifyingGlassIcon,
+  CaretLeftIcon,
+  CaretRightIcon
+} from '@phosphor-icons/react';
+import { useAdminCategories } from '@/lib/hooks/useAdminCategories';
+import { useTranslations } from 'next-intl';
+import type { Category, CreateCategoryDto } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function AdminCategoriesPage() {
-  const t = useTranslations('dashboard.admin.categoryManagement');
-  const { categories, isLoading, fetchCategories, createCategory, updateCategory, deleteCategory } = useAdminCategories();
+  const t = useTranslations('adminCategories');
   
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   
+  const { 
+    categories, 
+    pagination, 
+    isLoading, 
+    fetchCategories, 
+    createCategory, 
+    updateCategory, 
+    deleteCategory 
+  } = useAdminCategories();
+
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [deletingCategory, setDeletingCategory] = useState<Category | null>(null);
 
@@ -48,18 +65,11 @@ export default function AdminCategoriesPage() {
     isActive: true,
   });
 
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+  const LIMIT = 10;
 
-  const filteredCategories = useMemo(() => {
-    if (!search) return categories;
-    const lowerSearch = search.toLowerCase();
-    return categories.filter(c => 
-      c.name.toLowerCase().includes(lowerSearch) || 
-      c.code.toLowerCase().includes(lowerSearch)
-    );
-  }, [categories, search]);
+  useEffect(() => {
+    fetchCategories({ page, limit: LIMIT });
+  }, [fetchCategories, page]);
 
   const handleOpenAdd = () => {
     setEditingCategory(null);
@@ -94,20 +104,19 @@ export default function AdminCategoriesPage() {
     
     if (success) {
       setIsFormOpen(false);
-      fetchCategories();
+      fetchCategories({ page, limit: LIMIT });
     }
   };
 
   const handleDeleteConfirm = async () => {
     if (!deletingCategory) return;
     await deleteCategory(deletingCategory.id);
-    // success will be undefined if error occurs based on useApiHandler signature unless we return a boolean, but execute returns result.
-    // Wait, useApiHandler.execute returns the data or undefined.
-    // The delete API returns void, so it might return undefined on both success and error.
-    // Let's just fetchCategories() anyway and close modal.
     setIsDeleteOpen(false);
-    fetchCategories();
+    fetchCategories({ page, limit: LIMIT });
   };
+
+  const from = categories.length > 0 ? (page - 1) * LIMIT + 1 : 0;
+  const to = pagination ? Math.min(page * LIMIT, pagination.total) : 0;
 
   return (
     <div className="p-8 space-y-8">
@@ -154,17 +163,17 @@ export default function AdminCategoriesPage() {
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     <Spinner className="w-6 h-6 mx-auto mb-2" />
-                    Đang tải...
+                    {t('tableState.loading')}
                   </td>
                 </tr>
-              ) : filteredCategories.length === 0 ? (
+              ) : categories.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                    Không có dữ liệu
+                    {t('tableState.empty')}
                   </td>
                 </tr>
               ) : (
-                filteredCategories.map((cat) => (
+                categories.map((cat) => (
                   <tr key={cat.id} className="hover:bg-[#f8fafc] transition-colors">
                     <td className="px-6 py-4 font-medium text-[#111518]">{cat.code}</td>
                     <td className="px-6 py-4 text-[#111518]">{cat.name}</td>
@@ -203,6 +212,35 @@ export default function AdminCategoriesPage() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination */}
+        <div className="p-4 border-t border-[#e5e7eb] flex items-center justify-between">
+          <span className="text-xs text-[#64748b] font-medium">
+            {t('pagination.showing')}{' '}
+            <span className="text-[#111518] font-bold">{categories.length > 0 ? `${from}–${to}` : '0'}</span>{' '}
+            {t('pagination.of')}{' '}
+            <span className="text-[#111518] font-bold">{pagination?.total || 0}</span>{' '}
+            {t('pagination.results')}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={page <= 1}
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              className="flex items-center gap-1 px-3 py-1.5 border border-[#e5e7eb] rounded-lg text-xs font-medium text-[#64748b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <CaretLeftIcon size={12} weight="bold" />
+              {t('pagination.prev')}
+            </button>
+            <button
+              disabled={!pagination || page >= pagination.totalPages}
+              onClick={() => setPage(p => Math.min(pagination?.totalPages || 1, p + 1))}
+              className="flex items-center gap-1 px-3 py-1.5 border border-[#e5e7eb] rounded-lg text-xs font-medium text-[#111518] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              {t('pagination.next')}
+              <CaretRightIcon size={12} weight="bold" />
+            </button>
+          </div>
         </div>
       </div>
 

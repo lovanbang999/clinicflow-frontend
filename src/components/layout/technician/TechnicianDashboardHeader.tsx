@@ -9,7 +9,7 @@ import { NAV_ITEMS_TECHNICIAN } from './TechnicianDashboardSidebar';
 
 export function TechnicianDashboardHeader() {
   const { user } = useAuthStore();
-  const t = useTranslations('dashboard.technician');
+  const t = useTranslations('technicianWorklist');
   const pathname = usePathname();
 
   const activeItem = NAV_ITEMS_TECHNICIAN.find((item) =>

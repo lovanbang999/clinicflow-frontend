@@ -10,7 +10,7 @@ import {
 } from '@phosphor-icons/react';
 
 export function QuickActionBar() {
-  const t = useTranslations('dashboard.patient.quickActions');
+  const t = useTranslations('patientOverview.quickActions');
 
   const actions = [
     {

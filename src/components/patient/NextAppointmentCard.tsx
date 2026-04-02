@@ -18,7 +18,7 @@ interface NextAppointmentProps {
 }
 
 export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 

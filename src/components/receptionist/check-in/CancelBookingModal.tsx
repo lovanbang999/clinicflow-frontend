@@ -21,7 +21,7 @@ export function CancelBookingModal({
   onConfirm,
   isSubmitting,
 }: CancelBookingModalProps) {
-  const t = useTranslations('dashboard.receptionist.checkInManagement.cancelModal');
+  const t = useTranslations('receptionistCheckIn.cancelModal');
   const [selectedReason, setSelectedReason] = useState('');
   const [additionalNotes, setAdditionalNotes] = useState('');
 
