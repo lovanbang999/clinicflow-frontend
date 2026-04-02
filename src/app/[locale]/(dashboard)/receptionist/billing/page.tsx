@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 
 export default function BillingPage() {
-  const t = useTranslations('dashboard.receptionist.billingManagement');
+  const t = useTranslations('receptionistBilling');
   const router = useRouter();
   const { invoices, loading, fetchInvoices } = useBilling();
   

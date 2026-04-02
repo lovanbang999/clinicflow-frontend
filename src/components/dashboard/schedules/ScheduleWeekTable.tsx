@@ -29,7 +29,7 @@ export function ScheduleWeekTable({
   onDelete,
   onRestore,
 }: Props) {
-  const tMs = useTranslations('dashboard.scheduleManagement.masterSchedule');
+  const tMs = useTranslations('adminSchedules.masterSchedule');
 
   return (
     <div className="overflow-x-auto">

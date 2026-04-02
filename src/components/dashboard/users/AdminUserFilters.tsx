@@ -64,7 +64,7 @@ export function AdminUserFilters({
   onClearFilters,
   onUserAdded,
 }: AdminUserFiltersProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
   const hasActiveFilters = selectedRoles.size > 0 || selectedStatuses.size > 0;
   const activeFilterCount = selectedRoles.size + selectedStatuses.size;
 

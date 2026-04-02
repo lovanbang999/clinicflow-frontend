@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { WarningCircleIcon, ArrowLeftIcon } from '@phosphor-icons/react';
 
 export default function AdminNotFound() {
-  const t = useTranslations('dashboard.admin.notFound');
+  const t = useTranslations('adminLayout.notFound');
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-8">

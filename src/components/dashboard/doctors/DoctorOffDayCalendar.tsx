@@ -62,7 +62,7 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
     deleteOffDay,
   } = useDoctorSchedule();
 
-  const t = useTranslations('dashboard.doctor.schedulePage.offDays');
+  const t = useTranslations('doctorSchedule.offDays');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 

@@ -19,7 +19,7 @@ type Props = {
 };
 
 export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+  const t = useTranslations('adminDoctors');
   const moreButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const statusStyles = STATUS_STYLES[doctor.status];

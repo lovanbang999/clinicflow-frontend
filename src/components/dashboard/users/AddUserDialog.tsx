@@ -114,8 +114,8 @@ interface AddUserDialogProps {
 }
 
 export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
-  const t = useTranslations('dashboard.admin.userManagement.addUser');
-  const tRoles = useTranslations('dashboard.admin.userManagement.table.roles');
+  const t = useTranslations('adminUsers.addUser');
+  const tRoles = useTranslations('adminUsers.table.roles');
   const { createUser } = useAdminUsers();
   
   const [open, setOpen] = useState(false);

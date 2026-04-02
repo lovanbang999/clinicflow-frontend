@@ -26,7 +26,7 @@ export function SecurityTab({
   onSave,
   savingPassword,
 }: SecurityTabProps) {
-  const t = useTranslations('dashboard.doctorSettings.security');
+  const t = useTranslations('doctorSettings.security');
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">

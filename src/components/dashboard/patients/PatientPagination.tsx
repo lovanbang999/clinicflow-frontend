@@ -18,7 +18,7 @@ export function PatientPagination({
   totalPages,
   onPageChange,
 }: PatientPaginationProps) {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminPatients');
 
   const from = totalItems === 0 ? 0 : (page - 1) * limit + 1;
   const to = Math.min(page * limit, totalItems);
@@ -26,15 +26,15 @@ export function PatientPagination({
   return (
     <div className="px-6 py-4 border-t border-[#e5e7eb] flex items-center justify-between">
       <p className="text-xs text-[#64748b] font-medium">
-        {t('patientManagement.table.showing')}{' '}
+        {t('table.showing')}{' '}
         <span className="text-[#111518] font-bold">
           {totalItems === 0 ? '0' : `${from}-${to}`}
         </span>{' '}
-        {t('patientManagement.table.of')}{' '}
+        {t('table.of')}{' '}
         <span className="text-[#111518] font-bold">
           {new Intl.NumberFormat('en-US').format(totalItems)}
         </span>{' '}
-        {t('patientManagement.table.results')}
+        {t('table.results')}
       </p>
 
       <div className="flex gap-2">
@@ -44,14 +44,14 @@ export function PatientPagination({
           className="flex items-center gap-1 px-3 py-1.5 border border-[#e5e7eb] rounded-lg text-xs font-medium text-[#64748b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <CaretLeftIcon size={12} weight="bold" />
-          {t('patientManagement.table.previous')}
+          {t('table.previous')}
         </button>
         <button
           disabled={page >= totalPages || totalPages === 0}
           onClick={() => onPageChange(page + 1)}
           className="flex items-center gap-1 px-3 py-1.5 border border-[#e5e7eb] rounded-lg text-xs font-medium text-[#111518] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          {t('patientManagement.table.next')}
+          {t('table.next')}
           <CaretRightIcon size={12} weight="bold" />
         </button>
       </div>

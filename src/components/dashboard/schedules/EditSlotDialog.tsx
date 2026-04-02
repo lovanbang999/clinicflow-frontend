@@ -59,8 +59,8 @@ interface EditSlotForm {
 }
 
 export function EditSlotDialog({ slot, isOpen, onOpenChange, onSuccess }: EditSlotDialogProps) {
-  const t = useTranslations('dashboard.scheduleManagement.addSlot');
-  const tSlot = useTranslations('dashboard.scheduleManagement.masterSchedule.slot');
+  const t = useTranslations('adminSchedules.addSlot');
+  const tSlot = useTranslations('adminSchedules.masterSchedule.slot');
 
   const [form, setForm] = useState<EditSlotForm>({
     startTime: '', endTime: '', maxPatients: '', room: '', type: '', notes: '', isActive: true,

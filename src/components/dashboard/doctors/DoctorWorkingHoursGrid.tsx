@@ -75,7 +75,7 @@ function formatDuration(start: string, end: string) {
 }
 
 export function DoctorWorkingHoursGrid({ doctorId }: Props) {
-  const t = useTranslations('dashboard.doctorWorkingHours');
+  const t = useTranslations('doctorSettings.workingHours');
 
   const {
     workingHours,

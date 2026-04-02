@@ -56,7 +56,7 @@ export function PatientFilters({
   onAddPatient,
   onExport,
 }: PatientFiltersProps) {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminPatients');
 
   const activeFilterCount =
     selectedGenders.size + selectedStatuses.size + selectedBloodTypes.size;
@@ -66,7 +66,7 @@ export function PatientFilters({
     <div className="px-6 py-4 border-b border-[#e5e7eb] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       {/* Table title */}
       <h3 className="font-bold text-[#111518] text-base shrink-0">
-        {t('patientManagement.table.title')}
+        {t('table.title')}
       </h3>
 
       {/* Right side: search + action buttons */}
@@ -81,7 +81,7 @@ export function PatientFilters({
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder={t('patientManagement.table.searchPlaceholder')}
+            placeholder={t('table.searchPlaceholder')}
             className="pl-9 pr-4 py-2 bg-[#f6f7f8] border border-[#e5e7eb] rounded-xl text-sm text-[#111518] placeholder:text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 focus:border-[#1392ec] w-64 transition-all"
           />
         </div>
@@ -93,7 +93,7 @@ export function PatientFilters({
             className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1392ec]/10 text-[#1392ec] rounded-lg text-xs font-semibold hover:bg-[#1392ec]/20 transition-all cursor-pointer"
           >
             <XIcon size={12} weight="bold" />
-            {t('patientManagement.table.clear')} ({activeFilterCount})
+            {t('table.clear')} ({activeFilterCount})
           </button>
         )}
 
@@ -109,7 +109,7 @@ export function PatientFilters({
               )}
             >
               <FunnelIcon size={16} weight={hasActiveFilters ? 'fill' : 'regular'} />
-              {t('patientManagement.table.filter')}
+              {t('table.filter')}
               {activeFilterCount > 0 && (
                 <span className="size-5 rounded-full bg-[#1392ec] text-white text-xs flex items-center justify-center font-bold">
                   {activeFilterCount}
@@ -121,7 +121,7 @@ export function PatientFilters({
           <DropdownMenuContent align="end" className="w-52">
             {/* Gender */}
             <DropdownMenuLabel className="text-xs text-[#94a3b8] uppercase tracking-wider font-bold">
-              {t('patientManagement.table.columns.gender')}
+              {t('table.columns.gender')}
             </DropdownMenuLabel>
             {ALL_GENDERS.map((g) => (
               <DropdownMenuCheckboxItem
@@ -136,7 +136,7 @@ export function PatientFilters({
                     GENDER_STYLES[g],
                   )}
                 >
-                  {t(`patientManagement.table.genders.${g}`)}
+                  {t(`table.genders.${g}`)}
                 </span>
               </DropdownMenuCheckboxItem>
             ))}
@@ -145,7 +145,7 @@ export function PatientFilters({
 
             {/* Status */}
             <DropdownMenuLabel className="text-xs text-[#94a3b8] uppercase tracking-wider font-bold">
-              {t('patientManagement.table.columns.status')}
+              {t('table.columns.status')}
             </DropdownMenuLabel>
             {ALL_STATUSES.map((s) => {
               const styles = STATUS_STYLES[s];
@@ -163,7 +163,7 @@ export function PatientFilters({
                     )}
                   >
                     <span className={cn('size-1.5 rounded-full', styles.dot)} />
-                    {t(`patientManagement.table.statuses.${s}`)}
+                    {t(`table.statuses.${s}`)}
                   </span>
                 </DropdownMenuCheckboxItem>
               );
@@ -173,7 +173,7 @@ export function PatientFilters({
 
             {/* Blood Type */}
             <DropdownMenuLabel className="text-xs text-[#94a3b8] uppercase tracking-wider font-bold">
-              {t('patientManagement.table.columns.blood')}
+              {t('table.columns.blood')}
             </DropdownMenuLabel>
             {ALL_BLOOD_TYPES.map((bt) => (
               <DropdownMenuCheckboxItem
@@ -200,7 +200,7 @@ export function PatientFilters({
                   onClick={onClearFilters}
                   className="w-full text-center text-xs text-[#64748b] hover:text-red-500 py-1.5 transition-colors cursor-pointer font-medium"
                 >
-                  {t('patientManagement.table.clearAll')}
+                  {t('table.clearAll')}
                 </button>
               </>
             )}
@@ -213,7 +213,7 @@ export function PatientFilters({
           className="flex items-center gap-1.5 px-4 py-2 bg-[#1392ec] hover:bg-[#1180d0] text-white text-sm font-semibold rounded-xl transition-all shadow-sm shadow-[#1392ec]/20 cursor-pointer"
         >
           <PlusIcon size={16} weight="bold" />
-          {t('patientManagement.table.addPatient')}
+          {t('table.addPatient')}
         </button>
 
         {/* Export */}
@@ -222,7 +222,7 @@ export function PatientFilters({
           className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-[#64748b] border border-[#e5e7eb] rounded-xl hover:bg-[#f6f7f8] transition-colors cursor-pointer"
         >
           <DownloadSimpleIcon size={16} />
-          {t('patientManagement.table.export')}
+          {t('table.export')}
         </button>
       </div>
     </div>

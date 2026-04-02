@@ -41,7 +41,7 @@ export function ScheduleToolbar({
   onFilterStatusChange, onFilterDoctorChange,
   onAddSlot,
 }: Props) {
-  const tMs = useTranslations('dashboard.scheduleManagement.masterSchedule');
+  const tMs = useTranslations('adminSchedules.masterSchedule');
 
   return (
     <div className="p-6 border-b border-[#e5e7eb] flex flex-wrap justify-between items-center gap-3 shrink-0">

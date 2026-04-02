@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { SpinnerIcon, FlaskIcon, CheckCircleIcon, ClockIcon } from '@phosphor-icons/react';
 
 export default function ReceptionistLabsPage() {
-  const t = useTranslations('dashboard.receptionist.labManagement');
+  const t = useTranslations('receptionistLabs');
   const { orders, isLoading, refetch } = usePendingLabOrders(true);
 
   // Modal State

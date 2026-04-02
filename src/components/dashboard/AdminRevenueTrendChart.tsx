@@ -62,7 +62,7 @@ export function AdminRevenueTrendChart({
   const [range, setRange] = useState<'week' | 'month' | 'quarter'>('month');
   const [isExporting, setIsExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations('dashboard.admin.chart');
+  const t = useTranslations('adminOverview.chart');
 
   // If external data is NOT provided, use internal hook
   const { data: internalData, loading: internalLoading } = useAdminRevenueChart(

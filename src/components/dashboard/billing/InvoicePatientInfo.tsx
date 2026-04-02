@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Invoice } from '@/lib/api/billing';
 
 export function InvoicePatientInfo({ invoice }: { invoice: Invoice }) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.detail');
+  const t = useTranslations('receptionistBilling.detail');
 
   return (
     <Card className="rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4 cursor-pointer">

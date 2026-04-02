@@ -20,7 +20,7 @@ type Props = {
 };
 
 export function ServiceTableRow({ service, index, onEdit, onDelete, onRestore }: Props) {
-  const t = useTranslations('dashboard.serviceManagement.table');
+  const t = useTranslations('adminServices.table');
 
   const IconComponent = service.iconUrl && (LucideIcons as unknown as Record<string, LucideIcon>)[service.iconUrl] 
     ? (LucideIcons as unknown as Record<string, LucideIcon>)[service.iconUrl] 

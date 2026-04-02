@@ -21,7 +21,7 @@ interface MedicalRecordFormProps {
 }
 
 export function MedicalRecordForm({ isLoading, visible = true }: MedicalRecordFormProps) {
-  const t = useTranslations('dashboard.emr.form');
+  const t = useTranslations('emr.form');
 
   const { results: icdResults, search: searchIcd, setResults: setIcdResults } = useIcd10Search();
 

@@ -17,7 +17,7 @@ interface BookingRulesTabProps {
 }
 
 export const BookingRulesTab: React.FC<BookingRulesTabProps> = ({ data, onSave, loading }) => {
-  const t = useTranslations('dashboard.admin.settings');
+  const t = useTranslations('adminSettings');
   const [formData, setFormData] = React.useState<BookingRules>(data);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

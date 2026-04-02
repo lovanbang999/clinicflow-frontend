@@ -32,7 +32,7 @@ function formatVND(val: number): string {
 }
 
 export default function ReceptionistReportsPage() {
-  const t = useTranslations('dashboard.receptionist.reports');
+  const t = useTranslations('receptionistReports');
 
   // Default to last 7 days for the trend
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({

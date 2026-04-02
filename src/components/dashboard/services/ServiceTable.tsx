@@ -65,11 +65,11 @@ export function ServiceTable({
   onDelete,
   onRestore,
 }: Props) {
-  const t = useTranslations('dashboard.serviceManagement.table');
+  const t = useTranslations('adminServices.table');
   const { categories, fetchCategories } = useAdminCategories();
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories({ limit: 1000 });
   }, [fetchCategories]);
 
   const from = total > 0 ? (page - 1) * LIMIT + 1 : 0;

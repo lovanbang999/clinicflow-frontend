@@ -79,7 +79,7 @@ function EmptyTopDoctors({ t }: { t: ReturnType<typeof useTranslations> }) {
 }
 
 export function AdminTopDoctors({ doctors }: { doctors: TopDoctorItem[] }) {
-  const t = useTranslations('dashboard.admin.topDoctors');
+  const t = useTranslations('adminOverview.topDoctors');
   const docList = Array.isArray(doctors) ? doctors : [];
   const max = Math.max(...docList.map((d) => d.patientsCount), 1);
   const isEmpty = docList.length === 0;

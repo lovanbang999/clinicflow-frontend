@@ -33,7 +33,7 @@ export function DoctorMoreMenu({
   onToggleStatus,
   onDelete,
 }: DoctorMoreMenuProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.moreMenu');
+  const t = useTranslations('adminDoctors.moreMenu');
   const menuRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ top: 0, left: 0 });
 

@@ -113,7 +113,7 @@ interface AddDoctorDialogProps {
 
 // Main component
 export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctorDialogProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.addDoctor');
+  const t = useTranslations('adminDoctors.addDoctor');
   const { createDoctor, updateDoctorProfile } = useAdminDoctors();
 
   const [form, setForm] = useState<AddDoctorForm>(DEFAULT_FORM);

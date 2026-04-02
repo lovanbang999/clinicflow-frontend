@@ -35,7 +35,7 @@ function formatVND(val: number): string {
 }
 
 export default function AdminAnalyticsPage() {
-  const t = useTranslations('dashboard.adminAnalytics');
+  const t = useTranslations('adminAnalytics');
 
   // Default to current month
   const [date, setDate] = React.useState<DateRange | undefined>({

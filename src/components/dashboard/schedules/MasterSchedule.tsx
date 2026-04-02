@@ -25,7 +25,7 @@ import { ScheduleDayGantt } from './ScheduleDayGantt';
 type ViewMode = 'week' | 'day';
 
 export function MasterSchedule() {
-  const tMs = useTranslations('dashboard.scheduleManagement.masterSchedule');
+  const tMs = useTranslations('adminSchedules.masterSchedule');
 
   // State
   const [viewMode, setViewMode] = useState<ViewMode>('day');

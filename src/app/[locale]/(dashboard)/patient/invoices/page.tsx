@@ -18,7 +18,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.status');
+  const t = useTranslations('receptionistBilling.status');
   
   switch (status) {
     case InvoiceStatus.PAID:
@@ -50,7 +50,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 }
 
 export default function PatientInvoicesPage() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const locale = useLocale();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);

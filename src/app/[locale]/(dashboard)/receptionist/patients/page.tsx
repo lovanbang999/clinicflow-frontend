@@ -23,7 +23,7 @@ import { toast } from 'sonner';
 const LIMIT = 10;
 
 export default function ReceptionistPatientsPage() {
-  const t = useTranslations('dashboard.receptionist.patientManagement');
+  const t = useTranslations('receptionistPatients');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearch = useDebounce(search, 500);

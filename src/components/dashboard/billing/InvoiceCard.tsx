@@ -45,7 +45,7 @@ export function InvoiceCard({
   onPrintTicket: (invoice: Invoice) => void;
   onDelete?: (invoice: Invoice) => void;
 }) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.bookingInvoices');
+  const t = useTranslations('receptionistBilling.bookingInvoices');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 

@@ -18,8 +18,8 @@ interface DoctorDetailSheetProps {
 }
 
 export function DoctorDetailSheet({ isOpen, onClose, doctor }: DoctorDetailSheetProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.detailSheet');
-  const tTable = useTranslations('dashboard.admin.doctorManagement.table');
+  const t = useTranslations('adminDoctors.detailSheet');
+  const tTable = useTranslations('adminDoctors.table');
 
   if (!doctor) return null;
 

@@ -6,13 +6,11 @@ import {
   MoonIcon,
   SunIcon,
   GlobeIcon,
-  ShieldCheckIcon,
-  CaretRightIcon,
 } from '@phosphor-icons/react';
 import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
 
 export default function PatientSettingsPage() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const { isDark, toggleDarkMode } = useThemeStore();
 
   return (
@@ -77,7 +75,7 @@ export default function PatientSettingsPage() {
         </section>
 
         {/* Security Section (Placeholder) */}
-        <section className="space-y-4 pt-4">
+        {/* <section className="space-y-4 pt-4">
           <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest pl-1">
             {t('security')}
           </h3>
@@ -95,7 +93,7 @@ export default function PatientSettingsPage() {
               <CaretRightIcon className="text-slate-300 group-hover:text-slate-500 transition-colors" weight="bold" />
             </button>
           </div>
-        </section>
+        </section> */}
       </div>
     </div>
   );

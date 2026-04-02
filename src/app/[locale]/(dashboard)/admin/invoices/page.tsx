@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/select";
 
 export default function AdminInvoicesPage() {
-  const t = useTranslations('dashboard.admin.billingManagement');
-  const tCommon = useTranslations('dashboard.receptionist.billingManagement');
+  const t = useTranslations('adminInvoices');
+  const tCommon = useTranslations('receptionistBilling');
   
   const { 
     invoices, 
@@ -103,7 +103,7 @@ export default function AdminInvoicesPage() {
           invoices={invoices} 
           loading={loading} 
           basePath="/admin/invoices"
-          tPath="dashboard.receptionist.billingManagement"
+          tPath="adminInvoices"
         />
       </div>
 

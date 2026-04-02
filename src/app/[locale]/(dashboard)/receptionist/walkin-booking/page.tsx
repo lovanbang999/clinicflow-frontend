@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { WalkinBookingForm } from '@/components/receptionist/walkin-booking/WalkinBookingForm';
 
 export default function WalkinBookingPage() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm');
+  const t = useTranslations('receptionistWalkinBooking');
 
   return (
     <div className="p-8 h-full overflow-y-auto bg-slate-50/50">

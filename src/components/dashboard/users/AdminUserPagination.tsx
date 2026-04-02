@@ -18,7 +18,7 @@ export function AdminUserPagination({
   totalPages,
   onPageChange,
 }: PaginationProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
   
   // Calculate displayed range
   const startParam = totalItems > 0 ? (page - 1) * limit + 1 : 0;

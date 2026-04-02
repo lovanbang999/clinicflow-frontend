@@ -9,8 +9,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Invoice } from '@/lib/api/billing';
 
 export function InvoicePaymentHistory({ invoice }: { invoice: Invoice }) {
-  const t = useTranslations('dashboard.receptionist.billingManagement.detail');
-  const tModal = useTranslations('dashboard.receptionist.billingManagement.paymentModal');
+  const t = useTranslations('receptionistBilling.detail');
+  const tModal = useTranslations('receptionistBilling.paymentModal');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
 

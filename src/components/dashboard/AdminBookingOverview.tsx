@@ -8,7 +8,7 @@ interface AdminBookingOverviewProps {
 }
 
 export function AdminBookingOverview({ data }: AdminBookingOverviewProps) {
-  const t = useTranslations('dashboard.admin.bookingOverview');
+  const t = useTranslations('adminOverview.bookingOverview');
 
   const rows = [
     {

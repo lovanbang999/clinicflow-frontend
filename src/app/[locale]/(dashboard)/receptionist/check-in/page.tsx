@@ -21,7 +21,7 @@ interface DoctorOption {
 }
 
 export default function ReceptionistCheckInPage() {
-  const t = useTranslations('dashboard.receptionist.checkInManagement');
+  const t = useTranslations('receptionistCheckIn');
   const router = useRouter();
   const { fetchBookings, cancelBooking, fetchReceptionistStats } = useBookings();
 
