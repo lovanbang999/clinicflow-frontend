@@ -22,7 +22,7 @@ export function PatientTable({
   onView,
   onEdit,
 }: PatientTableProps) {
-  const t = useTranslations('dashboard.receptionist.patientManagement');
+  const t = useTranslations('receptionistPatients');
 
   const columns = [
     t('table.patient'),

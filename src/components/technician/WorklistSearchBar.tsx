@@ -19,7 +19,7 @@ export function WorklistSearchBar({
   onRefresh,
   isLoading
 }: WorklistSearchBarProps) {
-  const t = useTranslations('dashboard.technician.worklist');
+  const t = useTranslations('technicianWorklist.worklist');
 
   return (
     <div className="pb-4 shrink-0 flex items-center justify-between gap-4">

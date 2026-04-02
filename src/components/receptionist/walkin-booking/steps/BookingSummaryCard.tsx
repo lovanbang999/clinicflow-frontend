@@ -12,8 +12,8 @@ import {
 } from '@phosphor-icons/react';
 
 export function BookingSummaryCard() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.summary');
-  const tTime = useTranslations('dashboard.receptionist.walkinBookingForm.time');
+  const t = useTranslations('receptionistWalkinBooking.summary');
+  const tTime = useTranslations('receptionistWalkinBooking.time');
   const {
     currentStep,
     setCurrentStep,

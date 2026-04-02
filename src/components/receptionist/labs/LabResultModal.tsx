@@ -27,7 +27,7 @@ interface LabResultModalProps {
 }
 
 export function LabResultModal({ isOpen, order, onClose, onSuccess }: LabResultModalProps) {
-  const t = useTranslations('dashboard.receptionist.labManagement.modal');
+  const t = useTranslations('receptionistLabs.modal');
   const [resultText, setResultText] = useState('');
   const [isAbnormal, setIsAbnormal] = useState(false);
   const [abnormalNote, setAbnormalNote] = useState('');

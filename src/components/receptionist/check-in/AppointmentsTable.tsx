@@ -67,7 +67,7 @@ export function AppointmentsTable({
   onServiceChange,
   services,
 }: AppointmentsTableProps) {
-  const t = useTranslations('dashboard.receptionist.checkInManagement');
+  const t = useTranslations('receptionistCheckIn');
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isDoctorDropdownOpen, setIsDoctorDropdownOpen] = useState(false);

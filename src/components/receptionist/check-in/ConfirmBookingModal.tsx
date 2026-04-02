@@ -20,7 +20,7 @@ export function ConfirmBookingModal({
   onConfirm,
   isSubmitting,
 }: ConfirmBookingModalProps) {
-  const t = useTranslations('dashboard.receptionist.checkInManagement.confirmModal');
+  const t = useTranslations('receptionistCheckIn.confirmModal');
 
   if (!isOpen || !booking) return null;
 

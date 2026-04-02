@@ -5,7 +5,7 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../../WalkinBookingContext';
 
 export function SearchSection() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const {
     searchQuery,
     setSearchQuery,

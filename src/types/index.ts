@@ -22,12 +22,16 @@ export interface ApiError {
   timestamp: string;
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
+export interface PaginationMeta {
   total: number;
   page: number;
   limit: number;
   totalPages: number;
+}
+
+export interface PaginatedResult<T> {
+  items: T[];
+  pagination: PaginationMeta;
 }
 
 export interface ApiResponse<T = unknown> {

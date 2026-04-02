@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export function CompletedBooking() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.success');
+  const t = useTranslations('receptionistWalkinBooking.success');
   const router = useRouter();
   const { selectedPatient, completedBooking, handleReset } = useWalkinBooking();
   const [isRedirecting, setIsRedirecting] = useState(false);

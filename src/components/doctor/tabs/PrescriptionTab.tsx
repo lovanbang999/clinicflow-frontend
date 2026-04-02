@@ -18,7 +18,7 @@ interface PrescriptionTabProps {
 }
 
 export function PrescriptionTab({ bookingId, record, onSaved }: PrescriptionTabProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit.prescription');
+  const t = useTranslations('emr.visit.prescription');
   const [isSaving, setIsSaving] = useState(false);
   const canPrescribe = record?.visitStep === 'DIAGNOSED' || record?.visitStep === 'PRESCRIBED' || record?.visitStep === 'COMPLETED';
 

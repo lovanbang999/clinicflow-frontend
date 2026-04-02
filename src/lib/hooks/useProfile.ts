@@ -7,7 +7,7 @@ import type { UpdateProfileDto } from '@/types';
 import { useApiHandler } from './useApiHandler';
 
 export function useProfile() {
-  const t = useTranslations('dashboard');
+  const t = useTranslations('common');
   const { setUser, user: authUser } = useAuthStore();
   const { execute, isLoading } = useApiHandler();
 
@@ -19,7 +19,7 @@ export function useProfile() {
         return profile;
       },
       {
-        errorFallbackMsg: t('common.errorTitle')
+        errorFallbackMsg: t('errorTitle')
       }
     );
   }, [setUser, t, execute]);
@@ -37,7 +37,7 @@ export function useProfile() {
             description: t('profile.updateSuccessDescription'),
           });
         },
-        errorFallbackMsg: t('common.errorTitle')
+        errorFallbackMsg: t('errorTitle')
       }
     );
   }, [setUser, t, execute]);
@@ -58,7 +58,7 @@ export function useProfile() {
             description: t('profile.avatarUploadSuccessDescription'),
           });
         },
-        errorFallbackMsg: t('common.errorTitle')
+        errorFallbackMsg: t('errorTitle')
       }
     );
   }, [t, execute]);

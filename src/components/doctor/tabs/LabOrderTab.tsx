@@ -31,7 +31,7 @@ interface LabOrderTabProps {
 }
 
 export function LabOrderTab({ bookingId, record, onSaved }: LabOrderTabProps) {
-  const t = useTranslations('dashboard.doctor.workspace.visit.services');
+  const t = useTranslations('emr.visit.services');
   const [allServices, setAllServices] = useState<Service[]>([]);
   const [search, setSearch] = useState('');
   const [orders, setOrders] = useState<LabOrder[]>([]);

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { BookingStatus } from '@/types';
 
 export function UpcomingAppointments() {
-  const t = useTranslations('dashboard.receptionist.upcomingAppointments');
+  const t = useTranslations('receptionistOverview.upcomingAppointments');
   const { upcomingBookings, loadingUpcoming, checkIn, isCheckingIn } = useReceptionistDashboard();
 
   return (
@@ -78,7 +78,7 @@ export function UpcomingAppointments() {
                       className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-lg text-xs font-bold transition-all disabled:opacity-50 cursor-pointer"
                     >
                       <UserCheckIcon weight="fill" size={14} />
-                      Check-in
+                      {t('checkIn')}
                     </button>
                   </td>
                 </tr>

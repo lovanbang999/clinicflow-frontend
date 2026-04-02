@@ -31,7 +31,7 @@ export function PatientRegistrationModal({
   onSubmitGuest,
   initialTab = 'standard',
 }: PatientRegistrationModalProps) {
-  const t = useTranslations('dashboard.receptionist.patientManagement.registrationModal');
+  const t = useTranslations('receptionistPatients.registrationModal');
   const [activeTab, setActiveTab] = useState<'standard' | 'guest'>(initialTab);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});

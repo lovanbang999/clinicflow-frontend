@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useWalkinBooking } from '../../WalkinBookingContext';
 
 export function Pagination() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.patient');
+  const t = useTranslations('receptionistWalkinBooking.patient');
   const { pagination, isSearching, setPage } = useWalkinBooking();
 
   if (pagination.totalPages <= 1) return null;

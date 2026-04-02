@@ -8,7 +8,7 @@ import { vi as viLocale } from 'date-fns/locale';
 import { useLocale } from 'next-intl';
 
 export function AppointmentTimeStep() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.time');
+  const t = useTranslations('receptionistWalkinBooking.time');
   const locale = useLocale();
   const {
     currentStep,

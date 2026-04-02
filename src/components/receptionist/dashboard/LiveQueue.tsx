@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { BookingStatus } from '@/types';
 
 export function LiveQueue() {
-  const t = useTranslations('dashboard.receptionist.liveQueue');
+  const t = useTranslations('receptionistOverview.liveQueue');
   const { queueRecords, loadingQueue, promoteQueue } = useReceptionistDashboard();
 
   return (

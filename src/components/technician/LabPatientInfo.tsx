@@ -11,7 +11,7 @@ interface LabPatientInfoProps {
 }
 
 export function LabPatientInfo({ patientProfile, bookingCode }: LabPatientInfoProps) {
-  const t = useTranslations('dashboard.technician.result');
+  const t = useTranslations('technicianWorklist.result');
   const tCommon = useTranslations('common.profile');
 
   if (!patientProfile) return null;

@@ -43,12 +43,12 @@ export function PatientDetailDrawer({
   onBook,
 }: PatientDetailDrawerProps) {
   const isClient = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
 
-  const t = useTranslations('dashboard.receptionist.patientManagement.quickView');
+  const t = useTranslations('receptionistPatients.quickView');
 
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -79,18 +79,18 @@ export function PatientDetailDrawer({
   return createPortal(
     <div className="z-[100] relative">
       {/* Quick View Drawer Overlay */}
-      <div 
+      <div
         className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Quick View Drawer */}
       <aside className="fixed top-0 right-0 h-full w-full max-w-2xl bg-white dark:bg-slate-950 z-50 shadow-2xl flex flex-col transform transition-transform border-l border-slate-200 dark:border-slate-800 animate-in slide-in-from-right duration-300">
-        
+
         {/* Drawer Header */}
         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-950 sticky top-0 z-10">
           <h3 className="font-bold text-slate-900 dark:text-white">{t('title')}</h3>
-          <button 
+          <button
             onClick={onClose}
             className="size-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors cursor-pointer"
           >
@@ -100,7 +100,7 @@ export function PatientDetailDrawer({
 
         {/* Drawer Content (Scrollable) */}
         <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-          
+
           {/* Patient Header Info */}
           <section className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
             <div className="relative">
@@ -127,30 +127,30 @@ export function PatientDetailDrawer({
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">{patient.fullName}</h2>
                 <span className={cn(
                   "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider",
-                  patient.isActive 
+                  patient.isActive
                     ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
                     : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
                 )}>
-                  {patient.isActive ? 'ACTIVE' : 'INACTIVE'}
+                  {patient.isActive ? t('statusActive') : t('statusInactive')}
                 </span>
                 {profile?.isGuest && (
-                    <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded uppercase tracking-wider">
-                      GUEST
-                    </span>
+                  <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded uppercase tracking-wider">
+                    {t('guestLabel')}
+                  </span>
                 )}
               </div>
 
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-xs text-slate-500 mb-3">
                 <span className="flex items-center gap-1">
-                  <CakeIcon size={14} /> 
+                  <CakeIcon size={14} />
                   {patient.dateOfBirth ? format(new Date(patient.dateOfBirth), 'dd/MM/yyyy') : '—'}
                 </span>
                 <span className="flex items-center gap-1">
-                  <UserIcon size={14} /> 
+                  <UserIcon size={14} />
                   {patient.gender || '—'}
                 </span>
                 <span className="flex items-center gap-1">
-                  <DropIcon size={14} weight="fill" /> 
+                  <DropIcon size={14} weight="fill" />
                   {profile?.bloodType || '—'}
                 </span>
               </div>
@@ -172,13 +172,13 @@ export function PatientDetailDrawer({
             </div>
 
             <div className="flex flex-col gap-2 w-full sm:w-auto">
-              <button 
+              <button
                 onClick={() => onBook?.(patient)}
                 className="px-4 py-2 bg-[#1392ec] text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-[#1392ec]/90 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <CalendarPlusIcon size={16} /> {t('bookAppt')}
               </button>
-              <button 
+              <button
                 onClick={() => onEdit?.(patient)}
                 className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 hover:bg-slate-200 transition-all cursor-pointer"
               >
@@ -195,11 +195,10 @@ export function PatientDetailDrawer({
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`pb-3 text-xs font-bold border-b-2 transition-colors cursor-pointer ${
-                      activeTab === tab.id
+                    className={`pb-3 text-xs font-bold border-b-2 transition-colors cursor-pointer ${activeTab === tab.id
                         ? 'border-[#1392ec] text-[#1392ec]'
                         : 'border-transparent text-slate-500 hover:text-slate-700'
-                    }`}
+                      }`}
                   >
                     {tab.label}
                   </button>
@@ -231,7 +230,7 @@ export function PatientDetailDrawer({
                     <div className="flex items-center gap-1">
                       <CalculatorIcon size={18} className="text-[#1392ec] shrink-0" weight="fill" />
                       <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                        {profile?.weightKg && profile?.heightCm 
+                        {profile?.weightKg && profile?.heightCm
                           ? (profile.weightKg / Math.pow(profile.heightCm / 100, 2)).toFixed(1)
                           : '--'}
                       </span>
@@ -255,7 +254,7 @@ export function PatientDetailDrawer({
 
                 {/* Main Content Columns */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-display">
-                  
+
                   {/* Left Column */}
                   <div className="space-y-8">
                     {/* Active Conditions */}
@@ -266,12 +265,12 @@ export function PatientDetailDrawer({
                       </div>
                       <div className="space-y-3">
                         {profile?.chronicConditions ? (
-                           profile.chronicConditions.split(',').map((condition, idx) => (
-                             <div key={idx} className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex justify-between items-center shadow-sm">
-                               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{condition.trim()}</span>
-                               <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 font-bold text-[10px] rounded-full uppercase tracking-wider">Active</span>
-                             </div>
-                           ))
+                          profile.chronicConditions.split(',').map((condition, idx) => (
+                            <div key={idx} className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex justify-between items-center shadow-sm">
+                              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{condition.trim()}</span>
+                              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 font-bold text-[10px] rounded-full uppercase tracking-wider">Active</span>
+                            </div>
+                          ))
                         ) : (
                           <p className="text-xs text-slate-400 p-2 italic">{t('comingSoon.desc')}</p>
                         )}
@@ -304,15 +303,15 @@ export function PatientDetailDrawer({
                       <div className="size-1.5 rounded-full bg-amber-500"></div>
                       <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">{t('activity.title')}</h4>
                     </div>
-                    
+
                     <div className="relative border-l border-slate-200 dark:border-slate-800 ml-3 pl-6 space-y-6 pt-2 pb-2 mt-2">
                       <div className="relative">
                         <div className="absolute -left-6 -translate-x-1/2 top-0 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-full p-1.5 border-[3px] border-white dark:border-slate-950 flex justify-center items-center">
                           <CalendarCheckIcon size={14} weight="fill" />
                         </div>
                         <div className="flex flex-col -mt-1">
-                          <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">Last Visit Recorded</span>
-                          <span className="text-xs text-slate-500 mt-1">Status check &bull; Automated system</span>
+                          <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">{t('activity.lastVisitTitle')}</span>
+                          <span className="text-xs text-slate-500 mt-1">{t('activity.lastVisitDesc')}</span>
                         </div>
                       </div>
                     </div>
@@ -320,7 +319,7 @@ export function PatientDetailDrawer({
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'medical_records' && (
               <div className="space-y-4 font-display">
                 <div className="flex items-center justify-between">
@@ -350,7 +349,7 @@ export function PatientDetailDrawer({
                 </div>
               </div>
             )}
-            
+
             {activeTab !== 'medical_records' && activeTab !== 'overview' && (
               <div className="flex flex-col items-center justify-center p-12 text-center bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 animate-in fade-in font-display">
                 <span className="text-slate-400 mb-2 font-medium">{t('comingSoon.title')}</span>

@@ -11,7 +11,7 @@ import { UpdateProfileDto } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const AccountProfileTab: React.FC = () => {
-  const t = useTranslations('dashboard.technician.settingsContent.account');
+  const t = useTranslations('technicianWorklist.settingsContent.account');
   const { user, isLoading, fetchProfile, updateProfile } = useProfile();
   const [formData, setFormData] = useState<UpdateProfileDto>({});
   const [initialLoading, setInitialLoading] = useState(true);

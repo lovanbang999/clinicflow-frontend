@@ -18,7 +18,7 @@ export function PatientPagination({
   totalPages,
   onPageChange,
 }: PatientPaginationProps) {
-  const t = useTranslations('dashboard.receptionist.patientManagement.table.pagination');
+  const t = useTranslations('receptionistPatients.table.pagination');
 
   const from = totalItems === 0 ? 0 : (page - 1) * limit + 1;
   const to = Math.min(page * limit, totalItems);

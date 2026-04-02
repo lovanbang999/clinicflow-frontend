@@ -4,7 +4,7 @@ import { labOrdersApi, type LabOrder, type CreateLabOrderDto, type UploadLabResu
 import { useApiHandler } from './useApiHandler';
 
 export function useLabOrders(bookingId: string) {
-  const t = useTranslations('dashboard.technician.messages');
+  const t = useTranslations('technicianWorklist.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const { execute: executeFetch, isLoading } = useApiHandler();
   const { execute: executeSubmit, isLoading: isSubmitting } = useApiHandler();
@@ -68,7 +68,7 @@ export function useLabOrders(bookingId: string) {
 }
 
 export function usePendingLabOrders(autoRefresh = false) {
-  const t = useTranslations('dashboard.technician.messages');
+  const t = useTranslations('technicianWorklist.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const { execute, isLoading } = useApiHandler();
 
@@ -105,7 +105,7 @@ export function usePendingLabOrders(autoRefresh = false) {
 }
 
 export function useReadyLabOrders(autoRefresh = false) {
-  const t = useTranslations('dashboard.technician.messages');
+  const t = useTranslations('technicianWorklist.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const { execute, isLoading } = useApiHandler();
 
@@ -142,7 +142,7 @@ export function useReadyLabOrders(autoRefresh = false) {
 }
 
 export function useLabOrder(orderId: string) {
-  const t = useTranslations('dashboard.technician.messages');
+  const t = useTranslations('technicianWorklist.messages');
   const [order, setOrder] = useState<LabOrder | null>(null);
   const { execute, isLoading } = useApiHandler();
 
@@ -172,7 +172,7 @@ export function useLabOrder(orderId: string) {
 }
 
 export function useLabOrderActions() {
-  const t = useTranslations('dashboard.technician.messages');
+  const t = useTranslations('technicianWorklist.messages');
   const { execute: executeUpload, isLoading: isUploading } = useApiHandler();
   const { execute: executeSubmit, isLoading: isSubmitting } = useApiHandler();
 
@@ -247,7 +247,7 @@ export function useTechnicianStats(autoRefresh = false) {
 }
 
 export function useTechnicianHistory() {
-  const t = useTranslations('dashboard.technician.messages');
+  const t = useTranslations('technicianWorklist.messages');
   const [orders, setOrders] = useState<LabOrder[]>([]);
   const { execute, isLoading } = useApiHandler();
 

@@ -39,7 +39,7 @@ export function PatientEditModal({
   onClose,
   onSubmit,
 }: PatientEditModalProps) {
-  const t = useTranslations('dashboard.receptionist.patientManagement.editModal');
+  const t = useTranslations('receptionistPatients.editModal');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -100,8 +100,8 @@ export function PatientEditModal({
     
     setErrors({});
     const newErrors: Record<string, string> = {};
-    if (!formData.fullName.trim()) newErrors.fullName = 'Họ tên là bắt buộc';
-    if (!formData.phone.trim()) newErrors.phone = 'Số điện thoại là bắt buộc';
+    if (!formData.fullName.trim()) newErrors.fullName = t('errors.fullName');
+    if (!formData.phone.trim()) newErrors.phone = t('errors.phone');
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

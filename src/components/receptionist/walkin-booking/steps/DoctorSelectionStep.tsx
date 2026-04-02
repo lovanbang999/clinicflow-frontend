@@ -7,7 +7,7 @@ import { UserIcon, CheckCircleIcon, MagnifyingGlassIcon, PencilSimpleIcon } from
 import { useWalkinBooking } from '../WalkinBookingContext';
 
 export function DoctorSelectionStep() {
-  const t = useTranslations('dashboard.receptionist.walkinBookingForm.doctor');
+  const t = useTranslations('receptionistWalkinBooking.doctor');
   const {
     currentStep,
     setCurrentStep,

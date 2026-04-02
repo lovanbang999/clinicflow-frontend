@@ -47,6 +47,11 @@ export const ERROR_MESSAGE_MAP: Record<string, string> = {
   'USER.EMAIL.EXISTS': 'user.emailExists',
   'USER.PHONE.EXISTS': 'user.phoneExists',
   
+  // Category errors
+  'CATEGORY.NOT_FOUND': 'category.notFound',
+  'CATEGORY.CREATE.CODE_EXISTS': 'category.codeExists',
+  'CATEGORY.DELETE.HAS_SERVICES': 'category.hasServices',
+
   // Service errors
   'SERVICE.NOT_FOUND': 'service.notFound',
   'SERVICE.CREATE.NAME_EXISTS': 'service.nameExists',
