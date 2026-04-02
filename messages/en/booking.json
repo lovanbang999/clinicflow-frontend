@@ -59,7 +59,9 @@
   "reviews": "reviews",
   "redirecting": "You will be redirected to your appointments page...",
   "myAppointments": "My Appointments",
-  "pageGreeting": "Good morning",
+  "pageGreetingMorning": "Good Morning",
+  "pageGreetingAfternoon": "Good Afternoon",
+  "pageGreetingEvening": "Good Evening",
   "downloadReport": "Download Report",
   "detail": {
     "title": "Appointment Details",
