@@ -14,7 +14,7 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
   const { user } = useAuthStore();
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminLayout');
   const pathname = usePathname();
 
   const activeItem = NAV_ITEMS.find((item) =>

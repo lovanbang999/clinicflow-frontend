@@ -32,7 +32,7 @@ export const NAV_ITEMS_DOCTOR: NavItem[] = [
 export function DoctorDashboardSidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const t = useTranslations('dashboard.doctor');
+  const t = useTranslations('doctorLayout');
   const tCommon = useTranslations('common');
 
   return (

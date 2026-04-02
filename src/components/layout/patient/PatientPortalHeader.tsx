@@ -30,7 +30,7 @@ interface PatientPortalHeaderProps {
 }
 
 export function PatientPortalHeader({ user }: PatientPortalHeaderProps) {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const pathname = usePathname();
   const { logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

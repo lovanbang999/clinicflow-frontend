@@ -9,7 +9,7 @@ import { NAV_ITEMS_DOCTOR } from './DoctorDashboardSidebar';
 
 export function DoctorDashboardHeader() {
   const { user } = useAuthStore();
-  const t = useTranslations('dashboard.doctor');
+  const t = useTranslations('doctorLayout');
   const pathname = usePathname();
 
   const activeItem = NAV_ITEMS_DOCTOR.find((item) =>

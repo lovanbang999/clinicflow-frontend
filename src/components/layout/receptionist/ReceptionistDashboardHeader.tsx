@@ -9,7 +9,7 @@ import { NAV_ITEMS } from './ReceptionistDashboardSidebar';
 
 export function ReceptionistDashboardHeader() {
   const { user } = useAuthStore();
-  const t = useTranslations('dashboard.receptionist');
+  const t = useTranslations('receptionistLayout');
   const pathname = usePathname();
 
   const activeItem = NAV_ITEMS.find((item) =>
@@ -19,7 +19,7 @@ export function ReceptionistDashboardHeader() {
   );
 
   const pageTitle = activeItem
-    ? t(activeItem.key === 'reports' ? 'reports.nav' : activeItem.key === 'settings' ? 'settings.nav' : activeItem.key)
+    ? t(activeItem.key)
     : t('dashboard');
 
   const initials = user?.fullName
