@@ -246,7 +246,7 @@ export default function AdminCategoriesPage() {
 
       {/* Form Dialog */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="sm:max-w-[480px]">
+        <DialogContent className="w-full sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle className="text-2xl">
               {editingCategory ? t('form.editTitle') : t('form.addTitle')}
