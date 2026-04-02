@@ -21,9 +21,9 @@ export const AccountProfileTab: React.FC = () => {
       try {
         const profile = await fetchProfile();
         setFormData({
-          fullName: profile.fullName || '',
-          phone: profile.phone || '',
-          address: profile.address || '',
+          fullName: profile?.fullName ?? '',
+          phone: profile?.phone ?? '',
+          address: profile?.address ?? '',
         });
       } catch {
         // Error handled in hook toast

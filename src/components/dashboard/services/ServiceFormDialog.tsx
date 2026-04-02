@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { type Service, type ServiceForm, DEFAULT_SERVICE_FORM } from './types';
 import { type AdminCreateServiceDto, type AdminUpdateServiceDto } from '@/lib/api/admin-services';
+import { useAdminCategories } from '@/lib/hooks/useAdminCategories';
 import { IconPicker } from './IconPicker';
 import {
   Select,
@@ -96,7 +97,7 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
           price: String(service.price),
           durationMinutes: String(service.durationMinutes),
           maxSlotsPerHour: String(service.maxSlotsPerHour),
-          category: service.category ?? 'General',
+          categoryId: service.category?.id ?? '',
           preparationNotes: service.preparationNotes ?? '',
           tags: (service.tags || []).join(', '),
           isActive: service.isActive,
@@ -107,6 +108,12 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
       setErrors({});
     }
   }, [open, service]);
+
+  const { categories, fetchCategories } = useAdminCategories();
+  
+  useEffect(() => {
+    fetchCategories({ isActive: true });
+  }, [fetchCategories]);
 
   const set = <K extends keyof ServiceForm>(k: K, v: ServiceForm[K]) => {
     setForm((p) => ({ ...p, [k]: v }));
@@ -138,7 +145,7 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
         price: parseFloat(form.price),
         durationMinutes: parseInt(form.durationMinutes, 10),
         maxSlotsPerHour: parseInt(form.maxSlotsPerHour, 10),
-        category: form.category,
+        categoryId: form.categoryId,
         preparationNotes: form.preparationNotes.trim() || undefined,
         tags: form.tags.split(',').map(s => s.trim()).filter(Boolean),
         isActive: form.isActive,
@@ -193,21 +200,13 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
               />
             </Field>
             <Field label={t('category')} htmlFor="svc-category">
-              <Select value={form.category} onValueChange={(v) => set('category', v)}>
+              <Select value={form.categoryId} onValueChange={(v) => set('categoryId', v)}>
                 <SelectTrigger id="svc-category" className="h-10 rounded-xl border-[#e2e8f0]">
                   <SelectValue placeholder={t('categoryPlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  {[
-                    'Khám bệnh',
-                    'Xét nghiệm',
-                    'Chẩn đoán hình ảnh',
-                    'Thủ thuật/Phẫu thuật',
-                    'Tiêm chủng',
-                    'Phục hồi chức năng',
-                    'Khác'
-                  ].map((cat) => (
-                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

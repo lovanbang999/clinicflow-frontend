@@ -6,6 +6,12 @@ export interface Service {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
+  categoryId?: string;
+  category?: {
+    id: string;
+    code: string;
+    name: string;
+  };
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -18,6 +24,7 @@ export interface CreateServiceDto {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
+  categoryId: string;
 }
 
 export interface UpdateServiceDto extends Partial<CreateServiceDto> {

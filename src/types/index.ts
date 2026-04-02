@@ -3,6 +3,7 @@ export * from './auth';
 export * from './booking';
 export * from './schedule';
 export * from './service';
+export * from './category';
 export * from './doctor';
 export * from './dashboard';
 export * from './user';

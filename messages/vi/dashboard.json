@@ -223,7 +223,7 @@
     }
   },
   "doctor": {
-    "healthcare": "Chăm sóc sức khỏe",
+    "healthcare": "Hệ thống quản lý khám bệnh",
     "title": "Bác sĩ",
     "dashboard": "Workspace",
     "greeting": "Xin chào {name}, bạn có bệnh nhân đang chờ",
@@ -365,8 +365,13 @@
         "emptyTab": "Không có bệnh nhân nào trong mục này"
       },
       "examView": {
+        "back": "Quay lại",
         "title": "Đang khám bệnh",
         "startedAt": "Bắt đầu:",
+        "mainTabs": {
+          "exam": "Khám bệnh",
+          "history": "Lịch sử khám"
+        },
         "endExam": "Kết thúc ca khám",
         "endExamConfirm": {
           "title": "Kết thúc ca khám?",
@@ -387,7 +392,7 @@
           "emr": "Khám & EMR",
           "history": "Lịch sử khám",
           "rx": "Đơn thuốc",
-          "lab": "Xét nghiệm"
+          "lab": "Thủ thuật"
         },
         "loading": "Đang tải hồ sơ khám...",
         "printModal": {
@@ -408,6 +413,117 @@
           "normal": "Bình thường",
           "overweight": "Thừa cân",
           "obese": "Béo phì"
+        }
+      },
+      "visit": {
+        "loading": "Đang tải hồ sơ khám...",
+        "unlockTitle": "Hoàn tất bước trước để mở khoá",
+        "tabLabels": {
+          "symptoms": "① Triệu chứng",
+          "services": "② Chỉ định dịch vụ",
+          "diagnosis": "③ Kết quả & Chẩn đoán",
+          "prescription": "④ Kê đơn thuốc"
+        },
+        "stepLabels": {
+          "symptoms": "Triệu chứng",
+          "services": "Chỉ định",
+          "results": "Kết quả / CĐ",
+          "prescription": "Kê đơn"
+        },
+        "visitSteps": {
+          "SYMPTOMS_TAKEN": "Triệu chứng",
+          "SERVICES_ORDERED": "Đã chỉ định",
+          "AWAITING_RESULTS": "Chờ KTV",
+          "RESULTS_READY": "Có kết quả",
+          "DIAGNOSED": "Đã chẩn đoán",
+          "PRESCRIBED": "Đã kê đơn",
+          "COMPLETED": "Hoàn tất"
+        },
+        "symptoms": {
+          "header": "B1 — Hỏi triệu chứng bệnh nhân",
+          "chiefComplaint": "Lý do khám / Triệu chứng chính",
+          "chiefComplaintPlaceholder": "VD: Đau ngực tái phát 3 ngày, khó thở khi leo cầu thang...",
+          "clinicalFindings": "Kết quả thăm khám lâm sàng",
+          "clinicalFindingsPlaceholder": "Kết quả nghe tim phổi, sờ nắn, quan sát...",
+          "doctorNotes": "Ghi chú bác sĩ",
+          "doctorNotesPlaceholder": "Thông tin bổ sung...",
+          "saving": "Đang lưu...",
+          "save": "Lưu triệu chứng",
+          "success": "Đã lưu triệu chứng",
+          "error": "Lỗi lưu triệu chứng"
+        },
+        "services": {
+          "header": "B2 — Dịch vụ đã chỉ định",
+          "count": "dịch vụ",
+          "empty": "Chưa có dịch vụ nào được chỉ định",
+          "catalog": "Danh mục dịch vụ",
+          "searchPlaceholder": "Tìm dịch vụ theo tên, mã...",
+          "emptySearch": "Không tìm thấy dịch vụ phù hợp",
+          "emptyCatalog": "Tất cả dịch vụ đã được thêm",
+          "fallbackCategory": "Dịch vụ",
+          "add": "Thêm",
+          "ordering": "Đang gọi...",
+          "successAdd": "Đã thêm dịch vụ",
+          "errorAdd": "Lỗi thêm dịch vụ",
+          "successRemove": "Đã xoá chỉ định",
+          "errorRemove": "Lỗi xoá chỉ định"
+        },
+        "diagnosis": {
+          "headerKtv": "Kết quả từ Kỹ thuật viên",
+          "pendingBadge": "chờ hoàn thành",
+          "headerForm": "B4 — Đọc kết quả và chẩn đoán",
+          "pendingAlert": "⏳ Vui lòng chờ kỹ thuật viên hoàn thành {count} dịch vụ trước khi nhập chẩn đoán.",
+          "icdCode": "Mã ICD-10",
+          "icdPlaceholder": "VD: J06.9",
+          "diagnosis": "Chẩn đoán",
+          "diagnosisPlaceholder": "VD: Viêm hô hấp trên cấp",
+          "treatment": "Hướng điều trị",
+          "treatmentPlaceholder": "Phác đồ điều trị...",
+          "followUpDate": "Ngày tái khám",
+          "followUpNote": "Hướng dẫn tái khám",
+          "followUpNotePlaceholder": "Ghi chú tái khám...",
+          "saving": "Đang lưu...",
+          "save": "Lưu chẩn đoán",
+          "pendingWarning": "Còn {count} dịch vụ chưa hoàn thành",
+          "success": "Đã lưu chẩn đoán",
+          "error": "Lỗi lưu chẩn đoán"
+        },
+        "prescription": {
+          "header": "B5 — Kê đơn thuốc",
+          "pendingAlert": "🔒 Vui lòng hoàn tất Chẩn đoán (B4) trước khi kê đơn thuốc.",
+          "medicineName": "Tên thuốc",
+          "medicineNamePlaceholder": "Ibuprofen",
+          "dosage": "Liều",
+          "dosagePlaceholder": "400mg",
+          "frequency": "Tần suất",
+          "frequencyPlaceholder": "3 lần/ngày",
+          "quantity": "Số lượng",
+          "unit": "Đơn vị",
+          "unitPlaceholder": "viên",
+          "duration": "Ngày",
+          "durationPlaceholder": "7",
+          "instructions": "Hướng dẫn",
+          "instructionsPlaceholder": "Uống sau ăn...",
+          "addMedicine": "Thêm thuốc",
+          "notes": "Ghi chú đơn thuốc",
+          "notesPlaceholder": "Lưu ý cho bệnh nhân...",
+          "saving": "Đang lưu...",
+          "save": "Hoàn tất & Kê đơn",
+          "pendingWarning": "Cần hoàn tất chẩn đoán (B4) trước khi kê đơn",
+          "success": "Đã lưu đơn thuốc — lần khám hoàn tất",
+          "error": "Lỗi lưu đơn thuốc"
+        },
+        "shared": {
+          "status": {
+            "pending": "Chờ thực hiện",
+            "inProgress": "Đang thực hiện",
+            "completed": "Có kết quả",
+            "cancelled": "Đã huỷ"
+          },
+          "remove": "Xoá",
+          "abnormal": "⚠ Bất thường",
+          "emptyResult": "Kết quả chưa có nội dung văn bản",
+          "viewFile": "📎 Xem file kết quả"
         }
       },
       "historyTab": {
@@ -606,7 +722,7 @@
     }
   },
   "receptionist": {
-    "healthcare": "Chăm sóc sức khỏe",
+    "healthcare": "Hệ thống quản lý khám bệnh",
     "reports": {
       "nav": "Báo cáo",
       "title": "Báo cáo & Thống kê",
@@ -1335,7 +1451,7 @@
     "systemOverview": "Tổng quan hệ thống",
     "loading": "Đang tải...",
     "redirecting": "Đang chuyển hướng...",
-    "healthcare": "Chăm sóc sức khỏe",
+    "healthcare": "Hệ thống quản lý khám bệnh",
     "logout": "Đăng xuất",
     "notFound": {
       "title": "Không tìm thấy trang",
@@ -1346,6 +1462,7 @@
       "dashboard": "Tổng quan",
       "userManagement": "Quản lý nhân sự",
       "doctorManagement": "Quản lý bác sĩ",
+      "categoryManagement": "Danh mục dịch vụ",
       "serviceManagement": "Quản lý dịch vụ",
       "patientManagement": "Quản lý bệnh nhân",
       "schedules": "Lịch làm việc",
@@ -1990,6 +2107,43 @@
           "desc": "Nội dung cho tab này đang được phát triển."
         }
       }
+    },
+    "categoryManagement": {
+      "title": "Danh mục dịch vụ",
+      "description": "Quản lý các nhóm danh mục dịch vụ của phòng khám.",
+      "addCategory": "Thêm danh mục",
+      "searchPlaceholder": "Tìm kiếm mã, tên danh mục...",
+      "table": {
+        "code": "Mã",
+        "name": "Tên danh mục",
+        "description": "Mô tả",
+        "isActive": "Trạng thái",
+        "actions": "Hành động"
+      },
+      "form": {
+        "addTitle": "Thêm danh mục",
+        "editTitle": "Cập nhật danh mục",
+        "code": "Mã danh mục (*)",
+        "codePlaceholder": "VD: CAT_NOIKHOA",
+        "name": "Tên danh mục (*)",
+        "namePlaceholder": "VD: Nội khoa",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Mô tả chi tiết",
+        "isActive": "Khả dụng",
+        "cancel": "Hủy",
+        "save": "Lưu"
+      },
+      "messages": {
+        "created": "Đã thêm danh mục!",
+        "updated": "Đã cập nhật danh mục!",
+        "deleted": "Đã xóa danh mục!"
+      },
+      "deleteModal": {
+        "title": "Xóa danh mục?",
+        "description": "Bạn có chắc muốn xóa danh mục này? Kho lưu trữ sẽ báo lỗi nếu danh mục đang được sử dụng.",
+        "cancel": "Hủy",
+        "confirm": "Xóa"
+      }
     }
   },
   "profile": {
@@ -2312,7 +2466,7 @@
     "doctorPrefix": "BS.",
     "sidebar": {
       "smartClinic": "Smart Clinic",
-      "healthcare": "Chăm sóc sức khỏe"
+      "healthcare": "Hệ thống quản lý khám bệnh"
     },
     "worklist": {
       "doctorPrefix": "BS.",

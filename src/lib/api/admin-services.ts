@@ -1,5 +1,6 @@
 import { apiClient } from './client';
 import { ApiResponse } from '@/types';
+import type { AxiosError } from 'axios';
 
 // Types
 export interface AdminService {
@@ -10,7 +11,12 @@ export interface AdminService {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
-  category?: string | null;
+  categoryId?: string | null;
+  category?: {
+    id: string;
+    code: string;
+    name: string;
+  } | null;
   preparationNotes?: string | null;
   tags: string[];
   isActive: boolean;
@@ -51,7 +57,7 @@ export interface AdminCreateServiceDto {
   price: number;
   durationMinutes: number;
   maxSlotsPerHour: number;
-  category?: string;
+  categoryId?: string;
   preparationNotes?: string;
   tags?: string[];
   isActive?: boolean;
@@ -61,8 +67,9 @@ export type AdminUpdateServiceDto = Partial<AdminCreateServiceDto>;
 
 // Error handler
 const handleError = (error: unknown): never => {
-  if (error instanceof AxiosError && error.response?.data) {
-    throw error.response.data;
+  const axiosErr = error as AxiosError;
+  if (axiosErr?.response?.data) {
+    throw axiosErr.response.data;
   }
   throw error;
 };

@@ -42,16 +42,10 @@ export interface PatientHistoryResponse {
   recentVisits: VisitHistoryItem[];
 }
 
-export interface PrescriptionItemDto {
-  medicineName: string;
-  dosage: string;
-  frequency: string;
-  durationDays?: number;
-  quantity: number;
-  unit: string;
-  instructions?: string;
-}
+/** @deprecated Use PrescriptionItemInput instead */
+export type PrescriptionItemDto = PrescriptionItemInput;
 
+/** @deprecated Use medicalRecordsApi.upsertMedicalRecord */
 export interface CreateMedicalRecordDto {
   bookingId: string;
   chiefComplaint?: string;
@@ -64,7 +58,7 @@ export interface CreateMedicalRecordDto {
   followUpNote?: string;
   isFinalized?: boolean;
   completeVisit?: boolean;
-  prescriptionItems?: PrescriptionItemDto[];
+  prescriptionItems?: PrescriptionItemInput[];
 }
 
 export interface ICD10Record {
@@ -72,19 +66,207 @@ export interface ICD10Record {
   name: string;
 }
 
+export type VisitStep =
+  | 'SYMPTOMS_TAKEN'
+  | 'SERVICES_ORDERED'
+  | 'AWAITING_RESULTS'
+  | 'RESULTS_READY'
+  | 'DIAGNOSED'
+  | 'PRESCRIBED'
+  | 'COMPLETED';
+
+export type ServiceOrderStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
+export interface VisitServiceOrder {
+  id: string;
+  medicalRecordId: string;
+  serviceId: string;
+  bookingId: string;
+  patientProfileId: string;
+  status: ServiceOrderStatus;
+  orderedBy: string;
+  performedBy?: string;
+  resultText?: string;
+  resultFileUrl?: string;
+  isAbnormal?: boolean;
+  abnormalNote?: string;
+  startedAt?: string;
+  completedAt?: string;
+  createdAt: string;
+  service: {
+    id: string;
+    name: string;
+    category?: string;
+    serviceCode?: string;
+  };
+  medicalRecord?: {
+    booking?: {
+      doctor?: {
+        fullName?: string;
+      };
+      patientProfile?: {
+        fullName?: string;
+        patientCode?: string;
+        dateOfBirth?: string;
+        gender?: string;
+      };
+    };
+  };
+}
+
+export interface VisitResultsResponse {
+  id: string;
+  bookingId: string;
+  visitStep: VisitStep;
+  version: number;
+  chiefComplaint?: string;
+  clinicalFindings?: string;
+  doctorNotes?: string;
+  diagnosisCode?: string;
+  diagnosisName?: string;
+  treatmentPlan?: string;
+  followUpDate?: string;
+  followUpNote?: string;
+  symptomsAt?: string;
+  orderedAt?: string;
+  diagnosedAt?: string;
+  prescribedAt?: string;
+  visitServiceOrders: VisitServiceOrder[];
+  prescription?: {
+    id: string;
+    notes?: string;
+    items: Array<{
+      id: string;
+      medicineName: string;
+      dosage: string;
+      frequency: string;
+      durationDays?: number;
+      quantity: number;
+      unit: string;
+      instructions?: string;
+      sortOrder: number;
+    }>;
+  };
+}
+
+export interface SaveSymptomsDto {
+  chiefComplaint?: string;
+  clinicalFindings?: string;
+  doctorNotes?: string;
+}
+
+export interface OrderServicesDto {
+  serviceIds: string[];
+}
+
+export interface SaveDiagnosisDto {
+  diagnosisCode?: string;
+  diagnosisName?: string;
+  treatmentPlan?: string;
+  doctorNotes?: string;
+  followUpDate?: string;
+  followUpNote?: string;
+}
+
+export interface PrescriptionItemInput {
+  medicineName: string;
+  dosage: string;
+  frequency: string;
+  durationDays?: number;
+  quantity: number;
+  unit?: string;
+  instructions?: string;
+  sortOrder?: number;
+}
+
+export interface CreatePrescriptionDto {
+  notes?: string;
+  items: PrescriptionItemInput[];
+}
+
+// API
+
 export const medicalRecordsApi = {
-  getPatientHistory: async (patientProfileId: string): Promise<PatientHistoryResponse> => {
-    const response = await apiClient.get(`medical-records/patient/${patientProfileId}/history`);
-    return response.data.data;
+  // Legacy
+  upsertMedicalRecord: async (data: {
+    bookingId: string;
+    chiefComplaint?: string;
+    clinicalFindings?: string;
+    diagnosisCode?: string;
+    diagnosisName?: string;
+    treatmentPlan?: string;
+    doctorNotes?: string;
+    followUpDate?: string;
+    followUpNote?: string;
+    isFinalized?: boolean;
+    completeVisit?: boolean;
+    prescriptionItems?: PrescriptionItemInput[];
+  }) => {
+    const res = await apiClient.post('medical-records', data);
+    return res.data.data;
   },
 
-  upsertMedicalRecord: async (data: CreateMedicalRecordDto) => {
-    const response = await apiClient.post('medical-records', data);
-    return response.data.data;
+  // Step 1
+  saveSymptoms: async (bookingId: string, dto: SaveSymptomsDto) => {
+    const res = await apiClient.patch(`medical-records/${bookingId}/symptoms`, dto);
+    return res.data.data;
   },
 
-  searchICD10: async (query: string): Promise<ICD10Record[]> => {
-    const response = await apiClient.get(`medical-records/icd10`, { params: { q: query } });
-    return response.data.data;
+  // Step 2
+  orderServices: async (bookingId: string, dto: OrderServicesDto) => {
+    const res = await apiClient.post(`medical-records/${bookingId}/service-orders`, dto);
+    return res.data.data as { record: VisitResultsResponse; orders: VisitServiceOrder[] };
+  },
+  removeServiceOrder: async (bookingId: string, orderId: string) => {
+    const res = await apiClient.delete(`medical-records/${bookingId}/service-orders/${orderId}`);
+    return res.data;
+  },
+
+  // Step 4
+  getVisitResults: async (bookingId: string): Promise<VisitResultsResponse> => {
+    const res = await apiClient.get(`medical-records/${bookingId}/results`);
+    return res.data.data;
+  },
+  saveDiagnosis: async (bookingId: string, dto: SaveDiagnosisDto) => {
+    const res = await apiClient.patch(`medical-records/${bookingId}/diagnose`, dto);
+    return res.data.data;
+  },
+
+  // Step 5
+  savePrescription: async (bookingId: string, dto: CreatePrescriptionDto) => {
+    const res = await apiClient.post(`medical-records/${bookingId}/prescriptions`, dto);
+    return res.data.data;
+  },
+
+  // Search
+  searchICD10: async (query: string) => {
+    const res = await apiClient.get('medical-records/icd10', { params: { q: query } });
+    return res.data.data as Array<{ code: string; name: string }>;
+  },
+
+  // Patient history
+  getPatientHistory: async (patientProfileId: string, page = 1, limit = 10) => {
+    const res = await apiClient.get(`medical-records/patient/${patientProfileId}/history`, {
+      params: { page, limit },
+    });
+    return res.data.data;
+  },
+
+  // Patient Self-Service
+  getMyVisits: async (page = 1, limit = 10) => {
+    const res = await apiClient.get('medical-records/patient/my-visits', {
+      params: { page, limit },
+    });
+    return res.data.data;
+  },
+  getPatientStats: async () => {
+    const res = await apiClient.get('medical-records/patient/my-stats');
+    return res.data.data;
+  },
+  
+  // Doctor Stats
+  getDoctorStats: async () => {
+    const res = await apiClient.get('medical-records/doctor/stats');
+    return res.data.data;
   },
 };

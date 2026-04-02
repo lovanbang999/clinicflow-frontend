@@ -11,24 +11,13 @@ import { RecentInvoicesWidget } from '@/components/dashboard/patient/RecentInvoi
 export default function PatientDashboardPage() {
   const { data } = useDashboard();
 
-  // Derived stats from data, defaulting to 0
-  const upcoming = data?.stats.upcomingBookings || 0;
-  const completed = data?.stats.completedBookings || 0;
-  const waiting = data?.stats.waitingBookings || 0;
-  const total = data?.stats.totalBookings || 0;
-
   return (
     <div className="space-y-6 md:space-y-10 pb-10">
       <PatientWelcomeBanner />
       
       <QuickActionBar />
 
-      <PatientStatsGrid 
-        upcoming={upcoming}
-        completed={completed}
-        waiting={waiting}
-        total={total}
-      />
+      <PatientStatsGrid />
 
       <NextAppointmentCard nextBooking={data?.nextBooking} />
 

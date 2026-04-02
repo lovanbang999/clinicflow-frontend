@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useBookings } from '@/lib/hooks/useBookings';
-import { Booking } from '@/types';
+import { useApiData } from '@/lib/hooks/useApiData';
+import { medicalRecordsApi } from '@/lib/api/medical-records';
 import { format, isValid } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useLocale } from 'next-intl';
@@ -14,17 +13,35 @@ import {
   CalendarBlankIcon,
   NoteIcon,
   ChatsIcon,
+  CheckCircleIcon,
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) {
-  const t = useTranslations('dashboard.patient.labels');
+export interface PatientHistoryItem {
+  id: string;
+  createdAt: string;
+  visitStep: string;
+  diagnosisName?: string;
+  diagnosisCode?: string;
+  treatmentPlan?: string;
+  booking?: {
+    service?: { name: string };
+    doctor?: { fullName: string };
+  };
+  prescription?: {
+    items?: unknown[];
+  };
+}
+
+export function HistoryCard({ visit, locale }: { visit: PatientHistoryItem; locale: string }) {
   const tHistory = useTranslations('dashboard.patient.medicalHistory');
   const dateLocale = locale === 'vi' ? vi : undefined;
-  const bookingDate = new Date(booking.bookingDate);
+  const bookingDate = new Date(visit.createdAt);
   const formattedDate = isValid(bookingDate)
     ? format(bookingDate, 'dd/MM/yyyy', { locale: dateLocale })
     : '—';
+
+  const booking = visit.booking || {};
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm sm:p-5 p-4 space-y-4 transition-all hover:shadow-md">
@@ -35,7 +52,9 @@ function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) 
             <StethoscopeIcon size={18} className="text-[#1392ec]" weight="duotone" />
           </div>
           <div>
-            <p className="font-bold text-slate-900 dark:text-white text-sm leading-tight">{booking.service?.name ?? '—'}</p>
+            <p className="font-bold text-slate-900 dark:text-white text-sm leading-tight">
+              {booking.service?.name ?? tHistory('generalVisit')}
+            </p>
             <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 mt-1 sm:mt-0.5">
               <div className="flex items-center gap-1">
                 <CalendarBlankIcon size={12} />
@@ -45,11 +64,7 @@ function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) 
               <div className="flex items-center gap-1">
                 <ClockIcon size={12} />
                 <span>
-                  {booking.startTime ? (
-                    `${booking.startTime} – ${booking.endTime}`
-                  ) : (
-                    t('waitingQueue')
-                  )}
+                  Trạng thái: {visit.visitStep === 'COMPLETED' ? 'Hoàn tất' : visit.visitStep}
                 </span>
               </div>
             </div>
@@ -68,23 +83,32 @@ function HistoryCard({ booking, locale }: { booking: Booking; locale: string }) 
         <span className="font-bold text-slate-800 dark:text-slate-200">{booking.doctor?.fullName ?? '—'}</span>
       </div>
 
-      {/* Patient Notes */}
-      {booking.patientNotes && (
+      {/* Diagnosis Notes */}
+      {visit.diagnosisName && (
         <div className="flex gap-2 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 text-sm">
           <NoteIcon size={14} className="text-slate-400 mt-0.5 shrink-0" />
-          <p className="text-slate-600 dark:text-slate-400 text-xs italic">
-            &quot;{booking.patientNotes}&quot;
-          </p>
+          <div className="text-slate-600 dark:text-slate-400 text-xs">
+            <span className="font-semibold block mb-1">Chẩn đoán:</span>
+            {visit.diagnosisName} {visit.diagnosisCode && `(${visit.diagnosisCode})`}
+          </div>
         </div>
       )}
 
-      {/* Doctor Notes */}
-      {booking.doctorNotes && (
+      {/* Treatment Plan */}
+      {visit.treatmentPlan && (
         <div className="flex gap-2 bg-blue-50 dark:bg-blue-500/5 rounded-xl p-3">
           <ChatsIcon size={14} className="text-[#1392ec] mt-0.5 shrink-0" />
-          <p className="text-slate-700 dark:text-slate-300 text-xs leading-relaxed font-medium">
-            {booking.doctorNotes}
-          </p>
+          <div className="text-slate-700 dark:text-slate-300 text-xs leading-relaxed font-medium">
+            <span className="font-bold block mb-1 text-slate-800 dark:text-white">Hướng điều trị:</span>
+            {visit.treatmentPlan}
+          </div>
+        </div>
+      )}
+
+      {/* Prescription Badge */}
+      {visit.prescription && (
+        <div className="flex items-center gap-1 text-blue-600 text-xs font-semibold">
+          <CheckCircleIcon weight="fill" /> Đã cấp đơn thuốc ({visit.prescription.items?.length || 0} loại)
         </div>
       )}
     </div>
@@ -95,29 +119,23 @@ export default function PatientMedicalHistoryPage() {
   const t = useTranslations('dashboard.patient.medicalHistory');
   const tGreeting = useTranslations('booking');
   const locale = useLocale();
-  const { bookings, isLoading, fetchMyBookings } = useBookings();
+  
+  const { data, isLoading } = useApiData(() => medicalRecordsApi.getMyVisits(1, 50), null);
 
-  useEffect(() => {
-    fetchMyBookings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const completedBookings = bookings.filter((b) => b.status === 'COMPLETED');
+  const visits = data?.visits || [];
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:py-8 py-6 space-y-6">
-      {/* Header */}
       <div className="space-y-1">
         <p className="text-xs sm:text-sm text-[#1392ec] font-bold uppercase tracking-wider">{tGreeting('pageGreeting')}</p>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">{t('title')}</h1>
         <p className="text-sm text-slate font-medium">
-          {completedBookings.length > 0
-            ? t('subtitle', { count: completedBookings.length })
+          {visits.length > 0
+            ? t('subtitle', { count: visits.length })
             : t('noHistory')}
         </p>
       </div>
 
-      {/* Content */}
       {isLoading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
@@ -128,7 +146,7 @@ export default function PatientMedicalHistoryPage() {
             </div>
           ))}
         </div>
-      ) : completedBookings.length === 0 ? (
+      ) : visits.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4 text-center bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm px-6">
           <div className="size-20 rounded-[2rem] bg-slate-50 dark:bg-slate-800 flex items-center justify-center">
             <StethoscopeIcon size={40} className="text-slate-300 dark:text-slate-600" weight="duotone" />
@@ -140,15 +158,13 @@ export default function PatientMedicalHistoryPage() {
         </div>
       ) : (
         <div className="relative sm:pl-8 pl-6 space-y-6">
-          {/* Timeline line - Responsive centering */}
           <div className="absolute top-6 bottom-6 w-0.5 bg-slate-200 dark:bg-slate-800 rounded-full sm:left-[15px] left-[11px]" />
-          {completedBookings.map((booking) => (
-            <div key={booking.id} className="relative group">
-              {/* Timeline dot - Responsive centering */}
+          {visits.map((visit: PatientHistoryItem) => (
+            <div key={visit.id} className="relative group">
               <div 
                 className="absolute top-6 size-3 rounded-full bg-[#1392ec] border-2 border-white dark:border-slate-900 shadow-[0_0_0_4px_rgba(19,146,236,0.1)] z-10 sm:-left-[22px] -left-[18px] transition-transform group-hover:scale-125" 
               />
-              <HistoryCard booking={booking} locale={locale} />
+              <HistoryCard visit={visit} locale={locale} />
             </div>
           ))}
         </div>
@@ -156,3 +172,4 @@ export default function PatientMedicalHistoryPage() {
     </div>
   );
 }
+

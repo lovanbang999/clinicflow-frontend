@@ -1,22 +1,37 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useApiData } from '@/lib/hooks/useApiData';
+import { medicalRecordsApi } from '@/lib/api/medical-records';
 import {
   CalendarCheckIcon,
   CheckCircleIcon,
-  HourglassIcon,
+  WarningCircleIcon,
   ChartBarIcon,
 } from '@phosphor-icons/react';
+import { Skeleton } from '@/components/ui/skeleton';
 
-interface PatientStatsGridProps {
-  upcoming: number;
-  completed: number;
-  waiting: number;
-  total: number;
-}
-
-export function PatientStatsGrid({ upcoming, completed, waiting, total }: PatientStatsGridProps) {
+export function PatientStatsGrid() {
   const t = useTranslations('dashboard.patient');
+  const { data, isLoading } = useApiData(medicalRecordsApi.getPatientStats, null);
+
+  if (isLoading || !data) {
+    return (
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col gap-4">
+            <Skeleton className="w-12 h-12 rounded-xl" />
+            <div>
+              <Skeleton className="h-10 w-16 mb-2" />
+              <Skeleton className="h-4 w-24" />
+            </div>
+          </div>
+        ))}
+      </section>
+    );
+  }
+
+  const { totalVisits, visitsThisYear, activeBookings, abnormalResults } = data;
 
   return (
     <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -25,7 +40,7 @@ export function PatientStatsGrid({ upcoming, completed, waiting, total }: Patien
           <CalendarCheckIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{upcoming ? upcoming.toString().padStart(2, '0') : '0'}</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{activeBookings.toString().padStart(2, '0')}</p>
           <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('upcomingVisits')}</p>
         </div>
       </div>
@@ -35,18 +50,18 @@ export function PatientStatsGrid({ upcoming, completed, waiting, total }: Patien
           <CheckCircleIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{completed ? completed.toString().padStart(2, '0') : '0'}</p>
-          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('completed')}</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{visitsThisYear.toString().padStart(2, '0')}</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Khám trong năm</p>
         </div>
       </div>
 
       <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col gap-4">
-        <div className="w-12 h-12 bg-amber-50 dark:bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400">
-          <HourglassIcon weight="fill" className="text-2xl" />
+        <div className="w-12 h-12 bg-red-50 dark:bg-red-500/10 rounded-xl flex items-center justify-center text-red-600 dark:text-red-400">
+          <WarningCircleIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{waiting ? waiting.toString().padStart(2, '0') : '0'}</p>
-          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('queue')}</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{abnormalResults.toString().padStart(2, '0')}</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Kết quả bất thường</p>
         </div>
       </div>
 
@@ -55,7 +70,7 @@ export function PatientStatsGrid({ upcoming, completed, waiting, total }: Patien
           <ChartBarIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{total ? total.toString().padStart(2, '0') : '0'}</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{totalVisits.toString().padStart(2, '0')}</p>
           <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('totalVisits')}</p>
         </div>
       </div>

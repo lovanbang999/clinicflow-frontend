@@ -108,7 +108,7 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
     try {
       const preview = await previewOffDay(doctorId, dateStr);
 
-      if (preview.affectedAppointments.length === 0) {
+      if (!preview || preview.affectedAppointments.length === 0) {
         // No conflicts → create immediately, no modal needed
         await requestOffDay(doctorId, dateStr, reason, false);
         setSelectedDate(null);

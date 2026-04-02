@@ -167,7 +167,7 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
         .map((q) => q.trim())
         .filter(Boolean);
 
-      await updateDoctorProfile(newUser.id, {
+      await updateDoctorProfile(newUser?.id ?? '', {
         specialties: [form.specialty],
         qualifications: qualsList.length > 0 ? qualsList : undefined,
         yearsOfExperience: form.yearsOfExperience ? parseInt(form.yearsOfExperience, 10) : undefined,
