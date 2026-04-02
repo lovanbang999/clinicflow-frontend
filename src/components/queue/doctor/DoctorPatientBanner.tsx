@@ -11,8 +11,8 @@ function getInitials(name: string) {
 }
 
 export function DoctorPatientBanner({ item }: DoctorPatientBannerProps) {
-  const tBanner = useTranslations('dashboard.doctor.workspace.examView.patientBanner');
-  const tQueue = useTranslations('dashboard.doctor.workspace.queueView');
+  const tBanner = useTranslations('doctorWorkspace.examView.patientBanner');
+  const tQueue = useTranslations('doctorWorkspace.queueView');
 
   const patient = item.booking.patientProfile;
   const name = patient?.fullName ?? 'N/A';

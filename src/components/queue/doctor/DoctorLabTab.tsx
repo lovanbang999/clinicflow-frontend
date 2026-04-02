@@ -27,7 +27,7 @@ interface DoctorLabTabProps {
 
 export function DoctorLabTab({ bookingId, patientProfile, doctorName, bookingCode }: DoctorLabTabProps) {
   const locale = useLocale();
-  const t = useTranslations('dashboard.doctor.workspace.labTab');
+  const t = useTranslations('emr.lab');
   const { orders, isLoading, isSubmitting, addOrder, removeOrder } = useLabOrders(bookingId);
   
   const [services, setServices] = useState<Service[]>([]);

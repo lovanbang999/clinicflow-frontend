@@ -12,7 +12,7 @@ import type { CreateMedicalRecordDto } from '@/lib/api/medical-records';
 import { useTranslations } from 'next-intl';
 
 export function DoctorPrescriptionTab() {
-  const t = useTranslations('dashboard.doctor.workspace.prescriptionTab');
+  const t = useTranslations('emr.prescription');
   const { control, register, getValues } = useFormContext<CreateMedicalRecordDto>();
   const { fields, append, remove } = useFieldArray({
     control,

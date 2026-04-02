@@ -20,7 +20,7 @@ interface DoctorExamViewProps {
 type TabId = 'exam' | 'hist';
 
 export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewProps) {
-  const t = useTranslations('dashboard.doctor.workspace.examView');
+  const t = useTranslations('doctorWorkspace.examView');
   const [activeTab, setActiveTab] = useState<TabId>('exam');
   const { history, isLoading: isHistoryLoading } = usePatientHistory(item.booking.patientProfileId);
 

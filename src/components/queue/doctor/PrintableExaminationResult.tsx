@@ -25,8 +25,8 @@ export function PrintableExaminationResult({
   medicalRecord,
   bookingCode,
 }: PrintableExaminationResultProps) {
-  const t = useTranslations('dashboard.doctor.workspace.printables.exam');
-  const tQueue = useTranslations('dashboard.doctor.workspace.queueView');
+  const t = useTranslations('doctorWorkspace.printables.exam');
+  const tQueue = useTranslations('doctorWorkspace.queueView');
 
   if (!patientProfile) return null;
 
