@@ -12,7 +12,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function PatientStatsGrid() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const { data, isLoading } = useApiData(medicalRecordsApi.getPatientStats, null);
 
   if (isLoading || !data) {
@@ -40,7 +40,7 @@ export function PatientStatsGrid() {
           <CalendarCheckIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{activeBookings.toString().padStart(2, '0')}</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{activeBookings}</p>
           <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('upcomingVisits')}</p>
         </div>
       </div>
@@ -50,8 +50,8 @@ export function PatientStatsGrid() {
           <CheckCircleIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{visitsThisYear.toString().padStart(2, '0')}</p>
-          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Khám trong năm</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{visitsThisYear}</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('visitsThisYear')}</p>
         </div>
       </div>
 
@@ -60,8 +60,8 @@ export function PatientStatsGrid() {
           <WarningCircleIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{abnormalResults.toString().padStart(2, '0')}</p>
-          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Kết quả bất thường</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{abnormalResults}</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('abnormalResults')}</p>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export function PatientStatsGrid() {
           <ChartBarIcon weight="fill" className="text-2xl" />
         </div>
         <div>
-          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{totalVisits.toString().padStart(2, '0')}</p>
+          <p className="text-4xl font-extrabold text-slate-900 dark:text-white">{totalVisits}</p>
           <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{t('totalVisits')}</p>
         </div>
       </div>
