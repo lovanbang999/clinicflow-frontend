@@ -1,0 +1,213 @@
+{
+  "kpi": {
+    "totalPatients": "Total Patients",
+    "newThisMonth": "New Patients This Month",
+    "patientsToday": "Patients Today",
+    "activeAppointments": "Active Appointments"
+  },
+  "table": {
+    "title": "Patient Records",
+    "addPatient": "Add Patient",
+    "filter": "Filter",
+    "clear": "Clear",
+    "clearAll": "Clear All",
+    "genders": {
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "OTHER": "Other"
+    },
+    "export": "Export",
+    "searchPlaceholder": "Search patients, ID, or phone...",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "results": "results",
+    "previous": "Previous",
+    "next": "Next",
+    "empty": "No patients found.",
+    "columns": {
+      "patient": "Patient",
+      "dob": "DOB",
+      "gender": "Gender",
+      "phone": "Phone",
+      "blood": "Blood",
+      "lastVisit": "Last Visit",
+      "nextAppt": "Next Appt",
+      "doctor": "Doctor",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+    "actions": {
+      "viewProfile": "View Profile",
+      "medicalHistory": "Medical History",
+      "bookAppointment": "Book Appointment",
+      "edit": "Edit Patient"
+    }
+  },
+  "addPatientModal": {
+    "title": "Add New Patient",
+    "subtitle": "Create a new patient profile",
+    "sectionBasic": "Basic Information",
+    "sectionMedical": "Medical Information",
+    "sectionInsurance": "Insurance Information",
+    "fullName": "Full Name *",
+    "fullNamePlaceholder": "e.g. John Doe",
+    "dob": "Date of Birth *",
+    "gender": "Gender *",
+    "genderPlaceholder": "Select gender",
+    "phone": "Phone Number *",
+    "phonePlaceholder": "e.g. 555-123-4567",
+    "email": "Email",
+    "emailPlaceholder": "john@example.com",
+    "address": "Address",
+    "addressPlaceholder": "e.g. 123 Main St",
+    "bloodType": "Blood Type",
+    "bloodTypePlaceholder": "Select blood type",
+    "allergies": "Allergies",
+    "addAllergy": "+ Add allergy",
+    "chronicConditions": "Chronic Conditions",
+    "addCondition": "+ Add condition",
+    "medicalNotes": "Medical Notes",
+    "medicalNotesPlaceholder": "Additional medical notes...",
+    "insuranceType": "Insurance Provider",
+    "insuranceTypePlaceholder": "Select provider...",
+    "insuranceNumber": "Insurance Number",
+    "insuranceNumberPlaceholder": "e.g. INS-123456",
+    "insuranceExpiry": "Expiry Date",
+    "unknown": "Unknown",
+    "cancel": "Cancel",
+    "save": "Create Patient",
+    "saving": "Creating...",
+    "createAppAccountCheckbox": "Create Account for this patient?",
+    "createAppAccountDesc": "Patients can log in to the system to view records and book appointments.",
+    "errors": {
+      "nameRequired": "Full name is required",
+      "dobRequired": "Date of birth is required",
+      "genderRequired": "Gender is required",
+      "phoneRequired": "Phone number is required",
+      "emailRequired": "Email is required for account creation"
+    },
+    "form": {
+      "insuranceProviderPlaceholder": "Health Insurance (BHYT), Private Insurance"
+    },
+    "table": {
+      "genders": {
+        "MALE": "Male",
+        "FEMALE": "Female",
+        "OTHER": "Other"
+      }
+    }
+  },
+  "editPatientModal": {
+    "title": "Edit Patient Profile",
+    "subtitle": "Update patient information",
+    "sectionBasic": "Basic Information",
+    "sectionMedical": "Medical Information",
+    "sectionInsurance": "Insurance Information",
+    "fullName": "Full Name *",
+    "fullNamePlaceholder": "e.g. John Doe",
+    "dob": "Date of Birth *",
+    "gender": "Gender *",
+    "genderPlaceholder": "Select gender",
+    "phone": "Phone Number *",
+    "phonePlaceholder": "e.g. 555-123-4567",
+    "email": "Email",
+    "emailPlaceholder": "john@example.com",
+    "address": "Address",
+    "addressPlaceholder": "e.g. 123 Main St",
+    "bloodType": "Blood Type",
+    "bloodTypePlaceholder": "Select blood type",
+    "allergies": "Allergies",
+    "addAllergy": "+ Add allergy",
+    "chronicConditions": "Chronic Conditions",
+    "addCondition": "+ Add condition",
+    "medicalNotes": "Medical Notes",
+    "medicalNotesPlaceholder": "Additional medical notes...",
+    "insuranceType": "Insurance Provider",
+    "insuranceTypePlaceholder": "Select provider...",
+    "insuranceNumber": "Insurance Number",
+    "insuranceNumberPlaceholder": "e.g. INS-123456",
+    "insuranceExpiry": "Expiry Date",
+    "unknown": "Unknown",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "errors": {
+      "nameRequired": "Full name is required",
+      "dobRequired": "Date of birth is required",
+      "genderRequired": "Gender is required",
+      "phoneRequired": "Phone number is required"
+    },
+    "form": {
+      "insuranceProviderPlaceholder": "Health Insurance (BHYT), Private Insurance"
+    },
+    "table": {
+      "genders": {
+        "MALE": "Male",
+        "FEMALE": "Female",
+        "OTHER": "Other"
+      }
+    }
+  },
+  "quickView": {
+    "title": "Patient Quick View",
+    "bookAppt": "Book Appt",
+    "edit": "Edit",
+    "tabs": {
+      "overview": "Overview",
+      "medical_records": "Medical Records",
+      "prescriptions": "Prescriptions",
+      "lab_results": "Lab Results",
+      "appointments": "Appointments"
+    },
+    "vitals": {
+      "weight": "Weight",
+      "height": "Height",
+      "bmi": "BMI",
+      "bp": "BP",
+      "heart": "Heart"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+    "conditions": {
+      "title": "Current Conditions",
+      "empty": "No active conditions recorded."
+    },
+    "allergies": {
+      "title": "Allergies & Risks",
+      "empty": "No allergies recorded."
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "empty": "No recent activity."
+    },
+    "medicalRecords": {
+      "title": "Medical Records History",
+      "add": "Add",
+      "empty": "No medical records found.",
+      "defaultDiagnosis": "Consultation",
+      "columns": {
+        "date": "Date",
+        "diagnosis": "Diagnosis",
+        "action": "Action"
+      }
+    },
+    "prescriptions": {
+      "title": "Prescription List",
+      "empty": "No prescriptions found.",
+      "label": "Rx:"
+    },
+    "comingSoon": {
+      "title": "Feature Coming Soon",
+      "desc": "This content is currently under development."
+    }
+  }
+}

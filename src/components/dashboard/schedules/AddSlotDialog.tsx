@@ -23,7 +23,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
 import { adminSchedulesApi } from '@/lib/api/admin-schedules';
-import { adminUsersApi } from '@/lib/api/admin-users';
+import { adminDoctorsApi } from '@/lib/api/admin-doctors';
 import { User } from '@/types';
 
 // Sub-components
@@ -94,7 +94,7 @@ const SLOT_TYPES = [
 ] as const;
 
 export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialogProps) {
-  const t = useTranslations('dashboard.scheduleManagement.addSlot');
+  const t = useTranslations('adminSchedules.addSlot');
 
   const [form, setForm] = useState<AddSlotForm>(DEFAULT_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof AddSlotForm, string>>>({});
@@ -104,8 +104,8 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
   useEffect(() => {
     if (isOpen && doctors.length === 0) {
       // Fetch dynamic doctors when dialog opens
-      adminUsersApi.getUsers({ role: 'DOCTOR', limit: 100 }).then(res => {
-        setDoctors(res.users);
+      adminDoctorsApi.getDoctors({ isActive: true, limit: 50 }).then(res => {
+        setDoctors(res.users as unknown as User[]);
       }).catch(err => {
         console.error('Failed to load doctors', err);
       });

@@ -58,7 +58,7 @@ function StatusBadge({
     <span
       className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${styles[resolved]}`}
     >
-      {t(`patientManagement.table.statuses.${resolved}`)}
+      {t(`table.statuses.${resolved}`)}
     </span>
   );
 }
@@ -71,19 +71,19 @@ export function PatientTable({
   onBookAppointment,
   onEdit,
 }: PatientTableProps) {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminPatients');
 
   const columns = [
-    t('patientManagement.table.columns.patient'),
-    t('patientManagement.table.columns.dob'),
-    t('patientManagement.table.columns.gender'),
-    t('patientManagement.table.columns.phone'),
-    t('patientManagement.table.columns.blood'),
-    t('patientManagement.table.columns.lastVisit'),
-    t('patientManagement.table.columns.nextAppt'),
-    t('patientManagement.table.columns.doctor'),
-    t('patientManagement.table.columns.status'),
-    t('patientManagement.table.columns.actions'),
+    t('table.columns.patient'),
+    t('table.columns.dob'),
+    t('table.columns.gender'),
+    t('table.columns.phone'),
+    t('table.columns.blood'),
+    t('table.columns.lastVisit'),
+    t('table.columns.nextAppt'),
+    t('table.columns.doctor'),
+    t('table.columns.status'),
+    t('table.columns.actions'),
   ];
 
   return (
@@ -128,7 +128,7 @@ export function PatientTable({
                 colSpan={columns.length}
                 className="px-4 py-16 text-center text-sm text-[#94a3b8]"
               >
-                {t('patientManagement.table.empty')}
+                {t('table.empty')}
               </td>
             </tr>
           ) : (
@@ -210,28 +210,28 @@ export function PatientTable({
                   <div className="flex items-center opacity-0 group-hover:opacity-100 justify-end gap-0.5">
                     <button
                       onClick={() => onViewProfile?.(patient)}
-                      title={t('patientManagement.table.actions.viewProfile')}
+                      title={t('table.actions.viewProfile')}
                       className="p-1.5 text-[#94a3b8] hover:text-[#1392ec] transition-colors rounded-lg hover:bg-[#1392ec]/10 cursor-pointer"
                     >
                       <EyeIcon size={18} />
                     </button>
                     <button
                       onClick={() => onMedicalHistory?.(patient)}
-                      title={t('patientManagement.table.actions.medicalHistory')}
+                      title={t('table.actions.medicalHistory')}
                       className="p-1.5 text-[#94a3b8] hover:text-[#1392ec] transition-colors rounded-lg hover:bg-[#1392ec]/10 cursor-pointer"
                     >
                       <ClipboardTextIcon size={18} />
                     </button>
                     <button
                       onClick={() => onBookAppointment?.(patient)}
-                      title={t('patientManagement.table.actions.bookAppointment')}
+                      title={t('table.actions.bookAppointment')}
                       className="p-1.5 text-[#94a3b8] hover:text-[#1392ec] transition-colors rounded-lg hover:bg-[#1392ec]/10 cursor-pointer"
                     >
                       <CalendarPlusIcon size={18} />
                     </button>
                     <button
                       onClick={() => onEdit?.(patient)}
-                      title={t('patientManagement.table.actions.edit')}
+                      title={t('table.actions.edit')}
                       className="p-1.5 text-[#94a3b8] hover:text-[#1392ec] transition-colors rounded-lg hover:bg-[#1392ec]/10 cursor-pointer"
                     >
                       <PencilSimpleIcon size={18} />
