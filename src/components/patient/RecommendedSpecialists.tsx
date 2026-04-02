@@ -13,7 +13,7 @@ import { Doctor } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function RecommendedSpecialists() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
 

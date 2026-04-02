@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { CalendarPlusIcon, HandWavingIcon } from '@phosphor-icons/react';
 
 export function PatientWelcomeBanner() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const { user } = useAuthStore();
 
   const hour = new Date().getHours();

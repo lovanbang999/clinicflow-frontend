@@ -29,7 +29,7 @@ type ActivityItem = {
 };
 
 export function RecentActivityList() {
-  const t = useTranslations('dashboard.patient');
+  const t = useTranslations('patientOverview');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
   const [activities, setActivities] = useState<ActivityItem[]>([]);
