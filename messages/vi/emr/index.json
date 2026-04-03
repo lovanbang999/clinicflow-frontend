@@ -3,16 +3,18 @@
     "loading": "Đang tải hồ sơ khám...",
     "unlockTitle": "Hoàn tất bước trước để mở khoá",
     "tabLabels": {
-      "symptoms": "① Triệu chứng",
-      "services": "② Chỉ định dịch vụ",
-      "diagnosis": "③ Kết quả & Chẩn đoán",
-      "prescription": "④ Kê đơn thuốc"
+      "symptoms": "Triệu chứng",
+      "services": "Chỉ định dịch vụ",
+      "diagnosis": "Kết quả & Chẩn đoán",
+      "prescription": "Kê đơn thuốc",
+      "summary": "Tổng kết & In"
     },
     "stepLabels": {
       "symptoms": "Triệu chứng",
       "services": "Chỉ định",
       "results": "Kết quả / CĐ",
-      "prescription": "Kê đơn"
+      "prescription": "Kê đơn",
+      "summary": "Tổng kết"
     },
     "visitSteps": {
       "SYMPTOMS_TAKEN": "Triệu chứng",
@@ -24,39 +26,98 @@
       "COMPLETED": "Hoàn tất"
     },
     "symptoms": {
-      "header": "B1 — Hỏi triệu chứng bệnh nhân",
+      "instruction": "Ghi nhận đầy đủ triệu chứng và thăm khám lâm sàng trước khi tiến hành các bước tiếp theo. Đây là bước bắt buộc.",
+      "vitals": "Sinh hiệu",
+      "vitalsSubtitle": "(nhập hoặc lấy từ thiết bị)",
+      "bp": "Huyết áp thu",
+      "heartRate": "Mạch",
+      "heartRateUnit": "lần/phút",
+      "spO2": "SpO2",
+      "temperature": "Nhiệt độ",
+      "temperatureUnit": "°C",
+      "weight": "Cân nặng",
+      "weightUnit": "kg",
+      "height": "Chiều cao",
+      "heightUnit": "cm",
+      "header": "Hỏi triệu chứng bệnh nhân",
       "chiefComplaint": "Lý do khám / Triệu chứng chính",
+      "chiefComplaintSubtitle": "Ghi rõ thời gian, mức độ, vị trí",
       "chiefComplaintPlaceholder": "VD: Đau ngực tái phát 3 ngày, khó thở khi leo cầu thang...",
+      "additionalSymptoms": "Triệu chứng kèm theo",
+      "additionalSymptomsPlaceholder": "Khó thở, hồi hộp, mệt mỏi...",
+      "medicalHistory": "Tiền sử bệnh lý",
+      "medicalHistoryPlaceholder": "THA, ĐTĐ, bệnh tim mạch...",
+      "allergies": "Dị ứng thuốc",
+      "allergiesPlaceholder": "Penicillin, Aspirin...",
       "clinicalFindings": "Kết quả thăm khám lâm sàng",
+      "clinicalFindingsSubtitle": "Ghi nhận từ thăm khám trực tiếp...",
       "clinicalFindingsPlaceholder": "Kết quả nghe tim phổi, sờ nắn, quan sát...",
-      "doctorNotes": "Ghi chú bác sĩ",
-      "doctorNotesPlaceholder": "Thông tin bổ sung...",
+      "doctorNotes": "Ghi chú bổ sung của bác sĩ",
+      "doctorNotesPlaceholder": "Ghi chú cho các bác sĩ khác...",
+      "optional": "(không bắt buộc)",
       "saving": "Đang lưu...",
       "save": "Lưu triệu chứng",
+      "saveAndNext": "Lưu & Tiếp theo",
       "success": "Đã lưu triệu chứng",
-      "error": "Lỗi lưu triệu chứng"
+      "error": "Lỗi lưu triệu chứng",
+      "required": "Bắt buộc",
+      "requiredReason": "Bắt buộc nhập lý do khám",
+      "requiredFindings": "Bắt buộc nhập kết quả thăm khám",
+      "stepTracker": "Bước {current}/{total} - {title}"
     },
     "services": {
-      "header": "B2 — Dịch vụ đã chỉ định",
+      "tooltip": "Bước tùy chọn – Chỉ thêm dịch vụ nếu bệnh nhân cần xét nghiệm, chẩn đoán hình ảnh hoặc thủ thuật. Nếu không cần, nhấn ‘Bỏ qua bước này’ để tiến thẳng sang đọc kết quả và chẩn đoán.",
+      "stats": {
+        "total": "Tổng dịch vụ",
+        "pending": "Chờ kết quả",
+        "ready": "Đã có kết quả"
+      },
+      "table": {
+        "service": "Dịch vụ",
+        "type": "Loại",
+        "price": "Giá",
+        "status": "Trạng thái",
+        "action": "Thao tác"
+      },
+      "status": {
+        "pending": "Chờ kết quả",
+        "ready": "Đã có kết quả"
+      },
+      "results": {
+        "empty": "(Không có nội dung)",
+        "abnormal": "Cảnh báo bất thường:",
+        "viewImage": "Xem Ảnh Đính Kèm",
+        "viewFile": "Xem File Đính Kèm"
+      },
+      "header": "Dịch vụ đã chỉ định",
       "count": "dịch vụ",
       "empty": "Chưa có dịch vụ nào được chỉ định",
+      "emptySelection": "Chưa có dịch vụ nào được chọn",
       "catalog": "Danh mục dịch vụ",
+      "catalogHeader": "Thêm dịch vụ từ danh mục",
       "searchPlaceholder": "Tìm dịch vụ theo tên, mã...",
       "emptySearch": "Không tìm thấy dịch vụ phù hợp",
-      "emptyCatalog": "Tất cả dịch vụ đã được thêm",
-      "fallbackCategory": "Dịch vụ",
+      "emptyCatalog": "Trống",
+      "fallbackCategory": "Khác",
       "add": "Thêm",
       "ordering": "Đang gọi...",
       "successAdd": "Đã thêm dịch vụ",
       "errorAdd": "Lỗi thêm dịch vụ",
       "successRemove": "Đã xoá chỉ định",
-      "errorRemove": "Lỗi xoá chỉ định"
+      "errorRemove": "Lỗi xoá chỉ định",
+      "removeTooltip": "Xoá chỉ định",
+      "skipPrompt": "Không cần xét nghiệm hay chẩn đoán hình ảnh?",
+      "skipButton": "Bỏ qua bước này – Tiến thẳng đến Đọc kết quả & Chẩn đoán",
+      "stickyTitle": "Bước 2/4 - Chỉ định dịch vụ (tùy chọn)",
+      "back": "Quay lại",
+      "skip": "Bỏ qua",
+      "saveAndNext": "Lưu & Tiếp theo"
     },
     "diagnosis": {
       "headerKtv": "Kết quả từ Kỹ thuật viên",
       "pendingBadge": "chờ hoàn thành",
-      "headerForm": "B4 — Đọc kết quả và chẩn đoán",
-      "pendingAlert": "⏳ Vui lòng chờ kỹ thuật viên hoàn thành {count} dịch vụ trước khi nhập chẩn đoán.",
+      "headerForm": "Đọc kết quả & Chẩn đoán",
+      "pendingAlert": "Vui lòng chờ kỹ thuật viên hoàn thành {count} dịch vụ trước khi nhập chẩn đoán.",
       "icdCode": "Mã ICD-10",
       "icdPlaceholder": "VD: J06.9",
       "diagnosis": "Chẩn đoán",
@@ -66,15 +127,52 @@
       "followUpDate": "Ngày tái khám",
       "followUpNote": "Hướng dẫn tái khám",
       "followUpNotePlaceholder": "Ghi chú tái khám...",
+      "optional": "(không bắt buộc)",
       "saving": "Đang lưu...",
       "save": "Lưu chẩn đoán",
+      "saveAndNext": "Lưu & Tiếp theo",
       "pendingWarning": "Còn {count} dịch vụ chưa hoàn thành",
       "success": "Đã lưu chẩn đoán",
-      "error": "Lỗi lưu chẩn đoán"
+      "error": "Lỗi lưu chẩn đoán",
+      "stickyTitle": "Bước 3/4 - Đọc kết quả & Chẩn đoán",
+      "back": "Trở lại",
+      "noCodeFound": "Không tìm thấy mã",
+      "requiredCode": "Bắt buộc nhập Mã ICD-10",
+      "requiredName": "Bắt buộc nhập Chẩn đoán"
     },
     "prescription": {
-      "header": "B5 — Kê đơn thuốc",
-      "pendingAlert": "🔒 Vui lòng hoàn tất Chẩn đoán (B4) trước khi kê đơn thuốc.",
+      "tooltip": "Hệ thống kê đơn thông minh – Bạn có thể kê đơn theo từng chỉ định đã có kết quả hoặc kê đơn chung cho toàn bộ đợt khám.",
+      "header": "Kê đơn thuốc",
+      "optional": "Tùy chọn",
+      "unlocked": "Chế độ đang mở khoá",
+      "modes": {
+        "perService": "Kê theo từng chỉ định",
+        "general": "Kê đơn chung (tổng hợp)",
+        "none": "Không kê đơn"
+      },
+      "noneModeMsg": "Bệnh nhân không cần kê đơn thuốc trong lần khám này. Nhấn ‘Hoàn tất & Kết đơn’ để kết thúc.",
+      "generalModeMsg": "Kê đơn chung – Tổng hợp thuốc cho toàn bộ đợt khám. Bác sĩ có thể tham khảo kết quả chi tiết ở Bước 3.",
+      "perServiceMsg": "Kê đơn theo từng chỉ định – mỗi xét nghiệm đã có kết quả có thể được kê thuốc riêng. Dịch vụ chưa có kết quả sẽ bị khóa.",
+      "noOrders": "Không có dịch vụ chỉ định nào.",
+      "perServiceHeader": "Kê đơn cho: {name}",
+      "emptyPerService": "Chưa có thuốc nào cho chỉ định này",
+      "table": {
+        "name": "Tên thuốc",
+        "dosage": "Liều",
+        "frequency": "Tần suất",
+        "quantity": "SL",
+        "unit": "Đơn vị",
+        "days": "Ngày"
+      },
+      "placeholders": {
+        "name": "Nhập tên thuốc...",
+        "dosage": "Ví dụ: 100mg",
+        "frequency": "2 lần/ngày",
+        "notes": "Lưu ý đặc biệt cho bệnh nhân về đơn thuốc..."
+      },
+      "notesLabel": "Ghi chú đơn thuốc chung",
+      "addMedicine": "+ Thêm thuốc",
+      "pendingAlert": "Vui lòng hoàn tất <strong>Chẩn đoán</strong> trước khi kê đơn thuốc.",
       "medicineName": "Tên thuốc",
       "medicineNamePlaceholder": "Ibuprofen",
       "dosage": "Liều",
@@ -88,14 +186,65 @@
       "durationPlaceholder": "7",
       "instructions": "Hướng dẫn",
       "instructionsPlaceholder": "Uống sau ăn...",
-      "addMedicine": "Thêm thuốc",
+      "addMedicineBtn": "Thêm thuốc",
       "notes": "Ghi chú đơn thuốc",
       "notesPlaceholder": "Lưu ý cho bệnh nhân...",
       "saving": "Đang lưu...",
-      "save": "Hoàn tất & Kê đơn",
-      "pendingWarning": "Cần hoàn tất chẩn đoán (B4) trước khi kê đơn",
+      "save": "Hoàn tất & Kết đơn",
+      "pendingWarning": "Cần hoàn tất chẩn đoán trước khi kê đơn",
       "success": "Đã lưu đơn thuốc — lần khám hoàn tất",
-      "error": "Lỗi lưu đơn thuốc"
+      "error": "Lỗi lưu đơn thuốc",
+      "stickyTitle": "Bước 4/4 - Kê đơn thuốc",
+      "back": "Trở lại",
+      "finish": "Hoàn tất & Kết đơn",
+      "minItemsError": "Vui lòng thêm ít nhất một thuốc hoặc chọn 'Không kê đơn'",
+      "itemFieldsError": "Vui lòng điền đầy đủ thông tin cho các thuốc đã thêm (Tên, Liều, Tần suất, SL)",
+      "waitingResults": "Chờ kết quả",
+      "resultsPendingMsg": "Chỉ định này chưa có kết quả. Vui lòng đợi KTV hoàn thành."
+    },
+    "summary": {
+      "header": "Tổng kết & In kết quả",
+      "subtitle": "Xem lại toàn bộ thông tin phiên khám và chuẩn bị in phiếu kết quả cho bệnh nhân.",
+      "empty": "(Trống)",
+      "noDiagnosis": "Chưa có chẩn đoán",
+      "noMeds": "Không kê đơn thuốc",
+      "generalPrescription": "Đơn thuốc chung",
+      "followUpAt": "Tái khám vào",
+      "completed": "Hoàn tất",
+      "pending": "Đang chờ",
+      "printBtn": "In phiếu kết quả",
+      "finishBtn": "Hoàn tất khám",
+      "stickyTitle": "Bước kết thúc — Tổng kết cuộc khám",
+      "sections": {
+        "symptoms": "Triệu chứng & Sinh hiệu",
+        "labResults": "Kết quả Cận lâm sàng",
+        "diagnosis": "Kết luận & Hướng điều trị",
+        "prescription": "Đơn thuốc"
+      },
+      "table": {
+        "testName": "Tên dịch vụ",
+        "result": "Kết quả chi tiết",
+        "status": "Trạng thái",
+        "medName": "Tên thuốc / Hàm lượng",
+        "qty": "SL",
+        "usage": "Cách dùng"
+      },
+      "printHeader": {
+        "title": "PHIẾU KẾT QUẢ KHÁM BỆNH",
+        "clinicName": "Hệ thống Phòng khám Smart Clinic",
+        "clinicAddress": "123 Đường Láng, Đống Đa, Hà Nội",
+        "clinicPhone": "Hotline: 1900 6789 - 024.3322.1100"
+      },
+      "patientLabels": {
+        "fullName": "Họ và tên",
+        "code": "Mã bệnh nhân",
+        "dob": "Ngày sinh",
+        "gender": "Giới tính",
+        "address": "Địa chỉ",
+        "phone": "Điện thoại",
+        "doctor": "Bác sĩ chỉ định"
+      },
+      "doctorSignature": "Chữ ký Bác sĩ (Ký và ghi rõ họ tên)"
     }
   },
   "history": {
@@ -220,9 +369,9 @@
       "cancelled": "Đã huỷ"
     },
     "remove": "Xoá",
-    "abnormal": "⚠ Bất thường",
+    "abnormal": "Bất thường",
     "emptyResult": "Kết quả chưa có nội dung văn bản",
-    "viewFile": "📎 Xem file kết quả"
+    "viewFile": "Xem file kết quả"
   },
   "patientInfo": {
     "noData": "Chưa chọn bệnh nhân",

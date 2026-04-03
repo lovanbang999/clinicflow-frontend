@@ -1,4 +1,5 @@
 import { apiClient } from './client';
+import { type LabOrder } from './lab-orders';
 
 export interface MedicalRecordRef {
   id: string;
@@ -132,6 +133,7 @@ export interface VisitResultsResponse {
   diagnosedAt?: string;
   prescribedAt?: string;
   visitServiceOrders: VisitServiceOrder[];
+  labOrders: LabOrder[];
   bloodPressure?: string;
   heartRate?: number;
   temperature?: number;
@@ -142,11 +144,30 @@ export interface VisitResultsResponse {
   additionalSymptoms?: string;
   medicalHistory?: string;
   allergies?: string;
+  booking?: {
+    id: string;
+    patientProfile: {
+      id: string;
+      fullName: string;
+      patientCode?: string;
+      dateOfBirth?: string;
+      gender?: string;
+      address?: string;
+      phone?: string;
+    };
+    doctor: {
+      id: string;
+      fullName: string;
+      title?: string;
+    };
+  };
   prescription?: {
     id: string;
     notes?: string;
     items: Array<{
       id: string;
+      visitServiceOrderId?: string;
+      labOrderId?: string;
       medicineName: string;
       dosage: string;
       frequency: string;
@@ -190,6 +211,7 @@ export interface SaveDiagnosisDto {
 
 export interface PrescriptionItemInput {
   visitServiceOrderId?: string;
+  labOrderId?: string;
   medicineName: string;
   dosage: string;
   frequency: string;

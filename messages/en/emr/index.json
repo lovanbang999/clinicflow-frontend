@@ -3,16 +3,18 @@
     "loading": "Loading medical record...",
     "unlockTitle": "Complete previous step to unlock",
     "tabLabels": {
-      "symptoms": "① Symptoms",
-      "services": "② Service Orders",
-      "diagnosis": "③ Results & Diagnosis",
-      "prescription": "④ Prescription"
+      "symptoms": "Symptoms",
+      "services": "Service Orders",
+      "diagnosis": "Results & Diagnosis",
+      "prescription": "Prescription",
+      "summary": "Summary & Print"
     },
     "stepLabels": {
       "symptoms": "Symptoms",
       "services": "Orders",
       "results": "Results / Diag",
-      "prescription": "Rx"
+      "prescription": "Rx",
+      "summary": "Summary"
     },
     "visitSteps": {
       "SYMPTOMS_TAKEN": "Symptoms",
@@ -24,39 +26,98 @@
       "COMPLETED": "Completed"
     },
     "symptoms": {
-      "header": "S1 — Patient Symptom Inquiry",
+      "instruction": "Record all symptoms and clinical findings before proceeding to the next steps. This is a mandatory step.",
+      "vitals": "Vitals",
+      "vitalsSubtitle": "(enter manually or get from device)",
+      "bp": "Systolic BP",
+      "heartRate": "Heart Rate",
+      "heartRateUnit": "bpm",
+      "spO2": "SpO2",
+      "temperature": "Temperature",
+      "temperatureUnit": "°C",
+      "weight": "Weight",
+      "weightUnit": "kg",
+      "height": "Height",
+      "heightUnit": "cm",
+      "header": "Patient Symptom Inquiry",
       "chiefComplaint": "Chief Complaint / Main Reason",
+      "chiefComplaintSubtitle": "Details: time, intensity, location",
       "chiefComplaintPlaceholder": "e.g. Chest pain for 3 days, shortness of breath...",
+      "additionalSymptoms": "Additional Symptoms",
+      "additionalSymptomsPlaceholder": "Shortness of breath, palpitations...",
+      "medicalHistory": "Medical History",
+      "medicalHistoryPlaceholder": "HTN, Diabetes, CVD...",
+      "allergies": "Drug Allergies",
+      "allergiesPlaceholder": "Penicillin, Aspirin...",
       "clinicalFindings": "Clinical Findings",
-      "clinicalFindingsPlaceholder": "Heart/lung sounds, observations...",
+      "clinicalFindingsSubtitle": "Heart/lung sounds, observations...",
+      "clinicalFindingsPlaceholder": "Observations from direct exam...",
       "doctorNotes": "Doctor Notes",
-      "doctorNotesPlaceholder": "Additional info...",
+      "doctorNotesPlaceholder": "Notes for other doctors...",
+      "optional": "(optional)",
       "saving": "Saving...",
       "save": "Save Symptoms",
+      "saveAndNext": "Save & Next",
       "success": "Symptoms saved",
-      "error": "Error saving symptoms"
+      "error": "Error saving symptoms",
+      "required": "Required",
+      "requiredReason": "Chief complaint is required",
+      "requiredFindings": "Clinical findings are required",
+      "stepTracker": "Step {current}/{total} - {title}"
     },
     "services": {
-      "header": "S2 — Ordered Services",
+      "tooltip": "Optional step – Only add services if the patient requires laboratory tests, imaging, or procedures. If not needed, click ‘Skip this step’ to proceed to Results & Diagnosis.",
+      "stats": {
+        "total": "Total Services",
+        "pending": "Awaiting Results",
+        "ready": "Results Ready"
+      },
+      "table": {
+        "service": "Service",
+        "type": "Type",
+        "price": "Price",
+        "status": "Status",
+        "action": "Action"
+      },
+      "status": {
+        "pending": "Awaiting Results",
+        "ready": "Results Ready"
+      },
+      "results": {
+        "empty": "(No content)",
+        "abnormal": "Abnormal Warning:",
+        "viewImage": "View Attachment Image",
+        "viewFile": "View Attachment File"
+      },
+      "header": "Ordered Services",
       "count": "services",
       "empty": "No services ordered yet",
+      "emptySelection": "No services selected yet",
       "catalog": "Service Catalog",
+      "catalogHeader": "Add Services from Catalog",
       "searchPlaceholder": "Search by name, code...",
       "emptySearch": "No matching services found",
-      "emptyCatalog": "All services added",
-      "fallbackCategory": "Service",
+      "emptyCatalog": "Empty",
+      "fallbackCategory": "Other",
       "add": "Add",
       "ordering": "Ordering...",
       "successAdd": "Service added",
       "errorAdd": "Error adding service",
-      "successRemove": "Service removed",
-      "errorRemove": "Error removing service"
+      "successRemove": "Order removed",
+      "errorRemove": "Error removing order",
+      "removeTooltip": "Remove order",
+      "skipPrompt": "No lab or imaging needed?",
+      "skipButton": "Skip this step – Proceed to Results & Diagnosis",
+      "stickyTitle": "Step 2/4 - Service Orders (optional)",
+      "back": "Back",
+      "skip": "Skip",
+      "saveAndNext": "Save & Next"
     },
     "diagnosis": {
       "headerKtv": "Results from Technicians",
       "pendingBadge": "pending",
-      "headerForm": "S4 — Results & Diagnosis",
-      "pendingAlert": "⏳ Please wait for technicians to complete {count} services before diagnosing.",
+      "headerForm": "Results & Diagnosis",
+      "pendingAlert": "Please wait for technicians to complete <strong>{count} services</strong> before diagnosing.",
       "icdCode": "ICD-10 Code",
       "icdPlaceholder": "e.g. J06.9",
       "diagnosis": "Diagnosis",
@@ -66,15 +127,52 @@
       "followUpDate": "Follow-up Date",
       "followUpNote": "Follow-up Instructions",
       "followUpNotePlaceholder": "Follow-up notes...",
+      "optional": "(optional)",
       "saving": "Saving...",
       "save": "Save Diagnosis",
+      "saveAndNext": "Save & Next",
       "pendingWarning": "{count} services still pending",
       "success": "Diagnosis saved",
-      "error": "Error saving diagnosis"
+      "error": "Error saving diagnosis",
+      "stickyTitle": "Step 3/4 - Results & Diagnosis",
+      "back": "Back",
+      "noCodeFound": "Code not found",
+      "requiredCode": "ICD-10 Code is required",
+      "requiredName": "Diagnosis is required"
     },
     "prescription": {
-      "header": "S5 — Prescription",
-      "pendingAlert": "🔒 Please complete Diagnosis (S4) before prescribing.",
+      "tooltip": "Smart Prescription System – You can prescribe per service results or create a general prescription for the entire visit.",
+      "header": "Prescription",
+      "optional": "Optional",
+      "unlocked": "Mode Unlocked",
+      "modes": {
+        "perService": "Prescribe per Service",
+        "general": "General Prescription",
+        "none": "No Prescription"
+      },
+      "noneModeMsg": "No prescription needed for this visit. Click ‘Finish & Prescribe’ to complete.",
+      "generalModeMsg": "General Mode – Summarized medication for the entire visit. Refer to Step 3 for details.",
+      "perServiceMsg": "Per-service Mode – Medicate specifically for each completed service result.",
+      "noOrders": "No service orders found.",
+      "perServiceHeader": "Prescribing for: {name}",
+      "emptyPerService": "No medications for this service yet",
+      "table": {
+        "name": "Medicine",
+        "dosage": "Dose",
+        "frequency": "Frequency",
+        "quantity": "Qty",
+        "unit": "Unit",
+        "days": "Days"
+      },
+      "placeholders": {
+        "name": "Enter medicine name...",
+        "dosage": "e.g. 100mg",
+        "frequency": "2 times/day",
+        "notes": "Special instructions for the patient..."
+      },
+      "notesLabel": "General Prescription Notes",
+      "addMedicine": "+ Add Medicine",
+      "pendingAlert": "Please complete <strong>Diagnosis</strong> before prescribing.",
       "medicineName": "Medicine Name",
       "medicineNamePlaceholder": "Ibuprofen",
       "dosage": "Dosage",
@@ -88,14 +186,64 @@
       "durationPlaceholder": "7",
       "instructions": "Instructions",
       "instructionsPlaceholder": "Take after meals...",
-      "addMedicine": "Add Medicine",
+      "addMedicineBtn": "Add Medicine",
       "notes": "Prescription Notes",
       "notesPlaceholder": "Notes for patient...",
       "saving": "Saving...",
       "save": "Complete & Prescribe",
-      "pendingWarning": "Diagnosis (S4) must be completed first",
+      "pendingWarning": "Diagnosis must be completed first",
       "success": "Prescription saved — visit completed",
-      "error": "Error saving prescription"
+      "error": "Error saving prescription",
+      "stickyTitle": "Step 4/4 - Prescription",
+      "back": "Back",
+      "finish": "Finish & Complete",
+      "minItemsError": "Please add at least one medicine or select 'No prescription'",
+      "itemFieldsError": "Please fill in all mandatory fields for the added medicines (Name, Dosage, Frequency, Qty)",
+      "waitingResults": "Waiting for results",
+      "resultsPendingMsg": "This service has no results yet. Please wait for the technician to complete it."
+    },
+    "summary": {
+      "header": "Summary & Print Result",
+      "subtitle": "Review all visit information and prepare the final report for the patient.",
+      "empty": "(Empty)",
+      "noDiagnosis": "No Diagnosis",
+      "noMeds": "No medications prescribed",
+      "followUpAt": "Follow-up on",
+      "completed": "Completed",
+      "pending": "Pending",
+      "printBtn": "Print Result Report",
+      "finishBtn": "Finish Consultation",
+      "stickyTitle": "Final Step — Visit Summary",
+      "sections": {
+        "symptoms": "Symptoms & Vitals",
+        "labResults": "Laboratory Results",
+        "diagnosis": "Conclusion & Treatment",
+        "prescription": "Prescription"
+      },
+      "table": {
+        "testName": "Service Name",
+        "result": "Detailed Result",
+        "status": "Status",
+        "medName": "Medicine / Strength",
+        "qty": "Qty",
+        "usage": "Usage"
+      },
+      "printHeader": {
+        "title": "MEDICAL EXAMINATION REPORT",
+        "clinicName": "Smart Clinic Healthcare System",
+        "clinicAddress": "123 Lang St., Dong Da Dist, Hanoi",
+        "clinicPhone": "Hotline: 1900 6789 - 024.3322.1100"
+      },
+      "patientLabels": {
+        "fullName": "Full Name",
+        "code": "Patient Code",
+        "dob": "Date of Birth",
+        "gender": "Gender",
+        "address": "Address",
+        "phone": "Phone",
+        "doctor": "Referring Physician"
+      },
+      "doctorSignature": "Doctor's Signature (Sign and write full name)"
     }
   },
   "history": {
@@ -220,9 +368,9 @@
       "cancelled": "Cancelled"
     },
     "remove": "Remove",
-    "abnormal": "⚠ Abnormal",
+    "abnormal": "Abnormal",
     "emptyResult": "No text content for result",
-    "viewFile": "📎 View result file"
+    "viewFile": "View result file"
   },
   "patientInfo": {
     "noData": "No patient selected",

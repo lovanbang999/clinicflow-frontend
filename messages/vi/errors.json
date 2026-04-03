@@ -75,5 +75,10 @@
       "failed": "Thanh toán thất bại. Vui lòng thử lại"
     }
   },
-  "generic": "Đã có lỗi xảy ra. Vui lòng thử lại"
+  "generic": "Đã có lỗi xảy ra. Vui lòng thử lại",
+  "http": {
+    "400": {
+      "failed": "Yêu cầu không hợp lệ. Vui lòng kiểm tra lại."
+    }
+  }
 }

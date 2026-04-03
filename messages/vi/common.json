@@ -191,7 +191,8 @@
     "fetchPatientsListError": "Không thể lấy danh sách bệnh nhân",
     "updateFailedError": "Cập nhật thất bại",
     "registrationFailedError": "Đăng ký không thành công",
-    "createProfileFailedError": "Tạo hồ sơ không thành công"
+    "createProfileFailedError": "Tạo hồ sơ không thành công",
+    "savePrescriptionError": "Không thể lưu đơn thuốc. Vui lòng thử lại."
   },
   "metadata": {
     "title": "Phòng Khám SmartClinic - Đặt lịch khám nhanh chóng, tiện lợi",
