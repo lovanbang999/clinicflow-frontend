@@ -1,6 +1,6 @@
 import type { QueueRecord } from '@/lib/api/queue';
 import { useTranslations } from 'next-intl';
-import { CheckIcon, WarningCircleIcon, WarningIcon, PhoneIcon } from '@phosphor-icons/react';
+import { WarningCircleIcon, WarningIcon } from '@phosphor-icons/react';
 
 interface DoctorPatientBannerProps {
   item: QueueRecord;
@@ -27,36 +27,35 @@ export function DoctorPatientBanner({ item }: DoctorPatientBannerProps) {
       
       {/* Left Side: Avatar & Info */}
       <div className="flex gap-5">
-        <div className="relative shrink-0">
-          <div className="w-20 h-20 rounded-lg bg-blue-50 text-blue-600 font-bold text-2xl flex items-center justify-center border border-gray-100">
+        <div className="relative shrink-0 mt-1">
+          <div className="w-16 h-16 rounded-xl bg-blue-50 text-blue-600 font-bold text-[22px] flex items-center justify-center border border-blue-100 shadow-inner">
             {initials}
           </div>
-          <div className="absolute -bottom-1 -right-1 bg-green-500 border-4 border-white w-6 h-6 rounded-full flex items-center justify-center" title={tBanner('examining')}>
-            <CheckIcon weight="bold" className="text-white text-[12px]" />
+          <div className="absolute -bottom-1 -right-1 bg-green-500 border-[3px] border-white w-5 h-5 rounded-full flex items-center justify-center shadow-sm" title={tBanner('examining')}>
           </div>
         </div>
         
-        <div className="space-y-1">
+        <div className="space-y-1.5 flex-1">
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-bold text-gray-900">{name}</h2>
-            <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-md text-xs font-semibold">{bookingCode}</span>
+            <h2 className="text-[20px] font-bold text-gray-900 leading-none">{name}</h2>
+            <span className="bg-gray-100/80 text-gray-600 px-2.5 py-0.5 rounded-md text-[11px] font-semibold tracking-wide border border-gray-200">{bookingCode}</span>
           </div>
           
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span>{age} {tBanner('age')}</span>
+          <div className="flex items-center gap-x-4 gap-y-2 flex-wrap text-[13px] text-slate-600 mt-1">
+            <span className="flex items-center gap-1.5 font-medium">👤 {age} {tBanner('age')}</span>
             <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-            <span>{tBanner('gender')} {genderStr}</span>
+            <span className="flex items-center gap-1.5 font-medium">⚥ {tBanner('gender')} {genderStr}</span>
             {phone && (
               <>
                 <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                <span className="flex items-center gap-1 font-medium">
-                  <PhoneIcon size={14} weight="fill" /> {phone}
+                <span className="flex items-center gap-1.5 font-medium">
+                  📞 {phone}
                 </span>
               </>
             )}
           </div>
           
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 pt-1.5">
             {patient?.allergies && (
               <span className="flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1 rounded-md text-xs font-semibold border border-red-100 cursor-pointer">
                 <WarningIcon size={14} weight="bold" /> 
