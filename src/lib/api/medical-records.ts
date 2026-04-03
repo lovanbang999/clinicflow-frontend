@@ -132,6 +132,16 @@ export interface VisitResultsResponse {
   diagnosedAt?: string;
   prescribedAt?: string;
   visitServiceOrders: VisitServiceOrder[];
+  bloodPressure?: string;
+  heartRate?: number;
+  temperature?: number;
+  spO2?: number;
+  weightKg?: number;
+  heightCm?: number;
+  bmi?: number;
+  additionalSymptoms?: string;
+  medicalHistory?: string;
+  allergies?: string;
   prescription?: {
     id: string;
     notes?: string;
@@ -153,6 +163,16 @@ export interface SaveSymptomsDto {
   chiefComplaint?: string;
   clinicalFindings?: string;
   doctorNotes?: string;
+  additionalSymptoms?: string;
+  bloodPressure?: string;
+  heartRate?: number;
+  temperature?: number;
+  spO2?: number;
+  weightKg?: number;
+  heightCm?: number;
+  bmi?: number;
+  medicalHistory?: string;
+  allergies?: string;
 }
 
 export interface OrderServicesDto {
@@ -169,6 +189,7 @@ export interface SaveDiagnosisDto {
 }
 
 export interface PrescriptionItemInput {
+  visitServiceOrderId?: string;
   medicineName: string;
   dosage: string;
   frequency: string;
