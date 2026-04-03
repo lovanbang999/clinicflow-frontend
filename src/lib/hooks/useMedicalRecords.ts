@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { medicalRecordsApi, ICD10Record, CreateMedicalRecordDto } from '@/lib/api/medical-records';
+import { medicalRecordsApi, ICD10Record, CreateMedicalRecordDto, SaveSymptomsDto } from '@/lib/api/medical-records';
 import { useApiHandler } from './useApiHandler';
 
 /**
@@ -58,5 +58,29 @@ export function useMedicalRecordActions() {
   return {
     isPerformingAction: isLoading,
     upsertRecord,
+  };
+}
+
+/**
+ * Hook for saving clinical symptoms and vitals
+ */
+export function useSaveSymptoms() {
+  const { execute, isLoading } = useApiHandler();
+
+  const saveSymptoms = useCallback(async (bookingId: string, data: SaveSymptomsDto) => {
+    return execute(
+      async () => {
+        const result = await medicalRecordsApi.saveSymptoms(bookingId, data);
+        return result;
+      },
+      {
+        errorFallbackMsg: 'saveSymptomsError'
+      }
+    );
+  }, [execute]);
+
+  return {
+    isSaving: isLoading,
+    saveSymptoms,
   };
 }
