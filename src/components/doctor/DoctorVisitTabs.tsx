@@ -7,53 +7,27 @@ import { SymptomsTab } from './tabs/SymptomsTab';
 import { LabOrderTab } from './tabs/LabOrderTab';
 import { DiagnosisTab } from './tabs/DiagnosisTab';
 import { PrescriptionTab } from './tabs/PrescriptionTab';
-import { VisitStepBadge } from './shared/VisitStepBadge';
-import { SpinnerIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon, SpinnerIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
-import { LockIcon } from 'lucide-react';
 
 // Ordered steps for progress indicator
 const STEPS: { step: VisitStep; labelKey: string; tab: TabId }[] = [
-  { step: 'SYMPTOMS_TAKEN',   labelKey: 'stepLabels.symptoms', tab: 'symptoms' },
-  { step: 'SERVICES_ORDERED', labelKey: 'stepLabels.services', tab: 'labOrders' },
-  { step: 'RESULTS_READY',    labelKey: 'stepLabels.results', tab: 'diagnosis' },
+  { step: 'SYMPTOMS_TAKEN',   labelKey: 'stepLabels.symptoms',     tab: 'symptoms' },
+  { step: 'SERVICES_ORDERED', labelKey: 'stepLabels.services',     tab: 'labOrders' },
+  { step: 'RESULTS_READY',    labelKey: 'stepLabels.results',      tab: 'diagnosis' },
   { step: 'COMPLETED',        labelKey: 'stepLabels.prescription', tab: 'prescription' },
 ];
 
 type TabId = 'symptoms' | 'labOrders' | 'diagnosis' | 'prescription';
 
-const STEP_ORDER: VisitStep[] = [
-  'SYMPTOMS_TAKEN',
-  'SERVICES_ORDERED',
-  'AWAITING_RESULTS',
-  'RESULTS_READY',
-  'DIAGNOSED',
-  'PRESCRIBED',
-  'COMPLETED',
-];
-
-function stepIndex(s: VisitStep) {
-  return STEP_ORDER.indexOf(s);
-}
-
-/** Returns the tab that should be unlocked based on visitStep */
-function unlockedTabs(step: VisitStep): Set<TabId> {
-  const idx = stepIndex(step);
-  const unlocked = new Set<TabId>(['symptoms']); // always unlocked
-  if (idx >= stepIndex('SYMPTOMS_TAKEN')) {
-    unlocked.add('labOrders');
-    unlocked.add('diagnosis');
-  }
-  if (idx >= stepIndex('DIAGNOSED')) unlocked.add('prescription');
-  return unlocked;
-}
-
 interface DoctorVisitTabsProps {
   bookingId: string;
   className?: string;
+  onExit?: () => void;
+  onHistoryClick?: () => void;
 }
 
-export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) {
+export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }: DoctorVisitTabsProps) {
   const t = useTranslations('emr.visit');
   const [record, setRecord] = useState<VisitResultsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,16 +57,6 @@ export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) 
     });
   }, []);
 
-  const currentStep = record?.visitStep ?? 'SYMPTOMS_TAKEN';
-  const allowed = record ? unlockedTabs(record.visitStep) : new Set<TabId>(['symptoms']);
-
-  const tabs: { id: TabId; label: string }[] = [
-    { id: 'symptoms',     label: t('tabLabels.symptoms') },
-    { id: 'labOrders',    label: t('tabLabels.services') },
-    { id: 'diagnosis',    label: t('tabLabels.diagnosis') },
-    { id: 'prescription', label: t('tabLabels.prescription') },
-  ];
-
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
@@ -103,59 +67,91 @@ export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) 
   }
 
   return (
-    <div className={cn('flex flex-col gap-5', className)}>
-      {/* Step indicator */}
-      <div className="flex items-center gap-1 flex-wrap">
-        {record && <VisitStepBadge step={currentStep} size="md" />}
-        <div className="ml-auto flex items-center gap-0.5">
+    <div className={cn('flex flex-col gap-5 mx-auto', className)}>
+      {/* Top Bar with Stepper */}
+      <div className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-3 px-4 shadow-[0_1px_3px_rgba(0,0,0,0.05)] w-full gap-4">
+        
+        {onExit ? (
+          <button onClick={onExit} className="shrink-0 text-[13px] font-semibold text-slate-500 cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors hover:bg-slate-100 hover:text-slate-700">
+            <ArrowLeftIcon className="w-4 h-4" />
+            Quay lại
+          </button>
+        ) : <div className="w-[84px] shrink-0" />}
+
+        <div className="flex items-center gap-0 mx-auto overflow-x-auto hidden-scrollbar">
           {STEPS.map((s, idx) => {
-            const passed = stepIndex(currentStep) >= stepIndex(s.step);
+            const activeStepIdx = STEPS.findIndex(step => step.tab === activeTab);
+            const isCompleted = idx < activeStepIdx;
+            const isActive = idx === activeStepIdx;
+            const isOptional = s.step === 'SERVICES_ORDERED';
+
+            let stateClass = '';
+            let numClass = '';
+            let labelClass = '';
+            let lineClass = '';
+
+            if (isCompleted) {
+              stateClass = 'completed';
+              numClass = 'bg-emerald-500 text-white shadow-sm';
+              labelClass = 'text-emerald-600 font-semibold';
+              lineClass = 'bg-emerald-500';
+            } else if (isActive) {
+              stateClass = 'active';
+              if (isOptional) {
+                numClass = 'bg-indigo-600 text-white shadow-[0_4px_12px_rgba(79,70,229,0.3)] border-none';
+                labelClass = 'text-indigo-600 font-bold';
+              } else {
+                numClass = 'bg-indigo-600 text-white shadow-[0_4px_12px_rgba(79,70,229,0.3)] border-none';
+                labelClass = 'text-indigo-600 font-bold';
+              }
+              lineClass = 'bg-gray-200';
+            } else {
+              // Pending
+              if (isOptional) {
+                numClass = 'bg-indigo-50 text-indigo-600 border-[1px] border-dashed border-indigo-400';
+                labelClass = 'text-indigo-400 font-medium';
+              } else {
+                numClass = 'bg-slate-50 text-slate-400 border-[1px] border-slate-200';
+                labelClass = 'text-slate-400 font-medium';
+              }
+              lineClass = 'bg-slate-200';
+            }
+
             return (
-              <div key={s.step} className="group relative flex items-center gap-0.5">
-                {idx > 0 && <div className={cn('w-10 h-0.5 rounded', passed ? 'bg-blue-400' : 'bg-gray-200')} />}
-                <div
-                  className={cn(
-                    'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold border-2 transition-all cursor-default',
-                    passed
-                      ? 'bg-blue-600 border-blue-600 text-white'
-                      : 'bg-white border-gray-300 text-gray-400',
+              <div key={s.step} className={cn('group flex items-center transition-all py-1', stateClass)}>
+                <div className="flex items-center gap-2 px-2 py-1 relative">
+                  {isOptional && !isCompleted && !isActive && (
+                    <span className="absolute -top-1 -right-1 text-[9px] bg-indigo-100 text-indigo-600 px-1.5 rounded-full font-bold">
+                      opt
+                    </span>
                   )}
-                >
-                  {idx + 1}
+                  <div
+                    className={cn(
+                      'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 transition-all',
+                      numClass
+                    )}
+                  >
+                    {isCompleted ? <span className="text-white">✓</span> : idx + 1}
+                  </div>
+                  <div className={cn('text-[13px] whitespace-nowrap hidden sm:block', labelClass)}>
+                    {t(s.labelKey)}
+                  </div>
                 </div>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 transition-all">
-                  {t(s.labelKey)}
-                </div>
+                {idx < STEPS.length - 1 && (
+                  <div className={cn('w-6 md:w-12 h-6 flex items-center justify-center shrink-0')}>
+                     <div className={cn('w-full h-0.5 rounded-full transition-all', lineClass)} />
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
-      </div>
 
-      {/* Tab nav */}
-      <div className="flex flex-wrap items-center gap-1 bg-gray-100/80 p-1.5 rounded-xl w-fit shadow-sm border border-gray-200/50">
-        {tabs.map((tab) => {
-          const locked = !allowed.has(tab.id);
-          return (
-            <button
-              key={tab.id}
-              onClick={() => !locked && setActiveTab(tab.id)}
-              disabled={locked}
-              title={locked ? t('unlockTitle') : undefined}
-              className={cn(
-                'px-4 py-2 rounded-lg text-[13px] font-semibold transition-all flex items-center gap-2',
-                activeTab === tab.id && !locked
-                  ? 'bg-white shadow-sm text-blue-600 border border-gray-200/50 ring-1 ring-black/5'
-                  : locked
-                    ? 'text-gray-300 cursor-not-allowed'
-                    : 'hover:bg-gray-200/50 text-gray-500 cursor-pointer',
-              )}
-            >
-              {tab.label}
-              {locked && <LockIcon size={14} />}
-            </button>
-          );
-        })}
+        {onHistoryClick ? (
+          <button onClick={onHistoryClick} className="shrink-0 text-[13px] font-semibold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-800 transition-colors px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 cursor-pointer">
+            📋 Lịch sử khám
+          </button>
+        ) : <div className="w-[120px] shrink-0" />}
       </div>
 
       {/* Tab content */}
@@ -174,6 +170,8 @@ export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) 
             bookingId={bookingId}
             record={record}
             onSaved={handleRecordUpdated}
+            onSkip={() => setActiveTab('diagnosis')}
+            onBack={() => setActiveTab('symptoms')}
           />
         )}
         {activeTab === 'diagnosis' && (
@@ -182,6 +180,7 @@ export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) 
             bookingId={bookingId}
             record={record}
             onSaved={handleRecordUpdated}
+            onBack={() => setActiveTab('labOrders')}
           />
         )}
         {activeTab === 'prescription' && (
@@ -190,6 +189,7 @@ export function DoctorVisitTabs({ bookingId, className }: DoctorVisitTabsProps) 
             bookingId={bookingId}
             record={record}
             onSaved={handleRecordUpdated}
+            onBack={() => setActiveTab('diagnosis')}
           />
         )}
       </div>
