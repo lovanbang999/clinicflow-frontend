@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { labOrdersApi, type LabOrder } from '@/lib/api/lab-orders';
@@ -13,26 +14,32 @@ import { format } from 'date-fns';
 type TabKey = 'pending' | 'inProgress' | 'completed';
 
 export default function TechnicianWorklistPage() {
+  const t = useTranslations('technicianWorklist');
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>('pending');
   const [searchQuery, setSearchQuery] = useState('');
 
   const { data: allOrders, isLoading, refetch } = useApiData(
     async () => {
-      const [ready, completed] = await Promise.all([
-        labOrdersApi.getReadyToPerformOrders(),
-        labOrdersApi.getTechnicianHistory(),
-      ]);
-      return [...ready, ...completed];
+      try {
+        const [ready, completed] = await Promise.all([
+          labOrdersApi.getReadyToPerformOrders(),
+          labOrdersApi.getTechnicianHistory(),
+        ]);
+        return [...ready, ...completed];
+      } catch {
+        toast.error(t('messages.fetchError'));
+        return [];
+      }
     },
     [],
   );
 
   const orders = (allOrders ?? []).filter((o: LabOrder) => {
     const matchesTab =
-      activeTab === 'pending'    ? o.status === 'PAID' :
-      activeTab === 'inProgress' ? o.status === 'IN_PROGRESS' :
-      o.status === 'COMPLETED';
+      activeTab === 'pending' ? o.status === 'PAID' :
+        activeTab === 'inProgress' ? o.status === 'IN_PROGRESS' :
+          o.status === 'COMPLETED';
 
     if (!matchesTab) return false;
     if (!searchQuery) return true;
@@ -45,12 +52,12 @@ export default function TechnicianWorklistPage() {
   const handleStart = useCallback(async (orderId: string) => {
     try {
       await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
-      toast.success('Đã bắt đầu thực hiện');
+      toast.success(t('messages.statusUpdated'));
       refetch();
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Lỗi');
+    } catch {
+      toast.error(t('messages.statusUpdateError'));
     }
-  }, [refetch]);
+  }, [refetch, t]);
 
   const handleOpenWorkspace = (order: LabOrder) => {
     const locale = window.location.pathname.split('/')[1];
@@ -58,16 +65,16 @@ export default function TechnicianWorklistPage() {
   };
 
   const tabs: { key: TabKey; label: React.ReactNode }[] = [
-    { key: 'pending',    label: <div className="flex items-center gap-1.5"><HourglassIcon size={18} weight="duotone" /> <span>Chờ thực hiện ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'PAID').length})</span></div> },
-    { key: 'inProgress', label: <div className="flex items-center gap-1.5"><MicroscopeIcon size={18} weight="duotone" /> <span>Đang thực hiện ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'IN_PROGRESS').length})</span></div> },
-    { key: 'completed',  label: <div className="flex items-center gap-1.5"><CheckCircleIcon size={18} weight="duotone" /> <span>Hoàn thành ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'COMPLETED').length})</span></div> },
+    { key: 'pending', label: <div className="flex items-center gap-1.5"><HourglassIcon size={18} weight="duotone" /> <span>{t('tabs.pending')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'PAID').length})</span></div> },
+    { key: 'inProgress', label: <div className="flex items-center gap-1.5"><MicroscopeIcon size={18} weight="duotone" /> <span>{t('tabs.inProgress')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'IN_PROGRESS').length})</span></div> },
+    { key: 'completed', label: <div className="flex items-center gap-1.5"><CheckCircleIcon size={18} weight="duotone" /> <span>{t('tabs.history')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'COMPLETED').length})</span></div> },
   ];
 
   return (
     <div className="flex flex-col h-full bg-[#f0f3f4] overflow-hidden">
       <div className="p-8 pb-0 shrink-0">
-        <h1 className="text-2xl font-bold text-[#111518] tracking-tight">Danh sách công việc KTV</h1>
-        <p className="text-[#64748b] mt-1">Các dịch vụ cần thực hiện được chỉ định bởi bác sĩ</p>
+        <h1 className="text-2xl font-bold text-[#111518] tracking-tight">{t('worklist.title')}</h1>
+        <p className="text-[#64748b] mt-1">{t('worklist.subtitle')}</p>
 
         <div className="flex items-center gap-6 mt-6 border-b border-gray-200">
           {tabs.map((tab) => (
@@ -104,7 +111,7 @@ export default function TechnicianWorklistPage() {
         ) : orders.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl border border-slate-200">
             <FileTextIcon size={40} className="mx-auto text-slate-300 mb-3" />
-            <p className="text-slate-500 font-medium">Không có dịch vụ nào</p>
+            <p className="text-slate-500 font-medium">{t('worklist.empty')}</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -125,12 +132,12 @@ export default function TechnicianWorklistPage() {
                       {patient && (
                         <p className="text-sm text-slate-600">
                           🧑‍⚕️ {patient.fullName} · {patient.patientCode}
-                          {doctor && <span className="text-slate-400"> · BS. {doctor.fullName}</span>}
+                          {doctor && <span className="text-slate-400"> · {t('worklist.doctorPrefix')} {doctor.fullName}</span>}
                         </p>
                       )}
                       {order.orderedAt && (
                         <p className="text-xs text-slate-400 mt-1">
-                          Chỉ định lúc {format(new Date(order.orderedAt), 'dd/MM/yyyy HH:mm')}
+                          {t('worklist.columns.date')} {format(new Date(order.orderedAt), 'dd/MM/yyyy HH:mm')}
                         </p>
                       )}
                     </div>
@@ -140,7 +147,7 @@ export default function TechnicianWorklistPage() {
                           onClick={(e) => { e.stopPropagation(); void handleStart(order.id); }}
                           className="px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
                         >
-                          Bắt đầu
+                          {t('worklist.actions.start')}
                         </button>
                       )}
                       {order.status === 'IN_PROGRESS' && (
@@ -148,7 +155,7 @@ export default function TechnicianWorklistPage() {
                           onClick={(e) => { e.stopPropagation(); handleOpenWorkspace(order); }}
                           className="px-3 py-1.5 bg-green-600 text-white text-xs font-semibold rounded-lg hover:bg-green-700 transition-colors"
                         >
-                          Nhập kết quả
+                          {t('worklist.actions.result')}
                         </button>
                       )}
                     </div>
