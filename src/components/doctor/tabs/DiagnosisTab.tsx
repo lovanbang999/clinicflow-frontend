@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { medicalRecordsApi, type SaveDiagnosisDto, type VisitResultsResponse } from '@/lib/api/medical-records';
+import { type SaveDiagnosisDto, type VisitResultsResponse } from '@/lib/api/medical-records';
+import { useSaveDiagnosis, useIcd10Search } from '@/lib/hooks/useMedicalRecords';
 import { ServiceOrderCard } from '@/components/doctor/shared/ServiceOrderCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,12 +23,12 @@ interface DiagnosisTabProps {
 
 export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTabProps) {
   const t = useTranslations('emr.visit.diagnosis');
-  const [isSaving, setIsSaving] = useState(false);
-  const [icdResults, setIcdResults] = useState<{ code: string; name: string }[]>([]);
+  const { saveDiagnosis, isSaving } = useSaveDiagnosis();
+  const { results: icdResults, search: searchIcd } = useIcd10Search();
   const [showIcdDropdown, setShowIcdDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { register, handleSubmit, setValue, watch } = useForm<SaveDiagnosisDto>({
+  const { register, handleSubmit, setValue, control, formState: { errors } } = useForm<SaveDiagnosisDto>({
     defaultValues: {
       diagnosisCode: record?.diagnosisCode ?? '',
       diagnosisName: record?.diagnosisName ?? '',
@@ -40,32 +41,27 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
     },
   });
 
-  const orders = record?.visitServiceOrders ?? [];
+  const orders = record?.labOrders ?? [];
   const allDone = orders.length > 0 && orders.every((o) => o.status === 'COMPLETED');
   const pendingCount = orders.filter((o) => o.status !== 'COMPLETED' && o.status !== 'CANCELLED').length;
 
   const canDiagnose = orders.length === 0 || allDone;
 
-  const currentIcdCode = watch('diagnosisCode');
+  const currentIcdCode = useWatch({ control, name: 'diagnosisCode' });
+  const currentIcdName = useWatch({ control, name: 'diagnosisName' });
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
-      // Avoid fetching if the dropdown was just closed by a selection
       if (currentIcdCode && currentIcdCode.length >= 2) {
-        try {
-          const res = await medicalRecordsApi.searchICD10(currentIcdCode);
-          setIcdResults(res);
-          setShowIcdDropdown(true);
-        } catch {
-          // silent error
-        }
+        await searchIcd(currentIcdCode);
+        setShowIcdDropdown(true);
       } else {
         setShowIcdDropdown(false);
       }
     }, 400);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [currentIcdCode]);
+  }, [currentIcdCode, searchIcd]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -88,18 +84,14 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
       toast.warning(t('pendingWarning', { count: pendingCount }));
       return;
     }
-    try {
-      setIsSaving(true);
-      const payload = { ...data };
-      if (!payload.followUpDate) delete payload.followUpDate;
 
-      const updated = await medicalRecordsApi.saveDiagnosis(bookingId, payload);
+    const payload = { ...data };
+    if (!payload.followUpDate) delete payload.followUpDate;
+
+    const updated = await saveDiagnosis(bookingId, payload);
+    if (updated) {
       onSaved(updated);
       toast.success(t('success'));
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : t('error'));
-    } finally {
-      setIsSaving(false);
     }
   });
 
@@ -118,8 +110,24 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
             )}
           </h3>
           <div className="space-y-2">
-            {orders.map((order) => (
-              <ServiceOrderCard key={order.id} order={order} showResult />
+            {orders.map((order: any) => (
+              <ServiceOrderCard 
+                key={order.id} 
+                order={{
+                  ...order,
+                  medicalRecordId: '',
+                  serviceId: '',
+                  patientProfileId: '',
+                  orderedBy: '',
+                  createdAt: new Date().toISOString(),
+                  service: { id: order.id, name: order.testName },
+                  resultText: order.result?.resultText,
+                  isAbnormal: order.result?.isAbnormal,
+                  abnormalNote: order.result?.abnormalNote,
+                  resultFileUrl: order.result?.resultFileUrl
+                }} 
+                showResult 
+              />
             ))}
           </div>
         </div>
@@ -129,7 +137,7 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
       <form onSubmit={onSubmit} className="relative">
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
           <div className="font-bold text-[14px] text-gray-700 flex items-center gap-2 border-b border-gray-100 pb-3 mb-4">
-            <span className="text-[16px]">🔬</span> B4 — Đọc kết quả & Chẩn đoán
+            <span className="text-[16px]">🔬</span> {t('headerForm')}
           </div>
 
           {!canDiagnose && (
@@ -148,26 +156,27 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
             <div className="space-y-1.5 relative" ref={dropdownRef}>
               <Label className="text-[13px] font-semibold text-slate-700">{t('icdCode')} <span className="text-red-500">*</span></Label>
               <Input
-                {...register('diagnosisCode')}
+                {...register('diagnosisCode', { required: true })}
                 placeholder={t('icdPlaceholder')}
                 disabled={!canDiagnose}
-                className="text-[14px] bg-white border-gray-200 shadow-none border-[1.5px] rounded-lg h-[42px]"
+                className={`text-[14px] bg-white border-gray-200 shadow-none border-[1.5px] rounded-lg h-[42px] ${errors.diagnosisCode ? 'border-red-500 bg-red-50' : ''}`}
                 autoComplete="off"
                 onFocus={() => { if (icdResults.length > 0) setShowIcdDropdown(true); }}
               />
+              { errors.diagnosisCode && <p className="text-[10px] text-red-500 font-medium mt-1">{t('requiredCode')}</p> }
 
-              {currentIcdCode && watch('diagnosisName') && !showIcdDropdown && (
+              {currentIcdCode && currentIcdName && !showIcdDropdown && (
                 <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-2.5 mt-2.5 flex items-center gap-2.5">
                   <span className="font-mono text-[13px] font-bold text-indigo-700">{currentIcdCode}</span>
                   <span className="text-gray-300">|</span>
-                  <span className="text-[12.5px] text-gray-800">{watch('diagnosisName')}</span>
+                  <span className="text-[12.5px] text-gray-800">{currentIcdName}</span>
                 </div>
               )}
 
               {showIcdDropdown && icdResults.length > 0 && (
                 <div className="absolute top-14 left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] z-50 max-h-60 overflow-y-auto">
                   {icdResults.length === 0 ? (
-                    <div className="px-3 py-3 text-sm text-gray-500 text-center">Không tìm thấy mã</div>
+                    <div className="px-3 py-3 text-sm text-gray-500 text-center">{t('noCodeFound')}</div>
                   ) : (
                     icdResults.map(r => (
                       <div
@@ -186,15 +195,16 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
             <div className="space-y-1.5">
               <Label className="text-[13px] font-semibold text-slate-700">{t('diagnosis')} <span className="text-red-500">*</span></Label>
               <Input
-                {...register('diagnosisName')}
+                {...register('diagnosisName', { required: true })}
                 placeholder={t('diagnosisPlaceholder')}
                 disabled={!canDiagnose}
-                className="text-[14px] bg-white border-gray-200 shadow-none border-[1.5px] rounded-lg h-[42px]"
+                className={`text-[14px] bg-white border-gray-200 shadow-none border-[1.5px] rounded-lg h-[42px] ${errors.diagnosisName ? 'border-red-500 bg-red-50' : ''}`}
               />
+              { errors.diagnosisName && <p className="text-[10px] text-red-500 font-medium mt-1">{t('requiredName')}</p> }
             </div>
 
             <div className="space-y-1.5">
-              <Label className="text-[13px] font-semibold text-slate-700">{t('treatment')} <span className="text-[11px] font-normal text-gray-400 select-none ml-1">(không bắt buộc)</span></Label>
+              <Label className="text-[13px] font-semibold text-slate-700">{t('treatment')} <span className="text-[11px] font-normal text-gray-400 select-none ml-1">{t('optional')}</span></Label>
               <Textarea
                 {...register('treatmentPlan')}
                 rows={3}
@@ -216,7 +226,7 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-[13px] font-semibold text-slate-700">{t('followUpNote')} <span className="text-[11px] font-normal text-gray-400 select-none ml-1">(không bắt buộc)</span></Label>
+                <Label className="text-[13px] font-semibold text-slate-700">{t('followUpNote')} <span className="text-[11px] font-normal text-gray-400 select-none ml-1">{t('optional')}</span></Label>
                 <Input
                   {...register('followUpNote')}
                   placeholder={t('followUpNotePlaceholder')}
@@ -228,7 +238,7 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
           </div>
         </div>
 
-        <StickyBottomBar title="Bước 3/4 - Đọc kết quả & Chẩn đoán">
+        <StickyBottomBar title={t('stickyTitle')}>
           <div className="flex items-center gap-3">
             {onBack && (
               <Button
@@ -238,7 +248,7 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
                 className="px-6 py-2 h-[42px] rounded-xl text-gray-700 bg-white border-gray-200 shadow-sm hover:bg-gray-50 hover:text-gray-900 font-semibold transition-all mr-auto"
               >
                 <ArrowLeftIcon size={16} />
-                Trở lại
+                {t('back')}
               </Button>
             )}
             <Button
@@ -247,7 +257,7 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
               className="px-6 py-2 h-[42px] rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[14px] shadow-[0_4px_12px_rgba(79,70,229,0.25)] transition-all flex items-center gap-2 disabled:opacity-50"
             >
               {isSaving ? t('saving') : <>
-                Lưu & Tiếp theo
+                {t('saveAndNext')}
                 <ArrowRightIcon size={16} />
               </>}
             </Button>

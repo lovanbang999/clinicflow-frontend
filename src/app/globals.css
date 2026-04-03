@@ -196,45 +196,45 @@
 
 /* Printing utility */
 @media print {
-  body {
+  /* 1. Global Reset */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: white !important;
-    color: black !important;
-  }
-  
-  /* Hide everything by default when printing */
-  body * {
-    visibility: hidden;
-  }
-  
-  /* Only show the printable area */
-  #printable-invoice, #printable-invoice *,
-  #printable-lab-order, #printable-lab-order *,
-  #printable-prescription, #printable-prescription *,
-  #printable-exam-result, #printable-exam-result * {
-    visibility: visible;
-  }
-  
-  #printable-invoice, #printable-lab-order, #printable-prescription, #printable-exam-result {
-    display: block !important;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    visibility: visible !important;
-    background: white !important;
-    z-index: 9999;
   }
 
-  /* Reset layout for print */
-  header, aside, .no-print, [data-slot="sidebar"] {
+  /* 2. Hide common UI elements */
+  header, aside, nav, footer, .no-print, button, [data-slot="sidebar"] {
     display: none !important;
   }
 
+  /* 3. Hide all direct children of body EXCEPT the printable containers */
+  body > *:not(#printable-invoice):not(#printable-lab-order):not(#printable-prescription):not(#printable-exam-result) {
+    display: none !important;
+  }
+
+  /* 4. Ensure printable areas are visible and at the top */
+  #printable-invoice, #printable-lab-order, #printable-prescription, #printable-exam-result {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    z-index: auto !important;
+  }
+
+  /* 5. Force background colors in print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   @page {
-    margin: 1cm;
+    margin: 1.5cm;
     size: auto;
   }
 }

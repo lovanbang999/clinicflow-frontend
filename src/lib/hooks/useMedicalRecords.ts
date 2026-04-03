@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { medicalRecordsApi, ICD10Record, CreateMedicalRecordDto, SaveSymptomsDto } from '@/lib/api/medical-records';
+import { medicalRecordsApi, ICD10Record, CreateMedicalRecordDto, SaveSymptomsDto, SaveDiagnosisDto, CreatePrescriptionDto } from '@/lib/api/medical-records';
 import { useApiHandler } from './useApiHandler';
 
 /**
@@ -82,5 +82,53 @@ export function useSaveSymptoms() {
   return {
     isSaving: isLoading,
     saveSymptoms,
+  };
+}
+
+/**
+ * Hook for saving ICD-10 diagnosis and treatment plan
+ */
+export function useSaveDiagnosis() {
+  const { execute, isLoading } = useApiHandler();
+
+  const saveDiagnosis = useCallback(async (bookingId: string, data: SaveDiagnosisDto) => {
+    return execute(
+      async () => {
+        const result = await medicalRecordsApi.saveDiagnosis(bookingId, data);
+        return result;
+      },
+      {
+        errorFallbackMsg: 'saveDiagnosisError'
+      }
+    );
+  }, [execute]);
+
+  return {
+    isSaving: isLoading,
+    saveDiagnosis,
+  };
+}
+
+/**
+ * Hook for saving prescription
+ */
+export function useSavePrescription() {
+  const { execute, isLoading } = useApiHandler();
+
+  const savePrescription = useCallback(async (bookingId: string, data: CreatePrescriptionDto) => {
+    return execute(
+      async () => {
+        const result = await medicalRecordsApi.savePrescription(bookingId, data);
+        return result;
+      },
+      {
+        errorFallbackMsg: 'savePrescriptionError'
+      }
+    );
+  }, [execute]);
+
+  return {
+    isSaving: isLoading,
+    savePrescription,
   };
 }

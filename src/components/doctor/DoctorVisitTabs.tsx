@@ -7,6 +7,7 @@ import { SymptomsTab } from './tabs/SymptomsTab';
 import { LabOrderTab } from './tabs/LabOrderTab';
 import { DiagnosisTab } from './tabs/DiagnosisTab';
 import { PrescriptionTab } from './tabs/PrescriptionTab';
+import { SummaryTab } from './tabs/SummaryTab';
 import { ArrowLeftIcon, SpinnerIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 
@@ -16,9 +17,10 @@ const STEPS: { step: VisitStep; labelKey: string; tab: TabId }[] = [
   { step: 'SERVICES_ORDERED', labelKey: 'stepLabels.services',     tab: 'labOrders' },
   { step: 'RESULTS_READY',    labelKey: 'stepLabels.results',      tab: 'diagnosis' },
   { step: 'COMPLETED',        labelKey: 'stepLabels.prescription', tab: 'prescription' },
+  { step: 'COMPLETED',        labelKey: 'stepLabels.summary',      tab: 'summary' },
 ];
 
-type TabId = 'symptoms' | 'labOrders' | 'diagnosis' | 'prescription';
+type TabId = 'symptoms' | 'labOrders' | 'diagnosis' | 'prescription' | 'summary';
 
 interface DoctorVisitTabsProps {
   bookingId: string;
@@ -51,8 +53,14 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
   const handleRecordUpdated = useCallback((updated: VisitResultsResponse) => {
     setRecord(updated);
     setActiveTab((current) => {
+      // Step 1 -> Step 2
       if (updated.visitStep === 'SYMPTOMS_TAKEN' && current === 'symptoms') return 'labOrders';
+      // Step 2 & 3 are managed by skip/automated logic in their own tabs mostly
+      // Step 4 -> Step 5
       if (updated.visitStep === 'DIAGNOSED' && current === 'diagnosis') return 'prescription';
+      if (updated.visitStep === 'PRESCRIBED' && current === 'prescription') return 'summary';
+      if (updated.visitStep === 'COMPLETED' && current === 'prescription') return 'summary';
+      
       return current;
     });
   }, []);
@@ -118,7 +126,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
             }
 
             return (
-              <div key={s.step} className={cn('group flex items-center transition-all py-1', stateClass)}>
+              <div key={s.tab} className={cn('group flex items-center transition-all py-1', stateClass)}>
                 <div className="flex items-center gap-2 px-2 py-1 relative">
                   {isOptional && !isCompleted && !isActive && (
                     <span className="absolute -top-1 -right-1 text-[9px] bg-indigo-100 text-indigo-600 px-1.5 rounded-full font-bold">
@@ -168,7 +176,6 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
           <LabOrderTab
             key={`labOrders-${bookingId}`}
             bookingId={bookingId}
-            record={record}
             onSaved={handleRecordUpdated}
             onSkip={() => setActiveTab('diagnosis')}
             onBack={() => setActiveTab('symptoms')}
@@ -190,6 +197,14 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
             record={record}
             onSaved={handleRecordUpdated}
             onBack={() => setActiveTab('diagnosis')}
+          />
+        )}
+        {activeTab === 'summary' && (
+          <SummaryTab
+            key={`summary-${bookingId}`}
+            record={record}
+            onBack={() => setActiveTab('prescription')}
+            onExit={onExit}
           />
         )}
       </div>

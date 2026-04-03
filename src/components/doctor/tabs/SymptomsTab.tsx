@@ -55,9 +55,9 @@ export function SymptomsTab({ bookingId, record, onSaved }: SymptomsTabProps) {
       ...payload,
       bloodPressure,
     });
-    
-    if (result?.success) {
-      onSaved(result.data);
+
+    if (result) {
+      onSaved(result);
       toast.success(t('success'));
     }
   });
@@ -66,17 +66,17 @@ export function SymptomsTab({ bookingId, record, onSaved }: SymptomsTabProps) {
     <form onSubmit={onSubmit} className="space-y-5 relative">
       <div className="bg-indigo-50 border border-indigo-100 text-indigo-800 rounded-xl p-4 flex gap-3 text-[13.5px] items-start mb-6">
         <span className="text-[18px] leading-none shrink-0">ℹ️</span>
-        <div>Ghi nhận đầy đủ triệu chứng và thăm khám lâm sàng trước khi tiến hành các bước tiếp theo. Đây là bước <span className="font-bold">bắt buộc</span>.</div>
+        <div>{t('instruction')}</div>
       </div>
 
       {/* Vitals Input Grid B1 */}
       <div className="border border-gray-200 rounded-xl p-4 mb-4 bg-white">
         <div className="text-[13px] font-bold text-gray-700 mb-3.5 flex items-center gap-2 pb-2.5 border-b border-gray-100">
-          <span>📊</span> Sinh hiệu <span className="text-[11px] text-gray-400 font-normal">(nhập hoặc lấy từ thiết bị)</span>
+          <span>{t('vitals')}</span> <span className="text-[11px] text-gray-400 font-normal">{t('vitalsSubtitle')}</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-6 gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
           <div className="col-span-2 md:col-span-1 space-y-1.5">
-            <Label className="text-[13px] font-bold text-slate-700">Huyết áp thu <span className="text-red-500">*</span></Label>
+            <Label className="text-[13px] font-bold text-slate-700">{t('bp')} <span className="text-red-500">*</span></Label>
             <div className="flex items-center gap-1">
               <Input
                 {...register('bpSystolic', { required: true })}
@@ -90,21 +90,21 @@ export function SymptomsTab({ bookingId, record, onSaved }: SymptomsTabProps) {
                 className={`text-[14px] bg-white h-[38px] px-2 shadow-none border-gray-200 rounded-lg text-center ${errors.bpDiastolic ? 'border-red-500 bg-red-50' : ''}`}
               />
             </div>
-            { (errors.bpSystolic || errors.bpDiastolic) && <p className="text-[10px] text-red-500 font-medium">Bắt buộc</p> }
+            { (errors.bpSystolic || errors.bpDiastolic) && <p className="text-[10px] text-red-500 font-medium">{t('required')}</p> }
             <p className="text-[11.5px] text-gray-400">mmHg</p>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[13px] font-bold text-slate-700">Mạch <span className="text-red-500">*</span></Label>
+            <Label className="text-[13px] font-bold text-slate-700">{t('heartRate')} <span className="text-red-500">*</span></Label>
             <Input
               {...register('heartRate', { required: true, valueAsNumber: true })}
               placeholder="72"
               className={`text-[14px] bg-white h-[38px] shadow-none border-gray-200 rounded-lg ${errors.heartRate ? 'border-red-500 bg-red-50' : ''}`}
             />
-            { errors.heartRate && <p className="text-[10px] text-red-500 font-medium">Bắt buộc</p> }
-            <p className="text-[11.5px] text-gray-400">lần/phút</p>
+            { errors.heartRate && <p className="text-[10px] text-red-500 font-medium">{t('required')}</p> }
+            <p className="text-[11.5px] text-gray-400">{t('heartRateUnit')}</p>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[13px] font-bold text-slate-700">SpO2</Label>
+            <Label className="text-[13px] font-bold text-slate-700">{t('spO2')}</Label>
             <Input
               {...register('spO2', { valueAsNumber: true })}
               placeholder="98"
@@ -113,122 +113,123 @@ export function SymptomsTab({ bookingId, record, onSaved }: SymptomsTabProps) {
             <p className="text-[11.5px] text-gray-400">%</p>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[13px] font-bold text-slate-700">Nhiệt độ</Label>
+            <Label className="text-[13px] font-bold text-slate-700">{t('temperature')}</Label>
             <Input
               {...register('temperature', { valueAsNumber: true })}
               placeholder="36.5"
               className="text-[14px] bg-white h-[38px] shadow-none border-gray-200 rounded-lg"
             />
-            <p className="text-[11.5px] text-gray-400">°C</p>
+            <p className="text-[11.5px] text-gray-400">{t('temperatureUnit')}</p>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[13px] font-bold text-slate-700">Cân nặng</Label>
+            <Label className="text-[13px] font-bold text-slate-700">{t('weight')}</Label>
             <Input
               {...register('weightKg', { valueAsNumber: true })}
               placeholder="55"
               className="text-[14px] bg-white h-[38px] shadow-none border-gray-200 rounded-lg"
             />
-            <p className="text-[11.5px] text-gray-400">kg</p>
+            <p className="text-[11.5px] text-gray-400">{t('weightUnit')}</p>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[13px] font-bold text-slate-700">Chiều cao</Label>
+            <Label className="text-[13px] font-bold text-slate-700">{t('height')}</Label>
             <Input
               {...register('heightCm', { valueAsNumber: true })}
               placeholder="160"
               className="text-[14px] bg-white h-[38px] shadow-none border-gray-200 rounded-lg"
             />
-            <p className="text-[11.5px] text-gray-400">cm</p>
+            <p className="text-[11.5px] text-gray-400">{t('heightUnit')}</p>
           </div>
         </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4 shadow-sm">
         <div className="font-bold text-[13px] text-gray-700 flex items-center gap-2 border-b border-gray-100 pb-2.5">
-          <span>🩺</span> B1 — Hỏi triệu chứng bệnh nhân
+          <span>{t('header')}</span>
         </div>
 
         <div className="grid grid-cols-1 gap-3.5">
           <div className="space-y-1.5">
             <Label className="text-[13px] font-bold text-slate-700">
-              Lý do khám / Triệu chứng chính <span className="text-red-500">*</span>
+              {t('chiefComplaint')} <span className="text-red-500">*</span>
             </Label>
             <Input
               {...register('chiefComplaint', { required: true })}
               placeholder={t('chiefComplaintPlaceholder')}
               className={`text-[14px] bg-white border-gray-200 shadow-none border rounded-lg h-[42px] ${errors.chiefComplaint ? 'border-red-500 bg-red-50' : ''}`}
             />
-            { errors.chiefComplaint && <p className="text-[10px] text-red-500 font-medium">Bắt buộc nhập lý do khám</p> }
-            <p className="text-[11.5px] text-gray-400">Ghi rõ thời gian, mức độ, vị trí</p>
+            { errors.chiefComplaint && <p className="text-[10px] text-red-500 font-medium">{t('requiredReason')}</p> }
+            <p className="text-[11.5px] text-gray-400">{t('chiefComplaintSubtitle')}</p>
           </div>
 
           <div className="space-y-1.5">
             <Label className="text-[13px] font-bold text-slate-700">
-              Triệu chứng kèm theo <span className="text-[11px] font-medium text-gray-400 select-none ml-1">(không bắt buộc)</span>
+              {t('additionalSymptoms')} <span className="text-[11px] font-medium text-gray-400 select-none ml-1">{t('optional')}</span>
             </Label>
             <Input
               {...register('additionalSymptoms')}
-              placeholder="Khó thở, hồi hộp, mệt mỏi..."
+              placeholder={t('additionalSymptomsPlaceholder')}
               className="text-[14px] bg-white border-gray-200 shadow-none border rounded-lg h-[42px]"
             />
           </div>
 
           <div className="space-y-1.5">
             <Label className="text-[13px] font-bold text-slate-700">
-              Tiền sử bệnh lý <span className="text-[11px] font-medium text-gray-400 select-none ml-1">(không bắt buộc)</span>
+              {t('medicalHistory')} <span className="text-[11px] font-medium text-gray-400 select-none ml-1">{t('optional')}</span>
             </Label>
             <Input
               {...register('medicalHistory')}
-              placeholder="THA, ĐTĐ, bệnh tim mạch..."
+              placeholder={t('medicalHistoryPlaceholder')}
               className="text-[14px] bg-white border-gray-200 shadow-none border rounded-lg h-[42px]"
             />
           </div>
 
           <div className="space-y-1.5">
             <Label className="text-[13px] font-bold text-slate-700">
-              Dị ứng thuốc <span className="text-[11px] font-medium text-gray-400 select-none ml-1">(không bắt buộc)</span>
+              {t('allergies')} <span className="text-[11px] font-medium text-gray-400 select-none ml-1">{t('optional')}</span>
             </Label>
             <Input
               {...register('allergies')}
-              placeholder="Penicillin, Aspirin..."
+              placeholder={t('allergiesPlaceholder')}
               className="text-[14px] bg-white border-gray-200 shadow-none border rounded-lg h-[42px]"
             />
           </div>
 
           <div className="space-y-1.5">
             <Label className="text-[13px] font-bold text-slate-700">
-              Kết quả thăm khám lâm sàng <span className="text-red-500">*</span>
+              {t('clinicalFindings')} <span className="text-red-500">*</span>
             </Label>
             <Textarea
               {...register('clinicalFindings', { required: true })}
               rows={3}
-              placeholder="Ghi nhận từ thăm khám trực tiếp..."
+              placeholder={t('clinicalFindingsPlaceholder')}
               className={`resize-none text-[14px] bg-white border-gray-200 shadow-none border rounded-lg min-h-[100px] ${errors.clinicalFindings ? 'border-red-500 bg-red-50' : ''}`}
             />
-            { errors.clinicalFindings && <p className="text-[10px] text-red-500 font-medium">Bắt buộc nhập kết quả thăm khám</p> }
+            { errors.clinicalFindings && <p className="text-[10px] text-red-500 font-medium">{t('requiredFindings')}</p> }
+            <p className="text-[11.5px] text-gray-400">{t('clinicalFindingsSubtitle')}</p>
           </div>
 
           <div className="space-y-1.5">
             <Label className="text-[13px] font-bold text-slate-700">
-              Ghi chú bổ sung của bác sĩ <span className="text-[11px] font-medium text-gray-400 select-none ml-1">(không bắt buộc)</span>
+              {t('doctorNotes')} <span className="text-[11px] font-medium text-gray-400 select-none ml-1">{t('optional')}</span>
             </Label>
             <Textarea
               {...register('doctorNotes')}
-              rows={2}
-              placeholder="Thông tin bổ sung..."
-              className="resize-none text-[14px] bg-white border-gray-200 shadow-none border rounded-lg min-h-[100px]"
+              rows={3}
+              placeholder={t('doctorNotesPlaceholder')}
+              className="resize-none text-[14px] bg-white border-gray-200 shadow-none border rounded-lg min-h-[80px]"
             />
           </div>
         </div>
       </div>
 
-      <StickyBottomBar title="Bước 1/4 - Hỏi triệu chứng">
+      <StickyBottomBar title={t('stepTracker', { current: 1, total: 4, title: t('header') })}>
         <Button
           type="submit"
           disabled={isSaving}
           className="px-6 py-2 h-[42px] rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[14px] shadow-[0_4px_12px_rgba(79,70,229,0.25)] transition-all flex items-center gap-2"
         >
           {isSaving ? t('saving') : <>
-            <span className="text-sm">Lưu & Tiếp theo</span>
+            <span className="text-sm">{t('saveAndNext')}</span>
             <ArrowRightIcon className="w-4 h-4" />
           </>}
         </Button>
