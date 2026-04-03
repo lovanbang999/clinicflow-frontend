@@ -31,7 +31,8 @@
     },
     "actions": {
       "process": "Tiếp nhận",
-      "result": "Nhập kết quả"
+      "result": "Nhập kết quả",
+      "start": "Bắt đầu"
     },
     "empty": "Hiện tại không có bệnh nhân nào đang chờ."
   },
@@ -45,7 +46,9 @@
     "fetchPendingError": "Lỗi khi tải danh sách phiếu cần thực hiện",
     "fetchSingleError": "Lỗi khi lấy thông tin chỉ định",
     "statusUpdateError": "Có lỗi xảy ra khi cập nhật trạng thái",
-    "fetchHistoryError": "Lỗi khi tải lịch sử xét nghiệm"
+    "fetchHistoryError": "Lỗi khi tải lịch sử xét nghiệm",
+    "fileUploaded": "File đã được tải lên",
+    "resultCompleted": "Đã hoàn tất kết quả — bác sĩ sẽ được thông báo"
   },
   "settings": "Cài đặt",
   "settingsContent": {
@@ -120,7 +123,11 @@
     "success": "Lưu kết quả thành công!",
     "fileUploadSuccess": "Tải tệp đính kèm thành công",
     "fileUploadError": "Lỗi khi tải tệp lên",
-    "saveError": "Có lỗi xảy ra khi lưu kết quả"
+    "saveError": "Có lỗi xảy ra khi lưu kết quả",
+    "finishBtn": "Hoàn tất kết quả",
+    "viewResult": "Xem kết quả",
+    "abnormalTitle": "Kết quả bất thường",
+    "abnormalDesc": "Đánh dấu nếu kết quả có giá trị nằm ngoài khoảng bình thường"
   },
   "result": {
     "title": "Nhập Kết Quả Cận Lâm Sàng",

@@ -31,7 +31,8 @@
     },
     "actions": {
       "process": "Process",
-      "result": "Enter Result"
+      "result": "Enter Result",
+      "start": "Start"
     },
     "empty": "No patients are currently waiting."
   },
@@ -45,7 +46,9 @@
     "fetchPendingError": "Error loading pending orders",
     "fetchSingleError": "Error loading order details",
     "statusUpdateError": "Error updating status",
-    "fetchHistoryError": "Error loading test history"
+    "fetchHistoryError": "Error loading test history",
+    "fileUploaded": "File uploaded successfully",
+    "resultCompleted": "Result completed — doctor will be notified"
   },
   "settings": "Settings",
   "settingsContent": {
@@ -120,7 +123,11 @@
     "success": "Result saved successfully!",
     "fileUploadSuccess": "File attached successfully",
     "fileUploadError": "Error uploading file",
-    "saveError": "Error saving results"
+    "saveError": "Error saving results",
+    "finishBtn": "Complete Result",
+    "viewResult": "View Result",
+    "abnormalTitle": "Abnormal Result",
+    "abnormalDesc": "Mark if the result value is outside the normal range"
   },
   "result": {
     "title": "Enter Lab/Imaging Result",
