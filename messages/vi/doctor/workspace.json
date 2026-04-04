@@ -418,5 +418,18 @@
       "instruction3": "Xin cảm ơn!",
       "greeting": "Kính chúc quý khách sức khỏe!"
     }
-  }
+  },
+  "patientsPerMonth": "Bệnh nhân theo tháng",
+  "patientsPerMonthDesc": "Số lượt khám trong 6 tháng gần nhất",
+  "bookingStatusBreakdown": "Phân phối lịch hẹn",
+  "bookingStatusDesc": "Hoàn thành / Huỷ / Vắng mặt",
+  "topDiagnoses": "Top chẩn đoán phổ biến",
+  "topDiagnosesDesc": "Các bệnh bạn chẩn đoán nhiều nhất",
+  "patients": "Bệnh nhân",
+  "statusCompleted": "Hoàn thành",
+  "statusCancelled": "Đã huỷ",
+  "statusNoShow": "Vắng mặt",
+  "analyticsTitle": "Thống kê",
+  "analyticsDesc": "Thống kê hoạt động khám bệnh của bạn",
+  "noData": "Chưa có dữ liệu"
 }

@@ -12,6 +12,7 @@ import {
   UsersIcon,
   GearIcon,
   SignOutIcon,
+  ChartBarIcon,
   type Icon,
 } from '@phosphor-icons/react';
 
@@ -26,6 +27,7 @@ export const NAV_ITEMS_DOCTOR: NavItem[] = [
   { key: 'dashboard', href: '/doctor', icon: HouseIcon, exact: true },
   { key: 'patients', href: '/doctor/patients', icon: UsersIcon, exact: false },
   { key: 'schedule', href: '/doctor/schedule', icon: CalendarCheckIcon, exact: false },
+  { key: 'analytics', href: '/doctor/analytics', icon: ChartBarIcon, exact: false },
   { key: 'settings', href: '/doctor/settings', icon: GearIcon, exact: false },
 ];
 
@@ -58,7 +60,7 @@ export function DoctorDashboardSidebar() {
               const pathAfterDoctor = pathname.substring(doctorPathIndex + '/doctor'.length);
               const segments = pathAfterDoctor.split('/').filter(Boolean);
               const firstSegment = segments[0];
-              if (!firstSegment || !['schedule', 'patients', 'settings'].includes(firstSegment)) {
+              if (!firstSegment || !['analytics', 'schedule', 'patients', 'settings'].includes(firstSegment)) {
                 isActive = true;
               }
             }

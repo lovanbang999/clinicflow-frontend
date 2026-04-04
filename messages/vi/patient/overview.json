@@ -88,5 +88,14 @@
     "generalVisit": "Khám tổng quát",
     "completed": "Hoàn tất",
     "doctorLabel": "Bác sĩ phụ trách:"
-  }
+  },
+  "visitTrend": "Lịch sử khám bệnh",
+  "visitTrendDesc": "Số lần khám theo từng tháng trong 12 tháng vừa qua",
+  "topDiseases": "Bệnh hay gặp",
+  "topDiseasesDesc": "Top 5 chẩn đoán thường gặp của bạn",
+  "spendingThisYear": "Chi phí khám năm nay",
+  "spendingTotal": "Tổng tích lũy",
+  "visits": "lần khám",
+  "occurrences": "lần",
+  "noData": "Chưa có dữ liệu"
 }
