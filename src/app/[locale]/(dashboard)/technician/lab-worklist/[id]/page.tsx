@@ -222,7 +222,7 @@ function LabResultForm({
                       <button
                         type="button"
                         onClick={() => setIsLightboxOpen(true)}
-                        className="text-sm font-medium text-blue-600 hover:underline px-3 py-2 bg-blue-50 rounded-lg flex items-center gap-2 transition-all hover:bg-blue-100"
+                        className="text-sm font-medium text-blue-600 hover:underline px-3 py-2 bg-blue-50 rounded-lg flex items-center gap-2 transition-all hover:bg-blue-100 cursor-pointer"
                       >
                         <EyeIcon size={18} weight="bold" />
                         {t('workspace.viewResult')}

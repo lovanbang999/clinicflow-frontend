@@ -48,7 +48,8 @@
     "statusUpdateError": "Error updating status",
     "fetchHistoryError": "Error loading test history",
     "fileUploaded": "File uploaded successfully",
-    "resultCompleted": "Result completed — doctor will be notified"
+    "resultCompleted": "Result completed — doctor will be notified",
+    "newOrderArrived": "New lab order for patient {name}"
   },
   "settings": "Settings",
   "settingsContent": {
