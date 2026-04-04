@@ -418,5 +418,18 @@
       "instruction3": "Thank you!",
       "greeting": "Wishing you good health!"
     }
-  }
+  },
+  "patientsPerMonth": "Patients per Month",
+  "patientsPerMonthDesc": "Visit count over the last 6 months",
+  "bookingStatusBreakdown": "Appointment Status",
+  "bookingStatusDesc": "Completed / Cancelled / No-show",
+  "topDiagnoses": "Top Diagnoses",
+  "topDiagnosesDesc": "Your most frequently made diagnoses",
+  "patients": "Patients",
+  "statusCompleted": "Completed",
+  "statusCancelled": "Cancelled",
+  "statusNoShow": "No-show",
+  "analyticsTitle": "Analytics",
+  "analyticsDesc": "Your clinical activity statistics",
+  "noData": "No data available"
 }

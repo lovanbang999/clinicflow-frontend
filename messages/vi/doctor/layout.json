@@ -2,6 +2,7 @@
   "healthcare": "Hệ thống quản lý khám bệnh",
   "title": "Bác sĩ",
   "dashboard": "Workspace",
+  "analytics": "Thống kê",
   "greeting": "Xin chào {name}, bạn có bệnh nhân đang chờ",
   "schedule": "Lịch làm việc",
   "patients": "Bệnh nhân",
