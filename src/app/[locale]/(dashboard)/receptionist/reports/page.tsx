@@ -204,12 +204,12 @@ export default function ReceptionistReportsPage() {
                 </div>
               </div>
             ) : (
-              <AdminTopServices 
+            <AdminTopServices 
                 services={(operational?.topServices || []).map(s => ({
                   id: s.name,
                   name: s.name,
                   bookingsCount: s.count,
-                  estimatedRevenue: 0
+                  estimatedRevenue: s.revenue || 0
                 }))} 
                 viewAllHref="/receptionist/walkin-booking"
               />
