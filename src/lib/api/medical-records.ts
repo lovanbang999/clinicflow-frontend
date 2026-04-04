@@ -12,15 +12,6 @@ export interface PrescriptionRef {
   items: Array<{ medicineName: string }>;
 }
 
-export interface VisitHistoryItem {
-  bookingId: string;
-  bookingDate: string;
-  doctorName: string;
-  serviceName: string;
-  medicalRecord?: MedicalRecordRef;
-  prescription?: PrescriptionRef;
-}
-
 export interface PatientMedicalProfile {
   id: string;
   patientCode?: string;
@@ -38,9 +29,69 @@ export interface PatientMedicalProfile {
   ethnicity?: string;
 }
 
+export interface VisitHistoryItem {
+  id: string; // medicalRecord.id
+  bookingId: string;
+  patientProfileId: string;
+  chiefComplaint?: string;
+  clinicalFindings?: string;
+  diagnosisCode?: string;
+  diagnosisName?: string;
+  treatmentPlan?: string;
+  followUpDate?: string;
+  followUpNote?: string;
+  doctorNotes?: string;
+  visitStep?: string;
+  // Vitals
+  bloodPressure?: string;
+  heartRate?: number;
+  temperature?: number;
+  spO2?: number;
+  weightKg?: number;
+  heightCm?: number;
+  createdAt: string;
+  booking: {
+    id: string;
+    bookingDate: string;
+    status: string;
+    reasonForVisit?: string;
+    doctor: { id: string; fullName: string; title?: string };
+    service: { id: string; name: string };
+  };
+  visitServiceOrders: Array<{
+    id: string;
+    status: string;
+    resultText?: string;
+    resultFileUrl?: string;
+    isAbnormal?: boolean;
+    abnormalNote?: string;
+    service: { id: string; name: string };
+  }>;
+  prescription?: {
+    id: string;
+    notes?: string;
+    items: Array<{
+      id: string;
+      medicineName: string;
+      dosage: string;
+      frequency: string;
+      durationDays?: number;
+      quantity: number;
+      unit?: string;
+      instructions?: string;
+    }>;
+  };
+}
+
 export interface PatientHistoryResponse {
   patientProfile: PatientMedicalProfile;
-  recentVisits: VisitHistoryItem[];
+  visits: VisitHistoryItem[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }
 
 /** @deprecated Use PrescriptionItemInput instead */

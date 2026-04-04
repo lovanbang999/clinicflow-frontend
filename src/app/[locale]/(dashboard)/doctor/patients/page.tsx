@@ -13,7 +13,6 @@ import { DoctorPatientDrawer } from '@/components/dashboard/doctors/DoctorPatien
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { useParams } from 'next/navigation';
-// import { DoctorPatientDrawer } from '@/components/dashboard/doctors/DoctorPatientDrawer'; // We will create this next
 
 export default function DoctorPatientsPage() {
   const t = useTranslations('doctorPatients');

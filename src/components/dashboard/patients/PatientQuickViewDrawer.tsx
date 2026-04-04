@@ -89,7 +89,7 @@ export function PatientQuickViewDrawer({
   }, [open, patient?.id]);
 
   const profile = history?.patientProfile;
-  const visits = history?.recentVisits || [];
+  const visits = history?.visits || [];
 
 
   // Prevent body scroll when open
@@ -315,8 +315,8 @@ export function PatientQuickViewDrawer({
                             <CalendarCheckIcon size={14} weight="fill" />
                           </div>
                           <div className="flex flex-col -mt-1">
-                            <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">{visit.serviceName}</span>
-                            <span className="text-xs text-slate-500 mt-1">{new Date(visit.bookingDate).toLocaleDateString()} &bull; {visit.doctorName}</span>
+                            <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">{visit.booking?.service?.name ?? '—'}</span>
+                            <span className="text-xs text-slate-500 mt-1">{new Date(visit.booking?.bookingDate ?? visit.createdAt).toLocaleDateString()} &bull; {visit.booking?.doctor?.fullName}</span>
                             
                             {visit.prescription && visit.prescription.items.length > 0 && (
                               <div className="mt-2 text-xs text-slate-500">
@@ -354,10 +354,10 @@ export function PatientQuickViewDrawer({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                      {visits.filter(v => v.medicalRecord).length > 0 ? visits.filter(v => v.medicalRecord).map((visit, idx) => (
+                      {visits.filter(v => v.diagnosisName).length > 0 ? visits.filter(v => v.diagnosisName).map((visit, idx) => (
                         <tr key={idx} className="hover:bg-slate-50/30">
-                          <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200">{new Date(visit.bookingDate).toLocaleDateString()}</td>
-                          <td className="px-4 py-3"><span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:text-slate-300 dark:bg-slate-800">{visit.medicalRecord?.diagnosisName || t('medicalRecords.defaultDiagnosis')}</span></td>
+                          <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200">{new Date(visit.booking?.bookingDate ?? visit.createdAt).toLocaleDateString()}</td>
+                          <td className="px-4 py-3"><span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:text-slate-300 dark:bg-slate-800">{visit.diagnosisName || t('medicalRecords.defaultDiagnosis')}</span></td>
                           <td className="px-4 py-3 text-right">
                             <button className="text-slate-400 hover:text-[#1392ec] transition-colors cursor-pointer">
                               <EyeIcon size={16} />
@@ -382,8 +382,8 @@ export function PatientQuickViewDrawer({
                   {visits.filter(v => v.prescription).length > 0 ? visits.filter(v => v.prescription).map((visit, idx) => (
                     <div key={idx} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="text-xs font-bold text-slate-500">{new Date(visit.bookingDate).toLocaleDateString()}</span>
-                        <span className="text-[10px] font-bold text-[#1392ec] uppercase">{visit.doctorName}</span>
+                        <span className="text-xs font-bold text-slate-500">{new Date(visit.booking?.bookingDate ?? visit.createdAt).toLocaleDateString()}</span>
+                        <span className="text-[10px] font-bold text-[#1392ec] uppercase">{visit.booking?.doctor?.fullName}</span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {visit.prescription?.items.map((item, i) => (
