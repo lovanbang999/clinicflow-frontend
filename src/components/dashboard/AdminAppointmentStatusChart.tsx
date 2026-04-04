@@ -1,10 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
 import { useTranslations } from 'next-intl';
 import { BookingOverview } from '@/lib/api/dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
 interface AdminAppointmentStatusChartProps {
   overview: BookingOverview | null;
@@ -48,7 +49,13 @@ export function AdminAppointmentStatusChart({ overview, loading }: AdminAppointm
       </CardHeader>
       <CardContent className="flex flex-col flex-1 min-w-0">
         <div className="flex-1 min-h-[280px] w-full mt-2 min-w-0">
-          <ResponsiveContainer width="100%" height="100%">
+          <ChartContainer
+            config={data.reduce((acc, d, idx) => {
+              acc[`seg_${idx}`] = { label: d.name, color: d.color };
+              return acc;
+            }, {} as ChartConfig)}
+            className="w-full h-[280px]"
+          >
             <PieChart>
               <Pie
                 data={data}
@@ -58,25 +65,22 @@ export function AdminAppointmentStatusChart({ overview, loading }: AdminAppointm
                 outerRadius={80}
                 paddingAngle={5}
                 dataKey="value"
+                nameKey="name"
                 strokeWidth={0}
               >
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                itemStyle={{ fontSize: '12px' }}
-                formatter={(value: number) => [value, t('charts.count')]}
-              />
-              <Legend 
-                verticalAlign="bottom" 
-                height={36} 
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <Legend
+                verticalAlign="bottom"
+                height={36}
                 iconType="circle"
                 wrapperStyle={{ fontSize: '11px', paddingTop: '20px' }}
               />
             </PieChart>
-          </ResponsiveContainer>
+          </ChartContainer>
         </div>
         
         <div className="mt-4 flex items-center justify-between p-3 bg-slate-50 rounded-xl">

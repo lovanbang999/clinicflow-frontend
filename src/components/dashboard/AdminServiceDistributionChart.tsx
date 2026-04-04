@@ -1,10 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
 import { useTranslations } from 'next-intl';
 import { TopServiceItem } from '@/lib/api/dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
 interface AdminServiceDistributionChartProps {
   services: TopServiceItem[];
@@ -109,7 +110,13 @@ export function AdminServiceDistributionChart({ services, loading }: AdminServic
       </CardHeader>
       <CardContent className="min-w-0">
         <div className="h-[280px] w-full mt-2 min-w-0">
-          <ResponsiveContainer width="100%" height="100%">
+          <ChartContainer
+            config={data.reduce((acc, d, idx) => {
+              acc[`svc_${idx}`] = { label: d.name, color: COLORS[idx % COLORS.length] };
+              return acc;
+            }, {} as ChartConfig)}
+            className="w-full h-[280px]"
+          >
             <PieChart>
               <Pie
                 data={data}
@@ -119,25 +126,29 @@ export function AdminServiceDistributionChart({ services, loading }: AdminServic
                 outerRadius={80}
                 paddingAngle={5}
                 dataKey="value"
+                nameKey="name"
                 strokeWidth={0}
               >
                 {data.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                itemStyle={{ fontSize: '12px' }}
-                formatter={(value: number) => [`${value.toLocaleString('vi-VN')} ₫`, t('charts.revenue')]}
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    formatter={(value) => `${Number(value).toLocaleString('vi-VN')} ₫`}
+                    hideLabel
+                  />
+                }
               />
-              <Legend 
-                verticalAlign="bottom" 
-                height={36} 
+              <Legend
+                verticalAlign="bottom"
+                height={36}
                 iconType="circle"
                 wrapperStyle={{ fontSize: '11px', paddingTop: '20px' }}
               />
             </PieChart>
-          </ResponsiveContainer>
+          </ChartContainer>
         </div>
         
         <div className="mt-4 space-y-2">
