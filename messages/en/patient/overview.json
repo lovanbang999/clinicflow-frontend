@@ -88,5 +88,14 @@
     "generalVisit": "General Consultation",
     "completed": "Completed",
     "doctorLabel": "Assigned Doctor:"
-  }
+  },
+  "visitTrend": "Visit History",
+  "visitTrendDesc": "Number of visits per month over the last 12 months",
+  "topDiseases": "Common Diagnoses",
+  "topDiseasesDesc": "Your top 5 most frequent diagnoses",
+  "spendingThisYear": "Medical spending this year",
+  "spendingTotal": "All-time total",
+  "visits": "visits",
+  "occurrences": "times",
+  "noData": "No data available"
 }
