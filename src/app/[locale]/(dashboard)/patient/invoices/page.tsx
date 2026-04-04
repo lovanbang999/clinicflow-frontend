@@ -19,7 +19,7 @@ import { Badge } from '@/components/ui/badge';
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
   const t = useTranslations('receptionistBilling.status');
-  
+
   switch (status) {
     case InvoiceStatus.PAID:
       return (
@@ -131,8 +131,8 @@ export default function PatientInvoicesPage() {
               </thead>
               <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50">
                 {invoices.map((inv) => (
-                  <tr 
-                    key={inv.id} 
+                  <tr
+                    key={inv.id}
                     className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer group"
                   >
                     <td className="px-6 py-5">
@@ -147,8 +147,8 @@ export default function PatientInvoicesPage() {
                     </td>
                     <td className="px-6 py-5 font-medium text-slate-600 dark:text-slate-400 text-sm">
                       <div className="flex items-center gap-2">
-                         <CalendarBlankIcon size={14} className="text-slate-400" />
-                         {format(new Date(inv.createdAt), 'dd MMMM, yyyy', { locale: dateLocale })}
+                        <CalendarBlankIcon size={14} className="text-slate-400" />
+                        {format(new Date(inv.createdAt), 'dd MMMM, yyyy', { locale: dateLocale })}
                       </div>
                     </td>
                     <td className="px-6 py-5">
@@ -174,7 +174,7 @@ export default function PatientInvoicesPage() {
           {/* Mobile Card View */}
           <div className="md:hidden space-y-4">
             {invoices.map((inv) => (
-              <div 
+              <div
                 key={inv.id}
                 className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm space-y-4 active:scale-[0.98] transition-all"
               >

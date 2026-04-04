@@ -57,8 +57,8 @@ export function PatientChangePasswordForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100 dark:border-slate-800">
-      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 md:mb-6 flex items-center gap-2">
         <LockKeyIcon weight="fill" className="text-amber-500 text-xl" /> 
         {t('changePassword')}
       </h3>
@@ -136,14 +136,14 @@ export function PatientChangePasswordForm() {
             type="button" 
             onClick={handlePasswordCancel}
             disabled={isLoading}
-            className="px-8 py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+            className="text-sm md:text-base px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
           >
             {tCommon('cancel')}
           </button>
           <button 
             type="submit" 
             disabled={isLoading}
-            className="px-8 py-3 rounded-xl font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+            className="text-sm md:text-base px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
           >
             {isLoading ? (
               <CircleNotchIcon className="animate-spin text-xl" />

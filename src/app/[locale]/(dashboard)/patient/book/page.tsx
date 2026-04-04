@@ -65,7 +65,7 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen">
       {/* Main container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Stepper */}
         <div className="max-w-4xl mx-auto mb-16">
           <BookingSteps steps={steps} currentStep={currentStep} />
