@@ -22,7 +22,7 @@ export type OperationalStats = {
   bookingSources: { label: string; value: number }[];
   appointmentStatuses: { label: string; value: number }[];
   paymentMethods: { label: string; value: number; count: number }[];
-  topServices: { name: string; count: number }[];
+  topServices: { name: string; count: number; revenue: number }[];
 };
 
 export const receptionistAnalyticsApi = {
