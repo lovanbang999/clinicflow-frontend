@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { VisitServiceOrder } from '@/lib/api/medical-records';
 import { cn } from '@/lib/utils';
-import { CheckCircleIcon, ClockIcon, SpinnerIcon, XCircleIcon } from '@phosphor-icons/react';
+import { CheckCircleIcon, ClockIcon, SpinnerIcon, XCircleIcon, FileImageIcon, PaperclipIcon } from '@phosphor-icons/react';
+import { ImageLightbox } from '@/components/shared/ImageLightbox';
 
 const STATUS_CONFIG = {
   PENDING:     { labelKey: 'status.pending', icon: ClockIcon,       color: 'border-yellow-200 bg-yellow-50 text-yellow-700' },
@@ -20,8 +22,12 @@ interface ServiceOrderCardProps {
 
 export function ServiceOrderCard({ order, onRemove, showResult = false }: ServiceOrderCardProps) {
   const t = useTranslations('doctorWorkspace.visit.shared');
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+
   const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.PENDING;
   const Icon = cfg.icon;
+
+  const isImage = (url: string) => /\.(jpeg|jpg|gif|png|webp|svg|bmp)$/i.test(url);
 
   return (
     <div className={cn('rounded-xl border p-4 flex flex-col gap-2 transition-all', cfg.color)}>
@@ -65,17 +71,37 @@ export function ServiceOrderCard({ order, onRemove, showResult = false }: Servic
             <p className="text-gray-400 italic text-xs">{t('emptyResult')}</p>
           )}
           {order.resultFileUrl && (
-            <a
-              href={order.resultFileUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-600 hover:underline text-xs"
-            >
-              {t('viewFile')}
-            </a>
+            <div className="mt-2">
+              {isImage(order.resultFileUrl) ? (
+                <button
+                  type="button"
+                  onClick={() => setActiveImage(order.resultFileUrl!)}
+                  className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-1 rounded-lg transition-colors cursor-pointer"
+                >
+                  <FileImageIcon size={16} weight="duotone" />
+                  {t('viewFile')}
+                </button>
+              ) : (
+                <a
+                  href={order.resultFileUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-1 rounded-lg transition-colors cursor-pointer"
+                >
+                  <PaperclipIcon size={16} weight="duotone" />
+                  {t('viewFile')}
+                </a>
+              )}
+            </div>
           )}
         </div>
       )}
+
+      <ImageLightbox
+        url={activeImage || ''}
+        isOpen={!!activeImage}
+        onClose={() => setActiveImage(null)}
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { medicalRecordsApi, type VisitResultsResponse } from '@/lib/api/medical-records';
 import { servicesApi } from '@/lib/api/services';
 import { labOrdersApi, type LabOrder } from '@/lib/api/lab-orders';
+import { useLabOrderSocket } from '@/lib/hooks/useLabOrderSocket';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -56,6 +57,20 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
     servicesApi.getAll({ categoryType: 'LAB' }).then(setAllServices).catch(console.error);
     fetchOrders();
   }, [fetchOrders]);
+
+  // Subscribe to WebSocket: auto-refresh when a lab result is completed by technician
+  const { joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted } = useLabOrderSocket();
+  useEffect(() => {
+    joinBookingLabRoom(bookingId);
+    const unsubscribe = onLabResultCompleted((payload) => {
+      toast.success(`🧪 ${payload.testName} — kết quả đã sẵn sàng`);
+      void fetchOrders();
+    });
+    return () => {
+      leaveBookingLabRoom(bookingId);
+      unsubscribe?.();
+    };
+  }, [bookingId, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted, fetchOrders]);
 
   const orderedNames = new Set(orders.map((o) => o.testName));
 

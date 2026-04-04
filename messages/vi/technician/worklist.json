@@ -48,7 +48,8 @@
     "statusUpdateError": "Có lỗi xảy ra khi cập nhật trạng thái",
     "fetchHistoryError": "Lỗi khi tải lịch sử xét nghiệm",
     "fileUploaded": "File đã được tải lên",
-    "resultCompleted": "Đã hoàn tất kết quả — bác sĩ sẽ được thông báo"
+    "resultCompleted": "Đã hoàn tất kết quả — bác sĩ sẽ được thông báo",
+    "newOrderArrived": "Đơn xét nghiệm mới của bệnh nhân {name}"
   },
   "settings": "Cài đặt",
   "settingsContent": {

@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { type SaveDiagnosisDto, type VisitResultsResponse } from '@/lib/api/medical-records';
+import { medicalRecordsApi, type SaveDiagnosisDto, type VisitResultsResponse, type VisitServiceOrder } from '@/lib/api/medical-records';
+import { type LabOrder } from '@/lib/api/lab-orders';
 import { useSaveDiagnosis, useIcd10Search } from '@/lib/hooks/useMedicalRecords';
+import { useLabOrderSocket } from '@/lib/hooks/useLabOrderSocket';
 import { ServiceOrderCard } from '@/components/doctor/shared/ServiceOrderCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,6 +29,29 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
   const { results: icdResults, search: searchIcd } = useIcd10Search();
   const [showIcdDropdown, setShowIcdDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Refresh record when a technician completes a lab result
+  const { joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted } = useLabOrderSocket();
+  const refreshRecord = useCallback(async () => {
+    try {
+      const updated = await medicalRecordsApi.getVisitResults(bookingId);
+      onSaved(updated);
+    } catch (err) {
+      console.error('[DiagnosisTab] failed to refresh record:', err);
+    }
+  }, [bookingId, onSaved]);
+
+  useEffect(() => {
+    joinBookingLabRoom(bookingId);
+    const unsubscribe = onLabResultCompleted((payload) => {
+      toast.info(`🧪 ${payload.testName} — kết quả đã sẵn sàng`);
+      void refreshRecord();
+    });
+    return () => {
+      leaveBookingLabRoom(bookingId);
+      unsubscribe?.();
+    };
+  }, [bookingId, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted, refreshRecord]);
 
   const { register, handleSubmit, setValue, control, formState: { errors } } = useForm<SaveDiagnosisDto>({
     defaultValues: {
@@ -110,25 +135,33 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
             )}
           </h3>
           <div className="space-y-2">
-            {orders.map((order: any) => (
-              <ServiceOrderCard 
-                key={order.id} 
-                order={{
-                  ...order,
-                  medicalRecordId: '',
-                  serviceId: '',
-                  patientProfileId: '',
-                  orderedBy: '',
-                  createdAt: new Date().toISOString(),
-                  service: { id: order.id, name: order.testName },
-                  resultText: order.result?.resultText,
-                  isAbnormal: order.result?.isAbnormal,
-                  abnormalNote: order.result?.abnormalNote,
-                  resultFileUrl: order.result?.resultFileUrl
-                }} 
-                showResult 
-              />
-            ))}
+            {orders.map((order: LabOrder) => {
+              // Map LabOrder status to ServiceOrderStatus for the card
+              // LabOrder has 'PAID', ServiceOrderCard expects 'PENDING' in that state context
+              const mappedStatus = order.status === 'PAID' ? 'PENDING' : order.status;
+              
+              return (
+                <ServiceOrderCard 
+                  key={order.id} 
+                  order={{
+                    ...order,
+                    status: mappedStatus as unknown as VisitServiceOrder['status'],
+                    medicalRecordId: '',
+                    serviceId: '',
+                    bookingId: bookingId,
+                    patientProfileId: '',
+                    orderedBy: '',
+                    createdAt: new Date().toISOString(),
+                    service: { id: order.id, name: order.testName },
+                    resultText: order.result?.resultText,
+                    isAbnormal: order.result?.isAbnormal,
+                    abnormalNote: order.result?.abnormalNote,
+                    resultFileUrl: order.result?.resultFileUrl
+                  } as unknown as VisitServiceOrder}
+                  showResult 
+                />
+              );
+            })}
           </div>
         </div>
       )}

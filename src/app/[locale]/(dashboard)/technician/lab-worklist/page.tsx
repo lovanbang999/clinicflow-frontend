@@ -1,10 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { labOrdersApi, type LabOrder } from '@/lib/api/lab-orders';
 import { useApiData } from '@/lib/hooks/useApiData';
+import { useLabOrderSocket } from '@/lib/hooks/useLabOrderSocket';
 import { WorklistSearchBar } from '@/components/technician/WorklistSearchBar';
 import { toast } from 'sonner';
 import { SpinnerIcon, FileTextIcon, HourglassIcon, MicroscopeIcon, CheckCircleIcon } from '@phosphor-icons/react';
@@ -58,6 +59,16 @@ export default function TechnicianWorklistPage() {
       toast.error(t('messages.statusUpdateError'));
     }
   }, [refetch, t]);
+
+  // Subscribe to WebSocket: auto-refresh when a new paid lab order arrives
+  const { onNewLabOrder } = useLabOrderSocket();
+  useEffect(() => {
+    const unsubscribe = onNewLabOrder((payload) => {
+      toast.info(`🧪 ${t('messages.newOrderArrived', { name: payload.patientName })}`);
+      void refetch();
+    });
+    return () => { unsubscribe?.(); };
+  }, [onNewLabOrder, refetch, t]);
 
   const handleOpenWorkspace = (order: LabOrder) => {
     const locale = window.location.pathname.split('/')[1];
@@ -145,7 +156,7 @@ export default function TechnicianWorklistPage() {
                       {order.status === 'PAID' && (
                         <button
                           onClick={(e) => { e.stopPropagation(); void handleStart(order.id); }}
-                          className="px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                          className="px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
                         >
                           {t('worklist.actions.start')}
                         </button>
@@ -153,7 +164,7 @@ export default function TechnicianWorklistPage() {
                       {order.status === 'IN_PROGRESS' && (
                         <button
                           onClick={(e) => { e.stopPropagation(); handleOpenWorkspace(order); }}
-                          className="px-3 py-1.5 bg-green-600 text-white text-xs font-semibold rounded-lg hover:bg-green-700 transition-colors"
+                          className="px-3 py-1.5 bg-green-600 text-white text-xs font-semibold rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
                         >
                           {t('worklist.actions.result')}
                         </button>
