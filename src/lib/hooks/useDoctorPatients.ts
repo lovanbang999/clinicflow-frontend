@@ -38,7 +38,7 @@ export function useDoctorPatients() {
         setTotalPages(pagination?.totalPages || 1);
       },
       {
-        errorFallbackMsg: t('common.error'),
+        errorFallbackMsg: t('error'),
       }
     ).catch(() => {
       // Ignored empty catch, toasts are automatically handled by execute()

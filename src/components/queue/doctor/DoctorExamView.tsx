@@ -20,7 +20,7 @@ type TabId = 'exam' | 'hist';
 
 export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>('exam');
-  const { history, isLoading: isHistoryLoading } = usePatientHistory(item.booking.patientProfileId);
+  const { history, isLoading: isHistoryLoading } = usePatientHistory(item.booking.patientProfile?.id || item.booking.patientProfileId);
 
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-[#f8f9fa] overflow-hidden" id="exam-mode">
@@ -52,7 +52,10 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
               <ArrowLeftIcon size={16} /> Quay lại Khám
             </Button>
           </div>
-          <DoctorHistoryTab history={history} isLoading={isHistoryLoading} />
+          <DoctorHistoryTab
+            history={history}
+            isLoading={isHistoryLoading}
+          />
         </div>
       </main>
     </div>

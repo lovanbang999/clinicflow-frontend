@@ -1,19 +1,19 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { medicalRecordsApi, PatientHistoryResponse } from '@/lib/api/medical-records';
+import { medicalRecordsApi, type PatientHistoryResponse } from '@/lib/api/medical-records';
 import { useApiHandler } from './useApiHandler';
 
 export function usePatientHistory(patientProfileId?: string) {
   const [history, setHistory] = useState<PatientHistoryResponse | null>(null);
   const { execute, isLoading, error } = useApiHandler();
 
-  const fetchHistory = useCallback(async () => {
+  const fetchHistory = useCallback(async (page = 1) => {
     if (!patientProfileId) return;
 
     await execute(
       async () => {
-        const data = await medicalRecordsApi.getPatientHistory(patientProfileId);
+        const data = await medicalRecordsApi.getPatientHistory(patientProfileId, page, 50);
         setHistory(data);
       },
       {
