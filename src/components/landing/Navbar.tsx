@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import Image from 'next/image';
 import { List, X } from '@phosphor-icons/react';
 

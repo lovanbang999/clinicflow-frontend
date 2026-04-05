@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/card';
 import { validateEmail, validatePassword, validatePhone } from '@/lib/utils/validators';
 import { Spinner } from '@/components/ui/spinner';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import { useRouter } from '@/i18n/navigation';
 
 export default function RegisterPage() {

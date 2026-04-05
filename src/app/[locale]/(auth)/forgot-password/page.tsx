@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
 // Step components
 import { StepEmail } from '@/components/auth/forgot-password/StepEmail';
