@@ -1,6 +1,6 @@
 import { LandingNavbar } from '@/components/landing/Navbar';
 import { LandingFooter } from '@/components/landing/Footer';
-import { DoctorsPageContent } from '@/components/doctors/DoctorsPageContent';
+import { DoctorsPageContent } from '@/components/patient/doctors/DoctorsPageContent';
 import { PublicRoute } from '@/components/auth/PublicRoute';
 
 export default function DoctorsPage() {
