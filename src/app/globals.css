@@ -149,6 +149,23 @@
   100% { background-position: 200% 0; }
 }
 
+/* Streaming chat cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.streaming-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  background-color: #2563eb;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.7s step-start infinite;
+}
+
+
 .shimmer-badge {
   background: linear-gradient(90deg, rgba(19,146,236,0.1) 0%, rgba(19,146,236,0.2) 50%, rgba(19,146,236,0.1) 100%);
   background-size: 200% 100%;

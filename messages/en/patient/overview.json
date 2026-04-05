@@ -37,7 +37,8 @@
     "book": "Book",
     "records": "Records",
     "prescriptions": "Meds",
-    "billing": "Billing"
+    "billing": "Billing",
+    "chat": "AI Chat"
   },
   "activity": {
     "title": "Recent Activity",

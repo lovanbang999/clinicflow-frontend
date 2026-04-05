@@ -1,19 +1,22 @@
 'use client';
 
 import { useAuthStore } from '@/lib/store/authStore';
-import { useRouter } from '@/i18n/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { useEffect, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { PatientPortalHeader } from './patient/PatientPortalHeader';
 import { PatientPortalFooter } from './patient/PatientPortalFooter';
-
 import { useThemeStore } from '@/lib/store/themeStore';
 
 export function PatientPortalLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { isAuthenticated, user, _hasHydrated } = useAuthStore();
   const { isDark } = useThemeStore();
   const [isClient, setIsClient] = useState(false);
+
+  // Hide footer and remove main padding on full-screen pages (e.g. chat)
+  const isFullScreen = pathname?.includes('/patient/chat');
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -47,14 +50,19 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className={`min-h-screen flex flex-col items-center bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 transition-colors duration-200`}>
+    <div 
+      className={`flex flex-col bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 transition-colors duration-200 ${
+        isFullScreen ? 'h-[100dvh] max-h-[100dvh] overflow-hidden' : 'min-h-screen'
+      }`}
+    >
       <PatientPortalHeader user={user} />
-  
-      {/* Main Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4">
+
+      <main className={isFullScreen ? 'flex-1 flex flex-col min-h-0' : 'flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4'}>
         {children}
       </main>
-      <PatientPortalFooter />
+
+      {!isFullScreen && <PatientPortalFooter />}
     </div>
   );
 }
+

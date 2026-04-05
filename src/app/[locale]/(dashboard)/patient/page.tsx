@@ -10,6 +10,7 @@ import { RecentInvoicesWidget } from '@/components/dashboard/patient/RecentInvoi
 import { PatientVisitTrendChart } from '@/components/analytics/PatientVisitTrendChart';
 import { PatientTopDiseasesChart } from '@/components/analytics/PatientTopDiseasesChart';
 import { PatientSpendingCard } from '@/components/analytics/PatientSpendingCard';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 
 export default function PatientDashboardPage() {
   const { data } = useDashboard();
@@ -40,8 +41,8 @@ export default function PatientDashboardPage() {
         <RecentInvoicesWidget />
       </section>
 
-      {/* Full width or large section: Recommended Specialists */}
-      {/* <RecommendedSpecialists /> */}
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 }
