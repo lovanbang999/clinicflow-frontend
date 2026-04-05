@@ -13,9 +13,9 @@ import {
   StethoscopeIcon,
 } from '@phosphor-icons/react';
 
-import { PersonalInfoTab } from '@/components/dashboard/doctors/settings/PersonalInfoTab';
-import { ProfessionalTab } from '@/components/dashboard/doctors/settings/ProfessionalTab';
-import { SecurityTab } from '@/components/dashboard/doctors/settings/SecurityTab';
+import { PersonalInfoTab } from '@/components/admin/doctors/settings/PersonalInfoTab';
+import { ProfessionalTab } from '@/components/admin/doctors/settings/ProfessionalTab';
+import { SecurityTab } from '@/components/admin/doctors/settings/SecurityTab';
 
 export default function DoctorSettingsPage() {
   const t = useTranslations('doctorSettings');

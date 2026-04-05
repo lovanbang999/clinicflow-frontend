@@ -7,7 +7,7 @@ import {
   SunIcon,
   GlobeIcon,
 } from '@phosphor-icons/react';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
 export default function PatientSettingsPage() {
   const t = useTranslations('patientOverview');

@@ -11,10 +11,10 @@ import {
   LayoutDashboard,
   Save
 } from 'lucide-react';
-import { ClinicProfileTab } from '@/components/dashboard/settings/ClinicProfileTab';
-import { BookingRulesTab } from '@/components/dashboard/settings/BookingRulesTab';
-import { NotificationsTab } from '@/components/dashboard/settings/NotificationsTab';
-import { SecurityTab } from '@/components/dashboard/settings/SecurityTab';
+import { ClinicProfileTab } from '@/components/admin/settings/ClinicProfileTab';
+import { BookingRulesTab } from '@/components/admin/settings/BookingRulesTab';
+import { NotificationsTab } from '@/components/admin/settings/NotificationsTab';
+import { SecurityTab } from '@/components/admin/settings/SecurityTab';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAdminSettings } from '@/lib/hooks/useAdminSettings';
 

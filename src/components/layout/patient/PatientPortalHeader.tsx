@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import { NotificationBell } from '@/components/layout/NotificationBell';
 import {
   DropdownMenu,

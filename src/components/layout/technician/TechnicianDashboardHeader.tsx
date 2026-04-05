@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { NotificationBell } from '@/components/layout/NotificationBell';
-import { LanguageSwitcher } from '../../common/LanguageSwitcher';
+import { LanguageSwitcher } from '../../shared/LanguageSwitcher';
 import { NAV_ITEMS_TECHNICIAN } from './TechnicianDashboardSidebar';
 
 export function TechnicianDashboardHeader() {

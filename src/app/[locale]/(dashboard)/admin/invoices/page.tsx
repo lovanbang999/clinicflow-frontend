@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useAdminInvoices } from '@/lib/hooks/useAdminInvoices';
-import { BillingTable } from '@/components/dashboard/billing/BillingTable';
+import { BillingTable } from '@/components/admin/billing/BillingTable';
 import { InvoiceStatus, InvoiceType } from '@/lib/api/billing';
 import { 
   MagnifyingGlassIcon,
