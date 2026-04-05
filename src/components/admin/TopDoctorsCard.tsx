@@ -1,7 +1,7 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import { Avatar } from '@/components/common/Avatar';
+import { Avatar } from '@/components/shared/Avatar';
 import { TopDoctor } from '@/types/dashboard';
 
 interface TopDoctorsCardProps {

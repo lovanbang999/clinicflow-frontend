@@ -6,7 +6,7 @@ import { PatientStatsGrid } from '@/components/patient/PatientStatsGrid';
 import { NextAppointmentCard } from '@/components/patient/NextAppointmentCard';
 import { RecentActivityList } from '@/components/patient/RecentActivityList';
 import { QuickActionBar } from '@/components/patient/QuickActionBar';
-import { RecentInvoicesWidget } from '@/components/dashboard/patient/RecentInvoicesWidget';
+import { RecentInvoicesWidget } from '@/components/admin/patient/RecentInvoicesWidget';
 import { PatientVisitTrendChart } from '@/components/analytics/PatientVisitTrendChart';
 import { PatientTopDiseasesChart } from '@/components/analytics/PatientTopDiseasesChart';
 import { PatientSpendingCard } from '@/components/analytics/PatientSpendingCard';

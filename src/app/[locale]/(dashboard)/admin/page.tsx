@@ -6,12 +6,12 @@ import {
   useAdminTopDoctors,
   useAdminTopServices,
 } from '@/lib/hooks/useAdminDashboard';
-import { AdminKpiCard, TrendUpBadge, TrendDownBadge, StableBadge } from '@/components/dashboard/AdminKpiCard';
+import { AdminKpiCard, TrendUpBadge, TrendDownBadge, StableBadge } from '@/components/admin/AdminKpiCard';
 import { UsersIcon, CalendarCheckIcon, CurrencyCircleDollarIcon } from '@phosphor-icons/react';
-import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
-import { AdminTopDoctors } from '@/components/dashboard/AdminTopDoctors';
-import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
-import { AdminRecentActivity } from '@/components/dashboard/AdminRecentActivity';
+import { AdminRevenueTrendChart } from '@/components/admin/AdminRevenueTrendChart';
+import { AdminTopDoctors } from '@/components/admin/AdminTopDoctors';
+import { AdminTopServices } from '@/components/admin/AdminTopServices';
+import { AdminRecentActivity } from '@/components/admin/AdminRecentActivity';
 
 export default function AdminDashboardPage() {
   const t = useTranslations('adminOverview');

@@ -17,11 +17,11 @@ import {
   useReceptionistRevenueTrend, 
   useReceptionistOperationalStats 
 } from '@/lib/hooks/useReceptionistAnalytics';
-import { AdminKpiCard, StableBadge } from '@/components/dashboard/AdminKpiCard';
-import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
-import { AdminAppointmentStatusChart } from '@/components/dashboard/AdminAppointmentStatusChart';
-import { AdminTopServices } from '@/components/dashboard/AdminTopServices';
-import { DateRangePicker } from '@/components/dashboard/DateRangePicker';
+import { AdminKpiCard, StableBadge } from '@/components/admin/AdminKpiCard';
+import { AdminRevenueTrendChart } from '@/components/admin/AdminRevenueTrendChart';
+import { AdminAppointmentStatusChart } from '@/components/admin/AdminAppointmentStatusChart';
+import { AdminTopServices } from '@/components/admin/AdminTopServices';
+import { DateRangePicker } from '@/components/shared/DateRangePicker';
 import { Skeleton } from '@/components/ui/skeleton';
 
 function formatVND(val: number): string {

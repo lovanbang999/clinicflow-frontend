@@ -6,19 +6,19 @@ import { CircleNotchIcon } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useAdminPatients } from '@/lib/hooks/useAdminPatients';
-import { PatientKpiCards } from '@/components/dashboard/patients/PatientKpiCards';
-import { PatientFilters } from '@/components/dashboard/patients/PatientFilters';
-import { PatientTable } from '@/components/dashboard/patients/PatientTable';
-import { PatientPagination } from '@/components/dashboard/patients/PatientPagination';
-import { PatientQuickViewDrawer } from '@/components/dashboard/patients/PatientQuickViewDrawer';
-import { PatientAddModal } from '@/components/dashboard/patients/PatientAddModal';
-import { PatientEditModal } from '@/components/dashboard/patients/PatientEditModal';
+import { PatientKpiCards } from '@/components/admin/patients/PatientKpiCards';
+import { PatientFilters } from '@/components/admin/patients/PatientFilters';
+import { PatientTable } from '@/components/admin/patients/PatientTable';
+import { PatientPagination } from '@/components/admin/patients/PatientPagination';
+import { PatientQuickViewDrawer } from '@/components/admin/patients/PatientQuickViewDrawer';
+import { PatientAddModal } from '@/components/admin/patients/PatientAddModal';
+import { PatientEditModal } from '@/components/admin/patients/PatientEditModal';
 import type {
   PatientGender,
   PatientStatus,
   BloodType,
-} from '@/components/dashboard/patients/types';
-import type { PatientRow } from '@/components/dashboard/patients/PatientTable';
+} from '@/components/admin/patients/types';
+import type { PatientRow } from '@/components/admin/patients/PatientTable';
 
 const LIMIT = 10;
 

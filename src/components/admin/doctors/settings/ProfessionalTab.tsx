@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ALL_SPECIALTIES } from '@/components/dashboard/doctors/types';
+import { ALL_SPECIALTIES } from '@/components/admin/doctors/types';
 import { FloppyDiskIcon, XIcon, PlusIcon } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 

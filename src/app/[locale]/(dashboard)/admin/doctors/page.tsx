@@ -5,19 +5,19 @@ import {
   type DoctorStatus,
   type Specialty,
   type Doctor,
-} from '@/components/dashboard/doctors/types';
+} from '@/components/admin/doctors/types';
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { DoctorStatCards } from '@/components/dashboard/doctors/DoctorStatCards';
-import { DoctorTable } from '@/components/dashboard/doctors/DoctorTable';
-import { AddDoctorDialog } from '@/components/dashboard/doctors/AddDoctorDialog';
-import { EditDoctorDialog } from '@/components/dashboard/doctors/EditDoctorDialog';
-import { DeleteDoctorDialog } from '@/components/dashboard/doctors/DeleteDoctorDialog';
-import { DoctorMoreMenu } from '@/components/dashboard/doctors/DoctorMoreMenu';
+import { DoctorStatCards } from '@/components/admin/doctors/DoctorStatCards';
+import { DoctorTable } from '@/components/admin/doctors/DoctorTable';
+import { AddDoctorDialog } from '@/components/admin/doctors/AddDoctorDialog';
+import { EditDoctorDialog } from '@/components/admin/doctors/EditDoctorDialog';
+import { DeleteDoctorDialog } from '@/components/admin/doctors/DeleteDoctorDialog';
+import { DoctorMoreMenu } from '@/components/admin/doctors/DoctorMoreMenu';
 import { BackendUser } from '@/types';
 import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-import { DoctorDetailSheet } from '@/components/dashboard/doctors/DoctorDetailSheet';
+import { DoctorDetailSheet } from '@/components/admin/doctors/DoctorDetailSheet';
 
 
 const LIMIT = 10;
