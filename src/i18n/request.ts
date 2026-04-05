@@ -23,7 +23,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     // Patient
     patientOverview,
     // Shared
-    emr, technicianWorklist,
+    emr, technicianWorklist, chat,
   ] = await Promise.all([
     import(`../../messages/${locale}/common.json`),
     import(`../../messages/${locale}/landing.json`),
@@ -67,6 +67,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     // Shared
     import(`../../messages/${locale}/emr/index.json`),
     import(`../../messages/${locale}/technician/worklist.json`),
+    import(`../../messages/${locale}/chat.json`),
   ]);
 
   return {
@@ -115,6 +116,7 @@ export default getRequestConfig(async ({requestLocale}) => {
       // Shared
       emr: emr.default,
       technicianWorklist: technicianWorklist.default,
+      chat: chat.default,
     }
   };
 });

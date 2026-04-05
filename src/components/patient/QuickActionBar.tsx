@@ -8,6 +8,7 @@ import {
   PillIcon,
   ReceiptIcon,
 } from '@phosphor-icons/react';
+import { BotMessageSquare } from 'lucide-react';
 
 export function QuickActionBar() {
   const t = useTranslations('patientOverview.quickActions');
@@ -37,10 +38,16 @@ export function QuickActionBar() {
       icon: <ReceiptIcon weight="fill" className="text-2xl mb-1" />,
       color: 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400',
     },
+    {
+      label: t('chat'),
+      href: '/patient/chat',
+      icon: <BotMessageSquare className="w-6 h-6 mb-1" strokeWidth={2.5} />,
+      color: 'bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400',
+    },
   ];
 
   return (
-    <section className="grid grid-cols-4 gap-3 sm:gap-4 md:hidden">
+    <section className="grid grid-cols-5 gap-2 sm:gap-4 md:hidden">
       {actions.map((action, idx) => (
         <Link
           key={idx}
