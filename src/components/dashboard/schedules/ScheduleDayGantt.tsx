@@ -115,13 +115,13 @@ export function ScheduleDayGantt({ visibleDoctors, filteredSchedules, loadingLis
                         )}
                         style={style}
                         onClick={() => onEditSlot(slot)}
-                        title={`${slot.startTime}–${slot.endTime} · ${slot.maxPatients} BN — Nhấp để chỉnh sửa`}
+                        title={`${slot.startTime}–${slot.endTime} · ${slot.maxPatients} BN${slot.room?.name ? ` · ${slot.room.name}` : ''} — Nhấp để chỉnh sửa`}
                       >
                         <p className={cn('text-xs font-bold leading-tight line-clamp-1', !slot.isActive ? 'text-gray-700' : color.textDark)}>
                           {slot.startTime}–{slot.endTime}
                         </p>
                         <p className={cn('text-[10px]', !slot.isActive ? 'text-gray-500' : color.textLight)}>
-                          {slot.maxPatients} BN {!slot.isActive && '(Đã tắt)'}
+                          {slot.maxPatients} BN {slot.room?.name && `· ${slot.room.name}`} {!slot.isActive && '(Đã tắt)'}
                         </p>
                       </div>
                     );

@@ -30,7 +30,7 @@ export function SlotPopoverCard({ slot, colorClass, onEdit, onDelete, onRestore 
           <span className="font-bold">{slot.startTime}</span>
           <span className="mx-0.5 opacity-60">–</span>
           <span className="font-bold">{slot.endTime}</span>
-          <span className="ml-1 opacity-60 text-[10px]">({slot.maxPatients}BN)</span>
+          <span className="ml-1 opacity-60 text-[10px]">({slot.maxPatients}BN {slot.room?.name && `· ${slot.room.name}`})</span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-44 p-1.5 rounded-xl shadow-xl" align="start" side="right">

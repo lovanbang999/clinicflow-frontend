@@ -13,7 +13,11 @@ export interface AdminScheduleSlot {
   endTime: string; // HH:mm
   maxPatients: number;
   currentPatients: number;
-  room?: string;
+  roomId?: string;
+  room?: {
+    id: string;
+    name: string;
+  };
   type?: string;
   notes?: string;
   status: string;
@@ -35,7 +39,7 @@ export interface AdminCreateScheduleDto {
   startTime: string;
   endTime: string;
   maxPatients: number;
-  room?: string;
+  roomId?: string;
   type?: string;
   notes?: string;
   status?: string;
@@ -48,7 +52,7 @@ export interface AdminUpdateScheduleDto {
   startTime?: string;
   endTime?: string;
   maxPatients?: number;
-  room?: string;
+  roomId?: string;
   type?: string;
   notes?: string;
   status?: string;
