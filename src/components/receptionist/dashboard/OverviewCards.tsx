@@ -8,7 +8,7 @@ import {
   CheckCircleIcon 
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useReceptionistDashboard } from '@/lib/hooks/useReceptionistDashboard';
+import { useReceptionistDashboard } from '@/lib/hooks/receptionist/useReceptionistDashboard';
 
 export function OverviewCards() {
   const t = useTranslations('receptionistOverview.stats');

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { billingApi, Invoice, InvoiceStatus } from '@/lib/api/billing';
+import { billingApi, Invoice, InvoiceStatus } from '@/lib/api/billing/billing';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useLocale } from 'next-intl';

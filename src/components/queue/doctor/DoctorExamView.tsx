@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import type { QueueRecord } from '@/lib/api/queue';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { DoctorVisitTabs } from '@/components/doctor/DoctorVisitTabs';
 import { DoctorHistoryTab } from './DoctorHistoryTab';
 import { DoctorPatientBanner } from './DoctorPatientBanner';
 import { DoctorVitalsStrip } from './DoctorVitalsStrip';
-import { usePatientHistory } from '@/lib/hooks/usePatientHistory';
+import { usePatientHistory } from '@/lib/hooks/clinical/usePatientHistory';
 import { Button } from '@/components/ui/button';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 

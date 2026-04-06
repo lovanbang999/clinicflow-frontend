@@ -3,10 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { medicalRecordsApi, type SaveDiagnosisDto, type VisitResultsResponse, type VisitServiceOrder } from '@/lib/api/medical-records';
-import { type LabOrder } from '@/lib/api/lab-orders';
-import { useSaveDiagnosis, useIcd10Search } from '@/lib/hooks/useMedicalRecords';
-import { useLabOrderSocket } from '@/lib/hooks/useLabOrderSocket';
+import { medicalRecordsApi, type SaveDiagnosisDto, type VisitResultsResponse, type VisitServiceOrder } from '@/lib/api/clinical/medical-records';
+import { type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { useSaveDiagnosis, useIcd10Search } from '@/lib/hooks/clinical/useMedicalRecords';
+import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { ServiceOrderCard } from '@/components/doctor/shared/ServiceOrderCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

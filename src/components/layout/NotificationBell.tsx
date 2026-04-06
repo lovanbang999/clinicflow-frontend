@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Bell, Check } from 'lucide-react';
-import { useNotifications } from '@/lib/hooks/useNotifications';
+import { useNotifications } from '@/lib/hooks/clinic/useNotifications';
 import { formatDistanceToNow } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { useTranslations, useLocale } from 'next-intl';

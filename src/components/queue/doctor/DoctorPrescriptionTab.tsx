@@ -8,7 +8,7 @@ import {
   PencilIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import { Input } from '@/components/ui/input';
-import type { CreateMedicalRecordDto } from '@/lib/api/medical-records';
+import type { CreateMedicalRecordDto } from '@/lib/api/clinical/medical-records';
 import { useTranslations } from 'next-intl';
 
 export function DoctorPrescriptionTab() {

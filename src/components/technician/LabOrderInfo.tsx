@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { FileTextIcon } from '@phosphor-icons/react';
-import type { LabOrder } from '@/lib/api/lab-orders';
+import type { LabOrder } from '@/lib/api/clinical/lab-orders';
 
 interface LabOrderInfoProps {
   order: LabOrder;

@@ -16,7 +16,7 @@ import { BookingRulesTab } from '@/components/admin/settings/BookingRulesTab';
 import { NotificationsTab } from '@/components/admin/settings/NotificationsTab';
 import { SecurityTab } from '@/components/admin/settings/SecurityTab';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAdminSettings } from '@/lib/hooks/useAdminSettings';
+import { useAdminSettings } from '@/lib/hooks/admin/useAdminSettings';
 
 export default function AdminSystemConfigPage() {
   const t = useTranslations('adminSettings');

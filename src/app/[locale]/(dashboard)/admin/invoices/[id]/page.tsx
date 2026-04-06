@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { billingApi, Invoice } from '@/lib/api/billing';
+import { billingApi, Invoice } from '@/lib/api/billing/billing';
 import { useState, useEffect, useCallback } from 'react';
 import { InvoiceCard } from '@/components/admin/billing/InvoiceCard';
 import { InvoiceServiceList } from '@/components/admin/billing/InvoiceServiceList';

@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import type { QueueRecord } from '@/lib/api/queue';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
 
 interface DoctorVitalsStripProps {
   item: QueueRecord;

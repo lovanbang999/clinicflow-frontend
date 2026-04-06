@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { medicalRecordsApi, type VisitResultsResponse } from '@/lib/api/medical-records';
-import { servicesApi } from '@/lib/api/services';
-import { labOrdersApi, type LabOrder } from '@/lib/api/lab-orders';
-import { useLabOrderSocket } from '@/lib/hooks/useLabOrderSocket';
+import { medicalRecordsApi, type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
+import { servicesApi } from '@/lib/api/clinic/services';
+import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';

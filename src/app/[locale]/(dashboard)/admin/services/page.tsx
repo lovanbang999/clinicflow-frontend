@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useAdminServices } from '@/lib/hooks/useAdminServices';
-import { useDebounce } from '@/lib/hooks/useDebounce';
-import { type AdminService, type ServiceFiltersQuery } from '@/lib/api/admin-services';
+import { useAdminServices } from '@/lib/hooks/admin/useAdminServices';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
+import { type AdminService, type ServiceFiltersQuery } from '@/lib/api/admin/admin-services';
 import { ServiceStatCards } from '@/components/admin/services/ServiceStatCards';
 import { ServiceTable } from '@/components/admin/services/ServiceTable';
 import { ServiceFormDialog } from '@/components/admin/services/ServiceFormDialog';

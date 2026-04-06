@@ -14,7 +14,7 @@ import { EditDoctorDialog } from '@/components/admin/doctors/EditDoctorDialog';
 import { DeleteDoctorDialog } from '@/components/admin/doctors/DeleteDoctorDialog';
 import { DoctorMoreMenu } from '@/components/admin/doctors/DoctorMoreMenu';
 import { BackendUser } from '@/types';
-import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
+import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { DoctorDetailSheet } from '@/components/admin/doctors/DoctorDetailSheet';

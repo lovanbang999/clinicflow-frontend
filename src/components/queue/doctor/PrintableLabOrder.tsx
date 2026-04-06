@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
-import { type LabOrder } from '@/lib/api/lab-orders';
+import { type LabOrder } from '@/lib/api/clinical/lab-orders';
 
 interface PrintableLabOrderProps {
   patientProfile?: {

@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { BookingStatus } from '@/types';
-import type { QueueRecord } from '@/lib/api/queue';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
 import {
   ArrowRightIcon,
   GenderFemaleIcon,

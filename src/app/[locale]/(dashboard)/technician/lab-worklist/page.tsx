@@ -3,9 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { labOrdersApi, type LabOrder } from '@/lib/api/lab-orders';
-import { useApiData } from '@/lib/hooks/useApiData';
-import { useLabOrderSocket } from '@/lib/hooks/useLabOrderSocket';
+import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { useApiData } from '@/lib/hooks/core/useApiData';
+import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { WorklistSearchBar } from '@/components/technician/WorklistSearchBar';
 import { toast } from 'sonner';
 import { SpinnerIcon, FileTextIcon, HourglassIcon, MicroscopeIcon, CheckCircleIcon } from '@phosphor-icons/react';

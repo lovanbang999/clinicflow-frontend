@@ -6,7 +6,7 @@ import {
   UserPlusIcon,
   CalendarCheckIcon,
 } from '@phosphor-icons/react';
-import { ReceptionistPatientStats } from '@/lib/api/users';
+import { ReceptionistPatientStats } from '@/lib/api/auth/users';
 
 type StatsCardProps = {
   label: string;

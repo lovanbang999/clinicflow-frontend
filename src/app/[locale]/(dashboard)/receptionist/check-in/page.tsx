@@ -4,16 +4,16 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { useBookings } from '@/lib/hooks/useBookings';
+import { useBookings } from '@/lib/hooks/appointment/useBookings';
 import { Booking, BookingStatus } from '@/types';
 import { CheckInStats } from '@/components/receptionist/check-in/CheckInStats';
 import { AppointmentsTable } from '@/components/receptionist/check-in/AppointmentsTable';
 import { CancelBookingModal } from '@/components/receptionist/check-in/CancelBookingModal';
 import { ConfirmBookingModal } from '@/components/receptionist/check-in/ConfirmBookingModal';
 import { toast } from 'sonner';
-import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/bookings';
-import { doctorsApi } from '@/lib/api/doctors';
-import { servicesApi } from '@/lib/api/services';
+import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/appointment/bookings';
+import { doctorsApi } from '@/lib/api/clinical/doctors';
+import { servicesApi } from '@/lib/api/clinic/services';
 
 interface DoctorOption {
   id: string;

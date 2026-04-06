@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useBilling } from '@/lib/hooks/useBilling';
-import { InvoiceStatus } from '@/lib/api/billing';
-import { bookingsApi } from '@/lib/api/bookings';
+import { useBilling } from '@/lib/hooks/billing/useBilling';
+import { InvoiceStatus } from '@/lib/api/billing/billing';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { Card } from '@/components/ui/card';
 import { ReceiptIcon, MagnifyingGlassIcon, SpinnerIcon } from '@phosphor-icons/react';
 import { BillingTable } from '@/components/admin/billing/BillingTable';

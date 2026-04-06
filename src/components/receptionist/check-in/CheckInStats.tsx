@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { TrendUpIcon, TrendDownIcon } from '@phosphor-icons/react';
-import { StatTrend } from '@/lib/api/bookings';
+import { StatTrend } from '@/lib/api/appointment/bookings';
 
 interface StatCardProps {
   label: string;

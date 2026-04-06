@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Doctor } from '@/types';
-import { doctorsApi } from '@/lib/api/doctors';
+import { doctorsApi } from '@/lib/api/clinical/doctors';
 import { cn } from '@/lib/utils';
 import { Loader2, Star, Check } from 'lucide-react';
 import { useBookingStore } from '@/lib/store/bookingStore';

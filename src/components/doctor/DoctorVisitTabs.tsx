@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
-import { medicalRecordsApi, type VisitResultsResponse, type VisitStep } from '@/lib/api/medical-records';
+import { medicalRecordsApi, type VisitResultsResponse, type VisitStep } from '@/lib/api/clinical/medical-records';
 import { SymptomsTab } from './tabs/SymptomsTab';
 import { LabOrderTab } from './tabs/LabOrderTab';
 import { DiagnosisTab } from './tabs/DiagnosisTab';

@@ -3,9 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { labOrdersApi, type LabOrder } from '@/lib/api/lab-orders';
-import { useApiData } from '@/lib/hooks/useApiData';
-import { useLabOrderActions } from '@/lib/hooks/useLabOrders';
+import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { useApiData } from '@/lib/hooks/core/useApiData';
+import { useLabOrderActions } from '@/lib/hooks/clinical/useLabOrders';
 import { toast } from 'sonner';
 import {
   ArrowLeftIcon,

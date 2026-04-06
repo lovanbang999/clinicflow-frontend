@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { RegisterPatientDto, CreateGuestPatientDto } from '@/lib/api/users';
+import { RegisterPatientDto, CreateGuestPatientDto } from '@/lib/api/auth/users';
 import { cn } from '@/lib/utils';
 
 type PatientRegistrationModalProps = {

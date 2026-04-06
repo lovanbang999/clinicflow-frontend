@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import type { VisitStep } from '@/lib/api/medical-records';
+import type { VisitStep } from '@/lib/api/clinical/medical-records';
 import { cn } from '@/lib/utils';
 
 const STEP_CONFIG: Record<VisitStep, { labelKey: string; color: string }> = {

@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
-import type { PatientHistoryResponse, VisitHistoryItem } from '@/lib/api/medical-records';
+import type { PatientHistoryResponse, VisitHistoryItem } from '@/lib/api/clinical/medical-records';
 import { Loader2, ChevronDown, UserCircle2, CalendarDays, ClipboardList, TestTube2, Stethoscope, Pill, XCircle, FileText, Image as ImageIcon } from 'lucide-react';
 
 interface DoctorHistoryTabProps {

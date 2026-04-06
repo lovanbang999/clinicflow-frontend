@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import type { VisitServiceOrder } from '@/lib/api/medical-records';
+import type { VisitServiceOrder } from '@/lib/api/clinical/medical-records';
 import { cn } from '@/lib/utils';
 import { CheckCircleIcon, ClockIcon, SpinnerIcon, XCircleIcon, FileImageIcon, PaperclipIcon } from '@phosphor-icons/react';
 import { ImageLightbox } from '@/components/shared/ImageLightbox';

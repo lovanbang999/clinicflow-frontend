@@ -9,8 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useDoctors } from '@/lib/hooks/useDoctors';
-import { useServices } from '@/lib/hooks/useServices';
+import { useDoctors } from '@/lib/hooks/clinical/useDoctors';
+import { useServices } from '@/lib/hooks/clinic/useServices';
 import { DoctorCard } from './DoctorCard';
 import { DoctorCardSkeleton } from './DoctorCardSkeleton';
 import Image from 'next/image';

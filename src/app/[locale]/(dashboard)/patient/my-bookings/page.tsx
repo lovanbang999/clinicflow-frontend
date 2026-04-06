@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Booking } from '@/types';
-import { useBookings } from '@/lib/hooks/useBookings';
+import { useBookings } from '@/lib/hooks/appointment/useBookings';
 import { useRouter } from '@/i18n/navigation';
 import { PlusIcon } from '@phosphor-icons/react';
 import { BookingCard } from '@/components/booking/patient/BookingCard';

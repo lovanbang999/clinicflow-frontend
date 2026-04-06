@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { CalendarPlusIcon, UserCheckIcon } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useReceptionistDashboard } from '@/lib/hooks/useReceptionistDashboard';
+import { useReceptionistDashboard } from '@/lib/hooks/receptionist/useReceptionistDashboard';
 import { cn } from '@/lib/utils';
 import { BookingStatus } from '@/types';
 

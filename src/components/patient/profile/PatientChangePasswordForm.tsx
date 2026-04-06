@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-import { useProfile } from '@/lib/hooks/useProfile';
+import { useProfile } from '@/lib/hooks/auth/useProfile';
 import { LockKeyIcon, FloppyDiskIcon, CircleNotchIcon, EyeIcon, EyeSlashIcon } from '@phosphor-icons/react';
 
 const inputClassName = "w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none";

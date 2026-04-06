@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useBilling } from '@/lib/hooks/useBilling';
-import { InvoiceStatus, PaymentMethod } from '@/lib/api/billing';
+import { useBilling } from '@/lib/hooks/billing/useBilling';
+import { InvoiceStatus, PaymentMethod } from '@/lib/api/billing/billing';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { Card } from '@/components/ui/card';

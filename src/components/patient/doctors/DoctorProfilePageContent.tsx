@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { useDoctor } from '@/lib/hooks/useDoctor';
+import { useDoctor } from '@/lib/hooks/clinical/useDoctor';
 import { Shield, Calendar, Mail, MapPin, Globe, Star, FileCheck, CheckCircle2, GraduationCap, Briefcase, Stethoscope, Search } from 'lucide-react';
 import Link from 'next/link';
 

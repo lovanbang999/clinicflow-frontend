@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/auth/useAuth';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import {

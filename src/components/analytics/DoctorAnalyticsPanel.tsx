@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
-import { useDoctorTopDiagnoses, useDoctorBookingStatus, useDoctorPatientsPerMonth } from '@/lib/hooks/useDoctorAnalytics';
+import { useDoctorTopDiagnoses, useDoctorBookingStatus, useDoctorPatientsPerMonth } from '@/lib/hooks/clinical/useDoctorAnalytics';
 
 const DIAGNOSIS_COLORS = ['#1570EF', '#0EA5E9', '#06B6D4', '#14B8A6', '#10B981'];
 const STATUS_COLORS: Record<string, string> = {

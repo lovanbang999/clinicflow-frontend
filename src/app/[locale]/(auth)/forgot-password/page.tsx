@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { ArrowLeft, KeyRound, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/auth/useAuth';
 import {
   Card,
   CardContent,

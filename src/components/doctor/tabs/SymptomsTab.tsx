@@ -2,13 +2,13 @@
 
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { type VisitResultsResponse, type SaveSymptomsDto } from '@/lib/api/medical-records';
+import { type VisitResultsResponse, type SaveSymptomsDto } from '@/lib/api/clinical/medical-records';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { useSaveSymptoms } from '@/lib/hooks/useMedicalRecords';
+import { useSaveSymptoms } from '@/lib/hooks/clinical/useMedicalRecords';
 import { StickyBottomBar } from '@/components/doctor/shared/StickyBottomBar';
 import { ArrowRightIcon } from '@phosphor-icons/react';
 

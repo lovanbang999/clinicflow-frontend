@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { type VisitResultsResponse } from '@/lib/api/medical-records';
+import { type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { format } from 'date-fns';
 import Image from 'next/image';
 

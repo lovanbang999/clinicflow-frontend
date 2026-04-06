@@ -1,8 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useApiData } from '@/lib/hooks/useApiData';
-import { medicalRecordsApi } from '@/lib/api/medical-records';
+import { useApiData } from '@/lib/hooks/core/useApiData';
+import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 import {
   CalendarCheckIcon,
   CheckCircleIcon,
