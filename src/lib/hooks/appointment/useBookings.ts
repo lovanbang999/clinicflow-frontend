@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-import { bookingsApi, ReceptionistStatsResponse } from '../api/bookings';
 import { CreateBookingDto, Booking, BookingStatus } from '@/types';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
+import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/appointment/bookings';
 
 export function useBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
