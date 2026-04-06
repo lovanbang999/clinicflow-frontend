@@ -1,7 +1,7 @@
 'use client';
 
-import { ScheduleStats } from '@/components/admin/schedules/ScheduleStats';
-import { MasterSchedule } from '@/components/admin/schedules/MasterSchedule';
+import { ScheduleStats } from '@/components/dashboard/schedules/ScheduleStats';
+import { MasterSchedule } from '@/components/dashboard/schedules/MasterSchedule';
 
 export default function AdminSchedulesPage() {
   return (

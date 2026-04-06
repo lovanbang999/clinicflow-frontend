@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { labOrdersApi, type LabOrder, type CreateLabOrderDto, type UploadLabResultDto } from '../api/lab-orders';
+import { labOrdersApi, type LabOrder, type CreateLabOrderDto, type UploadLabResultDto } from '@/lib/api/clinical/lab-orders';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
 
 export function useLabOrders(bookingId: string) {

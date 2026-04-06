@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAdminServices } from '@/lib/hooks/admin/useAdminServices';
 import { useDebounce } from '@/lib/hooks/core/useDebounce';
 import { type AdminService, type ServiceFiltersQuery } from '@/lib/api/admin/admin-services';
-import { ServiceStatCards } from '@/components/admin/services/ServiceStatCards';
-import { ServiceTable } from '@/components/admin/services/ServiceTable';
-import { ServiceFormDialog } from '@/components/admin/services/ServiceFormDialog';
-import { DeleteServiceDialog } from '@/components/admin/services/DeleteServiceDialog';
-import type { Service } from '@/components/admin/services/types';
+import { ServiceStatCards } from '@/components/dashboard/services/ServiceStatCards';
+import { ServiceTable } from '@/components/dashboard/services/ServiceTable';
+import { ServiceFormDialog } from '@/components/dashboard/services/ServiceFormDialog';
+import { DeleteServiceDialog } from '@/components/dashboard/services/DeleteServiceDialog';
+import type { Service } from '@/components/dashboard/services/types';
 
 type FilterActive = 'all' | 'active' | 'inactive';
 

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
-import { InvoiceStatusBadge } from '@/components/admin/billing/InvoiceStatusBadge';
+import { InvoiceStatusBadge } from '@/components/dashboard/billing/InvoiceStatusBadge';
 import { Invoice, InvoiceType } from '@/lib/api/billing/billing';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EyeIcon, MagnifyingGlassIcon, StethoscopeIcon, TestTubeIcon, PillIcon } from '@phosphor-icons/react';

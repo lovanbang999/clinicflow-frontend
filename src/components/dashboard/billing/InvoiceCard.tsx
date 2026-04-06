@@ -3,7 +3,7 @@ import { vi, enUS } from 'date-fns/locale';
 import { useTranslations, useLocale } from 'next-intl';
 import { Invoice, InvoiceType, InvoiceStatus } from '@/lib/api/billing/billing';
 import { Button } from '@/components/ui/button';
-import { InvoiceStatusBadge } from '@/components/admin/billing/InvoiceStatusBadge';
+import { InvoiceStatusBadge } from '@/components/dashboard/billing/InvoiceStatusBadge';
 import {
   StethoscopeIcon,
   TestTubeIcon,

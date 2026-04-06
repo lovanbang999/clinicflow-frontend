@@ -1,23 +1,22 @@
 'use client';
 
 import {
-  MOCK_DOCTORS,
   type DoctorStatus,
   type Specialty,
   type Doctor,
-} from '@/components/admin/doctors/types';
+} from '@/components/dashboard/doctors/types';
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { DoctorStatCards } from '@/components/admin/doctors/DoctorStatCards';
-import { DoctorTable } from '@/components/admin/doctors/DoctorTable';
-import { AddDoctorDialog } from '@/components/admin/doctors/AddDoctorDialog';
-import { EditDoctorDialog } from '@/components/admin/doctors/EditDoctorDialog';
-import { DeleteDoctorDialog } from '@/components/admin/doctors/DeleteDoctorDialog';
-import { DoctorMoreMenu } from '@/components/admin/doctors/DoctorMoreMenu';
+import { DoctorStatCards } from '@/components/dashboard/doctors/DoctorStatCards';
+import { DoctorTable } from '@/components/dashboard/doctors/DoctorTable';
+import { AddDoctorDialog } from '@/components/dashboard/doctors/AddDoctorDialog';
+import { EditDoctorDialog } from '@/components/dashboard/doctors/EditDoctorDialog';
+import { DeleteDoctorDialog } from '@/components/dashboard/doctors/DeleteDoctorDialog';
+import { DoctorMoreMenu } from '@/components/dashboard/doctors/DoctorMoreMenu';
 import { BackendUser } from '@/types';
 import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-import { DoctorDetailSheet } from '@/components/admin/doctors/DoctorDetailSheet';
+import { DoctorDetailSheet } from '@/components/dashboard/doctors/DoctorDetailSheet';
 
 
 const LIMIT = 10;
@@ -120,7 +119,7 @@ export default function AdminDoctorsPage() {
   // Use API data if available, fall back to mock data for initial load / dev
   const displayDoctors: Doctor[] = hasApiData
     ? (apiBDoctors ?? []).map(toLocalDoctor)
-    : MOCK_DOCTORS;
+    : [];
 
   const filtered = displayDoctors.filter((d) => {
     const matchSpecialty = selectedSpecialties.size === 0 || selectedSpecialties.has(d.specialty);

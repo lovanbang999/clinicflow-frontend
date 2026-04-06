@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { CircleNotchIcon } from '@phosphor-icons/react';
-import { EditUserDialog } from '@/components/admin/users/EditUserDialog';
+import { EditUserDialog } from '@/components/dashboard/users/EditUserDialog';
 import { useAdminUsers } from '@/lib/hooks/admin/useAdminUsers';
 import { useDebounce } from '@/lib/hooks/core/useDebounce';
 import { UserRole, User } from '@/types';
-import { AdminUserStats } from '@/components/admin/users/AdminUserStats';
-import { AdminUserFilters } from '@/components/admin/users/AdminUserFilters';
-import { AdminUserTable } from '@/components/admin/users/AdminUserTable';
-import { AdminUserPagination } from '@/components/admin/users/AdminUserPagination';
+import { AdminUserStats } from '@/components/dashboard/users/AdminUserStats';
+import { AdminUserFilters } from '@/components/dashboard/users/AdminUserFilters';
+import { AdminUserTable } from '@/components/dashboard/users/AdminUserTable';
+import { AdminUserPagination } from '@/components/dashboard/users/AdminUserPagination';
 
 type Status = 'Active' | 'Inactive';
 

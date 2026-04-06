@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Search, Loader2, FileText, User } from 'lucide-react';
 import { useDoctorPatients } from '@/lib/hooks/clinical/useDoctorPatients';
-import { DoctorPatientDrawer } from '@/components/admin/doctors/DoctorPatientDrawer';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { useParams } from 'next/navigation';
+import { DoctorPatientDrawer } from '@/components/dashboard/doctors/DoctorPatientDrawer';
 
 export default function DoctorPatientsPage() {
   const t = useTranslations('doctorPatients');

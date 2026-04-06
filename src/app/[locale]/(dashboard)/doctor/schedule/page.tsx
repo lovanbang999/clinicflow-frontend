@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
-import { DoctorWorkingHoursGrid } from '@/components/admin/doctors/DoctorWorkingHoursGrid';
-import { DoctorOffDayCalendar } from '@/components/admin/doctors/DoctorOffDayCalendar';
+import { DoctorWorkingHoursGrid } from '@/components/dashboard/doctors/DoctorWorkingHoursGrid';
+import { DoctorOffDayCalendar } from '@/components/dashboard/doctors/DoctorOffDayCalendar';
 import { CalendarBlankIcon, ClockIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 

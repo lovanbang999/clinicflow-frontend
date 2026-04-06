@@ -46,12 +46,3 @@ export const ALL_SPECIALTIES: Specialty[] = [
 ];
 
 export const ALL_STATUSES: DoctorStatus[] = ['Active', 'OnLeave', 'Inactive'];
-
-// Mock data — replace with API hook when backend is ready
-export const MOCK_DOCTORS: Doctor[] = [
-  { id: '1', fullName: 'Dr. Aris Sloan',    email: 'aris.sloan@clinic.com',    specialty: 'Cardiology',  experience: 12, status: 'Active'   },
-  { id: '2', fullName: 'Dr. Elena Vance',   email: 'elena.vance@clinic.com',   specialty: 'Neurology',   experience: 8,  status: 'OnLeave'  },
-  { id: '3', fullName: 'Dr. Marcus Thorne', email: 'marcus.t@clinic.com',      specialty: 'Pediatrics',  experience: 15, status: 'Active'   },
-  { id: '4', fullName: 'Dr. Sarah Cohen',   email: 'sarah.cohen@clinic.com',   specialty: 'Orthopedics', experience: 6,  status: 'Active'   },
-  { id: '5', fullName: 'Dr. James Wilson',  email: 'james.wilson@clinic.com',  specialty: 'Emergency',   experience: 20, status: 'Inactive' },
-];

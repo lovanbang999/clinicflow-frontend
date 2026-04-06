@@ -6,12 +6,13 @@ import {
   useAdminTopDoctors,
   useAdminTopServices,
 } from '@/lib/hooks/admin/useAdminDashboard';
-import { AdminKpiCard, TrendUpBadge, TrendDownBadge, StableBadge } from '@/components/admin/AdminKpiCard';
-import { UsersIcon, CalendarCheckIcon, CurrencyCircleDollarIcon } from '@phosphor-icons/react';
-import { AdminRevenueTrendChart } from '@/components/admin/AdminRevenueTrendChart';
-import { AdminTopDoctors } from '@/components/admin/AdminTopDoctors';
-import { AdminTopServices } from '@/components/admin/AdminTopServices';
-import { AdminRecentActivity } from '@/components/admin/AdminRecentActivity';
+import { StableBadge, TrendUpBadge, TrendDownBadge, AdminKpiCard } from '@/components/dashboard/admin/AdminKpiCard';
+import { AdminRecentActivity } from '@/components/dashboard/admin/AdminRecentActivity';
+import { AdminRevenueTrendChart } from '@/components/dashboard/admin/AdminRevenueTrendChart';
+import { AdminTopDoctors } from '@/components/dashboard/admin/AdminTopDoctors';
+import { AdminTopServices } from '@/components/dashboard/admin/AdminTopServices';
+import { CurrencyCircleDollarIcon } from '@phosphor-icons/react';
+import { UsersIcon, CalendarCheckIcon } from 'lucide-react';
 
 export default function AdminDashboardPage() {
   const t = useTranslations('adminOverview');
