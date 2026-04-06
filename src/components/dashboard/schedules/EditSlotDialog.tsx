@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { adminSchedulesApi } from '@/lib/api/admin/admin-schedules';
+import { adminRoomsApi, AdminRoom } from '@/lib/api/admin/admin-rooms';
 import { AdminScheduleSlot, AdminUpdateScheduleDto } from '@/types';
 
 function Field({
@@ -52,7 +53,7 @@ interface EditSlotForm {
   startTime: string;
   endTime: string;
   maxPatients: string;
-  room: string;
+  roomId: string;
   type: string;
   notes: string;
   isActive: boolean;
@@ -63,9 +64,10 @@ export function EditSlotDialog({ slot, isOpen, onOpenChange, onSuccess }: EditSl
   const tSlot = useTranslations('adminSchedules.masterSchedule.slot');
 
   const [form, setForm] = useState<EditSlotForm>({
-    startTime: '', endTime: '', maxPatients: '', room: '', type: '', notes: '', isActive: true,
+    startTime: '', endTime: '', maxPatients: '', roomId: '', type: '', notes: '', isActive: true,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof EditSlotForm, string>>>({});
+  const [rooms, setRooms] = useState<AdminRoom[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -74,14 +76,18 @@ export function EditSlotDialog({ slot, isOpen, onOpenChange, onSuccess }: EditSl
         startTime: slot.startTime ?? '',
         endTime: slot.endTime ?? '',
         maxPatients: String(slot.maxPatients ?? ''),
-        room: (slot as { room?: string }).room ?? '',
+        roomId: slot.roomId ?? '',
         type: slot.type ?? '',
         notes: slot.notes ?? '',
         isActive: slot.isActive,
       });
       setErrors({});
+
+      if (rooms.length === 0) {
+        adminRoomsApi.getRooms().then(setRooms).catch(console.error);
+      }
     }
-  }, [slot, isOpen]);
+  }, [slot, isOpen, rooms.length]);
 
   const set = <K extends keyof EditSlotForm>(key: K, value: EditSlotForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -111,7 +117,7 @@ export function EditSlotDialog({ slot, isOpen, onOpenChange, onSuccess }: EditSl
         startTime: form.startTime,
         endTime: form.endTime,
         maxPatients: parseInt(form.maxPatients, 10),
-        room: form.room || undefined,
+        roomId: form.roomId || undefined,
         type: form.type || undefined,
         notes: form.notes || undefined,
         isActive: form.isActive,
@@ -184,13 +190,18 @@ export function EditSlotDialog({ slot, isOpen, onOpenChange, onSuccess }: EditSl
               {errors.maxPatients && <p className="text-xs text-red-500">{errors.maxPatients}</p>}
             </Field>
             <Field label={t('room')} htmlFor="edit-room">
-              <Input
-                id="edit-room"
-                placeholder={t('roomPlaceholder')}
-                value={form.room}
-                onChange={(e) => set('room', e.target.value)}
-                className="h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec]"
-              />
+              <Select value={form.roomId} onValueChange={(v) => set('roomId', v)}>
+                <SelectTrigger id="edit-room" className="w-full h-10 rounded-xl border-[#e2e8f0]">
+                  <SelectValue placeholder={t('roomPlaceholder')} />
+                </SelectTrigger>
+                <SelectContent position="popper" align="end">
+                  {rooms.map((room) => (
+                    <SelectItem key={room.id} value={room.id}>
+                      {room.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </Field>
           </div>
 
