@@ -11,7 +11,7 @@ export function PatientPortalFooter() {
           </div>
           <span className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">Smart Clinic</span>
         </Link>
-        <p className="text-slate-500 dark:text-slate-400 text-sm">© 2026 Smart Clinic Patient Portal. Your health, our priority.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm text-center">© 2026 Smart Clinic Patient Portal. Your health, our priority.</p>
         <div className="flex justify-center gap-6">
           <Link href="#" className="text-xs font-semibold text-slate-400 hover:text-blue-500">Support</Link>
           <Link href="#" className="text-xs font-semibold text-slate-400 hover:text-blue-500">Privacy Policy</Link>
