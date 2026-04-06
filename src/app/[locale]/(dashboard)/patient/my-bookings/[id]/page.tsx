@@ -94,10 +94,10 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
   if (error || !booking) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 flex flex-col items-center text-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+        <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
           <WarningIcon size={28} weight="fill" className="text-red-400" />
         </div>
-        <p className="text-base font-semibold text-slate-700">{td('notFound')}</p>
+        <p className="text-base font-semibold text-slate-700 dark:text-slate-300">{td('notFound')}</p>
         <button
           onClick={() => router.back()}
           className="px-4 py-2 bg-[#1570EF] text-white text-sm font-semibold rounded-xl cursor-pointer"
@@ -144,11 +144,11 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors cursor-pointer shadow-sm"
+            className="w-8 h-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-200 transition-colors cursor-pointer shadow-sm"
           >
             <ArrowLeftIcon size={17} weight="bold" />
           </button>
-          <h1 className="text-lg font-bold text-slate-900">{td('title')}</h1>
+          <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">{td('title')}</h1>
         </div>
 
         {/* Hero Card */}
@@ -223,7 +223,7 @@ export default function BookingDetailPage({ params }: BookingDetailPageProps) {
         {canCancel && (
           <button
             onClick={() => setShowCancelDialog(true)}
-            className="w-full py-3 border border-red-200 text-red-600 bg-red-50 hover:bg-red-100 text-sm font-semibold rounded-2xl transition-colors cursor-pointer flex items-center justify-center gap-2"
+            className="w-full py-3 border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-sm font-semibold rounded-2xl transition-colors cursor-pointer flex items-center justify-center gap-2"
           >
             <XCircleIcon size={18} weight="fill" />
             {td('cancelAppointment')}

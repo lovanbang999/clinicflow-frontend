@@ -16,13 +16,13 @@ import {
   ClipboardTextIcon,
 } from '@phosphor-icons/react';
 import * as React from 'react';
-import { AdminKpiCard, TrendUpBadge, StableBadge } from '@/components/admin/AdminKpiCard';
-import { AdminRevenueTrendChart } from '@/components/admin/AdminRevenueTrendChart';
-import { AdminTopDoctors } from '@/components/admin/AdminTopDoctors';
-import { AdminTopServices } from '@/components/admin/AdminTopServices';
+import { AdminKpiCard, TrendUpBadge, StableBadge } from '@/components/dashboard/admin/AdminKpiCard';
+import { AdminRevenueTrendChart } from '@/components/dashboard/admin/AdminRevenueTrendChart';
+import { AdminTopDoctors } from '@/components/dashboard/admin/AdminTopDoctors';
+import { AdminTopServices } from '@/components/dashboard/admin/AdminTopServices';
 import { DateRangePicker } from '@/components/shared/DateRangePicker';
-import { AdminServiceDistributionChart } from '@/components/admin/AdminServiceDistributionChart';
-import { AdminAppointmentStatusChart } from '@/components/admin/AdminAppointmentStatusChart';
+import { AdminServiceDistributionChart } from '@/components/dashboard/admin/AdminServiceDistributionChart';
+import { AdminAppointmentStatusChart } from '@/components/dashboard/admin/AdminAppointmentStatusChart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DateRange } from 'react-day-picker';
 import { startOfMonth, endOfMonth } from 'date-fns';

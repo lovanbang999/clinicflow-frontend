@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { bookingsApi } from '../api/bookings';
 import { DoctorPatientSummary } from '@/types';
 import { useTranslations } from 'next-intl';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
 
 export function useDoctorPatients() {
   const [patients, setPatients] = useState<DoctorPatientSummary[]>([]);

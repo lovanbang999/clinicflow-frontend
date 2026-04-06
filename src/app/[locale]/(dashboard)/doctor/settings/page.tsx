@@ -6,16 +6,10 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { useProfile } from '@/lib/hooks/auth/useProfile';
 import { adminDoctorsApi } from '@/lib/api/admin/admin-doctors';
 import { toast } from 'sonner';
-import {
-  UserCircleIcon,
-  CameraIcon,
-  LockSimpleIcon,
-  StethoscopeIcon,
-} from '@phosphor-icons/react';
-
-import { PersonalInfoTab } from '@/components/admin/doctors/settings/PersonalInfoTab';
-import { ProfessionalTab } from '@/components/admin/doctors/settings/ProfessionalTab';
-import { SecurityTab } from '@/components/admin/doctors/settings/SecurityTab';
+import { UserCircleIcon, CameraIcon, LockSimpleIcon, StethoscopeIcon } from '@phosphor-icons/react';
+import { PersonalInfoTab } from '@/components/dashboard/doctors/settings/PersonalInfoTab';
+import { ProfessionalTab } from '@/components/dashboard/doctors/settings/ProfessionalTab';
+import { SecurityTab } from '@/components/dashboard/doctors/settings/SecurityTab';
 
 export default function DoctorSettingsPage() {
   const t = useTranslations('doctorSettings');

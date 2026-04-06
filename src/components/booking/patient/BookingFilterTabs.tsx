@@ -32,13 +32,13 @@ export function BookingFilterTabs({ activeTab, onTabChange, counts }: BookingFil
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer ${
               isActive
                 ? 'bg-[#1570EF] border-[#1570EF] text-white'
-                : 'bg-white border-slate-200 text-slate-600 hover:border-[#1570EF] hover:text-[#1570EF]'
+                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-[#1570EF] dark:hover:border-[#1570EF] hover:text-[#1570EF] dark:hover:text-blue-400'
             }`}
           >
             {t(labelKey)}
             {counts[key] > 0 && (
               <span className={`text-xs rounded-full w-5 h-5 flex items-center justify-center leading-none ${
-                isActive ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500'
+                isActive ? 'bg-white/25 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
               }`}>
                 {counts[key]}
               </span>

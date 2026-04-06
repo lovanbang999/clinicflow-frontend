@@ -7,12 +7,7 @@ import { useBookings } from '@/lib/hooks/appointment/useBookings';
 import { useRouter } from '@/i18n/navigation';
 import { PlusIcon } from '@phosphor-icons/react';
 import { BookingCard } from '@/components/booking/patient/BookingCard';
-import {
-  BookingFilterTabs,
-  FilterTab,
-  filterByTab,
-  computeCounts,
-} from '@/components/booking/patient/BookingFilterTabs';
+import { BookingFilterTabs, FilterTab, filterByTab, computeCounts } from '@/components/booking/patient/BookingFilterTabs';
 import { BookingEmptyState } from '@/components/booking/patient/BookingEmptyState';
 import { BookingLoadingSkeleton } from '@/components/booking/patient/BookingLoadingSkeleton';
 import { BookingCancelDialog } from '@/components/booking/patient/BookingCancelDialog';
@@ -74,8 +69,8 @@ export default function BookingsPage() {
         {/* Page Header */}
         <div className="flex items-end justify-between gap-3">
           <div>
-            <p className="text-sm text-slate-500 font-medium">{t(greetingKey)}</p>
-            <h1 className="text-2xl font-bold text-slate-900 mt-0.5">{t('myAppointments')}</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{t(greetingKey)}</p>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">{t('myAppointments')}</h1>
           </div>
           <button
             onClick={() => router.push('/patient/book')}
