@@ -55,7 +55,13 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
         isFullScreen ? 'h-[100dvh] max-h-[100dvh] overflow-hidden' : 'min-h-screen'
       }`}
     >
-      <PatientPortalHeader user={user} />
+      {isFullScreen ? (
+        <div className="hidden md:block">
+          <PatientPortalHeader user={user} />
+        </div>
+      ) : (
+        <PatientPortalHeader user={user} />
+      )}
 
       <main className={isFullScreen ? 'flex-1 flex flex-col min-h-0' : 'flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4'}>
         {children}

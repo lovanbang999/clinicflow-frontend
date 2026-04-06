@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { notificationsApi, InAppNotification } from '../api/notifications';
 import { io, Socket } from 'socket.io-client';
-import { useAuthStore } from '../store/authStore';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
+import { InAppNotification, notificationsApi } from '@/lib/api/clinic/notifications';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:8080';
 
