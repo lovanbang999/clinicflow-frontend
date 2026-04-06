@@ -4,8 +4,8 @@ import { Service } from '@/types';
 import { cn } from '@/lib/utils';
 import { Check, Loader2 } from 'lucide-react';
 import { useBookingStore } from '@/lib/store/bookingStore';
-import { useServices } from '@/lib/hooks/useServices';
-import { useDebounce } from '@/lib/hooks/useDebounce';
+import { useServices } from '@/lib/hooks/clinic/useServices';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
 import { useTranslations } from 'next-intl';
 import { 
   FirstAidIcon, 

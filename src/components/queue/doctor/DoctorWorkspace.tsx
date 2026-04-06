@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { DoctorQueueView } from './DoctorQueueView';
-import { useQueue } from '@/lib/hooks/useQueue';
+import { useQueue } from '@/lib/hooks/appointment/useQueue';
 import { BookingStatus } from '@/types';
 
 interface DoctorWorkspaceProps {

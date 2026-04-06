@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useBilling } from '@/lib/hooks/useBilling';
-import { Invoice, InvoiceType, InvoiceStatus, PaymentMethod } from '@/lib/api/billing';
-import { bookingsApi } from '@/lib/api/bookings';
+import { useBilling } from '@/lib/hooks/billing/useBilling';
+import { Invoice, InvoiceType, InvoiceStatus, PaymentMethod } from '@/lib/api/billing/billing';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { Booking } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,7 +25,7 @@ import { PaymentModal } from '@/components/admin/billing/PaymentModal';
 import { PrintableInvoice } from '@/components/admin/billing/PrintableInvoice';
 import { PrintableQueueTicket } from '@/components/admin/billing/PrintableQueueTicket';
 import { QuickAddInvoiceModal } from '@/components/admin/billing/QuickAddInvoiceModal';
-import { AddInvoiceItemDto } from '@/lib/api/billing';
+import { AddInvoiceItemDto } from '@/lib/api/billing/billing';
 
 import { useTranslations } from 'next-intl';
 import { InvoiceCard } from '@/components/admin/billing/InvoiceCard';

@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useAdminInvoices } from '@/lib/hooks/useAdminInvoices';
+import { useAdminInvoices } from '@/lib/hooks/admin/useAdminInvoices';
 import { BillingTable } from '@/components/admin/billing/BillingTable';
-import { InvoiceStatus, InvoiceType } from '@/lib/api/billing';
+import { InvoiceStatus, InvoiceType } from '@/lib/api/billing/billing';
 import { 
   MagnifyingGlassIcon,
   XIcon

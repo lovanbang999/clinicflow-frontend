@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { type LabOrder } from '@/lib/api/lab-orders';
-import { usePendingLabOrders } from '@/lib/hooks/useLabOrders';
+import { type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { usePendingLabOrders } from '@/lib/hooks/clinical/useLabOrders';
 import { LabResultModal } from '@/components/receptionist/labs/LabResultModal';
 import { format } from 'date-fns';
 import { SpinnerIcon, FlaskIcon, CheckCircleIcon, ClockIcon } from '@phosphor-icons/react';

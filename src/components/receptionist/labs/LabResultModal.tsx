@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { UploadLabResultDto, type LabOrder } from '@/lib/api/lab-orders';
-import { useLabOrderActions } from '@/lib/hooks/useLabOrders';
+import { UploadLabResultDto, type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { useLabOrderActions } from '@/lib/hooks/clinical/useLabOrders';
 import {
   Dialog,
   DialogContent,

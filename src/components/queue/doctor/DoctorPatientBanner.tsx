@@ -1,4 +1,4 @@
-import type { QueueRecord } from '@/lib/api/queue';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { useTranslations } from 'next-intl';
 import { WarningCircleIcon, WarningIcon } from '@phosphor-icons/react';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useTechnicianStats } from '@/lib/hooks/useLabOrders';
+import { useTechnicianStats } from '@/lib/hooks/clinical/useLabOrders';
 import { HourglassHighIcon, SpinnerGapIcon, CheckCircleIcon } from '@phosphor-icons/react';
 
 export function TechnicianStatsGrid() {

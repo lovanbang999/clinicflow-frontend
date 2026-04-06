@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
-import { PrescriptionItemDto } from '@/lib/api/medical-records';
+import { PrescriptionItemDto } from '@/lib/api/clinical/medical-records';
 
 interface PrintablePrescriptionProps {
   patientProfile?: {

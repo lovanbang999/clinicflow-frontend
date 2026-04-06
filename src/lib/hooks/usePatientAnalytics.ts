@@ -6,7 +6,7 @@ import {
   MonthlyTrendItem,
   DiseaseItem,
   SpendingData,
-} from '@/lib/api/analytics';
+} from '@/lib/api/admin/analytics';
 
 export function usePatientVisitTrend() {
   const [data, setData] = useState<MonthlyTrendItem[]>([]);

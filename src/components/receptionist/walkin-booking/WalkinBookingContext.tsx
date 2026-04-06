@@ -1,11 +1,11 @@
 'use client';
 
 import { createContext, useContext, useState, useMemo, useEffect, useCallback, ReactNode } from 'react';
-import { usersApi } from '@/lib/api/users';
-import { servicesApi } from '@/lib/api/services';
-import { doctorsApi } from '@/lib/api/doctors';
-import { bookingsApi } from '@/lib/api/bookings';
-import { schedulesApi } from '@/lib/api/schedules';
+import { usersApi } from '@/lib/api/auth/users';
+import { servicesApi } from '@/lib/api/clinic/services';
+import { doctorsApi } from '@/lib/api/clinical/doctors';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
+import { schedulesApi } from '@/lib/api/appointment/schedules';
 import { User, Service, Doctor, Booking } from '@/types';
 import { toast } from 'sonner';
 import { format } from 'date-fns';

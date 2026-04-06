@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { type CreatePrescriptionDto, type PrescriptionItemInput, type VisitResultsResponse } from '@/lib/api/medical-records';
-import { useSavePrescription } from '@/lib/hooks/useMedicalRecords';
+import { type CreatePrescriptionDto, type PrescriptionItemInput, type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
+import { useSavePrescription } from '@/lib/hooks/clinical/useMedicalRecords';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

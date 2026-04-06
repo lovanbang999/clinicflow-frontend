@@ -8,7 +8,7 @@ import {
   CaretRightIcon,
   LightbulbIcon,
 } from '@phosphor-icons/react';
-import { doctorsApi } from '@/lib/api/doctors';
+import { doctorsApi } from '@/lib/api/clinical/doctors';
 import { Doctor } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 

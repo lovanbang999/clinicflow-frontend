@@ -8,10 +8,10 @@ import {
   UserCheckIcon,
   PlusIcon
 } from '@phosphor-icons/react';
-import { useReceptionistDashboard } from '@/lib/hooks/useReceptionistDashboard';
+import { useReceptionistDashboard } from '@/lib/hooks/receptionist/useReceptionistDashboard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Link } from '@/i18n/navigation';
-import { useDebounce } from '@/lib/hooks/useDebounce';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
 
 export function SearchCheckIn() {
   const t = useTranslations('receptionistOverview.searchCheckIn');

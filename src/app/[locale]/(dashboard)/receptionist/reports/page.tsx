@@ -16,7 +16,7 @@ import {
   useReceptionistOverview, 
   useReceptionistRevenueTrend, 
   useReceptionistOperationalStats 
-} from '@/lib/hooks/useReceptionistAnalytics';
+} from '@/lib/hooks/receptionist/useReceptionistAnalytics';
 import { AdminKpiCard, StableBadge } from '@/components/admin/AdminKpiCard';
 import { AdminRevenueTrendChart } from '@/components/admin/AdminRevenueTrendChart';
 import { AdminAppointmentStatusChart } from '@/components/admin/AdminAppointmentStatusChart';

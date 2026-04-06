@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, TrendingUp, ChevronRight } from 'lucide-react';
 import { useBookingStore } from '@/lib/store/bookingStore';
-import { schedulesApi } from '@/lib/api/schedules';
+import { schedulesApi } from '@/lib/api/appointment/schedules';
 import { SmartSuggestion } from '@/types';
 import { formatDate } from '@/lib/utils/formatters';
 import { useTranslations } from 'next-intl';

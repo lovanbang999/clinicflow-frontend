@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useChatStream } from '@/lib/hooks/useChatStream';
+import { useChatStream } from '@/lib/hooks/core/useChatStream';
 import { MessageBubble } from '@/components/chat/MessageBubble';
 import { useTranslations } from 'next-intl';
 import { Send, Bot, Stethoscope, CalendarClock, MessageCircleHeart, AlertTriangle } from 'lucide-react';

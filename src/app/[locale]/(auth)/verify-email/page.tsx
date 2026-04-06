@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { MailCheck, ArrowLeft, RefreshCw } from 'lucide-react';
 
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/auth/useAuth';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';

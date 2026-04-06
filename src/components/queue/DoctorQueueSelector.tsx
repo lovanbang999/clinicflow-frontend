@@ -1,6 +1,6 @@
 'use client';
 
-import { useDoctors } from '@/lib/hooks/useDoctors';
+import { useDoctors } from '@/lib/hooks/clinical/useDoctors';
 import { cn } from '@/lib/utils';
 import { CheckCircleIcon } from '@phosphor-icons/react';
 

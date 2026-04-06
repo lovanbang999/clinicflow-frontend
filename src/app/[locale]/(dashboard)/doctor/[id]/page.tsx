@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { queueApi } from '@/lib/api/queue';
-import type { QueueRecord } from '@/lib/api/queue';
+import { queueApi } from '@/lib/api/appointment/queue';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { DoctorExamView } from '@/components/queue/doctor/DoctorExamView';
 import { SpinnerIcon } from '@phosphor-icons/react';
 import { toast } from 'sonner';

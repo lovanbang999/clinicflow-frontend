@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 
-import { useProfile } from '@/lib/hooks/useProfile';
+import { useProfile } from '@/lib/hooks/auth/useProfile';
 import {
   Dialog,
   DialogContent,

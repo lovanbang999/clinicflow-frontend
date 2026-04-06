@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { MonitorPlayIcon, ArrowUpIcon } from '@phosphor-icons/react';
-import { useReceptionistDashboard } from '@/lib/hooks/useReceptionistDashboard';
+import { useReceptionistDashboard } from '@/lib/hooks/receptionist/useReceptionistDashboard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { BookingStatus } from '@/types';

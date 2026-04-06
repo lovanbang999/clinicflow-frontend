@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
-import { LabOrder } from '@/lib/api/lab-orders';
+import { LabOrder } from '@/lib/api/clinical/lab-orders';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 

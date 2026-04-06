@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { bookingsApi } from '@/lib/api/bookings';
-import { billingApi, InvoiceStatus } from '@/lib/api/billing';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
+import { billingApi, InvoiceStatus } from '@/lib/api/billing/billing';
 import { BookingStatus } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';

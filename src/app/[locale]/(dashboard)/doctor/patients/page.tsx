@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Search, Loader2, FileText, User } from 'lucide-react';
-import { useDoctorPatients } from '@/lib/hooks/useDoctorPatients';
+import { useDoctorPatients } from '@/lib/hooks/clinical/useDoctorPatients';
 import { DoctorPatientDrawer } from '@/components/admin/doctors/DoctorPatientDrawer';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';

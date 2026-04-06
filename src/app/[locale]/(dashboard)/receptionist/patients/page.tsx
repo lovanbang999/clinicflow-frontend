@@ -8,15 +8,15 @@ import {
 } from '@phosphor-icons/react';
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useDebounce } from '@/lib/hooks/useDebounce';
-import { useReceptionistPatients } from '@/lib/hooks/useReceptionistPatients';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
+import { useReceptionistPatients } from '@/lib/hooks/receptionist/useReceptionistPatients';
 import { PatientStatsCards } from '@/components/receptionist/patients/PatientStatsCards';
 import { PatientTable } from '@/components/receptionist/patients/PatientTable';
 import { PatientPagination } from '@/components/receptionist/patients/PatientPagination';
 import { PatientRegistrationModal } from '@/components/receptionist/patients/PatientRegistrationModal';
 import { PatientEditModal } from '@/components/receptionist/patients/PatientEditModal';
 import { PatientDetailDrawer } from '@/components/receptionist/patients/PatientDetailDrawer';
-import { RegisterPatientDto, CreateGuestPatientDto } from '@/lib/api/users';
+import { RegisterPatientDto, CreateGuestPatientDto } from '@/lib/api/auth/users';
 import { User } from '@/types';
 import { toast } from 'sonner';
 

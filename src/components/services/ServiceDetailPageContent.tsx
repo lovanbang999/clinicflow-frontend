@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useService } from '@/lib/hooks/useService';
+import { useService } from '@/lib/hooks/clinic/useService';
 
 export function ServiceDetailPageContent() {
   const params = useParams();

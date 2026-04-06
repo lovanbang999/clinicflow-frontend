@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { UserIcon } from '@phosphor-icons/react';
-import type { LabOrder } from '@/lib/api/lab-orders';
+import type { LabOrder } from '@/lib/api/clinical/lab-orders';
 
 interface LabPatientInfoProps {
   patientProfile: LabOrder['patientProfile'];

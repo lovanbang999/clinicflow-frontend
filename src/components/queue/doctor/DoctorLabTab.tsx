@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useLabOrders } from '@/lib/hooks/useLabOrders';
-import { servicesApi } from '@/lib/api/services';
+import { useLabOrders } from '@/lib/hooks/clinical/useLabOrders';
+import { servicesApi } from '@/lib/api/clinic/services';
 import { Service } from '@/types';
 import { SpinnerIcon, TrashIcon, FlaskIcon, CheckCircleIcon, WarningCircleIcon, FilePdfIcon, PrinterIcon } from '@phosphor-icons/react';
 import { format } from 'date-fns';

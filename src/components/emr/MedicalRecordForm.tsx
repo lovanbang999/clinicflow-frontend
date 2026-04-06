@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { CreateMedicalRecordDto, ICD10Record } from '@/lib/api/medical-records';
-import { useIcd10Search } from '@/lib/hooks/useMedicalRecords';
+import { CreateMedicalRecordDto, ICD10Record } from '@/lib/api/clinical/medical-records';
+import { useIcd10Search } from '@/lib/hooks/clinical/useMedicalRecords';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';

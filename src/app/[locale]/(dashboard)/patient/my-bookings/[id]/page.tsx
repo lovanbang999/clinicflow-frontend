@@ -6,7 +6,7 @@ import { useLocale } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { format, isValid } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
-import { bookingsApi } from '@/lib/api/bookings';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { Booking, BookingStatus } from '@/types';
 import {
   ArrowLeftIcon,
@@ -23,7 +23,7 @@ import {
   WarningIcon,
   QueueIcon,
 } from '@phosphor-icons/react';
-import { useBookings } from '@/lib/hooks/useBookings';
+import { useBookings } from '@/lib/hooks/appointment/useBookings';
 
 // New Decomposed Components
 import { DetailHero } from '@/components/booking/patient/detail/DetailHero';

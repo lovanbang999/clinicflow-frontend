@@ -9,7 +9,7 @@ import {
   ProhibitIcon,
   CheckIcon
 } from '@phosphor-icons/react';
-import { useQueue } from '@/lib/hooks/useQueue';
+import { useQueue } from '@/lib/hooks/appointment/useQueue';
 import { BookingStatus } from '@/types';
 
 interface QueueBoardProps {

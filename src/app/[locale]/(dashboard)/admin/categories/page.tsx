@@ -26,7 +26,7 @@ import { PlusIcon,
   CaretLeftIcon,
   CaretRightIcon
 } from '@phosphor-icons/react';
-import { useAdminCategories } from '@/lib/hooks/useAdminCategories';
+import { useAdminCategories } from '@/lib/hooks/admin/useAdminCategories';
 import { useTranslations } from 'next-intl';
 import type { Category, CreateCategoryDto } from '@/types';
 import { Button } from '@/components/ui/button';

@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
-import type { CreateMedicalRecordDto } from '@/lib/api/medical-records';
+import type { CreateMedicalRecordDto } from '@/lib/api/clinical/medical-records';
 
 interface PrintableExaminationResultProps {
   patientProfile?: {

@@ -14,7 +14,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { User, Gender } from '@/types';
-import { RegisterPatientDto } from '@/lib/api/users';
+import { RegisterPatientDto } from '@/lib/api/auth/users';
 import { cn } from '@/lib/utils';
 
 type PatientEditModalProps = {

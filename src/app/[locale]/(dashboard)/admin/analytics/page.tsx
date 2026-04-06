@@ -6,7 +6,7 @@ import {
   useAdminRevenueChart,
   useAdminTopServices,
   useAdminBookingOverview,
-} from '@/lib/hooks/useAdminDashboard';
+} from '@/lib/hooks/admin/useAdminDashboard';
 import { useTranslations } from 'next-intl';
 import {
   UsersIcon,

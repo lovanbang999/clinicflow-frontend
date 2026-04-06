@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useChatStream } from '@/lib/hooks/useChatStream';
+import { useChatStream } from '@/lib/hooks/core/useChatStream';
 import { MessageBubble } from './MessageBubble';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';

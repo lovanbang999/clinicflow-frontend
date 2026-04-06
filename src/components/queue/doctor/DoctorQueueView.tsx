@@ -4,13 +4,13 @@ import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 import { InfoIcon, SpinnerIcon, TimerIcon, ClipboardTextIcon } from '@phosphor-icons/react';
-import type { QueueRecord } from '@/lib/api/queue';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { BookingStatus } from '@/types';
 import { DoctorQueueCard } from './DoctorQueueCard';
 import { DoctorStatsPanel } from './DoctorStatsPanel';
 import { PrintableExaminationResult } from './PrintableExaminationResult';
 import { PrintablePrescription } from './PrintablePrescription';
-import type { CreateMedicalRecordDto, PrescriptionItemDto } from '@/lib/api/medical-records';
+import type { CreateMedicalRecordDto, PrescriptionItemDto } from '@/lib/api/clinical/medical-records';
 
 interface DoctorQueueViewProps {
   queueItems: QueueRecord[];

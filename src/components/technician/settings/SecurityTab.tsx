@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
-import { useProfile } from '@/lib/hooks/useProfile';
+import { useProfile } from '@/lib/hooks/auth/useProfile';
 import { toast } from 'sonner';
 import { ShieldAlert, ShieldCheck } from 'lucide-react';
 

@@ -1,0 +1,34 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { servicesApi } from '@/lib/api/clinic/services';
+import { Service } from '@/types/service';
+import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
+
+export function useService(id: string) {
+  const [service, setService] = useState<Service | null>(null);
+  const { execute, isLoading, error } = useApiHandler();
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchService = async () => {
+      await execute(
+        async () => {
+          const data = await servicesApi.getById(id);
+          setService(data);
+        },
+        {
+          errorFallbackMsg: 'genericErrorTitle',
+        }
+      );
+    };
+
+    const timer = setTimeout(() => {
+      void fetchService();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [id, execute]);
+
+  return { service, isLoading, error };
+}

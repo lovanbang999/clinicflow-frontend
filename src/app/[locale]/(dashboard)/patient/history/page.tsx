@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { useApiData } from '@/lib/hooks/useApiData';
-import { medicalRecordsApi } from '@/lib/api/medical-records';
+import { useApiData } from '@/lib/hooks/core/useApiData';
+import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 import { format, isValid } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Skeleton } from '@/components/ui/skeleton';

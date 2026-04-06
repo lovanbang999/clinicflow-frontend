@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { type VisitResultsResponse } from '@/lib/api/medical-records';
+import { type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { Button } from '@/components/ui/button';
 import { ArrowLeftIcon, PrinterIcon, CheckCircleIcon } from '@phosphor-icons/react';
 import { StickyBottomBar } from '@/components/doctor/shared/StickyBottomBar';

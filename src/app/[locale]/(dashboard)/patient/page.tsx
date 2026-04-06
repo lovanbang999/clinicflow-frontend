@@ -1,6 +1,6 @@
 'use client';
 
-import { useDashboard } from '@/lib/hooks/useDashboard';
+import { useDashboard } from '@/lib/hooks/clinic/useDashboard';
 import { PatientWelcomeBanner } from '@/components/patient/PatientWelcomeBanner';
 import { PatientStatsGrid } from '@/components/patient/PatientStatsGrid';
 import { NextAppointmentCard } from '@/components/patient/NextAppointmentCard';

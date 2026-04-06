@@ -5,7 +5,7 @@ import {
   useAdminStats,
   useAdminTopDoctors,
   useAdminTopServices,
-} from '@/lib/hooks/useAdminDashboard';
+} from '@/lib/hooks/admin/useAdminDashboard';
 import { AdminKpiCard, TrendUpBadge, TrendDownBadge, StableBadge } from '@/components/admin/AdminKpiCard';
 import { UsersIcon, CalendarCheckIcon, CurrencyCircleDollarIcon } from '@phosphor-icons/react';
 import { AdminRevenueTrendChart } from '@/components/admin/AdminRevenueTrendChart';

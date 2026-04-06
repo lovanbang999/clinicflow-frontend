@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/lib/store/authStore';
-import { useProfile } from '@/lib/hooks/useProfile';
-import { adminDoctorsApi } from '@/lib/api/admin-doctors';
+import { useProfile } from '@/lib/hooks/auth/useProfile';
+import { adminDoctorsApi } from '@/lib/api/admin/admin-doctors';
 import { toast } from 'sonner';
 import {
   UserCircleIcon,
