@@ -60,7 +60,7 @@ export function LanguageSwitcher() {
 
       <DropdownMenuContent
         align="end"
-        className="w-36 p-1 rounded-xl border border-slate-200/80 shadow-lg shadow-slate-200/60 bg-white/95 backdrop-blur-sm z-[200]"
+        className="w-36 p-1 rounded-xl border border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-slate-200/60 dark:shadow-slate-900/60 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm z-[200]"
       >
         {locales.map((loc) => (
           <DropdownMenuItem
@@ -72,9 +72,9 @@ export function LanguageSwitcher() {
               text-sm font-medium
               cursor-pointer
               transition-colors duration-150
-              text-slate-700
-              hover:bg-[#1392ec]/8 hover:text-[#1392ec]
-              focus:bg-[#1392ec]/8 focus:text-[#1392ec]
+              text-slate-700 dark:text-slate-200
+              hover:bg-[#1392ec]/8 hover:text-[#1392ec] dark:hover:bg-[#1392ec]/15 dark:hover:text-[#1392ec]
+              focus:bg-[#1392ec]/8 focus:text-[#1392ec] dark:focus:bg-[#1392ec]/15 dark:focus:text-[#1392ec]
             "
           >
             <span>{languageNames[loc]}</span>
