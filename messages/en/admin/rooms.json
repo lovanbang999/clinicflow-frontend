@@ -1,0 +1,70 @@
+{
+  "title": "Room Management",
+  "description": "Add, edit, and manage clinic rooms",
+  "addRoom": "Add Room",
+  "searchPlaceholder": "Search by room name...",
+  "filterAll": "All",
+  "filterActive": "Active",
+  "filterInactive": "Inactive",
+  "table": {
+    "name": "Room Name",
+    "type": "Type",
+    "floor": "Floor",
+    "capacity": "Capacity",
+    "scheduleCount": "Schedules",
+    "isActive": "Status",
+    "actions": "Actions"
+  },
+  "tableState": {
+    "loading": "Loading rooms...",
+    "empty": "No rooms found. Click \"Add Room\" to create one."
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "roomType": {
+    "CONSULTATION": "Consultation",
+    "ULTRASOUND": "Ultrasound",
+    "PROCEDURE": "Procedure",
+    "LAB": "Laboratory",
+    "WAITING": "Waiting"
+  },
+  "form": {
+    "addTitle": "Add New Room",
+    "editTitle": "Edit Room",
+    "name": "Room Name",
+    "namePlaceholder": "e.g. Consultation Room 101",
+    "type": "Room Type",
+    "typePlaceholder": "Select room type",
+    "floor": "Floor",
+    "floorPlaceholder": "e.g. 1, 2, B1...",
+    "capacity": "Capacity (patients)",
+    "capacityPlaceholder": "e.g. 1",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional information about this room...",
+    "isActive": "Active",
+    "isActiveHint": "Enable for this room to appear when creating doctor schedules",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "deleteModal": {
+    "title": "Deactivate this room?",
+    "description": "This room will be hidden from room selection when creating schedules. This action can be undone.",
+    "confirm": "Deactivate",
+    "cancel": "Cancel"
+  },
+  "pagination": {
+    "showing": "Showing",
+    "of": "of",
+    "results": "rooms",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "toast": {
+    "createSuccess": "Room created successfully",
+    "updateSuccess": "Room updated successfully",
+    "deleteSuccess": "Room deactivated successfully",
+    "error": "An error occurred, please try again"
+  }
+}

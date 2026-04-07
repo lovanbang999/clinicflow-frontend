@@ -107,7 +107,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
       // Fetch dynamic doctors and rooms when dialog opens
       Promise.all([
         adminDoctorsApi.getDoctors({ isActive: true, limit: 50 }),
-        adminRoomsApi.getRooms()
+        adminRoomsApi.getActiveRooms()
       ]).then(([doctorsRes, roomsRes]) => {
         setDoctors(doctorsRes.users as unknown as User[]);
         setRooms(roomsRes);

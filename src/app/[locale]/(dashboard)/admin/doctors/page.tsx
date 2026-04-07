@@ -18,7 +18,6 @@ import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { DoctorDetailSheet } from '@/components/dashboard/doctors/DoctorDetailSheet';
 
-
 const LIMIT = 10;
 
 // Helper: map BackendUser → local Doctor shape for DoctorTable (mock-compatible)
@@ -260,6 +259,5 @@ export default function AdminDoctorsPage() {
         doctor={detailDoctor}
       />
     </div>
-
   );
 }

@@ -1,0 +1,70 @@
+{
+  "title": "Quản lý phòng khám",
+  "description": "Thêm, chỉnh sửa và quản lý các phòng trong phòng khám",
+  "addRoom": "Thêm phòng",
+  "searchPlaceholder": "Tìm kiếm theo tên phòng...",
+  "filterAll": "Tất cả",
+  "filterActive": "Đang hoạt động",
+  "filterInactive": "Ngừng hoạt động",
+  "table": {
+    "name": "Tên phòng",
+    "type": "Loại",
+    "floor": "Tầng",
+    "capacity": "Sức chứa",
+    "scheduleCount": "Số lịch",
+    "isActive": "Trạng thái",
+    "actions": "Thao tác"
+  },
+  "tableState": {
+    "loading": "Đang tải danh sách phòng...",
+    "empty": "Chưa có phòng nào. Bấm \"Thêm phòng\" để tạo mới."
+  },
+  "status": {
+    "active": "Hoạt động",
+    "inactive": "Ngừng"
+  },
+  "roomType": {
+    "CONSULTATION": "Phòng khám",
+    "ULTRASOUND": "Phòng siêu âm",
+    "PROCEDURE": "Phòng thủ thuật",
+    "LAB": "Phòng xét nghiệm",
+    "WAITING": "Phòng chờ"
+  },
+  "form": {
+    "addTitle": "Thêm phòng mới",
+    "editTitle": "Chỉnh sửa phòng",
+    "name": "Tên phòng",
+    "namePlaceholder": "VD: Phòng khám 101",
+    "type": "Loại phòng",
+    "typePlaceholder": "Chọn loại phòng",
+    "floor": "Tầng",
+    "floorPlaceholder": "VD: 1, 2, B1...",
+    "capacity": "Sức chứa (bệnh nhân)",
+    "capacityPlaceholder": "VD: 1",
+    "notes": "Ghi chú",
+    "notesPlaceholder": "Thông tin bổ sung về phòng...",
+    "isActive": "Đang hoạt động",
+    "isActiveHint": "Bật để phòng này xuất hiện khi đặt lịch cho bác sĩ",
+    "save": "Lưu",
+    "cancel": "Hủy"
+  },
+  "deleteModal": {
+    "title": "Ngừng hoạt động phòng?",
+    "description": "Phòng này sẽ bị ẩn khỏi danh sách chọn phòng khi tạo lịch. Hành động này có thể hoàn tác.",
+    "confirm": "Ngừng hoạt động",
+    "cancel": "Hủy"
+  },
+  "pagination": {
+    "showing": "Hiển thị",
+    "of": "trong",
+    "results": "phòng",
+    "prev": "Trước",
+    "next": "Tiếp"
+  },
+  "toast": {
+    "createSuccess": "Tạo phòng thành công",
+    "updateSuccess": "Cập nhật phòng thành công",
+    "deleteSuccess": "Phòng đã được ngừng hoạt động",
+    "error": "Có lỗi xảy ra, vui lòng thử lại"
+  }
+}

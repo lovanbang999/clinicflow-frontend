@@ -19,6 +19,7 @@ import {
   WheelchairIcon,
   IdentificationBadgeIcon,
   FolderIcon,
+  DoorIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -36,7 +37,8 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'categoryManagement',href: '/admin/categories',      icon: FolderIcon,        exact: false },
   { key: 'serviceManagement', href: '/admin/services',        icon: SyringeIcon,       exact: false },
   { key: 'schedules',         href: '/admin/schedules',       icon: CalendarBlankIcon, exact: false },
-  { key: 'billingManagement', href: '/admin/invoices',       icon: CurrencyCircleDollarIcon, exact: false },
+  { key: 'roomManagement',    href: '/admin/rooms',           icon: DoorIcon,          exact: false },
+  { key: 'billingManagement', href: '/admin/invoices',        icon: CurrencyCircleDollarIcon, exact: false },
   { key: 'analytics',         href: '/admin/analytics',       icon: ChartBarIcon,      exact: false },
   { key: 'settings',          href: '/admin/settings',        icon: GearSixIcon,       exact: false },
 ];
