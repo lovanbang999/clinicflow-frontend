@@ -42,7 +42,7 @@ export interface TimeSlot {
 
 export interface AvailableSlotsQuery {
   doctorId: string;
-  patientProfileId?: string;
+  patientId?: string;
   date: string;
   serviceId: string;
 }

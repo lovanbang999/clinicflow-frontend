@@ -70,7 +70,7 @@ export function BookingConfirmation() {
       // Redirect after 2 seconds
       setTimeout(() => {
         resetBooking();
-        router.push('/patient/bookings');
+        router.push('/patient/my-bookings');
       }, 2000);
     }
   };

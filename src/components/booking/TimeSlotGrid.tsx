@@ -66,7 +66,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
         // Fetch available slots from API
         const slots = await schedulesApi.getAvailableSlots({
           doctorId: selectedDoctor.id,
-          patientProfileId: profileId,
+          patientId: user?.id, // Backend expects patientId (userId)
           date: dateStr,
           serviceId: selectedService.id,
         });
