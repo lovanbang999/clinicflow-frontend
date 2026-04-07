@@ -13,11 +13,11 @@ import { cn } from '@/lib/utils';
 
 // Ordered steps for progress indicator
 const STEPS: { step: VisitStep; labelKey: string; tab: TabId }[] = [
-  { step: 'SYMPTOMS_TAKEN',   labelKey: 'stepLabels.symptoms',     tab: 'symptoms' },
-  { step: 'SERVICES_ORDERED', labelKey: 'stepLabels.services',     tab: 'labOrders' },
-  { step: 'RESULTS_READY',    labelKey: 'stepLabels.results',      tab: 'diagnosis' },
-  { step: 'COMPLETED',        labelKey: 'stepLabels.prescription', tab: 'prescription' },
-  { step: 'COMPLETED',        labelKey: 'stepLabels.summary',      tab: 'summary' },
+  { step: 'SYMPTOMS_TAKEN', labelKey: 'stepLabels.symptoms', tab: 'symptoms' },
+  { step: 'SERVICES_ORDERED', labelKey: 'stepLabels.services', tab: 'labOrders' },
+  { step: 'RESULTS_READY', labelKey: 'stepLabels.results', tab: 'diagnosis' },
+  { step: 'COMPLETED', labelKey: 'stepLabels.prescription', tab: 'prescription' },
+  { step: 'COMPLETED', labelKey: 'stepLabels.summary', tab: 'summary' },
 ];
 
 type TabId = 'symptoms' | 'labOrders' | 'diagnosis' | 'prescription' | 'summary';
@@ -60,7 +60,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
       if (updated.visitStep === 'DIAGNOSED' && current === 'diagnosis') return 'prescription';
       if (updated.visitStep === 'PRESCRIBED' && current === 'prescription') return 'summary';
       if (updated.visitStep === 'COMPLETED' && current === 'prescription') return 'summary';
-      
+
       return current;
     });
   }, []);
@@ -78,7 +78,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
     <div className={cn('flex flex-col gap-5 mx-auto', className)}>
       {/* Top Bar with Stepper */}
       <div className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-3 px-4 shadow-[0_1px_3px_rgba(0,0,0,0.05)] w-full gap-4">
-        
+
         {onExit ? (
           <button onClick={onExit} className="shrink-0 text-[13px] font-semibold text-slate-500 cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors hover:bg-slate-100 hover:text-slate-700">
             <ArrowLeftIcon className="w-4 h-4" />
@@ -147,7 +147,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
                 </div>
                 {idx < STEPS.length - 1 && (
                   <div className={cn('w-6 md:w-12 h-6 flex items-center justify-center shrink-0')}>
-                     <div className={cn('w-full h-0.5 rounded-full transition-all', lineClass)} />
+                    <div className={cn('w-full h-0.5 rounded-full transition-all', lineClass)} />
                   </div>
                 )}
               </div>

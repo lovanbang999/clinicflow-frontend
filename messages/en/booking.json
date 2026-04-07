@@ -117,7 +117,8 @@
     "reviews": "Reviews",
     "specialist": "Specialist",
     "generalPractice": "General Practice",
-    "experience": "with over {years} years of experience."
+    "experience": "with over {years} years of experience.",
+    "alreadyBookedToday": "Already booked today"
   },
   "all": "All",
   "upcoming": "Upcoming",

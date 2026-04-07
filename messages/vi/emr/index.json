@@ -4,14 +4,14 @@
     "unlockTitle": "Hoàn tất bước trước để mở khoá",
     "tabLabels": {
       "symptoms": "Triệu chứng",
-      "services": "Chỉ định dịch vụ",
+      "services": "Chỉ định thủ thuật",
       "diagnosis": "Kết quả & Chẩn đoán",
       "prescription": "Kê đơn thuốc",
       "summary": "Tổng kết & In"
     },
     "stepLabels": {
       "symptoms": "Triệu chứng",
-      "services": "Chỉ định",
+      "services": "Chỉ định thủ thuật",
       "results": "Kết quả / CĐ",
       "prescription": "Kê đơn",
       "summary": "Tổng kết",

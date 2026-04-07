@@ -117,7 +117,8 @@
     "reviews": "Đánh giá",
     "specialist": "Chuyên khoa",
     "generalPractice": "đa khoa",
-    "experience": "với hơn {years} năm kinh nghiệm."
+    "experience": "với hơn {years} năm kinh nghiệm.",
+    "alreadyBookedToday": "Đã có lịch hôm nay"
   },
   "all": "Tất cả",
   "upcoming": "Sắp tới",
