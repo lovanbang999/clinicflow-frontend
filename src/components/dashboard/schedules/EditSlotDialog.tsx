@@ -84,7 +84,7 @@ export function EditSlotDialog({ slot, isOpen, onOpenChange, onSuccess }: EditSl
       setErrors({});
 
       if (rooms.length === 0) {
-        adminRoomsApi.getRooms().then(setRooms).catch(console.error);
+        adminRoomsApi.getActiveRooms().then(setRooms).catch(console.error);
       }
     }
   }, [slot, isOpen, rooms.length]);

@@ -19,6 +19,7 @@
     "serviceManagement": "Service Management",
     "patientManagement": "Patient Management",
     "schedules": "Schedules",
+    "roomManagement": "Room Management",
     "analytics": "Analytics",
     "billingManagement": "Invoice History",
     "settings": "Settings"
