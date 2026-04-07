@@ -14,7 +14,8 @@
       "services": "Chỉ định",
       "results": "Kết quả / CĐ",
       "prescription": "Kê đơn",
-      "summary": "Tổng kết"
+      "summary": "Tổng kết",
+      "backToExam": "Quay lại Khám"
     },
     "visitSteps": {
       "SYMPTOMS_TAKEN": "Triệu chứng",
@@ -245,7 +246,8 @@
         "doctor": "Bác sĩ chỉ định"
       },
       "doctorSignature": "Chữ ký Bác sĩ (Ký và ghi rõ họ tên)"
-    }
+    },
+    "historyTabButton": "📋 Lịch sử khám"
   },
   "history": {
     "title": "Lịch sử khám ({count})",
@@ -441,7 +443,8 @@
     "remove": "Xoá",
     "abnormal": "Bất thường",
     "emptyResult": "Kết quả chưa có nội dung văn bản",
-    "viewFile": "Xem file kết quả"
+    "viewFile": "Xem file kết quả",
+    "back": "Quay lại"
   },
   "patientInfo": {
     "noData": "Chưa chọn bệnh nhân",

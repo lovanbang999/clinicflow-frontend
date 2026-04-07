@@ -62,15 +62,32 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
   const { joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted } = useLabOrderSocket();
   useEffect(() => {
     joinBookingLabRoom(bookingId);
-    const unsubscribe = onLabResultCompleted((payload) => {
+    const unsubscribe = onLabResultCompleted(async (payload) => {
       toast.success(`🧪 ${payload.testName} — kết quả đã sẵn sàng`);
       void fetchOrders();
+      try {
+        const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
+        onSaved(updatedRecord);
+      } catch (err) {
+        console.error('Failed to sync parent record on websocket', err);
+      }
     });
     return () => {
       leaveBookingLabRoom(bookingId);
       unsubscribe?.();
     };
-  }, [bookingId, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted, fetchOrders]);
+  }, [bookingId, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted, fetchOrders, onSaved]);
+
+  const handleNext = async () => {
+    try {
+      const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
+      onSaved(updatedRecord);
+    } catch (err) {
+      console.error('Failed to fetch latest record before next', err);
+    } finally {
+      if (onSkip) onSkip();
+    }
+  };
 
   const orderedNames = new Set(orders.map((o) => o.testName));
 
@@ -309,7 +326,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
           )}
           <Button
             type="button"
-            onClick={() => onSkip?.()}
+            onClick={handleNext}
             className="px-6 py-2 h-[42px] rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[14px] shadow-[0_4px_12px_rgba(79,70,229,0.25)] transition-all flex items-center gap-2"
           >
             <span className="text-sm">{t('saveAndNext')}</span>

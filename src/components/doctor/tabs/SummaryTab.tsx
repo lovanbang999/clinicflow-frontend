@@ -29,24 +29,24 @@ export function SummaryTab({ record, onBack, onExit }: SummaryTabProps) {
   return (
     <div className="relative">
       {/* 
-            1. WEB DISPLAY COMPONENT
-            Visible only on screen, hidden during print
-        */}
+        1. WEB DISPLAY COMPONENT
+        Visible only on screen, hidden during print
+      */}
       <div className="print:hidden">
         <SummaryDashboard record={record} />
       </div>
 
       {/* 
-            2. FORMAL MEDICAL REPORT COMPONENT
-            Hidden on screen, visible only during print
-            Matches system ID for printing: "printable-exam-result"
-        */}
+        2. FORMAL MEDICAL REPORT COMPONENT
+        Hidden on screen, visible only during print
+        Matches system ID for printing: "printable-exam-result"
+      */}
       <MedicalReport record={record} />
 
       {/* 
-            3. STICKY NAVIGATION BAR
-            Always hidden during print
-        */}
+        3. STICKY NAVIGATION BAR
+        Always hidden during print
+      */}
       <StickyBottomBar title={t('stickyTitle')} className="print:hidden">
         <div className="flex items-center gap-3 ml-auto">
           {onBack && (

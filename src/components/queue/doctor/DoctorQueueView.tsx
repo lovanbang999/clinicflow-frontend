@@ -8,9 +8,8 @@ import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { BookingStatus } from '@/types';
 import { DoctorQueueCard } from './DoctorQueueCard';
 import { DoctorStatsPanel } from './DoctorStatsPanel';
-import { PrintableExaminationResult } from './PrintableExaminationResult';
-import { PrintablePrescription } from './PrintablePrescription';
-import type { CreateMedicalRecordDto, PrescriptionItemDto } from '@/lib/api/clinical/medical-records';
+import { MedicalReport } from '@/components/doctor/tabs/summary/MedicalReport';
+import { medicalRecordsApi, type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 
 interface DoctorQueueViewProps {
   queueItems: QueueRecord[];
@@ -40,16 +39,23 @@ export function DoctorQueueView({
 
   type FilterType = 'IN_EXAM' | 'WAITING_RESULTS' | BookingStatus.CHECKED_IN | BookingStatus.COMPLETED | BookingStatus.NO_SHOW;
   const [activeFilter, setActiveFilter] = useState<FilterType>(BookingStatus.CHECKED_IN);
-  const [selectedPrintRecord, setSelectedPrintRecord] = useState<QueueRecord | null>(null);
+  const [selectedPrintRecord, setSelectedPrintRecord] = useState<VisitResultsResponse | null>(null);
 
-  const handleDirectPrint = (record: QueueRecord) => {
-    setSelectedPrintRecord(record);
-    // Give time for state to update and component to render
-    setTimeout(() => {
-      window.print();
-      // Clean up after print (though hidden in UI, good for state)
-      setTimeout(() => setSelectedPrintRecord(null), 1000);
-    }, 300);
+  const handleDirectPrint = async (record: QueueRecord) => {
+    try {
+      // Fetch the full visit results to populate the premium MedicalReport correctly
+      const fullRecord = await medicalRecordsApi.getVisitResults(record.bookingId);
+      setSelectedPrintRecord(fullRecord);
+      
+      // Give time for state to update and component to render
+      setTimeout(() => {
+        window.print();
+        // Clean up after print (though hidden in UI, good for state)
+        setTimeout(() => setSelectedPrintRecord(null), 1000);
+      }, 500);
+    } catch (err) {
+      console.error('Failed to fetch full record for printing:', err);
+    }
   };
 
   const filteredItems = activeFilter === 'IN_EXAM'
@@ -210,43 +216,10 @@ export function DoctorQueueView({
 
       {/* Hidden printing component */}
       {selectedPrintRecord && (
-        <div className="hidden print:block print:w-full print:h-auto print:bg-white">
-          <PrintableExaminationResult 
-              patientProfile={selectedPrintRecord.booking.patientProfile}
-              doctorName={selectedPrintRecord.booking.doctor?.fullName}
-              medicalRecord={{
-                ...selectedPrintRecord.booking.medicalRecord,
-                bookingId: selectedPrintRecord.booking.id,
-              } as CreateMedicalRecordDto}
-              bookingCode={selectedPrintRecord.booking.bookingCode}
-            />
-            
-            {/* Also print prescription if it exists */}
-            {selectedPrintRecord.booking.medicalRecord?.prescription && (
-              <div className="print-page-break-before">
-                <PrintablePrescription
-                  patientProfile={selectedPrintRecord.booking.patientProfile}
-                  doctorName={selectedPrintRecord.booking.doctor?.fullName}
-                  prescriptionItems={(selectedPrintRecord.booking.medicalRecord.prescription.items || []).map((p) => ({
-                    medicineName: p.medicineName,
-                    dosage: p.dosage,
-                    frequency: p.frequency,
-                    durationDays: p.durationDays,
-                    quantity: p.quantity,
-                    unit: p.unit,
-                    instructions: p.instructions,
-                  })) as PrescriptionItemDto[]}
-                  diagnosisName={selectedPrintRecord.booking.medicalRecord.diagnosisName}
-                  diagnosisCode={selectedPrintRecord.booking.medicalRecord.diagnosisCode}
-                  treatmentPlan={selectedPrintRecord.booking.medicalRecord.treatmentPlan}
-                  bookingCode={selectedPrintRecord.booking.bookingCode}
-                  weight={selectedPrintRecord.booking.patientProfile?.weightKg?.toString()}
-                  height={selectedPrintRecord.booking.patientProfile?.heightCm?.toString()}
-                />
-              </div>
-            )}
-          </div>
-        )}
+        <div className="hidden print:block print:w-full print:h-auto print:bg-white text-black">
+          <MedicalReport record={selectedPrintRecord} />
+        </div>
+      )}
     </div>
   );
 }

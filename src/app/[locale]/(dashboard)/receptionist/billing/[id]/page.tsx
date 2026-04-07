@@ -17,13 +17,13 @@ import {
   PillIcon,
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PaymentModal } from '@/components/admin/billing/PaymentModal';
-import { InvoiceServiceList } from '@/components/admin/billing/InvoiceServiceList';
-import { InvoicePaymentHistory } from '@/components/admin/billing/InvoicePaymentHistory';
-import { InvoiceSummary } from '@/components/admin/billing/InvoiceSummary';
-import { InvoicePatientInfo } from '@/components/admin/billing/InvoicePatientInfo';
-import { PrintableInvoice } from '@/components/admin/billing/PrintableInvoice';
-import { InvoiceStatusBadge } from '@/components/admin/billing/InvoiceStatusBadge';
+import { PaymentModal } from '@/components/dashboard/billing/PaymentModal';
+import { InvoiceServiceList } from '@/components/dashboard/billing/InvoiceServiceList';
+import { InvoicePaymentHistory } from '@/components/dashboard/billing/InvoicePaymentHistory';
+import { InvoiceSummary } from '@/components/dashboard/billing/InvoiceSummary';
+import { InvoicePatientInfo } from '@/components/dashboard/billing/InvoicePatientInfo';
+import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
+import { InvoiceStatusBadge } from '@/components/dashboard/billing/InvoiceStatusBadge';
 import { useTranslations, useLocale } from 'next-intl';
 
 export default function InvoiceDetailPage() {

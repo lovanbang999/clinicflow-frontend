@@ -54,11 +54,12 @@ export default function TechnicianWorklistPage() {
     try {
       await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
       toast.success(t('messages.statusUpdated'));
-      refetch();
+      const locale = window.location.pathname.split('/')[1];
+      router.push(`/${locale}/technician/lab-worklist/${orderId}`);
     } catch {
       toast.error(t('messages.statusUpdateError'));
     }
-  }, [refetch, t]);
+  }, [router, t]);
 
   // Subscribe to WebSocket: auto-refresh when a new paid lab order arrives
   const { onNewLabOrder } = useLabOrderSocket();
