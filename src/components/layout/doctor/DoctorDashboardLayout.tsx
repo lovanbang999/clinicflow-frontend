@@ -17,10 +17,11 @@ export function DoctorDashboardLayout({ children }: DoctorDashboardLayoutProps) 
         {/* Header - inside main content area */}
         <DoctorDashboardHeader />
 
-        {/* Page Content - scrollable (overflow-hidden lets child workspaces manage their own scroll) */}
-        <main className="flex-1 h-full overflow-hidden">
+        {/* Page Content - scrollable */}
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
+
       </div>
     </div>
   );

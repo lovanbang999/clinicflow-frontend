@@ -21,6 +21,48 @@ export interface BookingStatusItem {
   count: number;
 }
 
+export interface DoctorSummary {
+  total: number;
+  deltaTotal: number;
+  completed: number;
+  deltaCompleted: number;
+  absentCancel: number;
+  deltaAbsentCancel: number;
+  sourceBreakdown: { online: number; walkIn: number; phone: number };
+  avgMinutes: number;
+  rating: number;
+}
+
+export interface RecentPatient {
+  id: string;
+  bookingDate: string;
+  startTime: string;
+  status: string;
+  patientProfile: { fullName: string; patientCode: string } | null;
+  service: { name: string } | null;
+  medicalRecord: { diagnosisName: string | null } | null;
+}
+
+export interface TodayAppointment {
+  id: string;
+  startTime: string | null;
+  endTime: string | null;
+  status: string;
+  source: string | null;
+  patientProfile: { fullName: string } | null;
+  service: { name: string } | null;
+}
+
+export interface ClinicalKPIsData {
+  avgWaitMinutes: number;
+  returnRate: number;
+  labOrderRate: number;
+  icdUsageRate: number;
+  newPatientRate: number;
+  followUpRate: number;
+  meta: { totalBookings: number; totalRecords: number; periodMonths: number };
+}
+
 export const analyticsApi = {
   // Patient
   getPatientVisitTrend: async (): Promise<MonthlyTrendItem[]> => {
@@ -47,6 +89,26 @@ export const analyticsApi = {
   },
   getDoctorPatientsPerMonth: async (): Promise<MonthlyTrendItem[]> => {
     const res = await apiClient.get('/analytics/doctor/me/patients-per-month');
+    return res.data.data;
+  },
+  getDoctorSummary: async (period = 'month'): Promise<DoctorSummary> => {
+    const res = await apiClient.get(`/analytics/doctor/me/summary?period=${period}`);
+    return res.data.data;
+  },
+  getDoctorRecentPatients: async (): Promise<RecentPatient[]> => {
+    const res = await apiClient.get('/analytics/doctor/me/recent-patients');
+    return res.data.data;
+  },
+  getDoctorTodaySchedule: async (): Promise<TodayAppointment[]> => {
+    const res = await apiClient.get('/analytics/doctor/me/today-schedule');
+    return res.data.data;
+  },
+  getDoctorHeatmap: async (): Promise<number[][]> => {
+    const res = await apiClient.get('/analytics/doctor/me/heatmap');
+    return res.data.data;
+  },
+  getDoctorClinicalKPIs: async (): Promise<ClinicalKPIsData> => {
+    const res = await apiClient.get('/analytics/doctor/me/clinical-kpis');
     return res.data.data;
   },
 };
