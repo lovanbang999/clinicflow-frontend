@@ -7,7 +7,7 @@ import { InvoiceStatus } from '@/lib/api/billing/billing';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { Card } from '@/components/ui/card';
 import { ReceiptIcon, MagnifyingGlassIcon, SpinnerIcon } from '@phosphor-icons/react';
-import { BillingTable } from '@/components/admin/billing/BillingTable';
+import { BillingTable } from '@/components/dashboard/billing/BillingTable';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';

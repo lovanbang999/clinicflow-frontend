@@ -9,6 +9,7 @@ import { DoctorVitalsStrip } from './DoctorVitalsStrip';
 import { usePatientHistory } from '@/lib/hooks/clinical/usePatientHistory';
 import { Button } from '@/components/ui/button';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
+import { useTranslations } from 'next-intl';
 
 interface DoctorExamViewProps {
   item: QueueRecord;
@@ -19,6 +20,7 @@ interface DoctorExamViewProps {
 type TabId = 'exam' | 'hist';
 
 export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewProps) {
+  const t = useTranslations('emr.visit');
   const [activeTab, setActiveTab] = useState<TabId>('exam');
   const { history, isLoading: isHistoryLoading } = usePatientHistory(item.booking.patientProfile?.id || item.booking.patientProfileId);
 
@@ -49,7 +51,7 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
               onClick={() => setActiveTab('exam')}
               className="gap-1 text-gray-500 hover:text-gray-700 -ml-1"
             >
-              <ArrowLeftIcon size={16} /> Quay lại Khám
+              <ArrowLeftIcon size={16} /> {t('backToExam')}
             </Button>
           </div>
           <DoctorHistoryTab

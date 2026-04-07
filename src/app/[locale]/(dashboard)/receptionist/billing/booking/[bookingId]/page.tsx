@@ -21,14 +21,13 @@ import {
   WarningCircleIcon,
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PaymentModal } from '@/components/admin/billing/PaymentModal';
-import { PrintableInvoice } from '@/components/admin/billing/PrintableInvoice';
-import { PrintableQueueTicket } from '@/components/admin/billing/PrintableQueueTicket';
-import { QuickAddInvoiceModal } from '@/components/admin/billing/QuickAddInvoiceModal';
+import { PaymentModal } from '@/components/dashboard/billing/PaymentModal';
+import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
+import { PrintableQueueTicket } from '@/components/dashboard/billing/PrintableQueueTicket';
+import { QuickAddInvoiceModal } from '@/components/dashboard/billing/QuickAddInvoiceModal';
 import { AddInvoiceItemDto } from '@/lib/api/billing/billing';
-
 import { useTranslations } from 'next-intl';
-import { InvoiceCard } from '@/components/admin/billing/InvoiceCard';
+import { InvoiceCard } from '@/components/dashboard/billing/InvoiceCard';
 
 function formatVND(val: number) {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);

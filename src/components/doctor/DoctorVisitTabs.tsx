@@ -82,7 +82,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
         {onExit ? (
           <button onClick={onExit} className="shrink-0 text-[13px] font-semibold text-slate-500 cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors hover:bg-slate-100 hover:text-slate-700">
             <ArrowLeftIcon className="w-4 h-4" />
-            Quay lại
+            {t('shared.back')}
           </button>
         ) : <div className="w-[84px] shrink-0" />}
 
@@ -157,7 +157,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
 
         {onHistoryClick ? (
           <button onClick={onHistoryClick} className="shrink-0 text-[13px] font-semibold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-800 transition-colors px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 cursor-pointer">
-            📋 Lịch sử khám
+            {t('historyTabButton')}
           </button>
         ) : <div className="w-[120px] shrink-0" />}
       </div>

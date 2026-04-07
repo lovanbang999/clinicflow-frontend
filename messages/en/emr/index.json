@@ -14,7 +14,8 @@
       "services": "Orders",
       "results": "Results / Diag",
       "prescription": "Rx",
-      "summary": "Summary"
+      "summary": "Summary",
+      "backToExam": "Back to Exam"
     },
     "visitSteps": {
       "SYMPTOMS_TAKEN": "Symptoms",
@@ -244,7 +245,8 @@
         "doctor": "Referring Physician"
       },
       "doctorSignature": "Doctor's Signature (Sign and write full name)"
-    }
+    },
+    "historyTabButton": "📋 Visit History"
   },
   "history": {
     "title": "Visit History ({count})",
@@ -440,7 +442,8 @@
     "remove": "Remove",
     "abnormal": "Abnormal",
     "emptyResult": "No text content for result",
-    "viewFile": "View result file"
+    "viewFile": "View result file",
+    "back": "Back"
   },
   "patientInfo": {
     "noData": "No patient selected",
