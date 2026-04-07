@@ -7,8 +7,8 @@ export default function DoctorAnalyticsPage() {
   const t = useTranslations('doctorWorkspace');
 
   return (
-    <div className="h-full flex flex-col p-6 space-y-6">
-      <div className="shrink-0">
+    <div className="p-6 space-y-6">
+      <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
           {t('analyticsTitle') || 'Thống kê'}
         </h1>
@@ -17,9 +17,8 @@ export default function DoctorAnalyticsPage() {
         </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
-        <DoctorAnalyticsPanel />
-      </div>
+      <DoctorAnalyticsPanel />
     </div>
   );
+
 }
