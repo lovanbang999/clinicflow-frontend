@@ -104,11 +104,18 @@
     "message": "The appointment has been confirmed in the system.",
     "clinicName": "Smart Clinic",
     "receiptTitle": "Booking Confirmation Receipt",
-    "patientLabel": "Patient:",
-    "receptionistLabel": "Booked by:",
-    "receptionistName": "Sarah Jenkins (Receptionist)",
-    "payBtn": "Payment",
-    "newBookingBtn": "New Booking"
+    "queueNumber": "Queue Number",
+    "patientLabel": "Patient",
+    "doctorLabel": "Doctor",
+    "roomLabel": "Clinic Room",
+    "bookingCodeLabel": "Booking Code",
+    "estimatedWait": "Est. Wait",
+    "minutes": "mins",
+    "dateLabel": "Appointment Date",
+    "waitingRoomInfo": "Note: Please monitor your queue number on the waiting room screen.",
+    "printBtn": "Print Ticket",
+    "newBookingBtn": "New Booking",
+    "billingNote": "Service fees and specialized procedures will be settled after doctor's consultation."
   },
   "toasts": {
     "fillAllSteps": "Please complete all steps",

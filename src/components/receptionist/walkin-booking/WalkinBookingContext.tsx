@@ -2,14 +2,18 @@
 
 import { createContext, useContext, useState, useMemo, useEffect, useCallback, ReactNode } from 'react';
 import { usersApi } from '@/lib/api/auth/users';
-import { servicesApi } from '@/lib/api/clinic/services';
 import { doctorsApi } from '@/lib/api/clinical/doctors';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { schedulesApi } from '@/lib/api/appointment/schedules';
-import { User, Service, Doctor, Booking } from '@/types';
+import { User, Doctor, Booking } from '@/types';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
+
+interface QueueInfo {
+  queuePosition: number;
+  estimatedWaitMinutes: number;
+}
 
 interface WalkinBookingContextType {
   currentStep: number;
@@ -34,15 +38,13 @@ interface WalkinBookingContextType {
   handleCreatePatient: (e: React.FormEvent) => Promise<void>;
   selectPatient: (patient: User) => void;
 
-  // Booking details
-  services: Service[];
-  isLoadingServices: boolean;
+  // Doctor Selection (Step 2 — Mô hình A: không có service step)
   doctors: Doctor[];
   isLoadingDoctors: boolean;
-  selectedService: Service | null;
-  selectService: (service: Service) => void;
   selectedDoctor: Doctor | null;
   setSelectedDoctor: (doctor: Doctor | null) => void;
+
+  // Appointment Time (Step 3)
   selectedDate: Date;
   setSelectedDate: (date: Date) => void;
   selectedSlot: string | null;
@@ -55,6 +57,7 @@ interface WalkinBookingContextType {
   // Status
   isSubmitting: boolean;
   completedBooking: Booking | null;
+  completedQueue: QueueInfo | null;
   handleSubmitBooking: () => Promise<void>;
   handleReset: () => void;
 
@@ -85,13 +88,12 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   });
   const [isCreatingPatient, setIsCreatingPatient] = useState(false);
 
-  // Booking details
-  const [services, setServices] = useState<Service[]>([]);
-  const [isLoadingServices, setIsLoadingServices] = useState(true);
+  // Doctor (Step 2 — load all doctors, no service filter)
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [isLoadingDoctors, setIsLoadingDoctors] = useState(false);
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isLoadingDoctors, setIsLoadingDoctors] = useState(true);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+
+  // Appointment Time (Step 3)
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
@@ -101,35 +103,23 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   // Status
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [completedBooking, setCompletedBooking] = useState<Booking | null>(null);
+  const [completedQueue, setCompletedQueue] = useState<QueueInfo | null>(null);
 
-  // Load services + initial patient list on mount
+  // Load initial patient list and all doctors on mount
   useEffect(() => {
-    setIsLoadingServices(true);
     Promise.all([
-      servicesApi.getAll({ isActive: true }),
       usersApi.searchPatients('', 1, 5),
-    ]).then(([svcs, patientsRes]) => {
-      setServices(svcs);
+      doctorsApi.getAll(),
+    ]).then(([patientsRes, doctorsRes]) => {
       setSearchResults(patientsRes.users);
       setPagination(patientsRes.pagination);
-    }).catch(console.error).finally(() => setIsLoadingServices(false));
+      setDoctors(doctorsRes);
+    }).catch(console.error).finally(() => setIsLoadingDoctors(false));
   }, []);
 
-  // Re-fetch doctors filtered by service when service changes
-  useEffect(() => {
-    if (!selectedService) return;
-    setIsLoadingDoctors(true);
-    setSelectedDoctor(null);
-    setSelectedSlot(null);
-    doctorsApi.getAll({ serviceId: selectedService.id })
-      .then(setDoctors)
-      .catch(console.error)
-      .finally(() => setIsLoadingDoctors(false));
-  }, [selectedService]);
-
-  // Fetch real available slots when doctor or date changes
+  // Fetch slots for pre-booking when doctor or date changes
   const fetchSlots = useCallback(async () => {
-    if (!selectedDoctor || !selectedDate || !selectedService) {
+    if (!selectedDoctor || !selectedDate) {
       setAvailableSlots([]);
       return;
     }
@@ -139,7 +129,6 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
       const slots = await schedulesApi.getAvailableSlots({
         doctorId: selectedDoctor.id,
         date: format(selectedDate, 'yyyy-MM-dd'),
-        serviceId: selectedService.id,
       });
       setAvailableSlots(slots.map(s => s.time));
     } catch (err) {
@@ -148,10 +137,10 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoadingSlots(false);
     }
-  }, [selectedDoctor, selectedDate, selectedService]);
+  }, [selectedDoctor, selectedDate]);
 
   useEffect(() => {
-    if (bookingType === 'PRE_BOOKING') fetchSlots();
+    if (bookingType === 'PRE_BOOKING') void fetchSlots();
   }, [fetchSlots, bookingType]);
 
   const handleSearchPatient = async (page: number = 1) => {
@@ -193,16 +182,13 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setCurrentStep(2);
   };
 
-  const selectService = (service: Service) => {
-    setSelectedService(service);
-    setCurrentStep(3);
-  };
-
   const selectSlot = (slot: string) => setSelectedSlot(slot);
 
   const handleSubmitBooking = async () => {
     const isWalkIn = bookingType === 'WALK_IN';
-    if (!selectedPatient || !selectedService || !selectedDoctor) {
+
+    // Mô hình A: chỉ cần BN + BS, không cần serviceId
+    if (!selectedPatient || !selectedDoctor) {
       toast.error(t('toasts.fillAllSteps'));
       return;
     }
@@ -210,17 +196,31 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
       toast.error(t('toasts.fillAllSteps'));
       return;
     }
+
     setIsSubmitting(true);
     try {
+      // Tạo booking với serviceId = undefined (null) — BS sẽ xác định sau
       const booking = await bookingsApi.createReceptionistBooking({
         patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id,
-        serviceId: selectedService.id,
         doctorId: selectedDoctor.id,
+        // serviceId deliberately omitted — mô hình A
         bookingDate: format(selectedDate, 'yyyy-MM-dd'),
         startTime: isWalkIn ? undefined : (selectedSlot ?? undefined),
         isPreBooked: !isWalkIn,
         patientNotes,
       });
+
+      // Auto check-in ngay sau khi tạo booking walk-in (theo B1)
+      if (isWalkIn) {
+        try {
+          const checkInResult = await bookingsApi.checkIn(booking.id);
+          setCompletedQueue(checkInResult.queue);
+        } catch (checkInErr) {
+          console.error('[AutoCheckIn]', checkInErr);
+          // Check-in fail không block — hiển thị booking thành công vẫn OK
+        }
+      }
+
       setCompletedBooking(booking);
       toast.success(t('toasts.bookingSuccess'));
     } catch (err) {
@@ -238,20 +238,20 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setSearchQuery('');
     setSearchResults([]);
     setShowCreateForm(false);
-    setSelectedService(null);
     setSelectedDoctor(null);
     setSelectedDate(new Date());
     setSelectedSlot(null);
     setAvailableSlots([]);
     setPatientNotes('');
     setCompletedBooking(null);
+    setCompletedQueue(null);
   };
 
+  // Step 1 = BN, Step 2 = BS, Step 3 = Time/Confirm (luồng mới 3 steps)
   const isStepDone = (step: number) => {
     if (step === 1) return selectedPatient !== null;
-    if (step === 2) return selectedService !== null;
-    if (step === 3) return selectedDoctor !== null;
-    if (step === 4) return bookingType === 'WALK_IN' ? true : selectedSlot !== null;
+    if (step === 2) return selectedDoctor !== null;
+    if (step === 3) return bookingType === 'WALK_IN' ? true : selectedSlot !== null;
     return false;
   };
 
@@ -268,20 +268,20 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     pagination, setPage,
     showCreateForm, setShowCreateForm, newPatient, setNewPatient, isCreatingPatient,
     handleSearchPatient, handleCreatePatient, selectPatient,
-    services, isLoadingServices, doctors, isLoadingDoctors,
-    selectedService, selectService, selectedDoctor, setSelectedDoctor,
+    doctors, isLoadingDoctors,
+    selectedDoctor, setSelectedDoctor,
     selectedDate, setSelectedDate, selectedSlot, selectSlot,
     availableSlots, isLoadingSlots, patientNotes, setPatientNotes,
-    isSubmitting, completedBooking, handleSubmitBooking, handleReset,
+    isSubmitting, completedBooking, completedQueue, handleSubmitBooking, handleReset,
     isStepDone, getStepNumberClass,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [
     currentStep, bookingType, searchQuery, isSearching, selectedPatient, searchResults,
     pagination, showCreateForm, newPatient, isCreatingPatient,
-    services, isLoadingServices, doctors, isLoadingDoctors,
-    selectedService, selectedDoctor, selectedDate, selectedSlot,
+    doctors, isLoadingDoctors,
+    selectedDoctor, selectedDate, selectedSlot,
     availableSlots, isLoadingSlots, patientNotes,
-    isSubmitting, completedBooking,
+    isSubmitting, completedBooking, completedQueue,
   ]);
 
   return (

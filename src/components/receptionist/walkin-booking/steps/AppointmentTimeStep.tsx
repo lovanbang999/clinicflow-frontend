@@ -24,6 +24,8 @@ export function AppointmentTimeStep() {
     selectedDate,
     setSelectedDate,
     selectedDoctor,
+    isSubmitting,
+    handleSubmitBooking,
   } = useWalkinBooking();
 
   // Build next 14 days for quick date picker
@@ -39,27 +41,27 @@ export function AppointmentTimeStep() {
   };
 
   const isToday = (date: Date) => format(date, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
-  const isSelected = (date: Date) => format(date, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd');
+  const isDateSelected = (date: Date) => format(date, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd');
 
   return (
-    <div className={`relative pb-6 ${!isStepDone(3) && currentStep !== 4 ? 'opacity-50 pointer-events-none' : ''}`}>
+    <div className={`relative pb-6 ${!isStepDone(2) && currentStep !== 3 ? 'opacity-50 pointer-events-none' : ''}`}>
       <div className="flex items-start gap-4">
         <div
-          className={`w-8 h-8 rounded-full border-2 text-[13px] font-bold flex items-center justify-center shrink-0 z-10 transition-colors ${getStepNumberClass(4)} ${currentStep > 4 ? 'cursor-pointer hover:shadow-md' : ''}`}
-          onClick={() => { if (currentStep > 4) setCurrentStep(4); }}
+          className={`w-8 h-8 rounded-full border-2 text-[13px] font-bold flex items-center justify-center shrink-0 z-10 transition-colors ${getStepNumberClass(3)} ${currentStep > 3 ? 'cursor-pointer hover:shadow-md' : ''}`}
+          onClick={() => { if (currentStep > 3) setCurrentStep(3); }}
         >
-          4
+          3
         </div>
         <div className="flex-1 pt-1.5">
           <div
-            className={`mb-5 ${currentStep > 4 ? 'cursor-pointer hover:opacity-80 inline-block transition-opacity' : ''}`}
-            onClick={() => { if (currentStep > 4) setCurrentStep(4); }}
+            className={`mb-5 ${currentStep > 3 ? 'cursor-pointer hover:opacity-80 inline-block transition-opacity' : ''}`}
+            onClick={() => { if (currentStep > 3) setCurrentStep(3); }}
           >
             <h3 className="text-lg font-bold text-slate-900 mb-1">{t('title')}</h3>
             <p className="text-sm text-slate-500 mb-0">{t('desc')}</p>
           </div>
 
-          {currentStep === 4 && (
+          {currentStep === 3 && (
             <div className="space-y-5">
               {/* Booking Type Toggle */}
               <div className="flex gap-3">
@@ -130,12 +132,12 @@ export function AppointmentTimeStep() {
                           key={format(date, 'yyyy-MM-dd')}
                           onClick={() => setSelectedDate(date)}
                           className={`flex flex-col items-center shrink-0 snap-start w-[62px] py-2.5 rounded-xl border-2 text-center transition-all cursor-pointer ${
-                            isSelected(date)
+                            isDateSelected(date)
                               ? 'border-[#1570EF] bg-[#1570EF] text-white'
                               : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
                           }`}
                         >
-                          <p className={`text-[10px] font-bold uppercase mb-1 ${isSelected(date) ? 'text-blue-100' : 'text-slate-400'}`}>
+                          <p className={`text-[10px] font-bold uppercase mb-1 ${isDateSelected(date) ? 'text-blue-100' : 'text-slate-400'}`}>
                             {isToday(date) ? t('today') : formatDayLabel(date)}
                           </p>
                           <p className="text-[15px] font-extrabold leading-none">{formatDisplayDate(date)}</p>
@@ -186,10 +188,28 @@ export function AppointmentTimeStep() {
                   </div>
                 </div>
               )}
+
+              {/* Submit Button */}
+              <div className="pt-2">
+                <button
+                  onClick={handleSubmitBooking}
+                  disabled={isSubmitting || (bookingType === 'PRE_BOOKING' && !selectedSlot)}
+                  className="w-full max-w-[500px] h-12 bg-[#1570EF] hover:bg-[#1165D8] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-[#1570EF]/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <SpinnerIcon size={18} className="animate-spin" />
+                      <span>{t('submitting')}</span>
+                    </>
+                  ) : (
+                    bookingType === 'WALK_IN' ? t('submitWalkIn') : t('submitPreBooking')
+                  )}
+                </button>
+              </div>
             </div>
           )}
 
-          {currentStep > 4 && (
+          {currentStep > 3 && (
             <div className="text-sm font-medium text-slate-900 flex items-center gap-2 border border-slate-200 rounded-lg p-3 w-max pr-8 shadow-sm">
               {bookingType === 'WALK_IN' ? (
                 <><QueueIcon size={16} className="text-[#16a34a]" /><span className="font-bold text-[#16a34a]">{t('walkInLabel')}</span></>
