@@ -15,11 +15,12 @@ interface DoctorExamViewProps {
   item: QueueRecord;
   onExit: () => void;
   onRefreshQueue?: () => void;
+  onRefreshRecord?: () => void;
 }
 
 type TabId = 'exam' | 'hist';
 
-export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewProps) {
+export function DoctorExamView({ item, onExit, onRefreshQueue, onRefreshRecord }: DoctorExamViewProps) {
   const t = useTranslations('emr.visit');
   const [activeTab, setActiveTab] = useState<TabId>('exam');
   const { history, isLoading: isHistoryLoading } = usePatientHistory(item.booking.patientProfile?.id || item.booking.patientProfileId);
@@ -37,9 +38,10 @@ export function DoctorExamView({ item, onExit, onRefreshQueue }: DoctorExamViewP
         {/* Content */}
         <div className={activeTab === 'exam' ? 'block animate-in fade-in duration-200' : 'hidden'}>
           <DoctorVisitTabs 
-            bookingId={item.booking.id} 
+            booking={item.booking} 
             onExit={() => { onRefreshQueue?.(); onExit(); }}
             onHistoryClick={() => setActiveTab('hist')}
+            onRefreshBooking={onRefreshRecord}
           />
         </div>
 

@@ -24,12 +24,25 @@ export function DoctorWorkspace({
   const items = Array.isArray(queueItems) ? queueItems : [];
 
   const handleCallPatient = async (bookingId: string) => {
+    const item = items.find(q => q.booking.id === bookingId);
     await callPatient(bookingId);
-    router.push(`/${locale}/doctor/${bookingId}`);
+    
+    // Conditional routing: null serviceId goes to Consultation, otherwise to Examination
+    if (!item?.booking.serviceId) {
+      router.push(`/${locale}/doctor/consultation/${bookingId}`);
+    } else {
+      router.push(`/${locale}/doctor/examination/${bookingId}`);
+    }
   };
 
   const handleEnterExam = (bookingId: string) => {
-    router.push(`/${locale}/doctor/${bookingId}`);
+    const item = items.find(q => q.booking.id === bookingId);
+    
+    if (!item?.booking.serviceId) {
+      router.push(`/${locale}/doctor/consultation/${bookingId}`);
+    } else {
+      router.push(`/${locale}/doctor/examination/${bookingId}`);
+    }
   };
 
   const validWaitMins = items.filter(q => q.estimatedWaitMinutes && q.booking.status === BookingStatus.CHECKED_IN);

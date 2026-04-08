@@ -46,7 +46,6 @@ function getAvatarColors(name: string) {
 
 export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisabled }: DoctorQueueCardProps) {
   const t = useTranslations('doctorWorkspace.queueView');
-  console.log('item', item.booking.id);
 
   const status = item.booking.status;
   const patient = item.booking.patientProfile;
@@ -65,9 +64,24 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
   let isOpacified = false;
   let isCrossed = false;
 
+  // Mô hình A — Xác định badge theo serviceId và visitStep
+  const hasService = Boolean(item.booking.serviceId);
+  const visitStep = item.booking.medicalRecord?.visitStep;
+  const isResultsReady = visitStep === 'RESULTS_READY';
+
   if (status === BookingStatus.IN_PROGRESS) {
-    statusBg = 'bg-[#e0efff] text-[#1275e2] border-[#1275e2]/10';
-    statusLbl = t('status.inProgress');
+    if (isResultsReady) {
+      // KTV đã xong, chờ BS đọc kết quả
+      statusBg = 'bg-[#dcfce7] text-[#15803d] border-[#86efac]/30';
+      statusLbl = t('status.resultsReady', { defaultMessage: 'Có kết quả' });
+    } else {
+      statusBg = 'bg-[#e0efff] text-[#1275e2] border-[#1275e2]/10';
+      statusLbl = t('status.inProgress');
+    }
+  } else if (status === BookingStatus.CHECKED_IN && !hasService) {
+    // Chưa xác định dịch vụ — đang chờ vào phòng tư vấn
+    statusBg = 'bg-[#fff7ed] text-[#c2410c] border-[#fb923c]/20';
+    statusLbl = t('status.awaitingConsultation', { defaultMessage: 'Chờ tư vấn' });
   } else if (status === BookingStatus.NO_SHOW) {
     isOpacified = true;
     isCrossed = true;
@@ -124,6 +138,20 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold border border-[#86efac]/60">
                   <QueueIcon size={10} weight="fill" />
                   Walk-in
+                </span>
+              )}
+              {/* Mô hình A — Chờ tư vấn badge khi chưa có dịch vụ */}
+              {!hasService && !isOpacified && (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#fff7ed] text-[#c2410c] text-[10px] font-bold border border-[#fb923c]/30 animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c2410c]" />
+                  Chờ tư vấn
+                </span>
+              )}
+              {/* Có kết quả badge */}
+              {isResultsReady && !isOpacified && (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#dcfce7] text-[#15803d] text-[10px] font-bold border border-[#86efac]/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#15803d]" />
+                  Có kết quả
                 </span>
               )}
             </div>
@@ -210,7 +238,7 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
               }`}
               title={isCallDisabled ? t('actions.finishCurrentFirst', { defaultMessage: 'Hoàn tất/lưu nháp ca hiện tại trước' }) : ''}
             >
-              {t('actions.callPatient')}
+              {!hasService ? t('actions.callConsultation', { defaultMessage: 'Gọi vào tư vấn' }) : t('actions.callPatient')}
               <ArrowRightIcon size={18} className={`transition-transform ${!isCallDisabled ? 'group-hover/btn:translate-x-1' : ''}`} weight="bold" />
             </button>
           ) : status === BookingStatus.COMPLETED ? (
