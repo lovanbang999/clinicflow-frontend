@@ -1,6 +1,10 @@
 {
   "visit": {
     "loading": "Đang tải hồ sơ khám...",
+    "backToExam": "Quay lại Khám",
+    "shared": {
+      "back": "Quay lại"
+    },
     "unlockTitle": "Hoàn tất bước trước để mở khoá",
     "tabLabels": {
       "symptoms": "Triệu chứng",
@@ -8,6 +12,22 @@
       "diagnosis": "Kết quả & Chẩn đoán",
       "prescription": "Kê đơn thuốc",
       "summary": "Tổng kết & In"
+    },
+    "serviceSelection": {
+      "title": "Xác định dịch vụ chuyên khoa",
+      "description": "Bác sĩ vui lòng chọn dịch vụ khám chuyên khoa phù hợp sau khi đã hỏi thăm tình trạng bệnh nhân.",
+      "label": "Chọn dịch vụ khám",
+      "placeholder": "-- Chọn dịch vụ --",
+      "warning": "Sau khi xác nhận, hệ thống sẽ khởi tạo hóa đơn phí khám và mở khóa hồ sơ bệnh án. Thao tác này không thể hoàn tác.",
+      "confirm": "Xác nhận dịch vụ",
+      "success": "Đã xác định dịch vụ khám thành công",
+      "errorNoSelection": "Vui lòng chọn một dịch vụ",
+      "errorSubmit": "Lỗi khi cập nhật dịch vụ. Vui lòng thử lại."
+    },
+    "consultation": {
+      "title": "Hỏi thăm & Tư vấn dịch vụ",
+      "guideTitle": "💡 Hướng dẫn BS Tư vấn:",
+      "guideContent": "Vui lòng trao đổi với bệnh nhân về tình trạng sức khỏe ban đầu. Dựa trên nhu cầu và triệu chứng, hãy chọn <strong>Dịch vụ chuyên khoa</strong> phù hợp nhất để bệnh nhân thuận tiện thăm khám và thanh toán tại quầy lễ tân."
     },
     "stepLabels": {
       "symptoms": "Triệu chứng",

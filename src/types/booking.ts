@@ -30,7 +30,7 @@ export interface Booking {
   bookingCode?: string;
   patientProfileId: string;
   doctorId: string;
-  serviceId: string;
+  serviceId?: string | null;
   bookingDate: string;
   startTime?: string | null;   // null for walk-in bookings
   endTime?: string | null;     // null for walk-in bookings
@@ -41,6 +41,7 @@ export interface Booking {
   doctorNotes?: string;
   createdAt: string;
   updatedAt: string;
+  roomId?: string;
 
   // Populated fields
   patientProfile?: {
@@ -59,6 +60,10 @@ export interface Booking {
     id: string;
     fullName: string;
   };
+  room?: {
+    id: string;
+    name: string;
+  };
   service?: {
     id: string;
     name: string;
@@ -68,6 +73,7 @@ export interface Booking {
     medicalRecord?: {
       id: string;
       isFinalized: boolean;
+      visitStep?: string | null;
       chiefComplaint?: string;
       clinicalFindings?: string;
       diagnosisCode?: string;
@@ -106,7 +112,7 @@ export interface QueueRecord {
 export interface CreateBookingDto {
   patientProfileId: string;
   doctorId: string;
-  serviceId: string;
+  serviceId?: string | null;
   bookingDate: string;
   startTime?: string;      // Required for pre-bookings, omit for walk-in
   isPreBooked?: boolean;   // true = pre-booking, false = walk-in queue

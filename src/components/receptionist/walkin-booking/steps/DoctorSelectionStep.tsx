@@ -17,32 +17,29 @@ export function DoctorSelectionStep() {
     isLoadingDoctors,
     selectedDoctor,
     setSelectedDoctor,
-    selectedService,
   } = useWalkinBooking();
 
   return (
-    <div className={`relative pb-6 ${!isStepDone(2) && currentStep !== 3 ? 'opacity-50 pointer-events-none' : ''}`}>
+    <div className={`relative pb-6 ${!isStepDone(1) && currentStep !== 2 ? 'opacity-50 pointer-events-none' : ''}`}>
       <div className="absolute left-[15px] top-[32px] bottom-[-24px] w-px bg-slate-200" />
 
       <div className="flex items-start gap-4">
         <div
-          className={`w-8 h-8 rounded-full border-2 text-[13px] font-bold flex items-center justify-center shrink-0 z-10 transition-colors ${getStepNumberClass(3)} ${currentStep > 3 ? 'cursor-pointer hover:shadow-md' : ''}`}
-          onClick={() => { if (currentStep > 3) setCurrentStep(3); }}
+          className={`w-8 h-8 rounded-full border-2 text-[13px] font-bold flex items-center justify-center shrink-0 z-10 transition-colors ${getStepNumberClass(2)} ${currentStep > 2 ? 'cursor-pointer hover:shadow-md' : ''}`}
+          onClick={() => { if (currentStep > 2) setCurrentStep(2); }}
         >
-          3
+          2
         </div>
         <div className="flex-1 pt-1.5">
           <div
-            className={`mb-4 ${currentStep > 3 ? 'cursor-pointer hover:opacity-80 inline-block transition-opacity' : ''}`}
-            onClick={() => { if (currentStep > 3) setCurrentStep(3); }}
+            className={`mb-4 ${currentStep > 2 ? 'cursor-pointer hover:opacity-80 inline-block transition-opacity' : ''}`}
+            onClick={() => { if (currentStep > 2) setCurrentStep(2); }}
           >
             <h3 className="text-lg font-bold text-slate-900 mb-1">{t('title')}</h3>
-            <p className="text-sm text-slate-500 mb-0">
-              {selectedService ? t('descWithService', { service: selectedService.name }) : t('desc')}
-            </p>
+            <p className="text-sm text-slate-500 mb-0">{t('desc')}</p>
           </div>
 
-          {currentStep === 3 ? (
+          {currentStep === 2 ? (
             <div className="space-y-3 max-w-[500px]">
               {isLoadingDoctors ? (
                 // Loading skeleton
@@ -60,7 +57,7 @@ export function DoctorSelectionStep() {
                 // Empty state
                 <div className="py-8 px-4 rounded-xl bg-slate-50 border border-slate-100 text-center">
                   <MagnifyingGlassIcon size={32} className="text-slate-300 mx-auto mb-2" />
-                  <p className="text-sm font-bold text-slate-500">{t('noDocForService')}</p>
+                  <p className="text-sm font-bold text-slate-500">{t('noDoctors')}</p>
                   <p className="text-[11px] text-slate-400 mt-1">{t('noDocDesc')}</p>
                 </div>
               ) : (
@@ -88,7 +85,7 @@ export function DoctorSelectionStep() {
                         <button
                           onClick={() => {
                             setSelectedDoctor(doctor);
-                            setCurrentStep(4);
+                            setCurrentStep(3);
                           }}
                           className={`h-9 px-4 rounded-lg text-sm font-bold transition-colors cursor-pointer ${
                             isSelected
@@ -127,7 +124,7 @@ export function DoctorSelectionStep() {
                 <div className="flex flex-col items-end gap-2 shrink-0 z-10">
                   <CheckCircleIcon weight="fill" className="text-[#1570EF] w-5 h-5" />
                   <button
-                    onClick={() => setCurrentStep(3)}
+                    onClick={() => setCurrentStep(2)}
                     className="text-xs font-bold text-[#1570EF] hover:text-[#0F5ED4] flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer hover:underline"
                   >
                     <PencilSimpleIcon size={12} weight="bold" /> {t('changeBtn')}

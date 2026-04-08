@@ -6,8 +6,6 @@ import { useWalkinBooking } from '../WalkinBookingContext';
 import {
   CalendarCheckIcon,
   CalendarBlankIcon,
-  CaretRightIcon,
-  SpinnerIcon,
   QueueIcon,
 } from '@phosphor-icons/react';
 
@@ -19,17 +17,13 @@ export function BookingSummaryCard() {
     setCurrentStep,
     isStepDone,
     selectedPatient,
-    selectedService,
     selectedDoctor,
     selectedDate,
     selectedSlot,
-    isSubmitting,
-    handleSubmitBooking,
     bookingType,
   } = useWalkinBooking();
 
   const isWalkIn = bookingType === 'WALK_IN';
-  const canSubmit = isStepDone(1) && isStepDone(2) && isStepDone(3) && isStepDone(4);
 
   return (
     <div className="w-full lg:w-[360px] shrink-0">
@@ -52,19 +46,19 @@ export function BookingSummaryCard() {
           )}
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress Bar — 3 steps: BN → BS → Thời gian */}
         <div className="mb-6">
           <div className="flex items-center gap-3">
             <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#1570EF] transition-all duration-300 rounded-full"
                 style={{
-                  width: `${(isStepDone(1) ? 25 : 0) + (isStepDone(2) ? 25 : 0) + (isStepDone(3) ? 25 : 0) + (isStepDone(4) ? 25 : 0)}%`,
+                  width: `${(isStepDone(1) ? 34 : 0) + (isStepDone(2) ? 33 : 0) + (isStepDone(3) ? 33 : 0)}%`,
                 }}
               />
             </div>
             <span className="text-[11px] font-bold text-[#1570EF] uppercase shrink-0">
-              {t('stepProgress', { current: currentStep, total: 4 })}
+              {t('stepProgress', { current: Math.min(currentStep, 3), total: 3 })}
             </span>
           </div>
         </div>
@@ -85,22 +79,7 @@ export function BookingSummaryCard() {
             </div>
           </div>
 
-          {/* Service */}
-          <div className="flex flex-col gap-1 pb-4 border-b border-slate-100">
-            <div className="flex justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-              <span>{t('serviceLabel')}</span>
-              {selectedService && (
-                <button onClick={() => setCurrentStep(2)} className="text-[#1570EF] hover:underline capitalize font-semibold shadow-none">
-                  {t('changeBtn')}
-                </button>
-              )}
-            </div>
-            <div className="text-[14px] font-bold text-slate-900">
-              {selectedService ? selectedService.name : <span className="text-slate-300 italic font-normal">{t('notSelected')}</span>}
-            </div>
-          </div>
-
-          {/* Doctor */}
+          {/* Doctor — Mô hình A: service to be set by doctor later */}
           <div className="flex flex-col gap-1 pb-4 border-b border-slate-100">
             <div className="flex justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-wider">
               <span>{t('doctorLabel')}</span>
@@ -137,29 +116,10 @@ export function BookingSummaryCard() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between mt-2">
-            <span className="text-[14px] text-slate-500 font-medium">{t('serviceFee')}</span>
-            <span className="text-2xl font-bold text-slate-900">
-              {selectedService?.price ? `${Number(selectedService.price).toLocaleString()} VNĐ` : '0 VNĐ'}
-            </span>
-          </div>
-
-          <button
-            onClick={handleSubmitBooking}
-            disabled={isSubmitting || !canSubmit}
-            className="w-full h-12 bg-[#1570EF] text-white rounded-[12px] text-[15px] font-bold hover:bg-[#0F5ED4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-[0_4px_12px_rgb(21,112,239,0.2)] mt-1 cursor-pointer"
-          >
-            {isSubmitting ? (
-              <SpinnerIcon className="animate-spin" />
-            ) : (
-              isWalkIn ? t('confirmWalkIn') : t('confirmBtn')
-            )}
-            {!isSubmitting && <CaretRightIcon size={20} weight="bold" />}
-          </button>
-
-          <p className="text-[10px] text-slate-400 text-center mt-3 px-4 leading-relaxed font-medium">
-            {t('notice')}
+        {/* Note about Model A flow */}
+        <div className="mt-4 px-4 py-3.5 rounded-xl bg-amber-50 border border-amber-100">
+          <p className="text-[11px] text-amber-800 leading-relaxed font-medium">
+            {t('modelANote')}
           </p>
         </div>
       </div>

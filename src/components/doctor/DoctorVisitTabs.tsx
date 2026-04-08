@@ -10,6 +10,7 @@ import { PrescriptionTab } from './tabs/PrescriptionTab';
 import { SummaryTab } from './tabs/SummaryTab';
 import { ArrowLeftIcon, SpinnerIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
+import { type Booking } from '@/types';
 
 // Ordered steps for progress indicator
 const STEPS: { step: VisitStep; labelKey: string; tab: TabId }[] = [
@@ -23,14 +24,16 @@ const STEPS: { step: VisitStep; labelKey: string; tab: TabId }[] = [
 type TabId = 'symptoms' | 'labOrders' | 'diagnosis' | 'prescription' | 'summary';
 
 interface DoctorVisitTabsProps {
-  bookingId: string;
+  booking: Booking;
   className?: string;
   onExit?: () => void;
   onHistoryClick?: () => void;
+  onRefreshBooking?: () => void;
 }
 
-export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }: DoctorVisitTabsProps) {
+export function DoctorVisitTabs({ booking, className, onExit, onHistoryClick }: DoctorVisitTabsProps) {
   const t = useTranslations('emr.visit');
+  const bookingId = booking.id;
   const [record, setRecord] = useState<VisitResultsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabId>('symptoms');
@@ -73,6 +76,7 @@ export function DoctorVisitTabs({ bookingId, className, onExit, onHistoryClick }
       </div>
     );
   }
+
 
   return (
     <div className={cn('flex flex-col gap-5 mx-auto', className)}>

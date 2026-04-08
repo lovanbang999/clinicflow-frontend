@@ -44,11 +44,13 @@
       "waiting": "Waiting",
       "urgent": "Urgent",
       "noShow": "No-show",
+      "awaitingConsultation": "Awaiting Consultation",
       "completed": "Completed"
     },
     "actions": {
       "enterExam": "Enter Consultation",
       "callPatient": "Call Patient",
+      "callConsultation": "Call for Consultation",
       "printResult": "Print Result",
       "finishCurrentFirst": "Finish/draft current exam first"
     },

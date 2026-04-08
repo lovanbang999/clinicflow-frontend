@@ -1,6 +1,10 @@
 {
   "visit": {
     "loading": "Loading medical record...",
+    "backToExam": "Back to Exam",
+    "shared": {
+      "back": "Back"
+    },
     "unlockTitle": "Complete previous step to unlock",
     "tabLabels": {
       "symptoms": "Symptoms",
@@ -8,6 +12,11 @@
       "diagnosis": "Results & Diagnosis",
       "prescription": "Prescription",
       "summary": "Summary & Print"
+    },
+    "consultation": {
+      "title": "Inquiry & Consultation",
+      "guideTitle": "💡 Consultation Guide:",
+      "guideContent": "Please discuss the patient's initial health status. Based on needs and symptoms, select the most appropriate <strong>Specialized Service</strong> for the patient to facilitate examination and payment at the reception desk."
     },
     "stepLabels": {
       "symptoms": "Symptoms",

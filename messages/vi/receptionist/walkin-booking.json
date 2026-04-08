@@ -79,7 +79,10 @@
     "selectDoctorFirst": "Vui lòng chọn bác sĩ trước để xem khung giờ trống",
     "loadingSlots": "Đang tải khung giờ...",
     "noSlotsAvailable": "Không có khung giờ trống",
-    "noSlotsDesc": "Bác sĩ không có lịch hoặc đã đầy cho ngày này. Vui lòng chọn ngày khác."
+    "noSlotsDesc": "Bác sĩ không có lịch hoặc đã đầy cho ngày này. Vui lòng chọn ngày khác.",
+    "submitWalkIn": "Xác nhận vào hàng chờ",
+    "submitPreBooking": "Xác nhận đặt lịch",
+    "submitting": "Đang xử lý..."
   },
   "summary": {
     "title": "Tổng quan",
@@ -97,18 +100,26 @@
     "serviceFee": "Tổng phí dịch vụ",
     "confirmBtn": "Xác nhận đặt lịch",
     "confirmWalkIn": "Xếp vào hàng chờ",
-    "notice": "Bằng cách xác nhận, bệnh nhân sẽ được thêm vào hàng đợi ngay lập tức."
+    "notice": "Bằng cách xác nhận, bệnh nhân sẽ được thêm vào hàng đợi ngay lập tức.",
+    "modelANote": "Dịch vụ chuyên khoa sẽ được bác sĩ chỉ định sau khi tư vấn trực tiếp với bệnh nhân."
   },
   "success": {
     "title": "Đặt lịch thành công!",
     "message": "Lịch hẹn đã được xác nhận vào hệ thống.",
     "clinicName": "Smart Clinic",
     "receiptTitle": "Phiếu xác nhận đặt lịch",
-    "patientLabel": "Bệnh nhân:",
-    "receptionistLabel": "Người đặt:",
-    "receptionistName": "Sarah Jenkins (Lễ tân)",
-    "payBtn": "Thanh toán",
-    "newBookingBtn": "Đặt lịch mới"
+    "queueNumber": "Số thứ tự",
+    "patientLabel": "Bệnh nhân",
+    "doctorLabel": "Bác sĩ",
+    "roomLabel": "Phòng khám",
+    "bookingCodeLabel": "Mã đặt lịch",
+    "estimatedWait": "Chờ dự kiến",
+    "minutes": "phút",
+    "dateLabel": "Thời gian",
+    "waitingRoomInfo": "Lưu ý: Vui lòng theo dõi số thứ tự tại màn hình phòng chờ.",
+    "printBtn": "In phiếu",
+    "newBookingBtn": "Đặt lịch mới",
+    "billingNote": "Hệ thống sẽ tự động tạo phiếu thu sau khi bác sĩ chỉ định dịch vụ chuyên khoa."
   },
   "toasts": {
     "fillAllSteps": "Vui lòng hoàn thành đủ các bước",

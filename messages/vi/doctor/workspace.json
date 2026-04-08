@@ -44,11 +44,13 @@
       "waiting": "Chờ",
       "urgent": "Ưu tiên",
       "noShow": "No-show",
+      "awaitingConsultation": "Chờ tư vấn",
       "completed": "Hoàn thành"
     },
     "actions": {
       "enterExam": "Vào phòng khám",
       "callPatient": "Gọi vào khám",
+      "callConsultation": "Gọi vào tư vấn",
       "printResult": "In phiếu kết quả",
       "finishCurrentFirst": "Hoàn tất/lưu nháp ca hiện tại trước"
     },
