@@ -1,80 +1,180 @@
 'use client';
 
-
 import { useTranslations } from 'next-intl';
-import { CheckCircleIcon, MoneyIcon, SpinnerIcon } from '@phosphor-icons/react';
+import {
+  CheckCircleIcon,
+  PrinterIcon,
+  QueueIcon,
+  ClockIcon,
+  UserIcon,
+  PlusIcon,
+  MapPinIcon,
+} from '@phosphor-icons/react';
 import { useWalkinBooking } from '../WalkinBookingContext';
-import { useRouter } from 'next/navigation';
-
-import { useState } from 'react';
+import { format } from 'date-fns';
+import { PrintableWalkinTicket } from '../PrintableWalkinTicket';
 
 export function CompletedBooking() {
   const t = useTranslations('receptionistWalkinBooking.success');
-  const router = useRouter();
-  const { selectedPatient, completedBooking, handleReset } = useWalkinBooking();
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  const { selectedPatient, selectedDoctor, completedBooking, completedQueue, handleReset } = useWalkinBooking();
 
-  const handlePay = async () => {
-    if (!completedBooking?.id) {
-      router.push('/receptionist/billing');
-      return;
-    }
-
-    try {
-      setIsRedirecting(true);
-      // Phương án B: redirect to the booking invoices page
-      router.push(`/receptionist/billing/booking/${completedBooking.id}`);
-    } catch (error) {
-      console.error('Failed to redirect to billing:', error);
-      router.push('/receptionist/billing');
-    } finally {
-      setIsRedirecting(false);
-    }
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-2xl p-8 shadow-sm border border-slate-100 mt-6">
-      <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CheckCircleIcon size={32} weight="fill" />
+    <div className="max-w-lg mx-auto mt-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {/* Success Header */}
+      <div className="text-center mb-6">
+        <div className="w-16 h-16 bg-emerald-50 border-2 border-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <CheckCircleIcon size={36} weight="fill" className="text-emerald-500" />
         </div>
         <h2 className="text-2xl font-bold text-slate-800">{t('title')}</h2>
-        <p className="text-slate-500 mt-2">{t('message')}</p>
+        <p className="text-slate-500 mt-1 text-sm">{t('message')}</p>
       </div>
 
-      <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
-        <div className="text-center pb-4 border-b border-dashed border-slate-300 mb-4">
-          <h3 className="font-bold text-lg text-[#1570EF]">{t('clinicName')}</h3>
-          <p className="text-sm text-slate-500">{t('receiptTitle')}</p>
+      {/* Queue Ticket Card */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-100 overflow-hidden mb-5">
+        {/* Ticket Header */}
+        <div className="bg-[#1570EF] px-6 py-5 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-1">{t('clinicName')}</p>
+              <p className="text-sm text-blue-100">{t('receiptTitle')}</p>
+            </div>
+            {completedQueue && (
+              <div className="text-right">
+                <p className="text-xs text-blue-200 uppercase tracking-wider mb-1">{t('queueNumber')}</p>
+                <div className="flex items-center justify-end gap-2">
+                  <QueueIcon size={20} weight="fill" className="text-blue-200" />
+                  <span className="text-4xl font-black">{completedQueue.queuePosition}</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-slate-500">{t('patientLabel')}</span>
-            <span className="font-semibold text-slate-800">{selectedPatient?.fullName}</span>
+
+        {/* Ticket Dashed Divider */}
+        <div className="relative px-6 py-0">
+          <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-50" />
+          <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-50" />
+          <div className="border-t-2 border-dashed border-slate-200 py-0" />
+        </div>
+
+        {/* Ticket Body */}
+        <div className="px-6 py-5 space-y-4">
+          {/* Patient */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+              <UserIcon size={18} className="text-slate-500" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('patientLabel')}</p>
+              <p className="font-bold text-slate-900 truncate">{selectedPatient?.fullName ?? '—'}</p>
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span className="text-slate-500">{t('receptionistLabel')}</span>
-            <span className="font-semibold text-slate-800">{t('receptionistName')}</span>
+
+          {/* Doctor */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+              <UserIcon size={18} className="text-slate-500" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('doctorLabel')}</p>
+              <p className="font-bold text-slate-900 truncate">{selectedDoctor?.fullName ?? '—'}</p>
+            </div>
           </div>
+
+          {/* Clinic Room */}
+          {completedBooking?.room && (
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                <MapPinIcon size={18} weight="fill" className="text-emerald-500" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('roomLabel')}</p>
+                <p className="font-bold text-slate-900 truncate">{completedBooking.room.name}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Booking Code */}
+          {completedBooking?.bookingCode && (
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-[#EFF4FF] flex items-center justify-center shrink-0">
+                <span className="text-[#1570EF] font-black text-sm">#</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('bookingCodeLabel')}</p>
+                <p className="font-mono font-bold text-slate-900">{completedBooking.bookingCode}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Wait Time */}
+          {completedQueue?.estimatedWaitMinutes !== undefined && (
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
+                <ClockIcon size={18} className="text-amber-500" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('estimatedWait')}</p>
+                <p className="font-bold text-slate-900">~{completedQueue.estimatedWaitMinutes} {t('minutes')}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Date */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+              <ClockIcon size={18} className="text-slate-500" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('dateLabel')}</p>
+              <p className="font-bold text-slate-900">
+                {format(new Date(), 'dd/MM/yyyy — HH:mm')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Room Info Banner */}
+        <div className="bg-amber-50 border-t border-amber-100 px-6 py-3 flex items-center gap-2">
+          <QueueIcon size={16} className="text-amber-600 shrink-0" weight="fill" />
+          <p className="text-xs font-semibold text-amber-800">{t('waitingRoomInfo')}</p>
         </div>
       </div>
 
-      <div className="flex gap-4">
+      {/* Action Buttons */}
+      <div className="flex gap-3">
         <button
-          onClick={handlePay}
-          disabled={isRedirecting}
-          className="flex-1 flex items-center justify-center gap-2 bg-[#1392ec] text-white py-2.5 rounded-lg font-medium hover:bg-[#1180d0] transition cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+          onClick={handlePrint}
+          className="flex-1 flex items-center justify-center gap-2 border-2 border-[#1570EF] text-[#1570EF] py-3 rounded-xl font-bold hover:bg-[#EFF4FF] transition-all cursor-pointer"
         >
-          {isRedirecting ? <SpinnerIcon className="animate-spin" size={18} /> : <MoneyIcon size={18} />}
-          {t('payBtn')}
+          <PrinterIcon size={18} />
+          {t('printBtn')}
         </button>
         <button
           onClick={handleReset}
-          className="flex-1 bg-white border border-slate-200 text-slate-700 py-2.5 rounded-lg font-medium hover:bg-slate-50 transition cursor-pointer"
+          className="flex-1 flex items-center justify-center gap-2 bg-[#1570EF] text-white py-3 rounded-xl font-bold hover:bg-[#1165D8] transition-all shadow-lg shadow-[#1570EF]/20 cursor-pointer"
         >
+          <PlusIcon size={18} />
           {t('newBookingBtn')}
         </button>
       </div>
+
+      {/* Note about billing */}
+      <p className="text-center text-xs text-slate-400 mt-4 leading-relaxed">
+        {t('billingNote')}
+      </p>
+
+      {/* Printable Area - Hidden on screen */}
+      {completedBooking && (
+        <PrintableWalkinTicket 
+          booking={completedBooking} 
+          queue={completedQueue || undefined} 
+        />
+      )}
     </div>
   );
 }
