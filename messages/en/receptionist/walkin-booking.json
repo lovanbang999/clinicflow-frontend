@@ -62,7 +62,8 @@
     "changeBtn": "Change",
     "noDocForService": "No doctors available for this service",
     "noDocDesc": "Please contact admin to assign a doctor",
-    "loadingDoctors": "Loading doctors..."
+    "loadingDoctors": "Loading doctors...",
+    "alreadyBooked": "Patient already has an appointment with this doctor"
   },
   "time": {
     "title": "Appointment Time",
