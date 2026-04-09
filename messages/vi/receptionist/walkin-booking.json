@@ -62,7 +62,8 @@
     "changeBtn": "Thay đổi",
     "noDocForService": "Không có bác sĩ cho dịch vụ này",
     "noDocDesc": "Hãy liên hệ quản trị để phân công bác sĩ",
-    "loadingDoctors": "Đang tải danh sách bác sĩ..."
+    "loadingDoctors": "Đang tải danh sách bác sĩ...",
+    "alreadyBooked": "Bệnh nhân đã có lịch hẹn với bác sĩ"
   },
   "time": {
     "title": "Thời gian khám",

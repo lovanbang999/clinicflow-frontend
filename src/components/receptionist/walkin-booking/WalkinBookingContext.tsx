@@ -41,6 +41,8 @@ interface WalkinBookingContextType {
   // Doctor Selection (Step 2 — Mô hình A: không có service step)
   doctors: Doctor[];
   isLoadingDoctors: boolean;
+  bookedDoctorIds: Set<string>;
+  isCheckingDuplicates: boolean;
   selectedDoctor: Doctor | null;
   setSelectedDoctor: (doctor: Doctor | null) => void;
 
@@ -91,6 +93,8 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   // Doctor (Step 2 — load all doctors, no service filter)
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [isLoadingDoctors, setIsLoadingDoctors] = useState(true);
+  const [bookedDoctorIds, setBookedDoctorIds] = useState<Set<string>>(new Set());
+  const [isCheckingDuplicates, setIsCheckingDuplicates] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
   // Appointment Time (Step 3)
@@ -142,6 +146,43 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (bookingType === 'PRE_BOOKING') void fetchSlots();
   }, [fetchSlots, bookingType]);
+
+  // Fetch existing bookings for the patient to prevent duplicates
+  const fetchPatientBookings = useCallback(async () => {
+    if (!selectedPatient) {
+      setBookedDoctorIds(new Set());
+      return;
+    }
+
+    setIsCheckingDuplicates(true);
+    try {
+      const today = format(selectedDate, 'yyyy-MM-dd');
+      const { bookings } = await bookingsApi.getAll({
+        patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id,
+        date: today,
+        limit: 100, // Reasonable limit for a day
+      });
+
+      // Filter for active bookings (not cancelled/no-show/completed)
+      const activeBookings = bookings.filter(b => 
+        !['CANCELLED', 'NO_SHOW', 'COMPLETED'].includes(b.status)
+      );
+
+      setBookedDoctorIds(new Set(activeBookings.map(b => b.doctorId)));
+    } catch (err) {
+      console.error('[fetchPatientBookings]', err);
+      // Fallback to empty set on error to not block flow, but log it
+      setBookedDoctorIds(new Set());
+    } finally {
+      setIsCheckingDuplicates(false);
+    }
+  }, [selectedPatient, selectedDate]);
+
+  useEffect(() => {
+    if (selectedPatient) {
+      void fetchPatientBookings();
+    }
+  }, [selectedPatient, selectedDate, fetchPatientBookings]);
 
   const handleSearchPatient = async (page: number = 1) => {
     setIsSearching(true);
@@ -239,6 +280,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setSearchResults([]);
     setShowCreateForm(false);
     setSelectedDoctor(null);
+    setBookedDoctorIds(new Set());
     setSelectedDate(new Date());
     setSelectedSlot(null);
     setAvailableSlots([]);
@@ -268,7 +310,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     pagination, setPage,
     showCreateForm, setShowCreateForm, newPatient, setNewPatient, isCreatingPatient,
     handleSearchPatient, handleCreatePatient, selectPatient,
-    doctors, isLoadingDoctors,
+    doctors, isLoadingDoctors, bookedDoctorIds, isCheckingDuplicates,
     selectedDoctor, setSelectedDoctor,
     selectedDate, setSelectedDate, selectedSlot, selectSlot,
     availableSlots, isLoadingSlots, patientNotes, setPatientNotes,
@@ -278,7 +320,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   }), [
     currentStep, bookingType, searchQuery, isSearching, selectedPatient, searchResults,
     pagination, showCreateForm, newPatient, isCreatingPatient,
-    doctors, isLoadingDoctors,
+    doctors, isLoadingDoctors, bookedDoctorIds, isCheckingDuplicates,
     selectedDoctor, selectedDate, selectedSlot,
     availableSlots, isLoadingSlots, patientNotes,
     isSubmitting, completedBooking, completedQueue,

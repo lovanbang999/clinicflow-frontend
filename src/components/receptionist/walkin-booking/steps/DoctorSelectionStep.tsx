@@ -15,6 +15,7 @@ export function DoctorSelectionStep() {
     getStepNumberClass,
     doctors,
     isLoadingDoctors,
+    bookedDoctorIds,
     selectedDoctor,
     setSelectedDoctor,
   } = useWalkinBooking();
@@ -63,13 +64,27 @@ export function DoctorSelectionStep() {
               ) : (
                 doctors.map((doctor: Doctor) => {
                   const isSelected = selectedDoctor?.id === doctor.id;
+                  const hasBookedToday = bookedDoctorIds.has(doctor.id);
+
                   return (
                     <div
                       key={doctor.id}
-                      className={`border-2 rounded-xl p-3 flex items-center gap-3 transition-all ${
-                        isSelected ? 'border-[#1570EF] bg-white' : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-sm'
+                      className={`border-2 rounded-xl p-3 flex items-center gap-3 transition-all relative ${
+                        hasBookedToday
+                          ? 'opacity-60 grayscale select-none border-slate-100 bg-slate-50'
+                          : isSelected
+                          ? 'border-[#1570EF] bg-white'
+                          : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-sm'
                       }`}
                     >
+                      {hasBookedToday && (
+                        <div className="absolute top-2 right-2 z-20">
+                          <div className="bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-amber-100 shadow-sm flex items-center gap-1">
+                            <span>⌚</span> {t('alreadyBooked')}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-slate-100 relative">
                         {doctor.avatar
                           ? <Image src={doctor.avatar} alt={doctor.fullName} fill className="object-cover" />
@@ -81,14 +96,20 @@ export function DoctorSelectionStep() {
                         <p className="text-xs text-slate-500 mt-0.5">{doctor.specialties?.[0] || t('generalPractitioner')}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-[11px] font-bold text-[#12B76A] bg-[#ecfdf3] px-2 py-1 rounded-md">{t('available')}</span>
+                        {!hasBookedToday && (
+                          <span className="text-[11px] font-bold text-[#12B76A] bg-[#ecfdf3] px-2 py-1 rounded-md">{t('available')}</span>
+                        )}
                         <button
                           onClick={() => {
+                            if (hasBookedToday) return;
                             setSelectedDoctor(doctor);
                             setCurrentStep(3);
                           }}
+                          disabled={hasBookedToday}
                           className={`h-9 px-4 rounded-lg text-sm font-bold transition-colors cursor-pointer ${
-                            isSelected
+                            hasBookedToday
+                              ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+                              : isSelected
                               ? 'bg-[#1570EF] text-white'
                               : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
                           }`}
