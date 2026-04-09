@@ -10,6 +10,7 @@
     "noData": "No patients currently in queue",
     "callPatient": "Call Patient",
     "markNoShow": "Mark No-show",
+    "printTicket": "Reprint Ticket",
     "completeVisit": "Finish Visit",
     "status": {
       "waiting": "Waiting",

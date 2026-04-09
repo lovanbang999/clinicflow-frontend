@@ -10,6 +10,7 @@
     "noData": "Hiện không có bệnh nhân nào trong hàng đợi",
     "callPatient": "Mời vào khám",
     "markNoShow": "Đánh dấu vắng",
+    "printTicket": "In lại phiếu",
     "completeVisit": "Kết thúc khám",
     "status": {
       "waiting": "Chờ khám",
