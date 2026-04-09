@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   UsersIcon,
@@ -7,10 +8,13 @@ import {
   ArrowRightIcon,
   TimerIcon,
   ProhibitIcon,
-  CheckIcon
+  CheckIcon,
+  PrinterIcon
 } from '@phosphor-icons/react';
 import { useQueue } from '@/lib/hooks/appointment/useQueue';
 import { BookingStatus } from '@/types';
+import { QueueRecord } from '@/lib/api/appointment/queue';
+import { PrintableWalkinTicket } from '@/components/receptionist/walkin-booking/PrintableWalkinTicket';
 
 interface QueueBoardProps {
   doctorId?: string;
@@ -29,6 +33,19 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
     callPatient,
     markNoShow
   } = useQueue(doctorId);
+
+  const [printingItem, setPrintingItem] = useState<QueueRecord | null>(null);
+
+  useEffect(() => {
+    if (printingItem) {
+      // Small delay to ensure the printable ticket is rendered in the DOM
+      const timer = setTimeout(() => {
+        window.print();
+        setPrintingItem(null);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [printingItem]);
 
   const handleCallPatient = async (bookingId: string) => {
     await callPatient(bookingId);
@@ -261,6 +278,14 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                                   <ProhibitIcon size={18} weight="bold" />
                                 </button>
                               )}
+
+                              <button
+                                onClick={() => setPrintingItem(item)}
+                                className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-md transition-colors cursor-pointer"
+                                title={t('printTicket')}
+                              >
+                                <PrinterIcon size={18} weight="bold" />
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -273,6 +298,14 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
           </div>
         </div>
       </div>
+
+      {/* Printable Area - Hidden on screen */}
+      {printingItem && (
+        <PrintableWalkinTicket 
+          booking={printingItem.booking} 
+          queue={{ queuePosition: printingItem.queuePosition }} 
+        />
+      )}
     </div>
   );
 }
