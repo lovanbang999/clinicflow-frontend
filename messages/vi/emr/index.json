@@ -24,7 +24,8 @@
       "errorNoSelection": "Vui lòng chọn một dịch vụ",
       "errorSubmit": "Lỗi khi cập nhật dịch vụ. Vui lòng thử lại.",
       "doctorLabel": "Chọn Bác sĩ/Chuyên gia",
-      "doctorPlaceholder": "-- Chọn bác sĩ (Tùy chọn) --"
+      "doctorPlaceholder": "-- Chọn bác sĩ (Tùy chọn) --",
+      "noDoctorsFound": "Không tìm thấy bác sĩ phù hợp"
     },
     "consultation": {
       "title": "Hỏi thăm & Tư vấn dịch vụ",
