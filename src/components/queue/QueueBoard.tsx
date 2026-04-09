@@ -11,10 +11,14 @@ import {
   CheckIcon,
   PrinterIcon
 } from '@phosphor-icons/react';
-import { useQueue } from '@/lib/hooks/appointment/useQueue';
-import { BookingStatus } from '@/types';
 import { QueueRecord } from '@/lib/api/appointment/queue';
 import { PrintableWalkinTicket } from '@/components/receptionist/walkin-booking/PrintableWalkinTicket';
+import { useTicketPrint, TicketData } from '@/lib/hooks/billing/useTicketPrint';
+import { PrintableTicket } from '@/components/shared/PrintableTicket';
+import { InvoiceStatus } from '@/lib/api/billing/billing';
+import { MoneyIcon } from '@phosphor-icons/react';
+import { useQueue } from '@/lib/hooks/appointment/useQueue';
+import { BookingStatus } from '@/types';
 
 interface QueueBoardProps {
   doctorId?: string;
@@ -34,11 +38,16 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
     markNoShow
   } = useQueue(doctorId);
 
+  const {
+    activeTicket,
+    printTicket,
+  } = useTicketPrint();
+
+  // Legacy printing state for walk-in tickets (pre-refactor compat)
   const [printingItem, setPrintingItem] = useState<QueueRecord | null>(null);
 
   useEffect(() => {
     if (printingItem) {
-      // Small delay to ensure the printable ticket is rendered in the DOM
       const timer = setTimeout(() => {
         window.print();
         setPrintingItem(null);
@@ -210,6 +219,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                     <th className="px-5 py-3 w-16 text-center">STT</th>
                     <th className="px-5 py-3">{t('table.patient')}</th>
                     <th className="px-5 py-3">{t('table.status')}</th>
+                    <th className="px-5 py-3">Thanh toán</th>
                     <th className="px-5 py-3">{t('table.waitTime')}</th>
                     <th className="px-5 py-3 text-right">{t('table.actions')}</th>
                   </tr>
@@ -257,6 +267,35 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                               <span className="text-xs">{t('estimatedTime', { time: item.estimatedWaitMinutes })}</span>
                             </div>
                           </td>
+                          <td className="px-5 py-4">
+                            {(() => {
+                              const booking = item.booking;
+                              const invoices = booking.invoices || [];
+                              const hasUnpaid = invoices.some(
+                                (inv) => inv.status !== InvoiceStatus.PAID && inv.status !== InvoiceStatus.CANCELLED
+                              );
+
+                              if (hasUnpaid) {
+                                return (
+                                  <div className="flex items-center gap-1 text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 w-fit">
+                                    <MoneyIcon size={14} weight="bold" />
+                                    <span className="text-[10px] font-bold uppercase tracking-tight">Cần thu phí</span>
+                                  </div>
+                                );
+                              }
+
+                              if (invoices.length > 0) {
+                                return (
+                                  <div className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 w-fit">
+                                    <CheckIcon size={14} weight="bold" />
+                                    <span className="text-[10px] font-bold uppercase tracking-tight">Đã TT</span>
+                                  </div>
+                                );
+                              }
+
+                              return <span className="text-[10px] text-slate-300 italic">N/A</span>;
+                            })()}
+                          </td>
                           <td className="px-5 py-4 text-right">
                             <div className="flex items-center gap-2 justify-end">
                               {isDoctorView && item.booking.status === BookingStatus.CHECKED_IN && (
@@ -280,7 +319,20 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                               )}
 
                               <button
-                                onClick={() => setPrintingItem(item)}
+                                onClick={() => {
+                                  const booking = item.booking;
+                                  const data: TicketData = {
+                                    patientName: booking.patientProfile?.fullName || 'N/A',
+                                    patientCode: booking.patientProfile?.patientCode || 'N/A',
+                                    queueNumber: item.queuePosition,
+                                    roomName: booking.room?.name || doctorName || 'Phòng khám',
+                                    doctorName: doctorName,
+                                    serviceName: booking.service?.name || 'Khám tư vấn',
+                                    type: booking.serviceId ? 'CONSULTATION' : 'CONSULTATION', // Default for now
+                                    date: new Date(),
+                                  };
+                                  printTicket(data);
+                                }}
                                 className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-md transition-colors cursor-pointer"
                                 title={t('printTicket')}
                               >
@@ -300,6 +352,9 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
       </div>
 
       {/* Printable Area - Hidden on screen */}
+      <PrintableTicket ticket={activeTicket} />
+
+      {/* Legacy Printable Area */}
       {printingItem && (
         <PrintableWalkinTicket 
           booking={printingItem.booking} 

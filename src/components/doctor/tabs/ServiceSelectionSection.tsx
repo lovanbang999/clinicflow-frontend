@@ -117,7 +117,7 @@ export function ServiceSelectionSection({
                 ))
               ) : (
                 <SelectItem value="none" disabled>
-                  {t('serviceSelection.noDoctorsFound')}
+                  {t('noDoctorsFound')}
                 </SelectItem>
               )}
             </SelectContent>

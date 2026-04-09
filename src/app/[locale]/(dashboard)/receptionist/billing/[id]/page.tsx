@@ -10,7 +10,6 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
   CaretLeftIcon,
-  MoneyIcon,
   PrinterIcon,
   StethoscopeIcon,
   TestTubeIcon,
@@ -22,9 +21,13 @@ import { InvoiceServiceList } from '@/components/dashboard/billing/InvoiceServic
 import { InvoicePaymentHistory } from '@/components/dashboard/billing/InvoicePaymentHistory';
 import { InvoiceSummary } from '@/components/dashboard/billing/InvoiceSummary';
 import { InvoicePatientInfo } from '@/components/dashboard/billing/InvoicePatientInfo';
+import { useTranslations, useLocale } from 'next-intl';
+import { useTicketPrint, TicketData } from '@/lib/hooks/billing/useTicketPrint';
+import { PrintableTicket } from '@/components/shared/PrintableTicket';
 import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
 import { InvoiceStatusBadge } from '@/components/dashboard/billing/InvoiceStatusBadge';
-import { useTranslations, useLocale } from 'next-intl';
+import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
+import { toast } from 'sonner';
 
 export default function InvoiceDetailPage() {
   const params = useParams();
@@ -37,12 +40,32 @@ export default function InvoiceDetailPage() {
   
   const { currentInvoice, loadingInvoice, fetchInvoiceById, addPayment, addItemToInvoice, removeItemFromInvoice } = useBilling();
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
+  const { activeTicket, printTicket } = useTicketPrint();
+
+  const { onBillingRefresh } = useLabOrderSocket();
 
   useEffect(() => {
     if (id) {
       fetchInvoiceById(id);
     }
   }, [id, fetchInvoiceById]);
+
+  // Real-time refresh when doctor updates lab orders
+  useEffect(() => {
+    if (!id || !onBillingRefresh) return;
+    
+    const unsubscribe = onBillingRefresh((payload) => {
+      // If the update is for this invoice's booking, refresh
+      if (currentInvoice?.bookingId === payload.bookingId) {
+        fetchInvoiceById(id);
+        toast.info(t('listRefreshed'), {
+           description: "Có cập nhật mới từ phòng khám/chỉ định."
+        });
+      }
+    });
+    
+    return () => unsubscribe?.();
+  }, [id, onBillingRefresh, currentInvoice?.bookingId, fetchInvoiceById, t]);
 
   if (loadingInvoice || !currentInvoice) {
     return (
@@ -112,24 +135,56 @@ export default function InvoiceDetailPage() {
             {typeInfo.label}
           </span>
 
-          {currentInvoice.status === InvoiceStatus.PAID && (
-            <Button
-              variant="outline"
-              className="hidden sm:flex border-slate-200 text-slate-600 hover:text-slate-900 cursor-pointer"
-              onClick={() => window.print()}
-            >
-              <PrinterIcon size={18} className="mr-2" /> {t('detail.printBtn')}
-            </Button>
-          )}
+          <div className="flex items-center gap-2 ml-4">
+            {(currentInvoice.status === InvoiceStatus.DRAFT || currentInvoice.status === InvoiceStatus.OPEN) && (
+              <Button 
+                onClick={() => setPaymentModalOpen(true)}
+                className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white cursor-pointer"
+              >
+                {t('detail.payBtn')}
+              </Button>
+            )}
+          </div>
 
-          {currentInvoice.status !== InvoiceStatus.PAID && currentInvoice.status !== InvoiceStatus.CANCELLED && (
-            <Button
-              onClick={() => setPaymentModalOpen(true)}
-              className="bg-[#1392ec] hover:bg-[#1180d0] text-white cursor-pointer"
-            >
-              <MoneyIcon size={18} weight="bold" className="mr-2" />
-              {t('detail.payBtn')}
-            </Button>
+          {currentInvoice.status === InvoiceStatus.PAID && (
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="hidden sm:flex border-slate-200 text-slate-600 hover:text-slate-900 cursor-pointer"
+                onClick={() => window.print()}
+              >
+                <PrinterIcon size={18} className="mr-2" /> {t('detail.printBtn')}
+              </Button>
+
+              <Button
+                variant="outline"
+                className="border-[#1392ec] text-[#1392ec] hover:bg-[#1392ec]/10 cursor-pointer"
+                onClick={() => {
+                  // Print tickets for all items
+                  const booking = currentInvoice.booking;
+                  currentInvoice.items.forEach((item, index) => {
+                    const data: TicketData = {
+                      patientName: booking?.patientProfile?.fullName || 'N/A',
+                      patientCode: booking?.patientProfile?.patientCode || 'N/A',
+                      // Try to get queue number from various sources
+                      queueNumber: item.labOrder?.queueNumber || 
+                                  booking?.queueRecord?.queuePosition || 
+                                  index + 1, // Fallback to index if no position 
+                      roomName: item.labOrder?.roomName || 
+                               booking?.room?.name || 
+                               'Phòng khám',
+                      doctorName: booking?.doctor?.fullName,
+                      serviceName: item.itemName,
+                      type: item.labOrder ? 'LAB' : 'CONSULTATION',
+                      date: new Date(),
+                    };
+                    printTicket(data);
+                  });
+                }}
+              >
+                <PrinterIcon size={18} className="mr-2" /> In Phiếu STT
+              </Button>
+            </div>
           )}
         </div>
       </div>
@@ -166,7 +221,8 @@ export default function InvoiceDetailPage() {
       />
 
       {/* Hidden area for printing only */}
-      <PrintableInvoice invoice={currentInvoice} />
+      {!activeTicket && <PrintableInvoice invoice={currentInvoice} />}
+      <PrintableTicket ticket={activeTicket} />
     </div>
   );
 }

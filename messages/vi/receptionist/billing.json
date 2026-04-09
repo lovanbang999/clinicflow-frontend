@@ -4,6 +4,7 @@
   "searchPlaceholder": "Tìm Mã Khám / Tên BN...",
   "searchNotFound": "Không tìm thấy Mã Khám hoặc Bệnh nhân.",
   "searchError": "Có lỗi xảy ra khi tìm kiếm.",
+  "listRefreshed": "Danh sách đã tự động cập nhật",
   "filter": {
     "all": "Tất cả trạng thái",
     "draft": "Bản nháp",
