@@ -97,6 +97,12 @@ export interface Booking {
       labOrders?: LabOrder[];
     };
   queueRecord?: QueueRecord;
+  invoices?: Array<{
+    id: string;
+    status: string;
+    invoiceType: string;
+    totalAmount: number;
+  }>;
 }
 
 export interface QueueRecord {

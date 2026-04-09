@@ -18,7 +18,7 @@
       "description": "Bác sĩ vui lòng chọn dịch vụ khám chuyên khoa phù hợp sau khi đã hỏi thăm tình trạng bệnh nhân.",
       "label": "Chọn dịch vụ khám",
       "placeholder": "-- Chọn dịch vụ --",
-      "warning": "Sau khi xác nhận, hệ thống sẽ khởi tạo hóa đơn phí khám và mở khóa hồ sơ bệnh án. Thao tác này không thể hoàn tác.",
+      "warning": "Sau khi bác sĩ bấm 'Xác nhận dịch vụ', hệ thống sẽ gửi thông báo đến Lễ tân. Bác sĩ hãy hướng dẫn bệnh nhân ra quầy thanh toán để nhận hóa đơn và số thứ tự (STT) cho phòng khám tiếp theo.",
       "confirm": "Xác nhận dịch vụ",
       "success": "Đã xác định dịch vụ khám thành công",
       "errorNoSelection": "Vui lòng chọn một dịch vụ",

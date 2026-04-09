@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBilling } from '@/lib/hooks/billing/useBilling';
 import { InvoiceStatus } from '@/lib/api/billing/billing';
+import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { Card } from '@/components/ui/card';
 import { ReceiptIcon, MagnifyingGlassIcon, SpinnerIcon } from '@phosphor-icons/react';
@@ -23,14 +24,33 @@ export default function BillingPage() {
   const t = useTranslations('receptionistBilling');
   const router = useRouter();
   const { invoices, loading, fetchInvoices } = useBilling();
+  const { onBillingRefresh } = useLabOrderSocket();
   
   const [statusFilter, setStatusFilter] = useState<InvoiceStatus | string>('ALL_STATUS');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   
-  useEffect(() => {
-    fetchInvoices({ status: statusFilter === 'ALL_STATUS' ? undefined : statusFilter as InvoiceStatus });
+  const refreshInvoices = useCallback(() => {
+    void fetchInvoices({ status: statusFilter === 'ALL_STATUS' ? undefined : statusFilter as InvoiceStatus });
   }, [fetchInvoices, statusFilter]);
+
+  useEffect(() => {
+    refreshInvoices();
+  }, [refreshInvoices]);
+
+  // Real-time refresh when billing updates occur (e.g. lab orders synced)
+  useEffect(() => {
+    if (!onBillingRefresh) return;
+
+    return onBillingRefresh(() => {
+      console.log('Real-time: Refreshing billing list due to billing_list_refresh event');
+      refreshInvoices();
+      toast.info(t('listRefreshed'), { 
+        description: 'Có cập nhật thanh toán mới cho chỉ định CLS/Thủ thuật',
+        icon: '🔔'
+      });
+    });
+  }, [onBillingRefresh, refreshInvoices, t]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();

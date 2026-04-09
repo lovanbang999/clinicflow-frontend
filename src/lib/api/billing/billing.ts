@@ -36,6 +36,7 @@ export interface InvoiceItem {
   labOrderId?: string;
   createdAt: string;
   updatedAt: string;
+  labOrder?: LabOrderForBilling;
 }
 
 export interface Payment {
@@ -69,6 +70,10 @@ export interface InvoiceBooking {
   queueRecord?: {
     queuePosition: number;
     estimatedWaitMinutes: number;
+  };
+  room?: {
+    id: string;
+    name: string;
   };
 }
 
@@ -109,6 +114,8 @@ export interface LabOrderForBilling {
   testName: string;
   testDescription?: string;
   status: string;
+  queueNumber?: number;
+  roomName?: string;
   orderedAt: string;
   createdAt: string;
 }
