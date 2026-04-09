@@ -24,11 +24,8 @@ export default function DoctorConsultationPage() {
       setIsLoading(true);
       const res = await queueApi.getByBookingId(id);
       
-      // If service is already assigned, redirect to examination Room
-      if (res.booking.serviceId) {
-        router.replace(`/${locale}/doctor/examination/${id}`);
-        return;
-      }
+      // If service is already assigned, we still allow consultation or view mode, 
+      // but usually doctor should go back to dashboard if they finished it.
       
       setRecord(res);
     } catch (err) {
@@ -62,10 +59,11 @@ export default function DoctorConsultationPage() {
         item={record}
         onExit={() => router.push(`/${locale}/doctor`)}
         onSuccess={() => {
-          // When service is assigned, redirect to examination
-          router.push(`/${locale}/doctor/examination/${id}`);
+          // When service is assigned, redirect back to dashboard
+          router.push(`/${locale}/doctor`);
         }}
       />
     </div>
   );
+
 }

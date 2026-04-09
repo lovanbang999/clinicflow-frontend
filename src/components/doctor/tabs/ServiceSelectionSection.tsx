@@ -12,9 +12,10 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { useServices } from '@/lib/hooks/clinic/useServices';
+import { useDoctors } from '@/lib/hooks/clinical/useDoctors';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { toast } from 'sonner';
-import { SpinnerIcon, CheckCircleIcon, InfoIcon } from '@phosphor-icons/react';
+import { SpinnerIcon, CheckCircleIcon, InfoIcon, UserIcon } from '@phosphor-icons/react';
 
 interface ServiceSelectionSectionProps {
   bookingId: string;
@@ -27,8 +28,13 @@ export function ServiceSelectionSection({
 }: ServiceSelectionSectionProps) {
   const t = useTranslations('emr.visit.serviceSelection');
   const [selectedServiceId, setSelectedServiceId] = useState<string>('');
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { services, isLoading } = useServices({ isActive: true });
+  
+  const { services, isLoading: isLoadingServices } = useServices({ isActive: true });
+  const { doctors, isLoading: isLoadingDoctors } = useDoctors({ 
+    serviceId: selectedServiceId || undefined 
+  });
 
   const handleSubmit = async () => {
     if (!selectedServiceId) {
@@ -38,7 +44,7 @@ export function ServiceSelectionSection({
 
     try {
       setIsSubmitting(true);
-      await bookingsApi.updateService(bookingId, selectedServiceId);
+      await bookingsApi.updateService(bookingId, selectedServiceId, selectedDoctorId || undefined);
       toast.success(t('success'));
       onSuccess();
     } catch (err) {
@@ -47,6 +53,11 @@ export function ServiceSelectionSection({
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleServiceChange = (value: string) => {
+    setSelectedServiceId(value);
+    setSelectedDoctorId(''); // Reset doctor when service changes
   };
 
   return (
@@ -60,14 +71,15 @@ export function ServiceSelectionSection({
       </div>
 
       <div className="p-8 space-y-6">
+        {/* Service Selection */}
         <div className="space-y-2">
           <Label className="text-sm font-semibold text-gray-700 ml-1">
             {t('label')}
           </Label>
           <Select
             value={selectedServiceId}
-            onValueChange={setSelectedServiceId}
-            disabled={isLoading || isSubmitting}
+            onValueChange={handleServiceChange}
+            disabled={isLoadingServices || isSubmitting}
           >
             <SelectTrigger className="w-full h-12 text-base border-gray-200 focus:ring-blue-500 transition-all bg-gray-50/50">
               <SelectValue placeholder={t('placeholder')} />
@@ -78,6 +90,36 @@ export function ServiceSelectionSection({
                   {service.name}
                 </SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Doctor Selection (Only visible/active if service selected) */}
+        <div className={`space-y-2 transition-all duration-300 ${!selectedServiceId ? 'opacity-50' : 'opacity-100'}`}>
+          <Label className="text-sm font-semibold text-gray-700 ml-1 flex items-center gap-1">
+            <UserIcon size={14} />
+            {t('doctorLabel')}
+          </Label>
+          <Select
+            value={selectedDoctorId}
+            onValueChange={setSelectedDoctorId}
+            disabled={!selectedServiceId || isLoadingDoctors || isSubmitting}
+          >
+            <SelectTrigger className="w-full h-12 text-base border-gray-200 focus:ring-blue-500 transition-all bg-gray-50/50">
+              <SelectValue placeholder={isLoadingDoctors ? '...' : t('doctorPlaceholder')} />
+            </SelectTrigger>
+            <SelectContent>
+              {doctors.length > 0 ? (
+                doctors.map((doctor) => (
+                  <SelectItem key={doctor.id} value={doctor.id}>
+                    {doctor.fullName} ({doctor.specialties[0]})
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem value="none" disabled>
+                  No suitable doctors found
+                </SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -107,3 +149,4 @@ export function ServiceSelectionSection({
     </div>
   );
 }
+

@@ -184,14 +184,14 @@ export function DoctorQueueView({
               </div>
             </div>
           ) : (
-            filteredItems.map((item) => (
+            filteredItems.map((item, index) => (
               <DoctorQueueCard
                 key={item.id}
                 item={item}
                 onCall={onCallPatient}
                 onEnterExam={onEnterExam}
                 onPrint={() => handleDirectPrint(item)}
-                isCallDisabled={inExam > 0}
+                isCallDisabled={inExam > 0 || (activeFilter === BookingStatus.CHECKED_IN && index > 0)}
               />
             ))
           )}

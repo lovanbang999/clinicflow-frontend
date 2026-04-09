@@ -13,6 +13,19 @@
       "prescription": "Prescription",
       "summary": "Summary & Print"
     },
+    "serviceSelection": {
+      "title": "Specialized Service Selection",
+      "description": "Please select the appropriate specialized examination service after consulting with the patient.",
+      "label": "Select Examination Service",
+      "placeholder": "-- Select Service --",
+      "warning": "After confirmation, the system will initialize the examination fee invoice and unlock the medical record. This action cannot be undone.",
+      "confirm": "Confirm Service",
+      "success": "Examination service determined successfully",
+      "errorNoSelection": "Please select a service",
+      "errorSubmit": "Error updating service. Please try again.",
+      "doctorLabel": "Select Specialist/Doctor",
+      "doctorPlaceholder": "-- Select Doctor (Optional) --"
+    },
     "consultation": {
       "title": "Inquiry & Consultation",
       "guideTitle": "💡 Consultation Guide:",
