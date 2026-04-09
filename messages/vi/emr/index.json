@@ -22,7 +22,9 @@
       "confirm": "Xác nhận dịch vụ",
       "success": "Đã xác định dịch vụ khám thành công",
       "errorNoSelection": "Vui lòng chọn một dịch vụ",
-      "errorSubmit": "Lỗi khi cập nhật dịch vụ. Vui lòng thử lại."
+      "errorSubmit": "Lỗi khi cập nhật dịch vụ. Vui lòng thử lại.",
+      "doctorLabel": "Chọn Bác sĩ/Chuyên gia",
+      "doctorPlaceholder": "-- Chọn bác sĩ (Tùy chọn) --"
     },
     "consultation": {
       "title": "Hỏi thăm & Tư vấn dịch vụ",

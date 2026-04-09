@@ -18,6 +18,7 @@
   },
   "upcomingAppointments": {
     "title": "Upcoming Appointments",
+    "checkIn": "Check-in",
     "table": {
       "time": "Time",
       "patient": "Patient",
