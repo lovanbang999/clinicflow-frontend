@@ -24,7 +24,8 @@
       "errorNoSelection": "Please select a service",
       "errorSubmit": "Error updating service. Please try again.",
       "doctorLabel": "Select Specialist/Doctor",
-      "doctorPlaceholder": "-- Select Doctor (Optional) --"
+      "doctorPlaceholder": "-- Select Doctor (Optional) --",
+      "noDoctorsFound": "No suitable doctors found"
     },
     "consultation": {
       "title": "Inquiry & Consultation",
