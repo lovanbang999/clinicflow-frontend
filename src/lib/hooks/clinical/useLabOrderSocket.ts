@@ -83,5 +83,26 @@ export const useLabOrderSocket = () => {
     [],
   );
 
-  return { isConnected, onNewLabOrder, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted };
+  /** Subscription for receptionist to refresh billing list when a new lab order syncs an invoice */
+  const onBillingRefresh = useCallback(
+    (callback: (payload: { bookingId: string }) => void) => {
+      const socket = socketRef.current;
+      if (!socket) return;
+
+      socket.on('billing_list_refresh', callback);
+      return () => {
+        socket.off('billing_list_refresh', callback);
+      };
+    },
+    [],
+  );
+
+  return { 
+    isConnected, 
+    onNewLabOrder, 
+    joinBookingLabRoom, 
+    leaveBookingLabRoom, 
+    onLabResultCompleted,
+    onBillingRefresh 
+  };
 };

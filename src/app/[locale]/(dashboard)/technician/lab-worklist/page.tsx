@@ -19,6 +19,7 @@ export default function TechnicianWorklistPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>('pending');
   const [searchQuery, setSearchQuery] = useState('');
+  const [newOrderIds, setNewOrderIds] = useState<Set<string>>(new Set());
 
   const { data: allOrders, isLoading, refetch } = useApiData(
     async () => {
@@ -66,6 +67,23 @@ export default function TechnicianWorklistPage() {
   useEffect(() => {
     const unsubscribe = onNewLabOrder((payload) => {
       toast.info(`🧪 ${t('messages.newOrderArrived', { name: payload.patientName })}`);
+      
+      // Track new IDs to show pulse animation
+      setNewOrderIds(prev => {
+        const next = new Set(prev);
+        payload.labOrderIds.forEach(id => next.add(id));
+        return next;
+      });
+
+      // Clear highlight after 10 seconds
+      setTimeout(() => {
+        setNewOrderIds(prev => {
+          const next = new Set(prev);
+          payload.labOrderIds.forEach(id => next.delete(id));
+          return next;
+        });
+      }, 10000);
+
       void refetch();
     });
     return () => { unsubscribe?.(); };
@@ -133,7 +151,10 @@ export default function TechnicianWorklistPage() {
               return (
                 <div
                   key={order.id}
-                  className="bg-white rounded-xl border border-slate-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer"
+                  className={cn(
+                    "bg-white rounded-xl border border-slate-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer",
+                    newOrderIds.has(order.id) && "animate-pulse-highlight ring-2 ring-blue-400 ring-offset-2"
+                  )}
                   onClick={() => order.status !== 'PAID' && handleOpenWorkspace(order)}
                 >
                   <div className="flex items-start justify-between gap-4">
