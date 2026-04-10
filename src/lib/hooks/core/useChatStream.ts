@@ -1,10 +1,23 @@
 import { useState, useCallback, useRef } from 'react';
 
+export interface SlotData {
+  slotId: string;
+  doctorId: string;
+  doctorName: string;
+  specialties?: string[];
+  date: string;
+  startTime: string;
+  endTime: string;
+  roomName?: string;
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'model';
   content: string;
   isStreaming?: boolean;
+  /** Slots to display with SlotPicker if the AI returned available slots */
+  slots?: SlotData[];
 }
 
 export function useChatStream() {
@@ -83,6 +96,20 @@ export function useChatStream() {
             if (dataStr) {
               try {
                 const parsed = JSON.parse(dataStr);
+
+                // Handle slotsData event — attach slots to the current bot message
+                if (parsed?.slotsData && Array.isArray(parsed.slotsData)) {
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === botMsgId
+                        ? { ...m, slots: parsed.slotsData as SlotData[] }
+                        : m,
+                    ),
+                  );
+                  continue;
+                }
+
+                // Handle text chunk event
                 const text: string = parsed?.data?.text || parsed?.text || '';
                 if (text) {
                   setMessages((prev) =>

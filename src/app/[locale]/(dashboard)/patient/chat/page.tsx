@@ -3,6 +3,7 @@
 import React from 'react';
 import { useChatStream } from '@/lib/hooks/core/useChatStream';
 import { MessageBubble } from '@/components/chat/MessageBubble';
+import type { Slot } from '@/components/chat/SlotPicker';
 import { useTranslations } from 'next-intl';
 import { Send, Bot, Stethoscope, CalendarClock, MessageCircleHeart, AlertTriangle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -47,6 +48,13 @@ export default function ChatPage() {
     sendMessage(prompt);
   };
 
+  /** When user clicks a slot card, auto-send a confirmation message */
+  const handleSelectSlot = (slot: Slot) => {
+    const confirmMsg = `Tôi xác nhận đặt lịch khám với Bác sĩ ${slot.doctorName} vào lúc ${slot.startTime} - ${slot.endTime} ngày ${slot.date}${slot.roomName ? `, phòng ${slot.roomName}` : ''}.
+(SYSTEM: Lịch đã chọn có doctorId=${slot.doctorId}, slotId=${slot.slotId}, serviceId=${slot.serviceId || 'unknown'})`;
+    sendMessage(confirmMsg);
+  };
+
   return (
     <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-900 font-sans selection:bg-blue-500/30">
 
@@ -89,6 +97,8 @@ export default function ChatPage() {
               role={msg.role}
               content={msg.content}
               isStreaming={msg.isStreaming}
+              slots={msg.slots}
+              onSelectSlot={handleSelectSlot}
             />
           ))}
 

@@ -5,14 +5,19 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useTranslations } from 'next-intl';
 import { CheckCheck } from 'lucide-react';
+import { SlotPicker } from './SlotPicker';
+import type { Slot } from './SlotPicker';
+import type { SlotData } from '@/lib/hooks/core/useChatStream';
 
 interface MessageBubbleProps {
   role: 'user' | 'model';
   content: string;
   isStreaming?: boolean;
+  slots?: SlotData[];
+  onSelectSlot?: (slot: Slot) => void;
 }
 
-export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps) {
+export function MessageBubble({ role, content, isStreaming, slots, onSelectSlot }: MessageBubbleProps) {
   const t = useTranslations('chat');
   const isUser = role === 'user';
 
@@ -24,7 +29,7 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
           <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-200 tracking-wide">{t('you')}</span>
         </div>
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white px-5 py-3 rounded-[20px] rounded-tr-[4px] shadow-sm text-[15px] leading-relaxed">
-          {content}
+          {content.split('(SYSTEM:')[0].trim()}
         </div>
         <div className="flex items-center gap-1 mt-1">
           <CheckCheck className="h-3.5 w-3.5 text-blue-600" />
@@ -61,6 +66,14 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
             <div className="w-2 h-2 bg-slate-300 dark:bg-slate-600 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
             <div className="w-2 h-2 bg-slate-300 dark:bg-slate-600 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
           </div>
+        )}
+
+        {/* SlotPicker — only shown on model messages with available slots */}
+        {!isStreaming && slots && slots.length > 0 && onSelectSlot && (
+          <SlotPicker
+            slots={slots as Slot[]}
+            onSelectSlot={onSelectSlot}
+          />
         )}
       </div>
     </div>

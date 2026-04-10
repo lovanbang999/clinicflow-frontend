@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 export interface Slot {
   slotId: string;
   doctorId: string;
+  serviceId?: string;
   doctorName: string;
   specialties?: string[];
   date: string;
