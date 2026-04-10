@@ -77,6 +77,9 @@
     "markAllAsRead": "Đánh dấu tất cả đã đọc",
     "empty": "Bạn chưa có thông báo nào",
     "viewAll": "Xem tất cả",
+    "unreadCount": "Bạn có {count} thông báo chưa đọc",
+    "noUnread": "Không có thông báo mới",
+    "back": "Quay lại",
     "underDevelopment": "Tính năng đang được phát triển"
   },
   "api": {
