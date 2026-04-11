@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export interface SlotData {
   slotId: string;
@@ -40,7 +41,7 @@ export function useChatStream() {
     setMessages((prev) => [...prev, { id: botMsgId, role: 'model', content: '', isStreaming: true }]);
 
     try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const { accessToken: token } = useAuthStore.getState();
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
       // Snapshot history (all messages before the new user one)
@@ -145,7 +146,7 @@ export function useChatStream() {
   const clearChat = useCallback(async () => {
     const currentSessionId = sessionIdRef.current;
     if (currentSessionId) {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+      const { accessToken: token } = useAuthStore.getState();
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
       // Fire-and-forget — don't block UI on network call
       void fetch(`${API_BASE_URL}/ai/session/${currentSessionId}/end`, {
@@ -164,7 +165,7 @@ export function useChatStream() {
     const currentSessionId = sessionIdRef.current;
     if (!currentSessionId) return;
 
-    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    const { accessToken: token } = useAuthStore.getState();
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
     await fetch(`${API_BASE_URL}/ai/session/${currentSessionId}/report`, {
@@ -179,3 +180,4 @@ export function useChatStream() {
 
   return { messages, sendMessage, isLoading, clearChat, reportSession, sessionId };
 }
+

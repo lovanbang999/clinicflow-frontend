@@ -1,6 +1,18 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+
+/**
+ * Helper to get current locale from the window URL
+ */
+const getCurrentLocale = (): string => {
+  if (typeof window === 'undefined') return 'vi';
+  const path = window.location.pathname;
+  const segments = path.split('/');
+  // Expected segments: ["", "vi", "dashboard"] -> "vi"
+  return ['vi', 'en'].includes(segments[1]) ? segments[1] : 'vi';
+};
 
 class ApiClient {
   private client: AxiosInstance;
@@ -21,10 +33,10 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        // Add token to request if exists
-        const token = this.getAccessToken();
-        if (token && config.headers) {
-          config.headers.Authorization = `Bearer ${token}`;
+        // Add token from Zustand store
+        const { accessToken } = useAuthStore.getState();
+        if (accessToken && config.headers) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
       },
@@ -44,24 +56,29 @@ class ApiClient {
           originalRequest._retry = true;
 
           try {
-            const refreshToken = this.getRefreshToken();
+            const { refreshToken, setTokens } = useAuthStore.getState();
             if (refreshToken) {
               const response = await this.refreshAccessToken(refreshToken);
-              const { accessToken } = response.data.data;
+              const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data.data;
               
-              this.setAccessToken(accessToken);
+              // Update Zustand store (this also updates localStorage via persist middleware)
+              setTokens(newAccessToken, newRefreshToken);
               
               if (originalRequest.headers) {
-                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
               }
               
               return this.client(originalRequest);
+            } else {
+               throw new Error('No refresh token available');
             }
           } catch (refreshError) {
-            // Refresh token failed, logout user
-            this.clearTokens();
+            // Refresh token failed, clear auth and logout user
+            useAuthStore.getState().clearAuth();
+            
             if (typeof window !== 'undefined') {
-              window.location.href = '/login';
+              const locale = getCurrentLocale();
+              window.location.href = `/${locale}/login`;
             }
             return Promise.reject(refreshError);
           }
@@ -77,31 +94,8 @@ class ApiClient {
   }
 
   private async refreshAccessToken(refreshToken: string) {
-    return this.client.post('/auth/refresh', { refreshToken });
-  }
-
-  private getAccessToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem('accessToken');
-  }
-
-  private getRefreshToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem('refreshToken');
-  }
-
-  private setAccessToken(token: string): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('accessToken', token);
-    }
-  }
-
-  private clearTokens(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-    }
+    // Create a clean instance to avoid interceptor recursion during refresh
+    return axios.post(`${API_BASE_URL}/auth/refresh`, { refreshToken });
   }
 
   public getClient(): AxiosInstance {
@@ -111,3 +105,4 @@ class ApiClient {
 
 export const apiClient = new ApiClient().getClient();
 export default apiClient;
+
