@@ -47,17 +47,17 @@ export function QuickActionBar() {
   ];
 
   return (
-    <section className="grid grid-cols-5 gap-2 sm:gap-4 md:hidden">
+    <section className="grid grid-cols-3 sm:grid-cols-5 gap-3 sm:gap-4 md:hidden">
       {actions.map((action, idx) => (
         <Link
           key={idx}
           href={action.href}
-          className="flex flex-col items-center justify-center p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm transition-all hover:-translate-y-1 active:scale-95 cursor-pointer"
+          className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm transition-all hover:-translate-y-1 active:scale-95 cursor-pointer group"
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${action.color}`}>
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-colors ${action.color} group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20`}>
             {action.icon}
           </div>
-          <span className="text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-slate-300 text-center leading-tight">
+          <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 text-center leading-tight">
             {action.label}
           </span>
         </Link>
