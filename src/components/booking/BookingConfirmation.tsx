@@ -97,7 +97,7 @@ export function BookingConfirmation() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
         {/* Service Info */}
-        <div className="bg-white dark:bg-slate-900/50 rounded-[24px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-5 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/50 transition-colors">
+        <div className="bg-white dark:bg-slate-900/50 rounded-[24px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-4 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/50 transition-colors">
           <div className="flex items-start gap-4 sm:gap-5">
             <div className="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center shrink-0">
               <Stethoscope className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-500" strokeWidth={2} />
@@ -128,7 +128,7 @@ export function BookingConfirmation() {
         </div>
 
         {/* Doctor Info */}
-        <div className="bg-white dark:bg-slate-900/50 rounded-[24px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-5 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/50 transition-colors">
+        <div className="bg-white dark:bg-slate-900/50 rounded-[24px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-4 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/50 transition-colors">
           <div className="flex items-start gap-4 sm:gap-5">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-50 dark:bg-teal-500/10 flex items-center justify-center shrink-0 overflow-hidden ring-4 ring-teal-50/50 dark:ring-teal-500/10 relative">
               {selectedDoctor?.avatar ? (

@@ -67,21 +67,21 @@ export default function BookingPage() {
       {/* Main container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Stepper */}
-        <div className="max-w-4xl mx-auto mb-16">
+        <div className="max-w-4xl mx-auto mb-8 sm:mb-12 md:mb-16">
           <BookingSteps steps={steps} currentStep={currentStep} />
         </div>
 
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-10">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
               {currentStep === 1 && t('stepTitles.service')}
               {currentStep === 2 && t('stepTitles.doctor')}
               {currentStep === 3 && t('stepTitles.date')}
               {currentStep === 4 && t('stepTitles.time')}
               {currentStep === 5 && t('stepTitles.confirmation')}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-base">
+            <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm md:text-base">
               {currentStep === 1 && t('stepSubtitles.service')}
               {currentStep === 2 && t('stepSubtitles.doctor')}
               {currentStep === 3 && t('stepSubtitles.date')}
@@ -109,42 +109,47 @@ export default function BookingPage() {
         </div>
 
         {/* Content Area */}
-        <div className="mb-12 min-h-[400px]">
+        <div className="mb-12 min-h-[400px] pb-24 md:pb-0">
           {renderStepContent()}
         </div>
 
 
         {/* Navigation Footer */}
-        <div className="flex items-center justify-between pt-8 border-t border-slate-100">
-          <button
-            onClick={previousStep}
-            disabled={currentStep === 1}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer",
-              currentStep === 1 
-                ? "invisible" 
-                : "text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:text-slate-300"
-            )}
-          >
-            <ArrowLeft className="w-5 h-5" />
-            {t('back')}
-          </button>
-
-          {currentStep < 5 && (
+        <div className={cn(
+          "fixed bottom-0 left-0 right-0 z-40 py-4 px-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/60 dark:border-slate-800/60 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] dark:shadow-none",
+          "md:relative md:bg-transparent md:backdrop-blur-none md:border-t-0 md:p-0 md:mx-0 md:pt-8 md:pb-4 md:shadow-none"
+        )}>
+          <div className="flex items-center justify-between max-w-7xl mx-auto">
             <button
-              onClick={nextStep}
-              disabled={!canProceed}
+              onClick={previousStep}
+              disabled={currentStep === 1}
               className={cn(
-                "flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-bold transition-all active:scale-95 shadow-xl shadow-blue-500/20 cursor-pointer",
-                !canProceed
-                  ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none"
-                  : "bg-blue-500 hover:bg-blue-600 text-white"
+                "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer",
+                currentStep === 1 
+                  ? "invisible" 
+                  : "text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:text-slate-300"
               )}
             >
-              {t('continue')}
-              <ArrowRight className="w-5 h-5" />
+              <ArrowLeft className="w-5 h-5" />
+              {t('back')}
             </button>
-          )}
+
+            {currentStep < 5 && (
+              <button
+                onClick={nextStep}
+                disabled={!canProceed}
+                className={cn(
+                  "flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-bold transition-all active:scale-95 shadow-xl shadow-blue-500/20 cursor-pointer",
+                  !canProceed
+                    ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none"
+                    : "bg-blue-500 hover:bg-blue-600 text-white"
+                )}
+              >
+                {t('continue')}
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -66,7 +66,7 @@ export function DatePicker({ onSelect }: DatePickerProps) {
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col xl:flex-row items-center xl:items-start justify-center gap-8 px-2 sm:px-0">
       {/* Calendar Container */}
-      <div className="w-full max-w-[340px] sm:max-w-md xl:w-[420px] bg-white dark:bg-slate-900/50 rounded-[16px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-5 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
+      <div className="w-full max-w-[340px] sm:max-w-md xl:w-[420px] bg-white dark:bg-slate-900/50 rounded-[16px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-4 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <button

@@ -91,7 +91,7 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
           <div
             key={doctor.id}
             className={cn(
-              'group relative p-8 transition-all duration-300 rounded-[32px] border-2 bg-white dark:bg-slate-900/50 flex flex-col items-center text-center',
+              'group relative p-5 sm:p-8 transition-all duration-300 rounded-[32px] border-2 bg-white dark:bg-slate-900/50 flex flex-col items-center text-center',
               hasBookedToday
                 ? 'opacity-50 grayscale select-none border-slate-100 dark:border-slate-800'
                 : isSelected
@@ -114,9 +114,9 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
               </div>
             )}
 
-            <div className="relative mb-6 mt-2">
+            <div className="relative mb-4 sm:mb-6 mt-1 sm:mt-2">
               <div className={cn(
-                "w-24 h-24 rounded-[32px] flex items-center justify-center overflow-hidden transition-transform duration-300 shrink-0",
+                "w-20 h-20 sm:w-24 sm:h-24 rounded-[28px] sm:rounded-[32px] flex items-center justify-center overflow-hidden transition-transform duration-300 shrink-0",
                 !hasBookedToday && "group-hover:scale-110",
                 isSelected ? "bg-teal-100 dark:bg-teal-900/30 ring-4 ring-blue-500/20" : "bg-teal-50 dark:bg-slate-800"
               )}>
@@ -140,8 +140,8 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
               </div>
             </div>
 
-            <div className="flex-1 w-full space-y-1">
-              <h3 className="font-bold text-xl text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+            <div className="flex-1 w-full space-y-0.5 sm:space-y-1">
+              <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
                 {doctor.fullName}
               </h3>
               
@@ -166,7 +166,7 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
                 </div>
               </div>
 
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-4 line-clamp-2">
+              <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mt-2 sm:mt-4 line-clamp-2">
                 {doctor.bio || `${t('specialist')} ${doctor.specialties?.[0] || t('generalPractice')} ${t('experience', { years: doctor.yearsOfExperience })}`}
               </p>
             </div>
