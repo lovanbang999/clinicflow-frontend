@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useChatStream } from '@/lib/hooks/core/useChatStream';
 import { MessageBubble } from './MessageBubble';
+import type { Slot } from './SlotPicker';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -28,6 +29,13 @@ export function ChatWidget() {
     if (!input.trim() || isLoading) return;
     sendMessage(input);
     setInput('');
+  };
+
+  /** When user clicks a slot card, auto-send a confirmation message */
+  const handleSelectSlot = (slot: Slot) => {
+    const confirmMsg = `Tôi xác nhận đặt lịch khám với Bác sĩ ${slot.doctorName} vào lúc ${slot.startTime} - ${slot.endTime} ngày ${slot.date}${slot.roomName ? `, phòng ${slot.roomName}` : ''}.
+(SYSTEM: Lịch đã chọn có doctorId=${slot.doctorId}, slotId=${slot.slotId}, serviceId=${slot.serviceId || 'unknown'})`;
+    sendMessage(confirmMsg);
   };
 
   return (
@@ -74,20 +82,28 @@ export function ChatWidget() {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50 dark:bg-card" ref={scrollRef}>
-             <div className="flex flex-col gap-2 max-w-[85%]">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('aiName')}</span>
-                  <span className="text-[10px] text-muted-foreground uppercase">{t('today')}</span>
-                </div>
-                <div className="bg-sky-50 dark:bg-muted text-sky-950 dark:text-foreground px-5 py-3 rounded-2xl rounded-tl-none shadow-sm text-sm leading-relaxed">
-                    {t('welcome')}
-                </div>
-             </div>
-             {messages.map(msg => (
-               <MessageBubble key={msg.id} role={msg.role} content={msg.content} isStreaming={msg.isStreaming} />
-             ))}
-             {/* Sentinel element — scrollIntoView target */}
-             <div ref={bottomRef} className="h-px" />
+            <div className="flex flex-col gap-2 max-w-[85%]">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{t('aiName')}</span>
+                <span className="text-[10px] text-muted-foreground uppercase">{t('today')}</span>
+              </div>
+              <div className="bg-sky-50 dark:bg-muted text-sky-950 dark:text-foreground px-5 py-3 rounded-2xl rounded-tl-none shadow-sm text-sm leading-relaxed">
+                {t('welcome')}
+              </div>
+            </div>
+            {messages.map(msg => (
+              <MessageBubble
+                key={msg.id}
+                role={msg.role}
+                content={msg.content}
+                isStreaming={msg.isStreaming}
+                slots={msg.slots}
+                onSelectSlot={handleSelectSlot}
+                variant="compact"
+              />
+            ))}
+            {/* Sentinel element — scrollIntoView target */}
+            <div ref={bottomRef} className="h-px" />
           </div>
 
           {/* Input Area */}
@@ -97,13 +113,13 @@ export function ChatWidget() {
                 {/* <button type="button" className="p-2 text-muted-foreground hover:text-blue-600 transition-colors">
                   <PlusCircle className="h-5 w-5" />
                 </button> */}
-                <input 
+                <input
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   disabled={isLoading}
-                  placeholder={t('placeholder')} 
-                  className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm py-2 px-1 text-foreground placeholder:text-muted-foreground font-medium" 
+                  placeholder={t('placeholder')}
+                  className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm py-2 px-1 text-foreground placeholder:text-muted-foreground font-medium"
                 />
                 <div className="flex items-center gap-1">
                   <button type="button" className="p-2 text-muted-foreground hover:text-blue-600 transition-colors cursor-pointer">
@@ -116,7 +132,7 @@ export function ChatWidget() {
               </div>
             </form>
             <p className="text-center text-[10px] text-muted-foreground mt-4 font-medium italic">
-                {t('warning')}
+              {t('warning')}
             </p>
           </div>
         </div>

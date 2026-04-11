@@ -15,9 +15,10 @@ interface MessageBubbleProps {
   isStreaming?: boolean;
   slots?: SlotData[];
   onSelectSlot?: (slot: Slot) => void;
+  variant?: 'default' | 'compact';
 }
 
-export function MessageBubble({ role, content, isStreaming, slots, onSelectSlot }: MessageBubbleProps) {
+export function MessageBubble({ role, content, isStreaming, slots, onSelectSlot, variant = 'default' }: MessageBubbleProps) {
   const t = useTranslations('chat');
   const isUser = role === 'user';
 
@@ -73,6 +74,7 @@ export function MessageBubble({ role, content, isStreaming, slots, onSelectSlot 
           <SlotPicker
             slots={slots as Slot[]}
             onSelectSlot={onSelectSlot}
+            variant={variant}
           />
         )}
       </div>
