@@ -1,4 +1,5 @@
 import apiClient from '@/lib/api/core/client';
+import { useAuthStore } from '@/lib/store/authStore';
 import type { 
   LoginRequest, 
   LoginResponse, 
@@ -12,12 +13,10 @@ export const authApi = {
   login: async (data: LoginRequest): Promise<LoginResponse> => {
     const response = await apiClient.post<LoginResponse>('/auth/login', data);
     
-    // Store tokens and user info
-    if (response.data.success && typeof window !== 'undefined') {
+    // Update Zustand store
+    if (response.data.success) {
       const { accessToken, refreshToken, user } = response.data.data;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('user', JSON.stringify(user));
+      useAuthStore.getState().login(user, accessToken, refreshToken);
     }
     
     return response.data;
@@ -44,36 +43,29 @@ export const authApi = {
   // Logout
   logout: async (): Promise<void> => {
     try {
-      const refreshToken = typeof window !== 'undefined' 
-        ? localStorage.getItem('refreshToken') 
-        : null;
+      const { refreshToken, clearAuth } = useAuthStore.getState();
       
       if (refreshToken) {
         await apiClient.post('/auth/logout', { refreshToken });
       }
+      
+      // Clear Zustand store
+      clearAuth();
     } catch (error) {
       console.error('Logout error:', error);
-    } finally {
-      // Clear local storage regardless of API call result
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-      }
+      // Still clear auth on failure
+      useAuthStore.getState().clearAuth();
     }
   },
 
   // Get current user
   getCurrentUser: () => {
-    if (typeof window === 'undefined') return null;
-    const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
+    return useAuthStore.getState().user;
   },
 
   // Check if user is authenticated
   isAuthenticated: (): boolean => {
-    if (typeof window === 'undefined') return false;
-    return !!localStorage.getItem('accessToken');
+    return useAuthStore.getState().isAuthenticated;
   },
 
   // Forgot Password — step 1: request OTP
@@ -107,4 +99,5 @@ export const authApi = {
 };
 
 export default authApi;
+
 

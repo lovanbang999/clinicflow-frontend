@@ -99,7 +99,7 @@ export default function PatientInvoicesPage() {
             <ReceiptIcon size={40} className="text-slate-300 dark:text-slate-600" weight="duotone" />
           </div>
           <div>
-            <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase italic tracking-tight">{t('noInvoices')}</h3>
+            <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">{t('noInvoices')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-[250px]">
               {t('noInvoicesDesc')}
             </p>

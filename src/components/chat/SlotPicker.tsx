@@ -22,9 +22,10 @@ interface SlotPickerProps {
   slots: Slot[];
   onSelectSlot: (slot: Slot) => void;
   isLoading?: boolean;
+  variant?: 'default' | 'compact';
 }
 
-export function SlotPicker({ slots, onSelectSlot }: SlotPickerProps) {
+export function SlotPicker({ slots, onSelectSlot, variant = 'default' }: SlotPickerProps) {
   const t = useTranslations('chat');
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -33,7 +34,10 @@ export function SlotPicker({ slots, onSelectSlot }: SlotPickerProps) {
   }
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 mt-2">
+    <div className={cn(
+      "grid gap-3 mt-2",
+      variant === 'compact' ? "grid-cols-1" : "sm:grid-cols-2"
+    )}>
       {slots.map((slot) => {
         const isSelected = selectedId === slot.slotId;
         
