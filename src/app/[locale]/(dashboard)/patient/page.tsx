@@ -36,7 +36,7 @@ export default function PatientDashboardPage() {
       <NextAppointmentCard nextBooking={data?.nextBooking} />
 
       {/* Two columns: Recent Activity & Recent Invoices */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         <RecentActivityList />
         <RecentInvoicesWidget />
       </section>

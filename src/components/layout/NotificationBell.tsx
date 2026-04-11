@@ -5,7 +5,7 @@ import { Bell, Check } from 'lucide-react';
 import { useNotifications } from '@/lib/hooks/clinic/useNotifications';
 import { useTranslations } from 'next-intl';
 import { NotificationList } from '@/components/notifications/NotificationList';
-import { useRouter } from '@/i18n/navigation';
+import { useRouter, Link } from '@/i18n/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 
 export function NotificationBell() {
@@ -36,10 +36,24 @@ export function NotificationBell() {
 
   return (
     <div className="relative" ref={dropdownRef}>
+      {/* Mobile Trigger: Direct Link to notifications page */}
+      <Link
+        href={`/${user?.role?.toLowerCase() || 'patient'}/notifications`}
+        className="md:hidden relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none cursor-pointer group flex items-center justify-center"
+      >
+        <Bell className="w-6 h-6 text-slate-600 dark:text-slate-300 group-hover:scale-110 transition-transform duration-200" />
+        {unreadCount > 0 && (
+          <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900 animate-in zoom-in duration-300">
+            {unreadCount > 99 ? '99+' : unreadCount}
+          </span>
+        )}
+      </Link>
+
+      {/* Desktop Trigger: Toggle popover dropdown */}
       <button
         id="notification-bell-btn"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none cursor-pointer group"
+        className="hidden md:block relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none cursor-pointer group"
       >
         <Bell className="w-6 h-6 text-slate-600 dark:text-slate-300 group-hover:scale-110 transition-transform duration-200" />
         {unreadCount > 0 && (
