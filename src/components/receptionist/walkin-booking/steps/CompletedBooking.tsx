@@ -22,33 +22,47 @@ export function CompletedBooking() {
     window.print();
   };
 
+  const isPending = completedBooking?.status === 'PENDING';
+
   return (
     <div className="max-w-lg mx-auto mt-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Success Header */}
       <div className="text-center mb-6">
-        <div className="w-16 h-16 bg-emerald-50 border-2 border-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CheckCircleIcon size={36} weight="fill" className="text-emerald-500" />
+        <div className={`w-16 h-16 ${isPending ? 'bg-blue-50 border-blue-100' : 'bg-emerald-50 border-emerald-100'} border-2 rounded-full flex items-center justify-center mx-auto mb-4`}>
+          <CheckCircleIcon size={36} weight="fill" className={isPending ? 'text-blue-500' : 'text-emerald-500'} />
         </div>
-        <h2 className="text-2xl font-bold text-slate-800">{t('title')}</h2>
-        <p className="text-slate-500 mt-1 text-sm">{t('message')}</p>
+        <h2 className="text-2xl font-bold text-slate-800">
+          {isPending ? t('pendingTitle') : t('title')}
+        </h2>
+        <p className="text-slate-500 mt-1 text-sm">
+          {isPending ? t('pendingMessage') : t('message')}
+        </p>
       </div>
 
       {/* Queue Ticket Card */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-100 overflow-hidden mb-5">
         {/* Ticket Header */}
-        <div className="bg-[#1570EF] px-6 py-5 text-white">
+        <div className={`${isPending ? 'bg-slate-700' : 'bg-[#1570EF]'} px-6 py-5 text-white transition-colors duration-500`}>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-1">{t('clinicName')}</p>
               <p className="text-sm text-blue-100">{t('receiptTitle')}</p>
             </div>
-            {completedQueue && (
+            {completedQueue && !isPending && (
               <div className="text-right">
                 <p className="text-xs text-blue-200 uppercase tracking-wider mb-1">{t('queueNumber')}</p>
                 <div className="flex items-center justify-end gap-2">
                   <QueueIcon size={20} weight="fill" className="text-blue-200" />
                   <span className="text-4xl font-black">{completedQueue.queuePosition}</span>
                 </div>
+              </div>
+            )}
+            {isPending && (
+              <div className="text-right">
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">{t('statusLabel')}</p>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                  {t('pendingStatus')}
+                </span>
               </div>
             )}
           </div>
@@ -85,8 +99,8 @@ export function CompletedBooking() {
             </div>
           </div>
 
-          {/* Clinic Room */}
-          {completedBooking?.room && (
+          {/* Clinic Room - Only show if not pending or if room actually assigned */}
+          {completedBooking?.room && !isPending && (
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
                 <MapPinIcon size={18} weight="fill" className="text-emerald-500" />
@@ -111,8 +125,8 @@ export function CompletedBooking() {
             </div>
           )}
 
-          {/* Wait Time */}
-          {completedQueue?.estimatedWaitMinutes !== undefined && (
+          {/* Wait Time - Hide for pending */}
+          {completedQueue?.estimatedWaitMinutes !== undefined && !isPending && (
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
                 <ClockIcon size={18} className="text-amber-500" />
@@ -130,30 +144,38 @@ export function CompletedBooking() {
               <ClockIcon size={18} className="text-slate-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('dateLabel')}</p>
+              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">
+                {isPending ? t('appointmentTimeLabel') : t('dateLabel')}
+              </p>
               <p className="font-bold text-slate-900">
-                {format(new Date(), 'dd/MM/yyyy — HH:mm')}
+                {isPending 
+                  ? format(new Date(completedBooking?.bookingDate || new Date()), 'dd/MM/yyyy') + ' — ' + (completedBooking?.startTime || '--:--')
+                  : format(new Date(), 'dd/MM/yyyy — HH:mm')}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Room Info Banner */}
-        <div className="bg-amber-50 border-t border-amber-100 px-6 py-3 flex items-center gap-2">
-          <QueueIcon size={16} className="text-amber-600 shrink-0" weight="fill" />
-          <p className="text-xs font-semibold text-amber-800">{t('waitingRoomInfo')}</p>
-        </div>
+        {/* Room Info Banner - Hide for pending */}
+        {!isPending && (
+          <div className="bg-amber-50 border-t border-amber-100 px-6 py-3 flex items-center gap-2">
+            <QueueIcon size={16} className="text-amber-600 shrink-0" weight="fill" />
+            <p className="text-xs font-semibold text-amber-800">{t('waitingRoomInfo')}</p>
+          </div>
+        )}
       </div>
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        <button
-          onClick={handlePrint}
-          className="flex-1 flex items-center justify-center gap-2 border-2 border-[#1570EF] text-[#1570EF] py-3 rounded-xl font-bold hover:bg-[#EFF4FF] transition-all cursor-pointer"
-        >
-          <PrinterIcon size={18} />
-          {t('printBtn')}
-        </button>
+        {!isPending && (
+          <button
+            onClick={handlePrint}
+            className="flex-1 flex items-center justify-center gap-2 border-2 border-[#1570EF] text-[#1570EF] py-3 rounded-xl font-bold hover:bg-[#EFF4FF] transition-all cursor-pointer"
+          >
+            <PrinterIcon size={18} />
+            {t('printBtn')}
+          </button>
+        )}
         <button
           onClick={handleReset}
           className="flex-1 flex items-center justify-center gap-2 bg-[#1570EF] text-white py-3 rounded-xl font-bold hover:bg-[#1165D8] transition-all shadow-lg shadow-[#1570EF]/20 cursor-pointer"
@@ -165,7 +187,7 @@ export function CompletedBooking() {
 
       {/* Note about billing */}
       <p className="text-center text-xs text-slate-400 mt-4 leading-relaxed">
-        {t('billingNote')}
+        {isPending ? t('pendingNote') : t('billingNote')}
       </p>
 
       {/* Printable Area - Hidden on screen */}
