@@ -103,20 +103,26 @@
   "success": {
     "title": "Booking Successful!",
     "message": "The appointment has been confirmed in the system.",
+    "pendingTitle": "Booking Request Recorded!",
+    "pendingMessage": "The appointment request is being processed and is pending confirmation.",
     "clinicName": "Smart Clinic",
     "receiptTitle": "Booking Confirmation Receipt",
     "queueNumber": "Queue Number",
     "patientLabel": "Patient",
     "doctorLabel": "Doctor",
     "roomLabel": "Clinic Room",
+    "statusLabel": "Status",
+    "pendingStatus": "Pending",
     "bookingCodeLabel": "Booking Code",
     "estimatedWait": "Est. Wait",
     "minutes": "mins",
-    "dateLabel": "Appointment Date",
+    "dateLabel": "Check-in time",
+    "appointmentTimeLabel": "Appointment Time",
     "waitingRoomInfo": "Note: Please monitor your queue number on the waiting room screen.",
     "printBtn": "Print Ticket",
     "newBookingBtn": "New Booking",
-    "billingNote": "Service fees and specialized procedures will be settled after doctor's consultation."
+    "billingNote": "Service fees and specialized procedures will be settled after doctor's consultation.",
+    "pendingNote": "Please remind the patient to check appointment details via App or SMS."
   },
   "toasts": {
     "fillAllSteps": "Please complete all steps",

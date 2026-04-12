@@ -107,20 +107,26 @@
   "success": {
     "title": "Đặt lịch thành công!",
     "message": "Lịch hẹn đã được xác nhận vào hệ thống.",
+    "pendingTitle": "Yêu cầu đặt lịch đã được ghi nhận!",
+    "pendingMessage": "Lịch hẹn đang được chuyển sang trạng thái chờ xác nhận.",
     "clinicName": "Smart Clinic",
     "receiptTitle": "Phiếu xác nhận đặt lịch",
     "queueNumber": "Số thứ tự",
     "patientLabel": "Bệnh nhân",
     "doctorLabel": "Bác sĩ",
     "roomLabel": "Phòng khám",
+    "statusLabel": "Trạng thái",
+    "pendingStatus": "Chờ xác nhận",
     "bookingCodeLabel": "Mã đặt lịch",
     "estimatedWait": "Chờ dự kiến",
     "minutes": "phút",
-    "dateLabel": "Thời gian",
+    "dateLabel": "Thời gian check-in",
+    "appointmentTimeLabel": "Thời gian hẹn",
     "waitingRoomInfo": "Lưu ý: Vui lòng theo dõi số thứ tự tại màn hình phòng chờ.",
     "printBtn": "In phiếu",
     "newBookingBtn": "Đặt lịch mới",
-    "billingNote": "Hệ thống sẽ tự động tạo phiếu thu sau khi bác sĩ chỉ định dịch vụ chuyên khoa."
+    "billingNote": "Hệ thống sẽ tự động tạo phiếu thu sau khi bác sĩ chỉ định dịch vụ chuyên khoa.",
+    "pendingNote": "Vui lòng nhắc bệnh nhân kiểm tra thông tin lịch hẹn qua App hoặc SMS."
   },
   "toasts": {
     "fillAllSteps": "Vui lòng hoàn thành đủ các bước",
