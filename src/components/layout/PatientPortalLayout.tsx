@@ -15,8 +15,10 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
   const { isDark } = useThemeStore();
   const [isClient, setIsClient] = useState(false);
 
-  // Hide footer and remove main padding on full-screen pages (e.g. chat)
+  // Hide footer and remove main padding on full-screen pages (e.g. chat) or focused flows (booking)
   const isFullScreen = pathname?.includes('/patient/chat');
+  const isBookingFlow = pathname?.includes('/patient/book');
+  const hideFooter = isFullScreen || isBookingFlow;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -67,7 +69,7 @@ export function PatientPortalLayout({ children }: { children: React.ReactNode })
         {children}
       </main>
 
-      {!isFullScreen && <PatientPortalFooter />}
+      {!hideFooter && <PatientPortalFooter />}
     </div>
   );
 }

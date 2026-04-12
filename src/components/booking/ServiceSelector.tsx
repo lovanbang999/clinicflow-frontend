@@ -79,7 +79,7 @@ export function ServiceSelector({ onSelect, searchQuery = '' }: ServiceSelectorP
           <div
             key={service.id}
             className={cn(
-              'group relative p-8 cursor-pointer transition-all duration-300 rounded-[32px] border-2 bg-white dark:bg-slate-900/50 flex flex-col',
+              'group relative p-5 sm:p-8 cursor-pointer transition-all duration-300 rounded-[32px] border-2 bg-white dark:bg-slate-900/50 flex flex-col',
               isSelected
                 ? 'border-blue-500 shadow-2xl shadow-blue-500/10 -translate-y-1'
                 : 'border-slate-100/80 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-500/50 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-none hover:-translate-y-1'
@@ -92,15 +92,15 @@ export function ServiceSelector({ onSelect, searchQuery = '' }: ServiceSelectorP
               </div>
             )}
 
-            <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-8 shrink-0 transition-transform group-hover:scale-110 duration-300", color)}>
-              <Icon weight="fill" className="text-2xl" />
+            <div className={cn("w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-6 sm:mb-8 shrink-0 transition-transform group-hover:scale-110 duration-300", color)}>
+              <Icon weight="fill" className="text-xl sm:text-2xl" />
             </div>
 
             <div className="flex-1">
-              <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2 sm:mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {service.name}
               </h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-10 line-clamp-3">
+              <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mb-6 sm:mb-10 line-clamp-3">
                 {service.description || t('defaultDescription')}
               </p>
             </div>

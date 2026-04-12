@@ -170,7 +170,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
         </h3>
       </div>
       
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5 sm:gap-4">
         {slots.map((slot) => {
           const isSelected = selectedTimeSlot === slot.time;
 
@@ -199,7 +199,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-slate-900/50 rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
+    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-slate-900/50 rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-4 sm:p-6 md:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
       {morningSlots.length > 0 && renderSlots(morningSlots, t('morningSlots'), true)}
       {morningSlots.length > 0 && afternoonSlots.length > 0 && (
         <div className="w-full h-px bg-slate-100/80 dark:bg-slate-800 my-8"></div>
