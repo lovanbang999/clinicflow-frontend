@@ -69,11 +69,11 @@ export function PrintableWalkinTicket({ booking, queue }: PrintableWalkinTicketP
             </span>
           </div>
           <div className="flex justify-between items-baseline">
-            <span className="text-slate-600 font-bold uppercase text-[9px]">Mã đặt lịch</span>
+            <span className="text-slate-600 font-bold uppercase text-[9px]">{t('bookingCode')}</span>
             <span className="font-mono font-black text-slate-950">{booking.bookingCode || 'N/A'}</span>
           </div>
           <div className="flex justify-between items-baseline">
-            <span className="text-slate-600 font-bold uppercase text-[9px]">Số điện thoại</span>
+            <span className="text-slate-600 font-bold uppercase text-[9px]">{t('phone')}</span>
             <span className="font-black text-slate-950">{booking.patientProfile?.phone || '—'}</span>
           </div>
           <div className="flex justify-between items-baseline">
