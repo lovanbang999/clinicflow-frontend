@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { WalkinBookingProvider, useWalkinBooking } from './WalkinBookingContext';
 import { PatientSelectionStep } from './steps/PatientSelectionStep';
 import { DoctorSelectionStep } from './steps/DoctorSelectionStep';
@@ -7,8 +8,16 @@ import { AppointmentTimeStep } from './steps/AppointmentTimeStep';
 import { BookingSummaryCard } from './steps/BookingSummaryCard';
 import { CompletedBooking } from './steps/CompletedBooking';
 
-function WalkinBookingContent() {
+interface WalkinBookingFormProps {
+  onCompleteChange?: (isCompleted: boolean) => void;
+}
+
+function WalkinBookingContent({ onCompleteChange }: WalkinBookingFormProps) {
   const { completedBooking } = useWalkinBooking();
+
+  useEffect(() => {
+    onCompleteChange?.(!!completedBooking);
+  }, [completedBooking, onCompleteChange]);
 
   if (completedBooking) {
     return <CompletedBooking />;
@@ -29,10 +38,10 @@ function WalkinBookingContent() {
   );
 }
 
-export function WalkinBookingForm() {
+export function WalkinBookingForm({ onCompleteChange }: WalkinBookingFormProps) {
   return (
     <WalkinBookingProvider>
-      <WalkinBookingContent />
+      <WalkinBookingContent onCompleteChange={onCompleteChange} />
     </WalkinBookingProvider>
   );
 }
