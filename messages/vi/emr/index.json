@@ -305,7 +305,7 @@
       "services": "Dịch vụ",
       "labs": "Xét nghiệm",
       "listPrice": "Theo giá niêm yết",
-      "readyB3": "Sẵn sàng chuyển B3",
+      "readyB3": "Sẵn sàng chuyển sang bước tiếp theo",
       "readyB3Desc": "Đã có {count} chỉ định. Lễ tân sẽ thu tiền và in phiếu cho BN.",
       "readyB7": "Sẵn sàng kết luận",
       "readyB7Desc": "Bác sĩ vui lòng xem kết quả, đưa ra chẩn đoán và kê đơn thuốc.",
@@ -334,7 +334,76 @@
       "historyWip": "Chưa có dữ liệu lịch sử",
       "historyTabButton": "Xem chi tiết tại Tab Lịch sử",
       "feeStatus": "Phí khám & Dịch vụ",
-      "feePaid": "Đã thu phí"
+      "feePaid": "Đã thu phí",
+      "phone": "Số điện thoại",
+      "bookingCode": "Mã đặt khám",
+      "unknownPatient": "Bệnh nhân ẩn danh",
+      "feeFree": "Miễn phí",
+      "dateOfBirth": "Ngày sinh"
+    },
+    "pageTitle": "Khám bệnh",
+    "servicesTab": {
+      "statuses": {
+        "pendingPayment": "Chờ thanh toán",
+        "paid": "Chờ thực hiện",
+        "inProgress": "Đang thực hiện",
+        "completed": "Hoàn tất",
+        "cancelled": "Đã hủy"
+      },
+      "messages": {
+        "removeSuccess": "Đã xóa chỉ định",
+        "removeError": "Chỉ được xóa khi chỉ định đang ở trạng thái Chờ thanh toán"
+      },
+      "title": "Chỉ định khám chuyên khoa",
+      "group2": "Nhóm 2 — BS chuyên khoa thực hiện",
+      "description": "Dịch vụ này sẽ được BS chuyên khoa thực hiện tại phòng khám chuyên khoa sau khi bệnh nhân nộp phí tại quầy lễ tân.",
+      "emptyList": "Chưa có chỉ định chuyên khoa nào.",
+      "draft": "Chưa lưu",
+      "discard": "Bỏ nháp",
+      "totalOrders": "chỉ định chuyên khoa",
+      "totalPrice": "Tổng phí:",
+      "cantRemove": "Không thể xóa — đã thanh toán hoặc đang thực hiện",
+      "removeOrder": "Xóa chỉ định",
+      "placeholder": "— Chọn dịch vụ chuyên khoa —",
+      "addBtn": "Thêm"
+    },
+    "notesTab": {
+      "errors": {
+        "save": "Lỗi khi lưu ghi chú"
+      },
+      "doctorNote": "Ghi chú bác sĩ (Nội bộ)",
+      "clinicalComment": "Nhận xét lâm sàng",
+      "clinicalCommentPlaceholder": "Ghi chú nội bộ, không in ra cho bệnh nhân xem...",
+      "instructions": "Hướng dẫn chuẩn bị (gửi cho BN)",
+      "instructionsPlaceholder": "VD: Nhịn ăn sáng để xét nghiệm máu...",
+      "wipFeature": "Tính năng này sẽ được triển khai trong phiên bản sau"
+    },
+    "prescriptionTab": {
+      "unitPill": "viên",
+      "errors": {
+        "incomplete": "Vui lòng điền đủ Tên thuốc, Liều lượng, Tần suất và Số lượng"
+      },
+      "addMedTitle": "Thêm thuốc",
+      "emptyList": "Chưa kê thuốc nào. Bấm để thêm thuốc.",
+      "removeAct": "Xoá",
+      "medNamePlaceholder": "Tên thuốc",
+      "dosagePlaceholder": "Liều dùng (VD: 500mg)",
+      "freqPlaceholder": "Tần suất (VD: Sáng 1, Tối 1)",
+      "qtyLabel": "Số lượng:",
+      "unitPlaceholder": "Đơn vị",
+      "usagePlaceholder": "Cách dùng / Dặn dò thêm (Uống sau ăn...)",
+      "addBtn": "Thêm thuốc",
+      "doctorAdvice": "Lời dặn bác sĩ",
+      "advicePlaceholder": "Dặn dò chung in trên toa thuốc..."
+    },
+    "resultsTab": {
+      "emptyList": "Không có dữ liệu cận lâm sàng.",
+      "statusReady": "Đã có KQ",
+      "statusPending": "Đang chờ",
+      "resultLabel": "Kết quả:",
+      "abnormalLabel": "Bất thường:",
+      "noNote": "Không có ghi chú",
+      "viewAttachment": "Xem file đính kèm"
     }
   },
   "history": {

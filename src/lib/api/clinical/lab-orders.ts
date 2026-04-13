@@ -19,6 +19,11 @@ export interface LabOrder {
   status: 'PENDING' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   orderedAt: string;
   result?: LabResult;
+  service?: {
+    id: string;
+    name: string;
+    price?: number;
+  };
   // Included in pending lists
   patientProfile?: {
     fullName: string;

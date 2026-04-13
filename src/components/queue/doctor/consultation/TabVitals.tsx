@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { medicalRecordsApi, type VisitResultsResponse, type SaveSymptomsDto } from '@/lib/api/clinical/medical-records';
 import { useTranslations } from 'next-intl';
@@ -16,9 +16,10 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
   const t = useTranslations('emr.visit');
   const [formData, setFormData] = useState<SaveSymptomsDto>({});
 
+  const isDirtyRef = useRef(false);
   const [prevRecord, setPrevRecord] = useState(medicalRecord);
 
-  // Initialize from MedicalRecord or PatientProfile if available
+  // Derive state from props during render phase to avoid cascading updates in effect
   if (medicalRecord !== prevRecord) {
     setPrevRecord(medicalRecord);
     if (medicalRecord) {
@@ -34,7 +35,6 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         clinicalFindings: medicalRecord.clinicalFindings || '',
       });
     } else if (item.booking.patientProfile) {
-       // Pre-fill weight/height from patient profile if no medical record yet
        setFormData(prev => ({
          ...prev,
          weightKg: item.booking.patientProfile?.weightKg || undefined,
@@ -43,27 +43,40 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
     }
   }
 
+  // Isolated effect just to clear the ref safely after render
+  useEffect(() => {
+    isDirtyRef.current = false;
+  }, [medicalRecord]);
+
   const handleChange = (field: keyof SaveSymptomsDto, value: string | number | undefined) => {
+    isDirtyRef.current = true;
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = async () => {
-    try {
-      // Calculate BMI safely
-      const finalData = { ...formData };
-      if (finalData.weightKg && finalData.heightCm) {
-        const heightM = finalData.heightCm / 100;
-        finalData.bmi = parseFloat((finalData.weightKg / (heightM * heightM)).toFixed(1));
-      }
+  useEffect(() => {
+    if (!isDirtyRef.current) return;
 
-      await medicalRecordsApi.saveSymptoms(item.bookingId, finalData);
-      toast.success(t('messages.saveSuccess'));
-      onChange(); // Refresh parent
-    } catch (error) {
-      console.error(error);
-      toast.error(t('messages.saveError'));
-    }
-  };
+    const timer = setTimeout(async () => {
+      try {
+        const finalData = { ...formData };
+        if (finalData.weightKg && finalData.heightCm) {
+          const heightM = finalData.heightCm / 100;
+          finalData.bmi = parseFloat((finalData.weightKg / (heightM * heightM)).toFixed(1));
+        }
+
+        await medicalRecordsApi.saveSymptoms(item.bookingId, finalData);
+        // Do not spam toast success on auto-save
+        // toast.success(t('messages.saveSuccess')); 
+        isDirtyRef.current = false;
+        onChange(); 
+      } catch (error) {
+        console.error(error);
+        toast.error(t('messages.saveError'));
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [formData, item.bookingId, onChange, t]);
 
   // Safe parsed values used for UI logic (like abnormal highlight)
   const bpParts = formData.bloodPressure?.split('/') || [];
@@ -102,7 +115,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               placeholder="120/80" 
               value={formData.bloodPressure || ''}
               onChange={(e) => handleChange('bloodPressure', e.target.value)}
-              onBlur={handleSave}
+
             />
             <span className="text-[11px] text-slate-400 whitespace-nowrap">mmHg</span>
           </div>
@@ -118,7 +131,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               className="border-none bg-transparent text-[16px] font-medium w-full focus:outline-none" 
               value={formData.heartRate || ''}
               onChange={(e) => handleChange('heartRate', e.target.value ? parseFloat(e.target.value) : undefined)}
-              onBlur={handleSave}
+
             />
             <span className="text-[11px] text-slate-400 whitespace-nowrap">{t('symptoms.heartRateUnit')}</span>
           </div>
@@ -135,7 +148,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               className="border-none bg-transparent text-[16px] font-medium w-full focus:outline-none" 
               value={formData.temperature || ''}
               onChange={(e) => handleChange('temperature', e.target.value ? parseFloat(e.target.value) : undefined)}
-              onBlur={handleSave}
+
             />
             <span className="text-[11px] text-slate-400 whitespace-nowrap">{t('symptoms.temperatureUnit')}</span>
           </div>
@@ -151,7 +164,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               className="border-none bg-transparent text-[16px] font-medium w-full focus:outline-none" 
               value={formData.spO2 || ''}
               onChange={(e) => handleChange('spO2', e.target.value ? parseFloat(e.target.value) : undefined)}
-              onBlur={handleSave}
+
             />
             <span className="text-[11px] text-slate-400 whitespace-nowrap">%</span>
           </div>
@@ -167,7 +180,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               className="border-none bg-transparent text-[16px] font-medium w-full focus:outline-none" 
               value={formData.weightKg || ''}
               onChange={(e) => handleChange('weightKg', e.target.value ? parseFloat(e.target.value) : undefined)}
-              onBlur={handleSave}
+
             />
             <span className="text-[11px] text-slate-400 whitespace-nowrap">{t('symptoms.weightUnit')}</span>
           </div>
@@ -183,7 +196,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               className="border-none bg-transparent text-[16px] font-medium w-full focus:outline-none" 
               value={formData.heightCm || ''}
               onChange={(e) => handleChange('heightCm', e.target.value ? parseFloat(e.target.value) : undefined)}
-              onBlur={handleSave}
+
             />
             <span className="text-[11px] text-slate-400 whitespace-nowrap">{t('symptoms.heightUnit')}</span>
           </div>
@@ -213,7 +226,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               placeholder={t('symptoms.chiefComplaintPlaceholder')}
               value={formData.chiefComplaint || ''}
               onChange={(e) => handleChange('chiefComplaint', e.target.value)}
-              onBlur={handleSave}
+
             />
           </div>
           <div className="col-span-2">
@@ -223,7 +236,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               placeholder={t('symptoms.additionalSymptomsPlaceholder')}
               value={formData.additionalSymptoms || ''}
               onChange={(e) => handleChange('additionalSymptoms', e.target.value)}
-              onBlur={handleSave}
+
             />
           </div>
         </div>
@@ -241,7 +254,6 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
             placeholder={t('symptoms.clinicalFindingsPlaceholder')}
             value={formData.clinicalFindings || ''}
             onChange={(e) => handleChange('clinicalFindings', e.target.value)}
-            onBlur={handleSave}
           />
         </div>
       </div>

@@ -9,10 +9,11 @@ interface UseServicesParams {
   isActive?: boolean;
   search?: string;
   categoryType?: 'EXAMINATION' | 'LAB';
+  performedBy?: 'TECHNICIAN' | 'DOCTOR';
 }
 
 export function useServices(params: UseServicesParams = {}) {
-  const { isActive, search, categoryType } = params;
+  const { isActive, search, categoryType, performedBy } = params;
   const [services, setServices] = useState<Service[]>([]);
   const { execute, isLoading, error } = useApiHandler();
 
@@ -20,7 +21,7 @@ export function useServices(params: UseServicesParams = {}) {
     const fetchServices = async () => {
       await execute(
         async () => {
-          const data = await servicesApi.getAll({ isActive, search, categoryType });
+          const data = await servicesApi.getAll({ isActive, search, categoryType, performedBy });
           setServices(data);
         },
         {
@@ -33,7 +34,7 @@ export function useServices(params: UseServicesParams = {}) {
       void fetchServices();
     }, 0);
     return () => clearTimeout(timer);
-  }, [isActive, search, categoryType, execute]);
+  }, [isActive, search, categoryType, performedBy, execute]);
 
   return { services, isLoading, error };
 }

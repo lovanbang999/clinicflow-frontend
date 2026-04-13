@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import type { VisitResultsResponse } from '@/lib/api/clinical/medical-records';
+import type { Service } from '@/types/service';
 import { useTranslations } from 'next-intl';
 import { TabVitals } from './TabVitals';
 import { TabLabs } from './TabLabs';
@@ -15,12 +16,20 @@ import { TabPrescription } from './TabPrescription';
 interface ConsultationCenterTabsProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
+  draftServices: Service[];
+  setDraftServices: (val: Service[]) => void;
+  draftLabs: Service[];
+  setDraftLabs: (val: Service[]) => void;
   onChange: () => void;
 }
 
 export function ConsultationCenterTabs({
   item,
   medicalRecord,
+  draftServices,
+  setDraftServices,
+  draftLabs,
+  setDraftLabs,
   onChange,
 }: ConsultationCenterTabsProps) {
   const t = useTranslations('emr.visit');
@@ -37,8 +46,8 @@ export function ConsultationCenterTabs({
     setActiveTab('vitals'); // Force tab switch if reverting to Phase 1
   }
 
-  const orderCount = medicalRecord?.visitServiceOrders?.length || 0;
-  const labCount = medicalRecord?.labOrders?.length || 0;
+  const orderCount = (medicalRecord?.visitServiceOrders?.length || 0) + draftServices.length;
+  const labCount = (medicalRecord?.labOrders?.length || 0) + draftLabs.length;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white/50">
@@ -119,10 +128,22 @@ export function ConsultationCenterTabs({
         
         {/* Phase 1 Tabs */}
         {!isPhase2 && activeTab === 'services' && (
-          <TabServices item={item} medicalRecord={medicalRecord} onChange={onChange} />
+          <TabServices 
+            item={item} 
+            medicalRecord={medicalRecord} 
+            draftServices={draftServices}
+            setDraftServices={setDraftServices}
+            onChange={onChange} 
+          />
         )}
         {!isPhase2 && activeTab === 'labs' && (
-          <TabLabs item={item} medicalRecord={medicalRecord} onChange={onChange} />
+          <TabLabs 
+            item={item} 
+            medicalRecord={medicalRecord} 
+            draftLabs={draftLabs}
+            setDraftLabs={setDraftLabs}
+            onChange={onChange} 
+          />
         )}
         {!isPhase2 && activeTab === 'notes' && (
           <TabNotes item={item} medicalRecord={medicalRecord} onChange={onChange} />

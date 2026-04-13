@@ -12,6 +12,13 @@ export interface Service {
     code: string;
     name: string;
   };
+  doctorServices?: {
+    doctorProfile: {
+      user: {
+        fullName: string;
+      }
+    }
+  }[];
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

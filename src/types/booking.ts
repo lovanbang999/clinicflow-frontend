@@ -18,6 +18,15 @@ export enum LabOrderStatus {
   CANCELLED = 'CANCELLED',
 }
 
+// Separate enum for VisitServiceOrder
+export enum ServiceOrderStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
 export interface LabOrder {
   id: string;
   testName: string;
@@ -32,6 +41,7 @@ export interface Booking {
   patientProfileId: string;
   doctorId: string;
   serviceId?: string | null;
+  consultationFee?: number | null;
   bookingDate: string;
   startTime?: string | null;   // null for walk-in bookings
   endTime?: string | null;     // null for walk-in bookings
