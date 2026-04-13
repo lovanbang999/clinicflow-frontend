@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { queueApi } from '@/lib/api/appointment/queue';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
-import { DoctorExamView } from '@/components/queue/doctor/DoctorExamView';
+import { SpecialistExaminationView } from '@/components/queue/doctor/examination/SpecialistExaminationView';
 import { SpinnerIcon } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
@@ -58,11 +58,13 @@ export default function DoctorExamPage() {
 
   return (
     <div className="flex flex-col h-full bg-[#edf1f8] relative z-10 w-full overflow-hidden shadow-inner hidden-scrollbar">
-      <DoctorExamView
+      <SpecialistExaminationView
         item={record}
         onExit={() => router.push(`/${locale}/doctor`)}
-        onRefreshQueue={() => {}}
-        onRefreshRecord={fetchRecord}
+        onSuccess={() => {
+          toast.success('Đã lưu kết quả thành công');
+          router.push(`/${locale}/doctor`);
+        }}
       />
     </div>
   );

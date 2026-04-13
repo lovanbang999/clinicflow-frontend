@@ -150,6 +150,7 @@ export interface VisitServiceOrder {
     name: string;
     category?: string;
     serviceCode?: string;
+    price?: number;
   };
   medicalRecord?: {
     booking?: {

@@ -29,6 +29,18 @@ export function StatusBadge({ status }: StatusBadgeProps) {
           Checked In
         </span>
       );
+    case BookingStatus.IN_PROGRESS:
+      return (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-100">
+          Đang khám
+        </span>
+      );
+    case BookingStatus.AWAITING_RESULTS:
+      return (
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-100">
+          Đang ở phòng lab
+        </span>
+      );
     case BookingStatus.COMPLETED:
       return (
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">

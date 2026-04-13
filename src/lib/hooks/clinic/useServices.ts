@@ -8,10 +8,11 @@ import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
 interface UseServicesParams {
   isActive?: boolean;
   search?: string;
+  categoryType?: 'EXAMINATION' | 'LAB';
 }
 
 export function useServices(params: UseServicesParams = {}) {
-  const { isActive, search } = params;
+  const { isActive, search, categoryType } = params;
   const [services, setServices] = useState<Service[]>([]);
   const { execute, isLoading, error } = useApiHandler();
 
@@ -19,7 +20,7 @@ export function useServices(params: UseServicesParams = {}) {
     const fetchServices = async () => {
       await execute(
         async () => {
-          const data = await servicesApi.getAll({ isActive, search });
+          const data = await servicesApi.getAll({ isActive, search, categoryType });
           setServices(data);
         },
         {
@@ -32,7 +33,7 @@ export function useServices(params: UseServicesParams = {}) {
       void fetchServices();
     }, 0);
     return () => clearTimeout(timer);
-  }, [isActive, search, execute]);
+  }, [isActive, search, categoryType, execute]);
 
   return { services, isLoading, error };
 }

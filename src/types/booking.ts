@@ -3,6 +3,7 @@ export enum BookingStatus {
   CONFIRMED = 'CONFIRMED',
   CHECKED_IN = 'CHECKED_IN',
   IN_PROGRESS = 'IN_PROGRESS',
+  AWAITING_RESULTS = 'AWAITING_RESULTS', // Patient is at the lab/procedure room
   COMPLETED = 'COMPLETED',
   CANCELLED = 'CANCELLED',
   QUEUED = 'QUEUED',
@@ -84,6 +85,11 @@ export interface Booking {
       followUpNote?: string;
       prescription?: {
         id: string;
+        notes?: string;
+        isPrinted: boolean;
+        isFulfilledInternally: boolean | null; // null = not decided, true = bought at clinic, false = outside
+        fulfilledAt?: string | null;
+        pharmacyInvoiceId?: string | null;
         items: Array<{
           medicineName: string;
           dosage: string;

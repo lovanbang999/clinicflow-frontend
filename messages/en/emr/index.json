@@ -13,6 +13,19 @@
       "prescription": "Prescription",
       "summary": "Summary & Print"
     },
+    "tabs": {
+      "vitals": "Vitals & Symptoms",
+      "services": "Service Orders",
+      "labs": "Lab Results",
+      "notes": "Notes & Records",
+      "results": "Labs & Results",
+      "diagnosis": "Diagnosis",
+      "prescription": "Prescription"
+    },
+    "messages": {
+      "saveSuccess": "Information saved successfully",
+      "saveError": "Error saving information"
+    },
     "serviceSelection": {
       "title": "Specialized Service Selection",
       "description": "Please select the appropriate specialized examination service after consulting with the patient.",
@@ -87,7 +100,13 @@
       "required": "Required",
       "requiredReason": "Chief complaint is required",
       "requiredFindings": "Clinical findings are required",
-      "stepTracker": "Step {current}/{total} - {title}"
+      "stepTracker": "Step {current}/{total} - {title}",
+      "bmi": {
+        "underweight": "Underweight",
+        "normal": "Normal",
+        "overweight": "Overweight",
+        "obese": "Obese"
+      }
     },
     "services": {
       "tooltip": "Optional step – Only add services if the patient requires laboratory tests, imaging, or procedures. If not needed, click ‘Skip this step’ to proceed to Results & Diagnosis.",
@@ -269,7 +288,53 @@
       },
       "doctorSignature": "Doctor's Signature (Sign and write full name)"
     },
-    "historyTabButton": "📋 Visit History"
+    "historyTabButton": "📋 Visit History",
+    "rightPanel": {
+      "statusTitle": "Consultation Status",
+      "workflow": {
+        "reception": "Reception",
+        "receptionDesc": "Receptionist · Done",
+        "feePaid": "Fee Paid",
+        "done": "Done",
+        "consulting": "Consulting & Ordering",
+        "labPayment": "Lab Payment",
+        "conclusion": "Conclusion & Rx"
+      },
+      "summaryTitle": "Order / Results Summary",
+      "services": "Services",
+      "labs": "Labs",
+      "listPrice": "List Price",
+      "readyB3": "Ready for Next Step",
+      "readyB3Desc": "{count} orders created. Receptionist will collect payment and print the ticket.",
+      "readyB7": "Ready for Conclusion",
+      "readyB7Desc": "Please review the results, make a diagnosis, and prescribe medicine.",
+      "noticeTitle": "Notice",
+      "noticeDesc": "Fill in vitals and symptoms, add services/labs if necessary before finalizing.",
+      "finalizeBtnB2": "Finalize Orders & Proceed",
+      "finalizeBtnB7": "Finish Consultation",
+      "dr": "Dr."
+    },
+    "leftPanel": {
+      "profile": "Patient Profile",
+      "patientCode": "Patient Code",
+      "dob": "Date of Birth",
+      "gender": "Gender",
+      "genders": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "clinicalWarning": "Clinical Warning",
+      "allergyTitle": "ALLERGY:",
+      "noAllergies": "No known allergies",
+      "chronicConditions": "Chronic Conditions",
+      "none": "None",
+      "visitHistory": "Visit History",
+      "historyWip": "No history data available",
+      "historyTabButton": "View detail in History Tab",
+      "feeStatus": "Consultation Fee",
+      "feePaid": "Paid"
+    }
   },
   "history": {
     "title": "Visit History ({count})",
