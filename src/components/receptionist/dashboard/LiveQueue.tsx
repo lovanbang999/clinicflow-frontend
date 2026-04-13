@@ -50,6 +50,8 @@ export function LiveQueue() {
                   "w-12 h-12 rounded-xl font-bold flex flex-col items-center justify-center shrink-0 border transition-all",
                   record.booking.status === BookingStatus.IN_PROGRESS 
                     ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200" 
+                    : record.booking.status === BookingStatus.AWAITING_RESULTS
+                    ? "bg-amber-500 text-white border-amber-500 shadow-lg shadow-amber-200"
                     : "bg-white text-slate-900 border-slate-100"
                 )}
               >
@@ -75,7 +77,7 @@ export function LiveQueue() {
                 </div>
               </div>
 
-              {record.booking.status !== BookingStatus.IN_PROGRESS && (
+              {record.booking.status !== BookingStatus.IN_PROGRESS && record.booking.status !== BookingStatus.AWAITING_RESULTS && (
                 <button 
                   onClick={() => promoteQueue(record.bookingId)}
                   title={t('promoteBtn')}
@@ -88,6 +90,12 @@ export function LiveQueue() {
               {record.booking.status === BookingStatus.IN_PROGRESS && (
                  <div className="bg-blue-50 text-blue-600 px-2 py-1 rounded text-[10px] font-black uppercase tracking-wider">
                    {t('inProgress')}
+                 </div>
+              )}
+
+              {record.booking.status === BookingStatus.AWAITING_RESULTS && (
+                 <div className="bg-amber-50 text-amber-600 px-2 py-1 rounded text-[10px] font-black uppercase tracking-wider text-center">
+                   🧪 Lab
                  </div>
               )}
             </div>

@@ -39,7 +39,8 @@ export function ServiceSelector({ onSelect, searchQuery = '' }: ServiceSelectorP
   const debouncedSearch = useDebounce(searchQuery, 400);
   const { services, isLoading } = useServices({ 
     isActive: true, 
-    search: debouncedSearch 
+    search: debouncedSearch,
+    categoryType: 'EXAMINATION'
   });
   
   const { selectedService, setSelectedService } = useBookingStore();

@@ -15,6 +15,7 @@ export interface LabOrder {
   bookingId: string;
   testName: string;
   testDescription?: string;
+  serviceId?: string;
   status: 'PENDING' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   orderedAt: string;
   result?: LabResult;

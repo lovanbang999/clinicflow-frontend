@@ -31,7 +31,7 @@ export function ServiceSelectionSection({
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { services, isLoading: isLoadingServices } = useServices({ isActive: true });
+  const { services, isLoading: isLoadingServices } = useServices({ isActive: true, categoryType: 'EXAMINATION' });
   const { doctors, isLoading: isLoadingDoctors } = useDoctors({ 
     serviceId: selectedServiceId || undefined 
   });

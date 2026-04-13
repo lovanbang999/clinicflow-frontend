@@ -116,10 +116,10 @@ export const bookingsApi = {
   },
   
   // Update medical service assigned to booking (Doctor consultation-first model)
-  updateService: async (id: string, serviceId: string, doctorId?: string): Promise<Booking> => {
+  updateService: async (id: string, serviceId: string, newDoctorId?: string): Promise<Booking> => {
     const response = await apiClient.patch<{ data: Booking }>(`/bookings/${id}/service`, {
       serviceId,
-      doctorId,
+      ...(newDoctorId && { newDoctorId }),
     });
     return response.data.data;
   },

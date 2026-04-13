@@ -13,6 +13,19 @@
       "prescription": "Kê đơn thuốc",
       "summary": "Tổng kết & In"
     },
+    "tabs": {
+      "vitals": "Sinh hiệu & Triệu chứng",
+      "services": "Chỉ định dịch vụ",
+      "labs": "Cận lâm sàng",
+      "notes": "Ghi chú & Hồ sơ",
+      "results": "Cận lâm sàng & Kết quả",
+      "diagnosis": "Chẩn đoán",
+      "prescription": "Kê đơn thuốc"
+    },
+    "messages": {
+      "saveSuccess": "Đã lưu thông tin thành công",
+      "saveError": "Lỗi khi lưu thông tin"
+    },
     "serviceSelection": {
       "title": "Xác định dịch vụ chuyên khoa",
       "description": "Bác sĩ vui lòng chọn dịch vụ khám chuyên khoa phù hợp sau khi đã hỏi thăm tình trạng bệnh nhân.",
@@ -87,7 +100,13 @@
       "required": "Bắt buộc",
       "requiredReason": "Bắt buộc nhập lý do khám",
       "requiredFindings": "Bắt buộc nhập kết quả thăm khám",
-      "stepTracker": "Bước {current}/{total} - {title}"
+      "stepTracker": "Bước {current}/{total} - {title}",
+      "bmi": {
+        "underweight": "Thiếu cân",
+        "normal": "Bình thường",
+        "overweight": "Thừa cân",
+        "obese": "Béo phì"
+      }
     },
     "services": {
       "tooltip": "Bước tùy chọn – Chỉ thêm dịch vụ nếu bệnh nhân cần xét nghiệm, chẩn đoán hình ảnh hoặc thủ thuật. Nếu không cần, nhấn ‘Bỏ qua bước này’ để tiến thẳng sang đọc kết quả và chẩn đoán.",
@@ -270,7 +289,53 @@
       },
       "doctorSignature": "Chữ ký Bác sĩ (Ký và ghi rõ họ tên)"
     },
-    "historyTabButton": "📋 Lịch sử khám"
+    "historyTabButton": "📋 Lịch sử khám",
+    "rightPanel": {
+      "statusTitle": "Trạng thái lượt khám",
+      "workflow": {
+        "reception": "Tiếp nhận",
+        "receptionDesc": "Lễ tân · Đã xong",
+        "feePaid": "Phí khám đã thu",
+        "done": "Đã xong",
+        "consulting": "Đang khám & chỉ định",
+        "labPayment": "Thanh toán CLS",
+        "conclusion": "Kết luận & đơn thuốc"
+      },
+      "summaryTitle": "Tóm tắt chỉ định / kết quả",
+      "services": "Dịch vụ",
+      "labs": "Xét nghiệm",
+      "listPrice": "Theo giá niêm yết",
+      "readyB3": "Sẵn sàng chuyển B3",
+      "readyB3Desc": "Đã có {count} chỉ định. Lễ tân sẽ thu tiền và in phiếu cho BN.",
+      "readyB7": "Sẵn sàng kết luận",
+      "readyB7Desc": "Bác sĩ vui lòng xem kết quả, đưa ra chẩn đoán và kê đơn thuốc.",
+      "noticeTitle": "Lưu ý",
+      "noticeDesc": "Điền sinh hiệu và triệu chứng đầy đủ, bổ sung chỉ định dịch vụ/CLS nếu cần trước khi xác nhận.",
+      "finalizeBtnB2": "Xác nhận chỉ định",
+      "finalizeBtnB7": "Hoàn tất chuyên án & Đóng khám",
+      "dr": "BS."
+    },
+    "leftPanel": {
+      "profile": "Thông tin cá nhân",
+      "patientCode": "Mã bệnh nhân",
+      "dob": "Ngày sinh",
+      "gender": "Giới tính",
+      "genders": {
+        "male": "Nam",
+        "female": "Nữ",
+        "other": "Khác"
+      },
+      "clinicalWarning": "Cảnh báo lâm sàng",
+      "allergyTitle": "DỊ ỨNG:",
+      "noAllergies": "Chưa ghi nhận tiền sử dị ứng",
+      "chronicConditions": "Bệnh mãn tính",
+      "none": "Không có",
+      "visitHistory": "Lịch sử khám",
+      "historyWip": "Chưa có dữ liệu lịch sử",
+      "historyTabButton": "Xem chi tiết tại Tab Lịch sử",
+      "feeStatus": "Phí khám & Dịch vụ",
+      "feePaid": "Đã thu phí"
+    }
   },
   "history": {
     "title": "Lịch sử khám ({count})",

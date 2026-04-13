@@ -1,12 +1,14 @@
 'use client';
 
+import { useState, useCallback, useEffect } from 'react';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
-import { DoctorPatientBanner } from './DoctorPatientBanner';
-import { DoctorVitalsStrip } from './DoctorVitalsStrip';
-import { ServiceSelectionSection } from '@/components/doctor/tabs/ServiceSelectionSection';
+import { medicalRecordsApi, VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { Button } from '@/components/ui/button';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
+import { ConsultationLeftPanel } from './consultation/ConsultationLeftPanel';
+import { ConsultationCenterTabs } from './consultation/ConsultationCenterTabs';
+import { ConsultationRightPanel } from './consultation/ConsultationRightPanel';
 
 interface DoctorConsultationViewProps {
   item: QueueRecord;
@@ -16,50 +18,103 @@ interface DoctorConsultationViewProps {
 
 export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsultationViewProps) {
   const t = useTranslations('emr.visit');
+  const [medicalRecord, setMedicalRecord] = useState<VisitResultsResponse | null>(null);
+
+  const fetchRecord = useCallback(() => {
+    medicalRecordsApi.getVisitResults(item.bookingId)
+      .then(res => setMedicalRecord(res))
+      .catch(error => {
+        console.error('Failed to fetch medical record:', error);
+      });
+  }, [item.bookingId]);
+
+  useEffect(() => {
+    fetchRecord();
+  }, [fetchRecord]);
+
+  const handleDataChange = useCallback(() => {
+    fetchRecord(); // Refresh data when child components update (like adding a lab order)
+  }, [fetchRecord]);
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-[#f8f9fa] overflow-hidden" id="consultation-mode">
-      <main className="flex-1 overflow-y-auto p-6 pb-20" style={{ scrollbarWidth: 'thin' }}>
-        
-        {/* Header with Back button */}
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="ghost"
-            onClick={onExit}
-            className="flex items-center gap-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100"
-          >
-            <ArrowLeftIcon size={18} weight="bold" />
-            <span className="font-bold">{t('shared.back')}</span>
-          </Button>
-          <h1 className="text-2xl font-black text-slate-800 tracking-tight">{t('consultation.title')}</h1>
-        </div>
-
-        {/* Patient Banner & Vitals */}
-        <section className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8 transition-all hover:shadow-md">
-          <DoctorPatientBanner item={item} />
-          <div className="mt-6 pt-6 border-t border-slate-100">
-            <DoctorVitalsStrip item={item} />
+    <div className="flex flex-col h-screen max-h-screen bg-[#f5f5f3] overflow-hidden text-[13px]">
+      {/* TOP HEADER */}
+      <div className="bg-white border-b border-gray-200 px-5 py-2.5 flex items-center gap-3 shrink-0 relative z-10 w-full mb-0 h-14">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onExit}
+          className="w-8 h-8 rounded border border-gray-200 text-slate-500 hover:bg-slate-100"
+          title={t('shared.back')}
+        >
+          <ArrowLeftIcon size={14} weight="bold" />
+        </Button>
+        <div className="flex items-center gap-2">
+          <div className="w-[30px] h-[30px] rounded-full bg-blue-50 flex items-center justify-center text-[11px] font-medium text-blue-800 border border-blue-100 shrink-0">
+            {item.booking.patientProfile?.fullName?.split(' ').pop()?.charAt(0) || 'BN'}
           </div>
-        </section>
-
-        {/* Specialized Section: Service Selection (Consultation) */}
-        <div className="w-full max-w-4xl mx-auto">
-          <ServiceSelectionSection 
-            bookingId={item.booking.id} 
-            onSuccess={onSuccess} 
-          />
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5">
+              <span className="font-medium text-[14px] text-slate-900 leading-tight">
+                {item.booking.patientProfile?.fullName || 'Unknown Patient'}
+              </span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-blue-50 text-blue-800 border border-blue-100">
+                {item.booking.bookingCode}
+              </span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-teal-50 text-teal-600 border border-teal-100">
+                STT #{item.queuePosition}
+              </span>
+            </div>
+            <div className="text-[12px] text-slate-500 leading-tight mt-0.5">
+              {item.booking.patientProfile?.gender === 'MALE' ? 'Nam' : 'Nữ'} ·{' '}
+              {item.booking.patientProfile?.dateOfBirth ? new Date().getFullYear() - new Date(item.booking.patientProfile.dateOfBirth).getFullYear() : '?'} tuổi ·{' '}
+              {item.booking.patientProfile?.phone} ·{' '}
+              {item.booking.isPreBooked ? 'Pre-booked' : 'Walk-in'}
+            </div>
+          </div>
         </div>
-
-        {/* Informative Note */}
-        <div className="mt-12 bg-blue-50/50 border border-blue-100 rounded-xl p-6 text-blue-800 max-w-2xl mx-auto text-sm">
-          <p className="font-bold mb-1">{t('consultation.guideTitle')}</p>
-          <p className="opacity-80">
-            {t.rich('consultation.guideContent', {
-              strong: (chunks) => <strong className="font-bold">{chunks}</strong>,
-            })}
-          </p>
+        <div className="flex-1"></div>
+        {/* Step Pills */}
+        <div className="flex items-center gap-1">
+          <span className="text-[11px] px-2.5 py-1 rounded-full border border-[#C0DD97] text-green-700 bg-green-50">B1 Tiếp nhận</span>
+          <span className="text-slate-400 text-[11px]">›</span>
+          <span className={`text-[11px] px-2.5 py-1 rounded-full border ${!medicalRecord || !['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep) ? 'border-blue-200 text-blue-800 bg-blue-50 font-medium' : 'border-[#C0DD97] text-green-700 bg-green-50'}`}>B2 Khám & chỉ định</span>
+          {(!medicalRecord || !['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep)) ? (
+            <>
+              <span className="text-slate-400 text-[11px]">›</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">B3 Thanh toán CLS</span>
+              <span className="text-slate-400 text-[11px]">›</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">B4–B5 Thực hiện</span>
+              <span className="text-slate-400 text-[11px]">›</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">B7 Kết luận</span>
+            </>
+          ) : (
+            <>
+              <span className="text-slate-400 text-[11px]">›</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-[#C0DD97] text-green-700 bg-green-50">B3-B6 Thanh toán & Làm CLS</span>
+              <span className="text-slate-400 text-[11px]">›</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-blue-200 text-blue-800 bg-blue-50 font-medium">B7 Kết luận & Kê đơn</span>
+            </>
+          )}
         </div>
-      </main>
+      </div>
+
+      {/* 3-COLUMN WORKSPACE BODY */}
+      <div className="grid grid-cols-[280px_1fr_320px] flex-1 overflow-hidden">
+        <ConsultationLeftPanel item={item} />
+        
+        <ConsultationCenterTabs 
+          item={item} 
+          medicalRecord={medicalRecord} 
+          onChange={handleDataChange} 
+        />
+        
+        <ConsultationRightPanel 
+          item={item} 
+          medicalRecord={medicalRecord}
+          onFinalize={onSuccess}
+        />
+      </div>
     </div>
   );
 }

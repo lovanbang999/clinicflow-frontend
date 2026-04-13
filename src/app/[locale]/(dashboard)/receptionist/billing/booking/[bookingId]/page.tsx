@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useBilling } from '@/lib/hooks/billing/useBilling';
 import { Invoice, InvoiceType, InvoiceStatus, PaymentMethod } from '@/lib/api/billing/billing';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
-import { Booking } from '@/types';
+import { Booking, BookingStatus } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -221,6 +221,17 @@ export default function BookingInvoicesPage() {
         </div>
       </div>
 
+      {/* AWAITING_RESULTS Banner — patient is at the lab */}
+      {booking?.status === BookingStatus.AWAITING_RESULTS && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-center gap-3">
+          <span className="text-2xl">🧪</span>
+          <div>
+            <p className="font-semibold text-amber-800 text-sm">Bệnh nhân đang ở phòng xét nghiệm / thủ thuật</p>
+            <p className="text-xs text-amber-600 mt-0.5">Đang chờ kết quả từ Kỹ thuật viên. Hóa đơn thuốc sẽ được tạo sau khi bác sĩ hoàn tất khám.</p>
+          </div>
+        </div>
+      )}
+
       {loadingBookingInvoices ? (
         <div className="space-y-6 mt-6">
           <Skeleton className="h-40 w-full rounded-2xl" />
@@ -303,12 +314,29 @@ export default function BookingInvoicesPage() {
               pharmacyInvoices.map(inv => (
                 <InvoiceCard key={inv.id} invoice={inv} onPay={handlePay} onView={(inv) => router.push(`/receptionist/billing/${inv.id}`)} onPrintInvoice={handlePrintInvoice} onPrintTicket={handlePrintTicket} onDelete={(inv) => deleteInvoice(inv.id, bookingId)} />
               ))
+            ) : booking?.status === BookingStatus.COMPLETED ? (
+              // B8 (v5.0): Only show pharmacy create button after doctor marks COMPLETED
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-4">
+                <div className="flex items-start gap-3">
+                  <PillIcon size={20} weight="fill" className="text-emerald-600 mt-0.5 shrink-0" />
+                  <div className="flex-1">
+                    <p className="font-semibold text-emerald-800 text-sm">Bệnh nhân có muốn mua thuốc tại phòng khám?</p>
+                    <p className="text-xs text-emerald-600 mt-1 mb-3">Bác sĩ đã kê đơn. Nếu bệnh nhân muốn mua thuốc tại đây, tạo hóa đơn thuốc để thu tiền.</p>
+                    <Button
+                      size="sm"
+                      onClick={() => handleCreateInvoice(InvoiceType.PHARMACY)}
+                      disabled={processingPayment || creatingType !== null}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer h-8 text-xs"
+                    >
+                      {creatingType === InvoiceType.PHARMACY ? '⏳' : <PlusIcon size={14} className="mr-1" />}
+                      {t('createPharmacyInvoice')}
+                    </Button>
+                  </div>
+                </div>
+              </div>
             ) : (
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 flex items-center justify-between">
-                <span className="text-slate-500 text-sm">{t('emptyPharmacy')}</span>
-                <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.PHARMACY)} disabled={processingPayment || creatingType !== null} className="bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer h-8 text-xs">
-                  {creatingType === InvoiceType.PHARMACY ? '⏳' : <PlusIcon size={14} className="mr-1" />} {t('createPharmacyInvoice')}
-                </Button>
+              <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 text-center">
+                <span className="text-slate-400 text-sm font-medium">Hóa đơn thuốc sẽ xuất hiện sau khi bác sĩ hoàn tất khám</span>
               </div>
             )}
           </div>
