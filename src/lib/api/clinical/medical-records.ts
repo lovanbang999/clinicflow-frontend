@@ -127,7 +127,7 @@ export type VisitStep =
   | 'PRESCRIBED'
   | 'COMPLETED';
 
-export type ServiceOrderStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+export type ServiceOrderStatus = 'PENDING' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export interface VisitServiceOrder {
   id: string;
@@ -144,6 +144,9 @@ export interface VisitServiceOrder {
   abnormalNote?: string;
   startedAt?: string;
   completedAt?: string;
+  paidAt?: string;
+  queueNumber?: number;
+  specialistNote?: string;
   createdAt: string;
   service: {
     id: string;

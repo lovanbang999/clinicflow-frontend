@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { medicalRecordsApi, type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 interface TabNotesProps {
   item: QueueRecord;
@@ -12,6 +13,7 @@ interface TabNotesProps {
 }
 
 export function TabNotes({ item, medicalRecord, onChange }: TabNotesProps) {
+  const t = useTranslations('emr.visit.notesTab');
   const [notes, setNotes] = useState('');
   const [instructions, setInstructions] = useState(''); // Could map to followUpNote or similar if we wanted
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +36,7 @@ export function TabNotes({ item, medicalRecord, onChange }: TabNotesProps) {
       onChange();
     } catch (error) {
       console.error(error);
-      toast.error('Lỗi khi lưu ghi chú');
+      toast.error(t('errors.save'));
     } finally {
       setIsSubmitting(false);
     }
@@ -45,14 +47,14 @@ export function TabNotes({ item, medicalRecord, onChange }: TabNotesProps) {
       <div className="bg-white border border-gray-200 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-          <div className="text-[13px] font-medium text-slate-800">Ghi chú bác sĩ (Nội bộ)</div>
+          <div className="text-[13px] font-medium text-slate-800">{t('doctorNote')}</div>
         </div>
         
         <div className="mb-4">
-          <label className="block text-[11px] font-medium text-slate-500 mb-1">Nhận xét lâm sàng</label>
+          <label className="block text-[11px] font-medium text-slate-500 mb-1">{t('clinicalComment')}</label>
           <textarea 
             className="w-full border border-gray-200 rounded-md p-2 text-[12px] focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 min-h-[100px]"
-            placeholder="Ghi chú nội bộ, không in ra cho bệnh nhân xem..."
+            placeholder={t('clinicalCommentPlaceholder')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             onBlur={handleSave}
@@ -60,14 +62,14 @@ export function TabNotes({ item, medicalRecord, onChange }: TabNotesProps) {
         </div>
 
         <div>
-           <label className="block text-[11px] font-medium text-slate-500 mb-1">Hướng dẫn chuẩn bị (gửi cho BN)</label>
+           <label className="block text-[11px] font-medium text-slate-500 mb-1">{t('instructions')}</label>
           <textarea 
              className="w-full border border-gray-200 rounded-md p-2 text-[12px] focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 min-h-[80px]"
-             placeholder="VD: Nhịn ăn sáng để xét nghiệm máu..."
+             placeholder={t('instructionsPlaceholder')}
              value={instructions}
              onChange={(e) => setInstructions(e.target.value)}
              readOnly
-             title="Tính năng này sẽ được triển khai trong phiên bản sau"
+             title={t('wipFeature')}
           />
         </div>
       </div>

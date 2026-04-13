@@ -7,8 +7,21 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 import { ConsultationLeftPanel } from './consultation/ConsultationLeftPanel';
-import { ConsultationCenterTabs } from './consultation/ConsultationCenterTabs';
 import { ConsultationRightPanel } from './consultation/ConsultationRightPanel';
+import type { Service } from '@/types/service';
+import { labOrdersApi } from '@/lib/api/clinical/lab-orders';
+import { toast } from 'sonner';
+import { ConsultationCenterTabs } from './consultation/ConsultationCenterTabs';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface DoctorConsultationViewProps {
   item: QueueRecord;
@@ -19,6 +32,14 @@ interface DoctorConsultationViewProps {
 export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsultationViewProps) {
   const t = useTranslations('emr.visit');
   const [medicalRecord, setMedicalRecord] = useState<VisitResultsResponse | null>(null);
+  
+  // Draft state for batch saving Phase 1
+  const [draftServices, setDraftServices] = useState<Service[]>([]);
+  const [draftLabs, setDraftLabs] = useState<Service[]>([]);
+  const [isSavingDrafts, setIsSavingDrafts] = useState(false);
+  
+  // Warning modal for early exit
+  const [isExitWarningOpen, setIsExitWarningOpen] = useState(false);
 
   const fetchRecord = useCallback(() => {
     medicalRecordsApi.getVisitResults(item.bookingId)
@@ -36,6 +57,58 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
     fetchRecord(); // Refresh data when child components update (like adding a lab order)
   }, [fetchRecord]);
 
+  const handleFinalize = useCallback(async () => {
+    const isFinalized = medicalRecord?.visitStep === 'PRESCRIBED' ||
+      medicalRecord?.visitStep === 'COMPLETED';
+    if (isFinalized) {
+      onSuccess();
+      return;
+    }
+
+    // Save drafts if any
+    if (draftServices.length > 0 || draftLabs.length > 0) {
+      setIsSavingDrafts(true);
+      try {
+        if (draftServices.length > 0) {
+          await medicalRecordsApi.orderServices(item.bookingId, {
+            serviceIds: draftServices.map(s => s.id)
+          });
+        }
+        if (draftLabs.length > 0) {
+          for (const lab of draftLabs) {
+            await labOrdersApi.createOrder({
+              bookingId: item.bookingId,
+              testName: lab.name,
+              serviceId: lab.id
+            });
+          }
+        }
+        toast.success('Đã lưu cấu hình dịch vụ');
+        setDraftServices([]);
+        setDraftLabs([]);
+        onExit(); // Phien tu van B2 xong, chuyen ca tiep theo
+      } catch (error) {
+        console.error(error);
+        toast.error('Lỗi khi lưu các chỉ định');
+      } finally {
+        setIsSavingDrafts(false);
+      }
+    } else {
+      setIsExitWarningOpen(true);
+    }
+  }, [medicalRecord?.visitStep, draftServices, draftLabs, item.bookingId, onSuccess, onExit]);
+
+  const handleExitRequest = useCallback(() => {
+    const isFinalized = medicalRecord?.visitStep === 'PRESCRIBED' ||
+      medicalRecord?.visitStep === 'COMPLETED';
+    
+    if (isFinalized) {
+      onExit();
+    } else {
+      setIsExitWarningOpen(true);
+    }
+  }, [medicalRecord?.visitStep, onExit]);
+
   return (
     <div className="flex flex-col h-screen max-h-screen bg-[#f5f5f3] overflow-hidden text-[13px]">
       {/* TOP HEADER */}
@@ -43,36 +116,16 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
         <Button
           variant="ghost"
           size="icon"
-          onClick={onExit}
+          onClick={handleExitRequest}
           className="w-8 h-8 rounded border border-gray-200 text-slate-500 hover:bg-slate-100"
           title={t('shared.back')}
         >
           <ArrowLeftIcon size={14} weight="bold" />
         </Button>
-        <div className="flex items-center gap-2">
-          <div className="w-[30px] h-[30px] rounded-full bg-blue-50 flex items-center justify-center text-[11px] font-medium text-blue-800 border border-blue-100 shrink-0">
-            {item.booking.patientProfile?.fullName?.split(' ').pop()?.charAt(0) || 'BN'}
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="font-medium text-[14px] text-slate-900 leading-tight">
-                {item.booking.patientProfile?.fullName || 'Unknown Patient'}
-              </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-blue-50 text-blue-800 border border-blue-100">
-                {item.booking.bookingCode}
-              </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-teal-50 text-teal-600 border border-teal-100">
-                STT #{item.queuePosition}
-              </span>
-            </div>
-            <div className="text-[12px] text-slate-500 leading-tight mt-0.5">
-              {item.booking.patientProfile?.gender === 'MALE' ? 'Nam' : 'Nữ'} ·{' '}
-              {item.booking.patientProfile?.dateOfBirth ? new Date().getFullYear() - new Date(item.booking.patientProfile.dateOfBirth).getFullYear() : '?'} tuổi ·{' '}
-              {item.booking.patientProfile?.phone} ·{' '}
-              {item.booking.isPreBooked ? 'Pre-booked' : 'Walk-in'}
-            </div>
-          </div>
+        <div className="text-[14px] font-semibold text-slate-800 ml-1">
+          {t('pageTitle')}
         </div>
+        
         <div className="flex-1"></div>
         {/* Step Pills */}
         <div className="flex items-center gap-1">
@@ -106,15 +159,41 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
         <ConsultationCenterTabs 
           item={item} 
           medicalRecord={medicalRecord} 
+          draftServices={draftServices}
+          setDraftServices={setDraftServices}
+          draftLabs={draftLabs}
+          setDraftLabs={setDraftLabs}
           onChange={handleDataChange} 
         />
         
         <ConsultationRightPanel 
           item={item} 
           medicalRecord={medicalRecord}
-          onFinalize={onSuccess}
+          draftServices={draftServices}
+          draftLabs={draftLabs}
+          isSaving={isSavingDrafts}
+          onFinalize={handleFinalize}
         />
       </div>
+
+      <AlertDialog open={isExitWarningOpen} onOpenChange={setIsExitWarningOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Cảnh báo đang trong ca tư vấn</AlertDialogTitle>
+            <AlertDialogDescription>
+              Bệnh nhân chưa hoàn tất quy trình khám. Bạn có chắc chắn muốn thoát về danh sách hàng đợi?
+              <br/><br/>
+              Lưu ý: Các thay đổi chưa lưu có thể bị mất.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogAction onClick={onExit} className="bg-red-600 hover:bg-red-700 text-white">
+              Vẫn thoát
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

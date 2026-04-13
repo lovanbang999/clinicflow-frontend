@@ -16,6 +16,7 @@ interface TabPrescriptionProps {
 
 export function TabPrescription({ item, medicalRecord, onChange }: TabPrescriptionProps) {
   const t = useTranslations('emr.visit');
+  const tp = useTranslations('emr.visit.prescriptionTab');
   
   const [items, setItems] = useState<PrescriptionItemInput[]>([]);
   const [notes, setNotes] = useState('');
@@ -43,7 +44,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
         dosage: '',
         frequency: '',
         quantity: 1,
-        unit: 'viên',
+        unit: tp('unitPill'),
         instructions: ''
       }
     ]);
@@ -64,7 +65,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
   const handleSave = async () => {
     try {
       if (items.some(i => !i.medicineName || !i.dosage || !i.frequency || !i.quantity)) {
-        toast.error('Vui lòng điền đủ Tên thuốc, Liều lượng, Tần suất và Số lượng');
+        toast.error(tp('errors.incomplete'));
         return;
       }
       setIsSubmitting(true);
@@ -96,13 +97,13 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
             size="sm"
             className="h-8 text-[12px] text-blue-600 border-blue-200 hover:bg-blue-50"
           >
-            <PlusIcon size={14} className="mr-1" /> Thêm thuốc
+            <PlusIcon size={14} className="mr-1" /> {tp('addBtn')}
           </Button>
         </div>
 
         {items.length === 0 ? (
           <div className="text-center p-6 text-[12px] text-slate-400 italic border border-dashed border-gray-200 rounded-lg mb-4 cursor-pointer hover:bg-slate-50 transition-colors" onClick={handleAddItem}>
-            Chưa kê thuốc nào. Bấm để thêm thuốc.
+            {tp('emptyList')}
           </div>
         ) : (
           <div className="flex flex-col gap-3 mb-4">
@@ -111,14 +112,14 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
                 <button 
                   onClick={() => handleRemoveItem(index)}
                   className="absolute top-3 right-3 text-slate-400 hover:text-red-500"
-                  aria-label="Xoá"
+                  aria-label={tp('removeAct')}
                 >
                   <TrashIcon size={16} />
                 </button>
                 <div className="grid grid-cols-12 gap-3 pr-6">
                   <div className="col-span-12 md:col-span-5">
                     <input 
-                      placeholder="Tên thuốc"
+                      placeholder={tp('medNamePlaceholder')}
                       className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
                       value={med.medicineName}
                       onChange={e => handleChangeItem(index, 'medicineName', e.target.value)}
@@ -126,7 +127,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
                   </div>
                   <div className="col-span-6 md:col-span-3">
                     <input 
-                      placeholder="Liều dùng (VD: 500mg)"
+                      placeholder={tp('dosagePlaceholder')}
                       className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
                       value={med.dosage}
                       onChange={e => handleChangeItem(index, 'dosage', e.target.value)}
@@ -134,7 +135,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
                   </div>
                   <div className="col-span-6 md:col-span-4">
                     <input 
-                      placeholder="Tần suất (VD: Sáng 1, Tối 1)"
+                      placeholder={tp('freqPlaceholder')}
                       className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
                       value={med.frequency}
                       onChange={e => handleChangeItem(index, 'frequency', e.target.value)}
@@ -142,7 +143,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
                   </div>
                   <div className="col-span-6 md:col-span-3">
                     <div className="flex items-center">
-                      <span className="text-[11px] text-slate-500 mr-2 whitespace-nowrap">Số lượng:</span>
+                      <span className="text-[11px] text-slate-500 mr-2 whitespace-nowrap">{tp('qtyLabel')}</span>
                       <input 
                         type="number"
                         min="1"
@@ -151,7 +152,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
                         onChange={e => handleChangeItem(index, 'quantity', parseInt(e.target.value) || 1)}
                       />
                       <input 
-                        placeholder="Đơn vị"
+                        placeholder={tp('unitPlaceholder')}
                         className="w-16 text-[13px] px-2 py-1.5 border border-gray-200 border-l-0 rounded-r focus:border-blue-400 focus:outline-none bg-white"
                         value={med.unit}
                         onChange={e => handleChangeItem(index, 'unit', e.target.value)}
@@ -160,7 +161,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
                   </div>
                   <div className="col-span-12 md:col-span-9">
                     <input 
-                      placeholder="Cách dùng / Dặn dò thêm (Uống sau ăn...)"
+                      placeholder={tp('usagePlaceholder')}
                       className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
                       value={med.instructions}
                       onChange={e => handleChangeItem(index, 'instructions', e.target.value)}
@@ -173,12 +174,12 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
         )}
 
         <div className="mb-4">
-          <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">Lời dặn bác sĩ</label>
+          <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">{tp('doctorAdvice')}</label>
           <textarea 
             name="notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Dặn dò chung in trên toa thuốc..."
+            placeholder={tp('advicePlaceholder')}
             rows={2}
             className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none"
           />

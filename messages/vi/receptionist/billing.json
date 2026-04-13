@@ -129,8 +129,8 @@
     "unpaidInvoices": "Chưa thu",
     "createNewInvoice": "Lập hoá đơn mới",
     "types": {
-      "CONSULTATION": "Khám",
-      "LAB": "Cận lâm sàng",
+      "CONSULTATION": "Khám tư vấn",
+      "LAB": "Dịch vụ & CLS",
       "PHARMACY": "Thuốc"
     },
     "pendingLabAlert": "Có {count} chỉ định cận lâm sàng chưa thu tiền.",

@@ -11,6 +11,7 @@ interface TabResultsProps {
 
 export function TabResults({ medicalRecord }: TabResultsProps) {
   const t = useTranslations('emr.visit');
+  const tr = useTranslations('emr.visit.resultsTab');
   const services = medicalRecord?.visitServiceOrders || [];
   const labs = medicalRecord?.labOrders || [];
 
@@ -47,7 +48,7 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
         
         {allItems.length === 0 ? (
           <div className="text-center p-4 text-[12px] text-slate-400 italic">
-            Không có dữ liệu cận lâm sàng.
+            {tr('emptyList')}
           </div>
         ) : (
           <div className="flex flex-col gap-3">
@@ -59,23 +60,23 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
                     <div className="text-[11px] text-slate-500">{item.type}</div>
                   </div>
                   {item.status === 'COMPLETED' ? (
-                    <span className="px-2 py-0.5 rounded bg-green-100 text-green-700 text-[11px] font-medium">Đã có KQ</span>
+                    <span className="px-2 py-0.5 rounded bg-green-100 text-green-700 text-[11px] font-medium">{tr('statusReady')}</span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-700 text-[11px] font-medium">Đang chờ</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-700 text-[11px] font-medium">{tr('statusPending')}</span>
                   )}
                 </div>
                 
                 {item.status === 'COMPLETED' && (
                   <div className="mt-2 text-[12px] text-slate-700 bg-white p-2 rounded border border-slate-100">
-                    <div className="mb-1"><span className="text-slate-500 font-medium">Kết quả:</span> {item.resultText || '—'}</div>
+                    <div className="mb-1"><span className="text-slate-500 font-medium">{tr('resultLabel')}</span> {item.resultText || '—'}</div>
                     {item.isAbnormal && (
                       <div className="text-red-600 mt-1">
-                        <span className="font-semibold">Bất thường:</span> {item.abnormalNote || 'Không có ghi chú'}
+                        <span className="font-semibold">{tr('abnormalLabel')}</span> {item.abnormalNote || tr('noNote')}
                       </div>
                     )}
                     {item.resultFileUrl && (
                       <a href={item.resultFileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline mt-1 block">
-                        📄 Xem file đính kèm
+                        📄 {tr('viewAttachment')}
                       </a>
                     )}
                   </div>

@@ -333,7 +333,76 @@
       "historyWip": "No history data available",
       "historyTabButton": "View detail in History Tab",
       "feeStatus": "Consultation Fee",
-      "feePaid": "Paid"
+      "feePaid": "Paid",
+      "phone": "Phone Number",
+      "bookingCode": "Booking Code",
+      "unknownPatient": "Unknown Patient",
+      "feeFree": "Free",
+      "dateOfBirth": "Date of Birth"
+    },
+    "pageTitle": "Consultation",
+    "servicesTab": {
+      "statuses": {
+        "pendingPayment": "Awaiting Payment",
+        "paid": "Awaiting Execution",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "messages": {
+        "removeSuccess": "Added order removed",
+        "removeError": "Can only remove orders in Awaiting Payment status"
+      },
+      "title": "Specialist Service Orders",
+      "group2": "Group 2 — Performed by Specialist",
+      "description": "This service will be performed by a specialist at the specialty clinic after the patient pays the fee at the reception desk.",
+      "emptyList": "No specialist orders yet.",
+      "draft": "Unsaved",
+      "discard": "Discard",
+      "totalOrders": "specialist order(s)",
+      "totalPrice": "Total Price:",
+      "cantRemove": "Cannot remove — already paid or in progress",
+      "removeOrder": "Remove order",
+      "placeholder": "— Select specialist service —",
+      "addBtn": "Add"
+    },
+    "notesTab": {
+      "errors": {
+        "save": "Error saving notes"
+      },
+      "doctorNote": "Doctor's Notes (Internal)",
+      "clinicalComment": "Clinical Comments",
+      "clinicalCommentPlaceholder": "Internal notes, not printed for patients...",
+      "instructions": "Preparation Instructions (for patient)",
+      "instructionsPlaceholder": "e.g. Fasting before blood test...",
+      "wipFeature": "This feature will be deployed in a future version"
+    },
+    "prescriptionTab": {
+      "unitPill": "pill",
+      "errors": {
+        "incomplete": "Please fill in Medicine Name, Dosage, Frequency, and Quantity"
+      },
+      "addMedTitle": "Add Medicine",
+      "emptyList": "No medicines prescribed. Click to add medicine.",
+      "removeAct": "Remove",
+      "medNamePlaceholder": "Medicine Name",
+      "dosagePlaceholder": "Dosage (e.g. 500mg)",
+      "freqPlaceholder": "Frequency (e.g. 1 morning, 1 evening)",
+      "qtyLabel": "Qty:",
+      "unitPlaceholder": "Unit",
+      "usagePlaceholder": "Usage / Additional notes (After meal...)",
+      "addBtn": "Add Medicine",
+      "doctorAdvice": "Doctor's Advice",
+      "advicePlaceholder": "General advice printed on the prescription..."
+    },
+    "resultsTab": {
+      "emptyList": "No laboratory data available.",
+      "statusReady": "Result Ready",
+      "statusPending": "Pending",
+      "resultLabel": "Result:",
+      "abnormalLabel": "Abnormal:",
+      "noNote": "No notes",
+      "viewAttachment": "View attachment"
     }
   },
   "history": {
