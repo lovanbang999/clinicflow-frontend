@@ -136,14 +136,40 @@ export default function InvoiceDetailPage() {
           </span>
 
           <div className="flex items-center gap-2 ml-4">
-            {(currentInvoice.status === InvoiceStatus.DRAFT || currentInvoice.status === InvoiceStatus.OPEN) && (
-              <Button 
-                onClick={() => setPaymentModalOpen(true)}
-                className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white cursor-pointer"
-              >
-                {t('detail.payBtn')}
-              </Button>
-            )}
+            {(currentInvoice.status === InvoiceStatus.DRAFT || currentInvoice.status === InvoiceStatus.OPEN) && (() => {
+              const medicalRecord = currentInvoice.booking?.medicalRecord;
+              const allowedSteps = [
+                'SERVICES_ORDERED', 
+                'AWAITING_RESULTS', 
+                'RESULTS_READY', 
+                'DIAGNOSED', 
+                'PRESCRIBED', 
+                'COMPLETED'
+              ];
+              const isConsultationDone = medicalRecord && allowedSteps.includes(medicalRecord.visitStep);
+              const isAwaitingResults = currentInvoice.booking?.status === 'AWAITING_RESULTS';
+
+              if (currentInvoice.invoiceType === 'CONSULTATION' && !isConsultationDone && !isAwaitingResults) {
+                return (
+                  <Button 
+                    disabled
+                    title="Ca khám chưa hoàn tất"
+                    className="bg-slate-200 text-slate-500 cursor-not-allowed opacity-80 border-0"
+                  >
+                    Chưa xong khám
+                  </Button>
+                );
+              }
+
+              return (
+                <Button 
+                  onClick={() => setPaymentModalOpen(true)}
+                  className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white cursor-pointer"
+                >
+                  {t('detail.payBtn')}
+                </Button>
+              );
+            })()}
           </div>
 
           {currentInvoice.status === InvoiceStatus.PAID && (
@@ -156,34 +182,37 @@ export default function InvoiceDetailPage() {
                 <PrinterIcon size={18} className="mr-2" /> {t('detail.printBtn')}
               </Button>
 
-              <Button
-                variant="outline"
-                className="border-[#1392ec] text-[#1392ec] hover:bg-[#1392ec]/10 cursor-pointer"
-                onClick={() => {
-                  // Print tickets for all items
-                  const booking = currentInvoice.booking;
-                  currentInvoice.items.forEach((item, index) => {
-                    const data: TicketData = {
-                      patientName: booking?.patientProfile?.fullName || 'N/A',
-                      patientCode: booking?.patientProfile?.patientCode || 'N/A',
-                      // Try to get queue number from various sources
-                      queueNumber: item.labOrder?.queueNumber || 
-                                  booking?.queueRecord?.queuePosition || 
-                                  index + 1, // Fallback to index if no position 
-                      roomName: item.labOrder?.roomName || 
-                               booking?.room?.name || 
-                               'Phòng khám',
-                      doctorName: booking?.doctor?.fullName,
-                      serviceName: item.itemName,
-                      type: item.labOrder ? 'LAB' : 'CONSULTATION',
-                      date: new Date(),
-                    };
-                    printTicket(data);
-                  });
-                }}
-              >
-                <PrinterIcon size={18} className="mr-2" /> In Phiếu STT
-              </Button>
+              {currentInvoice.invoiceType !== 'CONSULTATION' && (
+                <Button
+                  variant="outline"
+                  className="border-[#1392ec] text-[#1392ec] hover:bg-[#1392ec]/10 cursor-pointer"
+                  onClick={() => {
+                    // Print tickets for all items
+                    const booking = currentInvoice.booking;
+                    currentInvoice.items.forEach((item, index) => {
+                      const data: TicketData = {
+                        patientName: booking?.patientProfile?.fullName || 'N/A',
+                        patientCode: booking?.patientProfile?.patientCode || 'N/A',
+                        // Try to get queue number from various sources
+                        queueNumber: item.labOrder?.queueNumber || 
+                                    item.visitServiceOrder?.queueNumber ||
+                                    booking?.queueRecord?.queuePosition || 
+                                    index + 1, // Fallback to index if no position 
+                        roomName: item.labOrder?.roomName || 
+                                 (item.visitServiceOrder ? 'Phòng Khám Chuyên Khoa' : booking?.room?.name) || 
+                                 'Phòng khám',
+                        doctorName: item.visitServiceOrder?.performer?.fullName || booking?.doctor?.fullName,
+                        serviceName: item.itemName,
+                        type: item.labOrder ? 'LAB' : 'CONSULTATION',
+                        date: new Date(),
+                      };
+                      printTicket(data);
+                    });
+                  }}
+                >
+                  <PrinterIcon size={18} className="mr-2" /> In Phiếu STT
+                </Button>
+              )}
             </div>
           )}
         </div>

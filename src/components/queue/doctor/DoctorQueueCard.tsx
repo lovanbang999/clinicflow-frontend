@@ -154,6 +154,13 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
                   Có kết quả
                 </span>
               )}
+              {/* Specialist Referral badge */}
+              {item.isVisitServiceOrder && !isOpacified && (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#f1f5f9] text-[#475569] text-[10px] font-bold border border-[#cbd5e1]/50">
+                  <ClipboardTextIcon size={10} weight="bold" />
+                  Chỉ định chuyên khoa
+                </span>
+              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-3 text-[#44474e]">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { ExaminationLeftPanel } from './ExaminationLeftPanel';
 import { ExaminationCenterForm } from './ExaminationCenterForm';
@@ -10,31 +10,27 @@ import { medicalRecordsApi, type VisitServiceOrder } from '@/lib/api/clinical/me
 
 interface SpecialistExaminationViewProps {
   item: QueueRecord;
+  vso?: VisitServiceOrder; // Pre-loaded VSO (when coming from specialist queue)
   onExit: () => void;
   onSuccess: () => void;
 }
 
-export function SpecialistExaminationView({ item, onExit, onSuccess }: SpecialistExaminationViewProps) {
-  const [orders, setOrders] = useState<VisitServiceOrder[]>([]);
+export function SpecialistExaminationView({ item, vso: initialVso, onExit, onSuccess }: SpecialistExaminationViewProps) {
+  const [orders, setOrders] = useState<VisitServiceOrder[]>(initialVso ? [initialVso] : []);
 
-  // Fetch orders from medical record
-  const fetchOrders = useCallback(async () => {
-    try {
-      const res = await medicalRecordsApi.getVisitResults(item.bookingId);
-      if (res && res.visitServiceOrders) {
-        return res.visitServiceOrders;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-    return [];
-  }, [item.bookingId]);
-
+  // If no pre-loaded VSO, fetch all orders for this booking (legacy path)
   useEffect(() => {
-    fetchOrders().then(newOrders => {
-      setOrders(newOrders);
-    });
-  }, [fetchOrders]);
+    if (initialVso) return; // Already have orders from direct VSO access
+    let cancelled = false;
+    medicalRecordsApi.getVisitResults(item.bookingId)
+      .then((res) => {
+        if (!cancelled && res?.visitServiceOrders) {
+          setOrders(res.visitServiceOrders);
+        }
+      })
+      .catch(console.error);
+    return () => { cancelled = true; };
+  }, [item.bookingId, initialVso]);
 
   return (
     <div className="flex flex-col h-screen max-h-screen bg-[#f5f5f3] overflow-hidden text-[13px]">

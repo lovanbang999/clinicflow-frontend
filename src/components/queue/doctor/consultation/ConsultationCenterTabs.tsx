@@ -12,12 +12,13 @@ import { TabServices } from './TabServices';
 import { TabResults } from './TabResults';
 import { TabDiagnosis } from './TabDiagnosis';
 import { TabPrescription } from './TabPrescription';
+import type { DraftServiceOrder } from '../DoctorConsultationView';
 
 interface ConsultationCenterTabsProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
-  draftServices: Service[];
-  setDraftServices: (val: Service[]) => void;
+  draftServices: DraftServiceOrder[];
+  setDraftServices: (val: DraftServiceOrder[]) => void;
   draftLabs: Service[];
   setDraftLabs: (val: Service[]) => void;
   onChange: () => void;

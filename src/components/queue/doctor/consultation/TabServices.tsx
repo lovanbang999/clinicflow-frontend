@@ -8,14 +8,14 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { TrashIcon, PlusIcon, StethoscopeIcon } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
-
-import type { Service } from '@/types/service';
+import type { DraftServiceOrder } from '../DoctorConsultationView';
+import { UserIcon } from '@phosphor-icons/react';
 
 interface TabServicesProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
-  draftServices: Service[];
-  setDraftServices: (val: Service[]) => void;
+  draftServices: DraftServiceOrder[];
+  setDraftServices: (val: DraftServiceOrder[]) => void;
   onChange: () => void;
 }
 
@@ -40,13 +40,13 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
 
   const orders = medicalRecord?.visitServiceOrders || [];
   const dbTotalPrice = orders.reduce((sum, order) => sum + Number(order.service?.price ?? 0), 0);
-  const draftTotalPrice = draftServices.reduce((sum, service) => sum + Number(service.price ?? 0), 0);
+  const draftTotalPrice = draftServices.reduce((sum, d) => sum + Number(d.service.price ?? 0), 0);
   const totalPrice = dbTotalPrice + draftTotalPrice;
 
   // Ids already ordered or drafted — prevent duplicate add
   const existingServiceIds = new Set([
     ...orders.map((o) => o.serviceId),
-    ...draftServices.map((s) => s.id)
+    ...draftServices.map((d) => d.service.id)
   ]);
   const availableServices = specialistServices.filter((s) => !existingServiceIds.has(s.id));
 
@@ -55,8 +55,20 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
     const serviceToAdd = specialistServices.find((s) => s.id === selectedServiceId);
     if (!serviceToAdd) return;
     
-    setDraftServices([...draftServices, serviceToAdd]);
+    // Initialize with first available doctor if exists, or null
+    const defaultDoctorId = serviceToAdd.doctorServices?.[0]?.doctorProfile?.user?.id;
+
+    setDraftServices([...draftServices, { 
+      service: serviceToAdd, 
+      performedBy: defaultDoctorId 
+    }]);
     setSelectedServiceId('');
+  };
+
+  const handleDoctorChange = (serviceId: string, doctorId: string) => {
+    setDraftServices(draftServices.map(d => 
+      d.service.id === serviceId ? { ...d, performedBy: doctorId } : d
+    ));
   };
 
   const handleRemove = async (orderId: string) => {
@@ -146,26 +158,37 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
               {/* Draft Orders */}
               {draftServices.map((draft) => (
                  <div
-                   key={draft.id}
+                   key={draft.service.id}
                    className="flex justify-between items-center p-2.5 rounded-lg border border-dashed border-blue-300 bg-blue-50/50"
                  >
                    <div className="flex-1 min-w-0">
-                     <div className="text-[12px] font-medium text-blue-800 truncate">{draft.name}</div>
-                     {draft.doctorServices && draft.doctorServices.length > 0 && (
-                       <div className="text-[11px] text-blue-500 truncate mt-0.5">
-                         Thực hiện: {draft.doctorServices.map(ds => ds.doctorProfile.user.fullName).join(', ')}
-                       </div>
-                     )}
+                     <div className="text-[12px] font-medium text-blue-800 truncate">{draft.service.name}</div>
+                     
+                     <div className="mt-1.5 flex items-center gap-2">
+                       <UserIcon size={12} className="text-blue-500" />
+                       <select
+                         className="bg-white border border-blue-200 rounded px-2 py-0.5 text-[11px] text-blue-700 focus:outline-none focus:border-blue-400"
+                         value={draft.performedBy || ''}
+                         onChange={(e) => handleDoctorChange(draft.service.id, e.target.value)}
+                       >
+                         <option value="">-- Chọn bác sĩ thực hiện --</option>
+                         {draft.service.doctorServices?.map((ds, idx) => (
+                           <option key={ds.doctorProfile.user.id || idx} value={ds.doctorProfile.user.id}>
+                             {ds.doctorProfile.user.fullName}
+                           </option>
+                         ))}
+                       </select>
+                     </div>
                    </div>
                    <div className="flex items-center gap-2 shrink-0 ml-2">
                      <span className="text-[11px] font-medium px-2 py-0.5 rounded border bg-white text-blue-500 border-blue-200 italic">
                        {t('draft')}
                      </span>
                      <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
-                       {(draft.price ?? 0).toLocaleString('vi-VN')} đ
+                       {(draft.service.price ?? 0).toLocaleString('vi-VN')} đ
                      </span>
                      <button
-                       onClick={() => setDraftServices(draftServices.filter(s => s.id !== draft.id))}
+                       onClick={() => setDraftServices(draftServices.filter(d => d.service.id !== draft.service.id))}
                        className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
                        title={t('discard')}
                      >

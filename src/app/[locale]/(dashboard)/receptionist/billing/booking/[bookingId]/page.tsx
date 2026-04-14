@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useBilling } from '@/lib/hooks/billing/useBilling';
 import { Invoice, InvoiceType, InvoiceStatus, PaymentMethod } from '@/lib/api/billing/billing';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
+import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 import { Booking, BookingStatus } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -109,7 +110,16 @@ export default function BookingInvoicesPage() {
         console.error("Auto check-in failed", e);
       }
     }
-    
+
+    // B8 — Tự động fulfill prescription khi PHARMACY invoice được thanh toán
+    if (selectedInvoice.invoiceType === InvoiceType.PHARMACY) {
+      try {
+        await medicalRecordsApi.fulfillPrescription(bookingId, selectedInvoice.id);
+      } catch (e) {
+        console.error("Fulfill prescription failed", e);
+      }
+    }
+
     setPaymentModalOpen(false);
     setSelectedInvoice(null);
     // Refresh both invoices and pending labs (lab orders may now be PAID)

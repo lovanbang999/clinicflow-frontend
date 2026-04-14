@@ -36,6 +36,7 @@ export const doctorsApi = {
       qualifications: user.doctorProfile?.qualifications || ['Bác sĩ'],
       yearsOfExperience: user.doctorProfile?.yearsOfExperience || 0,
       bio: user.doctorProfile?.bio,
+      consultationFee: (user.doctorProfile as { consultationFee?: number | null } | undefined)?.consultationFee ?? null,
       rating: user.doctorProfile?.rating || 0,
       reviewCount: user.doctorProfile?.reviewCount || 0,
       services: user.doctorProfile?.services?.map(
@@ -68,6 +69,7 @@ export const doctorsApi = {
       qualifications: user.doctorProfile?.qualifications || ['Bác sĩ'],
       yearsOfExperience: user.doctorProfile?.yearsOfExperience || 0,
       bio: user.doctorProfile?.bio,
+      consultationFee: (user.doctorProfile as { consultationFee?: number | null } | undefined)?.consultationFee ?? null,
       rating: user.doctorProfile?.rating || 0,
       reviewCount: user.doctorProfile?.reviewCount || 0,
       services: user.doctorProfile?.services?.map(

@@ -3,34 +3,59 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { queueApi } from '@/lib/api/appointment/queue';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
+import { visitServiceOrdersApi } from '@/lib/api/clinical/visit-service-orders';
+import type { VisitServiceOrder } from '@/lib/api/clinical/medical-records';
 import { SpecialistExaminationView } from '@/components/queue/doctor/examination/SpecialistExaminationView';
 import { SpinnerIcon } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 
+/** Map a VisitServiceOrder (with its nested booking) into a QueueRecord shape. */
+function mapVsoToQueueRecord(vso: VisitServiceOrder): QueueRecord | null {
+  const booking = vso.medicalRecord?.booking;
+  if (!booking) return null;
+
+  // We cast the nested booking into the Booking shape expected by QueueRecord.
+  // The fields used by ExaminationLeftPanel are: patientProfile, patientNotes.
+  return {
+    id: `vso-${vso.id}`,
+    bookingId: (booking as { id?: string }).id ?? '',
+    doctorId: vso.performedBy ?? '',
+    queueDate: new Date().toISOString(),
+    queuePosition: vso.queueNumber ?? 1,
+    estimatedWaitMinutes: 0,
+    isPreBooked: false,
+    scheduledTime: null,
+    isVisitServiceOrder: true,
+    visitServiceOrderId: vso.id,
+    // We borrow the booking's patientProfile for display purposes
+    booking: booking as unknown as QueueRecord['booking'],
+  };
+}
+
 export default function DoctorExamPage() {
   const router = useRouter();
   const params = useParams();
-  const id = params.id as string;
+  const id = params.id as string; // This is now a VisitServiceOrder ID
   const locale = params.locale as string;
   const t = useTranslations('doctorWorkspace.examView');
   const [record, setRecord] = useState<QueueRecord | null>(null);
+  const [vso, setVso] = useState<VisitServiceOrder | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchRecord = useCallback(async () => {
     if (!id) return;
     try {
       setIsLoading(true);
-      const res = await queueApi.getByBookingId(id);
-      
-      // If no service assigned, redirect to consultation
-      if (!res.booking.serviceId) {
-        router.replace(`/${locale}/doctor/consultation/${id}`);
+      const order = await visitServiceOrdersApi.getDetail(id);
+      setVso(order);
+      const mapped = mapVsoToQueueRecord(order);
+      if (!mapped) {
+        toast.error('Không tải được thông tin bệnh nhân');
+        router.push(`/${locale}/doctor`);
         return;
       }
-      
-      setRecord(res);
+      setRecord(mapped);
     } catch (err) {
       console.error(err);
       toast.error(t('fetchError'));
@@ -52,14 +77,15 @@ export default function DoctorExamPage() {
     );
   }
 
-  if (!record) {
-    return null; // Redirect handles empty state
+  if (!record || !vso) {
+    return null;
   }
 
   return (
     <div className="flex flex-col h-full bg-[#edf1f8] relative z-10 w-full overflow-hidden shadow-inner hidden-scrollbar">
       <SpecialistExaminationView
         item={record}
+        vso={vso}
         onExit={() => router.push(`/${locale}/doctor`)}
         onSuccess={() => {
           toast.success('Đã lưu kết quả thành công');

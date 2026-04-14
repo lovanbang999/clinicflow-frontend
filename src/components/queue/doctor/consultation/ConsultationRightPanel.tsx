@@ -14,12 +14,14 @@ import {
   ClockIcon,
   FlaskIcon,
   StethoscopeIcon,
+  UserIcon,
 } from '@phosphor-icons/react';
+import type { DraftServiceOrder } from '../DoctorConsultationView';
 
 interface ConsultationRightPanelProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
-  draftServices: Service[];
+  draftServices: DraftServiceOrder[];
   draftLabs: Service[];
   isSaving: boolean;
   onFinalize: () => void;
@@ -38,7 +40,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
 
   // Safe price calculation including drafts
   const dbOrdTotal = orders.reduce((s, o) => s + Number(o.service?.price ?? 0), 0);
-  const draftOrdTotal = draftServices.reduce((s, o) => s + Number(o.price ?? 0), 0);
+  const draftOrdTotal = draftServices.reduce((s, d) => s + Number(d.service.price ?? 0), 0);
   const ordTotal = dbOrdTotal + draftOrdTotal;
 
   const dbLabTotal = labs.reduce((s, l) => s + Number(l.service?.price ?? 0), 0);
@@ -282,10 +284,20 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
                   <span>Chuyên khoa ({draftServices.length})</span>
                 </h4>
                 <ul className="text-[12px] space-y-1.5 text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-100">
-                  {draftServices.map((s, i) => (
-                    <li key={`${s.id}-${i}`} className="flex justify-between gap-4">
-                      <span className="truncate flex-1 text-slate-700">· {s.name}</span>
-                      <span className="font-medium">{(s.price ?? 0).toLocaleString('vi-VN')} đ</span>
+                  {draftServices.map((d, i) => (
+                    <li key={`${d.service.id}-${i}`} className="flex flex-col gap-0.5">
+                      <div className="flex justify-between gap-4">
+                        <span className="truncate flex-1 text-slate-700">· {d.service.name}</span>
+                        <span className="font-medium">{(d.service.price ?? 0).toLocaleString('vi-VN')} đ</span>
+                      </div>
+                      {d.performedBy && (
+                        <div className="text-[10px] text-blue-600 ml-3 flex items-center gap-1">
+                          <UserIcon size={10} />
+                          BS thực hiện: {
+                            d.service.doctorServices?.find((ds: any) => ds.doctorProfile.user.id === d.performedBy)?.doctorProfile.user.fullName || 'Đã chọn'
+                          }
+                        </div>
+                      )}
                     </li>
                   ))}
                 </ul>
