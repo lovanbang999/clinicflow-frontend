@@ -251,8 +251,13 @@ export interface SaveSymptomsDto {
   allergies?: string;
 }
 
+export interface OrderServiceItem {
+  serviceId: string;
+  performedBy?: string;
+}
+
 export interface OrderServicesDto {
-  serviceIds: string[];
+  items: OrderServiceItem[];
 }
 
 export interface SaveDiagnosisDto {
@@ -280,6 +285,13 @@ export interface PrescriptionItemInput {
 export interface CreatePrescriptionDto {
   notes?: string;
   items: PrescriptionItemInput[];
+}
+
+export interface CompleteSpecialistExamInput {
+  resultText: string;
+  doctorNotes?: string;
+  isAbnormal?: boolean;
+  abnormalNote?: string;
 }
 
 // API
@@ -366,5 +378,22 @@ export const medicalRecordsApi = {
   getDoctorStats: async () => {
     const res = await apiClient.get('medical-records/doctor/stats');
     return res.data.data;
+  },
+
+  fulfillPrescription: async (bookingId: string, pharmacyInvoiceId?: string) => {
+    const res = await apiClient.patch(`medical-records/${bookingId}/prescriptions/fulfill`, {
+      pharmacyInvoiceId,
+    });
+    return res.data.data;
+  },
+
+  // B4' — Specialist Workflow
+  startSpecialistExamination: async (vsoId: string) => {
+    const res = await apiClient.patch(`medical-records/specialist-orders/${vsoId}/start`);
+    return res.data.data as VisitServiceOrder;
+  },
+  completeSpecialistExamination: async (vsoId: string, dto: CompleteSpecialistExamInput) => {
+    const res = await apiClient.patch(`medical-records/specialist-orders/${vsoId}/complete`, dto);
+    return res.data.data as VisitServiceOrder;
   },
 };

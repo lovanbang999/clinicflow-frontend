@@ -11,6 +11,9 @@ export interface QueueRecord {
   isPreBooked: boolean;      // Priority sort: pre-bookings with due time get called first
   scheduledTime?: string | null; // Denorm from Booking.startTime
   booking: Booking;
+  // Specialist referral flags (set when record originates from a VisitServiceOrder)
+  isVisitServiceOrder?: boolean;
+  visitServiceOrderId?: string;
 }
 
 export interface QueuePagination {

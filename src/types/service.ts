@@ -15,6 +15,7 @@ export interface Service {
   doctorServices?: {
     doctorProfile: {
       user: {
+        id: string;
         fullName: string;
       }
     }

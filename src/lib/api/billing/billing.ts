@@ -37,6 +37,7 @@ export interface InvoiceItem {
   createdAt: string;
   updatedAt: string;
   labOrder?: LabOrderForBilling;
+  visitServiceOrder?: VisitServiceOrderForBilling;
 }
 
 export interface Payment {
@@ -52,6 +53,7 @@ export interface Payment {
 
 export interface InvoiceBooking {
   id: string;
+  status?: string;
   patientProfile?: {
     id: string;
     fullName: string;
@@ -74,6 +76,10 @@ export interface InvoiceBooking {
   room?: {
     id: string;
     name: string;
+  };
+  medicalRecord?: {
+    id: string;
+    visitStep: string;
   };
 }
 
@@ -118,6 +124,20 @@ export interface LabOrderForBilling {
   roomName?: string;
   orderedAt: string;
   createdAt: string;
+}
+
+export interface VisitServiceOrderForBilling {
+  id: string;
+  status: string;
+  queueNumber?: number;
+  performer?: {
+    id: string;
+    fullName: string;
+  };
+  service?: {
+    id: string;
+    name: string;
+  };
 }
 
 export interface AddPaymentDto {

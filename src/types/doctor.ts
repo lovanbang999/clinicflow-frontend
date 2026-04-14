@@ -19,6 +19,7 @@ export interface Doctor {
   rating: number;
   reviewCount: number;
   bio?: string;
+  consultationFee?: number | null;
   services: DoctorServiceItem[]; // Services this doctor can perform
   isActive: boolean;
   createdAt: string;

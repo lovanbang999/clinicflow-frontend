@@ -23,6 +23,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+export interface DraftServiceOrder {
+  service: Service;
+  performedBy?: string; // userId of specialist
+}
+
 interface DoctorConsultationViewProps {
   item: QueueRecord;
   onExit: () => void;
@@ -34,7 +39,7 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
   const [medicalRecord, setMedicalRecord] = useState<VisitResultsResponse | null>(null);
   
   // Draft state for batch saving Phase 1
-  const [draftServices, setDraftServices] = useState<Service[]>([]);
+  const [draftServices, setDraftServices] = useState<DraftServiceOrder[]>([]);
   const [draftLabs, setDraftLabs] = useState<Service[]>([]);
   const [isSavingDrafts, setIsSavingDrafts] = useState(false);
   
@@ -71,7 +76,10 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
       try {
         if (draftServices.length > 0) {
           await medicalRecordsApi.orderServices(item.bookingId, {
-            serviceIds: draftServices.map(s => s.id)
+            items: draftServices.map(s => ({
+              serviceId: s.service.id,
+              performedBy: s.performedBy || undefined
+            }))
           });
         }
         if (draftLabs.length > 0) {

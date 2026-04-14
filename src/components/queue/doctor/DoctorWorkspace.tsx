@@ -27,21 +27,21 @@ export function DoctorWorkspace({
     const item = items.find(q => q.booking.id === bookingId);
     await callPatient(bookingId);
     
-    // Conditional routing: null serviceId goes to Consultation, otherwise to Examination
-    if (!item?.booking.serviceId) {
-      router.push(`/${locale}/doctor/consultation/${bookingId}`);
+    // If this is a specialist referral (VSO), go to examination with VSO id
+    if (item?.isVisitServiceOrder && item.visitServiceOrderId) {
+      router.push(`/${locale}/doctor/examination/${item.visitServiceOrderId}`);
     } else {
-      router.push(`/${locale}/doctor/examination/${bookingId}`);
+      router.push(`/${locale}/doctor/consultation/${bookingId}`);
     }
   };
 
   const handleEnterExam = (bookingId: string) => {
     const item = items.find(q => q.booking.id === bookingId);
     
-    if (!item?.booking.serviceId) {
-      router.push(`/${locale}/doctor/consultation/${bookingId}`);
+    if (item?.isVisitServiceOrder && item.visitServiceOrderId) {
+      router.push(`/${locale}/doctor/examination/${item.visitServiceOrderId}`);
     } else {
-      router.push(`/${locale}/doctor/examination/${bookingId}`);
+      router.push(`/${locale}/doctor/consultation/${bookingId}`);
     }
   };
 
