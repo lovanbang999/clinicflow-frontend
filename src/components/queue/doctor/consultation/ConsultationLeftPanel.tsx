@@ -29,16 +29,16 @@ export function ConsultationLeftPanel({ item }: ConsultationLeftPanelProps) {
         <div className="flex flex-col min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="font-semibold text-[15px] text-slate-800 leading-tight">
-              {patient.fullName || 'Unknown Patient'}
+              {patient.fullName || t('leftPanel.unknownPatient')}
             </span>
             <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-teal-50 text-teal-600 border border-teal-100 shrink-0">
-              STT #{item.queuePosition}
+              {t('leftPanel.queueStt', { position: item.queuePosition })}
             </span>
           </div>
           <div className="text-[12px] text-slate-500 leading-tight mt-1.5 truncate">
-             {patient.gender === 'MALE' ? 'Nam' : patient.gender === 'FEMALE' ? 'Nữ' : 'Khác'} ·{' '}
-             {patient.dateOfBirth ? new Date().getFullYear() - new Date(patient.dateOfBirth).getFullYear() : '?'} tuổi ·{' '}
-             {item.booking.isPreBooked ? 'Pre-book' : 'Walk-in'}
+             {patient.gender === 'MALE' ? t('patientBanner.male') : patient.gender === 'FEMALE' ? t('patientBanner.female') : t('patientBanner.other')} ·{' '}
+             {patient.dateOfBirth ? new Date().getFullYear() - new Date(patient.dateOfBirth).getFullYear() : '?'} {t('patientInfo.yearsOld')} ·{' '}
+             {item.booking.isPreBooked ? t('leftPanel.bookingPre') : t('leftPanel.bookingWalkin')}
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ export function ConsultationLeftPanel({ item }: ConsultationLeftPanelProps) {
       <div className="-mt-2 mb-1">
         <div className="flex justify-between items-start py-1.5 border-b border-gray-100 last:border-b-0">
           <span className="text-slate-500 text-[12px]">{t('leftPanel.patientCode')}</span>
-          <span className="text-slate-900 text-[12px] font-medium text-right">{patient.patientCode || 'N/A'}</span>
+          <span className="text-slate-900 text-[12px] font-medium text-right">{patient.patientCode || t('leftPanel.none')}</span>
         </div>
         <div className="flex justify-between items-start py-1.5 border-b border-gray-100 last:border-b-0">
           <span className="text-slate-500 text-[12px]">{t('leftPanel.phone')}</span>

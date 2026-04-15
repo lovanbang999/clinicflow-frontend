@@ -64,22 +64,29 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
   let isOpacified = false;
   let isCrossed = false;
 
-  // Mô hình A — Xác định badge theo serviceId và visitStep
-  const hasService = Boolean(item.booking.serviceId);
+  // Model A — Determine badge based on serviceId and visitStep
+  const hasService = Boolean(item.booking.serviceId) || Boolean(item.isVisitServiceOrder);
   const visitStep = item.booking.medicalRecord?.visitStep;
   const isResultsReady = visitStep === 'RESULTS_READY';
 
   if (status === BookingStatus.IN_PROGRESS) {
     if (isResultsReady) {
-      // KTV đã xong, chờ BS đọc kết quả
+      // Technician done, awaiting doctor to review results
       statusBg = 'bg-[#dcfce7] text-[#15803d] border-[#86efac]/30';
       statusLbl = t('status.resultsReady', { defaultMessage: 'Có kết quả' });
     } else {
       statusBg = 'bg-[#e0efff] text-[#1275e2] border-[#1275e2]/10';
       statusLbl = t('status.inProgress');
     }
+  } else if (status === BookingStatus.AWAITING_RESULTS) {
+    statusBg = 'bg-[#fffbeb] text-[#92400e] border-[#fde68a]/40';
+    statusLbl = t('status.atLabs', { defaultMessage: 'Đang làm dịch vụ' });
+  } else if (status === BookingStatus.CHECKED_IN && item.isVisitServiceOrder) {
+    // Paid for specialist service — awaiting specialist examination
+    statusBg = 'bg-[#f0fdf4] text-[#16a34a] border-[#86efac]/30';
+    statusLbl = t('status.awaitingExam', { defaultMessage: 'Chờ khám' });
   } else if (status === BookingStatus.CHECKED_IN && !hasService) {
-    // Chưa xác định dịch vụ — đang chờ vào phòng tư vấn
+    // No service assigned yet — awaiting consultation room
     statusBg = 'bg-[#fff7ed] text-[#c2410c] border-[#fb923c]/20';
     statusLbl = t('status.awaitingConsultation', { defaultMessage: 'Chờ tư vấn' });
   } else if (status === BookingStatus.NO_SHOW) {
@@ -132,33 +139,33 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
               {item.isPreBooked ? (
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#eff6ff] text-[#1275e2] text-[10px] font-bold border border-[#93c5fd]/60">
                   <CalendarBlankIcon size={10} weight="fill" />
-                  Đặt trước
+                  {t('status.preBooked')}
                 </span>
               ) : (
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold border border-[#86efac]/60">
                   <QueueIcon size={10} weight="fill" />
-                  Walk-in
+                  {t('status.walkIn')}
                 </span>
               )}
-              {/* Mô hình A — Chờ tư vấn badge khi chưa có dịch vụ */}
+              {/* Awaiting consultation badge when no service is assigned */}
               {!hasService && !isOpacified && (
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#fff7ed] text-[#c2410c] text-[10px] font-bold border border-[#fb923c]/30 animate-pulse">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#c2410c]" />
-                  Chờ tư vấn
-                </span>
-              )}
-              {/* Có kết quả badge */}
-              {isResultsReady && !isOpacified && (
-                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#dcfce7] text-[#15803d] text-[10px] font-bold border border-[#86efac]/40">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#15803d]" />
-                  Có kết quả
+                  {t('status.awaitingConsultation')}
                 </span>
               )}
               {/* Specialist Referral badge */}
               {item.isVisitServiceOrder && !isOpacified && (
-                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#f1f5f9] text-[#475569] text-[10px] font-bold border border-[#cbd5e1]/50">
-                  <ClipboardTextIcon size={10} weight="bold" />
-                  Chỉ định chuyên khoa
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#f0fdf4] text-[#16a34a] text-[10px] font-bold border border-[#86efac]/30 animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a]" />
+                  {t('status.awaitingExam')}
+                </span>
+              )}
+              {/* Ready with clinical results badge */}
+              {isResultsReady && !isOpacified && (
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#dcfce7] text-[#15803d] text-[10px] font-bold border border-[#86efac]/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#15803d]" />
+                  {t('stats.waitingResults')}
                 </span>
               )}
             </div>
@@ -226,7 +233,7 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
             </span>
           </div>
 
-          {status === BookingStatus.IN_PROGRESS ? (
+          {status === BookingStatus.IN_PROGRESS || status === BookingStatus.AWAITING_RESULTS ? (
             <button
               onClick={() => onEnterExam(item.booking.id)}
               className="h-12 px-8 rounded-xl bg-[#1275e2] text-white font-bold shadow-lg shadow-[#1275e2]/25 hover:shadow-[#1275e2]/40 active:scale-[0.98] transition-all flex items-center gap-2 group/btn cursor-pointer"
@@ -243,9 +250,13 @@ export function DoctorQueueCard({ item, onCall, onEnterExam, onPrint, isCallDisa
                   ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
                   : 'bg-white text-[#1275e2] shadow-[#1275e2]/5 border border-[#1275e2]/30 hover:bg-[#e0efff]/50 active:scale-[0.98] cursor-pointer'
               }`}
-              title={isCallDisabled ? t('actions.finishCurrentFirst', { defaultMessage: 'Hoàn tất/lưu nháp ca hiện tại trước' }) : ''}
+              title={isCallDisabled ? t('actions.finishCurrentFirst') : ''}
             >
-              {!hasService ? t('actions.callConsultation', { defaultMessage: 'Gọi vào tư vấn' }) : t('actions.callPatient')}
+              {item.isVisitServiceOrder 
+                ? t('actions.callPatient') 
+                : !hasService 
+                  ? t('actions.callConsultation') 
+                  : t('actions.callPatient')}
               <ArrowRightIcon size={18} className={`transition-transform ${!isCallDisabled ? 'group-hover/btn:translate-x-1' : ''}`} weight="bold" />
             </button>
           ) : status === BookingStatus.COMPLETED ? (

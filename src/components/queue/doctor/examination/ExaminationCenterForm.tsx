@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { medicalRecordsApi, type VisitServiceOrder } from '@/lib/api/clinical/medical-records';
+import { type SpecialistFindings } from '@/lib/types/specialist-findings.types';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { StethoscopeIcon, CheckCircleIcon, WarningIcon, PlayIcon } from '@phosphor-icons/react';
@@ -13,10 +15,12 @@ interface ExaminationCenterFormProps {
 }
 
 export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFormProps) {
+  const t = useTranslations('emr.visit.specialist');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resultText, setResultText] = useState('');
   const [isAbnormal, setIsAbnormal] = useState(false);
   const [abnormalNote, setAbnormalNote] = useState('');
+  const [findings, setFindings] = useState<SpecialistFindings>({});
 
   const mainOrder = orders.find(o => o.status !== 'COMPLETED') || orders[0];
 
@@ -25,11 +29,11 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
     try {
       setIsSubmitting(true);
       await medicalRecordsApi.startSpecialistExamination(mainOrder.id);
-      toast.success('Đã bắt đầu phiên khám!');
+      toast.success(t('toasts.startSuccess'));
       onSuccess(); // Refresh state
     } catch (err) {
       console.error(err);
-      toast.error('Không thể bắt đầu phiên khám.');
+      toast.error(t('toasts.startError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -37,11 +41,11 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
 
   const handleComplete = async () => {
     if (!mainOrder) {
-      toast.error('Không tìm thấy chỉ định để hoàn tất.');
+      toast.error(t('toasts.noOrderFound'));
       return;
     }
     if (!resultText.trim()) {
-      toast.error('Vui lòng nhập kết quả khám trước khi hoàn tất.');
+      toast.error(t('toasts.emptyResultError'));
       return;
     }
 
@@ -51,12 +55,13 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
         resultText: resultText.trim(),
         isAbnormal,
         abnormalNote: isAbnormal ? abnormalNote.trim() : undefined,
+        findings, // Include structured data
       });
-      toast.success('Đã gửi kết quả cho bác sĩ tư vấn!');
+      toast.success(t('toasts.sentToConsultant'));
       onSuccess();
     } catch (err) {
       console.error(err);
-      toast.error('Có lỗi xảy ra khi lưu kết quả.');
+      toast.error(t('toasts.genericSaveError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -66,7 +71,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-slate-400 gap-3">
         <StethoscopeIcon size={48} weight="thin" />
-        <p>Phiên khám không có dịch vụ chuyên khoa chờ xử lý.</p>
+        <p>{t('noPendingServices')}</p>
       </div>
     );
   }
@@ -74,35 +79,39 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
   const examFormType = (mainOrder.service as { examFormType?: string }).examFormType || 'GENERAL';
 
   return (
-    <div className="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative max-w-4xl mx-auto w-full">
+    <div className="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative mx-auto w-full">
 
       {/* Form Header */}
       <div className="bg-[#fcfdfd] px-6 py-4 border-b border-sidebar-border/50">
         <h2 className="text-[16px] font-bold text-slate-800 flex items-center gap-2">
           <StethoscopeIcon size={20} className="text-blue-600" weight="fill" />
-          {mainOrder.service.name} — Kết quả khám
+          {mainOrder.service.name} — {t('resultFormTitle')}
         </h2>
       </div>
 
       {/* Dynamic Content */}
       <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
         {/* Specialty-specific fields (visual guidance) */}
-        <ExaminationExtendedFields examFormType={examFormType} />
+        <ExaminationExtendedFields 
+          examFormType={examFormType} 
+          initialValue={findings}
+          onChange={setFindings}
+        />
 
         {/* Result Summary — controlled fields sent to backend */}
         <div className="border-t border-slate-200 pt-5 space-y-4">
-          <h3 className="text-[13px] font-bold text-slate-700">Kết quả tổng hợp gửi bác sĩ tư vấn</h3>
+          <h3 className="text-[13px] font-bold text-slate-700">{t('resultSummaryTitle')}</h3>
 
           <div>
             <label className="block text-[12px] font-semibold text-slate-700 mb-1.5">
-              Kết quả khám <span className="text-red-500">*</span>
+              {t('resultLabel')} <span className="text-red-500">*</span>
             </label>
             <textarea
               rows={4}
               value={resultText}
               onChange={e => setResultText(e.target.value)}
               className="w-full text-[13px] rounded-md border border-slate-300 p-2.5 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
-              placeholder="Nhập kết quả khám, kết luận chuyên khoa và các ghi nhận lâm sàng..."
+              placeholder={t('resultPlaceholder')}
             />
           </div>
 
@@ -115,7 +124,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
               className="mt-0.5 rounded text-amber-600 focus:ring-amber-500 border-gray-300"
             />
             <label htmlFor="isAbnormal" className="text-[12px] font-semibold text-amber-700 cursor-pointer">
-              Có bất thường cần lưu ý (Abnormal)
+              {t('abnormalCheckbox')}
             </label>
           </div>
 
@@ -123,14 +132,14 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
             <div>
               <label className="block text-[12px] font-semibold text-slate-700 mb-1.5 flex items-center gap-1.5">
                 <WarningIcon size={14} className="text-amber-500" weight="fill" />
-                Ghi chú bất thường
+                {t('abnormalNoteLabel')}
               </label>
               <textarea
                 rows={2}
                 value={abnormalNote}
                 onChange={e => setAbnormalNote(e.target.value)}
                 className="w-full text-[13px] rounded-md border border-amber-300 p-2.5 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none"
-                placeholder="Mô tả chi tiết về điểm bất thường phát hiện..."
+                placeholder={t('abnormalNotePlaceholder')}
               />
             </div>
           )}
@@ -140,7 +149,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
       {/* Sticky Footer */}
       <div className="bg-white px-6 py-4 border-t border-slate-200 flex justify-between items-center z-10 shadow-[0_-4px_16px_rgba(0,0,0,0.02)]">
         <div className="text-[12px] text-slate-500">
-          Kết quả sau khi lưu sẽ được đồng bộ ngay lập tức về Bác sĩ tư vấn.
+          {t('syncNotice')}
         </div>
         <div className="flex items-center gap-3">
           {mainOrder.status === 'PAID' ? (
@@ -150,7 +159,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
               disabled={isSubmitting}
             >
               <PlayIcon size={16} weight="bold" className="mr-1.5" />
-              {isSubmitting ? 'Đang gọi...' : 'Ghi nhận bắt đầu khám'}
+              {isSubmitting ? t('starting') : t('startExamBtn')}
             </Button>
           ) : (
             <Button
@@ -159,7 +168,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
               disabled={isSubmitting || !resultText.trim()}
             >
               <CheckCircleIcon size={16} weight="bold" className="mr-1.5" />
-              {isSubmitting ? 'Đang lưu...' : 'Hoàn tất & Gửi kết quả'}
+              {isSubmitting ? t('saving') : t('finishBtn')}
             </Button>
           )}
         </div>

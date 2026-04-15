@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { ExaminationLeftPanel } from './ExaminationLeftPanel';
 import { ExaminationCenterForm } from './ExaminationCenterForm';
@@ -16,6 +17,7 @@ interface SpecialistExaminationViewProps {
 }
 
 export function SpecialistExaminationView({ item, vso: initialVso, onExit, onSuccess }: SpecialistExaminationViewProps) {
+  const t = useTranslations('emr.visit.specialist');
   const [orders, setOrders] = useState<VisitServiceOrder[]>(initialVso ? [initialVso] : []);
 
   // If no pre-loaded VSO, fetch all orders for this booking (legacy path)
@@ -47,10 +49,10 @@ export function SpecialistExaminationView({ item, vso: initialVso, onExit, onSuc
           </Button>
           <div>
             <h1 className="text-[16px] font-bold text-slate-800">
-              Ghi nhận kết quả khám chuyên khoa
+              {t('recordResultTitle')}
             </h1>
             <p className="text-[12px] text-slate-500">
-              Chỉ nhập kết quả khám thực tế. Bác sĩ tư vấn sẽ đọc kết quả này để ra chẩn đoán.
+              {t('recordResultDesc')}
             </p>
           </div>
         </div>

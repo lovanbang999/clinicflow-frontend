@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/api/core/client';
 import { type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { type SpecialistFindings } from '@/lib/types/specialist-findings.types';
 
 export interface MedicalRecordRef {
   id: string;
@@ -147,6 +148,7 @@ export interface VisitServiceOrder {
   paidAt?: string;
   queueNumber?: number;
   specialistNote?: string;
+  findings?: SpecialistFindings;
   createdAt: string;
   service: {
     id: string;
@@ -292,6 +294,7 @@ export interface CompleteSpecialistExamInput {
   doctorNotes?: string;
   isAbnormal?: boolean;
   abnormalNote?: string;
+  findings?: SpecialistFindings;
 }
 
 // API
