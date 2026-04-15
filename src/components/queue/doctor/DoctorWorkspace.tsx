@@ -4,6 +4,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { DoctorQueueView } from './DoctorQueueView';
 import { useQueue } from '@/lib/hooks/appointment/useQueue';
 import { BookingStatus } from '@/types';
+import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 
 interface DoctorWorkspaceProps {
   doctorId: string;
@@ -25,10 +26,18 @@ export function DoctorWorkspace({
 
   const handleCallPatient = async (bookingId: string) => {
     const item = items.find(q => q.booking.id === bookingId);
+    
+    // Call the generic booking start API
     await callPatient(bookingId);
     
-    // If this is a specialist referral (VSO), go to examination with VSO id
+    // If this is a specialist referral (VSO), also trigger the VSO start API
     if (item?.isVisitServiceOrder && item.visitServiceOrderId) {
+      try {
+        await medicalRecordsApi.startSpecialistExamination(item.visitServiceOrderId);
+      } catch (err) {
+        console.error('Failed to start specialist examination automatically:', err);
+        // We still redirect, the doctor might need to click "Start" manually if this fails
+      }
       router.push(`/${locale}/doctor/examination/${item.visitServiceOrderId}`);
     } else {
       router.push(`/${locale}/doctor/consultation/${bookingId}`);

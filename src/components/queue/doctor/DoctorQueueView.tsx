@@ -31,8 +31,15 @@ export function DoctorQueueView({
 }: DoctorQueueViewProps) {
   const t = useTranslations('doctorWorkspace.queueView');
 
-  const inExam = queueItems.filter((q) => q.booking.status === BookingStatus.IN_PROGRESS && !q.booking.medicalRecord).length;
-  const waitingResults = queueItems.filter((q) => q.booking.status === BookingStatus.IN_PROGRESS && q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized).length;
+  const inExam = queueItems.filter((q) => 
+    q.booking.status === BookingStatus.IN_PROGRESS && (!q.booking.medicalRecord || q.isVisitServiceOrder)
+  ).length;
+
+  const waitingResults = queueItems.filter((q) => 
+    (q.booking.status === BookingStatus.AWAITING_RESULTS || q.booking.status === BookingStatus.IN_PROGRESS) && 
+    q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized && !q.isVisitServiceOrder
+  ).length;
+
   const waiting = queueItems.filter((q) => q.booking.status === BookingStatus.CHECKED_IN).length;
   const completed = queueItems.filter((q) => q.booking.status === BookingStatus.COMPLETED).length;
   const noShow = queueItems.filter((q) => q.booking.status === BookingStatus.NO_SHOW).length;
@@ -59,9 +66,9 @@ export function DoctorQueueView({
   };
 
   const filteredItems = activeFilter === 'IN_EXAM'
-      ? queueItems.filter(q => q.booking.status === BookingStatus.IN_PROGRESS && !q.booking.medicalRecord)
+      ? queueItems.filter(q => q.booking.status === BookingStatus.IN_PROGRESS && (!q.booking.medicalRecord || q.isVisitServiceOrder))
       : activeFilter === 'WAITING_RESULTS'
-        ? queueItems.filter(q => q.booking.status === BookingStatus.IN_PROGRESS && q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized)
+        ? queueItems.filter(q => (q.booking.status === BookingStatus.AWAITING_RESULTS || q.booking.status === BookingStatus.IN_PROGRESS) && q.booking.medicalRecord && !q.booking.medicalRecord.isFinalized && !q.isVisitServiceOrder)
         : queueItems.filter(q => q.booking.status === activeFilter as BookingStatus);
 
   return (

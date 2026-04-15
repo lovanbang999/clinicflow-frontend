@@ -44,13 +44,18 @@
       "waiting": "Waiting",
       "urgent": "Urgent",
       "noShow": "No-show",
+      "preBooked": "Pre-booked",
+      "walkIn": "Walk-in",
       "awaitingConsultation": "Awaiting Consultation",
+      "awaitingExam": "Awaiting Exam",
+      "atLabs": "Processing services",
       "completed": "Completed"
     },
     "actions": {
       "enterExam": "Enter Consultation",
       "callPatient": "Call Patient",
       "callConsultation": "Call for Consultation",
+      "waiting": "Waiting",
       "printResult": "Print Result",
       "finishCurrentFirst": "Finish/draft current exam first"
     },
@@ -108,7 +113,10 @@
       "examining": "Examining",
       "age": "Age",
       "gender": "Gender:",
-      "allergy": "Allergies:"
+      "allergy": "Allergies:",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
     },
     "vitalsStatus": {
       "underweight": "Underweight",
@@ -140,6 +148,21 @@
       "DIAGNOSED": "Diagnosed",
       "PRESCRIBED": "Prescribed",
       "COMPLETED": "Completed"
+    },
+    "leftPanel": {
+      "profile": "Patient Profile",
+      "patientCode": "Patient Code",
+      "phoneNumber": "Phone Number",
+      "originalReason": "Original Reason",
+      "noNote": "No notes recorded",
+      "specialistOrders": "Specialist Orders",
+      "resultRequirement": "Please record corresponding specialist results.",
+      "status": "Status",
+      "paidBadge": "Paid",
+      "emptyOrders": "No orders selected."
+    },
+    "patientInfo": {
+      "yearsOld": "yrs"
     },
     "symptoms": {
       "header": "S1 — Patient Symptom Inquiry",

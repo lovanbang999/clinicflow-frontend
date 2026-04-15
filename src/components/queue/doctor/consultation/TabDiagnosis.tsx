@@ -13,6 +13,8 @@ interface TabDiagnosisProps {
   onChange: () => void;
 }
 
+import { QuickSuggestions } from '../shared/ExamHelpers';
+
 export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProps) {
   const t = useTranslations('emr.visit');
   
@@ -35,11 +37,8 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
     }
   }, [medicalRecord]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
@@ -72,7 +71,7 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
             <input 
               name="diagnosisCode"
               value={formData.diagnosisCode}
-              onChange={handleChange}
+              onChange={(e) => updateField('diagnosisCode', e.target.value)}
               placeholder="VD: J00"
               className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors"
             />
@@ -82,9 +81,14 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
             <input 
               name="diagnosisName"
               value={formData.diagnosisName}
-              onChange={handleChange}
+              onChange={(e) => updateField('diagnosisName', e.target.value)}
               placeholder="VD: Viêm mũi họng cấp tính"
               className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors"
+            />
+            <QuickSuggestions 
+              suggestions={['Viêm họng cấp', 'Viêm mũi dị ứng', 'Rối loạn tiêu hóa', 'Tăng huyết áp', 'ĐTĐ Typ 2', 'Suy nhược cơ thể']} 
+              onSelect={(s) => updateField('diagnosisName', s)}
+              currentValue={formData.diagnosisName}
             />
           </div>
         </div>
@@ -94,10 +98,14 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
           <textarea 
             name="treatmentPlan"
             value={formData.treatmentPlan}
-            onChange={handleChange}
+            onChange={(e) => updateField('treatmentPlan', e.target.value)}
             placeholder="Hướng điều trị cho bệnh nhân..."
             rows={3}
             className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none"
+          />
+          <QuickSuggestions 
+            suggestions={['Uống thuốc theo đơn', 'Nghỉ ngơi, ăn nhẹ', 'Hạn chế dầu mỡ', 'Tái khám nếu sốt cao', 'Uống nhiều nước']} 
+            onSelect={(s) => updateField('treatmentPlan', (formData.treatmentPlan ? `${formData.treatmentPlan}, ${s}` : s))}
           />
         </div>
 
@@ -106,10 +114,14 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
           <textarea 
             name="doctorNotes"
             value={formData.doctorNotes}
-            onChange={handleChange}
+            onChange={(e) => updateField('doctorNotes', e.target.value)}
             placeholder="Ghi chú nội bộ hoặc lời dặn dò..."
             rows={2}
             className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none"
+          />
+          <QuickSuggestions 
+            suggestions={['Tránh thức khuya', 'Giữ ấm cổ', 'Súc họng nước muối']} 
+            onSelect={(s) => updateField('doctorNotes', (formData.doctorNotes ? `${formData.doctorNotes}, ${s}` : s))}
           />
         </div>
 

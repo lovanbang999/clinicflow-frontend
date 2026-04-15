@@ -38,7 +38,7 @@ export default function DoctorExamPage() {
   const params = useParams();
   const id = params.id as string; // This is now a VisitServiceOrder ID
   const locale = params.locale as string;
-  const t = useTranslations('doctorWorkspace.examView');
+  const t = useTranslations('emr.visit.specialist');
   const [record, setRecord] = useState<QueueRecord | null>(null);
   const [vso, setVso] = useState<VisitServiceOrder | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,14 +51,14 @@ export default function DoctorExamPage() {
       setVso(order);
       const mapped = mapVsoToQueueRecord(order);
       if (!mapped) {
-        toast.error('Không tải được thông tin bệnh nhân');
+        toast.error(t('toasts.fetchError'));
         router.push(`/${locale}/doctor`);
         return;
       }
       setRecord(mapped);
     } catch (err) {
       console.error(err);
-      toast.error(t('fetchError'));
+      toast.error(t('toasts.fetchError'));
       router.push(`/${locale}/doctor`);
     } finally {
       setIsLoading(false);
@@ -88,7 +88,7 @@ export default function DoctorExamPage() {
         vso={vso}
         onExit={() => router.push(`/${locale}/doctor`)}
         onSuccess={() => {
-          toast.success('Đã lưu kết quả thành công');
+          toast.success(t('toasts.saveSuccess'));
           router.push(`/${locale}/doctor`);
         }}
       />

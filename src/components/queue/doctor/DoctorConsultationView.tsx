@@ -91,13 +91,13 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
             });
           }
         }
-        toast.success('Đã lưu cấu hình dịch vụ');
+        toast.success(t('messages.orderSuccess'));
         setDraftServices([]);
         setDraftLabs([]);
         onExit(); // Phien tu van B2 xong, chuyen ca tiep theo
       } catch (error) {
         console.error(error);
-        toast.error('Lỗi khi lưu các chỉ định');
+        toast.error(t('messages.orderError'));
       } finally {
         setIsSavingDrafts(false);
       }
@@ -137,24 +137,24 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
         <div className="flex-1"></div>
         {/* Step Pills */}
         <div className="flex items-center gap-1">
-          <span className="text-[11px] px-2.5 py-1 rounded-full border border-[#C0DD97] text-green-700 bg-green-50">B1 Tiếp nhận</span>
+          <span className="text-[11px] px-2.5 py-1 rounded-full border border-[#C0DD97] text-green-700 bg-green-50">{t('workflow.b1')}</span>
           <span className="text-slate-400 text-[11px]">›</span>
-          <span className={`text-[11px] px-2.5 py-1 rounded-full border ${!medicalRecord || !['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep) ? 'border-blue-200 text-blue-800 bg-blue-50 font-medium' : 'border-[#C0DD97] text-green-700 bg-green-50'}`}>B2 Khám & chỉ định</span>
+          <span className={`text-[11px] px-2.5 py-1 rounded-full border ${!medicalRecord || !['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep) ? 'border-blue-200 text-blue-800 bg-blue-50 font-medium' : 'border-[#C0DD97] text-green-700 bg-green-50'}`}>{t('workflow.b2')}</span>
           {(!medicalRecord || !['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep)) ? (
             <>
               <span className="text-slate-400 text-[11px]">›</span>
-              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">B3 Thanh toán CLS</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">{t('workflow.b3')}</span>
               <span className="text-slate-400 text-[11px]">›</span>
-              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">B4–B5 Thực hiện</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">{t('workflow.b4b5')}</span>
               <span className="text-slate-400 text-[11px]">›</span>
-              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">B7 Kết luận</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50">{t('workflow.b7')}</span>
             </>
           ) : (
             <>
               <span className="text-slate-400 text-[11px]">›</span>
-              <span className="text-[11px] px-2.5 py-1 rounded-full border border-[#C0DD97] text-green-700 bg-green-50">B3-B6 Thanh toán & Làm CLS</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-[#C0DD97] text-green-700 bg-green-50">{t('workflow.b3b6')}</span>
               <span className="text-slate-400 text-[11px]">›</span>
-              <span className="text-[11px] px-2.5 py-1 rounded-full border border-blue-200 text-blue-800 bg-blue-50 font-medium">B7 Kết luận & Kê đơn</span>
+              <span className="text-[11px] px-2.5 py-1 rounded-full border border-blue-200 text-blue-800 bg-blue-50 font-medium">{t('workflow.b7_long')}</span>
             </>
           )}
         </div>
@@ -187,17 +187,17 @@ export function DoctorConsultationView({ item, onExit, onSuccess }: DoctorConsul
       <AlertDialog open={isExitWarningOpen} onOpenChange={setIsExitWarningOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Cảnh báo đang trong ca tư vấn</AlertDialogTitle>
+            <AlertDialogTitle>{t('exitWarning.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Bệnh nhân chưa hoàn tất quy trình khám. Bạn có chắc chắn muốn thoát về danh sách hàng đợi?
+              {t('exitWarning.desc')}
               <br/><br/>
-              Lưu ý: Các thay đổi chưa lưu có thể bị mất.
+              {t('exitWarning.note')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogCancel>{t('exitWarning.cancel')}</AlertDialogCancel>
             <AlertDialogAction onClick={onExit} className="bg-red-600 hover:bg-red-700 text-white">
-              Vẫn thoát
+              {t('exitWarning.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

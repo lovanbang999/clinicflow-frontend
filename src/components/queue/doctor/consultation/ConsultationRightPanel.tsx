@@ -167,7 +167,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
         {isPhase2 && totalOrders > 0 && (
           <div className="mt-2 text-[11px] text-slate-500 bg-slate-50 rounded-md p-2 border border-slate-100">
             <div className="flex justify-between">
-              <span>Kết quả đã có:</span>
+              <span>{t('rightPanel.vsoStatus')}</span>
               <span className={`font-medium ${allResultsIn ? 'text-green-600' : 'text-amber-600'}`}>
                 {completedOrders + completedLabs}/{totalOrders}
               </span>
@@ -183,9 +183,9 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
         <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-[12px] text-green-700">
           <div className="font-bold mb-1 flex items-center gap-1">
             <CheckCircleIcon size={13} />
-            Khám hoàn tất
+            {t('rightPanel.finalizedTitle')}
           </div>
-          Bệnh nhân đã được kê đơn và buổi khám đã được đóng.
+          {t('rightPanel.finalizedDesc')}
         </div>
       ) : isPhase2 ? (
         <div className="bg-teal-50 border border-teal-100 rounded-lg p-3 text-[12px] text-teal-700">
@@ -216,19 +216,19 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
             className="w-full bg-green-600 hover:bg-green-700 text-white font-medium h-[44px]"
           >
             <CheckCircleIcon size={18} className="mr-2" />
-            Hoàn tất — Về trang chính
+            {t('rightPanel.btnFinish')}
           </Button>
         ) : isPhase2 ? (
           // B7 in progress — informational, user uses TabPrescription to save
           <div className="text-center text-[11px] text-slate-400 italic px-2">
-            Dùng tab <span className="font-medium text-slate-600">Kê đơn</span> để lưu đơn thuốc và kết thúc buổi khám.
+            {t('rightPanel.useTabPrefix')} <span className="font-medium text-slate-600">{t('tabLabels.prescription')}</span> {t('rightPanel.useTabSuffix')}
           </div>
         ) : hasOrders ? (
           // B2 done with orders — guide patient to reception
           <div className="space-y-2">
             <div className="bg-blue-50 border border-blue-100 rounded-lg p-2.5 text-[11px] text-blue-700 text-center">
               <ArrowRightIcon size={11} className="inline mr-1" />
-              Hướng dẫn bệnh nhân ra quầy lễ tân nộp phí xét nghiệm
+              {t('rightPanel.guideToReception')}
             </div>
             <Button
               variant={hasDrafts ? "default" : "outline"}
@@ -240,7 +240,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
                   : 'text-slate-600 border-slate-200'
               }`}
             >
-              {isSaving ? 'Đang lưu...' : hasDrafts ? 'Lưu chỉ định & Kết thúc' : 'Quay về danh sách'}
+              {isSaving ? t('messages.saving') : hasDrafts ? t('rightPanel.btnSaveAndFinish') : t('rightPanel.btnBackToList')}
             </Button>
           </div>
         ) : (
@@ -249,7 +249,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
             {hasDrafts && (
               <div className="bg-blue-50 border border-blue-100 rounded-lg p-2.5 text-[11px] text-blue-700 text-center">
                 <ArrowRightIcon size={11} className="inline mr-1" />
-                Lưu lại danh sách chỉ định đã chọn
+                {t('rightPanel.guideSaveDraft')}
               </div>
             )}
             <Button
@@ -262,7 +262,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
                   : 'text-slate-600 border-slate-200'
               }`}
             >
-              {isSaving ? 'Đang lưu...' : hasDrafts ? 'Lưu chỉ định & Kết thúc' : 'Quay về danh sách'}
+              {isSaving ? t('messages.saving') : hasDrafts ? t('rightPanel.btnSaveAndFinish') : t('rightPanel.btnBackToList')}
             </Button>
           </div>
         )}
@@ -272,9 +272,9 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Xác nhận lưu chỉ định</DialogTitle>
+            <DialogTitle>{t('rightPanel.confirmDialog.title')}</DialogTitle>
             <DialogDescription>
-              Vui lòng kiểm tra lại danh sách các chỉ định trước khi lưu kết thúc lượt khám.
+              {t('rightPanel.confirmDialog.desc')}
             </DialogDescription>
           </DialogHeader>
           <div className="py-2">
@@ -293,8 +293,8 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
                       {d.performedBy && (
                         <div className="text-[10px] text-blue-600 ml-3 flex items-center gap-1">
                           <UserIcon size={10} />
-                          BS thực hiện: {
-                            d.service.doctorServices?.find((ds: any) => ds.doctorProfile.user.id === d.performedBy)?.doctorProfile.user.fullName || 'Đã chọn'
+                          {t('rightPanel.performedBy')} {
+                            d.service.doctorServices?.find((ds: any) => ds.doctorProfile.user.id === d.performedBy)?.doctorProfile.user.fullName || t('rightPanel.selected')
                           }
                         </div>
                       )}
@@ -321,7 +321,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
             )}
 
             <div className="pt-3 border-t border-gray-100 flex justify-between items-center bg-blue-50/50 p-3 rounded-lg border border-blue-100">
-              <span className="font-bold text-[13px] text-slate-700">Tổng phí dự kiến:</span>
+              <span className="font-bold text-[13px] text-slate-700">{t('rightPanel.confirmDialog.totalExpected')}</span>
               <span className="font-bold text-[16px] text-blue-700">
                 {expectedTotal.toLocaleString('vi-VN')} đ
               </span>
@@ -329,7 +329,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
           </div>
           <DialogFooter className="gap-2 mt-2">
             <Button variant="outline" onClick={() => setIsConfirmOpen(false)} className="h-[38px] text-[13px]">
-              Xem lại
+              {t('rightPanel.confirmDialog.btnCancel')}
             </Button>
             <Button 
               onClick={() => {
@@ -339,7 +339,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
               disabled={isSaving} 
               className="bg-blue-600 hover:bg-blue-700 text-white h-[38px] text-[13px]"
             >
-              {isSaving ? 'Đang lưu...' : 'Lưu chỉ định ngay'}
+              {isSaving ? t('messages.saving') : t('rightPanel.confirmDialog.btnConfirm')}
             </Button>
           </DialogFooter>
         </DialogContent>
