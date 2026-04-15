@@ -123,9 +123,9 @@ export function ConsultationCenterTabs({
 
       {/* Tabs Content */}
       <div className="flex-1 overflow-y-auto p-5 pb-10" style={{ scrollbarWidth: 'thin' }}>
-        {activeTab === 'vitals' && (
-          <TabVitals item={item} medicalRecord={medicalRecord} onChange={onChange} />
-        )}
+        <div className={activeTab === 'vitals' ? 'block h-full min-h-0' : 'hidden'}>
+          <TabVitals item={item} medicalRecord={medicalRecord} onChange={onChange} isReadOnly={!!isPhase2} />
+        </div>
         
         {/* Phase 1 Tabs */}
         {!isPhase2 && activeTab === 'services' && (

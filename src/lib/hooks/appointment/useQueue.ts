@@ -24,9 +24,14 @@ export function useQueue(doctorId?: string) {
     
     const data = await executeFetch(
       async () => {
-        const [queueRes, completedRes, statsRes] = await Promise.all([
+        const [queueRes, completedRes, awaitingResultsRes, statsRes] = await Promise.all([
           queueApi.getAll({ doctorId, date: today, limit: 50 }),
           bookingsApi.getAll({ doctorId, date: today, status: 'COMPLETED', limit: 100 }),
+          // B7 — also fetch AWAITING_RESULTS bookings: patients who have finished labs
+          // and need to return to the consulting doctor to review results and get prescription.
+          // These bookings no longer have a BookingQueue record (it was removed at assignSpecialistService),
+          // so we fetch them separately and inject them as synthetic QueueRecord objects.
+          bookingsApi.getAll({ doctorId, date: today, status: 'AWAITING_RESULTS', limit: 50 }),
           queueApi.getStatistics(doctorId, today)
         ]);
 
@@ -44,9 +49,23 @@ export function useQueue(doctorId?: string) {
           booking: booking
         }));
 
-        // Merge avoiding duplicates
+        // B7 — Transform AWAITING_RESULTS bookings into synthetic QueueRecord objects.
+        // These patients are returning from labs/specialist and waiting for the consulting
+        // doctor to call them in a second time (review results + write prescription).
+        const awaitingResultsQueue: QueueRecord[] = (awaitingResultsRes.bookings || []).map(booking => ({
+          id: `awaiting-${booking.id}`,
+          bookingId: booking.id,
+          doctorId: booking.doctorId,
+          queueDate: today,
+          queuePosition: 999, // Not in consultation queue — show after active items
+          estimatedWaitMinutes: 0,
+          isPreBooked: booking.startTime !== null,
+          booking: booking,
+        }));
+
+        // Merge all lists, avoiding duplicates (active queue takes priority)
         const merged = [...activeQueue];
-        completedQueue.forEach(item => {
+        [...completedQueue, ...awaitingResultsQueue].forEach(item => {
           if (!merged.find(m => m.bookingId === item.bookingId)) {
             merged.push(item);
           }

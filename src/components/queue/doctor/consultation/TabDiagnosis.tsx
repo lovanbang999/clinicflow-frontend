@@ -14,6 +14,7 @@ interface TabDiagnosisProps {
 }
 
 import { QuickSuggestions } from '../shared/ExamHelpers';
+import { ICD10Autocomplete } from '../shared/ICD10Autocomplete';
 
 export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProps) {
   const t = useTranslations('emr.visit');
@@ -68,10 +69,13 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="col-span-1">
             <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">Mã ICD-10</label>
-            <input 
-              name="diagnosisCode"
+            <ICD10Autocomplete 
               value={formData.diagnosisCode}
-              onChange={(e) => updateField('diagnosisCode', e.target.value)}
+              onChange={(val) => updateField('diagnosisCode', val)}
+              onSelect={(item) => {
+                updateField('diagnosisCode', item.code);
+                updateField('diagnosisName', item.name);
+              }}
               placeholder="VD: J00"
               className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors"
             />

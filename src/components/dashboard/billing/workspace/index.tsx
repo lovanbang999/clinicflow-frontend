@@ -83,8 +83,7 @@ export function BillingWorkspace({ preSelectedBookingId }: BillingWorkspaceProps
         <div className="flex-1 h-full bg-white relative overflow-hidden">
           {selectedBookingId && selectedItem ? (
             <BillingDetailWorkspace 
-              bookingId={selectedBookingId} 
-              currentStepCode={selectedItem.currentStepCode}
+              bookingId={selectedBookingId}
               onRefreshQueue={handleRefresh}
             />
           ) : (

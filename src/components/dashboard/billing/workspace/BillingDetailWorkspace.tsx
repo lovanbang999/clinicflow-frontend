@@ -20,18 +20,16 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { PaymentModal } from '@/components/dashboard/billing/PaymentModal';
 import { InvoiceCard } from '@/components/dashboard/billing/InvoiceCard';
-import { BillingStepTrack } from './BillingStepTrack';
 import { QuickAddInvoiceModal } from '@/components/dashboard/billing/QuickAddInvoiceModal';
 import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
 import { PrintableQueueTicket } from '@/components/dashboard/billing/PrintableQueueTicket';
 
 interface BillingDetailWorkspaceProps {
   bookingId: string;
-  currentStepCode: string;
   onRefreshQueue: () => void;
 }
 
-export function BillingDetailWorkspace({ bookingId, currentStepCode, onRefreshQueue }: BillingDetailWorkspaceProps) {
+export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDetailWorkspaceProps) {
   const router = useRouter();
   
   const {
@@ -217,7 +215,7 @@ export function BillingDetailWorkspace({ bookingId, currentStepCode, onRefreshQu
         </div>
 
         {/* Workflow Track */}
-        <BillingStepTrack currentStep={currentStepCode} />
+        {/* <BillingStepTrack currentStep={currentStepCode} /> */}
       </div>
 
       <div className="flex-1 overflow-auto p-8 pt-6">

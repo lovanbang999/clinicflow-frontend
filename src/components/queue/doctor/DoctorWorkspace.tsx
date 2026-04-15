@@ -5,6 +5,7 @@ import { DoctorQueueView } from './DoctorQueueView';
 import { useQueue } from '@/lib/hooks/appointment/useQueue';
 import { BookingStatus } from '@/types';
 import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
+import { bookingsApi } from '@/lib/api/appointment/bookings';
 
 interface DoctorWorkspaceProps {
   doctorId: string;
@@ -44,14 +45,27 @@ export function DoctorWorkspace({
     }
   };
 
-  const handleEnterExam = (bookingId: string) => {
+  const handleEnterExam = async (bookingId: string) => {
     const item = items.find(q => q.booking.id === bookingId);
     
     if (item?.isVisitServiceOrder && item.visitServiceOrderId) {
       router.push(`/${locale}/doctor/examination/${item.visitServiceOrderId}`);
-    } else {
-      router.push(`/${locale}/doctor/consultation/${bookingId}`);
+      return;
     }
+
+    // B7: Patient returning from labs with results ready.
+    // Transition AWAITING_RESULTS → IN_PROGRESS ("Gọi BN vào lần 2") before entering
+    // the consultation page so the doctor can review results and write prescriptions.
+    if (item?.booking.status === BookingStatus.AWAITING_RESULTS) {
+      try {
+        await bookingsApi.startExamination(bookingId);
+      } catch (err) {
+        // Log but don't block navigation — consultation page handles results display
+        console.error('[B7] Failed to transition AWAITING_RESULTS → IN_PROGRESS:', err);
+      }
+    }
+
+    router.push(`/${locale}/doctor/consultation/${bookingId}`);
   };
 
   const validWaitMins = items.filter(q => q.estimatedWaitMinutes && q.booking.status === BookingStatus.CHECKED_IN);
