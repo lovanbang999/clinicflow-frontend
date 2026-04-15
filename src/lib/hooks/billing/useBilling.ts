@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
-import { InvoiceType, Invoice, PaginationData, LabOrderForBilling, ListInvoicesParams, billingApi, CreateInvoiceDto, AddPaymentDto, AddInvoiceItemDto } from '@/lib/api/billing/billing';
+import { InvoiceType, Invoice, PaginationData, LabOrderForBilling, ListInvoicesParams, billingApi, CreateInvoiceDto, AddPaymentDto, AddInvoiceItemDto, WorkspaceQueueItem, WorkspaceKpis } from '@/lib/api/billing/billing';
 
 export interface ApiError extends Error {
   messageCode?: string;
@@ -47,12 +47,16 @@ export const useBilling = () => {
   const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null);
   const [bookingInvoices, setBookingInvoices] = useState<Invoice[]>([]);
   const [pendingLabOrders, setPendingLabOrders] = useState<LabOrderForBilling[]>([]);
+  const [workspaceQueue, setWorkspaceQueue] = useState<WorkspaceQueueItem[]>([]);
+  const [workspaceKpis, setWorkspaceKpis] = useState<WorkspaceKpis | null>(null);
 
   const { execute: executeInvoices, isLoading: loading } = useApiHandler();
   const { execute: executeCurrentInvoice, isLoading: loadingInvoice } = useApiHandler();
   const { execute: executeBookingInvoices, isLoading: loadingBookingInvoices } = useApiHandler();
   const { execute: executePendingLabs, isLoading: loadingPendingLabs } = useApiHandler();
   const { execute: executePayment, isLoading: processingPayment } = useApiHandler();
+  const { execute: executeQueue, isLoading: loadingQueue } = useApiHandler();
+  const { execute: executeKpis, isLoading: loadingKpis } = useApiHandler();
 
   const fetchInvoices = useCallback(async (params?: ListInvoicesParams) => {
     await executeInvoices(
@@ -144,6 +148,28 @@ export const useBilling = () => {
     );
   }, [executePayment, t]);
 
+  const fetchWorkspaceQueue = useCallback(async (params?: { search?: string }) => {
+    return executeQueue(
+      async () => {
+        const result = await billingApi.getWorkspaceQueue(params);
+        setWorkspaceQueue(result);
+        return result;
+      },
+      { errorFallbackMsg: 'fetchQueueError' }
+    ).then(res => res || []);
+  }, [executeQueue]);
+
+  const fetchWorkspaceKpis = useCallback(async () => {
+    return executeKpis(
+      async () => {
+        const result = await billingApi.getWorkspaceKpis();
+        setWorkspaceKpis(result);
+        return result;
+      },
+      { errorFallbackMsg: 'fetchKpisError' }
+    ).then(res => res || null);
+  }, [executeKpis]);
+
   const finalizeInvoice = useCallback(async (id: string) => {
     return executePayment(
       async () => {
@@ -207,5 +233,13 @@ export const useBilling = () => {
     finalizeInvoice,
     addItemToInvoice,
     removeItemFromInvoice,
+
+    workspaceQueue,
+    loadingQueue,
+    fetchWorkspaceQueue,
+
+    workspaceKpis,
+    loadingKpis,
+    fetchWorkspaceKpis,
   };
 };

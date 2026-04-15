@@ -165,6 +165,7 @@ export interface ListInvoicesParams {
   patientProfileId?: string;
   startDate?: string;
   endDate?: string;
+  search?: string;
   page?: number;
   limit?: number;
 }
@@ -176,7 +177,44 @@ export interface PaginationData {
   totalPages: number;
 }
 
+export interface WorkspaceQueueItem {
+  bookingId: string;
+  patientName: string;
+  patientCode: string;
+  patientGender: string;
+  patientDob: string;
+  doctorName: string;
+  bookingCode: string;
+  totalAmount: number;
+  paidAmount: number;
+  pendingAmount: number;
+  status: string;
+  visitStep?: string;
+  currentStepCode: string; // 'B1', 'B3', 'B8'
+  isUrgent: boolean;
+  createdAt: string;
+  invoiceTypes: InvoiceType[];
+}
+
+export interface WorkspaceKpis {
+  awaitingPaymentCount: number;
+  completedPaymentCount: number;
+  totalRevenue: number;
+  totalInvoicesValue: number;
+}
+
 export const billingApi = {
+  // Workspace APIs
+  getWorkspaceQueue: async (params?: { search?: string }): Promise<WorkspaceQueueItem[]> => {
+    const response = await apiClient.get<ApiResponse<WorkspaceQueueItem[]>>('/billing/workspace-queue', { params });
+    return response.data.data ?? [];
+  },
+
+  getWorkspaceKpis: async (): Promise<WorkspaceKpis> => {
+    const response = await apiClient.get<ApiResponse<WorkspaceKpis>>('/billing/workspace-kpis');
+    return response.data.data as WorkspaceKpis;
+  },
+
   // List invoices
   listInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: PaginationData }> => {
     const response = await apiClient.get<ApiResponse<{ invoices?: Invoice[], pagination?: PaginationData }>>('/billing/invoices', { params });
