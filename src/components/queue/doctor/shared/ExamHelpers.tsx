@@ -91,9 +91,10 @@ interface NumericStepperProps {
   min?: number;
   max?: number;
   className?: string;
+  disabled?: boolean;
 }
 
-export const NumericStepper: React.FC<NumericStepperProps> = ({ value, onChange, step = 1, min = 0, max, className = '' }) => {
+export const NumericStepper: React.FC<NumericStepperProps> = ({ value, onChange, step = 1, min = 0, max, className = '', disabled }) => {
   const numValue = parseFloat(value?.toString() || '0');
   
   const adjust = (delta: number) => {
@@ -111,7 +112,8 @@ export const NumericStepper: React.FC<NumericStepperProps> = ({ value, onChange,
       <button 
         type="button"
         onClick={() => adjust(-step)}
-        className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 active:scale-95 transition-all"
+        disabled={disabled}
+        className={`w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-all ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-slate-50 active:scale-95'}`}
       >
         <MinusIcon size={14} weight="bold" />
       </button>
@@ -119,12 +121,14 @@ export const NumericStepper: React.FC<NumericStepperProps> = ({ value, onChange,
         type="text"
         value={value ?? ''}
         onChange={(e) => onChange(e.target.value)}
-        className="w-12 h-8 text-center text-[13px] font-bold border border-slate-200 rounded-lg outline-none focus:border-blue-500 bg-transparent"
+        disabled={disabled}
+        className={`w-12 h-8 text-center text-[13px] font-bold border border-slate-200 rounded-lg outline-none focus:border-blue-500 bg-transparent ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       />
       <button 
         type="button"
         onClick={() => adjust(step)}
-        className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 active:scale-95 transition-all"
+        disabled={disabled}
+        className={`w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-all ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-slate-50 active:scale-95'}`}
       >
         <PlusIcon size={14} weight="bold" />
       </button>

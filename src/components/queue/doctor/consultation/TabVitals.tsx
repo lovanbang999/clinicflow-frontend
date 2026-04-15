@@ -10,11 +10,12 @@ interface TabVitalsProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
   onChange: () => void;
+  isReadOnly?: boolean;
 }
 
 import { NumericStepper, QuickSuggestions } from '../shared/ExamHelpers';
 
-export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
+export function TabVitals({ item, medicalRecord, onChange, isReadOnly }: TabVitalsProps) {
   const t = useTranslations('emr.visit');
   const [formData, setFormData] = useState<SaveSymptomsDto>({});
 
@@ -51,6 +52,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
   }, [medicalRecord]);
 
   const handleChange = (field: keyof SaveSymptomsDto, value: string | number | undefined) => {
+    if (isReadOnly) return;
     isDirtyRef.current = true;
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -112,19 +114,22 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         <div className={`col-span-2 bg-white border rounded-xl p-3 shadow-sm transition-all duration-200 ${isAbnormalBp ? 'border-red-300 bg-red-50/50' : 'border-slate-200'}`}>
           <div className="flex justify-between items-center mb-1.5">
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{t('symptoms.bp')}</span>
-            <QuickSuggestions 
-              className="mt-0 gap-1"
-              suggestions={['120/80', '110/70', '130/80', '140/90']}
-              onSelect={(s) => handleChange('bloodPressure', s)}
-              currentValue={formData.bloodPressure}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="mt-0 gap-1"
+                suggestions={['120/80', '110/70', '130/80', '140/90']}
+                onSelect={(s) => handleChange('bloodPressure', s)}
+                currentValue={formData.bloodPressure}
+              />
+            )}
           </div>
           <div className="flex items-center">
             <input 
-              className="bg-transparent text-[18px] font-bold text-slate-900 w-full focus:outline-none placeholder:text-slate-300" 
-              placeholder="120/80" 
+              className={`bg-transparent text-[18px] font-bold text-slate-900 w-full focus:outline-none placeholder:text-slate-300 ${isReadOnly ? 'cursor-not-allowed opacity-80' : ''}`}
+              placeholder={isReadOnly ? '—' : '120/80'} 
               value={formData.bloodPressure || ''}
               onChange={(e) => handleChange('bloodPressure', e.target.value)}
+              readOnly={isReadOnly}
             />
             <span className="text-[11px] font-semibold text-slate-400">mmHg</span>
           </div>
@@ -134,18 +139,21 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         <div className={`col-span-1 bg-white border rounded-xl p-3 shadow-sm transition-all duration-200 flex flex-col justify-between ${isAbnormalHr ? 'border-red-300 bg-red-50/50' : 'border-slate-200'}`}>
           <div className="flex justify-between items-center mb-1">
             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">{t('symptoms.heartRate')}</span>
-            <QuickSuggestions 
-              className="mt-0 gap-1 scale-90 origin-right"
-              suggestions={['70', '80', '90']}
-              onSelect={(s) => handleChange('heartRate', parseInt(s))}
-              currentValue={formData.heartRate?.toString()}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="mt-0 gap-1 scale-90 origin-right"
+                suggestions={['70', '80', '90']}
+                onSelect={(s) => handleChange('heartRate', parseInt(s))}
+                currentValue={formData.heartRate?.toString()}
+              />
+            )}
           </div>
           <div className="flex items-center justify-between mt-auto">
             <NumericStepper 
               className="scale-90 origin-left"
               value={formData.heartRate} 
               onChange={(val) => handleChange('heartRate', val ? parseFloat(val) : undefined)} 
+              disabled={isReadOnly}
             />
             <span className="text-[9px] font-bold text-slate-400 uppercase ml-1 whitespace-nowrap">{t('symptoms.heartRateUnit')}</span>
           </div>
@@ -155,12 +163,14 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         <div className={`col-span-1 bg-white border rounded-xl p-3 shadow-sm transition-all duration-200 flex flex-col justify-between ${isAbnormalTemp ? 'border-red-300 bg-red-50/50' : 'border-slate-200'}`}>
           <div className="flex justify-between items-center mb-1">
             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">{t('symptoms.temperature')}</span>
-            <QuickSuggestions 
-              className="mt-0 gap-1 scale-90 origin-right"
-              suggestions={['36.5', '37', '37.5']}
-              onSelect={(s) => handleChange('temperature', parseFloat(s))}
-              currentValue={formData.temperature?.toString()}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="mt-0 gap-1 scale-90 origin-right"
+                suggestions={['36.5', '37', '37.5']}
+                onSelect={(s) => handleChange('temperature', parseFloat(s))}
+                currentValue={formData.temperature?.toString()}
+              />
+            )}
           </div>
           <div className="flex items-center justify-between mt-auto">
             <NumericStepper 
@@ -168,6 +178,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               value={formData.temperature} 
               step={0.1}
               onChange={(val) => handleChange('temperature', val ? parseFloat(val) : undefined)} 
+              disabled={isReadOnly}
             />
             <span className="text-[9px] font-bold text-slate-400 ml-1">°C</span>
           </div>
@@ -178,12 +189,14 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         <div className={`col-span-1 bg-white border rounded-xl p-3 shadow-sm transition-all duration-200 flex flex-col justify-between ${isAbnormalSpo2 ? 'border-red-300 bg-red-50/50' : 'border-slate-200'}`}>
           <div className="flex justify-between items-center mb-1">
             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">SpO₂</span>
-            <QuickSuggestions 
-              className="mt-0 gap-1 scale-90 origin-right"
-              suggestions={['98', '99', '100']}
-              onSelect={(s) => handleChange('spO2', parseInt(s))}
-              currentValue={formData.spO2?.toString()}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="mt-0 gap-1 scale-90 origin-right"
+                suggestions={['98', '99', '100']}
+                onSelect={(s) => handleChange('spO2', parseInt(s))}
+                currentValue={formData.spO2?.toString()}
+              />
+            )}
           </div>
           <div className="flex items-center justify-between mt-auto">
             <NumericStepper 
@@ -192,6 +205,7 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
               min={0}
               max={100}
               onChange={(val) => handleChange('spO2', val ? parseFloat(val) : undefined)} 
+              disabled={isReadOnly}
             />
             <span className="text-[9px] font-bold text-slate-400 ml-1">%</span>
           </div>
@@ -201,18 +215,21 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         <div className="col-span-1 bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col justify-between">
           <div className="flex justify-between items-center mb-1">
             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">{t('symptoms.weight')}</span>
-            <QuickSuggestions 
-              className="mt-0 gap-1 scale-90 origin-right"
-              suggestions={['50', '60', '70']}
-              onSelect={(s) => handleChange('weightKg', parseInt(s))}
-              currentValue={formData.weightKg?.toString()}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="mt-0 gap-1 scale-90 origin-right"
+                suggestions={['50', '60', '70']}
+                onSelect={(s) => handleChange('weightKg', parseInt(s))}
+                currentValue={formData.weightKg?.toString()}
+              />
+            )}
           </div>
           <div className="flex items-center justify-between mt-auto">
             <NumericStepper 
               className="scale-90 origin-left"
               value={formData.weightKg} 
               onChange={(val) => handleChange('weightKg', val ? parseFloat(val) : undefined)} 
+              disabled={isReadOnly}
             />
             <span className="text-[9px] font-bold text-slate-400 uppercase ml-1">kg</span>
           </div>
@@ -222,18 +239,21 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
         <div className="col-span-1 bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex flex-col justify-between">
           <div className="flex justify-between items-center mb-1">
             <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">{t('symptoms.height')}</span>
-            <QuickSuggestions 
-              className="mt-0 gap-1 scale-90 origin-right"
-              suggestions={['155', '165', '170']}
-              onSelect={(s) => handleChange('heightCm', parseInt(s))}
-              currentValue={formData.heightCm?.toString()}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="mt-0 gap-1 scale-90 origin-right"
+                suggestions={['155', '165', '170']}
+                onSelect={(s) => handleChange('heightCm', parseInt(s))}
+                currentValue={formData.heightCm?.toString()}
+              />
+            )}
           </div>
           <div className="flex items-center justify-between mt-auto">
             <NumericStepper 
               className="scale-90 origin-left"
               value={formData.heightCm} 
               onChange={(val) => handleChange('heightCm', val ? parseFloat(val) : undefined)} 
+              disabled={isReadOnly}
             />
             <span className="text-[9px] font-bold text-slate-400 uppercase ml-1">cm</span>
           </div>
@@ -263,30 +283,36 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
             <div>
               <label className="block text-[10px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{t('symptoms.chiefComplaint')}</label>
               <textarea 
-                className="w-full border border-slate-200 rounded-lg p-2.5 text-[12px] focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 min-h-[60px] transition-all"
-                placeholder={t('symptoms.chiefComplaintPlaceholder')}
+                className={`w-full border rounded-lg p-2.5 text-[12px] min-h-[60px] transition-all resize-none ${isReadOnly ? 'bg-slate-50 border-slate-100 text-slate-700 outline-none' : 'focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 border-slate-200'}`}
+                placeholder={isReadOnly ? '—' : t('symptoms.chiefComplaintPlaceholder')}
                 value={formData.chiefComplaint || ''}
                 onChange={(e) => handleChange('chiefComplaint', e.target.value)}
+                readOnly={isReadOnly}
               />
-              <QuickSuggestions 
-                className="gap-1 mt-1.5"
-                suggestions={['Sốt', 'Ho', 'Đau đầu', 'Đau bụng', 'Mệt mỏi', 'Khó thở', 'Đau họng', 'Chảy mũi']} 
-                onSelect={(s) => handleChange('chiefComplaint', (formData.chiefComplaint ? `${formData.chiefComplaint}, ${s}` : s))}
-              />
+              {!isReadOnly && (
+                <QuickSuggestions 
+                  className="gap-1 mt-1.5"
+                  suggestions={['Sốt', 'Ho', 'Đau đầu', 'Đau bụng', 'Mệt mỏi', 'Khó thở', 'Đau họng', 'Chảy mũi']} 
+                  onSelect={(s) => handleChange('chiefComplaint', (formData.chiefComplaint ? `${formData.chiefComplaint}, ${s}` : s))}
+                />
+              )}
             </div>
             <div>
               <label className="block text-[10px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{t('symptoms.additionalSymptoms')}</label>
               <textarea 
-                className="w-full border border-slate-200 rounded-lg p-2.5 text-[12px] focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 min-h-[60px] transition-all"
-                placeholder={t('symptoms.additionalSymptomsPlaceholder')}
+                className={`w-full border rounded-lg p-2.5 text-[12px] min-h-[60px] transition-all resize-none ${isReadOnly ? 'bg-slate-50 border-slate-100 text-slate-700 outline-none' : 'focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 border-slate-200'}`}
+                placeholder={isReadOnly ? '—' : t('symptoms.additionalSymptomsPlaceholder')}
                 value={formData.additionalSymptoms || ''}
                 onChange={(e) => handleChange('additionalSymptoms', e.target.value)}
+                readOnly={isReadOnly}
               />
-              <QuickSuggestions 
-                className="gap-1 mt-1.5"
-                suggestions={['Chóng mặt', 'Buồn nôn', 'Biếng ăn', 'Mất ngủ', 'Đau người', 'Phát ban', 'Táo bón', 'Tiêu chảy']} 
-                onSelect={(s) => handleChange('additionalSymptoms', (formData.additionalSymptoms ? `${formData.additionalSymptoms}, ${s}` : s))}
-              />
+              {!isReadOnly && (
+                <QuickSuggestions 
+                  className="gap-1 mt-1.5"
+                  suggestions={['Chóng mặt', 'Buồn nôn', 'Biếng ăn', 'Mất ngủ', 'Đau người', 'Phát ban', 'Táo bón', 'Tiêu chảy']} 
+                  onSelect={(s) => handleChange('additionalSymptoms', (formData.additionalSymptoms ? `${formData.additionalSymptoms}, ${s}` : s))}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -299,16 +325,19 @@ export function TabVitals({ item, medicalRecord, onChange }: TabVitalsProps) {
           </div>
           <div className="flex-1 flex flex-col min-h-0">
             <textarea 
-              className="flex-1 w-full border border-slate-200 rounded-lg p-2.5 text-[12px] focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition-all resize-none"
-              placeholder={t('symptoms.clinicalFindingsPlaceholder')}
+              className={`flex-1 w-full border rounded-lg p-2.5 text-[12px] transition-all resize-none ${isReadOnly ? 'bg-slate-50 border-slate-100 text-slate-700 outline-none' : 'focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 border-slate-200'}`}
+              placeholder={isReadOnly ? '—' : t('symptoms.clinicalFindingsPlaceholder')}
               value={formData.clinicalFindings || ''}
               onChange={(e) => handleChange('clinicalFindings', e.target.value)}
+              readOnly={isReadOnly}
             />
-            <QuickSuggestions 
-              className="flex-none gap-1 mt-1.5"
-              suggestions={['Tim đều, T1 T2 rõ', 'Phổi trong, không rale', 'Bụng mềm, không chướng', 'Họng đỏ nhẹ', 'Amidan không sưng']} 
-              onSelect={(s) => handleChange('clinicalFindings', (formData.clinicalFindings ? `${formData.clinicalFindings}, ${s}` : s))}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                className="flex-none gap-1 mt-1.5"
+                suggestions={['Tim đều, T1 T2 rõ', 'Phổi trong, không rale', 'Bụng mềm, không chướng', 'Họng đỏ nhẹ', 'Amidan không sưng']} 
+                onSelect={(s) => handleChange('clinicalFindings', (formData.clinicalFindings ? `${formData.clinicalFindings}, ${s}` : s))}
+              />
+            )}
           </div>
         </div>
       </div>
