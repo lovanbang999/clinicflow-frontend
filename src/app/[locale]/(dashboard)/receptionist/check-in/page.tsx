@@ -174,7 +174,7 @@ export default function ReceptionistCheckInPage() {
   // Check-in: redirect to billing page for fee collection (B1)
   // The billing page handles CONSULTATION invoice + check-in automatically
   const handleCheckInClick = (booking: Booking) => {
-    router.push(`/receptionist/billing/booking/${booking.id}`);
+    router.push(`/receptionist/billing?bookingId=${booking.id}`);
   };
 
   // Fallback direct check-in used only internally (e.g., from billing page)

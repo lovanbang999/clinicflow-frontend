@@ -36,6 +36,7 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
   const locale = useLocale();
 
   const [amount, setAmount] = useState<number | ''>('');
+  const [amountGiven, setAmountGiven] = useState<number | ''>('');
   const [method, setMethod] = useState<PaymentMethod>(PaymentMethod.CASH);
   const [selectedLabOrderId, setSelectedLabOrderId] = useState<string>('');
   const [insurance, setInsurance] = useState<InsuranceFields>({ insuranceNumber: '', insuranceCovered: '' });
@@ -247,7 +248,13 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
                   min={1000}
                   step={1000}
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value === '' ? '' : Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = e.target.value === '' ? '' : Number(e.target.value);
+                    setAmount(val);
+                    if (val && amountGiven && amountGiven < val) {
+                       setAmountGiven(val);
+                    }
+                  }}
                   placeholder="0"
                   className="pl-4 pr-16 h-12 text-lg font-bold"
                 />
@@ -261,6 +268,34 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
                 </button>
               </div>
             </div>
+
+            {/* Cash Return Calculation */}
+            {method === PaymentMethod.CASH && amount !== '' && (
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 mt-2">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Khách đưa</label>
+                  <div className="relative">
+                    <Input
+                      type="number"
+                      value={amountGiven}
+                      onChange={(e) => setAmountGiven(e.target.value === '' ? '' : Number(e.target.value))}
+                      placeholder={amount.toString()}
+                      className="h-10 text-base font-bold bg-white"
+                    />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 uppercase">VND</div>
+                  </div>
+                </div>
+
+                {amountGiven !== '' && Number(amountGiven) > Number(amount) && (
+                  <div className="flex justify-between items-center pt-2 border-t border-slate-200">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tiền thừa trả khách</span>
+                    <span className="text-lg font-black text-emerald-600 tracking-tight">
+                      {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(amountGiven) - Number(amount))}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <DialogFooter className="gap-2 pt-4 mt-4 border-t border-slate-100">
