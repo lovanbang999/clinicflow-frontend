@@ -60,6 +60,14 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
   ]);
   const availableServices = labServices.filter((s) => !existingServiceIds.has(s.id));
 
+  // Group remaining services by category
+  const groupedServices = availableServices.reduce((acc, s) => {
+    const catName = s.category?.name || 'Dịch vụ khác';
+    if (!acc[catName]) acc[catName] = [];
+    acc[catName].push(s);
+    return acc;
+  }, {} as Record<string, Service[]>);
+
   const handleAdd = () => {
     if (!selectedServiceId) return;
     const selectedSrv = labServices.find((s) => s.id === selectedServiceId);
@@ -190,10 +198,14 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
             disabled={isLoading || isSubmitting}
           >
             <option value="">— Chọn xét nghiệm / kỹ thuật —</option>
-            {availableServices.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name} — {(s.price ?? 0).toLocaleString('vi-VN')} đ
-              </option>
+            {Object.entries(groupedServices).map(([categoryName, servicesList]) => (
+              <optgroup key={categoryName} label={categoryName}>
+                {servicesList.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name} — {(s.price ?? 0).toLocaleString('vi-VN')} đ
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
           <Button

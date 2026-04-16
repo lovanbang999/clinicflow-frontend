@@ -1,10 +1,12 @@
 import { apiClient } from '@/lib/api/core/client';
 import type { VisitServiceOrder } from '@/lib/api/clinical/medical-records';
+import { SpecialistFindings } from '@/lib/types/specialist-findings.types';
 
 export type { VisitServiceOrder };
 
 export interface CompleteServiceOrderDto {
   resultText?: string;
+  findings?: SpecialistFindings;
   resultFileUrl?: string;
   isAbnormal?: boolean;
   abnormalNote?: string;

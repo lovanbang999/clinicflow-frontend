@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 export function useApiData<T>(
   fetcher: () => Promise<T>,
   initialData: T,
+  deps: unknown[] = []
 ) {
   const [data, setData] = useState<T>(initialData);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +28,8 @@ export function useApiData<T>(
     } finally {
       setIsLoading(false);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 
   useEffect(() => {
     void fetch();

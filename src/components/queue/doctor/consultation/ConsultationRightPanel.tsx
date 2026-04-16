@@ -294,7 +294,7 @@ export function ConsultationRightPanel({ item, medicalRecord, draftServices, dra
                         <div className="text-[10px] text-blue-600 ml-3 flex items-center gap-1">
                           <UserIcon size={10} />
                           {t('rightPanel.performedBy')} {
-                            d.service.doctorServices?.find((ds: any) => ds.doctorProfile.user.id === d.performedBy)?.doctorProfile.user.fullName || t('rightPanel.selected')
+                            d.service.doctorServices?.find((ds) => ds.doctorProfile.user.id === d.performedBy)?.doctorProfile.user.fullName || t('rightPanel.selected')
                           }
                         </div>
                       )}

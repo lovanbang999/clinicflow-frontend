@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api/core/client';
-import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus, DashboardData, DoctorPatientSummary } from '@/types';
+import { Booking, CreateBookingDto, UpdateBookingStatusDto, BookingStatus, DashboardData, DoctorPatientSummary, PaginationMeta } from '@/types';
 
 export interface StatTrend {
   value: number;
@@ -25,8 +25,8 @@ export const bookingsApi = {
     search?: string;
     limit?: number;
     page?: number;
-  }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> }> => {
-    const response = await apiClient.get<{ data: { bookings: Booking[], pagination: Record<string, unknown> } }>('/bookings', { params });
+  }): Promise<{ bookings: Booking[], pagination: PaginationMeta }> => {
+    const response = await apiClient.get<{ data: { bookings: Booking[], pagination: PaginationMeta } }>('/bookings', { params });
     return response.data.data;
   },
 
@@ -108,9 +108,9 @@ export const bookingsApi = {
     search?: string;
     limit?: number;
     page?: number;
-  }): Promise<{ patients: DoctorPatientSummary[]; pagination: Record<string, unknown> }> => {
+  }): Promise<{ patients: DoctorPatientSummary[]; pagination: PaginationMeta }> => {
     const response = await apiClient.get<{
-      data: { patients: DoctorPatientSummary[]; pagination: Record<string, unknown> };
+      data: { patients: DoctorPatientSummary[]; pagination: PaginationMeta };
     }>('/bookings/doctor/my-patients', { params });
     return response.data.data;
   },

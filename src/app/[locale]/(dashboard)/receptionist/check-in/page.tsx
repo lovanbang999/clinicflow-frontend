@@ -76,8 +76,7 @@ export default function ReceptionistCheckInPage() {
 
     if (data) {
       setBookings(data.bookings);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setTotalBookings((data.pagination as any).total || 0);
+      setTotalBookings(data.pagination.total || 0);
     }
   }, [activeTab, currentPage, selectedDate, selectedDoctorId, selectedServiceId, searchQuery, fetchBookings]);
 

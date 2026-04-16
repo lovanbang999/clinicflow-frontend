@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { visitServiceOrdersApi, type VisitServiceOrder } from '@/lib/api/clinical/visit-service-orders';
 import { useApiData } from '@/lib/hooks/core/useApiData';
 import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { WorklistSearchBar } from '@/components/technician/WorklistSearchBar';
@@ -13,6 +14,10 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
 type TabKey = 'pending' | 'inProgress' | 'completed';
+
+interface UnifiedOrder extends LabOrder {
+  _source: 'lab' | 'vso';
+}
 
 export default function TechnicianWorklistPage() {
   const t = useTranslations('technicianWorklist');
@@ -24,12 +29,39 @@ export default function TechnicianWorklistPage() {
   const { data: allOrders, isLoading, refetch } = useApiData(
     async () => {
       try {
-        const [ready, completed] = await Promise.all([
+        const [labReady, labHistory, vsoReady, vsoCompleted] = await Promise.all([
           labOrdersApi.getReadyToPerformOrders(),
           labOrdersApi.getTechnicianHistory(),
+          visitServiceOrdersApi.getWorklist(),
+          visitServiceOrdersApi.getWorklist('COMPLETED'),
         ]);
-        return [...ready, ...completed];
-      } catch {
+
+        const normalizedLabs: UnifiedOrder[] = [...labReady, ...labHistory].map(o => ({
+          ...o,
+          _source: 'lab' as const,
+        }));
+
+        const normalizedVsos: UnifiedOrder[] = [...vsoReady, ...vsoCompleted].map((o: VisitServiceOrder) => ({
+          id: o.id,
+          bookingId: o.bookingId,
+          testName: o.service.name,
+          status: o.status as LabOrder['status'],
+          orderedAt: o.createdAt,
+          _source: 'vso' as const,
+          service: {
+            id: o.service.id,
+            name: o.service.name,
+          },
+          patientProfile: o.medicalRecord?.booking?.patientProfile,
+          booking: {
+            bookingCode: o.medicalRecord?.booking?.bookingCode || '',
+            doctor: { fullName: o.medicalRecord?.booking?.doctor?.fullName || '' }
+          }
+        } as UnifiedOrder));
+
+        return [...normalizedLabs, ...normalizedVsos];
+      } catch (err) {
+        console.error('Fetch error:', err);
         toast.error(t('messages.fetchError'));
         return [];
       }
@@ -37,9 +69,9 @@ export default function TechnicianWorklistPage() {
     [],
   );
 
-  const orders = (allOrders ?? []).filter((o: LabOrder) => {
+  const orders = (allOrders ?? []).filter((o: UnifiedOrder) => {
     const matchesTab =
-      activeTab === 'pending' ? o.status === 'PAID' :
+      activeTab === 'pending' ? (o.status === 'PAID' || (o._source === 'vso' && o.status === 'PENDING')) :
         activeTab === 'inProgress' ? o.status === 'IN_PROGRESS' :
           o.status === 'COMPLETED';
 
@@ -53,14 +85,23 @@ export default function TechnicianWorklistPage() {
 
   const handleStart = useCallback(async (orderId: string) => {
     try {
-      await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
+      const order = (allOrders ?? []).find(o => o.id === orderId);
+      if (!order) return;
+
+      if (order._source === 'vso') {
+        await visitServiceOrdersApi.startOrder(orderId);
+      } else {
+        await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
+      }
+
       toast.success(t('messages.statusUpdated'));
       const locale = window.location.pathname.split('/')[1];
-      router.push(`/${locale}/technician/lab-worklist/${orderId}`);
-    } catch {
+      router.push(`/${locale}/technician/lab-worklist/${orderId}?source=${order._source}`);
+    } catch (err) {
+      console.error('Start error:', err);
       toast.error(t('messages.statusUpdateError'));
     }
-  }, [router, t]);
+  }, [allOrders, router, t]);
 
   // Subscribe to WebSocket: auto-refresh when a new paid lab order arrives
   const { onNewLabOrder } = useLabOrderSocket();
@@ -89,9 +130,9 @@ export default function TechnicianWorklistPage() {
     return () => { unsubscribe?.(); };
   }, [onNewLabOrder, refetch, t]);
 
-  const handleOpenWorkspace = (order: LabOrder) => {
+  const handleOpenWorkspace = (order: UnifiedOrder) => {
     const locale = window.location.pathname.split('/')[1];
-    router.push(`/${locale}/technician/lab-worklist/${order.id}`);
+    router.push(`/${locale}/technician/lab-worklist/${order.id}?source=${order._source}`);
   };
 
   const tabs: { key: TabKey; label: React.ReactNode }[] = [
@@ -145,7 +186,7 @@ export default function TechnicianWorklistPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {orders.map((order: LabOrder) => {
+            {orders.map((order: UnifiedOrder) => {
               const patient = order.patientProfile;
               const doctor = order.booking?.doctor;
               return (

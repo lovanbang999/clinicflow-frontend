@@ -159,6 +159,7 @@ export interface VisitServiceOrder {
   };
   medicalRecord?: {
     booking?: {
+      bookingCode?: string;
       doctor?: {
         fullName?: string;
       };
