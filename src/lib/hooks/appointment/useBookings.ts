@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { CreateBookingDto, Booking, BookingStatus } from '@/types';
+import { CreateBookingDto, Booking, BookingStatus, PaginationMeta } from '@/types';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
 import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/appointment/bookings';
 
@@ -28,7 +28,7 @@ export function useBookings() {
     patientProfileId?: string;
     date?: string;
     search?: string;
-  }): Promise<{ bookings: Booking[], pagination: Record<string, unknown> } | null> => {
+  }): Promise<{ bookings: Booking[], pagination: PaginationMeta } | null> => {
     return execute(
       async () => {
         const data = await bookingsApi.getAll(params);

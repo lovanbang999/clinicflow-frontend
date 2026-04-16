@@ -1,3 +1,10 @@
+import {
+  LabFindings,
+  ImagingFinding,
+  EndoscopyFinding,
+  FunctionalFinding
+} from '../../components/technician/forms/types';
+
 export interface GeneralFindings {
   status?: string;
   conclusion?: string;
@@ -119,4 +126,8 @@ export type SpecialistFindings =
   | GastroFindings
   | EndoFindings
   | UrologyFindings
-  | RespFindings;
+  | RespFindings
+  | LabFindings
+  | ImagingFinding
+  | EndoscopyFinding
+  | FunctionalFinding;

@@ -128,7 +128,31 @@
     "finishBtn": "Complete Result",
     "viewResult": "View Result",
     "abnormalTitle": "Abnormal Result",
-    "abnormalDesc": "Mark if the result value is outside the normal range"
+    "abnormalDesc": "Mark if the result value is outside the normal range",
+    "sidebar": {
+      "otherOrders": "Other Services",
+      "allergy": "Allergy",
+      "ageUnit": "years"
+    },
+    "vitals": {
+      "title": "Vital Signs from B2",
+      "bp": "Blood Pressure",
+      "hr": "Heart Rate",
+      "spo2": "SpO2"
+    },
+    "status": {
+      "completed": "Completed",
+      "processing": "In Progress",
+      "readOnly": "Read-only"
+    },
+    "types": {
+      "BLOOD_LAB": "Hematology / Biochemistry",
+      "IMAGING": "Diagnostic Imaging",
+      "ECG": "Functional (ECG)",
+      "ENDOSCOPY": "Endoscopy",
+      "SPIROMETRY": "Spirometry",
+      "GENERAL": "General Clinical"
+    }
   },
   "result": {
     "title": "Enter Lab/Imaging Result",
@@ -155,6 +179,46 @@
     "messages": {
       "success": "Result saved successfully!",
       "error": "Failed to save the result."
+    }
+  },
+  "forms": {
+    "shared": {
+      "technicalParams": "Technical Parameters",
+      "findings": "Physical Findings",
+      "conclusion": "Professional Conclusion",
+      "recommendation": "Recommendation",
+      "abnormalFlag": "Abnormal Detected",
+      "uploadTitle": "Upload Result Documents",
+      "uploadHint": "DICOM, PNG, JPG, PDF (Max 100MB)"
+    },
+    "imaging": {
+      "technique": "View / Technique",
+      "quality": "Image Quality",
+      "kvp": "kVp",
+      "mas": "mAs"
+    },
+    "endoscopy": {
+      "scopeRange": "Scope Range",
+      "preparation": "Preparation Quality",
+      "esophagus": "Esophagus",
+      "stomach": "Stomach",
+      "duodenum": "Duodenum",
+      "cloTest": "CLO Test (H.pylori)",
+      "biopsy": "Biopsy",
+      "lesionPosition": "Lesion Position",
+      "lesionSize": "Size (mm)"
+    },
+    "functional": {
+      "heartRate": "Heart Rate (bpm)",
+      "rhythm": "Base Rhythm",
+      "axis": "Electrical Axis",
+      "pr": "PR Interval (ms)",
+      "qrs": "QRS Duration (ms)",
+      "qtc": "QTc Interval (ms)",
+      "fvc": "FVC (Forced Vital Capacity)",
+      "fev1": "FEV1 (Forced Exp. Volume)",
+      "ratio": "FEV1/FVC Ratio",
+      "goldStage": "GOLD Classification"
     }
   }
 }

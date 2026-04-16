@@ -23,6 +23,7 @@ export interface LabOrder {
     id: string;
     name: string;
     price?: number;
+    labFormType?: string;
   };
   // Included in pending lists
   patientProfile?: {

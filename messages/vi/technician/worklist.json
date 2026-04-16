@@ -128,7 +128,31 @@
     "finishBtn": "Hoàn tất kết quả",
     "viewResult": "Xem kết quả",
     "abnormalTitle": "Kết quả bất thường",
-    "abnormalDesc": "Đánh dấu nếu kết quả có giá trị nằm ngoài khoảng bình thường"
+    "abnormalDesc": "Đánh dấu nếu kết quả có giá trị nằm ngoài khoảng bình thường",
+    "sidebar": {
+      "otherOrders": "Dịch vụ khác",
+      "allergy": "Dị ứng",
+      "ageUnit": "tuổi"
+    },
+    "vitals": {
+      "title": "Sinh hiệu từ B2",
+      "bp": "Huyết áp",
+      "hr": "Nhịp tim",
+      "spo2": "SpO2"
+    },
+    "status": {
+      "completed": "Hoàn tất",
+      "processing": "Đang thực hiện",
+      "readOnly": "Read-only"
+    },
+    "types": {
+      "BLOOD_LAB": "Huyết học / Sinh hóa",
+      "IMAGING": "Chẩn đoán hình ảnh",
+      "ECG": "Thăm dò chức năng (Điện tim)",
+      "ENDOSCOPY": "Nội soi tiêu hóa",
+      "SPIROMETRY": "Thăm dò chức năng phổi",
+      "GENERAL": "Cận lâm sàng chung"
+    }
   },
   "result": {
     "title": "Nhập Kết Quả Cận Lâm Sàng",
@@ -155,6 +179,46 @@
     "messages": {
       "success": "Đã lưu kết quả thành công!",
       "error": "Có lỗi xảy ra khi lưu kết quả."
+    }
+  },
+  "forms": {
+    "shared": {
+      "technicalParams": "Thông số kỹ thuật",
+      "findings": "Kết quả ghi nhận",
+      "conclusion": "Kết luận chuyên môn",
+      "recommendation": "Đề nghị / Tư vấn",
+      "abnormalFlag": "Phát hiện bất thường",
+      "uploadTitle": "Tải lên tài liệu kết quả",
+      "uploadHint": "Hỗ trợ DICOM, PNG, JPG, PDF (Tối đa 100MB)"
+    },
+    "imaging": {
+      "technique": "Tư thế chụp",
+      "quality": "Chất lượng phim",
+      "kvp": "kVp",
+      "mas": "mAs"
+    },
+    "endoscopy": {
+      "scopeRange": "Phạm vi nội soi",
+      "preparation": "Chất lượng chuẩn bị",
+      "esophagus": "Thực quản",
+      "stomach": "Dạ dày",
+      "duodenum": "Tá tràng",
+      "cloTest": "CLO Test (H.pylori)",
+      "biopsy": "Sinh thiết",
+      "lesionPosition": "Vị trí tổn thương",
+      "lesionSize": "Kích thước (mm)"
+    },
+    "functional": {
+      "heartRate": "Nhịp tim (bpm)",
+      "rhythm": "Nhịp cơ bản",
+      "axis": "Trục điện tim",
+      "pr": "PR (ms)",
+      "qrs": "QRS (ms)",
+      "qtc": "QTc (ms)",
+      "fvc": "FVC (Dung tích sống mạnh)",
+      "fev1": "FEV1 (Thể tích thở ra giây đầu)",
+      "ratio": "Tỷ lệ FEV1/FVC",
+      "goldStage": "Phân độ GOLD (COPD)"
     }
   }
 }

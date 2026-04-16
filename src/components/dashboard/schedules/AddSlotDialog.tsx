@@ -25,7 +25,7 @@ import { useEffect } from 'react';
 import { adminSchedulesApi } from '@/lib/api/admin/admin-schedules';
 import { adminDoctorsApi } from '@/lib/api/admin/admin-doctors';
 import { adminRoomsApi, AdminRoom } from '@/lib/api/admin/admin-rooms';
-import { User } from '@/types';
+import { BackendUser } from '@/types';
 
 // Sub-components
 function Field({
@@ -99,7 +99,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
   const [form, setForm] = useState<AddSlotForm>(DEFAULT_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof AddSlotForm, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [doctors, setDoctors] = useState<User[]>([]);
+  const [doctors, setDoctors] = useState<BackendUser[]>([]);
   const [rooms, setRooms] = useState<AdminRoom[]>([]);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
         adminDoctorsApi.getDoctors({ isActive: true, limit: 50 }),
         adminRoomsApi.getActiveRooms()
       ]).then(([doctorsRes, roomsRes]) => {
-        setDoctors(doctorsRes.users as unknown as User[]);
+        setDoctors(doctorsRes.users);
         setRooms(roomsRes);
       }).catch(err => {
         console.error('Failed to load doctors or rooms', err);
@@ -220,8 +220,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
                 <SelectContent>
                   {doctors.map((doc) => (
                     <SelectItem key={doc.id} value={doc.id}>
-                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                      {doc.fullName} {(doc as any).doctorProfile?.specialties?.length ? `(${(doc as any).doctorProfile.specialties[0]})` : ''}
+                      {doc.fullName} {doc.doctorProfile?.specialties?.length ? `(${doc.doctorProfile.specialties[0]})` : ''}
                     </SelectItem>
                   ))}
                 </SelectContent>
