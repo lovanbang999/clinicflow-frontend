@@ -44,10 +44,11 @@ export function useLabOrders(bookingId: string) {
   };
 
   const removeOrder = async (id: string) => {
-    await executeSubmit(
+    const res = await executeSubmit(
       async () => {
         await labOrdersApi.deleteOrder(id);
         setOrders((prev) => prev.filter((o) => o.id !== id));
+        return true;
       },
       {
         onSuccessMsg: t('cancelSuccess'),
@@ -55,6 +56,7 @@ export function useLabOrders(bookingId: string) {
         onError: () => {}
       }
     );
+    return res === true;
   };
 
   return {
