@@ -252,49 +252,11 @@
   vertical-align: middle;
 }
 
-/* Printing utility */
+/* Printing utility is now handled within individual printable components to ensure isolation */
 @media print {
-  /* 1. Global Reset */
-  html, body {
-    height: auto !important;
-    overflow: visible !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: white !important;
-  }
-
-  /* 2. Hide common UI elements */
-  header, aside, nav, footer, .no-print, button, [data-slot="sidebar"] {
-    display: none !important;
-  }
-
-  /* 3. Hide everything by default using visibility to allow nested children to be visible */
-  body {
-    visibility: hidden !important;
-  }
-
-  /* 4. Ensure printable areas are visible and at the top */
-  #printable-invoice, #printable-lab-order, #printable-prescription, #printable-exam-result, #printable-ticket {
-    visibility: visible !important;
-    display: block !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: white !important;
-    z-index: 9999 !important;
-  }
-
-  /* 5. Force background colors in print */
+  /* Global print resets */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-  }
-
-  @page {
-    margin: 1.5cm;
-    size: auto;
   }
 }
