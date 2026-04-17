@@ -35,23 +35,23 @@ export function SpecialistExaminationView({ item, vso: initialVso, onExit, onSuc
   }, [item.bookingId, initialVso]);
 
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-[#f5f5f3] overflow-hidden text-[13px]">
+    <div className="flex flex-col h-full bg-[#f8fafc] overflow-hidden text-[13px]">
       {/* HEADER */}
-      <div className="bg-white border-b border-gray-200 px-5 py-2.5 flex justify-between items-center shrink-0 w-full mb-0 h-14">
+      <div className="bg-white border-b border-gray-200 px-5 py-2.5 flex justify-between items-center shrink-0 w-full mb-0 h-14 z-20">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={onExit}
-            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700"
+            className="w-8 h-8 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200"
           >
             <ArrowLeftIcon size={16} weight="bold" />
           </Button>
           <div>
-            <h1 className="text-[16px] font-bold text-slate-800">
+            <h1 className="text-[15px] font-bold text-slate-800 tracking-tight">
               {t('recordResultTitle')}
             </h1>
-            <p className="text-[12px] text-slate-500">
+            <p className="text-[11px] text-slate-500 font-medium">
               {t('recordResultDesc')}
             </p>
           </div>
@@ -59,11 +59,11 @@ export function SpecialistExaminationView({ item, vso: initialVso, onExit, onSuc
       </div>
 
       {/* BODY */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden min-h-0">
         <ExaminationLeftPanel item={item} orders={orders} />
-        
-        <main className="flex-1 flex flex-col p-5 overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
-           <ExaminationCenterForm orders={orders} onSuccess={onSuccess} />
+
+        <main className="flex-1 flex flex-col p-6 overflow-hidden min-h-0">
+          <ExaminationCenterForm orders={orders} onSuccess={onSuccess} />
         </main>
       </div>
     </div>

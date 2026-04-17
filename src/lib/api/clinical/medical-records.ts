@@ -158,8 +158,14 @@ export interface VisitServiceOrder {
     price?: number;
   };
   medicalRecord?: {
+    id: string;
+    chiefComplaint?: string;
+    clinicalFindings?: string;
+    doctorNotes?: string;
     booking?: {
+      id: string;
       bookingCode?: string;
+      patientNotes?: string;
       doctor?: {
         fullName?: string;
       };
@@ -168,6 +174,7 @@ export interface VisitServiceOrder {
         patientCode?: string;
         dateOfBirth?: string;
         gender?: string;
+        phone?: string;
       };
     };
   };
