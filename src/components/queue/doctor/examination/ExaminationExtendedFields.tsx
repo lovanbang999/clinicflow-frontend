@@ -540,20 +540,23 @@ const RespForm: React.FC<BaseFormProps<RespFindings>> = ({ value, onChange }) =>
 // --- MAIN MAPPING ---
 
 // Using a type-safe mapping for specialty forms
-const formMap: Record<string, React.FC<BaseFormProps<SpecialistFindings>>> = {
-  GENERAL: GeneralForm,
-  EYE: EyeForm,
-  DENTAL: DentalForm,
-  ENT: ENTForm,
-  CARDIOLOGY: CardiologyForm,
-  DERMATOLOGY: DermatologyForm,
-  GYNECOLOGY: GynecologyForm,
-  ORTHOPEDICS: OrthopedicsForm,
-  NEUROLOGY: NeurologyForm,
-  GASTROENTEROLOGY: GastroForm,
-  ENDOCRINOLOGY: EndoForm,
-  UROLOGY: UrologyForm,
-  RESPIRATORY: RespForm,
+// We use a cast to SpecialistForm to handle the variance between specific findings types and the general SpecialistFindings union.
+type SpecialistForm = React.FC<BaseFormProps<SpecialistFindings>>;
+
+const formMap: Record<string, SpecialistForm> = {
+  GENERAL: GeneralForm as unknown as SpecialistForm,
+  EYE: EyeForm as unknown as SpecialistForm,
+  DENTAL: DentalForm as unknown as SpecialistForm,
+  ENT: ENTForm as unknown as SpecialistForm,
+  CARDIOLOGY: CardiologyForm as unknown as SpecialistForm,
+  DERMATOLOGY: DermatologyForm as unknown as SpecialistForm,
+  GYNECOLOGY: GynecologyForm as unknown as SpecialistForm,
+  ORTHOPEDICS: OrthopedicsForm as unknown as SpecialistForm,
+  NEUROLOGY: NeurologyForm as unknown as SpecialistForm,
+  GASTROENTEROLOGY: GastroForm as unknown as SpecialistForm,
+  ENDOCRINOLOGY: EndoForm as unknown as SpecialistForm,
+  UROLOGY: UrologyForm as unknown as SpecialistForm,
+  RESPIRATORY: RespForm as unknown as SpecialistForm,
 };
 
 // --- EXPORTED COMPONENT ---

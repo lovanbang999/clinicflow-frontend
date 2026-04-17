@@ -5,6 +5,7 @@ import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { type VisitServiceOrder } from '@/lib/api/clinical/medical-records';
 import { differenceInYears } from 'date-fns';
 import { CheckCircleIcon, NoteIcon } from '@phosphor-icons/react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface ExaminationLeftPanelProps {
   item: QueueRecord;
@@ -27,7 +28,8 @@ export function ExaminationLeftPanel({ item, orders }: ExaminationLeftPanelProps
 
   return (
     <div className="w-[300px] bg-white border-r border-gray-200 flex flex-col h-full shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-10 relative">
-      <div className="h-full overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="pb-8">
 
         {/* Patient Header */}
         <div className="p-5 border-b border-gray-100 flex items-center gap-3 bg-gradient-to-br from-slate-50 to-white">
@@ -60,12 +62,20 @@ export function ExaminationLeftPanel({ item, orders }: ExaminationLeftPanelProps
               <span className="text-slate-500 text-[12px]">{t('leftPanel.phoneNumber')}</span>
               <span className="text-slate-900 text-[12px] font-medium text-right">{patient.phone || 'N/A'}</span>
             </div>
-            <div className="flex justify-between items-start mt-2 pt-2 border-t border-dashed border-gray-200">
-              <span className="text-slate-500 text-[12px]">{t('leftPanel.originalReason')}</span>
-              <span className="text-slate-900 text-[12px] font-medium text-right max-w-[65%]">
-                {item.booking.patientNotes || t('leftPanel.noNote')}
+            <div className="flex flex-col gap-1 mt-2 pt-2 border-t border-dashed border-gray-200">
+              <span className="text-slate-500 text-[11px] font-semibold uppercase tracking-wider">{t('leftPanel.reasonForVisit')}</span>
+              <span className="text-blue-700 text-[12px] font-bold bg-blue-50 p-2 rounded-lg border border-blue-100 mt-1">
+                {item.booking.medicalRecord?.chiefComplaint || t('leftPanel.noNote')}
               </span>
             </div>
+            {item.booking.patientNotes && (
+              <div className="flex flex-col gap-1 mt-2">
+                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-tight">{t('leftPanel.originalReason')}</span>
+                <span className="text-slate-600 text-[11px] font-medium italic">
+                  &quot;{item.booking.patientNotes}&quot;
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -101,8 +111,8 @@ export function ExaminationLeftPanel({ item, orders }: ExaminationLeftPanelProps
             </div>
           )}
         </div>
-
-      </div>
+        </div>
+      </ScrollArea>
     </div>
   );
 }

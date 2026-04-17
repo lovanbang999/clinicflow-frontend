@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { PlusIcon, MinusIcon, CheckIcon } from '@phosphor-icons/react';
+import { Input as ShInput } from '@/components/ui/input';
+import { Textarea as ShTextarea } from '@/components/ui/textarea';
 
 // --- SHARED COMPONENTS ---
 
@@ -36,9 +38,9 @@ export const FormGroup: React.FC<FormGroupProps> = ({ label, children, className
 );
 
 export const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
-  <input
+  <ShInput
     {...props}
-    className={`w-full text-[13px] rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all ${props.className || ''}`}
+    className={`text-[13px] border-slate-300 focus-visible:ring-blue-500 ${props.className || ''}`}
   />
 );
 
@@ -50,9 +52,9 @@ export const Select = (props: React.SelectHTMLAttributes<HTMLSelectElement>) => 
 );
 
 export const TextArea = (props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
-  <textarea
+  <ShTextarea
     {...props}
-    className={`w-full text-[13px] rounded-lg border border-slate-300 p-3 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all resize-none ${props.className || ''}`}
+    className={`text-[13px] border-slate-300 focus-visible:ring-blue-500 min-h-[80px] ${props.className || ''}`}
   />
 );
 

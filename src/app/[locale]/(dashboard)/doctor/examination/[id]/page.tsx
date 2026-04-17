@@ -16,7 +16,7 @@ function mapVsoToQueueRecord(vso: VisitServiceOrder): QueueRecord | null {
   if (!booking) return null;
 
   // We cast the nested booking into the Booking shape expected by QueueRecord.
-  // The fields used by ExaminationLeftPanel are: patientProfile, patientNotes.
+  // We ensure medicalRecord details (chiefComplaint) are preserved for the UI.
   return {
     id: `vso-${vso.id}`,
     bookingId: (booking as { id?: string }).id ?? '',
@@ -28,8 +28,10 @@ function mapVsoToQueueRecord(vso: VisitServiceOrder): QueueRecord | null {
     scheduledTime: null,
     isVisitServiceOrder: true,
     visitServiceOrderId: vso.id,
-    // We borrow the booking's patientProfile for display purposes
-    booking: booking as unknown as QueueRecord['booking'],
+    booking: {
+      ...booking,
+      medicalRecord: vso.medicalRecord,
+    } as unknown as QueueRecord['booking'],
   };
 }
 
