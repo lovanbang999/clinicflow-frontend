@@ -56,10 +56,25 @@
       "enterExam": "Vào phòng khám",
       "callPatient": "Gọi vào khám",
       "callConsultation": "Gọi vào tư vấn",
+      "startConsultation": "Bắt đầu tư vấn",
+      "startExamination": "Khám chuyên khoa",
+      "readResults": "Đọc kết quả & kê đơn",
       "waiting": "Chờ",
       "printResult": "In phiếu kết quả",
       "finishCurrentFirst": "Hoàn tất/lưu nháp ca hiện tại trước"
     },
+    "filters": {
+      "all": "Tất cả",
+      "consult": "Tư vấn",
+      "exam": "Chuyên khoa"
+    },
+    "legend": {
+      "title": "Phân loại lượt khám:",
+      "consultationDesc": "Tư vấn ban đầu (B2 — ghi sinh hiệu, chỉ định)",
+      "examinationDesc": "Khám chuyên khoa (B4' — từ BS khác chỉ định)",
+      "resultsReadyDesc": "Đọc kết quả & kê đơn (B7 — kết quả CLS sẵn sàng)"
+    },
+    "waitingTooLong": "Chờ lâu — {minutes} phút",
     "infoNote": "Chỉ có thể <strong>Vào phòng khám</strong> với bệnh nhân đang được gọi. Các bệnh nhân đang chờ chỉ hiển thị để tham khảo — không thể chỉnh sửa.",
     "statusLabel": "Trạng thái",
     "gender": {

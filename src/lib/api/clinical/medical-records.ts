@@ -245,6 +245,13 @@ export interface VisitResultsResponse {
   };
 }
 
+export interface DoctorStatsResponse {
+  totalPatientsSeen: number;
+  patientsSeenToday: number;
+  pendingActive: number;
+  abnormalResultsToday: number;
+}
+
 export interface SaveSymptomsDto {
   chiefComplaint?: string;
   clinicalFindings?: string;
@@ -386,7 +393,7 @@ export const medicalRecordsApi = {
   },
   
   // Doctor Stats
-  getDoctorStats: async () => {
+  getDoctorStats: async (): Promise<DoctorStatsResponse> => {
     const res = await apiClient.get('medical-records/doctor/stats');
     return res.data.data;
   },

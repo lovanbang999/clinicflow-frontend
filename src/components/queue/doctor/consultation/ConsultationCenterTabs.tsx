@@ -14,29 +14,22 @@ import { TabDiagnosis } from './TabDiagnosis';
 import { TabPrescription } from './TabPrescription';
 import type { DraftServiceOrder } from '../DoctorConsultationView';
 
-interface ConsultationCenterTabsProps {
-  item: QueueRecord;
-  medicalRecord: VisitResultsResponse | null;
-  draftServices: DraftServiceOrder[];
-  setDraftServices: (val: DraftServiceOrder[]) => void;
-  draftLabs: Service[];
-  setDraftLabs: (val: Service[]) => void;
-  onChange: () => void;
-}
+import { useConsultation } from './ConsultationContext';
 
-export function ConsultationCenterTabs({
-  item,
-  medicalRecord,
-  draftServices,
-  setDraftServices,
-  draftLabs,
-  setDraftLabs,
-  onChange,
-}: ConsultationCenterTabsProps) {
+export function ConsultationCenterTabs() {
   const t = useTranslations('emr.visit');
+  const { 
+    item, 
+    medicalRecord, 
+    draftServices, 
+    setDraftServices, 
+    draftLabs, 
+    setDraftLabs, 
+    refreshRecord,
+    isPhase2 
+  } = useConsultation();
+  
   const [activeTab, setActiveTab] = useState<string>('');
-
-  const isPhase2 = medicalRecord && ['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep);
 
   // Initialize and adjust active tab
   if (!activeTab) {
@@ -54,69 +47,48 @@ export function ConsultationCenterTabs({
     <div className="flex flex-col overflow-hidden bg-white/50">
       {/* Tabs Header */}
       <div className="flex bg-white border-b border-gray-200 px-5 gap-6 shrink-0">
-        <div
-          className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-            activeTab === 'vitals' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-          }`}
-          onClick={() => setActiveTab('vitals')}
-        >
-          {t('tabs.vitals')}
-        </div>
+        <TabHeaderItem 
+          label={t('tabs.vitals')} 
+          isActive={activeTab === 'vitals'} 
+          onClick={() => setActiveTab('vitals')} 
+        />
         {!isPhase2 ? (
           <>
-            <div
-              className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-                activeTab === 'services' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-              }`}
-              onClick={() => setActiveTab('services')}
-            >
-              {t('tabs.services')}
-              {orderCount > 0 && <span className="text-[10px] bg-blue-50 text-blue-800 rounded-full px-1.5 py-0 min-w-[16px] text-center border border-blue-100">{orderCount}</span>}
-            </div>
-            <div
-              className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-                activeTab === 'labs' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-              }`}
-              onClick={() => setActiveTab('labs')}
-            >
-              {t('tabs.labs')}
-              {labCount > 0 && <span className="text-[10px] bg-blue-50 text-blue-800 rounded-full px-1.5 py-0 min-w-[16px] text-center border border-blue-100">{labCount}</span>}
-            </div>
-            <div
-              className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-                activeTab === 'notes' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-              }`}
-              onClick={() => setActiveTab('notes')}
-            >
-              {t('tabs.notes')}
-            </div>
+            <TabHeaderItem 
+              label={t('tabs.services')} 
+              isActive={activeTab === 'services'} 
+              onClick={() => setActiveTab('services')} 
+              count={orderCount}
+            />
+            <TabHeaderItem 
+              label={t('tabs.labs')} 
+              isActive={activeTab === 'labs'} 
+              onClick={() => setActiveTab('labs')} 
+              count={labCount}
+            />
+            <TabHeaderItem 
+              label={t('tabs.notes')} 
+              isActive={activeTab === 'notes'} 
+              onClick={() => setActiveTab('notes')} 
+            />
           </>
         ) : (
           <>
-            <div
-              className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-                activeTab === 'results' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-              }`}
-              onClick={() => setActiveTab('results')}
-            >
-              {t('tabs.results')}
-            </div>
-            <div
-              className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-                activeTab === 'diagnosis' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-              }`}
-              onClick={() => setActiveTab('diagnosis')}
-            >
-              {t('tabs.diagnosis')}
-            </div>
-            <div
-              className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
-                activeTab === 'prescription' ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
-              }`}
-              onClick={() => setActiveTab('prescription')}
-            >
-              {t('tabs.prescription')}
-            </div>
+            <TabHeaderItem 
+              label={t('tabs.results')} 
+              isActive={activeTab === 'results'} 
+              onClick={() => setActiveTab('results')} 
+            />
+            <TabHeaderItem 
+              label={t('tabs.diagnosis')} 
+              isActive={activeTab === 'diagnosis'} 
+              onClick={() => setActiveTab('diagnosis')} 
+            />
+            <TabHeaderItem 
+              label={t('tabs.prescription')} 
+              isActive={activeTab === 'prescription'} 
+              onClick={() => setActiveTab('prescription')} 
+            />
           </>
         )}
       </div>
@@ -124,17 +96,16 @@ export function ConsultationCenterTabs({
       {/* Tabs Content */}
       <div className="flex-1 overflow-y-auto p-5 pb-10" style={{ scrollbarWidth: 'thin' }}>
         <div className={activeTab === 'vitals' ? 'block h-full min-h-0' : 'hidden'}>
-          <TabVitals item={item} medicalRecord={medicalRecord} onChange={onChange} isReadOnly={!!isPhase2} />
+          <TabVitals item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={!!isPhase2} />
         </div>
         
-        {/* Phase 1 Tabs */}
         {!isPhase2 && activeTab === 'services' && (
           <TabServices 
             item={item} 
             medicalRecord={medicalRecord} 
             draftServices={draftServices}
             setDraftServices={setDraftServices}
-            onChange={onChange} 
+            onChange={refreshRecord} 
           />
         )}
         {!isPhase2 && activeTab === 'labs' && (
@@ -143,24 +114,41 @@ export function ConsultationCenterTabs({
             medicalRecord={medicalRecord} 
             draftLabs={draftLabs}
             setDraftLabs={setDraftLabs}
-            onChange={onChange} 
+            onChange={refreshRecord} 
           />
         )}
         {!isPhase2 && activeTab === 'notes' && (
-          <TabNotes item={item} medicalRecord={medicalRecord} onChange={onChange} />
+          <TabNotes item={item} medicalRecord={medicalRecord} onChange={refreshRecord} />
         )}
 
-        {/* Phase 2 Tabs */}
         {isPhase2 && activeTab === 'results' && (
           <TabResults item={item} medicalRecord={medicalRecord} />
         )}
         {isPhase2 && activeTab === 'diagnosis' && (
-          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={onChange} />
+          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} />
         )}
         {isPhase2 && activeTab === 'prescription' && (
-          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={onChange} />
+          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} />
         )}
       </div>
+    </div>
+  );
+}
+
+function TabHeaderItem({ label, isActive, onClick, count }: { label: string; isActive: boolean; onClick: () => void; count?: number }) {
+  return (
+    <div
+      className={`py-3 text-[13px] cursor-pointer border-b-[3px] flex items-center gap-1.5 transition-colors -mb-px hover:text-slate-800 ${
+        isActive ? 'text-blue-600 border-blue-500 font-medium' : 'text-slate-500 border-transparent'
+      }`}
+      onClick={onClick}
+    >
+      {label}
+      {count !== undefined && count > 0 && (
+        <span className="text-[10px] bg-blue-50 text-blue-800 rounded-full px-1.5 py-0 min-w-[16px] text-center border border-blue-100">
+          {count}
+        </span>
+      )}
     </div>
   );
 }

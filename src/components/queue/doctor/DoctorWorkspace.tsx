@@ -53,7 +53,7 @@ export function DoctorWorkspace({
       return;
     }
 
-    // B7: Patient returning from labs with results ready.
+    // Patient returning from labs with results ready.
     // Transition AWAITING_RESULTS → IN_PROGRESS ("Gọi BN vào lần 2") before entering
     // the consultation page so the doctor can review results and write prescriptions.
     if (item?.booking.status === BookingStatus.AWAITING_RESULTS) {
