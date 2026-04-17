@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { medicalRecordsApi, VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { labOrdersApi } from '@/lib/api/clinical/lab-orders';
+import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import type { Service } from '@/types/service';
@@ -42,24 +43,43 @@ export function ConsultationProvider({
   const [draftServices, setDraftServices] = useState<DraftServiceOrder[]>([]);
   const [draftLabs, setDraftLabs] = useState<Service[]>([]);
   const [isSaving, setIsSaving] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchRecord = useCallback(async () => {
+  const { joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted } = useLabOrderSocket();
+  const fetchRecord = useCallback(async (quiet = false) => {
     try {
-      setIsLoading(true);
+      if (!quiet) setIsLoading(true);
       const res = await medicalRecordsApi.getVisitResults(item.bookingId);
       setMedicalRecord(res);
     } catch (error) {
       console.error('Failed to fetch medical record:', error);
-      toast.error(t('messages.fetchError'));
+      if (!quiet) toast.error(t('messages.fetchError'));
     } finally {
-      setIsLoading(false);
+      if (!quiet) setIsLoading(false);
     }
   }, [item.bookingId, t]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchRecord();
   }, [fetchRecord]);
+
+  // Real-time updates for lab results
+  useEffect(() => {
+    if (!item.bookingId) return;
+
+    joinBookingLabRoom(item.bookingId);
+    
+    const unsubscribe = onLabResultCompleted((payload) => {
+      console.log('Lab result completed, refreshing record:', payload);
+      toast.info(`${t('tabs.labs')}: ${payload.testName} ${t('messages.resultReady', { defaultMessage: 'đã có kết quả' })}`);
+      fetchRecord(true); // Quiet refresh
+    });
+
+    return () => {
+      leaveBookingLabRoom(item.bookingId);
+      if (unsubscribe) unsubscribe();
+    };
+  }, [item.bookingId, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted, fetchRecord, t]);
 
   const isPhase2 = !!medicalRecord && ['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep || '');
 
