@@ -12,18 +12,26 @@ import {
 } from '@phosphor-icons/react';
 import { format } from 'date-fns';
 
+import { useTranslations, useLocale } from 'next-intl';
+
 interface BillingQueueItemProps {
   item: WorkspaceQueueItem;
   isSelected: boolean;
   onClick: () => void;
 }
 
-function formatVND(val: number) {
-  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(val);
-}
-
 export function BillingQueueItem({ item, isSelected, onClick }: BillingQueueItemProps) {
+  const t = useTranslations('receptionistBilling');
+  const locale = useLocale();
   const isPaid = item.pendingAmount === 0 && item.totalAmount > 0;
+
+  const formatVND = (val: number) => {
+    return new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { 
+      style: 'currency', 
+      currency: locale === 'vi' ? 'VND' : 'USD', 
+      maximumFractionDigits: 0 
+    }).format(val);
+  };
 
   return (
     <div
@@ -61,7 +69,7 @@ export function BillingQueueItem({ item, isSelected, onClick }: BillingQueueItem
 
           <div className="flex items-center gap-1.5 mt-1 text-xs text-slate-500">
             <StethoscopeIcon size={14} />
-            <span className="truncate">BS. {item.doctorName}</span>
+            <span className="truncate">{t('queueItem.doctorPrefix')} {item.doctorName}</span>
           </div>
 
           <div className="flex flex-wrap gap-2 mt-3">
@@ -81,17 +89,17 @@ export function BillingQueueItem({ item, isSelected, onClick }: BillingQueueItem
             {isPaid ? (
               <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                 <CheckCircleIcon size={12} weight="fill" />
-                ĐÃ THU
+                {t('queueItem.paid')}
               </div>
             ) : item.pendingAmount > 0 ? (
               <div className="flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
                 <ClockIcon size={12} weight="fill" />
-                CHỜ THU
+                {t('queueItem.awaiting')}
               </div>
             ) : (
               <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
                 <CircleIcon size={12} weight="bold" />
-                CHƯA TẠO
+                {t('queueItem.notCreated')}
               </div>
             )}
           </div>
@@ -101,7 +109,7 @@ export function BillingQueueItem({ item, isSelected, onClick }: BillingQueueItem
       {/* Footer Info */}
       <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
         <div className="flex flex-col">
-          <span className="text-[10px] text-slate-400 uppercase font-medium tracking-tight">Cần thu</span>
+          <span className="text-[10px] text-slate-400 uppercase font-medium tracking-tight">{t('queueItem.pendingAmount')}</span>
           <span className={cn(
             "text-sm font-bold",
             item.pendingAmount > 0 ? "text-[#1392ec]" : "text-slate-400"
@@ -110,7 +118,7 @@ export function BillingQueueItem({ item, isSelected, onClick }: BillingQueueItem
           </span>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-[10px] text-slate-400 uppercase font-medium tracking-tight">Kê lệnh</span>
+          <span className="text-[10px] text-slate-400 uppercase font-medium tracking-tight">{t('queueItem.createdAt')}</span>
           <span className="text-[11px] font-medium text-slate-600">
             {format(new Date(item.createdAt), 'HH:mm')}
           </span>
