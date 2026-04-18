@@ -140,7 +140,6 @@ export default function BillingPage() {
                 </Select>
               </div>
             </div>
-
             <Card className="rounded-[32px] border-none shadow-xl shadow-slate-200/50 overflow-hidden bg-white">
               <BillingTable invoices={invoices} loading={loading} />
             </Card>

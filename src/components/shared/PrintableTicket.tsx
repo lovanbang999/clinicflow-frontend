@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslations, useLocale } from 'next-intl';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
@@ -19,10 +21,16 @@ export function PrintableTicket({ ticket }: { ticket: TicketData | null }) {
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
   const t = useTranslations('doctorWorkspace.printables.ticket');
+  const [mounted, setMounted] = useState(false);
 
-  if (!ticket) return null;
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
-  return (
+  if (!mounted || !ticket) return null;
+
+  const content = (
     <div id="printable-ticket" className="hidden print:block font-sans text-sm pb-10">
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
@@ -30,8 +38,30 @@ export function PrintableTicket({ ticket }: { ticket: TicketData | null }) {
             size: portrait;
             margin: 0;
           }
-          body {
-            background-color: white !important;
+          html, body {
+            height: auto !important;
+            overflow: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+          }
+          /* Hide EVERYTHING on the page except the printable ticket */
+          body > * {
+            display: none !important;
+          }
+          #printable-ticket {
+            display: block !important;
+            visibility: visible !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            background: white !important;
+            padding: 1.5cm !important;
+            z-index: 99999 !important;
+          }
+          #printable-ticket * {
+            visibility: visible !important;
           }
         }
       `}} />
@@ -41,7 +71,7 @@ export function PrintableTicket({ ticket }: { ticket: TicketData | null }) {
       >
         {/* Header */}
         <div className="text-center mb-6 border-b-2 border-slate-900 pb-4">
-          <h1 className="text-2xl font-bold text-slate-900">{t('clinicName')}</h1>
+          <h1 className="text-2xl font-bold text-slate-900 uppercase tracking-tighter">{t('clinicName')}</h1>
           <p className="text-[10px] font-bold text-slate-600 mt-1 uppercase tracking-tight">Hệ thống quản lý phòng khám thông minh</p>
           <p className="text-[10px] text-slate-500 mt-1">{t('address')}</p>
         </div>
@@ -100,4 +130,6 @@ export function PrintableTicket({ ticket }: { ticket: TicketData | null }) {
       </div>
     </div>
   );
+
+  return createPortal(content, document.body);
 }
