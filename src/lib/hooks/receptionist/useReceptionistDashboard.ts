@@ -5,6 +5,7 @@ import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/appointment/bo
 import { queueApi, QueueRecord } from '@/lib/api/appointment/queue';
 import { Booking, BookingStatus } from '@/types';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
+import { useNotifications } from '@/lib/hooks/clinic/useNotifications';
 
 export const useReceptionistDashboard = () => {
   // Stats
@@ -114,6 +115,18 @@ export const useReceptionistDashboard = () => {
     void fetchUpcoming();
     void fetchQueue();
   }, [fetchStats, fetchUpcoming, fetchQueue]);
+
+  // WebSocket Notifications for auto-refresh
+  const { onNewNotification } = useNotifications();
+  useEffect(() => {
+    const unsub = onNewNotification((notif) => {
+      // Refresh relevant data based on notification type if needed
+      // For now, refresh all for simplicity when receptionist gets a notification
+      console.log('Receptionist received notification, refreshing dashboard...', notif.type);
+      refreshAll();
+    });
+    return unsub;
+  }, [onNewNotification, refreshAll]);
 
   // Initial load
   useEffect(() => {

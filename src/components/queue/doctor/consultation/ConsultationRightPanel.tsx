@@ -33,7 +33,9 @@ export function ConsultationRightPanel({
     draftServices, 
     draftLabs, 
     isPhase2,
-    isLocked
+    isVitalsLocked,
+    isDiagnosisLocked,
+    isPrescriptionLocked
   } = useConsultation();
   
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -83,7 +85,7 @@ export function ConsultationRightPanel({
       <ContextNotice 
         isFinalized={isFinalized} 
         isPhase2={isPhase2} 
-        isLocked={isLocked}
+        isLocked={isVitalsLocked}
         hasOrders={totalOrders > 0} 
         totalOrders={totalOrders} 
       />
@@ -91,7 +93,7 @@ export function ConsultationRightPanel({
       <ActionSection 
         isFinalized={isFinalized}
         isPhase2={isPhase2}
-        isLocked={isLocked}
+        isLocked={isVitalsLocked}
         hasOrders={totalOrders > 0}
         hasDrafts={hasDrafts}
         isSaving={isSaving}

@@ -64,7 +64,35 @@ export default async function LocaleLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           {children}
-          <Toaster />
+          <Toaster 
+            position="top-center" 
+            richColors 
+            expand={false}
+            closeButton
+            visibleToasts={5}
+            theme="light"
+            toastOptions={{
+              style: {
+                background: 'rgba(255, 255, 255, 0.8)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+                borderRadius: '20px',
+                padding: '12px 16px',
+                color: '#1e293b',
+                fontSize: '13px',
+                fontWeight: 600,
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.6)',
+              },
+              className: 'font-inter',
+              classNames: {
+                success: 'toast-success',
+                error: 'toast-error',
+                info: 'toast-info',
+                warning: 'toast-warning',
+              }
+            }}
+          />
         </NextIntlClientProvider>
       </body>
     </html>

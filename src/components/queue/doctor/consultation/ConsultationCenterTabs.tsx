@@ -23,7 +23,9 @@ export function ConsultationCenterTabs() {
     setDraftLabs, 
     refreshRecord,
     isPhase2,
-    isLocked
+    isVitalsLocked,
+    isDiagnosisLocked,
+    isPrescriptionLocked
   } = useConsultation();
   
   const [activeTab, setActiveTab] = useState<string>('');
@@ -93,7 +95,7 @@ export function ConsultationCenterTabs() {
       {/* Tabs Content */}
       <div className="flex-1 overflow-y-auto p-5 pb-10" style={{ scrollbarWidth: 'thin' }}>
         <div className={activeTab === 'vitals' ? 'block h-full min-h-0' : 'hidden'}>
-          <TabVitals item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
+          <TabVitals item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isVitalsLocked} />
         </div>
         
         {!isPhase2 && activeTab === 'services' && (
@@ -103,7 +105,7 @@ export function ConsultationCenterTabs() {
             draftServices={draftServices}
             setDraftServices={setDraftServices}
             onChange={refreshRecord} 
-            isReadOnly={isLocked}
+            isReadOnly={isVitalsLocked}
           />
         )}
         {!isPhase2 && activeTab === 'labs' && (
@@ -113,21 +115,21 @@ export function ConsultationCenterTabs() {
             draftLabs={draftLabs}
             setDraftLabs={setDraftLabs}
             onChange={refreshRecord} 
-            isReadOnly={isLocked}
+            isReadOnly={isVitalsLocked}
           />
         )}
         {!isPhase2 && activeTab === 'notes' && (
-          <TabNotes item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
+          <TabNotes item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isVitalsLocked} />
         )}
 
         {isPhase2 && activeTab === 'results' && (
           <TabResults item={item} medicalRecord={medicalRecord} />
         )}
         {isPhase2 && activeTab === 'diagnosis' && (
-          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
+          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isDiagnosisLocked} />
         )}
         {isPhase2 && activeTab === 'prescription' && (
-          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
+          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isPrescriptionLocked} />
         )}
       </div>
     </div>

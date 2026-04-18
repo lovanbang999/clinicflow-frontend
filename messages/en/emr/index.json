@@ -876,6 +876,7 @@
     "listTitleShort": "Lab & Imaging Orders",
     "group1": "Group 1 — Performed by Technician",
     "fallbackCategory": "Other Services",
+    "add": "Add",
     "draft": "Unsaved",
     "discard": "Discard",
     "countUnit": "test(s)",
