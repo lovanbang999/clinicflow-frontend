@@ -1,9 +1,9 @@
 'use client';
 
-import { 
-  StethoscopeIcon, 
-  TestTubeIcon, 
-  PillIcon, 
+import {
+  StethoscopeIcon,
+  TestTubeIcon,
+  PillIcon,
   ReceiptIcon,
   WarningCircleIcon,
   PlusIcon,
@@ -34,7 +34,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
   const router = useRouter();
   const t = useTranslations('receptionistBilling');
   const locale = useLocale();
-  
+
   const {
     bookingInvoices,
     fetchInvoicesByBooking,
@@ -62,7 +62,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       setLoadingBooking(true);
       void fetchInvoicesByBooking(bookingId);
       void fetchPendingLabOrders(bookingId);
-      
+
       bookingsApi.getById(bookingId)
         .then(setBooking)
         .catch(err => console.error("Failed to fetch booking", err))
@@ -90,7 +90,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       insuranceCovered,
       insuranceNumber,
     });
-    
+
     // Auto check-in if consultation
     if (selectedInvoice.invoiceType === InvoiceType.CONSULTATION && !selectedInvoice.booking?.queueRecord) {
       try {
@@ -124,8 +124,8 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
   const handleQuickAddSubmit = async (labOrderIds: string[], items: AddInvoiceItemDto[]) => {
     try {
       setCreatingType(quickAddType);
-      await createInvoice({ 
-        bookingId, 
+      await createInvoice({
+        bookingId,
         invoiceType: quickAddType,
         labOrderIds,
         items
@@ -253,7 +253,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                   <TestTubeIcon size={18} weight="bold" className="text-amber-500" /> {t('detail.sections.lab')}
                 </h3>
               </div>
-              
+
               {pendingLabOrders.length > 0 && (
                 <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-start gap-4 mb-4">
                   <WarningCircleIcon size={24} weight="fill" className="text-amber-500 shrink-0" />
@@ -300,9 +300,9 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                 ))
               ) : booking?.status === BookingStatus.COMPLETED ? (
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 flex flex-col items-center justify-center text-center">
-                   <p className="text-sm font-bold text-emerald-800 mb-2">{t('detail.sections.doctorCompleted')}</p>
-                   <p className="text-xs text-emerald-600 mb-4 max-w-sm">{t('detail.sections.pharmacyHint')}</p>
-                   <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.PHARMACY)} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl">
+                  <p className="text-sm font-bold text-emerald-800 mb-2">{t('detail.sections.doctorCompleted')}</p>
+                  <p className="text-xs text-emerald-600 mb-4 max-w-sm">{t('detail.sections.pharmacyHint')}</p>
+                  <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.PHARMACY)} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl">
                     <PlusIcon size={14} className="mr-2" /> {t('bookingInvoices.createNewInvoice')}
                   </Button>
                 </div>
@@ -317,41 +317,41 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
           {/* Right Summary Sidebar */}
           <div className="xl:col-span-4 h-fit sticky top-4">
             <Card className="rounded-2xl border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden">
-               <div className="p-6 bg-slate-900 text-white">
-                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em] mb-2">{t('detail.summary.title')}</p>
-                  <div className="flex justify-between items-baseline">
-                    <span className="text-3xl font-bold tracking-tight">
-                      {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))}
-                    </span>
-                    <span className="text-sm font-semibold text-slate-400 uppercase">{t('kpis.unitCurrency')}</span>
-                  </div>
-               </div>
-               
-               <div className="p-6 space-y-4">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-500 font-medium">{t('detail.summary.totalValue')}</span>
-                    <span className="text-slate-800 font-bold">{Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} {locale === 'vi' ? 'đ' : ''}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-500 font-medium">{t('detail.summary.paidAmount')}</span>
-                    <span className="text-emerald-600 font-bold">
-                      {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.filter(i => i.status === InvoiceStatus.PAID).reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} {locale === 'vi' ? 'đ' : ''}
-                    </span>
-                  </div>
-                  <div className="h-px bg-slate-100 my-2" />
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-800 font-bold">{t('detail.summary.debtAmount')}</span>
-                    <span className="text-xl font-black text-amber-500 tracking-tight">
-                      {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: locale === 'vi' ? 'VND' : 'USD', maximumFractionDigits: 0 }).format(bookingInvoices.reduce((sum, inv) => inv.status !== InvoiceStatus.PAID ? sum + Number(inv.totalAmount) : sum, 0))}
-                    </span>
-                  </div>
-               </div>
-               
-               <div className="p-6 pt-0">
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-500 leading-relaxed italic">
-                    {t('detail.summary.billingNote')}
-                  </div>
-               </div>
+              <div className="p-6 bg-slate-900 text-white">
+                <p className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em] mb-2">{t('detail.summary.title')}</p>
+                <div className="flex justify-between items-baseline">
+                  <span className="text-3xl font-bold tracking-tight">
+                    {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))}
+                  </span>
+                  <span className="text-sm font-semibold text-slate-400 uppercase">{t('kpis.unitCurrency')}</span>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-4">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-500 font-medium">{t('detail.summary.totalValue')}</span>
+                  <span className="text-slate-800 font-bold">{Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} {locale === 'vi' ? 'đ' : ''}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-500 font-medium">{t('detail.summary.paidAmount')}</span>
+                  <span className="text-emerald-600 font-bold">
+                    {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.filter(i => i.status === InvoiceStatus.PAID).reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} {locale === 'vi' ? 'đ' : ''}
+                  </span>
+                </div>
+                <div className="h-px bg-slate-100 my-2" />
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-800 font-bold">{t('detail.summary.debtAmount')}</span>
+                  <span className="text-xl font-black text-amber-500 tracking-tight">
+                    {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: locale === 'vi' ? 'VND' : 'USD', maximumFractionDigits: 0 }).format(bookingInvoices.reduce((sum, inv) => inv.status !== InvoiceStatus.PAID ? sum + Number(inv.totalAmount) : sum, 0))}
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6 pt-0">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-500 leading-relaxed italic">
+                  {t('detail.summary.billingNote')}
+                </div>
+              </div>
             </Card>
           </div>
         </div>
