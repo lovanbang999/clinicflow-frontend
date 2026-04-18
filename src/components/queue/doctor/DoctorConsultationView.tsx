@@ -69,6 +69,7 @@ function ConsultationLayout({ onExit, onSuccess }: { onExit: () => void; onSucce
         <ConsultationRightPanel 
           isSaving={isSaving}
           onFinalize={handleFinalize}
+          onExitRequest={handleExitRequest}
         />
       </div>
 

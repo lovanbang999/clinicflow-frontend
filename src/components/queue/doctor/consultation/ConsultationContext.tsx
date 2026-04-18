@@ -22,6 +22,7 @@ interface ConsultationContextType {
   isSaving: boolean;
   isLoading: boolean;
   isPhase2: boolean;
+  isLocked: boolean;
   
   setDraftServices: React.Dispatch<React.SetStateAction<DraftServiceOrder[]>>;
   setDraftLabs: React.Dispatch<React.SetStateAction<Service[]>>;
@@ -82,6 +83,7 @@ export function ConsultationProvider({
   }, [item.bookingId, joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted, fetchRecord, t]);
 
   const isPhase2 = !!medicalRecord && ['RESULTS_READY', 'DIAGNOSED', 'PRESCRIBED', 'COMPLETED'].includes(medicalRecord.visitStep || '');
+  const isLocked = !!medicalRecord && !['STARTED', 'SYMPTOMS_TAKEN'].includes(medicalRecord.visitStep || '') || ['PRESCRIBED', 'COMPLETED'].includes(medicalRecord?.visitStep || '');
 
   const finalize = useCallback(async (onExit: () => void, onSuccess: () => void) => {
     const isAlreadyFinalized = medicalRecord?.visitStep === 'PRESCRIBED' || medicalRecord?.visitStep === 'COMPLETED';
@@ -132,6 +134,7 @@ export function ConsultationProvider({
     isSaving,
     isLoading,
     isPhase2,
+    isLocked,
     setDraftServices,
     setDraftLabs,
     refreshRecord: fetchRecord,

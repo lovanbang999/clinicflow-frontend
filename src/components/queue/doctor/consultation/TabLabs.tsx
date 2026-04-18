@@ -17,6 +17,7 @@ interface TabLabsProps {
   draftLabs: Service[];
   setDraftLabs: (val: Service[]) => void;
   onChange: () => void;
+  isReadOnly?: boolean;
 }
 
 const STATUS_CONFIG = {
@@ -27,7 +28,7 @@ const STATUS_CONFIG = {
   CANCELLED:   { label: 'Đã hủy',         className: 'bg-gray-100 text-gray-500 border-gray-200' },
 } as const;
 
-export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: TabLabsProps) {
+export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange, isReadOnly }: TabLabsProps) {
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -69,7 +70,7 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
   }, {} as Record<string, Service[]>);
 
   const handleAdd = () => {
-    if (!selectedServiceId) return;
+    if (!selectedServiceId || isReadOnly) return;
     const selectedSrv = labServices.find((s) => s.id === selectedServiceId);
     if (!selectedSrv) return;
 
@@ -78,6 +79,7 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
   };
 
   const handleRemove = async (orderId: string) => {
+    if (isReadOnly) return;
     try {
       setIsSubmitting(true);
       await labOrdersApi.deleteOrder(orderId);
@@ -97,6 +99,7 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
         <div className="flex items-center gap-2 mb-3">
           <FlaskIcon size={14} className="text-amber-600" />
           <div className="text-[13px] font-medium text-slate-800">Chỉ định xét nghiệm & kỹ thuật</div>
+          {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
           <span className="text-[10px] text-slate-400 ml-auto">Nhóm 1 — Kỹ thuật viên thực hiện</span>
         </div>
 
@@ -146,14 +149,16 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
                       <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
                         {price !== null ? `${price.toLocaleString('vi-VN')} đ` : '—'}
                       </span>
-                      <button
-                        onClick={() => handleRemove(lab.id)}
-                        disabled={isSubmitting || lab.status !== 'PENDING'}
-                        className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 disabled:opacity-30 disabled:cursor-not-allowed"
-                        title={lab.status !== 'PENDING' ? 'Không thể xóa — đã thanh toán hoặc đang thực hiện' : 'Xóa xét nghiệm'}
-                      >
-                        <TrashIcon size={15} />
-                      </button>
+                      {!isReadOnly && (
+                        <button
+                          onClick={() => handleRemove(lab.id)}
+                          disabled={isSubmitting || lab.status !== 'PENDING'}
+                          className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                          title={lab.status !== 'PENDING' ? 'Không thể xóa — đã thanh toán hoặc đang thực hiện' : 'Xóa xét nghiệm'}
+                        >
+                          <TrashIcon size={15} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -175,13 +180,15 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
                     <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
                       {draft.price !== null ? `${draft.price.toLocaleString('vi-VN')} đ` : '—'}
                     </span>
-                    <button
-                      onClick={() => setDraftLabs(draftLabs.filter(l => l.id !== draft.id))}
-                      className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
-                      title="Bỏ nháp"
-                    >
-                      <TrashIcon size={15} />
-                    </button>
+                    {!isReadOnly && (
+                      <button
+                        onClick={() => setDraftLabs(draftLabs.filter(l => l.id !== draft.id))}
+                        className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
+                        title="Bỏ nháp"
+                      >
+                        <TrashIcon size={15} />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -190,33 +197,35 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange }: Ta
         </div>
 
         {/* Add new lab */}
-        <div className="flex gap-2">
-          <select
-            className="flex-1 border border-gray-200 rounded-md p-2 text-[12px] focus:outline-none focus:border-blue-400 bg-white"
-            value={selectedServiceId}
-            onChange={(e) => setSelectedServiceId(e.target.value)}
-            disabled={isLoading || isSubmitting}
-          >
-            <option value="">— Chọn xét nghiệm / kỹ thuật —</option>
-            {Object.entries(groupedServices).map(([categoryName, servicesList]) => (
-              <optgroup key={categoryName} label={categoryName}>
-                {servicesList.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name} — {(s.price ?? 0).toLocaleString('vi-VN')} đ
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          <Button
-            onClick={handleAdd}
-            disabled={!selectedServiceId || isSubmitting}
-            className="bg-blue-600 hover:bg-blue-700 text-white h-[38px] px-4 rounded-md text-[12px]"
-          >
-            <PlusIcon size={14} className="mr-1" />
-            Thêm
-          </Button>
-        </div>
+        {!isReadOnly && (
+          <div className="flex gap-2">
+            <select
+              className="flex-1 border border-gray-200 rounded-md p-2 text-[12px] focus:outline-none focus:border-blue-400 bg-white disabled:opacity-50"
+              value={selectedServiceId}
+              onChange={(e) => setSelectedServiceId(e.target.value)}
+              disabled={isLoading || isSubmitting || isReadOnly}
+            >
+              <option value="">— Chọn xét nghiệm / kỹ thuật —</option>
+              {Object.entries(groupedServices).map(([categoryName, servicesList]) => (
+                <optgroup key={categoryName} label={categoryName}>
+                  {servicesList.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name} — {(s.price ?? 0).toLocaleString('vi-VN')} đ
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+            <Button
+              onClick={handleAdd}
+              disabled={!selectedServiceId || isSubmitting || isReadOnly}
+              className="bg-blue-600 hover:bg-blue-700 text-white h-[38px] px-4 rounded-md text-[12px]"
+            >
+              <PlusIcon size={14} className="mr-1" />
+              Thêm
+            </Button>
+          </div>
+        )}
 
         {/* Total */}
         {(labs.length > 0 || draftLabs.length > 0) && (

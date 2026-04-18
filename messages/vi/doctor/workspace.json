@@ -68,6 +68,14 @@
       "consult": "Tư vấn",
       "exam": "Chuyên khoa"
     },
+    "statsPanel": {
+      "waiting": "Đang chờ khám",
+      "completedToday": "Đã khám xong",
+      "abnormalResults": "CLS bất thường",
+      "totalPatients": "Tổng bệnh nhân",
+      "avgWaitTime": "T.gian chờ TB",
+      "waitingListHeader": "Danh sách chờ khám"
+    },
     "legend": {
       "title": "Phân loại lượt khám:",
       "consultationDesc": "Tư vấn ban đầu (B2 — ghi sinh hiệu, chỉ định)",

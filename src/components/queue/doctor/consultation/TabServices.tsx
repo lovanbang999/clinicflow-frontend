@@ -17,9 +17,10 @@ interface TabServicesProps {
   draftServices: DraftServiceOrder[];
   setDraftServices: (val: DraftServiceOrder[]) => void;
   onChange: () => void;
+  isReadOnly?: boolean;
 }
 
-export function TabServices({ item, medicalRecord, draftServices, setDraftServices, onChange }: TabServicesProps) {
+export function TabServices({ item, medicalRecord, draftServices, setDraftServices, onChange, isReadOnly }: TabServicesProps) {
   const t = useTranslations('emr.visit.servicesTab');
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,7 +60,7 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
   }, {} as Record<string, typeof specialistServices>);
 
   const handleAdd = () => {
-    if (!selectedServiceId) return;
+    if (!selectedServiceId || isReadOnly) return;
     const serviceToAdd = specialistServices.find((s) => s.id === selectedServiceId);
     if (!serviceToAdd) return;
     
@@ -74,12 +75,14 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
   };
 
   const handleDoctorChange = (serviceId: string, doctorId: string) => {
+    if (isReadOnly) return;
     setDraftServices(draftServices.map(d => 
       d.service.id === serviceId ? { ...d, performedBy: doctorId } : d
     ));
   };
 
   const handleRemove = async (orderId: string) => {
+    if (isReadOnly) return;
     try {
       setIsSubmitting(true);
       await medicalRecordsApi.removeServiceOrder(item.bookingId, orderId);
@@ -99,6 +102,7 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
         <div className="flex items-center gap-2 mb-3">
           <StethoscopeIcon size={14} className="text-blue-600" />
           <div className="text-[13px] font-medium text-slate-800">{t('title')}</div>
+          {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
           <span className="text-[10px] text-slate-400 ml-auto">{t('group2')}</span>
         </div>
 
@@ -150,14 +154,16 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
                       <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
                         {(order.service.price ?? 0).toLocaleString('vi-VN')} đ
                       </span>
-                      <button
-                        onClick={() => handleRemove(order.id)}
-                        disabled={isSubmitting || order.status !== 'PENDING'}
-                        className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 disabled:opacity-30 disabled:cursor-not-allowed"
-                        title={order.status !== 'PENDING' ? t('cantRemove') : t('removeOrder')}
-                      >
-                        <TrashIcon size={15} />
-                      </button>
+                      {!isReadOnly && (
+                        <button
+                          onClick={() => handleRemove(order.id)}
+                          disabled={isSubmitting || order.status !== 'PENDING'}
+                          className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 disabled:opacity-30 disabled:cursor-not-allowed"
+                          title={order.status !== 'PENDING' ? t('cantRemove') : t('removeOrder')}
+                        >
+                          <TrashIcon size={15} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -175,9 +181,10 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
                      <div className="mt-1.5 flex items-center gap-2">
                        <UserIcon size={12} className="text-blue-500" />
                        <select
-                         className="bg-white border border-blue-200 rounded px-2 py-0.5 text-[11px] text-blue-700 focus:outline-none focus:border-blue-400"
+                         className="bg-white border border-blue-200 rounded px-2 py-0.5 text-[11px] text-blue-700 focus:outline-none focus:border-blue-400 disabled:opacity-50"
                          value={draft.performedBy || ''}
                          onChange={(e) => handleDoctorChange(draft.service.id, e.target.value)}
+                         disabled={isReadOnly}
                        >
                          <option value="">-- Chọn bác sĩ thực hiện --</option>
                          {draft.service.doctorServices?.map((ds, idx) => (
@@ -195,13 +202,15 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
                      <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
                        {(draft.service.price ?? 0).toLocaleString('vi-VN')} đ
                      </span>
-                     <button
-                       onClick={() => setDraftServices(draftServices.filter(d => d.service.id !== draft.service.id))}
-                       className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
-                       title={t('discard')}
-                     >
-                       <TrashIcon size={15} />
-                     </button>
+                     {!isReadOnly && (
+                       <button
+                         onClick={() => setDraftServices(draftServices.filter(d => d.service.id !== draft.service.id))}
+                         className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
+                         title={t('discard')}
+                       >
+                         <TrashIcon size={15} />
+                       </button>
+                     )}
                    </div>
                  </div>
               ))}
@@ -210,33 +219,35 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
         </div>
 
         {/* Add new service */}
-        <div className="flex gap-2">
-          <select
-            className="flex-1 border border-gray-200 rounded-md p-2 text-[12px] focus:outline-none focus:border-blue-400 bg-white"
-            value={selectedServiceId}
-            onChange={(e) => setSelectedServiceId(e.target.value)}
-            disabled={isLoading || isSubmitting}
-          >
-            <option value="">{t('placeholder')}</option>
-            {Object.entries(groupedServices).map(([categoryName, servicesList]) => (
-              <optgroup key={categoryName} label={categoryName}>
-                {servicesList.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name} — {(s.price ?? 0).toLocaleString('vi-VN')} đ
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          <Button
-            onClick={handleAdd}
-            disabled={!selectedServiceId || isSubmitting}
-            className="bg-blue-600 hover:bg-blue-700 text-white h-[38px] px-4 rounded-md text-[12px]"
-          >
-            <PlusIcon size={14} className="mr-1" />
-            {t('addBtn')}
-          </Button>
-        </div>
+        {!isReadOnly && (
+          <div className="flex gap-2">
+            <select
+              className="flex-1 border border-gray-200 rounded-md p-2 text-[12px] focus:outline-none focus:border-blue-400 bg-white disabled:opacity-50"
+              value={selectedServiceId}
+              onChange={(e) => setSelectedServiceId(e.target.value)}
+              disabled={isLoading || isSubmitting || isReadOnly}
+            >
+              <option value="">{t('placeholder')}</option>
+              {Object.entries(groupedServices).map(([categoryName, servicesList]) => (
+                <optgroup key={categoryName} label={categoryName}>
+                  {servicesList.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name} — {(s.price ?? 0).toLocaleString('vi-VN')} đ
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+            <Button
+              onClick={handleAdd}
+              disabled={!selectedServiceId || isSubmitting || isReadOnly}
+              className="bg-blue-600 hover:bg-blue-700 text-white h-[38px] px-4 rounded-md text-[12px]"
+            >
+              <PlusIcon size={14} className="mr-1" />
+              {t('addBtn')}
+            </Button>
+          </div>
+        )}
 
         {/* Total */}
         {(orders.length > 0 || draftServices.length > 0) && (

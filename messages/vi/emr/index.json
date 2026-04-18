@@ -351,7 +351,10 @@
       },
       "finalizeBtnB2": "Xác nhận chỉ định",
       "finalizeBtnB7": "Hoàn tất chuyên án & Đóng khám",
-      "dr": "BS."
+      "dr": "BS.",
+      "waitingResultsTitle": "Đang chờ kết quả",
+      "waitingResultsDesc": "Hồ sơ đã được khóa để bảo mật thông tin chỉ định. Vui lòng quay lại danh sách để gọi bệnh nhân khác.",
+      "btnExit": "Thoát phiên khám"
     },
     "leftPanel": {
       "profile": "Thông tin bệnh nhân",

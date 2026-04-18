@@ -43,7 +43,7 @@ export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
         </div>
         <div>
           <p className="text-xl font-bold text-gray-900 leading-none">{pendingActive}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">Đang chờ khám</p>
+          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.waiting')}</p>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
         </div>
         <div>
           <p className="text-xl font-bold text-gray-900 leading-none">{patientsSeenToday}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">Đã khám xong</p>
+          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.completedToday')}</p>
         </div>
       </div>
 
@@ -63,7 +63,7 @@ export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
         </div>
         <div>
           <p className="text-xl font-bold text-gray-900 leading-none">{abnormalResultsToday}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">CLS bất thường</p>
+          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.abnormalResults')}</p>
         </div>
       </div>
 
@@ -73,7 +73,7 @@ export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
         </div>
         <div>
           <p className="text-xl font-bold text-gray-900 leading-none">{totalPatientsSeen}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">Tổng bệnh nhân</p>
+          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.totalPatients')}</p>
         </div>
       </div>
 
@@ -82,8 +82,8 @@ export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
           <TimerIcon size={20} weight="fill" />
         </div>
         <div>
-          <p className={`text-xl font-bold leading-none ${isHigh ? 'text-red-600' : 'text-gray-900'}`}>{avgWaitMins} phút</p>
-          <p className="text-[10px] font-semibold text-gray-500 mt-1 uppercase tracking-wider">{t('avgWaitTime')}</p>
+          <p className={`text-xl font-bold leading-none ${isHigh ? 'text-red-600' : 'text-gray-900'}`}>{avgWaitMins} {t('minutes')}</p>
+          <p className="text-[10px] font-semibold text-gray-500 mt-1 uppercase tracking-wider">{t('statsPanel.avgWaitTime')}</p>
         </div>
       </div>
     </div>

@@ -55,10 +55,14 @@
       "enterExam": "Enter Consultation",
       "callPatient": "Call Patient",
       "callConsultation": "Call for Consultation",
+      "startConsultation": "Start Consultation",
+      "startExamination": "Start Examination",
+      "readResults": "Read Results & Prescribe",
       "waiting": "Waiting",
       "printResult": "Print Result",
       "finishCurrentFirst": "Finish/draft current exam first"
     },
+    "waitingTooLong": "Waiting too long — {minutes} mins",
     "infoNote": "You can only <strong>Enter Room</strong> with the currently called patient. Waiting patients are for reference only and cannot be examined yet.",
     "statusLabel": "Status",
     "gender": {
@@ -69,7 +73,20 @@
     "age": "yrs",
     "generalExam": "General Exam",
     "emptyQueue": "No patients currently in queue",
-    "emptyTab": "No patients found in this category"
+    "emptyTab": "No patients found in this category",
+    "filters": {
+      "all": "All",
+      "consult": "Consultation",
+      "exam": "Examination"
+    },
+    "statsPanel": {
+      "waiting": "Waiting for Exam",
+      "completedToday": "Completed Today",
+      "abnormalResults": "Abnormal Results",
+      "totalPatients": "Total Patients",
+      "avgWaitTime": "Avg Wait Time",
+      "waitingListHeader": "Waiting List"
+    }
   },
   "examView": {
     "back": "Back",

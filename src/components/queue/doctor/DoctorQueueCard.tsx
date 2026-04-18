@@ -158,7 +158,7 @@ function UrgentBadge({ minutes }: { minutes?: number }) {
   const t = useTranslations('doctorWorkspace.queueView');
   return (
     <span className="px-2 py-0.5 rounded-md bg-[#FCEBEB] text-[#A32D2D] text-[10px] font-bold border border-[#F7C1C1] animate-pulse">
-      {t('waitingTooLong', { minutes: minutes ?? 0, defaultMessage: `Chờ lâu — ${minutes ?? 0} phút` })}
+      {t('waitingTooLong', { minutes: minutes ?? 0, defaultMessage: `Waiting too long — ${minutes ?? 0} mins` })}
     </span>
   );
 }

@@ -350,7 +350,10 @@
       },
       "finalizeBtnB2": "Finalize Orders & Proceed",
       "finalizeBtnB7": "Finish Consultation",
-      "dr": "Dr."
+      "dr": "Dr.",
+      "waitingResultsTitle": "Awaiting Results",
+      "waitingResultsDesc": "The record is locked for data integrity while waiting for ordered services to complete. Please return to the queue to call another patient.",
+      "btnExit": "Exit session"
     },
     "leftPanel": {
       "profile": "Patient Profile",
