@@ -19,6 +19,7 @@ import { ICD10Autocomplete } from '../shared/ICD10Autocomplete';
 
 export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabDiagnosisProps) {
   const t = useTranslations('emr.visit');
+  const tShared = useTranslations('emr.visit.shared');
   
   const [formData, setFormData] = useState({
     diagnosisCode: '',
@@ -66,13 +67,13 @@ export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabD
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
             <div className="text-[13px] font-medium text-slate-800">{t('tabs.diagnosis')}</div>
-            {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
+            {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">{tShared('readOnly')}</span>}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="col-span-1">
-            <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">Mã ICD-10</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">{t('diagnosis.icdCode')}</label>
             <ICD10Autocomplete 
               value={formData.diagnosisCode}
               onChange={(val) => updateField('diagnosisCode', val)}
@@ -80,24 +81,24 @@ export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabD
                 updateField('diagnosisCode', item.code);
                 updateField('diagnosisName', item.name);
               }}
-              placeholder="VD: J00"
+              placeholder={t('diagnosis.icdPlaceholder')}
               className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors disabled:opacity-70 disabled:bg-slate-50"
               disabled={isReadOnly}
             />
           </div>
           <div className="col-span-1 md:col-span-2">
-            <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">Chẩn đoán bệnh</label>
+            <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">{t('diagnosis.diagnosis')}</label>
             <input 
               name="diagnosisName"
               value={formData.diagnosisName}
               onChange={(e) => updateField('diagnosisName', e.target.value)}
-              placeholder="VD: Viêm mũi họng cấp tính"
+              placeholder={t('diagnosis.diagnosisPlaceholder')}
               className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors disabled:opacity-70 disabled:bg-slate-50"
               disabled={isReadOnly}
             />
             {!isReadOnly && (
               <QuickSuggestions 
-                suggestions={['Viêm họng cấp', 'Viêm mũi dị ứng', 'Rối loạn tiêu hóa', 'Tăng huyết áp', 'ĐTĐ Typ 2', 'Suy nhược cơ thể']} 
+                suggestions={t.raw('diagnosis.suggestions.diagnosis')} 
                 onSelect={(s) => updateField('diagnosisName', s)}
                 currentValue={formData.diagnosisName}
               />
@@ -106,38 +107,38 @@ export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabD
         </div>
 
         <div className="mb-4">
-          <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">Kế hoạch điều trị</label>
+          <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">{t('diagnosis.treatment')}</label>
           <textarea 
             name="treatmentPlan"
             value={formData.treatmentPlan}
             onChange={(e) => updateField('treatmentPlan', e.target.value)}
-            placeholder="Hướng điều trị cho bệnh nhân..."
+            placeholder={t('diagnosis.treatmentPlaceholder')}
             rows={3}
             className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none disabled:opacity-70 disabled:bg-slate-50"
             disabled={isReadOnly}
           />
           {!isReadOnly && (
             <QuickSuggestions 
-              suggestions={['Uống thuốc theo đơn', 'Nghỉ ngơi, ăn nhẹ', 'Hạn chế dầu mỡ', 'Tái khám nếu sốt cao', 'Uống nhiều nước']} 
+              suggestions={t.raw('diagnosis.suggestions.treatment')} 
               onSelect={(s) => updateField('treatmentPlan', (formData.treatmentPlan ? `${formData.treatmentPlan}, ${s}` : s))}
             />
           )}
         </div>
 
         <div className="mb-5">
-          <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">Gợi ý / Lời dặn bỗ trợ</label>
+          <label className="block text-[11px] font-medium text-slate-600 mb-1.5 uppercase">{t('diagnosis.doctorAdvice')}</label>
           <textarea 
             name="doctorNotes"
             value={formData.doctorNotes}
             onChange={(e) => updateField('doctorNotes', e.target.value)}
-            placeholder="Ghi chú nội bộ hoặc lời dặn dò..."
+            placeholder={t('diagnosis.advicePlaceholder')}
             rows={2}
             className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none disabled:opacity-70 disabled:bg-slate-50"
             disabled={isReadOnly}
           />
           {!isReadOnly && (
             <QuickSuggestions 
-              suggestions={['Tránh thức khuya', 'Giữ ấm cổ', 'Súc họng nước muối']} 
+              suggestions={t.raw('diagnosis.suggestions.advice')} 
               onSelect={(s) => updateField('doctorNotes', (formData.doctorNotes ? `${formData.doctorNotes}, ${s}` : s))}
             />
           )}
@@ -150,7 +151,7 @@ export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabD
               disabled={isSubmitting}
               className="bg-slate-800 hover:bg-slate-900 text-white font-medium text-[13px] h-9 px-5"
             >
-              {isSubmitting ? t('symptoms.saving') : t('symptoms.save')}
+              {isSubmitting ? t('diagnosis.saving') : t('diagnosis.save')}
             </Button>
           </div>
         )}

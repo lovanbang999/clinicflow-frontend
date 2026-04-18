@@ -27,9 +27,10 @@ interface ICD10AutocompleteProps {
   onSelect: (item: { code: string; name: string }) => void;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
 }
 
-export function ICD10Autocomplete({ value, onChange, onSelect, placeholder, className }: ICD10AutocompleteProps) {
+export function ICD10Autocomplete({ value, onChange, onSelect, placeholder, className, disabled }: ICD10AutocompleteProps) {
   const [query, setQuery] = useState(value);
   const [results, setResults] = useState<{ code: string; name: string }[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -86,6 +87,7 @@ export function ICD10Autocomplete({ value, onChange, onSelect, placeholder, clas
         onFocus={() => { if (results.length > 0) setIsOpen(true) }}
         placeholder={placeholder}
         className={className}
+        disabled={disabled}
       />
       
       {isOpen && results.length > 0 && (

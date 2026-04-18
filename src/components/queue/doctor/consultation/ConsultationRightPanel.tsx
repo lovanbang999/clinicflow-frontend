@@ -378,6 +378,7 @@ interface DraftConfirmationDialogProps {
 
 function DraftConfirmationDialog({ isOpen, onClose, onConfirm, draftServices, draftLabs, expectedTotal, isSaving }: DraftConfirmationDialogProps) {
   const t = useTranslations('emr.visit');
+  const tl = useTranslations('emr.lab');
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
@@ -389,7 +390,7 @@ function DraftConfirmationDialog({ isOpen, onClose, onConfirm, draftServices, dr
           {draftServices.length > 0 && (
             <div className="mb-4">
               <h4 className="text-[13px] font-semibold text-slate-800 mb-1.5 flex justify-between">
-                <span>Chuyên khoa ({draftServices.length})</span>
+                <span>{t('leftPanel.specialistOrders')} ({draftServices.length})</span>
               </h4>
               <ul className="text-[12px] space-y-1.5 text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-100">
                 {draftServices.map((d, i) => (
@@ -407,7 +408,7 @@ function DraftConfirmationDialog({ isOpen, onClose, onConfirm, draftServices, dr
           {draftLabs.length > 0 && (
             <div className="mb-4">
               <h4 className="text-[13px] font-semibold text-slate-800 mb-1.5 flex justify-between">
-                <span>Cận lâm sàng ({draftLabs.length})</span>
+                <span>{tl('listTitleShort')} ({draftLabs.length})</span>
               </h4>
               <ul className="text-[12px] space-y-1.5 text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-100">
                 {draftLabs.map((s, i) => (

@@ -15,6 +15,7 @@ interface TabNotesProps {
 
 export function TabNotes({ item, medicalRecord, onChange, isReadOnly }: TabNotesProps) {
   const t = useTranslations('emr.visit.notesTab');
+  const tShared = useTranslations('emr.visit.shared');
   const [notes, setNotes] = useState('');
   const [instructions, setInstructions] = useState(''); // Could map to followUpNote or similar if we wanted
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,7 +50,7 @@ export function TabNotes({ item, medicalRecord, onChange, isReadOnly }: TabNotes
         <div className="flex items-center gap-2 mb-4">
           <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
           <div className="text-[13px] font-medium text-slate-800">{t('doctorNote')}</div>
-          {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
+          {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">{tShared('readOnly')}</span>}
         </div>
         
         <div className="mb-4">

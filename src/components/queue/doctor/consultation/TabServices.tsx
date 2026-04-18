@@ -7,6 +7,7 @@ import { useServices } from '@/lib/hooks/clinic/useServices';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { TrashIcon, PlusIcon, StethoscopeIcon } from '@phosphor-icons/react';
+import { LabResultContent } from '@/components/shared/LabResultContent';
 import { useTranslations } from 'next-intl';
 import type { DraftServiceOrder } from '../DoctorConsultationView';
 import { UserIcon } from '@phosphor-icons/react';
@@ -22,6 +23,7 @@ interface TabServicesProps {
 
 export function TabServices({ item, medicalRecord, draftServices, setDraftServices, onChange, isReadOnly }: TabServicesProps) {
   const t = useTranslations('emr.visit.servicesTab');
+  const tShared = useTranslations('emr.visit.shared');
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -102,7 +104,7 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
         <div className="flex items-center gap-2 mb-3">
           <StethoscopeIcon size={14} className="text-blue-600" />
           <div className="text-[13px] font-medium text-slate-800">{t('title')}</div>
-          {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
+          {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">{tShared('readOnly')}</span>}
           <span className="text-[10px] text-slate-400 ml-auto">{t('group2')}</span>
         </div>
 
@@ -130,8 +132,12 @@ export function TabServices({ item, medicalRecord, draftServices, setDraftServic
                     <div className="flex-1 min-w-0">
                       <div className="text-[12px] font-medium text-slate-800 truncate">{order.service.name}</div>
                       {isCompleted && order.resultText && (
-                        <div className="text-[11px] text-green-700 mt-0.5 truncate">
-                          KQ: {order.resultText}
+                        <div className="mt-2">
+                          <LabResultContent 
+                            text={order.resultText} 
+                            imageUrls={order.resultFileUrl ? [order.resultFileUrl] : []}
+                            className="!p-2 !bg-white/50"
+                          />
                         </div>
                       )}
                       {/* Find original service to display doctor */}

@@ -124,10 +124,10 @@ export function ConsultationCenterTabs() {
           <TabResults item={item} medicalRecord={medicalRecord} />
         )}
         {isPhase2 && activeTab === 'diagnosis' && (
-          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={['PRESCRIBED', 'COMPLETED'].includes(medicalRecord?.visitStep || '')} />
+          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
         )}
         {isPhase2 && activeTab === 'prescription' && (
-          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={['PRESCRIBED', 'COMPLETED'].includes(medicalRecord?.visitStep || '')} />
+          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
         )}
       </div>
     </div>
