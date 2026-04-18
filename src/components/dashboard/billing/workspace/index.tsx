@@ -7,12 +7,14 @@ import { BillingQueuePanel } from './BillingQueuePanel';
 import { BillingDetailWorkspace } from './BillingDetailWorkspace';
 import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { ReceiptIcon } from '@phosphor-icons/react';
+import { useTranslations } from 'next-intl';
 
 interface BillingWorkspaceProps {
   preSelectedBookingId?: string | null;
 }
 
 export function BillingWorkspace({ preSelectedBookingId }: BillingWorkspaceProps) {
+  const t = useTranslations('receptionistBilling');
   const {
     workspaceQueue,
     loadingQueue,
@@ -91,9 +93,9 @@ export function BillingWorkspace({ preSelectedBookingId }: BillingWorkspaceProps
               <div className="w-20 h-20 rounded-3xl bg-white shadow-xl shadow-slate-200/50 flex items-center justify-center mb-6">
                 <ReceiptIcon size={40} weight="duotone" className="text-slate-200" />
               </div>
-              <h3 className="text-lg font-bold text-slate-800">Workspace Thu Ngân</h3>
+              <h3 className="text-lg font-bold text-slate-800">{t('workspace.title')}</h3>
               <p className="max-w-xs text-center text-sm font-medium mt-2 leading-relaxed">
-                Chọn một bệnh nhân từ danh sách bên trái để bắt đầu quy trình thanh toán.
+                {t('workspace.placeholder')}
               </p>
             </div>
           )}

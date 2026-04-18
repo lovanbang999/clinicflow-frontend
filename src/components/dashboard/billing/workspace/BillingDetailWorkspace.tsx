@@ -1,5 +1,13 @@
 'use client';
 
+import { 
+  StethoscopeIcon, 
+  TestTubeIcon, 
+  PillIcon, 
+  ReceiptIcon,
+  WarningCircleIcon,
+  PlusIcon,
+} from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBilling } from '@/lib/hooks/billing/useBilling';
@@ -9,17 +17,10 @@ import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 import { Booking, BookingStatus } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  StethoscopeIcon, 
-  TestTubeIcon, 
-  PillIcon, 
-  ReceiptIcon,
-  WarningCircleIcon,
-  PlusIcon,
-} from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PaymentModal } from '@/components/dashboard/billing/PaymentModal';
 import { InvoiceCard } from '@/components/dashboard/billing/InvoiceCard';
+import { useTranslations, useLocale } from 'next-intl';
 import { QuickAddInvoiceModal } from '@/components/dashboard/billing/QuickAddInvoiceModal';
 import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
 import { PrintableQueueTicket } from '@/components/dashboard/billing/PrintableQueueTicket';
@@ -31,6 +32,8 @@ interface BillingDetailWorkspaceProps {
 
 export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDetailWorkspaceProps) {
   const router = useRouter();
+  const t = useTranslations('receptionistBilling');
+  const locale = useLocale();
   
   const {
     bookingInvoices,
@@ -201,13 +204,13 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
               {booking?.patientProfile?.fullName}
             </h2>
             <div className="flex items-center gap-4 mt-1 text-sm text-slate-500 font-medium">
-              <span>Mã BN: <span className="text-slate-700 font-mono tracking-tight">{booking?.patientProfile?.patientCode}</span></span>
+              <span>{t('detail.patientLabels.code')} <span className="text-slate-700 font-mono tracking-tight">{booking?.patientProfile?.patientCode}</span></span>
               <span className="w-1 h-1 rounded-full bg-slate-300" />
-              <span>BS Chỉ định: <span className="text-slate-700 font-bold">{booking?.doctor?.fullName}</span></span>
+              <span>{t('detail.patientLabels.doctor')} <span className="text-slate-700 font-bold">{booking?.doctor?.fullName}</span></span>
             </div>
           </div>
           <div className="flex flex-col items-end">
-            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">Mã lượt khám</span>
+            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">{t('detail.patientLabels.bookingCode')}</span>
             <span className="text-lg font-mono font-bold text-slate-800 tracking-wider bg-slate-100 px-3 py-1 rounded-xl">
               {booking?.bookingCode}
             </span>
@@ -226,7 +229,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                  <StethoscopeIcon size={18} weight="bold" className="text-[#1392ec]" /> 1. Khám tư vấn
+                  <StethoscopeIcon size={18} weight="bold" className="text-[#1392ec]" /> {t('detail.sections.consultation')}
                 </h3>
               </div>
               {consultationInvoices.length > 0 ? (
@@ -235,9 +238,9 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                 ))
               ) : (
                 <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-6 flex flex-col items-center justify-center text-center">
-                  <p className="text-sm font-medium text-slate-500 mb-3">Chưa có hoá đơn khám tư vấn</p>
+                  <p className="text-sm font-medium text-slate-500 mb-3">{t('detail.sections.emptyConsultation')}</p>
                   <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.CONSULTATION)} className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-xl">
-                    <PlusIcon size={14} className="mr-2" /> Tạo hoá đơn khám
+                    <PlusIcon size={14} className="mr-2" /> {t('bookingInvoices.createNewInvoice')}
                   </Button>
                 </div>
               )}
@@ -247,7 +250,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                  <TestTubeIcon size={18} weight="bold" className="text-amber-500" /> 2. Dịch vụ cận lâm sàng
+                  <TestTubeIcon size={18} weight="bold" className="text-amber-500" /> {t('detail.sections.lab')}
                 </h3>
               </div>
               
@@ -256,7 +259,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                   <WarningCircleIcon size={24} weight="fill" className="text-amber-500 shrink-0" />
                   <div className="flex-1">
                     <p className="text-sm font-bold text-amber-800">
-                      Có {pendingLabOrders.length} chỉ định dịch vụ mới chờ thanh toán
+                      {t('detail.alerts.pendingLabs', { count: pendingLabOrders.length })}
                     </p>
                     <ul className="mt-2 space-y-1 mb-4">
                       {pendingLabOrders.map((order) => (
@@ -267,7 +270,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                       ))}
                     </ul>
                     <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.LAB)} className="bg-amber-500 hover:bg-amber-600 text-white border-0 shadow-sm rounded-xl py-4 h-9">
-                      <PlusIcon size={16} className="mr-2" /> Thu tiền dịch vụ
+                      <PlusIcon size={16} className="mr-2" /> {t('detail.alerts.collectLabFees')}
                     </Button>
                   </div>
                 </div>
@@ -279,7 +282,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                 ))
               ) : pendingLabOrders.length === 0 && (
                 <div className="rounded-2xl border border-dotted border-slate-200 p-6 text-center">
-                  <span className="text-slate-400 text-sm font-medium">Chưa có chỉ định cận lâm sàng</span>
+                  <span className="text-slate-400 text-sm font-medium">{t('detail.sections.emptyLab')}</span>
                 </div>
               )}
             </section>
@@ -288,7 +291,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                  <PillIcon size={18} weight="bold" className="text-emerald-500" /> 3. Đơn thuốc
+                  <PillIcon size={18} weight="bold" className="text-emerald-500" /> {t('detail.sections.pharmacy')}
                 </h3>
               </div>
               {pharmacyInvoices.length > 0 ? (
@@ -297,15 +300,15 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                 ))
               ) : booking?.status === BookingStatus.COMPLETED ? (
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 flex flex-col items-center justify-center text-center">
-                   <p className="text-sm font-bold text-emerald-800 mb-2">Bác sĩ đã hoàn tất khám & kê đơn</p>
-                   <p className="text-xs text-emerald-600 mb-4 max-w-sm">Hỏi bệnh nhân nếu muốn mua thuốc tại nhà thuốc bệnh viện, sau đó nhấn nút dưới đây.</p>
+                   <p className="text-sm font-bold text-emerald-800 mb-2">{t('detail.sections.doctorCompleted')}</p>
+                   <p className="text-xs text-emerald-600 mb-4 max-w-sm">{t('detail.sections.pharmacyHint')}</p>
                    <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.PHARMACY)} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl">
-                    <PlusIcon size={14} className="mr-2" /> Tạo hoá đơn thuốc
+                    <PlusIcon size={14} className="mr-2" /> {t('bookingInvoices.createNewInvoice')}
                   </Button>
                 </div>
               ) : (
                 <div className="rounded-2xl border border-dotted border-slate-200 p-6 text-center">
-                  <span className="text-slate-400 text-sm font-medium">Đơn thuốc sẽ xuất hiện sau khi bác sĩ kết luận</span>
+                  <span className="text-slate-400 text-sm font-medium">{t('detail.sections.emptyPharmacy')}</span>
                 </div>
               )}
             </section>
@@ -315,38 +318,38 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
           <div className="xl:col-span-4 h-fit sticky top-4">
             <Card className="rounded-2xl border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden">
                <div className="p-6 bg-slate-900 text-white">
-                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em] mb-2">Tóm tắt thanh toán</p>
+                  <p className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em] mb-2">{t('detail.summary.title')}</p>
                   <div className="flex justify-between items-baseline">
                     <span className="text-3xl font-bold tracking-tight">
-                      {Intl.NumberFormat('vi-VN').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))}
+                      {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))}
                     </span>
-                    <span className="text-sm font-semibold text-slate-400 uppercase">VND</span>
+                    <span className="text-sm font-semibold text-slate-400 uppercase">{t('kpis.unitCurrency')}</span>
                   </div>
                </div>
                
                <div className="p-6 space-y-4">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-500 font-medium">Tổng giá trị</span>
-                    <span className="text-slate-800 font-bold">{Intl.NumberFormat('vi-VN').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} đ</span>
+                    <span className="text-slate-500 font-medium">{t('detail.summary.totalValue')}</span>
+                    <span className="text-slate-800 font-bold">{Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} {locale === 'vi' ? 'đ' : ''}</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-500 font-medium">Đã thanh toán</span>
+                    <span className="text-slate-500 font-medium">{t('detail.summary.paidAmount')}</span>
                     <span className="text-emerald-600 font-bold">
-                      {Intl.NumberFormat('vi-VN').format(bookingInvoices.filter(i => i.status === InvoiceStatus.PAID).reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} đ
+                      {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(bookingInvoices.filter(i => i.status === InvoiceStatus.PAID).reduce((sum, inv) => sum + Number(inv.totalAmount), 0))} {locale === 'vi' ? 'đ' : ''}
                     </span>
                   </div>
                   <div className="h-px bg-slate-100 my-2" />
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-800 font-bold">Còn nợ</span>
+                    <span className="text-slate-800 font-bold">{t('detail.summary.debtAmount')}</span>
                     <span className="text-xl font-black text-amber-500 tracking-tight">
-                      {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bookingInvoices.reduce((sum, inv) => inv.status !== InvoiceStatus.PAID ? sum + Number(inv.totalAmount) : sum, 0))}
+                      {Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { style: 'currency', currency: locale === 'vi' ? 'VND' : 'USD', maximumFractionDigits: 0 }).format(bookingInvoices.reduce((sum, inv) => inv.status !== InvoiceStatus.PAID ? sum + Number(inv.totalAmount) : sum, 0))}
                     </span>
                   </div>
                </div>
                
                <div className="p-6 pt-0">
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-500 leading-relaxed italic">
-                    Lễ tân vui lòng kiểm tra kỹ danh sách dịch vụ trước khi in phiếu chỉ định và cấp số thứ tự vào phòng CLS cho bệnh nhân.
+                    {t('detail.summary.billingNote')}
                   </div>
                </div>
             </Card>

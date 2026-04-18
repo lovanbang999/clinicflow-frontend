@@ -1,17 +1,34 @@
 {
   "title": "Billing Management",
   "subtitle": "List of invoices for the day",
+  "workspaceSubtitle": "Manage billing based on the patient journey.",
+  "historySubtitle": "Look up invoice history and manage detailed payment statuses.",
+  "tabs": {
+    "workspace": "Workspace",
+    "history": "Invoice History"
+  },
   "searchPlaceholder": "Search Booking / Patient...",
+  "searchHistoryPlaceholder": "Search by invoice #, patient name...",
   "searchNotFound": "Booking or Patient not found.",
   "searchError": "An error occurred during search.",
   "filter": {
-    "all": "All Statuses",
+    "label": "Filter Status",
+    "all": "All",
+    "all_status": "All Statuses",
     "draft": "Draft",
     "open": "Open",
     "issued": "Issued",
     "paid": "Paid",
     "cancelled": "Cancelled",
     "refunded": "Refunded"
+  },
+  "kpis": {
+    "awaiting": "Awaiting",
+    "completed": "Completed",
+    "revenue": "Revenue",
+    "invoiceValue": "Invoice Value",
+    "unitPatient": "Patients",
+    "unitCurrency": "VND"
   },
   "table": {
     "invoiceNumber": "Invoice # / Date",
@@ -78,8 +95,56 @@
       "name": "Name:",
       "code": "Patient ID:",
       "phone": "Phone:",
-      "doctor": "Doctor:"
+      "doctor": "Referring Doctor:",
+      "bookingCode": "Booking Code"
+    },
+    "sections": {
+      "consultation": "1. Consultation",
+      "lab": "2. Laboratory Services",
+      "pharmacy": "3. Pharmacy",
+      "emptyConsultation": "No consultation invoice created",
+      "emptyLab": "No lab orders found",
+      "emptyPharmacy": "Pharmacy invoice will appear after doctor concludes",
+      "doctorCompleted": "Doctor has completed the exam & prescription",
+      "pharmacyHint": "Ask patient if they wish to purchase at hospital pharmacy, then click below."
+    },
+    "alerts": {
+      "pendingLabs": "There are {count} new lab orders pending payment",
+      "collectLabFees": "Collect Lab Fees"
+    },
+    "summary": {
+      "title": "Billing Summary",
+      "totalValue": "Total Value",
+      "paidAmount": "Paid Amount",
+      "debtAmount": "Remaining Debt",
+      "billingNote": "Receptionist please verify service list before printing lab tickets and assigning queue numbers."
     }
+  },
+  "queueItem": {
+    "paid": "PAID",
+    "awaiting": "AWAITING",
+    "notCreated": "PENDING",
+    "pendingAmount": "Due",
+    "createdAt": "Ordered",
+    "doctorPrefix": "Dr."
+  },
+  "queuePanel": {
+    "searchPlaceholder": "Search name, phone, ID...",
+    "tabs": {
+      "all": "All",
+      "pending": "Pending",
+      "paid": "Paid",
+      "urgent": "Urgent"
+    },
+    "patientCount": "{count} Patients",
+    "empty": {
+      "title": "No patients found",
+      "subtitle": "Try searching with different keywords"
+    }
+  },
+  "workspace": {
+    "title": "Billing Workspace",
+    "placeholder": "Select a patient from the list on the left to start the billing process."
   },
   "paymentModal": {
     "title": "Payment Processing",

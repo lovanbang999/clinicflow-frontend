@@ -1,18 +1,35 @@
 {
   "title": "Quản lý thu ngân",
   "subtitle": "Danh sách hóa đơn của bệnh nhân trong ngày",
+  "workspaceSubtitle": "Quản lý thu ngân theo hành trình bệnh nhân.",
+  "historySubtitle": "Tra cứu lịch sử hoá đơn và quản lý trạng thái thanh toán chi tiết.",
+  "tabs": {
+    "workspace": "Workspace",
+    "history": "Lịch sử hoá đơn"
+  },
   "searchPlaceholder": "Tìm Mã Khám / Tên BN...",
+  "searchHistoryPlaceholder": "Tìm theo số hoá đơn, tên bệnh nhân...",
   "searchNotFound": "Không tìm thấy Mã Khám hoặc Bệnh nhân.",
   "searchError": "Có lỗi xảy ra khi tìm kiếm.",
   "listRefreshed": "Danh sách đã tự động cập nhật",
   "filter": {
-    "all": "Tất cả trạng thái",
+    "label": "Lọc trạng thái",
+    "all": "Tất cả",
+    "all_status": "Tất cả trạng thái",
     "draft": "Bản nháp",
     "open": "Đang mở",
     "issued": "Chờ chốt",
     "paid": "Đã thanh toán",
     "cancelled": "Đã hủy",
     "refunded": "Đã hoàn tiền"
+  },
+  "kpis": {
+    "awaiting": "Đang chờ",
+    "completed": "Đã hoàn tất",
+    "revenue": "Doanh thu",
+    "invoiceValue": "Giá trị Hóa đơn",
+    "unitPatient": "Bệnh nhân",
+    "unitCurrency": "VNĐ"
   },
   "table": {
     "invoiceNumber": "Mã HĐ / Ngày tạo",
@@ -77,10 +94,58 @@
     "patientInfoTitle": "Thông tin Bệnh nhân",
     "patientLabels": {
       "name": "Họ tên:",
-      "code": "Mã BN:",
+      "code": "Mã Bệnh nhân:",
       "phone": "SĐT:",
-      "doctor": "Bác sĩ:"
+      "doctor": "Bác sĩ Chỉ định:",
+      "bookingCode": "Mã lượt khám"
+    },
+    "sections": {
+      "consultation": "1. Khám tư vấn",
+      "lab": "2. Dịch vụ cận lâm sàng",
+      "pharmacy": "3. Đơn thuốc",
+      "emptyConsultation": "Chưa có hoá đơn khám tư vấn",
+      "emptyLab": "Chưa có chỉ định cận lâm sàng",
+      "emptyPharmacy": "Đơn thuốc sẽ xuất hiện sau khi bác sĩ kết luận",
+      "doctorCompleted": "Bác sĩ đã hoàn tất khám & kê đơn",
+      "pharmacyHint": "Hỏi bệnh nhân nếu muốn mua thuốc tại nhà thuốc bệnh viện, sau đó nhấn nút dưới đây."
+    },
+    "alerts": {
+      "pendingLabs": "Có {count} chỉ định dịch vụ mới chờ thanh toán",
+      "collectLabFees": "Thu tiền dịch vụ"
+    },
+    "summary": {
+      "title": "Tóm tắt thanh toán",
+      "totalValue": "Tổng giá trị",
+      "paidAmount": "Đã thanh toán",
+      "debtAmount": "Còn nợ",
+      "billingNote": "Lễ tân vui lòng kiểm tra kỹ danh sách dịch vụ trước khi in phiếu chỉ định và cấp số thứ tự vào phòng cận lâm sàng cho bệnh nhân."
     }
+  },
+  "queueItem": {
+    "paid": "ĐÃ THU",
+    "awaiting": "CHỜ THU",
+    "notCreated": "CHƯA TẠO",
+    "pendingAmount": "Cần thu",
+    "createdAt": "Kê lệnh",
+    "doctorPrefix": "BS."
+  },
+  "queuePanel": {
+    "searchPlaceholder": "Tìm tên, SĐT, mã BN...",
+    "tabs": {
+      "all": "Tất cả",
+      "pending": "Chờ thu",
+      "paid": "Đã thu",
+      "urgent": "Gấp"
+    },
+    "patientCount": "{count} Bệnh nhân",
+    "empty": {
+      "title": "Không tìm thấy bệnh nhân",
+      "subtitle": "Thử tìm với từ khóa khác"
+    }
+  },
+  "workspace": {
+    "title": "Workspace Thu Ngân",
+    "placeholder": "Chọn một bệnh nhân từ danh sách bên trái để bắt đầu quy trình thanh toán."
   },
   "paymentModal": {
     "title": "Thu tiền & Thanh toán",

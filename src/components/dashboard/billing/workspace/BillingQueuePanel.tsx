@@ -9,6 +9,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+import { useTranslations } from 'next-intl';
+
 interface BillingQueuePanelProps {
   items: WorkspaceQueueItem[];
   isLoading: boolean;
@@ -24,6 +26,7 @@ export function BillingQueuePanel({
   onSelect,
   onSearchChange,
 }: BillingQueuePanelProps) {
+  const t = useTranslations('receptionistBilling');
   const [activeTab, setActiveTab] = useState('all');
 
   const filteredItems = items.filter((item) => {
@@ -44,7 +47,7 @@ export function BillingQueuePanel({
             size={18} 
           />
           <Input 
-            placeholder="Tìm theo tên, SĐT, mã BN..." 
+            placeholder={t('queuePanel.searchPlaceholder')} 
             className="pl-10 h-10 bg-slate-50 border-transparent hover:bg-slate-100 focus:bg-white focus:border-[#1392ec] focus:ring-4 focus:ring-[#1392ec]/10 rounded-xl transition-all"
             onChange={(e) => onSearchChange(e.target.value)}
           />
@@ -52,10 +55,10 @@ export function BillingQueuePanel({
 
         <Tabs defaultValue="all" className="w-full mt-4" onValueChange={setActiveTab}>
           <TabsList className="grid grid-cols-4 w-full bg-slate-100 p-1 rounded-xl h-9">
-            <TabsTrigger value="all" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer">Tất cả</TabsTrigger>
-            <TabsTrigger value="pending" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer">Chờ thu</TabsTrigger>
-            <TabsTrigger value="paid" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer">Đã thu</TabsTrigger>
-            <TabsTrigger value="urgent" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-red-500 cursor-pointer">Gấp</TabsTrigger>
+            <TabsTrigger value="all" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer">{t('queuePanel.tabs.all')}</TabsTrigger>
+            <TabsTrigger value="pending" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer">{t('queuePanel.tabs.pending')}</TabsTrigger>
+            <TabsTrigger value="paid" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm cursor-pointer">{t('queuePanel.tabs.paid')}</TabsTrigger>
+            <TabsTrigger value="urgent" className="text-[10px] uppercase font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-red-500 cursor-pointer">{t('queuePanel.tabs.urgent')}</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -72,7 +75,7 @@ export function BillingQueuePanel({
           <div>
             <div className="flex items-center justify-between mb-3 px-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                <FunnelIcon size={12} /> {filteredItems.length} Bệnh nhân
+                <FunnelIcon size={12} /> {t('queuePanel.patientCount', { count: filteredItems.length })}
               </span>
             </div>
             {filteredItems.map((item) => (
@@ -87,8 +90,8 @@ export function BillingQueuePanel({
         ) : (
           <div className="flex flex-col items-center justify-center h-48 text-center text-slate-400">
             <MagnifyingGlassIcon size={32} weight="light" className="mb-2 opacity-50" />
-            <p className="text-sm font-medium">Không tìm thấy bệnh nhân</p>
-            <p className="text-xs">Thử tìm với từ khóa khác</p>
+            <p className="text-sm font-medium">{t('queuePanel.empty.title')}</p>
+            <p className="text-xs">{t('queuePanel.empty.subtitle')}</p>
           </div>
         )}
       </ScrollArea>
