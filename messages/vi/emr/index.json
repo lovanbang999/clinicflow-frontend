@@ -861,6 +861,7 @@
     "group1": "Nhóm 1 — Kỹ thuật viên thực hiện",
     "paymentReminder": "Kỹ thuật viên sẽ nhận lệnh tự động sau khi bệnh nhân thanh toán tại quầy lễ tân. Kết quả sẽ tự động thông báo cho bác sĩ khi Lab hoàn tất.",
     "fallbackCategory": "Dịch vụ khác",
+    "add": "Thêm",
     "draft": "Chưa lưu",
     "discard": "Bỏ nháp",
     "countUnit": "xét nghiệm",

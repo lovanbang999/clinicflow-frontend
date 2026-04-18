@@ -41,7 +41,7 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
   ];
 
   return (
-    <div className="flex flex-col gap-5 animate-in fade-in duration-300">
+    <div className="flex flex-col gap-6 animate-in fade-in duration-300">
       <div className="bg-white border border-gray-200 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
@@ -53,7 +53,7 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
             {tr('emptyList')}
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-6">
             {allItems.map(item => {
               const isCompleted = item.status === 'COMPLETED';
               
@@ -69,7 +69,7 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
                   }`}
                 >
                   {/* Card Header */}
-                  <div className="p-4 flex justify-between items-start gap-3 border-b border-slate-100">
+                  <div className="p-5 flex justify-between items-start gap-3 border-b border-slate-100 bg-slate-50/30 rounded-t-xl">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className={`w-2 h-2 rounded-full ${
@@ -90,7 +90,7 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
                   </div>
 
                   {/* Card Body */}
-                  <div className="p-4 flex-1 flex flex-col gap-3">
+                  <div className="p-5 flex-1 flex flex-col gap-4">
                     {isCompleted ? (
                       <div className="animate-in fade-in slide-in-from-top-1 duration-500">
                         <div className="flex items-center justify-between mb-2">

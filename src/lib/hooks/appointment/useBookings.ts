@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { CreateBookingDto, Booking, BookingStatus, PaginationMeta } from '@/types';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
 import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/appointment/bookings';
+import { useNotifications } from '@/lib/hooks/clinic/useNotifications';
 
 export function useBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -115,6 +116,17 @@ export function useBookings() {
     );
     return res === true;
   }, [execute]);
+
+  // WebSocket Notifications for auto-refresh
+  const { onNewNotification } = useNotifications();
+  useEffect(() => {
+    const unsub = onNewNotification((notif) => {
+      console.log('Bookings received notification, refreshing list...', notif.type);
+      // For patients, refresh their own history
+      void fetchMyBookings();
+    });
+    return unsub;
+  }, [onNewNotification, fetchMyBookings]);
 
   return {
     bookings,

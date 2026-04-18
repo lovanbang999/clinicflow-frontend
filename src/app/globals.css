@@ -260,3 +260,27 @@
     print-color-adjust: exact !important;
   }
 }
+/* Custom Toast Styles */
+.toast-success {
+  background: rgba(236, 253, 245, 0.85) !important;
+  border-color: rgba(52, 211, 153, 0.4) !important;
+  color: #065f46 !important;
+}
+
+.toast-error {
+  background: rgba(254, 242, 242, 0.85) !important;
+  border-color: rgba(248, 113, 113, 0.4) !important;
+  color: #991b1b !important;
+}
+
+.toast-info {
+  background: rgba(239, 246, 255, 0.85) !important;
+  border-color: rgba(96, 165, 250, 0.4) !important;
+  color: #1e40af !important;
+}
+
+.toast-warning {
+  background: rgba(255, 251, 235, 0.85) !important;
+  border-color: rgba(251, 191, 36, 0.4) !important;
+  color: #92400e !important;
+}

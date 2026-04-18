@@ -35,7 +35,7 @@ export function useNotifications() {
     });
 
     socket.on('connect', () => {
-      socket.emit('authenticate', user.id);
+      socket.emit('authenticate', { userId: user.id, role: user.role });
     });
 
     socket.on('newNotification', (newNotif: InAppNotification) => {
@@ -49,7 +49,7 @@ export function useNotifications() {
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [user?.id]);
+  }, [user?.id, user?.role]);
 
   const markAsRead = async (id: string) => {
     await executeAction(
@@ -88,6 +88,14 @@ export function useNotifications() {
     loading,
     markAsRead,
     markAllAsRead,
-    refetch: fetchNotifications,
-  };
+  refetch: fetchNotifications,
+  onNewNotification: (callback: (notif: InAppNotification) => void) => {
+    const socket = socketRef.current;
+    if (!socket) return;
+    socket.on('newNotification', callback);
+    return () => {
+      socket.off('newNotification', callback);
+    };
+  },
+};
 }

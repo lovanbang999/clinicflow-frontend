@@ -100,7 +100,7 @@ export function LabResultContent({ text, imageUrls = [], noDetailDesc, className
   }
 
   const content = parsedData ? (
-    <div className={`mt-3 space-y-4 ${className}`}>
+    <div className={`mt-4 space-y-6 ${className}`}>
       {Object.entries(parsedData).map(([key, value]) => {
         if (value === '' || key === 'abnormalNote' || value === null) return null;
 
@@ -111,7 +111,7 @@ export function LabResultContent({ text, imageUrls = [], noDetailDesc, className
                 <div className="w-2 h-2 rounded-full bg-cyan-400" />
                 {formatKey(key, t)}
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {value.map((item, idx) => (
                   <div key={idx} className="bg-white p-3 rounded-lg border border-slate-100 shadow-sm flex flex-col group hover:border-cyan-200 transition-colors">
                     <span className="text-[10px] text-slate-500 font-semibold truncate mb-1" title={item.name}>
