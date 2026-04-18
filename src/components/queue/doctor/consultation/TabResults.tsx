@@ -3,6 +3,7 @@
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { useTranslations } from 'next-intl';
+import { LabResultContent } from '@/components/shared/LabResultContent';
 
 interface TabResultsProps {
   item: QueueRecord;
@@ -68,7 +69,8 @@ export function TabResults({ medicalRecord }: TabResultsProps) {
                 
                 {item.status === 'COMPLETED' && (
                   <div className="mt-2 text-[12px] text-slate-700 bg-white p-2 rounded border border-slate-100">
-                    <div className="mb-1"><span className="text-slate-500 font-medium">{tr('resultLabel')}</span> {item.resultText || '—'}</div>
+                    <div className="text-slate-500 font-medium mb-1">{tr('resultLabel')}</div>
+                    <LabResultContent text={item.resultText || ''} noDetailDesc="—" />
                     {item.isAbnormal && (
                       <div className="text-red-600 mt-1">
                         <span className="font-semibold">{tr('abnormalLabel')}</span> {item.abnormalNote || tr('noNote')}

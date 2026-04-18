@@ -12,6 +12,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { toast } from 'sonner';
 import { PrintableLabOrder } from './PrintableLabOrder';
 import type { LabOrder, LabResult } from '@/lib/api/clinical/lab-orders';
+import { LabResultContent } from '@/components/shared/LabResultContent';
 
 interface DoctorLabTabProps {
   bookingId: string;
@@ -335,9 +336,11 @@ function LabResultBox({ result, t }: LabResultBoxProps) {
         )}
         <div className="flex-1">
           <p className="text-sm font-semibold mb-1">{isAbnormal ? t('abnormal') : t('normal')}</p>
-          <p className="text-[13px]">{result.resultText || t('noDetailDesc')}</p>
+          <LabResultContent text={result.resultText || ''} />
           {result.abnormalNote && isAbnormal && (
-            <p className="text-[13px] font-bold mt-1 text-red-700">{t('noteLabel')} {result.abnormalNote}</p>
+            <p className="text-[13px] font-bold mt-2 text-red-700 bg-red-100/50 px-3 py-2 rounded-lg border border-red-200/50">
+              {t('noteLabel')} {result.abnormalNote}
+            </p>
           )}
           {result.resultFileUrl && (
             <a 

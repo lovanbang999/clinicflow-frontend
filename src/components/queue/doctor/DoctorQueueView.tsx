@@ -206,9 +206,9 @@ interface QueueTaskFiltersProps {
 function QueueTaskFilters({ active, onChange }: QueueTaskFiltersProps) {
   const t = useTranslations('doctorWorkspace.queueView');
   const filters = [
-    { id: 'ALL', label: t('filters.all', { defaultMessage: 'Tất cả' }) },
-    { id: 'CONSULTATION', label: t('filters.consult', { defaultMessage: 'Tư vấn' }), color: '#185FA5' },
-    { id: 'EXAMINATION', label: t('filters.exam', { defaultMessage: 'Chuyên khoa' }), color: '#7F77DD' },
+    { id: 'ALL', label: t('filters.all', { defaultMessage: 'All' }) },
+    { id: 'CONSULTATION', label: t('filters.consult', { defaultMessage: 'Consultation' }), color: '#185FA5' },
+    { id: 'EXAMINATION', label: t('filters.exam', { defaultMessage: 'Examination' }), color: '#7F77DD' },
   ];
 
   return (
@@ -260,6 +260,7 @@ interface GroupedQueueListProps {
 }
 
 function GroupedQueueList({ items, inExamCount, onCall, onEnterExam, onPrint }: GroupedQueueListProps) {
+  const t = useTranslations('doctorWorkspace.queueView');
   const resultsReady = items.filter((item) => item.booking.medicalRecord?.visitStep === 'RESULTS_READY');
   const otherWaiting = items.filter((item) => item.booking.medicalRecord?.visitStep !== 'RESULTS_READY');
 
@@ -270,7 +271,7 @@ function GroupedQueueList({ items, inExamCount, onCall, onEnterExam, onPrint }: 
       ))}
       <div className="flex items-center gap-4 py-2">
         <div className="h-px flex-1 bg-[#e2e2e9]" />
-        <span className="text-[10px] font-bold text-[#44474e]/40 uppercase tracking-widest">Danh sách chờ khám</span>
+        <span className="text-[10px] font-bold text-[#44474e]/40 uppercase tracking-widest">{t('statsPanel.waitingListHeader')}</span>
         <div className="h-px flex-1 bg-[#e2e2e9]" />
       </div>
       {otherWaiting.map((item, index) => (

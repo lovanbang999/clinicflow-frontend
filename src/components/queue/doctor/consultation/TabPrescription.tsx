@@ -12,9 +12,10 @@ interface TabPrescriptionProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
   onChange: () => void;
+  isReadOnly?: boolean;
 }
 
-export function TabPrescription({ item, medicalRecord, onChange }: TabPrescriptionProps) {
+export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: TabPrescriptionProps) {
   const t = useTranslations('emr.visit');
   const tp = useTranslations('emr.visit.prescriptionTab');
   
@@ -57,6 +58,7 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
     (medicalRecord?.labOrders?.filter(l => l.status !== 'CANCELLED').length || 0) > 0;
 
   const handleAddItem = (visitServiceOrderId?: string, labOrderId?: string) => {
+    if (isReadOnly) return;
     setItems([
       ...items,
       {
@@ -73,18 +75,21 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
   };
 
   const handleChangeItem = <K extends keyof PrescriptionItemInput>(index: number, field: K, value: PrescriptionItemInput[K]) => {
+    if (isReadOnly) return;
     const newItems = [...items];
     newItems[index][field] = value;
     setItems(newItems);
   };
 
   const handleRemoveItem = (index: number) => {
+    if (isReadOnly) return;
     const newItems = [...items];
     newItems.splice(index, 1);
     setItems(newItems);
   };
 
   const handleSave = async () => {
+    if (isReadOnly) return;
     try {
       let itemsToSave = items;
       if (mode === 'NONE') {
@@ -112,36 +117,41 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
 
   const renderItemLine = (med: PrescriptionItemInput, index: number) => (
     <div key={index} className="p-3 bg-white border border-slate-200 rounded-lg flex flex-col gap-2 relative shadow-sm mb-3 last:mb-0">
-      <button 
-        onClick={() => handleRemoveItem(index)}
-        className="absolute top-3 right-3 text-slate-400 hover:text-red-500 bg-slate-50 hover:bg-red-50 p-1 rounded transition-colors"
-        aria-label={tp('removeAct')}
-      >
-        <TrashIcon size={16} />
-      </button>
-      <div className="grid grid-cols-12 gap-3 pr-8">
+      {!isReadOnly && (
+        <button 
+          onClick={() => handleRemoveItem(index)}
+          className="absolute top-3 right-3 text-slate-400 hover:text-red-500 bg-slate-50 hover:bg-red-50 p-1 rounded transition-colors"
+          aria-label={tp('removeAct')}
+        >
+          <TrashIcon size={16} />
+        </button>
+      )}
+      <div className={`grid grid-cols-12 gap-3 ${isReadOnly ? '' : 'pr-8'}`}>
         <div className="col-span-12 md:col-span-5">
           <input 
             placeholder={tp('medNamePlaceholder')}
-            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
+            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
             value={med.medicineName}
             onChange={e => handleChangeItem(index, 'medicineName', e.target.value)}
+            disabled={isReadOnly}
           />
         </div>
         <div className="col-span-6 md:col-span-3">
           <input 
             placeholder={tp('dosagePlaceholder')}
-            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
+            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
             value={med.dosage}
             onChange={e => handleChangeItem(index, 'dosage', e.target.value)}
+            disabled={isReadOnly}
           />
         </div>
         <div className="col-span-6 md:col-span-4">
           <input 
             placeholder={tp('freqPlaceholder')}
-            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
+            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
             value={med.frequency}
             onChange={e => handleChangeItem(index, 'frequency', e.target.value)}
+            disabled={isReadOnly}
           />
         </div>
         <div className="col-span-6 md:col-span-3">
@@ -150,24 +160,27 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
             <input 
               type="number"
               min="1"
-              className="w-16 text-[13px] px-2 py-1.5 border border-gray-200 rounded-l focus:border-blue-400 focus:outline-none"
+              className="w-16 text-[13px] px-2 py-1.5 border border-gray-200 rounded-l focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
               value={med.quantity}
               onChange={e => handleChangeItem(index, 'quantity', parseInt(e.target.value) || 1)}
+              disabled={isReadOnly}
             />
             <input 
               placeholder={tp('unitPlaceholder')}
-              className="w-16 text-[13px] px-2 py-1.5 border border-gray-200 border-l-0 rounded-r focus:border-blue-400 focus:outline-none bg-white"
+              className="w-16 text-[13px] px-2 py-1.5 border border-gray-200 border-l-0 rounded-r focus:border-blue-400 focus:outline-none bg-white disabled:opacity-70 disabled:bg-slate-50"
               value={med.unit}
               onChange={e => handleChangeItem(index, 'unit', e.target.value)}
+              disabled={isReadOnly}
             />
           </div>
         </div>
         <div className="col-span-12 md:col-span-9">
           <input 
             placeholder={tp('usagePlaceholder')}
-            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none"
+            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
             value={med.instructions}
             onChange={e => handleChangeItem(index, 'instructions', e.target.value)}
+            disabled={isReadOnly}
           />
         </div>
       </div>
@@ -178,37 +191,46 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
     <div className="flex flex-col gap-5 animate-in fade-in duration-300">
       <div className="bg-white border border-gray-200 rounded-xl p-4">
         <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
-          <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-lg">
-            <button
-              onClick={() => setMode('NONE')}
-              className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'NONE' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Không kê đơn
-            </button>
-            <button
-              onClick={() => setMode('GENERAL')}
-              className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'GENERAL' ? 'bg-white shadow-sm text-blue-700' : 'text-slate-500 hover:text-slate-700'}`}
-            >
-              Kê đơn chung
-            </button>
-            {hasDetailedOptions && (
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-lg">
               <button
-                onClick={() => setMode('DETAILED')}
-                className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'DETAILED' ? 'bg-white shadow-sm text-violet-700' : 'text-slate-500 hover:text-slate-700'}`}
+                onClick={() => !isReadOnly && setMode('NONE')}
+                className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'NONE' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'} ${isReadOnly ? 'cursor-not-allowed opacity-50' : ''}`}
+                disabled={isReadOnly}
               >
-                Kê đơn chuyên biệt
+                Không kê đơn
               </button>
-            )}
+              <button
+                onClick={() => !isReadOnly && setMode('GENERAL')}
+                className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'GENERAL' ? 'bg-white shadow-sm text-blue-700' : 'text-slate-500 hover:text-slate-700'} ${isReadOnly ? 'cursor-not-allowed opacity-50' : ''}`}
+                disabled={isReadOnly}
+              >
+                Kê đơn chung
+              </button>
+              {hasDetailedOptions && (
+                <button
+                  onClick={() => !isReadOnly && setMode('DETAILED')}
+                  className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'DETAILED' ? 'bg-white shadow-sm text-violet-700' : 'text-slate-500 hover:text-slate-700'} ${isReadOnly ? 'cursor-not-allowed opacity-50' : ''}`}
+                  disabled={isReadOnly}
+                >
+                  Kê đơn chuyên biệt
+                </button>
+              )}
+            </div>
+            {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
           </div>
-          <Button 
-            onClick={() => setItems([])}
-            variant="ghost"
-            size="sm"
-            className="h-8 text-[12px] text-red-500 hover:text-red-700 hover:bg-red-50"
-            disabled={mode === 'NONE'}
-          >
-            <TrashIcon size={14} className="mr-1" /> Làm lại đơn thuốc
-          </Button>
+          
+          {!isReadOnly && (
+            <Button 
+              onClick={() => setItems([])}
+              variant="ghost"
+              size="sm"
+              className="h-8 text-[12px] text-red-500 hover:text-red-700 hover:bg-red-50"
+              disabled={mode === 'NONE'}
+            >
+              <TrashIcon size={14} className="mr-1" /> Làm lại đơn thuốc
+            </Button>
+          )}
         </div>
 
         <div className="flex flex-col gap-4 mb-6">
@@ -223,20 +245,22 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
             <div className="border border-blue-100 bg-blue-50/30 rounded-xl overflow-hidden">
               <div className="bg-blue-50/60 px-4 py-2 border-b border-blue-100 flex justify-between items-center">
                 <div className="text-[12px] font-semibold text-blue-800">💊 Đơn thuốc chung</div>
-                <Button 
-                  onClick={() => handleAddItem()} 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-7 text-[11px] text-blue-600 border-blue-200 hover:bg-white bg-white shadow-sm"
-                >
-                  <PlusIcon size={12} className="mr-1" /> {tp('addBtn')}
-                </Button>
+                {!isReadOnly && (
+                  <Button 
+                    onClick={() => handleAddItem()} 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-7 text-[11px] text-blue-600 border-blue-200 hover:bg-white bg-white shadow-sm"
+                  >
+                    <PlusIcon size={12} className="mr-1" /> {tp('addBtn')}
+                  </Button>
+                )}
               </div>
               <div className="p-4 bg-slate-50/50">
                 {items.map((i, idx) => (!i.visitServiceOrderId && !i.labOrderId) && renderItemLine(i, idx))}
                 {items.findIndex(i => !i.visitServiceOrderId && !i.labOrderId) === -1 && (
-                  <div className="text-[12px] text-slate-400 italic text-center py-6 border border-dashed border-gray-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => handleAddItem()}>
-                    Chưa có thuốc chung. Bấm vào đây để thêm.
+                  <div className={`text-[12px] text-slate-400 italic text-center py-6 border border-dashed border-gray-200 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-slate-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem()}>
+                    Chưa có thuốc chung. {isReadOnly ? '' : 'Bấm vào đây để thêm.'}
                   </div>
                 )}
               </div>
@@ -248,19 +272,21 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
             <div key={vso.id} className="border border-violet-100 bg-violet-50/10 rounded-xl overflow-hidden">
               <div className="bg-violet-50/50 px-4 py-2 border-b border-violet-100 flex justify-between items-center">
                 <div className="text-[12px] font-semibold text-violet-800">🩺 Dành cho: {vso.service?.name || 'Dịch vụ'}</div>
-                <Button 
-                  onClick={() => handleAddItem(vso.id, undefined)} 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-7 text-[11px] text-violet-600 border-violet-200 hover:bg-white bg-white shadow-sm"
-                >
-                  <PlusIcon size={12} className="mr-1" /> Kê thuốc này
-                </Button>
+                {!isReadOnly && (
+                  <Button 
+                    onClick={() => handleAddItem(vso.id, undefined)} 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-7 text-[11px] text-violet-600 border-violet-200 hover:bg-white bg-white shadow-sm"
+                  >
+                    <PlusIcon size={12} className="mr-1" /> Kê thuốc này
+                  </Button>
+                )}
               </div>
               <div className="p-4 bg-slate-50/50">
                 {items.map((i, idx) => i.visitServiceOrderId === vso.id && renderItemLine(i, idx))}
                 {items.findIndex(i => i.visitServiceOrderId === vso.id) === -1 && (
-                  <div className="text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-violet-100 rounded-lg cursor-pointer hover:bg-violet-50 transition-colors" onClick={() => handleAddItem(vso.id, undefined)}>
+                  <div className={`text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-violet-100 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-violet-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem(vso.id, undefined)}>
                     (Không kê thuốc riêng cho dịch vụ này)
                   </div>
                 )}
@@ -273,19 +299,21 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
             <div key={lab.id} className="border border-teal-100 bg-teal-50/10 rounded-xl overflow-hidden">
               <div className="bg-teal-50/50 px-4 py-2 border-b border-teal-100 flex justify-between items-center">
                 <div className="text-[12px] font-semibold text-teal-800">🔬 Dành cho: {lab.testName || 'Xét nghiệm'}</div>
-                <Button 
-                  onClick={() => handleAddItem(undefined, lab.id)} 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-7 text-[11px] text-teal-600 border-teal-200 hover:bg-white bg-white shadow-sm"
-                >
-                  <PlusIcon size={12} className="mr-1" /> Kê thuốc này
-                </Button>
+                {!isReadOnly && (
+                  <Button 
+                    onClick={() => handleAddItem(undefined, lab.id)} 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-7 text-[11px] text-teal-600 border-teal-200 hover:bg-white bg-white shadow-sm"
+                  >
+                    <PlusIcon size={12} className="mr-1" /> Kê thuốc này
+                  </Button>
+                )}
               </div>
               <div className="p-4 bg-slate-50/50">
                 {items.map((i, idx) => i.labOrderId === lab.id && renderItemLine(i, idx))}
                 {items.findIndex(i => i.labOrderId === lab.id) === -1 && (
-                  <div className="text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-teal-100 rounded-lg cursor-pointer hover:bg-teal-50 transition-colors" onClick={() => handleAddItem(undefined, lab.id)}>
+                  <div className={`text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-teal-100 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-teal-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem(undefined, lab.id)}>
                     (Không kê thuốc riêng cho xét nghiệm này)
                   </div>
                 )}
@@ -302,19 +330,22 @@ export function TabPrescription({ item, medicalRecord, onChange }: TabPrescripti
             onChange={(e) => setNotes(e.target.value)}
             placeholder={tp('advicePlaceholder')}
             rows={2}
-            className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none"
+            className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none disabled:opacity-70 disabled:bg-slate-50"
+            disabled={isReadOnly}
           />
         </div>
 
-        <div className="flex justify-end gap-3 hover:translate-y-[1px]">
-          <Button 
-            onClick={handleSave} 
-            disabled={isSubmitting}
-            className="bg-slate-800 hover:bg-slate-900 text-white font-medium text-[13px] h-9 px-5"
-          >
-            {isSubmitting ? t('symptoms.saving') : t('symptoms.save')}
-          </Button>
-        </div>
+        {!isReadOnly && (
+          <div className="flex justify-end gap-3 hover:translate-y-[1px]">
+            <Button 
+              onClick={handleSave} 
+              disabled={isSubmitting}
+              className="bg-slate-800 hover:bg-slate-900 text-white font-medium text-[13px] h-9 px-5"
+            >
+              {isSubmitting ? t('symptoms.saving') : t('symptoms.save')}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

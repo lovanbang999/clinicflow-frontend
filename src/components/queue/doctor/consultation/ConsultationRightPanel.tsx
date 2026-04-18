@@ -18,13 +18,22 @@ import type { DraftServiceOrder } from '../DoctorConsultationView';
 
 import { useConsultation } from './ConsultationContext';
 
-export function ConsultationRightPanel({ isSaving, onFinalize }: { isSaving: boolean; onFinalize: () => void }) {
+export function ConsultationRightPanel({ 
+  isSaving, 
+  onFinalize, 
+  onExitRequest 
+}: { 
+  isSaving: boolean; 
+  onFinalize: () => void; 
+  onExitRequest: () => void; 
+}) {
   const { 
     item, 
     medicalRecord, 
     draftServices, 
     draftLabs, 
-    isPhase2 
+    isPhase2,
+    isLocked
   } = useConsultation();
   
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -74,6 +83,7 @@ export function ConsultationRightPanel({ isSaving, onFinalize }: { isSaving: boo
       <ContextNotice 
         isFinalized={isFinalized} 
         isPhase2={isPhase2} 
+        isLocked={isLocked}
         hasOrders={totalOrders > 0} 
         totalOrders={totalOrders} 
       />
@@ -81,10 +91,12 @@ export function ConsultationRightPanel({ isSaving, onFinalize }: { isSaving: boo
       <ActionSection 
         isFinalized={isFinalized}
         isPhase2={isPhase2}
+        isLocked={isLocked}
         hasOrders={totalOrders > 0}
         hasDrafts={hasDrafts}
         isSaving={isSaving}
         onFinalize={onFinalize}
+        onExitRequest={onExitRequest}
         onOpenConfirm={() => setIsConfirmOpen(true)}
       />
 
@@ -219,11 +231,12 @@ function SummaryItem({ icon, label, count, total }: SummaryItemProps) {
 interface ContextNoticeProps {
   isFinalized: boolean;
   isPhase2: boolean;
+  isLocked: boolean;
   hasOrders: boolean;
   totalOrders: number;
 }
 
-function ContextNotice({ isFinalized, isPhase2, hasOrders, totalOrders }: ContextNoticeProps) {
+function ContextNotice({ isFinalized, isPhase2, isLocked, hasOrders, totalOrders }: ContextNoticeProps) {
   const t = useTranslations('emr.visit');
   if (isFinalized) {
     return (
@@ -241,6 +254,19 @@ function ContextNotice({ isFinalized, isPhase2, hasOrders, totalOrders }: Contex
       <div className="bg-teal-50 border border-teal-100 rounded-lg p-3 text-[12px] text-teal-700">
         <div className="font-bold mb-1">{t('rightPanel.readyB7')}</div>
         {t('rightPanel.readyB7Desc')}
+      </div>
+    );
+  }
+  if (isLocked) {
+    return (
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-[12px] text-amber-700 shadow-sm">
+        <div className="font-bold mb-1 flex items-center gap-1.5 uppercase text-[11px] tracking-wide">
+          <ClockIcon size={14} className="animate-pulse" />
+          {t('rightPanel.waitingResultsTitle')}
+        </div>
+        <div className="text-[11px] opacity-90 leading-relaxed">
+          {t('rightPanel.waitingResultsDesc')}
+        </div>
       </div>
     );
   }
@@ -266,14 +292,26 @@ function ContextNotice({ isFinalized, isPhase2, hasOrders, totalOrders }: Contex
 interface ActionSectionProps {
   isFinalized: boolean;
   isPhase2: boolean;
+  isLocked: boolean;
   hasOrders: boolean;
   hasDrafts: boolean;
   isSaving: boolean;
   onFinalize: () => void;
+  onExitRequest: () => void;
   onOpenConfirm: () => void;
 }
 
-function ActionSection({ isFinalized, isPhase2, hasOrders, hasDrafts, isSaving, onFinalize, onOpenConfirm }: ActionSectionProps) {
+function ActionSection({ 
+  isFinalized, 
+  isPhase2, 
+  isLocked, 
+  hasOrders, 
+  hasDrafts, 
+  isSaving, 
+  onFinalize, 
+  onExitRequest, 
+  onOpenConfirm 
+}: ActionSectionProps) {
   const t = useTranslations('emr.visit');
   
   if (isFinalized) {
@@ -295,6 +333,21 @@ function ActionSection({ isFinalized, isPhase2, hasOrders, hasDrafts, isSaving, 
     );
   }
 
+  if (isLocked) {
+    return (
+      <div className="flex flex-col gap-2 mt-auto pb-2 animate-in slide-in-from-bottom-2 duration-300">
+         <Button
+          variant="outline"
+          onClick={onExitRequest}
+          className="w-full h-[44px] text-[13px] text-slate-600 border-slate-200 hover:bg-slate-50 font-medium"
+        >
+          <ArrowRightIcon size={16} className="mr-2" />
+          {t('rightPanel.btnExit', { defaultMessage: 'Thoát phiên khám' })}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-2 mt-auto pb-2">
       <div className="bg-blue-50 border border-blue-100 rounded-lg p-2.5 text-[11px] text-blue-700 text-center">
@@ -303,7 +356,7 @@ function ActionSection({ isFinalized, isPhase2, hasOrders, hasDrafts, isSaving, 
       </div>
       <Button
         variant={hasDrafts ? "default" : "outline"}
-        onClick={() => hasDrafts ? onOpenConfirm() : onFinalize()}
+        onClick={() => hasDrafts ? onOpenConfirm() : onExitRequest()}
         disabled={isSaving}
         className={`w-full h-[38px] text-[12px] ${hasDrafts ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600' : 'text-slate-600 border-slate-200'}`}
       >

@@ -1,9 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import type { QueueRecord } from '@/lib/api/appointment/queue';
-import type { VisitResultsResponse } from '@/lib/api/clinical/medical-records';
-import type { Service } from '@/types/service';
 import { useTranslations } from 'next-intl';
 import { TabVitals } from './TabVitals';
 import { TabLabs } from './TabLabs';
@@ -12,7 +9,6 @@ import { TabServices } from './TabServices';
 import { TabResults } from './TabResults';
 import { TabDiagnosis } from './TabDiagnosis';
 import { TabPrescription } from './TabPrescription';
-import type { DraftServiceOrder } from '../DoctorConsultationView';
 
 import { useConsultation } from './ConsultationContext';
 
@@ -26,7 +22,8 @@ export function ConsultationCenterTabs() {
     draftLabs, 
     setDraftLabs, 
     refreshRecord,
-    isPhase2 
+    isPhase2,
+    isLocked
   } = useConsultation();
   
   const [activeTab, setActiveTab] = useState<string>('');
@@ -96,7 +93,7 @@ export function ConsultationCenterTabs() {
       {/* Tabs Content */}
       <div className="flex-1 overflow-y-auto p-5 pb-10" style={{ scrollbarWidth: 'thin' }}>
         <div className={activeTab === 'vitals' ? 'block h-full min-h-0' : 'hidden'}>
-          <TabVitals item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={!!isPhase2} />
+          <TabVitals item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
         </div>
         
         {!isPhase2 && activeTab === 'services' && (
@@ -106,6 +103,7 @@ export function ConsultationCenterTabs() {
             draftServices={draftServices}
             setDraftServices={setDraftServices}
             onChange={refreshRecord} 
+            isReadOnly={isLocked}
           />
         )}
         {!isPhase2 && activeTab === 'labs' && (
@@ -115,20 +113,21 @@ export function ConsultationCenterTabs() {
             draftLabs={draftLabs}
             setDraftLabs={setDraftLabs}
             onChange={refreshRecord} 
+            isReadOnly={isLocked}
           />
         )}
         {!isPhase2 && activeTab === 'notes' && (
-          <TabNotes item={item} medicalRecord={medicalRecord} onChange={refreshRecord} />
+          <TabNotes item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={isLocked} />
         )}
 
         {isPhase2 && activeTab === 'results' && (
           <TabResults item={item} medicalRecord={medicalRecord} />
         )}
         {isPhase2 && activeTab === 'diagnosis' && (
-          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} />
+          <TabDiagnosis item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={['PRESCRIBED', 'COMPLETED'].includes(medicalRecord?.visitStep || '')} />
         )}
         {isPhase2 && activeTab === 'prescription' && (
-          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} />
+          <TabPrescription item={item} medicalRecord={medicalRecord} onChange={refreshRecord} isReadOnly={['PRESCRIBED', 'COMPLETED'].includes(medicalRecord?.visitStep || '')} />
         )}
       </div>
     </div>

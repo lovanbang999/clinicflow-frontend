@@ -11,12 +11,13 @@ interface TabDiagnosisProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
   onChange: () => void;
+  isReadOnly?: boolean;
 }
 
 import { QuickSuggestions } from '../shared/ExamHelpers';
 import { ICD10Autocomplete } from '../shared/ICD10Autocomplete';
 
-export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProps) {
+export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabDiagnosisProps) {
   const t = useTranslations('emr.visit');
   
   const [formData, setFormData] = useState({
@@ -39,10 +40,12 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
   }, [medicalRecord]);
 
   const updateField = (field: string, value: string) => {
+    if (isReadOnly) return;
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
+    if (isReadOnly) return;
     try {
       setIsSubmitting(true);
       await medicalRecordsApi.saveDiagnosis(item.bookingId, formData);
@@ -63,6 +66,7 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
             <div className="text-[13px] font-medium text-slate-800">{t('tabs.diagnosis')}</div>
+            {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
           </div>
         </div>
 
@@ -77,7 +81,8 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
                 updateField('diagnosisName', item.name);
               }}
               placeholder="VD: J00"
-              className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors"
+              className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors disabled:opacity-70 disabled:bg-slate-50"
+              disabled={isReadOnly}
             />
           </div>
           <div className="col-span-1 md:col-span-2">
@@ -87,13 +92,16 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
               value={formData.diagnosisName}
               onChange={(e) => updateField('diagnosisName', e.target.value)}
               placeholder="VD: Viêm mũi họng cấp tính"
-              className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors"
+              className="w-full text-[13px] px-3 py-2 border border-blue-100 rounded bg-blue-50/30 focus:border-blue-400 focus:outline-none transition-colors disabled:opacity-70 disabled:bg-slate-50"
+              disabled={isReadOnly}
             />
-            <QuickSuggestions 
-              suggestions={['Viêm họng cấp', 'Viêm mũi dị ứng', 'Rối loạn tiêu hóa', 'Tăng huyết áp', 'ĐTĐ Typ 2', 'Suy nhược cơ thể']} 
-              onSelect={(s) => updateField('diagnosisName', s)}
-              currentValue={formData.diagnosisName}
-            />
+            {!isReadOnly && (
+              <QuickSuggestions 
+                suggestions={['Viêm họng cấp', 'Viêm mũi dị ứng', 'Rối loạn tiêu hóa', 'Tăng huyết áp', 'ĐTĐ Typ 2', 'Suy nhược cơ thể']} 
+                onSelect={(s) => updateField('diagnosisName', s)}
+                currentValue={formData.diagnosisName}
+              />
+            )}
           </div>
         </div>
 
@@ -105,12 +113,15 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
             onChange={(e) => updateField('treatmentPlan', e.target.value)}
             placeholder="Hướng điều trị cho bệnh nhân..."
             rows={3}
-            className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none"
+            className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none disabled:opacity-70 disabled:bg-slate-50"
+            disabled={isReadOnly}
           />
-          <QuickSuggestions 
-            suggestions={['Uống thuốc theo đơn', 'Nghỉ ngơi, ăn nhẹ', 'Hạn chế dầu mỡ', 'Tái khám nếu sốt cao', 'Uống nhiều nước']} 
-            onSelect={(s) => updateField('treatmentPlan', (formData.treatmentPlan ? `${formData.treatmentPlan}, ${s}` : s))}
-          />
+          {!isReadOnly && (
+            <QuickSuggestions 
+              suggestions={['Uống thuốc theo đơn', 'Nghỉ ngơi, ăn nhẹ', 'Hạn chế dầu mỡ', 'Tái khám nếu sốt cao', 'Uống nhiều nước']} 
+              onSelect={(s) => updateField('treatmentPlan', (formData.treatmentPlan ? `${formData.treatmentPlan}, ${s}` : s))}
+            />
+          )}
         </div>
 
         <div className="mb-5">
@@ -121,23 +132,28 @@ export function TabDiagnosis({ item, medicalRecord, onChange }: TabDiagnosisProp
             onChange={(e) => updateField('doctorNotes', e.target.value)}
             placeholder="Ghi chú nội bộ hoặc lời dặn dò..."
             rows={2}
-            className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none"
+            className="w-full text-[13px] px-3 py-2 border border-gray-200 rounded focus:border-blue-400 focus:outline-none transition-colors resize-none disabled:opacity-70 disabled:bg-slate-50"
+            disabled={isReadOnly}
           />
-          <QuickSuggestions 
-            suggestions={['Tránh thức khuya', 'Giữ ấm cổ', 'Súc họng nước muối']} 
-            onSelect={(s) => updateField('doctorNotes', (formData.doctorNotes ? `${formData.doctorNotes}, ${s}` : s))}
-          />
+          {!isReadOnly && (
+            <QuickSuggestions 
+              suggestions={['Tránh thức khuya', 'Giữ ấm cổ', 'Súc họng nước muối']} 
+              onSelect={(s) => updateField('doctorNotes', (formData.doctorNotes ? `${formData.doctorNotes}, ${s}` : s))}
+            />
+          )}
         </div>
 
-        <div className="flex justify-end">
-          <Button 
-            onClick={handleSave} 
-            disabled={isSubmitting}
-            className="bg-slate-800 hover:bg-slate-900 text-white font-medium text-[13px] h-9 px-5"
-          >
-            {isSubmitting ? t('symptoms.saving') : t('symptoms.save')}
-          </Button>
-        </div>
+        {!isReadOnly && (
+          <div className="flex justify-end">
+            <Button 
+              onClick={handleSave} 
+              disabled={isSubmitting}
+              className="bg-slate-800 hover:bg-slate-900 text-white font-medium text-[13px] h-9 px-5"
+            >
+              {isSubmitting ? t('symptoms.saving') : t('symptoms.save')}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
