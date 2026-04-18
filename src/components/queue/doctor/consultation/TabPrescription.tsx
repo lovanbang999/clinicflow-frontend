@@ -18,6 +18,7 @@ interface TabPrescriptionProps {
 export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: TabPrescriptionProps) {
   const t = useTranslations('emr.visit');
   const tp = useTranslations('emr.visit.prescriptionTab');
+  const tShared = useTranslations('emr.visit.shared');
   
   const [items, setItems] = useState<PrescriptionItemInput[]>([]);
   const [notes, setNotes] = useState('');
@@ -198,14 +199,14 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                 className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'NONE' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-500 hover:text-slate-700'} ${isReadOnly ? 'cursor-not-allowed opacity-50' : ''}`}
                 disabled={isReadOnly}
               >
-                Không kê đơn
+                {tp('modes.none')}
               </button>
               <button
                 onClick={() => !isReadOnly && setMode('GENERAL')}
                 className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'GENERAL' ? 'bg-white shadow-sm text-blue-700' : 'text-slate-500 hover:text-slate-700'} ${isReadOnly ? 'cursor-not-allowed opacity-50' : ''}`}
                 disabled={isReadOnly}
               >
-                Kê đơn chung
+                {tp('modes.general')}
               </button>
               {hasDetailedOptions && (
                 <button
@@ -213,11 +214,11 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                   className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-all ${mode === 'DETAILED' ? 'bg-white shadow-sm text-violet-700' : 'text-slate-500 hover:text-slate-700'} ${isReadOnly ? 'cursor-not-allowed opacity-50' : ''}`}
                   disabled={isReadOnly}
                 >
-                  Kê đơn chuyên biệt
+                  {tp('modes.detailed')}
                 </button>
               )}
             </div>
-            {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">READ ONLY</span>}
+            {isReadOnly && <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold ml-2">{tShared('readOnly')}</span>}
           </div>
           
           {!isReadOnly && (
@@ -228,7 +229,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
               className="h-8 text-[12px] text-red-500 hover:text-red-700 hover:bg-red-50"
               disabled={mode === 'NONE'}
             >
-              <TrashIcon size={14} className="mr-1" /> Làm lại đơn thuốc
+              <TrashIcon size={14} className="mr-1" /> {tp('resetBtn')}
             </Button>
           )}
         </div>
@@ -236,15 +237,15 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
         <div className="flex flex-col gap-4 mb-6">
           {mode === 'NONE' && (
             <div className="text-center py-10 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-              <div className="text-[13px] text-slate-500 mb-1">Bạn đã chọn không kê đơn thuốc cho bệnh nhân này.</div>
-              <div className="text-[12px] text-slate-400">Bạn vẫn có thể điền Lời dặn bác sĩ ở bên dưới.</div>
+              <div className="text-[13px] text-slate-500 mb-1">{tp('noneModeMsg')}</div>
+              <div className="text-[12px] text-slate-400">{tp('noneModeNote')}</div>
             </div>
           )}
 
           {mode !== 'NONE' && mode === 'GENERAL' && (
             <div className="border border-blue-100 bg-blue-50/30 rounded-xl overflow-hidden">
               <div className="bg-blue-50/60 px-4 py-2 border-b border-blue-100 flex justify-between items-center">
-                <div className="text-[12px] font-semibold text-blue-800">💊 Đơn thuốc chung</div>
+                <div className="text-[12px] font-semibold text-blue-800">💊 {tp('generalHeader')}</div>
                 {!isReadOnly && (
                   <Button 
                     onClick={() => handleAddItem()} 
@@ -260,7 +261,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                 {items.map((i, idx) => (!i.visitServiceOrderId && !i.labOrderId) && renderItemLine(i, idx))}
                 {items.findIndex(i => !i.visitServiceOrderId && !i.labOrderId) === -1 && (
                   <div className={`text-[12px] text-slate-400 italic text-center py-6 border border-dashed border-gray-200 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-slate-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem()}>
-                    Chưa có thuốc chung. {isReadOnly ? '' : 'Bấm vào đây để thêm.'}
+                    {tp('emptyGeneral')}. {isReadOnly ? '' : tp('emptyGeneralHint')}
                   </div>
                 )}
               </div>
@@ -271,7 +272,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
           {mode === 'DETAILED' && medicalRecord?.visitServiceOrders?.filter(v => v.status !== 'CANCELLED').map(vso => (
             <div key={vso.id} className="border border-violet-100 bg-violet-50/10 rounded-xl overflow-hidden">
               <div className="bg-violet-50/50 px-4 py-2 border-b border-violet-100 flex justify-between items-center">
-                <div className="text-[12px] font-semibold text-violet-800">🩺 Dành cho: {vso.service?.name || 'Dịch vụ'}</div>
+                <div className="text-[12px] font-semibold text-violet-800">🩺 {tp('vsoHeader', { name: vso.service?.name || '' })}</div>
                 {!isReadOnly && (
                   <Button 
                     onClick={() => handleAddItem(vso.id, undefined)} 
@@ -279,7 +280,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                     size="sm" 
                     className="h-7 text-[11px] text-violet-600 border-violet-200 hover:bg-white bg-white shadow-sm"
                   >
-                    <PlusIcon size={12} className="mr-1" /> Kê thuốc này
+                    <PlusIcon size={12} className="mr-1" /> {tp('medForThis')}
                   </Button>
                 )}
               </div>
@@ -287,7 +288,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                 {items.map((i, idx) => i.visitServiceOrderId === vso.id && renderItemLine(i, idx))}
                 {items.findIndex(i => i.visitServiceOrderId === vso.id) === -1 && (
                   <div className={`text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-violet-100 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-violet-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem(vso.id, undefined)}>
-                    (Không kê thuốc riêng cho dịch vụ này)
+                    ({tp('emptyDetailedHint')})
                   </div>
                 )}
               </div>
@@ -298,7 +299,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
           {mode === 'DETAILED' && medicalRecord?.labOrders?.filter(l => l.status !== 'CANCELLED').map(lab => (
             <div key={lab.id} className="border border-teal-100 bg-teal-50/10 rounded-xl overflow-hidden">
               <div className="bg-teal-50/50 px-4 py-2 border-b border-teal-100 flex justify-between items-center">
-                <div className="text-[12px] font-semibold text-teal-800">🔬 Dành cho: {lab.testName || 'Xét nghiệm'}</div>
+                <div className="text-[12px] font-semibold text-teal-800">🔬 {tp('labHeader', { name: lab.testName || '' })}</div>
                 {!isReadOnly && (
                   <Button 
                     onClick={() => handleAddItem(undefined, lab.id)} 
@@ -306,7 +307,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                     size="sm" 
                     className="h-7 text-[11px] text-teal-600 border-teal-200 hover:bg-white bg-white shadow-sm"
                   >
-                    <PlusIcon size={12} className="mr-1" /> Kê thuốc này
+                    <PlusIcon size={12} className="mr-1" /> {tp('medForThis')}
                   </Button>
                 )}
               </div>
@@ -314,7 +315,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                 {items.map((i, idx) => i.labOrderId === lab.id && renderItemLine(i, idx))}
                 {items.findIndex(i => i.labOrderId === lab.id) === -1 && (
                   <div className={`text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-teal-100 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-teal-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem(undefined, lab.id)}>
-                    (Không kê thuốc riêng cho xét nghiệm này)
+                    ({tp('emptyDetailedHint')})
                   </div>
                 )}
               </div>

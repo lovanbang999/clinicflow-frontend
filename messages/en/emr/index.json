@@ -3,7 +3,8 @@
     "loading": "Loading medical record...",
     "backToExam": "Back to Exam",
     "shared": {
-      "back": "Back"
+      "back": "Back",
+      "readOnly": "READ ONLY"
     },
     "unlockTitle": "Complete previous step to unlock",
     "tabLabels": {
@@ -186,6 +187,13 @@
       "diagnosisPlaceholder": "e.g. Acute upper respiratory infection",
       "treatment": "Treatment Plan",
       "treatmentPlaceholder": "Treatment regimen...",
+      "doctorAdvice": "Doctor's Advice / Notes",
+      "advicePlaceholder": "Internal notes or instructions for patient...",
+      "suggestions": {
+        "diagnosis": ["Acute Pharyngitis", "Allergic Rhinitis", "Digestive Disorder", "Hypertension", "Type 2 Diabetes", "Body Asthenia"],
+        "treatment": ["Take medicine as prescribed", "Rest and light diet", "Limit fatty foods", "Follow-up if fever persists", "Drink plenty of water"],
+        "advice": ["Avoid staying up late", "Keep throat warm", "Gargle with salt water"]
+      },
       "followUpDate": "Follow-up Date",
       "followUpNote": "Follow-up Instructions",
       "followUpNotePlaceholder": "Follow-up notes...",
@@ -443,7 +451,22 @@
       "usagePlaceholder": "Usage / Additional notes (After meal...)",
       "addBtn": "Add Medicine",
       "doctorAdvice": "Doctor's Advice",
-      "advicePlaceholder": "General advice printed on the prescription..."
+      "advicePlaceholder": "General advice printed on the prescription...",
+      "modes": {
+        "none": "No prescription",
+        "general": "General prescription",
+        "detailed": "Detailed prescription"
+      },
+      "resetBtn": "Reset prescription",
+      "noneModeMsg": "You have chosen not to prescribe any medication for this patient.",
+      "noneModeNote": "You can still fill in the Doctor's Advice below.",
+      "generalHeader": "General Prescription",
+      "emptyGeneral": "No general medicine added",
+      "emptyGeneralHint": "Click here to add",
+      "vsoHeader": "For: {name}",
+      "labHeader": "For: {name}",
+      "medForThis": "Prescribe this",
+      "emptyDetailedHint": "No specific medicine for this item"
     },
     "resultsTab": {
       "emptyList": "No laboratory data available.",
@@ -490,7 +513,13 @@
           "recommendationPlaceholder": "Key recommendations for the consulting doctor...",
           "abnormal": "Mark as Abnormal",
           "attachments": "Attachments (Images/Docs)",
-          "uploadHint": "Upload images, ultrasound results, endoscopy..."
+          "uploadHint": "Upload images, ultrasound results, endoscopy...",
+          "select": "Select",
+          "normal": "Normal",
+          "none": "None",
+          "clear": "Clear",
+          "bpm": "bpm",
+          "bpmUnit": "breaths/min"
         },
         "EYE": {
           "title": "Ophthalmology",
@@ -523,7 +552,13 @@
           "bite": "Bite / Occlusion",
           "oralHygiene": "Oral Hygiene",
           "intervention": "Proposed Intervention",
-          "nextVisit": "Follow-up Appointment"
+          "nextVisit": "Follow-up Appointment",
+          "gingivitis1": "Mild Gingivitis",
+          "gingivitis2": "Severe Gingivitis",
+          "periodontitis": "Periodontitis",
+          "hygieneGood": "Good",
+          "hygieneAvg": "Average",
+          "hygienePoor": "Poor"
         },
         "ENT": {
           "title": "Otolaryngology (ENT)",
@@ -542,7 +577,14 @@
           "throat": "Throat & Larynx",
           "tonsils": "Tonsils",
           "pharynx": "Posterior Pharynx",
-          "larynx": "Larynx (Endoscopy)"
+          "larynx": "Larynx (Endoscopy)",
+          "perforated": "Perforated",
+          "opaque": "Opaque",
+          "mildLoss": "Mild Loss",
+          "severeLoss": "Severe Loss",
+          "deviated": "Deviated",
+          "mucous": "Mucous",
+          "bloody": "Bloody"
         },
         "CARDIOLOGY": {
           "title": "Cardiology",
@@ -566,7 +608,15 @@
           "lvFunction": "LV Function",
           "mitral": "Mitral Valve",
           "aortic": "Aortic Valve",
-          "pericardium": "Pericardium"
+          "pericardium": "Pericardium",
+          "normalSounds": "Normal S1, S2",
+          "murmurSystolic": "Systolic Murmur",
+          "murmurDiastolic": "Diastolic Murmur",
+          "arrhythmic": "Arrhythmic",
+          "heartSuggestions": ["Normal S1, S2", "Systolic Murmur", "Diastolic Murmur"],
+          "pulseWeak": "Weak",
+          "edemaMild": "Mild Edema",
+          "edemaPitting": "Pitting Edema"
         },
         "DERMATOLOGY": {
           "title": "Dermatology",
@@ -648,7 +698,12 @@
           "endoType": "Endoscopy Type",
           "endoResult": "Endoscopy Findings",
           "hpTest": "H. pylori (CLO test)",
-          "biopsy": "Biopsy Findings"
+          "biopsy": "Biopsy Findings",
+          "wallSoft": "Soft",
+          "wallDistended": "Distended",
+          "wallTender": "Tender",
+          "liverSuggestions": ["Not palpable", "1cm below costal margin", "2cm below costal margin"],
+          "spleenSuggestions": ["Not palpable", "Grade I", "Grade II"]
         },
         "ENDOCRINOLOGY": {
           "title": "Endocrinology",
@@ -697,7 +752,10 @@
           "ratio": "FEV1/FVC ratio",
           "gold": "GOLD Classification (COPD)",
           "bdTest": "Bronchodilator Reversibility",
-          "feno": "FeNO"
+          "feno": "FeNO",
+          "lungsClear": "Clear breath sounds",
+          "lungsCrackles": "Crackles / Rales present",
+          "lungsWheezing": "Wheezing / Rhonchi present"
         },
         "GENERAL": {
           "title": "General / Other",
@@ -805,7 +863,8 @@
       "pending": "Pending",
       "paid": "Paid (Ready to Perform)",
       "inProgress": "In Progress",
-      "completed": "Result Available"
+      "completed": "Result Available",
+      "cancelled": "Cancelled"
     },
     "noteLabel": "Note:",
     "orderedAt": "Ordered at:",
@@ -813,7 +872,19 @@
     "normal": "Normal",
     "noDetailDesc": "No detailed description",
     "viewFile": "View / Download Result",
-    "deleteAction": "Cancel order"
+    "deleteAction": "Cancel order",
+    "listTitleShort": "Lab & Imaging Orders",
+    "group1": "Group 1 — Performed by Technician",
+    "fallbackCategory": "Other Services",
+    "draft": "Unsaved",
+    "discard": "Discard",
+    "countUnit": "test(s)",
+    "totalFee": "Total Fee:",
+    "cantDelete": "Cannot delete — already paid or in progress",
+    "toasts": {
+      "deleteSuccess": "Lab order removed",
+      "deleteError": "Can only remove unpaid orders"
+    }
   },
   "prescription": {
     "title": "Prescription",

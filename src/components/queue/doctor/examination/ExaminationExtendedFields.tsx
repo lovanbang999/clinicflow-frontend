@@ -119,7 +119,7 @@ const EyeForm: React.FC<BaseFormProps<EyeFindings>> = ({ value, onChange }) => {
            </FormGroup>
            <FormGroup label={t('iopMethod')}>
               <Select value={value.iopMethod || ''} onChange={(e) => update('iopMethod', e.target.value)}>
-                 <option value="">-- Select --</option>
+                 <option value="">-- {ts('select')} --</option>
                  <option value="non-contact">Non-contact</option>
                  <option value="goldmann">Goldmann</option>
               </Select>
@@ -131,8 +131,8 @@ const EyeForm: React.FC<BaseFormProps<EyeFindings>> = ({ value, onChange }) => {
         <div className="grid grid-cols-2 gap-4 mb-4">
           <FormGroup label={t('fundusResult')}>
             <Select value={value.fundusResult || ''} onChange={(e) => update('fundusResult', e.target.value)}>
-              <option value="">-- Select --</option>
-              <option value="normal">Normal</option>
+              <option value="">-- {ts('select')} --</option>
+              <option value="normal">{ts('normal')}</option>
               <option value="dr">Retinopathy (DR)</option>
               <option value="amd">AMD</option>
               <option value="hemorrhage">Hemorrhage</option>
@@ -140,8 +140,8 @@ const EyeForm: React.FC<BaseFormProps<EyeFindings>> = ({ value, onChange }) => {
           </FormGroup>
           <FormGroup label={t('lens')}>
             <Select value={value.lens || ''} onChange={(e) => update('lens', e.target.value)}>
-              <option value="">-- Select --</option>
-              <option value="clear">Clear</option>
+              <option value="">-- {ts('select')} --</option>
+              <option value="clear">{ts('clear')}</option>
               <option value="cataract1">Cataract Grade 1-2</option>
               <option value="cataract3">Cataract Grade 3-4</option>
             </Select>
@@ -197,10 +197,10 @@ const DentalForm: React.FC<BaseFormProps<DentalFindings>> = ({ value, onChange }
                 currentValue={value.gumStatus}
                 onSelect={(val) => update('gumStatus', val)}
                 options={[
-                  { value: 'normal', label: 'Bình thường' },
-                  { value: 'gingivitis1', label: 'Viêm lợi nhẹ', color: 'bg-amber-50 border-amber-500 text-amber-700' },
-                  { value: 'gingivitis2', label: 'Viêm lợi nặng', color: 'bg-red-50 border-red-500 text-red-700' },
-                  { value: 'periodontitis', label: 'Viêm quanh răng', color: 'bg-red-100 border-red-600 text-red-800' },
+                  { value: 'normal', label: ts('normal') },
+                  { value: 'gingivitis1', label: t('gingivitis1'), color: 'bg-amber-50 border-amber-500 text-amber-700' },
+                  { value: 'gingivitis2', label: t('gingivitis2'), color: 'bg-red-50 border-red-500 text-red-700' },
+                  { value: 'periodontitis', label: t('periodontitis'), color: 'bg-red-100 border-red-600 text-red-800' },
                 ]}
               />
             </FormGroup>
@@ -209,9 +209,9 @@ const DentalForm: React.FC<BaseFormProps<DentalFindings>> = ({ value, onChange }
                 currentValue={value.hygiene}
                 onSelect={(val) => update('hygiene', val)}
                 options={[
-                  { value: 'good', label: 'Tốt' },
-                  { value: 'average', label: 'Trung bình', color: 'bg-slate-50 border-slate-400 text-slate-700' },
-                  { value: 'poor', label: 'Kém', color: 'bg-amber-50 border-amber-400 text-amber-800' },
+                  { value: 'good', label: t('hygieneGood') },
+                  { value: 'average', label: t('hygieneAvg'), color: 'bg-slate-50 border-slate-400 text-slate-700' },
+                  { value: 'poor', label: t('hygienePoor'), color: 'bg-amber-50 border-amber-400 text-amber-800' },
                 ]}
               />
             </FormGroup>
@@ -224,6 +224,7 @@ const DentalForm: React.FC<BaseFormProps<DentalFindings>> = ({ value, onChange }
 // 4. ENT
 const ENTForm: React.FC<BaseFormProps<EntFindings>> = ({ value, onChange }) => {
   const t = useTranslations('emr.visit.specialist.forms.ENT');
+  const ts = useTranslations('emr.visit.specialist.forms.shared');
   const update = <K extends keyof EntFindings>(field: K, val: EntFindings[K]) => 
     onChange({ ...value, [field]: val });
 
@@ -233,16 +234,16 @@ const ENTForm: React.FC<BaseFormProps<EntFindings>> = ({ value, onChange }) => {
         <div className="grid grid-cols-2 gap-4">
            <FormGroup label={t('eardrum')}>
               <Select value={value.earRight_drum || ''} onChange={(e) => update('earRight_drum', e.target.value)}>
-                <option value="normal">Normal</option>
-                <option value="perforated">Perforated</option>
-                <option value="opaque">Opaque</option>
+                <option value="normal">{ts('normal')}</option>
+                <option value="perforated">{t('perforated')}</option>
+                <option value="opaque">{t('opaque')}</option>
               </Select>
            </FormGroup>
            <FormGroup label={t('hearing')}>
               <Select value={value.earRight_hearing || ''} onChange={(e) => update('earRight_hearing', e.target.value)}>
-                <option value="normal">Normal</option>
-                <option value="mild">Mild Loss</option>
-                <option value="severe">Severe Loss</option>
+                <option value="normal">{ts('normal')}</option>
+                <option value="mild">{t('mildLoss')}</option>
+                <option value="severe">{t('severeLoss')}</option>
               </Select>
            </FormGroup>
         </div>
@@ -251,16 +252,16 @@ const ENTForm: React.FC<BaseFormProps<EntFindings>> = ({ value, onChange }) => {
         <div className="grid grid-cols-2 gap-4">
            <FormGroup label={t('septum')}>
               <Select value={value.nose_septum || ''} onChange={(e) => update('nose_septum', e.target.value)}>
-                <option value="normal">Normal</option>
-                <option value="deviated">Deviated</option>
+                <option value="normal">{ts('normal')}</option>
+                <option value="deviated">{t('deviated')}</option>
               </Select>
            </FormGroup>
            <FormGroup label={t('discharge')}>
               <Select value={value.nose_discharge || ''} onChange={(e) => update('nose_discharge', e.target.value)}>
-                <option value="none">None</option>
-                <option value="clear">Clear</option>
-                <option value="mucous">Mucous</option>
-                <option value="bloody">Bloody</option>
+                <option value="none">{ts('none')}</option>
+                <option value="clear">{t('clear')}</option>
+                <option value="mucous">{t('mucous')}</option>
+                <option value="bloody">{t('bloody')}</option>
               </Select>
            </FormGroup>
         </div>
@@ -272,6 +273,7 @@ const ENTForm: React.FC<BaseFormProps<EntFindings>> = ({ value, onChange }) => {
 // 5. CARDIOLOGY
 const CardiologyForm: React.FC<BaseFormProps<CardiologyFindings>> = ({ value, onChange }) => {
   const t = useTranslations('emr.visit.specialist.forms.CARDIOLOGY');
+  const ts = useTranslations('emr.visit.specialist.forms.shared');
   const update = <K extends keyof CardiologyFindings>(field: K, val: CardiologyFindings[K]) => 
     onChange({ ...value, [field]: val });
 
@@ -281,16 +283,16 @@ const CardiologyForm: React.FC<BaseFormProps<CardiologyFindings>> = ({ value, on
         <div className="grid grid-cols-2 gap-4 mb-4">
           <FormGroup label={t('heartSounds')}>
              <Select value={value.heartSounds || ''} onChange={(e) => update('heartSounds', e.target.value)}>
-                <option value="normal">Normal S1, S2</option>
-                <option value="murmur_systolic">Systolic Murmur</option>
-                <option value="murmur_diastolic">Diastolic Murmur</option>
-                <option value="arrhythmic">Arrhythmic</option>
+                <option value="normal">{t('normalSounds')}</option>
+                <option value="murmur_systolic">{t('murmurSystolic')}</option>
+                <option value="murmur_diastolic">{t('murmurDiastolic')}</option>
+                <option value="arrhythmic">{t('arrhythmic')}</option>
              </Select>
-             <QuickSuggestions suggestions={['T1, T2 đều, rõ', 'Tiếng thổi tâm thu', 'Tiếng thổi tâm trương']} onSelect={(s) => update('heartSounds', s)} />
+             <QuickSuggestions suggestions={t.raw('heartSuggestions')} onSelect={(s) => update('heartSounds', s)} />
           </FormGroup>
           <FormGroup label={t('heartRate')}>
              <NumericStepper value={value.hr || '80'} onChange={(val) => update('hr', val)} />
-             <label className="text-[10px] text-slate-400 mt-1">bpm</label>
+             <label className="text-[10px] text-slate-400 mt-1">{ts('bpm')}</label>
           </FormGroup>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -299,8 +301,8 @@ const CardiologyForm: React.FC<BaseFormProps<CardiologyFindings>> = ({ value, on
                 currentValue={value.pulses}
                 onSelect={(val) => update('pulses', val)}
                 options={[
-                  { value: 'normal', label: 'Bình thường' },
-                  { value: 'weak', label: 'Yếu', color: 'bg-amber-50 border-amber-500 text-amber-700' },
+                  { value: 'normal', label: ts('normal') },
+                  { value: 'weak', label: t('pulseWeak'), color: 'bg-amber-50 border-amber-500 text-amber-700' },
                 ]}
               />
            </FormGroup>
@@ -309,9 +311,9 @@ const CardiologyForm: React.FC<BaseFormProps<CardiologyFindings>> = ({ value, on
                 currentValue={value.edema}
                 onSelect={(val) => update('edema', val)}
                 options={[
-                  { value: 'none', label: 'Không phù' },
-                  { value: 'mild', label: 'Phù nhẹ', color: 'bg-amber-50 border-amber-500 text-amber-800' },
-                  { value: 'pitting', label: 'Phù ấn lõm', color: 'bg-red-50 border-red-500 text-red-800' },
+                  { value: 'none', label: ts('none') },
+                  { value: 'mild', label: t('edemaMild'), color: 'bg-amber-50 border-amber-500 text-amber-800' },
+                  { value: 'pitting', label: t('edemaPitting'), color: 'bg-red-50 border-red-500 text-red-800' },
                 ]}
               />
            </FormGroup>
@@ -442,20 +444,20 @@ const GastroForm: React.FC<BaseFormProps<GastroFindings>> = ({ value, onChange }
                 currentValue={value.wall}
                 onSelect={(val) => update('wall', val)}
                 options={[
-                  { value: 'soft', label: 'Bụng mềm' },
-                  { value: 'distended', label: 'Bụng chướng', color: 'bg-amber-50 border-amber-500 text-amber-800' },
-                  { value: 'tender', label: 'Ấn đau', color: 'bg-red-50 border-red-500 text-red-800' },
+                  { value: 'soft', label: t('wallSoft') },
+                  { value: 'distended', label: t('wallDistended'), color: 'bg-amber-50 border-amber-500 text-amber-800' },
+                  { value: 'tender', label: t('wallTender'), color: 'bg-red-50 border-red-500 text-red-800' },
                 ]}
               />
            </FormGroup>
            <div className="grid grid-cols-2 gap-4">
               <FormGroup label={t('liver')}>
                 <Input value={value.liver || ''} onChange={(e) => update('liver', e.target.value)} />
-                <QuickSuggestions suggestions={['Không sờ thấy', 'Dưới bờ sườn 1cm', 'Dưới bờ sườn 2cm']} onSelect={(s) => update('liver', s)} />
+                <QuickSuggestions suggestions={t.raw('liverSuggestions')} onSelect={(s) => update('liver', s)} />
               </FormGroup>
               <FormGroup label={t('spleen')}>
                 <Input value={value.spleen || ''} onChange={(e) => update('spleen', e.target.value)} />
-                <QuickSuggestions suggestions={['Không sờ thấy', 'Độ I', 'Độ II']} onSelect={(s) => update('spleen', s)} />
+                <QuickSuggestions suggestions={t.raw('spleenSuggestions')} onSelect={(s) => update('spleen', s)} />
               </FormGroup>
            </div>
         </div>
@@ -503,6 +505,7 @@ const UrologyForm: React.FC<BaseFormProps<UrologyFindings>> = ({ value, onChange
 // 13. RESPIRATORY
 const RespForm: React.FC<BaseFormProps<RespFindings>> = ({ value, onChange }) => {
   const t = useTranslations('emr.visit.specialist.forms.RESPIRATORY');
+  const ts = useTranslations('emr.visit.specialist.forms.shared');
   const update = <K extends keyof RespFindings>(field: K, val: RespFindings[K]) => 
     onChange({ ...value, [field]: val });
 
@@ -512,23 +515,23 @@ const RespForm: React.FC<BaseFormProps<RespFindings>> = ({ value, onChange }) =>
         <div className="grid grid-cols-1 gap-6">
            <FormGroup label={t('respRate')}>
               <NumericStepper value={value.rr || '16'} onChange={(val) => update('rr', val)} />
-              <label className="text-[10px] text-slate-400 mt-1">lần/phút</label>
+              <label className="text-[10px] text-slate-400 mt-1">{ts('bpmUnit')}</label>
            </FormGroup>
            <FormGroup label={t('auscultation')}>
               <ChoiceGrid 
                 currentValue={value.lungs}
                 onSelect={(val) => update('lungs', val)}
                 options={[
-                  { value: 'clear', label: 'Rì rào phế nang êm dịu' },
-                  { value: 'crackles', label: 'Có ran ẩm/ran nổ', color: 'bg-amber-50 border-amber-500 text-amber-800' },
-                  { value: 'wheezing', label: 'Có ran rít/ran ngáy', color: 'bg-red-50 border-red-500 text-red-800' },
+                  { value: 'clear', label: t('lungsClear') },
+                  { value: 'crackles', label: t('lungsCrackles'), color: 'bg-amber-50 border-amber-500 text-amber-800' },
+                  { value: 'wheezing', label: t('lungsWheezing'), color: 'bg-red-50 border-red-500 text-red-800' },
                 ]}
               />
               <TextArea 
                 className="mt-2"
                 value={value.lungs || ''} 
                 onChange={(e) => update('lungs', e.target.value)} 
-                placeholder="Mô tả thêm..."
+                placeholder={ts('clinicalDescription')}
               />
            </FormGroup>
         </div>

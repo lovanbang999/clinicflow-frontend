@@ -3,7 +3,8 @@
     "loading": "Đang tải hồ sơ khám...",
     "backToExam": "Quay lại Khám",
     "shared": {
-      "back": "Quay lại"
+      "back": "Quay lại",
+      "readOnly": "CHẾ ĐỘ XEM"
     },
     "unlockTitle": "Hoàn tất bước trước để mở khoá",
     "tabLabels": {
@@ -186,6 +187,13 @@
       "diagnosisPlaceholder": "VD: Viêm hô hấp trên cấp",
       "treatment": "Hướng điều trị",
       "treatmentPlaceholder": "Phác đồ điều trị...",
+      "doctorAdvice": "Gợi ý / Lời dặn bỗ trợ",
+      "advicePlaceholder": "Ghi chú nội bộ hoặc lời dặn dò...",
+      "suggestions": {
+        "diagnosis": ["Viêm họng cấp", "Viêm mũi dị ứng", "Rối loạn tiêu hóa", "Tăng huyết áp", "ĐTĐ Typ 2", "Suy nhược cơ thể"],
+        "treatment": ["Uống thuốc theo đơn", "Nghỉ ngơi, ăn nhẹ", "Hạn chế dầu mỡ", "Tái khám nếu sốt cao", "Uống nhiều nước"],
+        "advice": ["Tránh thức khuya", "Giữ ấm cổ", "Súc họng nước muối"]
+      },
       "followUpDate": "Ngày tái khám",
       "followUpNote": "Hướng dẫn tái khám",
       "followUpNotePlaceholder": "Ghi chú tái khám...",
@@ -445,7 +453,22 @@
       "usagePlaceholder": "Cách dùng / Dặn dò thêm (Uống sau ăn...)",
       "addBtn": "Thêm thuốc",
       "doctorAdvice": "Lời dặn bác sĩ",
-      "advicePlaceholder": "Dặn dò chung in trên toa thuốc..."
+      "advicePlaceholder": "Dặn dò chung in trên toa thuốc...",
+      "modes": {
+        "none": "Không kê đơn",
+        "general": "Kê đơn chung",
+        "detailed": "Kê đơn chuyên biệt"
+      },
+      "resetBtn": "Làm lại đơn thuốc",
+      "noneModeMsg": "Bạn đã chọn không kê đơn thuốc cho bệnh nhân này.",
+      "noneModeNote": "Bạn vẫn có thể điền Lời dặn bác sĩ ở bên dưới.",
+      "generalHeader": "Đơn thuốc chung",
+      "emptyGeneral": "Chưa có thuốc chung",
+      "emptyGeneralHint": "Bấm vào đây để thêm",
+      "vsoHeader": "Dành cho: {name}",
+      "labHeader": "Dành cho: {name}",
+      "medForThis": "Kê thuốc này",
+      "emptyDetailedHint": "Không kê thuốc riêng cho hạng mục này"
     },
     "resultsTab": {
       "emptyList": "Không có dữ liệu cận lâm sàng.",
@@ -492,7 +515,13 @@
           "recommendationPlaceholder": "Ghi chú khuyến nghị gửi bác sĩ tư vấn...",
           "abnormal": "Đánh dấu bất thường",
           "attachments": "Đính kèm (Ảnh/Tài liệu)",
-          "uploadHint": "Tải lên ảnh, kết quả siêu âm, nội soi..."
+          "uploadHint": "Tải lên ảnh, kết quả siêu âm, nội soi...",
+          "select": "Chọn",
+          "normal": "Bình thường",
+          "none": "Không có",
+          "clear": "Trong / Rõ",
+          "bpm": "bpm",
+          "bpmUnit": "lần/phút"
         },
         "EYE": {
           "title": "Nhãn khoa",
@@ -525,7 +554,13 @@
           "bite": "Khớp cắn",
           "oralHygiene": "Vệ sinh răng miệng",
           "intervention": "Loại can thiệp đề xuất",
-          "nextVisit": "Hẹn tái khám"
+          "nextVisit": "Hẹn tái khám",
+          "gingivitis1": "Viêm lợi nhẹ",
+          "gingivitis2": "Viêm lợi nặng",
+          "periodontitis": "Viêm quanh răng",
+          "hygieneGood": "Tốt",
+          "hygieneAvg": "Trung bình",
+          "hygienePoor": "Kém"
         },
         "ENT": {
           "title": "Tai mũi họng",
@@ -544,7 +579,14 @@
           "throat": "Khám họng thanh quản",
           "tonsils": "Amidan",
           "pharynx": "Thành sau họng",
-          "larynx": "Thanh quản (nội soi)"
+          "larynx": "Thanh quản (nội soi)",
+          "perforated": "Thủng",
+          "opaque": "Mờ / Đục",
+          "mildLoss": "Giảm nhẹ",
+          "severeLoss": "Giảm nặng",
+          "deviated": "Vẹo",
+          "mucous": "Nhầy",
+          "bloody": "Lẫn máu"
         },
         "CARDIOLOGY": {
           "title": "Tim mạch",
@@ -568,7 +610,15 @@
           "lvFunction": "Chức năng thất trái",
           "mitral": "Van hai lá",
           "aortic": "Van động mạch chủ",
-          "pericardium": "Màng ngoài tim"
+          "pericardium": "Màng ngoài tim",
+          "normalSounds": "T1, T2 bình thường",
+          "murmurSystolic": "Tiếng thổi tâm thu",
+          "murmurDiastolic": "Tiếng thổi tâm trương",
+          "arrhythmic": "Loạn nhịp",
+          "heartSuggestions": ["T1, T2 đều, rõ", "Tiếng thổi tâm thu", "Tiếng thổi tâm trương"],
+          "pulseWeak": "Yếu",
+          "edemaMild": "Phù nhẹ",
+          "edemaPitting": "Phù ấn lõm"
         },
         "DERMATOLOGY": {
           "title": "Da liễu",
@@ -650,7 +700,12 @@
           "endoType": "Loại nội soi",
           "endoResult": "Kết quả nội soi",
           "hpTest": "H. pylori (CLO test)",
-          "biopsy": "Sinh thiết giải phẫu bệnh"
+          "biopsy": "Sinh thiết giải phẫu bệnh",
+          "wallSoft": "Bụng mềm",
+          "wallDistended": "Bụng chướng",
+          "wallTender": "Ấn đau",
+          "liverSuggestions": ["Không sờ thấy", "Dưới bờ sườn 1cm", "Dưới bờ sườn 2cm"],
+          "spleenSuggestions": ["Không sờ thấy", "Độ I", "Độ II"]
         },
         "ENDOCRINOLOGY": {
           "title": "Nội tiết",
@@ -699,7 +754,10 @@
           "ratio": "FEV1/FVC ratio",
           "gold": "Phân loại GOLD (COPD)",
           "bdTest": "Test phục hồi phế quản",
-          "feno": "FeNO"
+          "feno": "FeNO",
+          "lungsClear": "Rì rào phế nang êm dịu",
+          "lungsCrackles": "Có ran ẩm/ran nổ",
+          "lungsWheezing": "Có ran rít/ran ngáy"
         },
         "GENERAL": {
           "title": "Tổng quát / Khác",
@@ -799,23 +857,26 @@
     "submitBtn": "Chỉ định",
     "listTitle": "Danh sách đã chỉ định ({count})",
     "emptyList": "Chưa có chỉ định cận lâm sàng nào.",
-    "printOrderBtn": "In Phiếu Chỉ Định",
-    "printSuccess": "Đã in Phiếu Chỉ Định",
-    "paymentReminder": "Vui lòng dặn bệnh nhân mang phiếu ra quầy lễ tân thanh toán trước khi xét nghiệm.",
-    "printTitle": "PHIẾU CHỈ ĐỊNH CẬN LÂM SÀNG",
-    "status": {
-      "pending": "Chờ kết quả",
-      "paid": "Đã thanh toán (Sẵn sàng XN)",
-      "inProgress": "Đang thực hiện",
-      "completed": "Đã có kết quả"
+    "listTitleShort": "Chỉ định xét nghiệm & kỹ thuật",
+    "group1": "Nhóm 1 — Kỹ thuật viên thực hiện",
+    "paymentReminder": "Kỹ thuật viên sẽ nhận lệnh tự động sau khi bệnh nhân thanh toán tại quầy lễ tân. Kết quả sẽ tự động thông báo cho bác sĩ khi Lab hoàn tất.",
+    "fallbackCategory": "Dịch vụ khác",
+    "draft": "Chưa lưu",
+    "discard": "Bỏ nháp",
+    "countUnit": "xét nghiệm",
+    "totalFee": "Tổng phí:",
+    "cantDelete": "Không thể xóa — đã thanh toán hoặc đang thực hiện",
+    "toasts": {
+      "deleteSuccess": "Đã xóa xét nghiệm",
+      "deleteError": "Chỉ được xóa khi xét nghiệm chưa được thanh toán"
     },
-    "noteLabel": "Lưu ý:",
-    "orderedAt": "Chỉ định lúc:",
-    "abnormal": "Bất thường",
-    "normal": "Bình thường",
-    "noDetailDesc": "Không có mô tả chi tiết",
-    "viewFile": "Xem / Tải file kết quả",
-    "deleteAction": "Hủy chỉ định"
+    "status": {
+      "pending": "Chờ thanh toán",
+      "paid": "Đã thanh toán (Sẵn sàng)",
+      "inProgress": "Đang thực hiện",
+      "completed": "Đã có kết quả",
+      "cancelled": "Đã hủy"
+    }
   },
   "prescription": {
     "title": "Đơn thuốc",
