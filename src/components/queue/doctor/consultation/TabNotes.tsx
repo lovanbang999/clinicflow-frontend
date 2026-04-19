@@ -31,9 +31,10 @@ export function TabNotes({ item, medicalRecord, onChange, isReadOnly }: TabNotes
     if (isSubmitting || isReadOnly) return; // Prevent double save
     try {
       setIsSubmitting(true);
-      // We use saveSymptoms for both doctorNotes, etc based on the API definition
+      // We use saveSymptoms for doctorNotes and followUpNote
       await medicalRecordsApi.saveSymptoms(item.bookingId, {
-        doctorNotes: notes
+        doctorNotes: notes,
+        followUpNote: instructions
       });
       onChange();
     } catch (error) {
@@ -72,9 +73,8 @@ export function TabNotes({ item, medicalRecord, onChange, isReadOnly }: TabNotes
              placeholder={t('instructionsPlaceholder')}
              value={instructions}
              onChange={(e) => setInstructions(e.target.value)}
-             readOnly
+             onBlur={handleSave}
              disabled={isReadOnly}
-             title={t('wipFeature')}
           />
         </div>
       </div>

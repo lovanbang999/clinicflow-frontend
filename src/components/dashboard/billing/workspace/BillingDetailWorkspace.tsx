@@ -179,6 +179,8 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
            item.labOrder.service?.category?.name?.toUpperCase() || 'PHÒNG KỸ THUẬT')
         : (booking?.room?.name?.toUpperCase().includes('PHÒNG KHÁM') ? 'PHÒNG 01' : 
            booking?.room?.name?.toUpperCase() || 'PHÒNG 01'),
+      doctorName: item.visitServiceOrder?.performer?.fullName || 
+                 (item.labOrder ? '' : booking?.doctor?.fullName), // Blank for Lab if unknown, booking doctor only for consultation
       queueNumber: item.labOrder?.queueNumber || item.visitServiceOrder?.queueNumber || targetInvoice.booking?.queueRecord?.queuePosition || 'N/A',
       suggestedOrder: item.labOrder?.suggestedOrder || item.visitServiceOrder?.suggestedOrder,
       preparationNotes: item.labOrder?.service?.preparationNotes || item.visitServiceOrder?.service?.preparationNotes,

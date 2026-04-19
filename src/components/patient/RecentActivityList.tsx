@@ -77,7 +77,10 @@ export function RecentActivityList() {
           iconColor: inv.status === InvoiceStatus.PAID ? 'text-green-600' : 'text-red-500',
         }));
 
-        const merged = [...bookingItems, ...invoiceItems].sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
+        const merged = [...bookingItems, ...invoiceItems]
+          .filter(item => !isNaN(item.date.getTime()))
+          .sort((a, b) => b.date.getTime() - a.date.getTime())
+          .slice(0, 5);
         
         setActivities(merged);
       } catch (error) {

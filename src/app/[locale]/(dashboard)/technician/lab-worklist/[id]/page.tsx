@@ -33,7 +33,7 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
   const { id, locale } = use(params);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const source = searchParams.get('source') || 'vso';
+  const source = searchParams.get('source') || 'lab';
 
   const { order, siblings, isLoading, labFormType, isVso } = useLabWorkspaceOrder(id, source);
   const [isSubmitting, setIsSubmitting] = useState(false);

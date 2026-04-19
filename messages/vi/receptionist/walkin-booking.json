@@ -63,7 +63,11 @@
     "noDocForService": "Không có bác sĩ cho dịch vụ này",
     "noDocDesc": "Hãy liên hệ quản trị để phân công bác sĩ",
     "loadingDoctors": "Đang tải danh sách bác sĩ...",
-    "alreadyBooked": "Bệnh nhân đã có lịch hẹn với bác sĩ"
+    "alreadyBooked": "Bệnh nhân đã có lịch hẹn với bác sĩ",
+    "unavailable": "Nghỉ",
+    "busy": "Đang bận",
+    "noScheduleToday": "Bác sĩ không có lịch khám hôm nay",
+    "onLeaveToday": "Bác sĩ đang nghỉ phép hôm nay"
   },
   "time": {
     "title": "Thời gian khám",

@@ -11,6 +11,19 @@ interface MedicalReportProps {
   record: VisitResultsResponse;
 }
 
+interface LabResultItem {
+  name: string;
+  value: string;
+  unit: string;
+  reference: string;
+}
+
+interface LabResultJson {
+  results: LabResultItem[];
+  device?: string;
+  generalComment?: string;
+}
+
 export function MedicalReport({ record }: MedicalReportProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -24,12 +37,94 @@ export function MedicalReport({ record }: MedicalReportProps) {
   if (!mounted) return null;
 
   const labOrders = record.labOrders ?? [];
+  const visitServiceOrders = record.visitServiceOrders ?? [];
   const prescriptionItems = record.prescription?.items ?? [];
   const patient = record.booking?.patientProfile;
   const doctor = record.booking?.doctor;
 
+  const renderLabResultContent = (resultText: string) => {
+    try {
+      if (!resultText.trim().startsWith('{')) {
+        return <p className="text-[14px] text-slate-900 font-medium leading-relaxed">{resultText}</p>;
+      }
+
+      const parsed = JSON.parse(resultText) as LabResultJson;
+      
+      if (!parsed.results || !Array.isArray(parsed.results)) {
+        return <p className="text-[14px] text-slate-900 font-medium leading-relaxed">{resultText}</p>;
+      }
+
+      return (
+        <div className="space-y-3">
+          <table className="w-full text-[12px] border-collapse">
+            <thead>
+              <tr className="border-b border-slate-300">
+                <th className="py-1 text-left font-bold text-slate-500 w-[45%]">Tên chỉ số</th>
+                <th className="py-1 text-center font-bold text-slate-500 w-[20%]">Kết quả</th>
+                <th className="py-1 text-center font-bold text-slate-500 w-[15%]">Đơn vị</th>
+                <th className="py-1 text-right font-bold text-slate-500 w-[20%]">Tham chiếu</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {parsed.results.map((item, idx) => (
+                <tr key={idx} className="hover:bg-slate-50/50">
+                  <td className="py-1.5 text-slate-900 font-bold">{item.name}</td>
+                  <td className="py-1.5 text-center text-slate-900 font-black">{item.value}</td>
+                  <td className="py-1.5 text-center text-slate-600">{item.unit}</td>
+                  <td className="py-1.5 text-right text-slate-400 font-medium">{item.reference}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          
+          {(parsed.device || parsed.generalComment) && (
+            <div className="pt-2 border-t border-dashed border-slate-200 flex justify-between items-center text-[10px] italic text-slate-400">
+              {parsed.device && <span>Thiết bị: {parsed.device}</span>}
+              {parsed.generalComment && <span>Ghi chú: {parsed.generalComment}</span>}
+            </div>
+          )}
+        </div>
+      );
+    } catch {
+      return <p className="text-[14px] text-slate-900 font-medium leading-relaxed">{resultText}</p>;
+    }
+  };
+
   return createPortal(
-    <div id="printable-exam-result" className="hidden print:block print:p-10 print:bg-white bg-white font-serif">
+    <div id="printable-exam-result" className="hidden print:block font-serif">
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @media print {
+          @page {
+            size: portrait;
+            margin: 0;
+          }
+          html, body {
+            height: auto !important;
+            overflow: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+          }
+          body > * {
+            display: none !important;
+          }
+          #printable-exam-result {
+            display: block !important;
+            visibility: visible !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            background: white !important;
+            padding: 2cm !important;
+            z-index: 99999 !important;
+          }
+          #printable-exam-result * {
+            visibility: visible !important;
+          }
+        }
+      `}} />
       {/* 
           PREMIUM CLINICAL HEADER
           Strictly for printing
@@ -151,12 +246,62 @@ export function MedicalReport({ record }: MedicalReportProps) {
                       <td className="px-4 py-4">
                         {order.result ? (
                           <div className="space-y-1">
-                            <p className="text-[14px] text-slate-900 font-medium leading-relaxed">{order.result.resultText}</p>
+                            {renderLabResultContent(order.result.resultText || '')}
                             {order.result.isAbnormal && (
-                              <p className="text-[12px] text-red-700 font-black">
+                              <p className="text-[12px] text-red-700 font-black pt-1">
                                  {order.result.abnormalNote || commonT('services.results.abnormal')}
                               </p>
                             )}
+                          </div>
+                        ) : (
+                          <span className="text-[12px] text-slate-400 italic">{commonT('services.status.pending')}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {visitServiceOrders.length > 0 && (
+          <section className="space-y-4">
+            <h3 className="text-[14px] font-black text-slate-900 uppercase tracking-widest border-l-4 border-slate-900 pl-3">
+              {t('sections.specialistResults') || 'Kết quả khám Chuyên khoa'}
+            </h3>
+            <div className="border border-slate-800 overflow-hidden">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-800">
+                    <th className="px-4 py-4 text-[12px] font-black text-slate-900 uppercase tracking-wider w-[40%] border-r border-slate-300">Dịch vụ chuyên khoa</th>
+                    <th className="px-4 py-4 text-[12px] font-black text-slate-900 uppercase tracking-wider">Kết quả & Khuyên nghị</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {visitServiceOrders.map((vso) => (
+                    <tr key={vso.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50/50">
+                      <td className="px-4 py-4 border-r border-slate-200">
+                        <div className="font-black text-slate-900 text-[14px] uppercase">{vso.service?.name}</div>
+                        {vso.performer?.fullName && (
+                          <div className="text-[11px] text-slate-400 font-bold mt-1 italic">BS. {vso.performer.fullName}</div>
+                        )}
+                      </td>
+                      <td className="px-4 py-4">
+                        {vso.status === 'COMPLETED' ? (
+                          <div className="space-y-3">
+                             {vso.resultText && (
+                               <p className="text-[14px] text-slate-900 font-medium leading-relaxed whitespace-pre-wrap">{vso.resultText}</p>
+                             )}
+                             
+                             {vso.isAbnormal && (
+                               <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-100 rounded-lg">
+                                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                  <p className="text-[12px] text-red-700 font-black uppercase tracking-tight">
+                                    {vso.abnormalNote || 'Phát hiện bất thường'}
+                                  </p>
+                               </div>
+                             )}
                           </div>
                         ) : (
                           <span className="text-[12px] text-slate-400 italic">{commonT('services.status.pending')}</span>
@@ -188,7 +333,7 @@ export function MedicalReport({ record }: MedicalReportProps) {
             {record.followUpDate && (
               <div className="flex items-center gap-2 pt-4 text-[13px] text-slate-900 border-t border-slate-800">
                 <span className="font-black text-slate-500 uppercase text-[10px] tracking-[0.1em]">{t('followUpAt')}:</span>
-                <span className="font-black">Đã lưu đơn thuốc — lần khám hoàn tất{format(new Date(record.followUpDate), 'dd/MM/yyyy')}</span> 
+                <span className="font-black">{format(new Date(record.followUpDate), 'dd/MM/yyyy')}</span> 
                 {record.followUpNote && <span className="ml-2 underline underline-offset-4 decoration-slate-200">— {record.followUpNote}</span>}
               </div>
             )}

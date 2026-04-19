@@ -86,10 +86,18 @@ export function AdminRecentActivity() {
                   </p>
                   <p className="text-xs text-[#94a3b8] mt-0.5">
                     {activity.title} •{' '}
-                    {formatDistanceToNow(new Date(activity.createdAt), {
-                      addSuffix: true,
-                      locale: vi,
-                    })}
+                    {(() => {
+                      try {
+                        const date = new Date(activity.createdAt);
+                        if (isNaN(date.getTime())) return '';
+                        return formatDistanceToNow(date, {
+                          addSuffix: true,
+                          locale: vi,
+                        });
+                      } catch {
+                        return '';
+                      }
+                    })()}
                   </p>
                 </div>
               </div>

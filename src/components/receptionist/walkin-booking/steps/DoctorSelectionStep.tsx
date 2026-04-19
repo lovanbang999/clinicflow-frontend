@@ -66,24 +66,57 @@ export function DoctorSelectionStep() {
                   const isSelected = selectedDoctor?.id === doctor.id;
                   const hasBookedToday = bookedDoctorIds.has(doctor.id);
 
-                  return (
-                    <div
-                      key={doctor.id}
-                      className={`border-2 rounded-xl p-3 flex items-center gap-3 transition-all relative ${
-                        hasBookedToday
-                          ? 'opacity-60 grayscale select-none border-slate-100 bg-slate-50'
-                          : isSelected
-                          ? 'border-[#1570EF] bg-white'
-                          : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-sm'
-                      }`}
-                    >
-                      {hasBookedToday && (
-                        <div className="absolute top-2 right-2 z-20">
-                          <div className="bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-amber-100 shadow-sm flex items-center gap-1">
-                            <span>⌚</span> {t('alreadyBooked')}
+                  // Check availability
+                  const getAvailability = () => {
+                    if (hasBookedToday) return { status: 'booked', label: t('alreadyBooked'), color: 'amber' };
+                    
+                    // Check if off today
+                    if (doctor.offDays && doctor.offDays.length > 0) {
+                      return { status: 'off', label: t('unavailable'), color: 'rose' };
+                    }
+
+                    // Check working hours for today
+                    const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+                    const today = days[new Date().getDay()];
+                    const worksToday = doctor.workingHours?.some(wh => wh.dayOfWeek === today);
+                    
+                    if (!worksToday) {
+                      return { status: 'no-schedule', label: t('unavailable'), color: 'slate' };
+                    }
+
+                    return { status: 'available', label: t('available'), color: 'emerald' };
+                  };
+
+                    const availability = getAvailability();
+                    const isUnavailable = availability.status !== 'available';
+
+                    const colorClasses: Record<string, string> = {
+                      amber: 'bg-amber-50 text-amber-700 border-amber-100',
+                      rose: 'bg-rose-50 text-rose-700 border-rose-100',
+                      slate: 'bg-slate-50 text-slate-700 border-slate-100',
+                      emerald: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+                    };
+
+                    const currentColors = colorClasses[availability.color] || colorClasses.slate;
+
+                    return (
+                      <div
+                        key={doctor.id}
+                        className={`border-2 rounded-xl p-3 flex items-center gap-3 transition-all relative ${
+                          isUnavailable
+                            ? 'opacity-60 grayscale select-none border-slate-100 bg-slate-50'
+                            : isSelected
+                            ? 'border-[#1570EF] bg-white'
+                            : 'border-slate-100 bg-white hover:border-slate-200 hover:shadow-sm'
+                        }`}
+                      >
+                        {isUnavailable && (
+                          <div className="absolute top-2 right-2 z-20">
+                            <div className={`${currentColors} text-[10px] font-bold px-2 py-0.5 rounded-md border shadow-sm flex items-center gap-1`}>
+                              <span>{availability.status === 'booked' ? '⌚' : '🚫'}</span> {availability.label}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 bg-slate-100 relative">
                         {doctor.avatar
@@ -96,18 +129,18 @@ export function DoctorSelectionStep() {
                         <p className="text-xs text-slate-500 mt-0.5">{doctor.specialties?.[0] || t('generalPractitioner')}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        {!hasBookedToday && (
+                        {availability.status === 'available' && (
                           <span className="text-[11px] font-bold text-[#12B76A] bg-[#ecfdf3] px-2 py-1 rounded-md">{t('available')}</span>
                         )}
                         <button
                           onClick={() => {
-                            if (hasBookedToday) return;
+                            if (isUnavailable) return;
                             setSelectedDoctor(doctor);
                             setCurrentStep(3);
                           }}
-                          disabled={hasBookedToday}
+                          disabled={isUnavailable}
                           className={`h-9 px-4 rounded-lg text-sm font-bold transition-colors cursor-pointer ${
-                            hasBookedToday
+                            isUnavailable
                               ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
                               : isSelected
                               ? 'bg-[#1570EF] text-white'
