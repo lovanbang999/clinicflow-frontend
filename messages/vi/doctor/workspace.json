@@ -466,7 +466,14 @@
         "instruction1": "Vui lòng ngồi chờ tại khu vực Phòng khám.",
         "instruction2": "Để ý màn hình hiển thị hoặc lắng nghe loa thông báo.",
         "instruction3": "Xin cảm ơn!",
-        "greeting": "Kính chúc quý khách sức khỏe!"
+        "greeting": "Kính chúc quý khách sức khỏe!",
+        "multiTitle": "PHIẾU CHỈ ĐỊNH TỔNG HỢP",
+        "suggestedOrder": "Thứ tự thực hiện (Gợi ý tối ưu)",
+        "importantNote": "LƯU Ý QUAN TRỌNG",
+        "prepHarmAlert": "Vui lòng thực hiện dịch vụ có ký hiệu cảnh báo TRƯỚC TIÊN.",
+        "estimatedDuration": "Ước tính",
+        "completedBefore": "Hoàn tất trước",
+        "thanks": "Trân trọng cảm ơn quý khách"
       }
   },
   "patientsPerMonth": "Bệnh nhân theo tháng",

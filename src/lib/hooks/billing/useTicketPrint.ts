@@ -2,15 +2,23 @@
 
 import { useState, useCallback } from 'react';
 
+export interface TicketItem {
+  serviceName: string;
+  roomName: string;
+  queueNumber: string | number;
+  suggestedOrder?: number;
+  preparationNotes?: string;
+  type: 'CONSULTATION' | 'LAB';
+}
+
 export interface TicketData {
   patientName: string;
   patientCode: string;
-  queueNumber: string | number;
-  roomName: string;
   doctorName?: string;
-  serviceName: string;
-  type: 'CONSULTATION' | 'LAB';
+  items: TicketItem[];
   date: Date;
+  estimatedDuration?: number;
+  completedBefore?: string;
 }
 
 export function useTicketPrint() {

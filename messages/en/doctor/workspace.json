@@ -459,7 +459,16 @@
         "instruction1": "Please wait in the clinic waiting area.",
         "instruction2": "Pay attention to the display screen or audio announcements.",
         "instruction3": "Thank you!",
-        "greeting": "Wishing you good health!"
+        "greeting": "Wishing you good health!",
+        "titleConsult": "CONSULTATION TICKET",
+        "titleLab": "SERVICE TICKET",
+        "multiTitle": "INTEGRATED SERVICE TICKET",
+        "suggestedOrder": "Sequence of Visit (Optimized)",
+        "importantNote": "IMPORTANT NOTE",
+        "prepHarmAlert": "Please perform services with the warning symbol FIRST.",
+        "estimatedDuration": "Est. Duration",
+        "completedBefore": "Comp. Before",
+        "thanks": "Thank you for visiting"
       }
   },
   "patientsPerMonth": "Patients per Month",

@@ -22,7 +22,7 @@ import { InvoicePaymentHistory } from '@/components/dashboard/billing/InvoicePay
 import { InvoiceSummary } from '@/components/dashboard/billing/InvoiceSummary';
 import { InvoicePatientInfo } from '@/components/dashboard/billing/InvoicePatientInfo';
 import { useTranslations, useLocale } from 'next-intl';
-import { useTicketPrint, TicketData } from '@/lib/hooks/billing/useTicketPrint';
+import { useTicketPrint, TicketData, TicketItem } from '@/lib/hooks/billing/useTicketPrint'; 
 import { PrintableTicket } from '@/components/shared/PrintableTicket';
 import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
 import { InvoiceStatusBadge } from '@/components/dashboard/billing/InvoiceStatusBadge';
@@ -187,27 +187,29 @@ export default function InvoiceDetailPage() {
                     variant="outline"
                     className="border-[#1392ec] text-[#1392ec] hover:bg-[#1392ec]/10 cursor-pointer"
                     onClick={() => {
-                      // Print tickets for all items
                       const booking = currentInvoice.booking;
-                      currentInvoice.items.forEach((item, index) => {
-                        const data: TicketData = {
-                          patientName: booking?.patientProfile?.fullName || 'N/A',
-                          patientCode: booking?.patientProfile?.patientCode || 'N/A',
-                          // Try to get queue number from various sources
-                          queueNumber: item.labOrder?.queueNumber ||
-                            item.visitServiceOrder?.queueNumber ||
-                            booking?.queueRecord?.queuePosition ||
-                            index + 1, // Fallback to index if no position 
-                          roomName: item.labOrder?.roomName ||
-                            (item.visitServiceOrder ? t('detail.specialistRoom') : booking?.room?.name) ||
-                            t('detail.generalRoom'),
-                          doctorName: item.visitServiceOrder?.performer?.fullName || booking?.doctor?.fullName,
-                          serviceName: item.itemName,
-                          type: item.labOrder ? 'LAB' : 'CONSULTATION',
-                          date: new Date(),
-                        };
-                        printTicket(data);
-                      });
+                      const ticketItems: TicketItem[] = currentInvoice.items.map((item) => ({
+                        serviceName: item.itemName,
+                        roomName: item.labOrder
+                          ? (item.labOrder.service?.category?.code === 'CAT_XETNGHIEM' ? 'PHÒNG 02' : 
+                             item.labOrder.service?.category?.code === 'CAT_CDHA' ? 'PHÒNG 03' : 
+                             item.labOrder.service?.category?.name?.toUpperCase() || 'PHÒNG KỸ THUẬT')
+                          : (booking?.room?.name?.toUpperCase().includes('PHÒNG KHÁM') ? 'PHÒNG 01' : 
+                             booking?.room?.name?.toUpperCase() || 'PHÒNG 01'),
+                        queueNumber: item.labOrder?.queueNumber || item.visitServiceOrder?.queueNumber || 'N/A',
+                        suggestedOrder: item.labOrder?.suggestedOrder || item.visitServiceOrder?.suggestedOrder,
+                        preparationNotes: item.labOrder?.service?.preparationNotes || item.visitServiceOrder?.service?.preparationNotes,
+                        type: item.labOrder ? 'LAB' : 'CONSULTATION',
+                      }));
+
+                      const data: TicketData = {
+                        patientName: booking?.patientProfile?.fullName || 'N/A',
+                        patientCode: booking?.patientProfile?.patientCode || 'N/A',
+                        doctorName: booking?.doctor?.fullName,
+                        items: ticketItems,
+                        date: new Date(),
+                      };
+                      printTicket(data);
                     }}
                   >
                     <PrinterIcon size={18} className="mr-2" /> {t('detail.printTicketBtn')}

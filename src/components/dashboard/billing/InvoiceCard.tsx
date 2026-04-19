@@ -193,7 +193,7 @@ export function InvoiceCard({
                 <PrinterIcon size={14} />
                 {t('printInvoice')}
               </Button>
-              {invoice.invoiceType === InvoiceType.CONSULTATION && (
+              {(invoice.invoiceType === InvoiceType.CONSULTATION || invoice.invoiceType === InvoiceType.LAB) && (
                 <Button
                   size="sm"
                   variant="outline"
