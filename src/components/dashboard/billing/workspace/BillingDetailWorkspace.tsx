@@ -23,7 +23,7 @@ import { InvoiceCard } from '@/components/dashboard/billing/InvoiceCard';
 import { useTranslations, useLocale } from 'next-intl';
 import { QuickAddInvoiceModal } from '@/components/dashboard/billing/QuickAddInvoiceModal';
 import { PrintableInvoice } from '@/components/dashboard/billing/PrintableInvoice';
-import { PrintableQueueTicket } from '@/components/dashboard/billing/PrintableQueueTicket';
+import { PrintableTicket, TicketData, TicketItem } from '@/components/shared/PrintableTicket';
 
 interface BillingDetailWorkspaceProps {
   bookingId: string;
@@ -56,6 +56,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
   // Printing states
   const [printingContent, setPrintingContent] = useState<'invoice' | 'ticket' | null>(null);
   const [printingInvoice, setPrintingInvoice] = useState<Invoice | null>(null);
+  const [printingTicketData, setPrintingTicketData] = useState<TicketData | null>(null);
 
   useEffect(() => {
     if (bookingId) {
@@ -169,11 +170,35 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       }
     }
 
-    setPrintingInvoice(targetInvoice);
+    const booking = targetInvoice.booking;
+    const ticketItems: TicketItem[] = targetInvoice.items.map((item) => ({
+      serviceName: item.itemName,
+      roomName: item.labOrder
+        ? (item.labOrder.service?.category?.code === 'CAT_XETNGHIEM' ? 'PHÒNG 02' : 
+           item.labOrder.service?.category?.code === 'CAT_CDHA' ? 'PHÒNG 03' : 
+           item.labOrder.service?.category?.name?.toUpperCase() || 'PHÒNG KỸ THUẬT')
+        : (booking?.room?.name?.toUpperCase().includes('PHÒNG KHÁM') ? 'PHÒNG 01' : 
+           booking?.room?.name?.toUpperCase() || 'PHÒNG 01'),
+      queueNumber: item.labOrder?.queueNumber || item.visitServiceOrder?.queueNumber || targetInvoice.booking?.queueRecord?.queuePosition || 'N/A',
+      suggestedOrder: item.labOrder?.suggestedOrder || item.visitServiceOrder?.suggestedOrder,
+      preparationNotes: item.labOrder?.service?.preparationNotes || item.visitServiceOrder?.service?.preparationNotes,
+      type: item.labOrder ? 'LAB' : 'CONSULTATION',
+    }));
+
+    const data: TicketData = {
+      patientName: booking?.patientProfile?.fullName || 'N/A',
+      patientCode: booking?.patientProfile?.patientCode || 'N/A',
+      doctorName: booking?.doctor?.fullName,
+      items: ticketItems,
+      date: new Date(),
+    };
+
+    setPrintingTicketData(data);
     setPrintingContent('ticket');
     setTimeout(() => {
       window.print();
       setPrintingContent(null);
+      setPrintingTicketData(null);
     }, 100);
   };
 
@@ -383,8 +408,8 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       {printingContent === 'invoice' && printingInvoice && (
         <PrintableInvoice invoice={printingInvoice} />
       )}
-      {printingContent === 'ticket' && printingInvoice && (
-        <PrintableQueueTicket invoice={printingInvoice} />
+      {printingContent === 'ticket' && printingTicketData && (
+        <PrintableTicket ticket={printingTicketData} />
       )}
     </div>
   );

@@ -121,15 +121,28 @@ export interface LabOrderForBilling {
   testDescription?: string;
   status: string;
   queueNumber?: number;
+  suggestedOrder?: number;
+  groupKey?: string;
   roomName?: string;
   orderedAt: string;
   createdAt: string;
+  service?: {
+    id: string;
+    name: string;
+    preparationNotes?: string;
+    category?: {
+      name: string;
+      code: string;
+    };
+  };
 }
 
 export interface VisitServiceOrderForBilling {
   id: string;
   status: string;
   queueNumber?: number;
+  suggestedOrder?: number;
+  groupKey?: string;
   performer?: {
     id: string;
     fullName: string;
@@ -137,6 +150,11 @@ export interface VisitServiceOrderForBilling {
   service?: {
     id: string;
     name: string;
+    preparationNotes?: string;
+    category?: {
+      name: string;
+      code: string;
+    };
   };
 }
 

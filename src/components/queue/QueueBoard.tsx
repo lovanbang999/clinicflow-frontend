@@ -324,11 +324,13 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                                   const data: TicketData = {
                                     patientName: booking.patientProfile?.fullName || 'N/A',
                                     patientCode: booking.patientProfile?.patientCode || 'N/A',
-                                    queueNumber: item.queuePosition,
-                                    roomName: booking.room?.name || doctorName || 'Phòng khám',
                                     doctorName: doctorName,
-                                    serviceName: booking.service?.name || 'Khám tư vấn',
-                                    type: booking.serviceId ? 'CONSULTATION' : 'CONSULTATION', // Default for now
+                                    items: [{
+                                      serviceName: booking.service?.name || 'Khám tư vấn',
+                                      roomName: booking.room?.name || doctorName || 'Phòng khám',
+                                      queueNumber: item.queuePosition,
+                                      type: 'CONSULTATION',
+                                    }],
                                     date: new Date(),
                                   };
                                   printTicket(data);
