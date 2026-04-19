@@ -137,9 +137,7 @@ export function DoctorQueueView({
       </div>
 
       {selectedPrintRecord && (
-        <div className="hidden print:block print:w-full print:h-auto print:bg-white text-black">
-          <MedicalReport record={selectedPrintRecord} />
-        </div>
+        <MedicalReport record={selectedPrintRecord} />
       )}
     </div>
   );

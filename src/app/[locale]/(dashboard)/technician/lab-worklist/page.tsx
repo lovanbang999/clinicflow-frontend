@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
-import { visitServiceOrdersApi, type VisitServiceOrder } from '@/lib/api/clinical/visit-service-orders';
 import { useApiData } from '@/lib/hooks/core/useApiData';
 import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { WorklistSearchBar } from '@/components/technician/WorklistSearchBar';
@@ -14,10 +13,7 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
 type TabKey = 'pending' | 'inProgress' | 'completed';
-
-interface UnifiedOrder extends LabOrder {
-  _source: 'lab' | 'vso';
-}
+type UnifiedOrder = LabOrder;
 
 export default function TechnicianWorklistPage() {
   const t = useTranslations('technicianWorklist');
@@ -29,37 +25,12 @@ export default function TechnicianWorklistPage() {
   const { data: allOrders, isLoading, refetch } = useApiData(
     async () => {
       try {
-        const [labReady, labHistory, vsoReady, vsoCompleted] = await Promise.all([
+        const [labReady, labHistory] = await Promise.all([
           labOrdersApi.getReadyToPerformOrders(),
           labOrdersApi.getTechnicianHistory(),
-          visitServiceOrdersApi.getWorklist(),
-          visitServiceOrdersApi.getWorklist('COMPLETED'),
         ]);
-
-        const normalizedLabs: UnifiedOrder[] = [...labReady, ...labHistory].map(o => ({
-          ...o,
-          _source: 'lab' as const,
-        }));
-
-        const normalizedVsos: UnifiedOrder[] = [...vsoReady, ...vsoCompleted].map((o: VisitServiceOrder) => ({
-          id: o.id,
-          bookingId: o.bookingId,
-          testName: o.service.name,
-          status: o.status as LabOrder['status'],
-          orderedAt: o.createdAt,
-          _source: 'vso' as const,
-          service: {
-            id: o.service.id,
-            name: o.service.name,
-          },
-          patientProfile: o.medicalRecord?.booking?.patientProfile,
-          booking: {
-            bookingCode: o.medicalRecord?.booking?.bookingCode || '',
-            doctor: { fullName: o.medicalRecord?.booking?.doctor?.fullName || '' }
-          }
-        } as UnifiedOrder));
-
-        return [...normalizedLabs, ...normalizedVsos];
+        
+        return [...labReady, ...labHistory];
       } catch (err) {
         console.error('Fetch error:', err);
         toast.error(t('messages.fetchError'));
@@ -71,7 +42,7 @@ export default function TechnicianWorklistPage() {
 
   const orders = (allOrders ?? []).filter((o: UnifiedOrder) => {
     const matchesTab =
-      activeTab === 'pending' ? (o.status === 'PAID' || (o._source === 'vso' && o.status === 'PENDING')) :
+      activeTab === 'pending' ? o.status === 'PAID' :
         activeTab === 'inProgress' ? o.status === 'IN_PROGRESS' :
           o.status === 'COMPLETED';
 
@@ -88,15 +59,10 @@ export default function TechnicianWorklistPage() {
       const order = (allOrders ?? []).find(o => o.id === orderId);
       if (!order) return;
 
-      if (order._source === 'vso') {
-        await visitServiceOrdersApi.startOrder(orderId);
-      } else {
-        await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
-      }
-
+      await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
       toast.success(t('messages.statusUpdated'));
       const locale = window.location.pathname.split('/')[1];
-      router.push(`/${locale}/technician/lab-worklist/${orderId}?source=${order._source}`);
+      router.push(`/${locale}/technician/lab-worklist/${orderId}`);
     } catch (err) {
       console.error('Start error:', err);
       toast.error(t('messages.statusUpdateError'));
@@ -132,7 +98,7 @@ export default function TechnicianWorklistPage() {
 
   const handleOpenWorkspace = (order: UnifiedOrder) => {
     const locale = window.location.pathname.split('/')[1];
-    router.push(`/${locale}/technician/lab-worklist/${order.id}?source=${order._source}`);
+    router.push(`/${locale}/technician/lab-worklist/${order.id}`);
   };
 
   const tabs: { key: TabKey; label: React.ReactNode }[] = [

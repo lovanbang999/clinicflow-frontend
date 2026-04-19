@@ -92,10 +92,18 @@ export function NotificationList({
                 {notif.title}
               </p>
               <span className="text-[11px] text-slate-400 dark:text-slate-500 whitespace-nowrap shrink-0 font-medium">
-                {formatDistanceToNow(new Date(notif.createdAt), { 
-                  addSuffix: true, 
-                  locale: currentLocale === 'vi' ? vi : enUS 
-                })}
+                {(() => {
+                  try {
+                    const date = new Date(notif.createdAt);
+                    if (isNaN(date.getTime())) return '';
+                    return formatDistanceToNow(date, { 
+                      addSuffix: true, 
+                      locale: currentLocale === 'vi' ? vi : enUS 
+                    });
+                  } catch {
+                    return '';
+                  }
+                })()}
               </span>
             </div>
             <p className={cn(

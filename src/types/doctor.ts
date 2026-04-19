@@ -22,6 +22,15 @@ export interface Doctor {
   consultationFee?: number | null;
   services: DoctorServiceItem[]; // Services this doctor can perform
   isActive: boolean;
+  workingHours?: Array<{
+    dayOfWeek: string;
+    startTime: string;
+    endTime: string;
+  }>;
+  offDays?: Array<{
+    offDate: string;
+    reason: string | null;
+  }>;
   createdAt: string;
   updatedAt: string;
 }
@@ -36,6 +45,7 @@ export interface DoctorProfile {
   qualifications: string[];
   yearsOfExperience: number;
   bio?: string;
+  consultationFee?: number | null;
   rating: number;
   reviewCount: number;
   // Nested services from DoctorService join table
@@ -53,6 +63,15 @@ export interface BackendUser {
   gender?: string;
   role: string;
   isActive: boolean;
+  workingHours?: Array<{
+    dayOfWeek: string;
+    startTime: string;
+    endTime: string;
+  }>;
+  offDays?: Array<{
+    offDate: string;
+    reason: string | null;
+  }>;
   createdAt: string;
   updatedAt: string;
   doctorProfile?: DoctorProfile;

@@ -43,6 +43,8 @@ export const doctorsApi = {
         (ds: { service: { id: string; name: string; category: string | null } }) => ds.service
       ) || [],
       isActive: user.isActive,
+      workingHours: user.workingHours,
+      offDays: user.offDays,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }));
@@ -76,6 +78,8 @@ export const doctorsApi = {
         (ds: { service: { id: string; name: string; category: string | null } }) => ds.service
       ) || [],
       isActive: user.isActive,
+      workingHours: user.workingHours,
+      offDays: user.offDays,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };

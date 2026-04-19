@@ -139,6 +139,7 @@ export interface VisitServiceOrder {
   status: ServiceOrderStatus;
   orderedBy: string;
   performedBy?: string;
+  performer?: { id: string; fullName: string };
   resultText?: string;
   resultFileUrl?: string;
   isAbnormal?: boolean;
@@ -266,6 +267,7 @@ export interface SaveSymptomsDto {
   bmi?: number;
   medicalHistory?: string;
   allergies?: string;
+  followUpNote?: string;
 }
 
 export interface OrderServiceItem {

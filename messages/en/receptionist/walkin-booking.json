@@ -63,7 +63,11 @@
     "noDocForService": "No doctors available for this service",
     "noDocDesc": "Please contact admin to assign a doctor",
     "loadingDoctors": "Loading doctors...",
-    "alreadyBooked": "Patient already has an appointment with this doctor"
+    "alreadyBooked": "Patient already has an appointment with this doctor",
+    "unavailable": "Unavailable",
+    "busy": "Busy",
+    "noScheduleToday": "Doctor has no schedule today",
+    "onLeaveToday": "Doctor is on leave today"
   },
   "time": {
     "title": "Appointment Time",

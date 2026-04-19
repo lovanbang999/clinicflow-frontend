@@ -9,6 +9,7 @@ import { vi, enUS } from 'date-fns/locale';
 export interface TicketItem {
   serviceName: string;
   roomName: string;
+  doctorName?: string; // Specific doctor for this service (Specialist/Technician)
   queueNumber: string | number;
   suggestedOrder?: number;
   preparationNotes?: string;
@@ -111,7 +112,8 @@ export function PrintableTicket({ ticket }: { ticket: TicketData | null }) {
                       <h3 className="text-lg font-black text-black leading-tight uppercase">{item.serviceName}</h3>
                       <div className="mt-2 space-y-1">
                         <p className="text-[11px] font-bold text-slate-600 flex items-center gap-1">
-                          <span className="text-slate-400">BS:</span> {ticket.doctorName || 'N/A'}
+                          <span className="text-slate-400">{item.type === 'LAB' ? 'KTV:' : 'BS:'}</span> 
+                          {item.doctorName || (item.type === 'CONSULTATION' ? ticket.doctorName : '...') || 'N/A'}
                         </p>
                         <div className="mt-1 py-1 inline-block">
                           <p className="text-sm font-black text-black leading-none">
