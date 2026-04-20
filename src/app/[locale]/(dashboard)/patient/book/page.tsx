@@ -1,33 +1,35 @@
 'use client';
 
-import { BookingSteps } from '@/components/booking/BookingSteps';
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ServiceSelector } from '@/components/booking/ServiceSelector';
 import { DoctorSelector } from '@/components/booking/DoctorSelector';
 import { DatePicker } from '@/components/booking/DatePicker';
 import { TimeSlotGrid } from '@/components/booking/TimeSlotGrid';
 import { BookingConfirmation } from '@/components/booking/BookingConfirmation';
+import { FlowSelection } from '@/components/booking/FlowSelection';
 import { useBookingStore } from '@/lib/store/bookingStore';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 export default function BookingPage() {
   const currentStep = useBookingStore((s) => s.currentStep);
   const nextStep = useBookingStore((s) => s.nextStep);
   const previousStep = useBookingStore((s) => s.previousStep);
-
   const selectedService = useBookingStore((s) => s.selectedService);
   const selectedDoctor = useBookingStore((s) => s.selectedDoctor);
   const selectedDate = useBookingStore((s) => s.selectedDate);
   const selectedTimeSlot = useBookingStore((s) => s.selectedTimeSlot);
 
+  const bookingType = useBookingStore((s) => s.bookingType);
   const [searchQuery, setSearchQuery] = useState('');
 
   const t = useTranslations('booking');
 
   const canProceed =
-    currentStep === 1
+    currentStep === 0
+      ? !!bookingType
+      : currentStep === 1
       ? !!selectedService
       : currentStep === 2
       ? !!selectedDoctor
@@ -38,7 +40,8 @@ export default function BookingPage() {
       : true;
 
   const steps = [
-    { number: 1, label: t('stepLabels.service') },
+    { number: 0, label: t('stepLabels.type') },
+    ...(bookingType === 'SPECIALIST' ? [{ number: 1, label: t('stepLabels.service') }] : []),
     { number: 2, label: t('stepLabels.doctor') },
     { number: 3, label: t('stepLabels.date') },
     { number: 4, label: t('stepLabels.time') },
@@ -47,6 +50,8 @@ export default function BookingPage() {
 
   const renderStepContent = () => {
     switch (currentStep) {
+      case 0:
+        return <FlowSelection />;
       case 1:
         return <ServiceSelector searchQuery={searchQuery} />;
       case 2:
@@ -63,18 +68,13 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      {/* Main container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        {/* Stepper */}
-        <div className="max-w-4xl mx-auto mb-8 sm:mb-12 md:mb-16">
-          <BookingSteps steps={steps} currentStep={currentStep} />
-        </div>
-
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 pb-20 md:pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 md:pt-12">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-10">
           <div>
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
+              {currentStep === 0 && t('selection.title')}
               {currentStep === 1 && t('stepTitles.service')}
               {currentStep === 2 && t('stepTitles.doctor')}
               {currentStep === 3 && t('stepTitles.date')}
@@ -82,6 +82,13 @@ export default function BookingPage() {
               {currentStep === 5 && t('stepTitles.confirmation')}
             </h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm md:text-base">
+              {currentStep === 0 && (
+                !bookingType 
+                  ? t('subtitle') 
+                  : bookingType === 'CONSULTATION' 
+                  ? t('selection.consultation.subtitle') 
+                  : t('selection.specialist.subtitle')
+              )}
               {currentStep === 1 && t('stepSubtitles.service')}
               {currentStep === 2 && t('stepSubtitles.doctor')}
               {currentStep === 3 && t('stepSubtitles.date')}
@@ -108,6 +115,35 @@ export default function BookingPage() {
           )}
         </div>
 
+        {/* Stepper */}
+        <div className="flex items-center md:justify-center gap-1.5 sm:gap-3 mb-8 sm:mb-10 md:mb-12 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
+          {steps.map((step, idx) => (
+            <div key={step.number} className="flex items-center shrink-0">
+              <div className={cn(
+                "flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 border-2",
+                currentStep === step.number 
+                  ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-500/20" 
+                  : currentStep > step.number
+                  ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+                  : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600"
+              )}>
+                <span className="text-xs sm:text-sm font-black italic uppercase tracking-tighter">
+                  {currentStep > step.number ? '✓' : `0${idx + 1}`}
+                </span>
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                  {step.label}
+                </span>
+              </div>
+              {idx < steps.length - 1 && (
+                <div className={cn(
+                  "w-4 sm:w-6 md:w-8 h-0.5 mx-1.5 sm:mx-2 rounded-full",
+                  currentStep > step.number ? "bg-emerald-200 dark:bg-emerald-500/30" : "bg-slate-100 dark:bg-slate-800"
+                )}></div>
+              )}
+            </div>
+          ))}
+        </div>
+
         {/* Content Area */}
         <div className="mb-12 min-h-[400px] pb-24 md:pb-0">
           {renderStepContent()}
@@ -122,10 +158,10 @@ export default function BookingPage() {
           <div className="flex items-center justify-between max-w-7xl mx-auto">
             <button
               onClick={previousStep}
-              disabled={currentStep === 1}
+              disabled={currentStep === 0}
               className={cn(
                 "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer",
-                currentStep === 1 
+                currentStep === 0 
                   ? "invisible" 
                   : "text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:text-slate-300"
               )}
