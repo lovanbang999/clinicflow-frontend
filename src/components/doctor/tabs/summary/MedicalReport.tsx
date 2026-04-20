@@ -49,7 +49,7 @@ export function MedicalReport({ record }: MedicalReportProps) {
       }
 
       const parsed = JSON.parse(resultText) as LabResultJson;
-      
+
       if (!parsed.results || !Array.isArray(parsed.results)) {
         return <p className="text-[14px] text-slate-900 font-medium leading-relaxed">{resultText}</p>;
       }
@@ -76,7 +76,7 @@ export function MedicalReport({ record }: MedicalReportProps) {
               ))}
             </tbody>
           </table>
-          
+
           {(parsed.device || parsed.generalComment) && (
             <div className="pt-2 border-t border-dashed border-slate-200 flex justify-between items-center text-[10px] italic text-slate-400">
               {parsed.device && <span>Thiết bị: {parsed.device}</span>}
@@ -142,13 +142,13 @@ export function MedicalReport({ record }: MedicalReportProps) {
             </div>
           </div>
           <div className="text-right flex flex-col items-end">
-             <div className="px-3 py-1 border border-slate-300 rounded-lg bg-slate-50">
-                <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest leading-none mb-1">{t('patientLabels.code')}</p>
-                <p className="text-sm font-mono font-black text-slate-900 tracking-wider leading-none">{patient?.patientCode || '---'}</p>
-             </div>
+            <div className="px-3 py-1 border border-slate-300 rounded-lg bg-slate-50">
+              <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest leading-none mb-1">{t('patientLabels.code')}</p>
+              <p className="text-sm font-mono font-black text-slate-900 tracking-wider leading-none">{patient?.patientCode || '---'}</p>
+            </div>
           </div>
         </div>
-        
+
         <div className="mt-12 text-center relative">
           <h2 className="text-2xl font-black text-slate-900 uppercase tracking-[0.15em] relative z-10">{t('printHeader.title')}</h2>
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-100 -z-0"></div>
@@ -249,7 +249,7 @@ export function MedicalReport({ record }: MedicalReportProps) {
                             {renderLabResultContent(order.result.resultText || '')}
                             {order.result.isAbnormal && (
                               <p className="text-[12px] text-red-700 font-black pt-1">
-                                 {order.result.abnormalNote || commonT('services.results.abnormal')}
+                                {order.result.abnormalNote || commonT('services.results.abnormal')}
                               </p>
                             )}
                           </div>
@@ -290,18 +290,18 @@ export function MedicalReport({ record }: MedicalReportProps) {
                       <td className="px-4 py-4">
                         {vso.status === 'COMPLETED' ? (
                           <div className="space-y-3">
-                             {vso.resultText && (
-                               <p className="text-[14px] text-slate-900 font-medium leading-relaxed whitespace-pre-wrap">{vso.resultText}</p>
-                             )}
-                             
-                             {vso.isAbnormal && (
-                               <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-100 rounded-lg">
-                                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                                  <p className="text-[12px] text-red-700 font-black uppercase tracking-tight">
-                                    {vso.abnormalNote || 'Phát hiện bất thường'}
-                                  </p>
-                               </div>
-                             )}
+                            {vso.resultText && (
+                              <p className="text-[14px] text-slate-900 font-medium leading-relaxed whitespace-pre-wrap">{vso.resultText}</p>
+                            )}
+
+                            {vso.isAbnormal && (
+                              <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-100 rounded-lg">
+                                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                <p className="text-[12px] text-red-700 font-black uppercase tracking-tight">
+                                  {vso.abnormalNote || 'Phát hiện bất thường'}
+                                </p>
+                              </div>
+                            )}
                           </div>
                         ) : (
                           <span className="text-[12px] text-slate-400 italic">{commonT('services.status.pending')}</span>
@@ -329,11 +329,11 @@ export function MedicalReport({ record }: MedicalReportProps) {
               <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">{commonT('diagnosis.treatment')}</p>
               <p className="text-[15px] font-bold text-slate-900 leading-relaxed italic">{record.treatmentPlan}</p>
             </div>
-            
+
             {record.followUpDate && (
               <div className="flex items-center gap-2 pt-4 text-[13px] text-slate-900 border-t border-slate-800">
                 <span className="font-black text-slate-500 uppercase text-[10px] tracking-[0.1em]">{t('followUpAt')}:</span>
-                <span className="font-black">{format(new Date(record.followUpDate), 'dd/MM/yyyy')}</span> 
+                <span className="font-black">{format(new Date(record.followUpDate), 'dd/MM/yyyy')}</span>
                 {record.followUpNote && <span className="ml-2 underline underline-offset-4 decoration-slate-200">— {record.followUpNote}</span>}
               </div>
             )}
@@ -346,7 +346,7 @@ export function MedicalReport({ record }: MedicalReportProps) {
             <h3 className="text-[14px] font-black text-slate-900 uppercase tracking-widest border-l-4 border-slate-900 pl-3">
               {t('sections.prescription')}
             </h3>
-            
+
             {prescriptionItems.length > 0 ? (
               <div className="space-y-4">
                 {(() => {
@@ -357,7 +357,7 @@ export function MedicalReport({ record }: MedicalReportProps) {
                   const serviceLinked = prescriptionItems.filter(i => i.labOrderId || i.visitServiceOrderId);
                   const general = prescriptionItems.filter(i => !i.labOrderId && !i.visitServiceOrderId);
                   const groupedMap = new Map<string, typeof prescriptionItems>();
-                  
+
                   serviceLinked.forEach(item => {
                     const sId = (item.labOrderId || item.visitServiceOrderId)!;
                     if (!groupedMap.has(sId)) groupedMap.set(sId, []);
@@ -452,8 +452,8 @@ export function MedicalReport({ record }: MedicalReportProps) {
             <div className="space-y-1">
               <p className="text-[14px] text-slate-700 font-black italic">Hà Nội, {format(new Date(), 'dd/MM/yyyy')}</p>
               <div className="flex flex-col items-center">
-                 <p className="text-[15px] font-black text-slate-900 uppercase tracking-[0.1em]">{t('doctorSignature')}</p>
-                 <div className="w-16 h-px bg-slate-900 mt-2"></div>
+                <p className="text-[15px] font-black text-slate-900 uppercase tracking-[0.1em]">{t('doctorSignature')}</p>
+                <div className="w-16 h-px bg-slate-900 mt-2"></div>
               </div>
             </div>
             <div className="space-y-1 translate-y-4">
