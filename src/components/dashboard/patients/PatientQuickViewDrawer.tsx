@@ -23,7 +23,7 @@ import {
   CircleNotchIcon,
 } from '@phosphor-icons/react';
 import { getInitials } from '@/lib/utils/helpers';
-import type { PatientRow } from '@/components/admin/patients/PatientTable';
+import type { PatientRow } from '@/components/dashboard/patients/PatientTable';
 
 type PatientQuickViewDrawerProps = {
   open: boolean;

@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import type { AdminUpdatePatientDto } from '@/types';
-import type { PatientRow } from '@/components/admin/patients/PatientTable';
+import type { PatientRow } from '@/components/dashboard/patients/PatientTable';
 import { adminPatientsApi } from '@/lib/api/admin/admin-patients';
 import { toast } from 'sonner';
 

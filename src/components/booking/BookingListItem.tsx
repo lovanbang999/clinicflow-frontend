@@ -32,6 +32,7 @@ export function BookingListItem({
       [BookingStatus.CONFIRMED]: t('confirmed'),
       [BookingStatus.CHECKED_IN]: t('checkedIn'),
       [BookingStatus.IN_PROGRESS]: t('inProgress'),
+      [BookingStatus.AWAITING_RESULTS]: t('awaitingResults'),
       [BookingStatus.COMPLETED]: t('completed'),
       [BookingStatus.CANCELLED]: t('cancelled'),
       [BookingStatus.QUEUED]: t('queued'),
