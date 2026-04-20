@@ -110,7 +110,7 @@ export function ServiceSelector({ onSelect, searchQuery = '' }: ServiceSelectorP
               <div className="space-y-1">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">{t('price')}</p>
                 <p className="font-extrabold text-slate-900 dark:text-white text-lg leading-none">
-                  {service.price.toLocaleString('vi-VN')} ₫
+                  {Number(service.price).toLocaleString('vi-VN')} ₫
                 </p>
               </div>
               <div className="space-y-1 text-right">

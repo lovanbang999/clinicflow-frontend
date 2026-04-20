@@ -38,7 +38,7 @@ export function SummaryDashboard({ record }: SummaryDashboardProps) {
             <span className="w-1.5 h-4 bg-indigo-600 rounded-full"></span>
             {t('sections.symptoms')}
           </h3>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
             <div className="space-y-1">
               <p className="text-[11px] text-slate-500 uppercase font-bold tracking-wider">{commonT('symptoms.bp')}</p>
@@ -109,9 +109,8 @@ export function SummaryDashboard({ record }: SummaryDashboardProps) {
                         )}
                       </td>
                       <td className="px-4 py-4 text-center">
-                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                          order.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'
-                        }`}>
+                        <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${order.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'
+                          }`}>
                           {order.status === 'COMPLETED' ? t('completed') : t('pending')}
                         </span>
                       </td>
@@ -139,7 +138,7 @@ export function SummaryDashboard({ record }: SummaryDashboardProps) {
                 <p className="text-[13.5px] text-slate-600 leading-relaxed">{record.treatmentPlan}</p>
               </div>
             </div>
-            
+
             {record.followUpDate && (
               <div className="flex items-center gap-2 pt-2 text-[12.5px] text-slate-500 border-t border-indigo-100/30">
                 <span className="font-bold text-indigo-600">📅 {t('followUpAt')}:</span>
@@ -169,7 +168,7 @@ export function SummaryDashboard({ record }: SummaryDashboardProps) {
                   const serviceLinked = prescriptionItems.filter(i => i.labOrderId || i.visitServiceOrderId);
                   const general = prescriptionItems.filter(i => !i.labOrderId && !i.visitServiceOrderId);
                   const groupedMap = new Map<string, typeof prescriptionItems>();
-                  
+
                   serviceLinked.forEach(item => {
                     const sId = (item.labOrderId || item.visitServiceOrderId)!;
                     if (!groupedMap.has(sId)) groupedMap.set(sId, []);

@@ -39,7 +39,8 @@
     "doctor": "Bác sĩ",
     "date": "Ngày khám",
     "time": "Khung giờ",
-    "confirmation": "Xác nhận"
+    "confirmation": "Xác nhận",
+    "type": "Loại khám"
   },
   "serviceInfo": "Dịch vụ",
   "doctorInfo": "Bác sĩ",
@@ -151,5 +152,37 @@
     "reschedule": "Tôi sẽ đặt lại lịch vào thời điểm khác"
   },
   "cancelWarning": "Lịch hẹn đã hủy sẽ không thể khôi phục.",
-  "queuePosition": "Hàng đợi"
+  "queuePosition": "Hàng đợi",
+  "selection": {
+    "title": "Bạn cần khám gì hôm nay?",
+    "consultation": {
+      "title": "Khám Tư vấn",
+      "subtitle": "Tôi chưa rõ vấn đề sức khỏe của mình",
+      "description": "Bạn sẽ gặp bác sĩ để được khám sàng lọc, đo sinh hiệu và tư vấn chuyên môn trước khi chỉ định các dịch vụ tiếp theo."
+    },
+    "specialist": {
+      "title": "Khám Chuyên khoa",
+      "subtitle": "Tôi đã biết mình cần khám gì",
+      "description": "Đặt lịch trực tiếp với bác sĩ chuyên khoa hoặc các dịch vụ cận lâm sàng (Xét nghiệm, Siêu âm, X-quang...)."
+    },
+    "free": "Miễn phí"
+  },
+  "pricing": {
+    "consultationFee": "Phí khám tư vấn",
+    "serviceFee": "Phí dịch vụ",
+    "totalEstimated": "Tổng dự kiến",
+    "free": "Miễn phí",
+    "paid": "{amount} ₫",
+    "note": "Tổng phí thực tế có thể thay đổi tùy thuộc vào các chỉ định thêm của bác sĩ trong quá trình thăm khám."
+  },
+  "slots": {
+    "available": "Còn chỗ",
+    "nearlyFull": "Sắp hết ({count} chỗ)",
+    "full": "Hết chỗ"
+  },
+  "slotReserved": "Chỗ đã được giữ trong 5 phút",
+  "slotLocked": "Chỗ này hiện đang được giữ bởi người khác",
+  "reservationExpired": "Hết thời gian giữ chỗ. Vui lòng thử lại.",
+  "reservationTimer": "Thời gian giữ chỗ",
+  "reservationNote": "Vui lòng hoàn tất đặt lịch trong thời gian này"
 }

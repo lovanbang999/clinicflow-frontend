@@ -18,7 +18,7 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const { selectedDoctor, setSelectedDoctor, selectedService } = useBookingStore();
-  const t = useTranslations('booking.doctorSelector');
+  const t = useTranslations('booking');
 
   const [bookedDoctorIds, setBookedDoctorIds] = useState<Set<string>>(new Set());
 
@@ -76,7 +76,7 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
     return (
       <div className="text-center py-20 bg-slate-50 dark:bg-slate-800/50 rounded-[30px] border border-dashed border-slate-200 dark:border-slate-700">
         <Image alt="No doctors available" src="/empty-state/doctors.svg" width={200} height={200} className="mx-auto mb-6 opacity-80 dark:opacity-40" />
-        <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">{t('noDoctorsAvailable')}</p>
+        <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">{t('doctorSelector.noDoctorsAvailable')}</p>
       </div>
     );
   }
@@ -103,7 +103,7 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
             {hasBookedToday && (
               <div className="absolute top-4 right-4 z-30">
                 <div className="bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400 text-[11px] font-bold px-3 py-1 rounded-full border border-amber-200 dark:border-amber-800 shadow-sm flex items-center gap-1">
-                  <span>⌚</span> {t('alreadyBookedToday')}
+                  <span>⌚</span> {t('doctorSelector.alreadyBookedToday')}
                 </div>
               </div>
             )}
@@ -154,20 +154,32 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
                 </p>
               )}
 
-              <div className="flex items-center justify-center pt-3 pb-2">
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-3 pb-2">
                 <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100/80 dark:border-slate-700 font-medium">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span className="text-sm text-slate-800 dark:text-slate-200">
                     {Number(doctor.rating).toFixed(1)}
                   </span>
                   <span className="text-xs text-slate-400 font-normal">
-                    ({doctor.reviewCount} {t('reviews')})
+                    ({doctor.reviewCount} {t('doctorSelector.reviews')})
                   </span>
+                </div>
+                
+                {/* Consultation Fee */}
+                <div className={cn(
+                  "flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold border shadow-sm",
+                  !doctor.consultationFee || doctor.consultationFee === 0
+                    ? "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
+                    : "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20"
+                )}>
+                  {!doctor.consultationFee || Number(doctor.consultationFee) === 0 
+                    ? t('selection.free')
+                    : `${Number(doctor.consultationFee).toLocaleString('vi-VN')} ₫`}
                 </div>
               </div>
 
               <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mt-2 sm:mt-4 line-clamp-2">
-                {doctor.bio || `${t('specialist')} ${doctor.specialties?.[0] || t('generalPractice')} ${t('experience', { years: doctor.yearsOfExperience })}`}
+                {doctor.bio || `${t('doctorSelector.specialist')} ${doctor.specialties?.[0] || t('doctorSelector.generalPractice')} ${t('doctorSelector.experience', { years: doctor.yearsOfExperience })}`}
               </p>
             </div>
           </div>

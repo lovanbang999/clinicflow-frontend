@@ -39,7 +39,8 @@
     "doctor": "Doctor",
     "date": "Date",
     "time": "Time",
-    "confirmation": "Confirm"
+    "confirmation": "Confirm",
+    "type": "Visit Type"
   },
   "serviceInfo": "Service",
   "doctorInfo": "Doctor",
@@ -151,5 +152,37 @@
     "reschedule": "Plan to reschedule for another time"
   },
   "cancelWarning": "Cancelled appointments cannot be restored.",
-  "queuePosition": "Queue"
+  "queuePosition": "Queue",
+  "selection": {
+    "title": "What kind of visit do you need today?",
+    "consultation": {
+      "title": "Consultation",
+      "subtitle": "I'm not sure what I need",
+      "description": "You will meet with a general practitioner for vitals check, screening, and professional advice before any further specialized services are ordered."
+    },
+    "specialist": {
+      "title": "Specialist Exam",
+      "subtitle": "I know what I need",
+      "description": "Book directly with a specialist or for specific diagnostic services (Labs, Ultrasound, X-ray...)."
+    },
+    "free": "Free"
+  },
+  "pricing": {
+    "consultationFee": "Consultation Fee",
+    "serviceFee": "Service Fee",
+    "totalEstimated": "Estimated Total",
+    "free": "Free",
+    "paid": "{amount} ₫",
+    "note": "The actual total may vary depending on additional tests or prescriptions ordered by the doctor during your visit."
+  },
+  "slots": {
+    "available": "Available",
+    "nearlyFull": "Filling Up ({count} slots left)",
+    "full": "Full"
+  },
+  "slotReserved": "Slot reserved for 5 minutes",
+  "slotLocked": "This slot is currently locked by another user",
+  "reservationExpired": "Reservation expired. Please try again.",
+  "reservationTimer": "Reservation Time",
+  "reservationNote": "Please complete your booking within this time"
 }
