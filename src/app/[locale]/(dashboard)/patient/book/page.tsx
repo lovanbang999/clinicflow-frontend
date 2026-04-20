@@ -145,46 +145,88 @@ export default function BookingPage() {
         </div>
 
         {/* Content Area */}
-        <div className="mb-12 min-h-[400px] pb-24 md:pb-0">
+        <div className="mb-12 min-h-[400px] pb-32 sm:pb-40">
           {renderStepContent()}
         </div>
 
+        {/* Navigation Footer - Sticky Glassmorphism */}
+        <div className="fixed bottom-0 left-0 right-0 z-40 px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8 pointer-events-none">
+          <div className="max-w-7xl mx-auto pointer-events-auto">
+            <div className={cn(
+              "bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/60 dark:border-slate-800/60 rounded-[28px] sm:rounded-[32px] p-2.5 sm:p-3 shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-none transition-all duration-500",
+              "flex items-center justify-between gap-4"
+            )}>
+              {/* Desktop Summary - Only visible from md up */}
+              <div className="hidden md:flex items-center gap-6 pl-4 flex-1 overflow-hidden">
+                <button
+                  onClick={previousStep}
+                  disabled={currentStep === 0}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer shrink-0",
+                    currentStep === 0 
+                      ? "invisible" 
+                      : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
+                  )}
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                  {t('back')}
+                </button>
 
-        {/* Navigation Footer */}
-        <div className={cn(
-          "fixed bottom-0 left-0 right-0 z-40 py-4 px-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/60 dark:border-slate-800/60 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] dark:shadow-none",
-          "md:relative md:bg-transparent md:backdrop-blur-none md:border-t-0 md:p-0 md:mx-0 md:pt-8 md:pb-4 md:shadow-none"
-        )}>
-          <div className="flex items-center justify-between max-w-7xl mx-auto">
-            <button
-              onClick={previousStep}
-              disabled={currentStep === 0}
-              className={cn(
-                "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer",
-                currentStep === 0 
-                  ? "invisible" 
-                  : "text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:text-slate-300"
-              )}
-            >
-              <ArrowLeft className="w-5 h-5" />
-              {t('back')}
-            </button>
+                <div className="h-8 w-px bg-slate-200/60 dark:bg-slate-800/60 shrink-0"></div>
 
-            {currentStep < 5 && (
+                <div className="flex items-center gap-6 overflow-hidden">
+                  {selectedService && (
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">{t('stepLabels.service')}</span>
+                      <span className="text-sm font-bold text-slate-700 dark:text-slate-200 truncate">{selectedService.name}</span>
+                    </div>
+                  )}
+                  {selectedDoctor && currentStep > 2 && (
+                    <div className="flex flex-col min-w-0 border-l border-slate-100 dark:border-slate-800 pl-6">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">{t('stepLabels.doctor')}</span>
+                      <span className="text-sm font-bold text-slate-700 dark:text-slate-200 truncate">{selectedDoctor.fullName}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Mobile Back Button */}
               <button
-                onClick={nextStep}
-                disabled={!canProceed}
+                onClick={previousStep}
+                disabled={currentStep === 0}
                 className={cn(
-                  "flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-bold transition-all active:scale-95 shadow-xl shadow-blue-500/20 cursor-pointer",
-                  !canProceed
-                    ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none"
-                    : "bg-blue-500 hover:bg-blue-600 text-white"
+                  "md:hidden flex items-center justify-center w-12 h-12 rounded-2xl transition-all active:scale-95 cursor-pointer shrink-0",
+                  currentStep === 0 
+                    ? "invisible" 
+                    : "text-slate-500 bg-slate-100/50 dark:bg-slate-800/50"
                 )}
               >
-                {t('continue')}
-                <ArrowRight className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5" />
               </button>
-            )}
+
+              <div className="flex items-center gap-4 shrink-0">
+                {currentStep < 5 && (
+                  <button
+                    onClick={nextStep}
+                    disabled={!canProceed}
+                    className={cn(
+                      "group flex items-center gap-2 px-8 sm:px-10 py-3.5 sm:py-4 rounded-[20px] sm:rounded-2xl text-sm font-bold transition-all active:scale-95 shadow-2xl shadow-blue-500/20 cursor-pointer overflow-hidden relative",
+                      !canProceed
+                        ? "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none"
+                        : "bg-blue-500 hover:bg-blue-600 text-white hover:shadow-blue-500/40"
+                    )}
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      {t('continue')}
+                      <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    </span>
+                    {canProceed && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-white/10 to-blue-600/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
