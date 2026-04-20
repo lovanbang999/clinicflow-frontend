@@ -12,6 +12,7 @@ import {
 export function BookingSummaryCard() {
   const t = useTranslations('receptionistWalkinBooking.summary');
   const tTime = useTranslations('receptionistWalkinBooking.time');
+  const tDoctor = useTranslations('receptionistWalkinBooking.doctor');
   const {
     currentStep,
     setCurrentStep,
@@ -89,8 +90,19 @@ export function BookingSummaryCard() {
                 </button>
               )}
             </div>
-            <div className="text-[14px] font-bold text-slate-900">
-              {selectedDoctor ? selectedDoctor.fullName : <span className="text-slate-300 italic font-normal">{t('notSelected')}</span>}
+            <div className="text-[14px] font-bold text-slate-900 flex flex-col gap-0.5">
+              {selectedDoctor ? (
+                <>
+                  <span>{selectedDoctor.fullName}</span>
+                  <span className="text-[12px] text-blue-600 font-bold">
+                    {tDoctor('consultationFee')}: {selectedDoctor.consultationFee && Number(selectedDoctor.consultationFee) > 0 
+                      ? `${Number(selectedDoctor.consultationFee).toLocaleString('vi-VN')} ₫`
+                      : tDoctor('free')}
+                  </span>
+                </>
+              ) : (
+                <span className="text-slate-300 italic font-normal">{t('notSelected')}</span>
+              )}
             </div>
           </div>
 

@@ -284,3 +284,11 @@
   border-color: rgba(251, 191, 36, 0.4) !important;
   color: #92400e !important;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
