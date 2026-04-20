@@ -5,19 +5,22 @@ import { useChatStream } from '@/lib/hooks/core/useChatStream';
 import { MessageBubble } from '@/components/chat/MessageBubble';
 import type { Slot } from '@/components/chat/SlotPicker';
 import { useTranslations } from 'next-intl';
-import { Send, Bot, Stethoscope, CalendarClock, MessageCircleHeart, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { Send, Bot, Stethoscope, CalendarClock, MessageCircleHeart, AlertTriangle, ArrowLeft, ClipboardList, Pill, Activity } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 const QUICK_PROMPTS = [
-  { icon: Stethoscope, label: 'Đau đầu, chóng mặt', prompt: 'Tôi đang bị đau đầu và chóng mặt' },
+  { icon: Stethoscope, label: 'Triệu chứng & Chuyên khoa', prompt: 'Tôi đang bị đau đầu và chóng mặt, tôi nên khám chuyên khoa nào?' },
   { icon: CalendarClock, label: 'Đặt lịch khám', prompt: 'Tôi muốn đặt lịch khám bệnh' },
-  { icon: MessageCircleHeart, label: 'Tư vấn chuyên khoa', prompt: 'Cho tôi biết tôi nên khám chuyên khoa nào?' },
+  { icon: ClipboardList, label: 'Xem lịch hẹn của tôi', prompt: 'Tôi có lịch hẹn nào sắp tới không?' },
+  { icon: MessageCircleHeart, label: 'Tìm bác sĩ theo chuyên khoa', prompt: 'Cho tôi xem danh sách bác sĩ tim mạch' },
+  { icon: Activity, label: 'Kiểm tra sức khỏe tổng quát', prompt: 'Tôi muốn đặt lịch khám sức khỏe tổng quát định kỳ' },
+  { icon: Pill, label: 'Hỏi về chi phí khám', prompt: 'Chi phí khám bệnh tại phòng khám là bao nhiêu?' },
 ];
 
 export default function ChatPage() {
   const t = useTranslations('chat');
-  const { messages, sendMessage, isLoading } = useChatStream();
+  const { messages, sendMessage, isLoading, clearChat } = useChatStream();
   const [input, setInput] = React.useState('');
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
@@ -48,30 +51,48 @@ export default function ChatPage() {
     sendMessage(prompt);
   };
 
-  /** When user clicks a slot card, auto-send a confirmation message */
+  /** When user clicks a slot card, auto-send a structured booking command */
   const handleSelectSlot = (slot: Slot) => {
-    const confirmMsg = `Tôi xác nhận đặt lịch khám với Bác sĩ ${slot.doctorName} vào lúc ${slot.startTime} - ${slot.endTime} ngày ${slot.date}${slot.roomName ? `, phòng ${slot.roomName}` : ''}.
-(SYSTEM: Lịch đã chọn có doctorId=${slot.doctorId}, slotId=${slot.slotId}, serviceId=${slot.serviceId || 'unknown'})`;
-    sendMessage(confirmMsg);
+    const lines = [
+      `Tôi muốn đặt lịch này:`,
+      `Bác sĩ: ${slot.doctorName}`,
+      `Ngày: ${slot.date} | Giờ: ${slot.startTime} - ${slot.endTime}`,
+      slot.roomName ? `Phòng: ${slot.roomName}` : '',
+      `<<BOOK doctorId="${slot.doctorId}" slotId="${slot.slotId}" serviceId="${slot.serviceId || 'unknown'}" date="${slot.date}" startTime="${slot.startTime}" endTime="${slot.endTime}">>`,
+    ].filter(Boolean);
+    sendMessage(lines.join('\n'));
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-900 font-sans selection:bg-blue-500/30">
+    <div className="flex flex-col h-full bg-[#f8fafc] dark:bg-slate-950 selection:bg-[#1392ec]/20">
 
       {/* Header */}
-      <div className="relative z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-4 py-3 sm:py-3.5 flex-shrink-0 sticky top-0 shadow-sm">
-        <div className="max-w-3xl mx-auto flex items-center justify-start gap-2.5 sm:gap-3">
-          <Link href="/patient" className="md:hidden p-2 -ml-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95 flex-shrink-0">
-            <ArrowLeft className="h-[22px] w-[22px]" />
-          </Link>
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-sm flex-shrink-0">
-            <Bot className="h-[22px] w-[22px] text-white" />
-            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full z-10" />
+      <div className="relative z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800 px-4 py-4 flex-shrink-0 sticky top-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Link href="/patient" className="md:hidden p-2 -ml-2 text-slate-500 hover:text-[#1392ec] hover:bg-blue-50 dark:hover:bg-slate-800 rounded-full transition-all active:scale-95">
+              <ArrowLeft className="h-5 w-5" />
+            </Link>
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-[#1392ec] shadow-sm flex-shrink-0">
+              <Bot className="h-6 w-6 text-white" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full z-10 animate-pulse" />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="font-bold text-slate-900 dark:text-slate-100 text-[16px] leading-tight tracking-tight">{t('title')}</h1>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <p className="text-[12px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">{t('status')}</p>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col items-start leading-none">
-            <h1 className="font-semibold text-slate-800 dark:text-slate-100 text-[15px] pt-0.5">{t('title')}</h1>
-            <p className="text-[12px] text-slate-500 dark:text-slate-400 font-medium tracking-wide mt-1">{t('status')}</p>
-          </div>
+          {messages.length > 0 && (
+            <button
+              onClick={() => void clearChat()}
+              className="flex items-center gap-1.5 text-[12px] font-bold text-slate-500 hover:text-[#1392ec] bg-slate-100/80 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-slate-700 px-4 py-2 rounded-full transition-all active:scale-95"
+            >
+              <span>+ {t('clearChat')}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -98,32 +119,38 @@ export default function ChatPage() {
               content={msg.content}
               isStreaming={msg.isStreaming}
               slots={msg.slots}
+              slotsMetadata={msg.slotsMetadata}
               onSelectSlot={handleSelectSlot}
             />
           ))}
 
           {/* Quick prompt chips — only when no messages yet */}
           {messages.length === 0 && !isLoading && (
-            <div className="flex flex-col gap-4 mt-8 pb-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="flex items-center justify-center gap-3">
-                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-slate-200 dark:to-slate-700/50" />
-                <span className="text-[11px] text-slate-400 dark:text-slate-500 font-semibold tracking-widest uppercase">Gợi ý bắt đầu</span>
-                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-slate-200 dark:to-slate-700/50" />
+            <div className="flex flex-col gap-6 mt-12 pb-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+              <div className="flex items-center justify-center gap-4">
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-slate-200 dark:to-slate-800" />
+                <span className="text-[11px] text-slate-400 dark:text-slate-500 font-bold tracking-[0.2em] uppercase">{t('aiName')} — Gợi ý bắt đầu</span>
+                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-slate-200 dark:to-slate-800" />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
                 {QUICK_PROMPTS.map(({ icon: Icon, label, prompt }, i) => (
                   <button
                     key={label}
                     onClick={() => handleQuickPrompt(prompt)}
-                    className="group relative flex flex-col items-center justify-center gap-2 p-5 rounded-[20px] bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50 hover:border-blue-300 dark:hover:border-blue-500/50 hover:shadow-[0_8px_24px_rgba(37,99,235,0.06)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] cursor-pointer"
+                    className="group relative flex items-start gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-[#1392ec]/30 dark:hover:border-[#1392ec]/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] cursor-pointer text-left"
                     style={{ animationDelay: `${i * 100}ms` }}
                   >
-                    <div className="w-12 h-12 rounded-full bg-blue-50/80 dark:bg-slate-700/80 flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-slate-600 transition-colors duration-300">
-                      <Icon className="h-[22px] w-[22px] text-blue-600 dark:text-blue-400" />
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-[#1392ec]/10 flex items-center justify-center group-hover:bg-[#1392ec] transition-all duration-300 shadow-sm">
+                      <Icon className="h-6 w-6 text-[#1392ec] group-hover:text-white transition-colors duration-300" />
                     </div>
-                    <span className="text-[13px] font-medium text-slate-600 dark:text-slate-300 text-center leading-tight">
-                      {label}
-                    </span>
+                    <div className="flex-1 flex flex-col gap-1 pt-1">
+                      <span className="text-[14px] font-bold text-slate-800 dark:text-slate-200 group-hover:text-[#1392ec] transition-colors">
+                        {label}
+                      </span>
+                      <span className="text-[12px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1">
+                        Khám phá ngay
+                      </span>
+                    </div>
                   </button>
                 ))}
               </div>
@@ -142,11 +169,11 @@ export default function ChatPage() {
       </div>
 
       {/* Input area */}
-      <div className="relative z-10 px-4 pb-safe-or-4 pb-6 pt-2 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent dark:from-slate-900 dark:via-slate-900 flex-shrink-0">
-        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
+      <div className="relative z-10 px-4 pb-safe-or-4 pb-8 pt-4 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex-shrink-0">
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className={cn(
-            "relative flex items-end gap-2 bg-white dark:bg-slate-800 rounded-[28px] border border-slate-200/80 dark:border-slate-700 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)] transition-all duration-300 pl-5 pr-2 py-2",
-            "focus-within:shadow-[0_8px_30px_rgba(37,99,235,0.12)] focus-within:border-blue-300 dark:focus-within:border-blue-500/50 focus-within:ring-4 focus-within:ring-blue-500/10"
+            "relative flex items-end gap-2 bg-slate-50 dark:bg-slate-900 rounded-[24px] border border-slate-200/50 dark:border-slate-800 transition-all duration-300 pl-5 pr-2 py-2.5",
+            "focus-within:bg-white dark:focus-within:bg-slate-900 focus-within:border-[#1392ec] focus-within:ring-4 focus-within:ring-[#1392ec]/10 focus-within:shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
           )}>
             <textarea
               ref={inputRef}
@@ -160,15 +187,15 @@ export default function ChatPage() {
               disabled={isLoading}
               rows={1}
               placeholder={t('placeholder')}
-              className="flex-1 resize-none bg-transparent border-0 focus:outline-none text-[15px] placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-800 dark:text-slate-100 py-2.5 leading-relaxed min-h-[44px]"
+              className="flex-1 resize-none bg-transparent border-0 focus:outline-none text-[15px] font-medium placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-800 dark:text-slate-100 py-2 leading-relaxed min-h-[40px]"
               style={{ maxHeight: '120px' }}
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="w-11 h-11 rounded-[20px] bg-blue-600 text-white flex items-center justify-center flex-shrink-0 transition-all shadow-sm active:scale-95 hover:bg-blue-700 disabled:opacity-40 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 dark:disabled:text-slate-400 disabled:cursor-not-allowed cursor-pointer group"
+              className="w-10 h-10 rounded-xl bg-[#1392ec] text-white flex items-center justify-center flex-shrink-0 transition-all shadow-sm active:scale-95 hover:bg-[#1392ec]/90 disabled:opacity-40 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed cursor-pointer group"
             >
-              <Send className="h-[18px] w-[18px] ml-0.5" />
+              <Send className="h-5 w-5" />
             </button>
           </div>
         </form>
