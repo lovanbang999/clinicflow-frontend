@@ -33,9 +33,7 @@ export function ConsultationRightPanel({
     draftServices, 
     draftLabs, 
     isPhase2,
-    isVitalsLocked,
-    isDiagnosisLocked,
-    isPrescriptionLocked
+    isVitalsLocked
   } = useConsultation();
   
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
