@@ -56,7 +56,14 @@ export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
             specialtyStyle,
           )}
         >
-          {doctor.specialty}
+          {(() => {
+            try {
+              const specialties = t.raw('specialties');
+              return specialties[doctor.specialty] || doctor.specialty;
+            } catch {
+              return doctor.specialty;
+            }
+          })()}
         </span>
       </td>
 
@@ -65,6 +72,19 @@ export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
         <p className="text-sm font-medium text-[#111518]">
           {t('table.years', { count: doctor.experience })}
         </p>
+      </td>
+
+      {/* Fee */}
+      <td className="px-6 py-4 whitespace-nowrap">
+        {doctor.consultationFee && doctor.consultationFee > 0 ? (
+          <p className="text-sm font-bold text-blue-600">
+            {new Intl.NumberFormat('vi-VN').format(doctor.consultationFee)} <span className="text-[10px] text-slate-400">VNĐ</span>
+          </p>
+        ) : (
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700">
+            {t('table.free')}
+          </span>
+        )}
       </td>
 
       {/* Status */}
