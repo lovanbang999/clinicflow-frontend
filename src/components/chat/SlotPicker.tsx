@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
-import { Clock, Calendar, User, CheckCircle } from 'lucide-react';
+import { Clock, Calendar, User, CheckCircle, InfoIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface Slot {
@@ -23,9 +23,10 @@ interface SlotPickerProps {
   onSelectSlot: (slot: Slot) => void;
   isLoading?: boolean;
   variant?: 'default' | 'compact';
+  fallbackMessage?: string;
 }
 
-export function SlotPicker({ slots, onSelectSlot, variant = 'default' }: SlotPickerProps) {
+export function SlotPicker({ slots, onSelectSlot, variant = 'default', fallbackMessage }: SlotPickerProps) {
   const t = useTranslations('chat');
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -34,8 +35,15 @@ export function SlotPicker({ slots, onSelectSlot, variant = 'default' }: SlotPic
   }
 
   return (
+    <div className="flex flex-col gap-2 mt-2">
+      {fallbackMessage && (
+        <div className="flex items-start gap-1.5 text-xs text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 rounded-lg px-3 py-2">
+          <InfoIcon className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
+          <span>{fallbackMessage}</span>
+        </div>
+      )}
     <div className={cn(
-      "grid gap-3 mt-2",
+      "grid gap-3",
       variant === 'compact' ? "grid-cols-1" : "sm:grid-cols-2"
     )}>
       {slots.map((slot) => {
@@ -82,6 +90,7 @@ export function SlotPicker({ slots, onSelectSlot, variant = 'default' }: SlotPic
           </Card>
         );
       })}
+    </div>
     </div>
   );
 }

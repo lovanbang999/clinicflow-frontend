@@ -6,10 +6,18 @@ export interface SlotData {
   doctorId: string;
   doctorName: string;
   specialties?: string[];
+  serviceId?: string;
   date: string;
   startTime: string;
   endTime: string;
   roomName?: string;
+}
+
+export interface SlotMetadata {
+  searchedDate?: string;
+  foundCount?: number;
+  isFallbackSuggestions?: boolean;
+  message?: string;
 }
 
 export interface ChatMessage {
@@ -19,6 +27,7 @@ export interface ChatMessage {
   isStreaming?: boolean;
   /** Slots to display with SlotPicker if the AI returned available slots */
   slots?: SlotData[];
+  slotsMetadata?: SlotMetadata;
 }
 
 export function useChatStream() {
@@ -40,18 +49,25 @@ export function useChatStream() {
     const botMsgId = (Date.now() + 1).toString();
     setMessages((prev) => [...prev, { id: botMsgId, role: 'model', content: '', isStreaming: true }]);
 
+    const controller = new AbortController();
+    // 55-second hard timeout: kills hung stream
+    const timeoutId = setTimeout(() => controller.abort(), 55_000);
+
     try {
       const { accessToken: token } = useAuthStore.getState();
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
-      // Snapshot history (all messages before the new user one)
-      const history = messagesRef.current.map((m) => ({
-        role: m.role,
-        parts: [{ text: m.content }],
-      }));
+      // Snapshot history: exclude the current user message and any streaming/empty bot placeholders
+      const history = messagesRef.current
+        .filter((m) => m.id !== userMsg.id && m.content.trim() !== '')
+        .map((m) => ({
+          role: m.role,
+          parts: [{ text: m.content }],
+        }));
 
       const response = await fetch(`${API_BASE_URL}/ai/chat`, {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -98,12 +114,16 @@ export function useChatStream() {
               try {
                 const parsed = JSON.parse(dataStr);
 
-                // Handle slotsData event — attach slots to the current bot message
+                // Handle slotsData event — attach slots + metadata to the current bot message
                 if (parsed?.slotsData && Array.isArray(parsed.slotsData)) {
                   setMessages((prev) =>
                     prev.map((m) =>
                       m.id === botMsgId
-                        ? { ...m, slots: parsed.slotsData as SlotData[] }
+                        ? {
+                            ...m,
+                            slots: parsed.slotsData as SlotData[],
+                            slotsMetadata: parsed.metadata as SlotMetadata | undefined,
+                          }
                         : m,
                     ),
                   );
@@ -127,15 +147,20 @@ export function useChatStream() {
         }
       }
     } catch (e) {
+      const isTimeout = e instanceof DOMException && e.name === 'AbortError';
+      const fallback = isTimeout
+        ? 'Phản hồi quá lâu. Vui lòng thử lại hoặc đặt câu hỏi ngắn gọn hơn.'
+        : 'Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại.';
       console.error('Chat stream error', e);
       setMessages((prev) =>
         prev.map((m) =>
           m.id === botMsgId && !m.content
-            ? { ...m, content: 'Xin lỗi, đã có lỗi xảy ra.', isStreaming: false }
+            ? { ...m, content: fallback, isStreaming: false }
             : { ...m, isStreaming: false },
         ),
       );
     } finally {
+      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   }, []);
