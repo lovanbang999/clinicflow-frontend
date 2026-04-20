@@ -31,8 +31,10 @@
     "generalRoom": "Phòng khám Đa khoa",
     "viewDetails": "Xem chi tiết",
     "reschedule": "Đổi lịch",
-    "waitingQueue": "Hàng đợi chờ"
+    "waitingQueue": "Hàng đợi chờ",
+    "generalConsultation": "Khám tổng quát"
   },
+  "unknownDoctor": "Bác sĩ trực",
   "quickActions": {
     "book": "Đặt lịch",
     "records": "Hồ sơ",

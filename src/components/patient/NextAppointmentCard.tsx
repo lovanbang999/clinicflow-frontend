@@ -54,7 +54,7 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
             <Image src={nextBooking.doctor.avatar} alt="Doctor" width={160} height={160} className="w-20 h-20 md:w-40 md:h-40 rounded-2xl object-cover shadow-lg ring-2 md:ring-4 ring-slate-50 dark:ring-slate-800" />
           ) : (
             <div className="w-20 h-20 md:w-40 md:h-40 rounded-2xl bg-blue-100 text-blue-500 flex items-center justify-center text-3xl md:text-4xl shadow-lg ring-2 md:ring-4 ring-slate-50 dark:ring-slate-800 font-bold">
-              {nextBooking.doctor.fullName.substring(0, 2).toUpperCase()}
+              {(nextBooking.doctor?.fullName || 'DR').substring(0, 2).toUpperCase()}
             </div>
           )}
           <div className="md:hidden flex-1">
@@ -63,9 +63,11 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
                 {nextBooking.status}
               </span>
             </div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-tight mb-0.5">{nextBooking.service.name}</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-tight mb-0.5">
+              {nextBooking.service?.name || t('labels.generalConsultation') || 'Khám tổng quát'}
+            </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              {t('doctorPrefix')} {nextBooking.doctor.fullName}
+              {t('doctorPrefix')} {nextBooking.doctor?.fullName || t('unknownDoctor') || 'Bác sĩ'}
             </p>
           </div>
         </div>
@@ -79,9 +81,11 @@ export function NextAppointmentCard({ nextBooking }: NextAppointmentProps) {
             <span className="text-slate-600 dark:text-slate-400 font-medium">{t('nextAppointment')}</span>
           </div>
 
-          <h2 className="hidden md:block text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">{nextBooking.service.name}</h2>
+          <h2 className="hidden md:block text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
+            {nextBooking.service?.name || t('labels.generalConsultation') || 'Khám tổng quát'}
+          </h2>
           <p className="hidden md:block text-slate-500 dark:text-slate-400 mb-6 text-lg">
-            {t('withDoctor')} <span className="text-slate-900 dark:text-white font-semibold">{t('doctorPrefix')} {nextBooking.doctor.fullName}</span>
+            {t('withDoctor')} <span className="text-slate-900 dark:text-white font-semibold">{t('doctorPrefix')} {nextBooking.doctor?.fullName || t('unknownDoctor') || 'Bác sĩ'}</span>
           </p>
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-8 w-full">

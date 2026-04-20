@@ -31,8 +31,10 @@
     "generalRoom": "General Consultation Room",
     "viewDetails": "View Details",
     "reschedule": "Reschedule",
-    "waitingQueue": "Waiting Queue"
+    "waitingQueue": "Waiting Queue",
+    "generalConsultation": "General Consultation"
   },
+  "unknownDoctor": "Available Doctor",
   "quickActions": {
     "book": "Book",
     "records": "Records",
