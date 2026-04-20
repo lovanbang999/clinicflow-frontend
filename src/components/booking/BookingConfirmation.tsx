@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useBookingStore } from '@/lib/store/bookingStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useBookings } from '@/lib/hooks/appointment/useBookings';
 import { usersApi } from '@/lib/api/auth/users';
-import { Calendar, Clock, FileText, Stethoscope, DollarSign, Loader2, CheckCircle } from 'lucide-react';
+import { schedulesApi } from '@/lib/api/appointment/schedules';
+import { Calendar, Clock, FileText, Stethoscope, DollarSign, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter } from '@/i18n/navigation';
 import { formatDate } from '@/lib/utils/formatters';
@@ -21,6 +22,7 @@ export function BookingConfirmation() {
   const { user } = useAuthStore();
   const { createBooking, isLoading: isSubmitting } = useBookings();
   const {
+    bookingType,
     selectedService,
     selectedDoctor,
     selectedDate,
@@ -29,8 +31,81 @@ export function BookingConfirmation() {
   } = useBookingStore();
   const t = useTranslations('booking');
 
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+  const reservationAttempted = useRef(false);
+
+  // Reserve slot on mount
+  useEffect(() => {
+    const profileId = user?.patientProfile?.id;
+    if (!selectedDoctor || !selectedDate || !selectedTimeSlot || !profileId || reservationAttempted.current) return;
+
+    const reserve = async () => {
+      try {
+        reservationAttempted.current = true;
+        await schedulesApi.reserveSlot({
+          doctorId: selectedDoctor.id,
+          date: formatDate(selectedDate, 'yyyy-MM-dd'),
+          startTime: selectedTimeSlot,
+          patientProfileId: profileId,
+        });
+        toast.info(t('slotReserved') || 'Chỗ đã được giữ trong 5 phút');
+      } catch (error: unknown) {
+        console.error('Failed to reserve slot', error);
+        const err = error as { response?: { status: number } };
+        if (err.response?.status === 409) {
+          toast.error(
+            t('slotLocked') || 'Chỗ này hiện đang được giữ bởi người khác',
+          );
+          router.push('/patient/book');
+        }
+      }
+    };
+
+    reserve();
+
+    // Release on unmount
+    return () => {
+      if (!isSuccess && profileId) {
+        schedulesApi.releaseSlot({
+          doctorId: selectedDoctor.id,
+          date: formatDate(selectedDate, 'yyyy-MM-dd'),
+          startTime: selectedTimeSlot,
+          patientProfileId: profileId,
+        }).catch(() => {});
+      }
+    };
+  }, [selectedDoctor, selectedDate, selectedTimeSlot, user, isSuccess, t, router]);
+
+  // Timer
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      toast.warning(
+        t('reservationExpired') || 'Hết thời gian giữ chỗ. Vui lòng thử lại.',
+      );
+      router.push('/patient/book');
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft, router, t]);
+
+  const formatTimeLeft = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   const handleSubmit = async () => {
-    if (!selectedService || !selectedDoctor || !selectedDate || !selectedTimeSlot) {
+    if (!selectedDoctor || !selectedDate || !selectedTimeSlot) {
+      toast.error(t('completeAllSteps'));
+      return;
+    }
+
+    if (bookingType === 'SPECIALIST' && !selectedService) {
       toast.error(t('completeAllSteps'));
       return;
     }
@@ -57,10 +132,11 @@ export function BookingConfirmation() {
     const booking = await createBooking({
       patientProfileId: profileId,
       doctorId: selectedDoctor.id,
-      serviceId: selectedService.id,
+      serviceId: selectedService?.id,
       bookingDate,
       startTime: selectedTimeSlot,
       patientNotes: notes || undefined,
+      source: 'ONLINE', // Explicitly set source
     });
 
     if (booking) {
@@ -95,6 +171,29 @@ export function BookingConfirmation() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      {/* Reservation Timer Banner */}
+      <div className="bg-amber-50 dark:bg-amber-500/10 border-2 border-amber-100 dark:border-amber-500/20 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-amber-100 dark:bg-amber-500/20 rounded-xl flex items-center justify-center">
+            <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-amber-900 dark:text-amber-100">
+              {t('reservationTimer') || 'Thời gian giữ chỗ'}
+            </p>
+            <p className="text-xs text-amber-700/80 dark:text-amber-400/80 font-medium">
+              {t('reservationNote') ||
+                'Vui lòng hoàn tất đặt lịch trong thời gian này'}
+            </p>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-slate-900 px-4 py-2 rounded-xl border border-amber-200 dark:border-amber-500/30">
+          <span className="text-xl font-black text-amber-600 dark:text-amber-400 tabular-nums">
+            {formatTimeLeft(timeLeft)}
+          </span>
+        </div>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-6">
         {/* Service Info */}
         <div className="bg-white dark:bg-slate-900/50 rounded-[24px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-4 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none hover:border-blue-200 dark:hover:border-blue-500/50 transition-colors">
@@ -119,7 +218,7 @@ export function BookingConfirmation() {
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('serviceSelector.price')}</p>
                   <p className="font-extrabold text-blue-600 flex items-center gap-1.5 whitespace-nowrap text-sm sm:text-base">
                     <DollarSign className="w-4 h-4 shrink-0" />
-                    <span className="truncate">{selectedService && selectedService.price > 0 ? selectedService.price.toLocaleString('vi-VN') + ' ₫' : '0 ₫'}</span>
+                    <span className="truncate">{selectedService && Number(selectedService.price) > 0 ? Number(selectedService.price).toLocaleString('vi-VN') + ' ₫' : '0 ₫'}</span>
                   </p>
                 </div>
               </div>
@@ -140,18 +239,81 @@ export function BookingConfirmation() {
             <div className="flex-1 min-w-0">
               <h3 className="text-[11px] sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-1.5">{t('doctorSelector.specialist') || t('doctorInfo')}</h3>
               <p className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white line-clamp-1">{selectedDoctor?.fullName}</p>
-              {selectedDoctor?.specialties && selectedDoctor.specialties.length > 0 && (
-                <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{selectedDoctor.specialties[0]}</p>
-              )}
-              {selectedDoctor && selectedDoctor.rating > 0 && (
-                <div className="flex items-center gap-1.5 mt-3 sm:mt-4 flex-wrap">
-                   <div className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-lg text-xs sm:text-sm font-bold shrink-0">
-                     ⭐ {Number(selectedDoctor.rating).toFixed(1)}
-                   </div>
-                   <span className="text-xs sm:text-sm font-medium text-slate-400 dark:text-slate-500 truncate">({selectedDoctor.reviewCount} {t('reviews')})</span>
+              
+              <div className="flex flex-wrap items-center gap-3 mt-4">
+                <div className="flex items-center gap-1 px-2.5 py-1 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-lg text-xs font-bold shrink-0">
+                  ⭐ {Number(selectedDoctor?.rating || 0).toFixed(1)}
                 </div>
-              )}
+                <div className={cn(
+                  "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold border",
+                  !selectedDoctor?.consultationFee || selectedDoctor.consultationFee === 0
+                    ? "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400"
+                    : "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400"
+                )}>
+                  {!selectedDoctor?.consultationFee ||
+                  selectedDoctor.consultationFee === 0
+                    ? t('selection.free') || 'Miễn phí'
+                    : `${Number(selectedDoctor.consultationFee).toLocaleString('vi-VN')} ₫`}
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Cost Breakdown */}
+      <div className="bg-white dark:bg-slate-900/50 rounded-[24px] md:rounded-[32px] border-2 border-slate-100/80 dark:border-slate-800 p-6 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
+        <h3 className="font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
+            <DollarSign className="w-4 h-4 text-blue-500" strokeWidth={2.5} />
+          </div>
+          <span className="text-sm sm:text-base leading-tight">Chi phí dự kiến</span>
+        </h3>
+
+        <div className="space-y-4">
+          {/* Consultation Fee */}
+          <div className="flex items-center justify-between py-2 border-b border-dashed border-slate-100 dark:border-slate-800">
+            <div className="space-y-0.5">
+              <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Phí khám tư vấn</p>
+              <p className="text-[11px] text-slate-400 font-medium">Bác sĩ {selectedDoctor?.fullName}</p>
+            </div>
+            <p className="font-bold text-slate-900 dark:text-white">
+              {!selectedDoctor?.consultationFee || Number(selectedDoctor.consultationFee) === 0 
+                ? '0 ₫' 
+                : `${Number(selectedDoctor.consultationFee).toLocaleString('vi-VN')} ₫`}
+            </p>
+          </div>
+
+          {/* Service Fee (if applicable) */}
+          {selectedService && (
+            <div className="flex items-center justify-between py-2 border-b border-dashed border-slate-100 dark:border-slate-800">
+              <div className="space-y-0.5">
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Phí dịch vụ chuyên khoa</p>
+                <p className="text-[11px] text-slate-400 font-medium">{selectedService.name}</p>
+              </div>
+              <p className="font-bold text-slate-900 dark:text-white">
+                {Number(selectedService.price).toLocaleString('vi-VN')} ₫
+              </p>
+            </div>
+          )}
+
+          {/* Total */}
+          <div className="flex items-center justify-between pt-4">
+            <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Tổng dự kiến</p>
+            <div className="text-right">
+              <p className="text-xl sm:text-2xl font-black text-blue-600">
+                {(Number(selectedDoctor?.consultationFee || 0) + Number(selectedService?.price || 0)).toLocaleString('vi-VN')} ₫
+              </p>
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-medium mt-1">Thu tại quầy lễ tân</p>
+            </div>
+          </div>
+
+          {/* Note */}
+          <div className="mt-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+             <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+               <span className="text-blue-500 font-bold mr-1">Lưu ý:</span>
+               Tổng phí thực tế có thể thay đổi tùy thuộc vào các chỉ định cận lâm sàng hoặc thuốc phát sinh trong quá trình thăm khám của bác sĩ.
+             </p>
           </div>
         </div>
       </div>
