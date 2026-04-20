@@ -139,6 +139,7 @@ export interface CreateBookingDto {
   startTime?: string;      // Required for pre-bookings, omit for walk-in
   isPreBooked?: boolean;   // true = pre-booking, false = walk-in queue
   patientNotes?: string;
+  source?: 'ONLINE' | 'RECEPTIONIST' | 'WALK_IN';
 }
 
 export interface UpdateBookingStatusDto {

@@ -36,7 +36,7 @@ export interface OffDay {
 export interface TimeSlot {
   time: string;
   available: boolean;
-  availableSlots: number;
+  bookedCount: number;
   maxSlots: number;
 }
 

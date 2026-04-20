@@ -32,14 +32,22 @@ export const schedulesApi = {
   getAvailableSlots: async (params: AvailableSlotsQuery): Promise<TimeSlot[]> => {
     const response = await apiClient.get<{
       success: boolean;
-      data: { availableSlots: string[]; total: number };
+      data: { 
+        availableSlots: Array<{ 
+          time: string; 
+          bookedCount: number; 
+          maxSlots: number; 
+          available: boolean 
+        }>; 
+        total: number 
+      };
     }>('/schedules/available-slots', { params });
     
-    return response.data.data.availableSlots.map(time => ({
-      time,
-      available: true,
-      availableSlots: 1,
-      maxSlots: 1,
+    return response.data.data.availableSlots.map(slot => ({
+      time: slot.time,
+      available: slot.available,
+      bookedCount: slot.bookedCount,
+      maxSlots: slot.maxSlots,
     }));
   },
 
@@ -133,5 +141,24 @@ export const schedulesApi = {
 
   addOffDay: async (data: Omit<OffDay, 'id'>): Promise<CreateOffDayResult> => {
     return schedulesApi.createOffDay(data);
+  },
+
+  // Slot Reservations
+  reserveSlot: async (data: {
+    doctorId: string;
+    date: string;
+    startTime: string;
+    patientProfileId: string;
+  }): Promise<void> => {
+    await apiClient.post('/schedules/reserve-slot', data);
+  },
+
+  releaseSlot: async (data: {
+    doctorId: string;
+    date: string;
+    startTime: string;
+    patientProfileId: string;
+  }): Promise<void> => {
+    await apiClient.post('/schedules/release-slot', data);
   },
 };
