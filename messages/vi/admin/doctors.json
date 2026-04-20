@@ -9,6 +9,33 @@
     "scheduled": "Đã lên lịch",
     "new": "Mới"
   },
+  "specialties": {
+    "Cardiology": "Tim mạch",
+    "Neurology": "Thần kinh",
+    "Pediatrics": "Nhi khoa",
+    "Orthopedics": "Chấn thương chỉnh hình",
+    "Emergency": "Cấp cứu",
+    "Dermatology": "Da liễu",
+    "Oncology": "Ung bướu",
+    "Psychiatry": "Tâm thần",
+    "Dentistry": "Nha khoa",
+    "Respiratory": "Hô hấp",
+    "Rehabilitation": "Phục hồi chức năng",
+    "Nutrition": "Dinh dưỡng",
+    "Nha khoa": "Nha khoa",
+    "Nhãn khoa": "Nhãn khoa",
+    "Da liễu": "Da liễu",
+    "Hô hấp": "Hô hấp",
+    "Phục hồi chức năng": "Phục hồi chức năng",
+    "Dinh dưỡng": "Dinh dưỡng",
+    "Nội khoa": "Nội khoa",
+    "Ngoại khoa": "Ngoại khoa",
+    "Nhi khoa": "Nhi khoa",
+    "Tai Mũi Họng": "Tai Mũi Họng",
+    "Sản phụ khoa": "Sản phụ khoa",
+    "Chẩn đoán hình ảnh": "Chẩn đoán hình ảnh",
+    "Xét nghiệm": "Xét nghiệm"
+  },
   "table": {
     "title": "Danh sách bác sĩ",
     "subtitle": "Quản lý quyền hạn và theo dõi hiệu suất",
@@ -19,6 +46,7 @@
     "showing": "Đang hiện",
     "of": "trong số",
     "doctors": "bác sĩ",
+    "free": "Miễn phí",
     "years": "{count} năm",
     "previous": "Trước",
     "next": "Tiếp",
@@ -27,6 +55,7 @@
       "doctor": "Bác sĩ",
       "specialty": "Chuyên khoa",
       "experience": "Kinh nghiệm",
+      "fee": "Phí khám",
       "status": "Trạng thái",
       "action": "Thao tác"
     },
@@ -64,6 +93,8 @@
     "qualificationsHint": "Phân tách nhiều bằng cấp bằng dấu phẩy.",
     "bio": "Giới thiệu ngắn",
     "bioPlaceholder": "Giới thiệu nghề nghiệp ngắn gọn...",
+    "consultationFee": "Phí khám tư vấn",
+    "feePlaceholder": "Nhập số tiền (vd. 150000)",
     "status": "Trạng thái tài khoản",
     "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
     "statusActive": "Hoạt động",
@@ -78,7 +109,8 @@
       "passwordRequired": "Vui lòng nhập mật khẩu",
       "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự",
       "specialtyRequired": "Vui lòng chọn chuyên khoa",
-      "experienceInvalid": "Số năm kinh nghiệm phải từ 0 đến 60"
+      "experienceInvalid": "Số năm kinh nghiệm phải từ 0 đến 60",
+      "feeInvalid": "Phí khám phải lớn hơn hoặc bằng 0"
     }
   },
   "editDoctor": {
@@ -100,6 +132,8 @@
     "qualificationsHint": "Phân tách nhiều bằng cấp bằng dấu phẩy.",
     "bio": "Giới thiệu ngắn",
     "bioPlaceholder": "Giới thiệu nghề nghiệp ngắn gọn...",
+    "consultationFee": "Phí khám tư vấn",
+    "feePlaceholder": "Nhập số tiền (vd. 150000)",
     "status": "Trạng thái tài khoản",
     "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
     "statusActive": "Hoạt động",
@@ -112,7 +146,8 @@
       "emailRequired": "Vui lòng nhập email",
       "emailInvalid": "Địa chỉ email không hợp lệ",
       "specialtyRequired": "Vui lòng chọn chuyên khoa",
-      "experienceInvalid": "Số năm kinh nghiệm phải từ 0 đến 60"
+      "experienceInvalid": "Số năm kinh nghiệm phải từ 0 đến 60",
+      "feeInvalid": "Phí khám phải lớn hơn hoặc bằng 0"
     }
   },
   "deleteDoctor": {

@@ -19,6 +19,7 @@ export type Doctor = {
   specialty: Specialty;
   experience: number; // years
   status: DoctorStatus;
+  consultationFee?: number;
 };
 
 // Style maps

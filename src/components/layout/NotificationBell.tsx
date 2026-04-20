@@ -64,9 +64,17 @@ export function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-3 w-80 lg:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 z-50 overflow-hidden flex flex-col max-h-[32rem] animate-in fade-in slide-in-from-top-2 duration-200">
-          <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
-            <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base">{t('title')}</h3>
+        <div className="absolute right-0 mt-3 w-80 lg:w-[420px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/20 dark:border-slate-800/50 z-50 overflow-hidden flex flex-col max-h-[35rem] animate-in fade-in slide-in-from-top-4 duration-300 ring-1 ring-black/5">
+          {/* Header */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100/50 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50">
+            <div className="flex items-center gap-2">
+              <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-lg tracking-tight">{t('title')}</h3>
+              {unreadCount > 0 && (
+                <span className="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold animate-pulse">
+                  {unreadCount} {t('new') || 'mới'}
+                </span>
+              )}
+            </div>
             {unreadCount > 0 && (
               <button
                 id="mark-all-read-btn"
@@ -74,29 +82,31 @@ export function NotificationBell() {
                   e.stopPropagation();
                   void markAllAsRead();
                 }}
-                className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-bold flex items-center gap-1.5 transition-all hover:bg-blue-50 dark:hover:bg-blue-900/30 px-2 py-1.5 rounded-lg cursor-pointer"
                 title={t('markAllAsRead')}
               >
-                <Check className="w-4 h-4" />
+                <Check className="w-3.5 h-3.5 stroke-[3px]" />
                 {t('markAllAsRead')}
               </button>
             )}
           </div>
 
-          <div className="overflow-y-auto flex-1 overscroll-contain custom-scrollbar">
+          {/* List Area */}
+          <div className="overflow-y-auto flex-1 overscroll-contain custom-scrollbar min-h-[100px]">
             <NotificationList 
               notifications={notifications} 
               markAsRead={markAsRead} 
               isLoading={loading}
-              maxItems={5}
+              maxItems={6}
             />
           </div>
           
+          {/* Footer */}
           {notifications.length > 0 && (
-            <div className="p-3 bg-slate-50/80 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 text-center">
+            <div className="p-4 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100/50 dark:border-slate-800/50">
               <button 
                 onClick={handleViewAll}
-                className="text-sm text-blue-600 dark:text-blue-400 font-bold hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer w-full py-1 hover:underline"
+                className="flex items-center justify-center gap-2 text-sm text-slate-600 dark:text-slate-300 font-bold hover:text-blue-600 dark:hover:text-blue-400 transition-all cursor-pointer w-full py-2.5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
               >
                 {t('viewAll')}
               </button>

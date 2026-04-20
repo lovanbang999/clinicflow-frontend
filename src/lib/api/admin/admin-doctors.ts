@@ -34,6 +34,7 @@ export interface AdminUpdateDoctorProfileDto {
   yearsOfExperience?: number;
   bio?: string;
   rating?: number;
+  consultationFee?: number;
 }
 
 export interface AdminToggleDoctorStatusDto {

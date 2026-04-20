@@ -33,6 +33,7 @@ function toLocalDoctor(u: BackendUser): Doctor {
     specialty,
     experience: p?.yearsOfExperience ?? 0,
     status,
+    consultationFee: p?.consultationFee != null ? Number(p.consultationFee) : 0,
   };
 }
 

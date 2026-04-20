@@ -79,6 +79,8 @@
     "viewAll": "View all",
     "unreadCount": "You have {count} unread notifications",
     "noUnread": "No new notifications",
+    "new": "new",
+    "emptyDesc": "All good! You have no new notifications.",
     "back": "Back"
   },
   "api": {

@@ -7,7 +7,7 @@ import { DoctorTableRow } from './DoctorTableRow';
 import { DoctorTableToolbar } from './DoctorTableToolbar';
 import { type Doctor, type DoctorStatus, type Specialty } from './types';
 
-const COLUMNS = ['doctor', 'specialty', 'experience', 'status', 'action'] as const;
+const COLUMNS = ['doctor', 'specialty', 'experience', 'fee', 'status', 'action'] as const;
 
 type Props = {
   doctors: Doctor[];
@@ -90,7 +90,7 @@ export function DoctorTable({
           <tbody className="divide-y divide-[#e5e7eb]">
             {doctors.length === 0 ? (
               <tr>
-                <td colSpan={5} className="py-16 text-center text-[#94a3b8] text-sm">
+                <td colSpan={6} className="py-16 text-center text-[#94a3b8] text-sm">
                   {t('table.empty')}
                 </td>
               </tr>

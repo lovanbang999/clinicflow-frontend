@@ -79,6 +79,8 @@
     "viewAll": "Xem tất cả",
     "unreadCount": "Bạn có {count} thông báo chưa đọc",
     "noUnread": "Không có thông báo mới",
+    "new": "mới",
+    "emptyDesc": "Tất cả đã ổn! Bạn không có thông báo nào mới.",
     "back": "Quay lại",
     "underDevelopment": "Tính năng đang được phát triển"
   },
