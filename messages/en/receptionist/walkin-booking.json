@@ -58,8 +58,13 @@
     "available": "Available",
     "selectedBtn": "Selected",
     "selectBtn": "Select",
+    "searchPlaceholder": "Search doctor name...",
+    "allSpecialties": "All Specialties",
+    "prev": "Prev",
+    "next": "Next",
     "generalPractitioner": "General Practitioner",
     "changeBtn": "Change",
+    "noDoctors": "No doctors found",
     "noDocForService": "No doctors available for this service",
     "noDocDesc": "Please contact admin to assign a doctor",
     "loadingDoctors": "Loading doctors...",
@@ -67,7 +72,13 @@
     "unavailable": "Unavailable",
     "busy": "Busy",
     "noScheduleToday": "Doctor has no schedule today",
-    "onLeaveToday": "Doctor is on leave today"
+    "onLeaveToday": "Doctor is on leave today",
+    "consultationFee": "Consultation Fee",
+    "allPrices": "All prices",
+    "freeOnly": "Free only",
+    "under300": "Under 300k",
+    "over300": "Over 300k",
+    "free": "Free"
   },
   "time": {
     "title": "Appointment Time",

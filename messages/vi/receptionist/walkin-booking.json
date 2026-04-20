@@ -58,8 +58,13 @@
     "available": "Đang rảnh",
     "selectedBtn": "Đã chọn",
     "selectBtn": "Chọn",
+    "searchPlaceholder": "Tìm tên bác sĩ...",
+    "allSpecialties": "Tất cả chuyên khoa",
+    "prev": "Trước",
+    "next": "Sau",
     "generalPractitioner": "Bác sĩ đa khoa",
     "changeBtn": "Thay đổi",
+    "noDoctors": "Không tìm thấy bác sĩ",
     "noDocForService": "Không có bác sĩ cho dịch vụ này",
     "noDocDesc": "Hãy liên hệ quản trị để phân công bác sĩ",
     "loadingDoctors": "Đang tải danh sách bác sĩ...",
@@ -67,7 +72,13 @@
     "unavailable": "Nghỉ",
     "busy": "Đang bận",
     "noScheduleToday": "Bác sĩ không có lịch khám hôm nay",
-    "onLeaveToday": "Bác sĩ đang nghỉ phép hôm nay"
+    "onLeaveToday": "Bác sĩ đang nghỉ phép hôm nay",
+    "consultationFee": "Phí khám",
+    "allPrices": "Tất cả mức phí",
+    "freeOnly": "Miễn phí",
+    "under300": "Dưới 300k",
+    "over300": "Trên 300k",
+    "free": "Miễn phí"
   },
   "time": {
     "title": "Thời gian khám",
