@@ -9,6 +9,33 @@
     "scheduled": "Scheduled",
     "new": "New"
   },
+  "specialties": {
+    "Cardiology": "Cardiology",
+    "Neurology": "Neurology",
+    "Pediatrics": "Pediatrics",
+    "Orthopedics": "Orthopedics",
+    "Emergency": "Emergency",
+    "Dermatology": "Dermatology",
+    "Oncology": "Oncology",
+    "Psychiatry": "Psychiatry",
+    "Dentistry": "Dentistry",
+    "Respiratory": "Respiratory",
+    "Rehabilitation": "Rehabilitation",
+    "Nutrition": "Nutrition",
+    "Nha khoa": "Dentistry",
+    "Nhãn khoa": "Ophthalmology",
+    "Da liễu": "Dermatology",
+    "Hô hấp": "Respiratory",
+    "Phục hồi chức năng": "Rehabilitation",
+    "Dinh dưỡng": "Nutrition",
+    "Nội khoa": "Internal Medicine",
+    "Ngoại khoa": "Surgery",
+    "Nhi khoa": "Pediatrics",
+    "Tai Mũi Họng": "ENT",
+    "Sản phụ khoa": "OB/GYN",
+    "Chẩn đoán hình ảnh": "Radiology",
+    "Xét nghiệm": "Laboratory"
+  },
   "table": {
     "title": "Doctor Directory",
     "subtitle": "Manage privileges and view performance stats",
@@ -19,6 +46,7 @@
     "showing": "Showing",
     "of": "of",
     "doctors": "doctors",
+    "free": "Free",
     "years": "{count} Years",
     "previous": "Previous",
     "next": "Next",
@@ -27,6 +55,7 @@
       "doctor": "Doctor",
       "specialty": "Specialty",
       "experience": "Experience",
+      "fee": "Consultation Fee",
       "status": "Status",
       "action": "Action"
     },
@@ -64,6 +93,8 @@
     "qualificationsHint": "Separate multiple qualifications with commas.",
     "bio": "Short Bio",
     "bioPlaceholder": "Brief professional bio...",
+    "consultationFee": "Consultation Fee",
+    "feePlaceholder": "Enter amount (e.g. 150000)",
     "status": "Account Status",
     "statusDesc": "Activate or deactivate system access",
     "statusActive": "Active",
@@ -78,7 +109,8 @@
       "passwordRequired": "Password is required",
       "passwordTooShort": "Password must be at least 8 characters",
       "specialtyRequired": "Please select a specialty",
-      "experienceInvalid": "Experience must be between 0 and 60"
+      "experienceInvalid": "Experience must be between 0 and 60",
+      "feeInvalid": "Fee must be greater than or equal to 0"
     }
   },
   "editDoctor": {
@@ -100,6 +132,8 @@
     "qualificationsHint": "Separate multiple qualifications with commas.",
     "bio": "Short Bio",
     "bioPlaceholder": "Brief professional bio...",
+    "consultationFee": "Consultation Fee",
+    "feePlaceholder": "Enter amount (e.g. 150000)",
     "status": "Account Status",
     "statusDesc": "Activate or deactivate system access",
     "statusActive": "Active",
@@ -112,7 +146,8 @@
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email address",
       "specialtyRequired": "Please select a specialty",
-      "experienceInvalid": "Experience must be between 0 and 60"
+      "experienceInvalid": "Experience must be between 0 and 60",
+      "feeInvalid": "Fee must be greater than or equal to 0"
     }
   },
   "deleteDoctor": {
