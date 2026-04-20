@@ -9,6 +9,7 @@ import { ImageLightbox } from '@/components/shared/ImageLightbox';
 
 const STATUS_CONFIG = {
   PENDING:     { labelKey: 'status.pending', icon: ClockIcon,       color: 'border-yellow-200 bg-yellow-50 text-yellow-700' },
+  PAID:        { labelKey: 'status.paid', icon: ClockIcon,           color: 'border-green-200 bg-green-50 text-green-700' },
   IN_PROGRESS: { labelKey: 'status.inProgress', icon: SpinnerIcon,    color: 'border-blue-200 bg-blue-50 text-blue-700' },
   COMPLETED:   { labelKey: 'status.completed', icon: CheckCircleIcon, color: 'border-green-200 bg-green-50 text-green-700' },
   CANCELLED:   { labelKey: 'status.cancelled', icon: XCircleIcon,     color: 'border-gray-200 bg-gray-50 text-gray-500' },
