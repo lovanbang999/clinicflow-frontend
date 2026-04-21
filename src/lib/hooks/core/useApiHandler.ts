@@ -36,12 +36,20 @@ export function useApiHandler() {
       const result = await action();
       
       if (options?.showSuccessToast !== false && options?.onSuccessMsg) {
-        // Try to translate the message key, fallback to the string itself if not found
-        // If tApi returns the path (e.g. "common.api.key"), it means the key was missing
-        const translated = tApi(options.onSuccessMsg);
-        const message = translated === `common.api.${options.onSuccessMsg}` 
-          ? options.onSuccessMsg 
-          : translated;
+        // Only attempt translation if it looks like a translation key (no spaces/special chars)
+        const isKey = /^[a-zA-Z0-9_.-]+$/.test(options.onSuccessMsg);
+        let message = options.onSuccessMsg;
+        
+        if (isKey) {
+          try {
+            const translated = tApi(options.onSuccessMsg);
+            message = translated === `common.api.${options.onSuccessMsg}` 
+              ? options.onSuccessMsg 
+              : translated;
+          } catch {
+            // Fallback if next-intl throws
+          }
+        }
         toast.success(message);
       }
       
@@ -60,17 +68,26 @@ export function useApiHandler() {
         
         console.log(errorMessage);
         
-        if (errorMessage === errorKey) {
+        if (errorMessage === `errors.${errorKey}` || errorMessage === errorKey) {
           errorMessage = apiError.message || tErrors('generic');
         }
 
         // Translate fallback message if provided
         let fallbackMsg = tErrors('generic');
         if (options?.errorFallbackMsg) {
-          const translated = tApi(options.errorFallbackMsg);
-          fallbackMsg = translated === `common.api.${options.errorFallbackMsg}`
-            ? options.errorFallbackMsg
-            : translated;
+          const isKey = /^[a-zA-Z0-9_.-]+$/.test(options.errorFallbackMsg);
+          fallbackMsg = options.errorFallbackMsg;
+          
+          if (isKey) {
+            try {
+              const translated = tApi(options.errorFallbackMsg);
+              if (translated !== `common.api.${options.errorFallbackMsg}`) {
+                fallbackMsg = translated;
+              }
+            } catch {
+               // Fallback
+            }
+          }
         }
 
         toast.error(fallbackMsg, {
