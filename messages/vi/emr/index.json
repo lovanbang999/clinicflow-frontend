@@ -288,6 +288,7 @@
       "sections": {
         "symptoms": "Triệu chứng & Sinh hiệu",
         "labResults": "Kết quả Cận lâm sàng",
+        "specialistResults": "Kết quả khám Chuyên khoa",
         "diagnosis": "Kết luận & Hướng điều trị",
         "prescription": "Đơn thuốc"
       },
