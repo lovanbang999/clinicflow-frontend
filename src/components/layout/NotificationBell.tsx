@@ -98,6 +98,7 @@ export function NotificationBell() {
               markAsRead={markAsRead} 
               isLoading={loading}
               maxItems={6}
+              variant="popup"
             />
           </div>
           
