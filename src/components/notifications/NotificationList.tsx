@@ -20,6 +20,7 @@ interface NotificationListProps {
   isLoading?: boolean;
   className?: string;
   maxItems?: number;
+  variant?: 'popup' | 'page';
 }
 
 export function NotificationList({
@@ -27,7 +28,8 @@ export function NotificationList({
   markAsRead,
   isLoading,
   className,
-  maxItems
+  maxItems,
+  variant = 'page'
 }: NotificationListProps) {
   const currentLocale = useLocale();
   const t = useTranslations('common.notifications');
@@ -37,42 +39,42 @@ export function NotificationList({
       case 'BOOKING_CONFIRMED':
         return {
           icon: CalendarCheck,
-          color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400'
+          color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400'
         };
       case 'APPOINTMENT_REMINDER':
         return {
           icon: Clock,
-          color: 'bg-blue-50 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400'
+          color: 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400'
         };
       case 'BOOKING_CANCELLED':
         return {
           icon: CalendarX,
-          color: 'bg-rose-50 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400'
+          color: 'bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400'
         };
       case 'LAB_RESULT_READY':
         return {
           icon: FlaskConical,
-          color: 'bg-violet-50 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400'
+          color: 'bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400'
         };
       case 'INVOICE_ISSUED':
         return {
           icon: FileText,
-          color: 'bg-amber-50 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400'
+          color: 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400'
         };
       case 'SYSTEM':
         return {
           icon: Settings,
-          color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+          color: 'bg-slate-100 text-slate-600 dark:bg-slate-800/50 dark:text-slate-400'
         };
       case 'ADMIN_ACTIVITY':
         return {
           icon: ShieldAlert,
-          color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400'
+          color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400'
         };
       default:
         return {
           icon: Bell,
-          color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+          color: 'bg-slate-100 text-slate-600 dark:bg-slate-800/50 dark:text-slate-400'
         };
     }
   };
@@ -119,17 +121,18 @@ export function NotificationList({
             id={`notification-item-${notif.id}`}
             onClick={() => !notif.isRead && markAsRead(notif.id)}
             className={cn(
-              "w-full text-left p-4 transition-all duration-300 flex gap-4 group relative overflow-hidden border-b border-slate-50 dark:border-slate-800/50",
+              "w-full text-left p-4 transition-all duration-300 flex gap-4 group relative overflow-hidden border-b border-slate-50/50 dark:border-slate-800/30",
+              variant === 'page' && "rounded-2xl",
               !notif.isRead
-                ? "bg-blue-50/60 dark:bg-blue-900/20 hover:bg-blue-50/80 dark:hover:bg-blue-900/30 shadow-[inset_0_0_0_1px_rgba(59,130,246,0.1)] z-10 cursor-pointer rounded-2xl "
-                : "bg-transparent hover:bg-slate-50/50 dark:hover:bg-slate-800/30"
+                ? "bg-blue-50/80 dark:bg-blue-600/10 hover:bg-blue-100/60 dark:hover:bg-blue-600/20 z-10 cursor-pointer ring-1 ring-blue-100/50 dark:ring-blue-500/20 shadow-sm"
+                : "bg-transparent hover:bg-slate-50/50 dark:hover:bg-slate-800/30 opacity-80 hover:opacity-100"
             )}
           >
             <div className={cn(
-              "mt-0.5 w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 border transition-all duration-300 group-hover:scale-110",
+              "mt-0.5 w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 border transition-all duration-300 group-hover:scale-105",
               !notif.isRead
-                ? "shadow-[0_0_15px_rgba(59,130,246,0.3)] border-blue-200/50 dark:border-blue-500/30"
-                : "shadow-sm border-white/50 dark:border-slate-700/30",
+                ? "shadow-md border-blue-200/50 dark:border-blue-500/30 bg-white dark:bg-slate-800"
+                : "border-transparent bg-slate-50/50 dark:bg-slate-800/50",
               config.color
             )}>
               <Icon className={cn("w-5 h-5", !notif.isRead && "animate-pulse-subtle")} />
@@ -139,14 +142,14 @@ export function NotificationList({
               <div className="flex justify-between items-start mb-1 gap-2">
                 <p className={cn(
                   "text-[14px] leading-tight pr-1 transition-colors",
-                  !notif.isRead ? "font-extrabold text-blue-600 dark:text-blue-400" : "font-semibold text-slate-600 dark:text-slate-400"
+                  !notif.isRead ? "font-bold text-blue-900 dark:text-blue-100" : "font-medium text-slate-500 dark:text-slate-500"
                 )}>
                   {notif.title}
                 </p>
                 <span className={cn(
-                  "text-[10px] whitespace-nowrap shrink-0 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider",
+                  "text-[9px] whitespace-nowrap shrink-0 font-bold px-2 py-0.5 rounded-md uppercase tracking-wider",
                   !notif.isRead
-                    ? "bg-blue-500 text-white shadow-md shadow-blue-500/20"
+                    ? "bg-blue-600 text-white shadow-sm"
                     : "bg-slate-100/50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500"
                 )}>
                   {(() => {
@@ -165,7 +168,7 @@ export function NotificationList({
               </div>
               <p className={cn(
                 "text-xs leading-relaxed line-clamp-2",
-                !notif.isRead ? "text-slate-700 dark:text-slate-200 font-medium" : "text-slate-500 dark:text-slate-500 font-normal"
+                !notif.isRead ? "text-slate-700 dark:text-slate-300 font-semibold" : "text-slate-400 dark:text-slate-600 font-normal"
               )}>
                 {notif.content}
               </p>
@@ -174,7 +177,7 @@ export function NotificationList({
             {!notif.isRead && (
               <div className="flex flex-col items-center justify-center shrink-0 gap-1 ml-1">
                 <div className={cn(
-                  "w-3 h-3 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.6)] animate-pulse bg-blue-500 border-2 border-white dark:border-slate-900"
+                  "w-2.5 h-2.5 rounded-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.4)] animate-pulse"
                 )} />
               </div>
             )}

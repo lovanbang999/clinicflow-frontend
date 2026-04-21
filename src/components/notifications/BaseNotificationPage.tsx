@@ -12,7 +12,7 @@ interface BaseNotificationPageProps {
   dashboardPath: string;
 }
 
-export function BaseNotificationPage({ role, dashboardPath }: BaseNotificationPageProps) {
+export function BaseNotificationPage({ role: _role, dashboardPath: _dashboardPath }: BaseNotificationPageProps) {
   const { notifications, unreadCount, markAsRead, markAllAsRead, loading } = useNotifications();
   const t = useTranslations('common.notifications');
   const router = useRouter();
@@ -68,6 +68,7 @@ export function BaseNotificationPage({ role, dashboardPath }: BaseNotificationPa
           markAsRead={markAsRead} 
           isLoading={loading}
           className="divide-y-0 gap-1.5 p-2"
+          variant="page"
         />
       </div>
     </div>
