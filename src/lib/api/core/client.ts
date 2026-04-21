@@ -52,7 +52,12 @@ class ApiClient {
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
         // Handle 401 errors (token expired)
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        // Bypass 401 interceptor for authentication endpoints
+        const isAuthEndpoint = originalRequest.url?.includes('/auth/login') ||
+          originalRequest.url?.includes('/auth/refresh') ||
+          originalRequest.url?.includes('/auth/register');
+
+        if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
           originalRequest._retry = true;
 
           try {
@@ -60,22 +65,22 @@ class ApiClient {
             if (refreshToken) {
               const response = await this.refreshAccessToken(refreshToken);
               const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data.data;
-              
+
               // Update Zustand store (this also updates localStorage via persist middleware)
               setTokens(newAccessToken, newRefreshToken);
-              
+
               if (originalRequest.headers) {
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
               }
-              
+
               return this.client(originalRequest);
             } else {
-               throw new Error('No refresh token available');
+              throw new Error('No refresh token available');
             }
           } catch (refreshError) {
             // Refresh token failed, clear auth and logout user
             useAuthStore.getState().clearAuth();
-            
+
             if (typeof window !== 'undefined') {
               const locale = getCurrentLocale();
               window.location.href = `/${locale}/login`;
