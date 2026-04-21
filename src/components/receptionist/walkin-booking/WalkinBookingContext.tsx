@@ -277,7 +277,6 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setBookingType('WALK_IN');
     setSelectedPatient(null);
     setSearchQuery('');
-    setSearchResults([]);
     setShowCreateForm(false);
     setSelectedDoctor(null);
     setBookedDoctorIds(new Set());
@@ -287,6 +286,21 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setPatientNotes('');
     setCompletedBooking(null);
     setCompletedQueue(null);
+
+    // Fetch initial patient list so the screen isn't empty
+    setIsSearching(true);
+    usersApi.searchPatients('', 1, 5)
+      .then((res) => {
+        setSearchResults(res.users);
+        setPagination(res.pagination);
+      })
+      .catch((err) => {
+        console.error(err);
+        setSearchResults([]);
+      })
+      .finally(() => {
+        setIsSearching(false);
+      });
   };
 
   // Step 1 = BN, Step 2 = BS, Step 3 = Time/Confirm (luồng mới 3 steps)
