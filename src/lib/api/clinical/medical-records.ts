@@ -68,6 +68,18 @@ export interface VisitHistoryItem {
     abnormalNote?: string;
     service: { id: string; name: string };
   }>;
+  labOrders?: Array<{
+    id: string;
+    status: string;
+    testName: string;
+    result?: {
+      id: string;
+      resultText?: string;
+      resultFileUrl?: string;
+      isAbnormal?: boolean;
+    };
+    service: { id: string; name: string };
+  }>;
   prescription?: {
     id: string;
     notes?: string;
