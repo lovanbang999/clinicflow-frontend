@@ -6,11 +6,14 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { NotificationBell } from '@/components/layout/NotificationBell';
 import { LanguageSwitcher } from '../../shared/LanguageSwitcher';
 import { NAV_ITEMS_TECHNICIAN } from './TechnicianDashboardSidebar';
+import { useUIStore } from '@/lib/store/uiStore';
+import { SidebarSimpleIcon } from '@phosphor-icons/react';
 
 export function TechnicianDashboardHeader() {
   const { user } = useAuthStore();
   const t = useTranslations('technicianWorklist');
   const pathname = usePathname();
+  const { toggleSidebarCollapsed } = useUIStore();
 
   const activeItem = NAV_ITEMS_TECHNICIAN.find((item) =>
     item.exact
@@ -25,9 +28,16 @@ export function TechnicianDashboardHeader() {
     : 'TE';
 
   return (
-    <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-8 shrink-0">
-      {/* Title */}
-      <div>
+    <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-4 sm:px-6 shrink-0">
+      {/* Left: Toggle + Title */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={toggleSidebarCollapsed}
+          className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
+          aria-label="Toggle sidebar"
+        >
+          <SidebarSimpleIcon size={22} weight="regular" />
+        </button>
         <h2 className="text-[#111518] text-xl font-bold tracking-tight">{pageTitle}</h2>
       </div>
 

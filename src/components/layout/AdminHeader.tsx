@@ -6,16 +6,14 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { NotificationBell } from './NotificationBell';
 import { LanguageSwitcher } from '../shared/LanguageSwitcher';
 import { NAV_ITEMS } from './AdminSidebar';
-import { ListIcon } from '@phosphor-icons/react';
+import { SidebarSimpleIcon } from '@phosphor-icons/react';
+import { useUIStore } from '@/lib/store/uiStore';
 
-interface AdminHeaderProps {
-  onMenuToggle: () => void;
-}
-
-export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
+export default function AdminHeader() {
   const { user } = useAuthStore();
   const t = useTranslations('adminLayout');
   const pathname = usePathname();
+  const { toggleSidebarCollapsed } = useUIStore();
 
   const activeItem = NAV_ITEMS.find((item) =>
     item.exact
@@ -29,14 +27,15 @@ export default function AdminHeader({ onMenuToggle }: AdminHeaderProps) {
     : 'AD';
 
   return (
-    <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-4 sm:px-8 shrink-0">
-      {/* Title & Toggle */}
+    <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-4 sm:px-6 shrink-0">
+      {/* Left: Toggle + Title */}
       <div className="flex items-center gap-3">
         <button
-          onClick={onMenuToggle}
-          className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
+          onClick={toggleSidebarCollapsed}
+          className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
+          aria-label="Toggle sidebar"
         >
-          <ListIcon size={24} weight="bold" />
+          <SidebarSimpleIcon size={22} weight="regular" />
         </button>
         <h2 className="text-[#111518] text-lg sm:text-xl font-bold tracking-tight truncate max-w-[150px] sm:max-w-none">
           {pageTitle}
