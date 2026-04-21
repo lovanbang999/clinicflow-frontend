@@ -30,11 +30,22 @@ interface UIState {
   isGlobalLoading: boolean;
   setGlobalLoading: (isLoading: boolean) => void;
   
-  // Sidebar
+  // Sidebar open (mobile)
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
   setSidebarOpen: (isOpen: boolean) => void;
+
+  // Sidebar collapsed (desktop icon-only mode) — persisted
+  isSidebarCollapsed: boolean;
+  toggleSidebarCollapsed: () => void;
 }
+
+const SIDEBAR_COLLAPSED_KEY = 'sc-sidebar-collapsed';
+
+const getInitialCollapsed = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
+};
 
 export const useUIStore = create<UIState>((set) => ({
   // Toast
@@ -76,8 +87,19 @@ export const useUIStore = create<UIState>((set) => ({
   isGlobalLoading: false,
   setGlobalLoading: (isLoading) => set({ isGlobalLoading: isLoading }),
   
-  // Sidebar
+  // Sidebar open (mobile)
   isSidebarOpen: true,
   toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
   setSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
+
+  // Sidebar collapsed (desktop icon-only mode)
+  isSidebarCollapsed: getInitialCollapsed(),
+  toggleSidebarCollapsed: () =>
+    set((state) => {
+      const next = !state.isSidebarCollapsed;
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(next));
+      }
+      return { isSidebarCollapsed: next };
+    }),
 }));
