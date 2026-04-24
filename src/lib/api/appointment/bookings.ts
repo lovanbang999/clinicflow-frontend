@@ -123,5 +123,20 @@ export const bookingsApi = {
     });
     return response.data.data;
   },
+
+  // Mode B — Create direct service booking (skip consultation)
+  createDirectServiceBooking: async (data: {
+    patientProfileId: string;
+    doctorId: string;
+    serviceIds: string[];
+    serviceAssignments?: { serviceId: string; performingDoctorId: string }[];
+    bookingDate: string;
+    isPreBooked?: boolean;
+    startTime?: string;
+    patientNotes?: string;
+  }): Promise<Booking> => {
+    const response = await apiClient.post<{ data: Booking }>('/bookings/receptionist/direct-service', data);
+    return response.data.data;
+  },
 };
 
