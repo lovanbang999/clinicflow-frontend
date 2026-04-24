@@ -17,6 +17,7 @@ import {
   BrainIcon,
   ArrowRightIcon,
   XCircleIcon,
+  X,
 } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../WalkinBookingContext';
 import { Doctor, Service } from '@/types';
@@ -160,8 +161,16 @@ export function DirectServiceStep() {
                       placeholder={t('searchPlaceholder')}
                       value={search}
                       onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                      className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1570EF]/20 focus:border-[#1570EF] transition-all"
+                      className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1570EF]/20 focus:border-[#1570EF] transition-all"
                     />
+                    {search && (
+                      <button
+                        onClick={() => { setSearch(''); setPage(1); }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-0.5 rounded-full hover:bg-slate-200/50"
+                      >
+                        <X size={14} weight="bold" />
+                      </button>
+                    )}
                   </div>
                   <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                     {categories.map(cat => (
@@ -363,8 +372,16 @@ export function DirectServiceStep() {
                                 placeholder="Tìm bác sĩ..."
                                 value={pickerSearch}
                                 onChange={e => setPickerSearch(e.target.value)}
-                                className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#1570EF]/30 focus:border-[#1570EF] transition-all"
+                                className="w-full pl-8 pr-8 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#1570EF]/30 focus:border-[#1570EF] transition-all"
                               />
+                              {pickerSearch && (
+                                <button
+                                  onClick={() => setPickerSearch('')}
+                                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200/50"
+                                >
+                                  <X size={12} weight="bold" />
+                                </button>
+                              )}
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-48 overflow-y-auto">
                               {pickerDoctors.length === 0 ? (
@@ -424,8 +441,16 @@ export function DirectServiceStep() {
                     placeholder="Tìm bác sĩ trực..."
                     value={docSearch}
                     onChange={(e) => { setDocSearch(e.target.value); setDocPage(1); }}
-                    className="w-full pl-8 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1570EF]/20 focus:border-[#1570EF] transition-all"
+                    className="w-full pl-8 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1570EF]/20 focus:border-[#1570EF] transition-all"
                   />
+                  {docSearch && (
+                    <button
+                      onClick={() => { setDocSearch(''); setDocPage(1); }}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200/50"
+                    >
+                      <X size={12} weight="bold" />
+                    </button>
+                  )}
                 </div>
 
                 {isLoadingDoctors ? (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { MagnifyingGlassIcon, X } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../../WalkinBookingContext';
 
 export function SearchSection() {
@@ -25,9 +25,17 @@ export function SearchSection() {
           placeholder={t('searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full h-11 bg-white border border-slate-200 rounded-xl pl-10 pr-4 text-[14px] focus:outline-none focus:border-[#1570EF] focus:ring-[3px] focus:ring-[#1570EF]/10 transition-shadow shadow-sm"
+          className="w-full h-11 bg-white border border-slate-200 rounded-xl pl-10 pr-10 text-[14px] focus:outline-none focus:border-[#1570EF] focus:ring-[3px] focus:ring-[#1570EF]/10 transition-shadow shadow-sm"
           onKeyDown={(e) => e.key === 'Enter' && handleSearchPatient()}
         />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200/50 transition-colors"
+          >
+            <X size={16} weight="bold" />
+          </button>
+        )}
       </div>
       <button
         onClick={() => handleSearchPatient(1)}
