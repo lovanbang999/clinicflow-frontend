@@ -199,7 +199,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
   };
 
   const consultationInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.CONSULTATION);
-  const labInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.LAB);
+  const labInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.SERVICE);
   const pharmacyInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.PHARMACY);
 
   if (loadingBooking && !booking) {
@@ -290,7 +290,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
                         </li>
                       ))}
                     </ul>
-                    <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.LAB)} className="bg-amber-500 hover:bg-amber-600 text-white border-0 shadow-sm rounded-xl py-4 h-9">
+                    <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.SERVICE)} className="bg-amber-500 hover:bg-amber-600 text-white border-0 shadow-sm rounded-xl py-4 h-9">
                       <PlusIcon size={16} className="mr-2" /> {t('detail.alerts.collectLabFees')}
                     </Button>
                   </div>

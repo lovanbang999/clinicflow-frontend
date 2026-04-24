@@ -40,8 +40,8 @@ export function BillingTable({
         className: 'bg-blue-50 text-blue-700 border border-blue-100',
         icon: <StethoscopeIcon size={12} weight="bold" />,
       },
-      [InvoiceType.LAB]: {
-        label: tTypes('LAB'),
+      [InvoiceType.SERVICE]: {
+        label: tTypes('SERVICE'),
         className: 'bg-violet-50 text-violet-700 border border-violet-100',
         icon: <TestTubeIcon size={12} weight="bold" />,
       },

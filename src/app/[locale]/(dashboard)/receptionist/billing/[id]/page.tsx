@@ -99,7 +99,7 @@ export default function InvoiceDetailPage() {
   // Map InvoiceType to icon + label
   const invoiceTypeContent: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
     CONSULTATION: { label: tTypes('CONSULTATION'), icon: <StethoscopeIcon size={14} weight="bold" />, color: 'text-blue-600 bg-blue-50' },
-    LAB: { label: tTypes('LAB'), icon: <TestTubeIcon size={14} weight="bold" />, color: 'text-violet-600 bg-violet-50' },
+    SERVICE: { label: tTypes('SERVICE'), icon: <TestTubeIcon size={14} weight="bold" />, color: 'text-violet-600 bg-violet-50' },
     PHARMACY: { label: tTypes('PHARMACY'), icon: <PillIcon size={14} weight="bold" />, color: 'text-emerald-600 bg-emerald-50' },
   };
   const typeInfo = invoiceTypeContent[currentInvoice.invoiceType] ?? { label: currentInvoice.invoiceType, icon: null, color: 'text-slate-600 bg-slate-50' };

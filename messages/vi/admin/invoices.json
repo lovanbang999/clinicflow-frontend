@@ -31,7 +31,7 @@
   "bookingInvoices": {
     "types": {
       "CONSULTATION": "Khám",
-      "LAB": "Cận lâm sàng",
+      "SERVICE": "Dịch vụ & CLS",
       "PHARMACY": "Thuốc"
     }
   }

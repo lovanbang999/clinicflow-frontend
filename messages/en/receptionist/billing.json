@@ -200,7 +200,7 @@
     "createNewInvoice": "Create New Invoice",
     "types": {
       "CONSULTATION": "Consultation",
-      "LAB": "Laboratory",
+      "SERVICE": "Services",
       "PHARMACY": "Pharmacy"
     },
     "pendingLabAlert": "There are {count} pending lab orders unpaid.",
