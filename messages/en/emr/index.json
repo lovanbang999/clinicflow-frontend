@@ -775,6 +775,7 @@
     "completed": "Completed",
     "dateColumn": "Visit\nDate",
     "rxLabel": "meds",
+    "generalVisit": "General Visit / Consultation",
     "detail": {
       "title": "Visit Details",
       "info": "Visit Information",

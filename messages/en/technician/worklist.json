@@ -34,7 +34,8 @@
       "result": "Enter Result",
       "start": "Start"
     },
-    "empty": "No patients are currently waiting."
+    "empty": "No patients are currently waiting.",
+    "emptyDesc": "No orders found matching your filters or search query."
   },
   "messages": {
     "statusUpdated": "Status updated to In Progress",
