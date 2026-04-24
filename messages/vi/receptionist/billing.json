@@ -201,7 +201,7 @@
     "createNewInvoice": "Lập hoá đơn mới",
     "types": {
       "CONSULTATION": "Khám tư vấn",
-      "LAB": "Dịch vụ & CLS",
+      "SERVICE": "Dịch vụ & CLS",
       "PHARMACY": "Thuốc"
     },
     "pendingLabAlert": "Có {count} chỉ định cận lâm sàng chưa thu tiền.",

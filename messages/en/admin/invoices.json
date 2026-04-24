@@ -31,7 +31,7 @@
   "bookingInvoices": {
     "types": {
       "CONSULTATION": "Consultation",
-      "LAB": "Lab",
+      "SERVICE": "Services",
       "PHARMACY": "Pharmacy"
     }
   }

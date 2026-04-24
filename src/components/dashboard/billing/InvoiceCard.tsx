@@ -58,8 +58,8 @@ export function InvoiceCard({
       icon: <StethoscopeIcon size={16} weight="bold" />,
       color: 'text-blue-700 bg-blue-50 border-blue-200',
     },
-    [InvoiceType.LAB]: {
-      label: t('types.LAB'),
+    [InvoiceType.SERVICE]: {
+      label: t('types.SERVICE'),
       icon: <TestTubeIcon size={16} weight="bold" />,
       color: 'text-violet-700 bg-violet-50 border-violet-200',
     },
@@ -193,7 +193,7 @@ export function InvoiceCard({
                 <PrinterIcon size={14} />
                 {t('printInvoice')}
               </Button>
-              {(invoice.invoiceType === InvoiceType.CONSULTATION || invoice.invoiceType === InvoiceType.LAB) && (
+              {(invoice.invoiceType === InvoiceType.CONSULTATION || invoice.invoiceType === InvoiceType.SERVICE) && (
                 <Button
                   size="sm"
                   variant="outline"

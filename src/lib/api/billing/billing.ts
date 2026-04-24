@@ -12,7 +12,7 @@ export enum InvoiceStatus {
 
 export enum InvoiceType {
   CONSULTATION = 'CONSULTATION', // Phiếu thu tiền khám
-  LAB = 'LAB',                  // Phiếu thu tiền cận lâm sàng / XN
+  SERVICE = 'SERVICE',           // Phiếu thu tiền dịch vụ kỹ thuật (XN + chuyên khoa)
   PHARMACY = 'PHARMACY',         // Phiếu thu tiền thuốc
 }
 

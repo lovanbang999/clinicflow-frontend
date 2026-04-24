@@ -27,7 +27,7 @@ export const getErrorKey = (messageCode?: string, defaultKey = 'generic') => {
 export const getInvoiceTypeLabel = (type: InvoiceType): string => {
   switch (type) {
     case InvoiceType.CONSULTATION: return 'Khám';
-    case InvoiceType.LAB:          return 'Cận lâm sàng';
+    case InvoiceType.SERVICE:       return 'Dịch vụ & CLS';
     case InvoiceType.PHARMACY:     return 'Thuốc';
     default:                       return type;
   }

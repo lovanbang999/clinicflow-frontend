@@ -79,7 +79,7 @@ export default function AdminInvoicesPage() {
               <SelectContent position='popper' align='end'>
                 <SelectItem value="ALL">{t('filter.typePlaceholder')}</SelectItem>
                 <SelectItem value={InvoiceType.CONSULTATION}>{tCommon('bookingInvoices.types.CONSULTATION')}</SelectItem>
-                <SelectItem value={InvoiceType.LAB}>{tCommon('bookingInvoices.types.LAB')}</SelectItem>
+                <SelectItem value={InvoiceType.SERVICE}>{tCommon('bookingInvoices.types.SERVICE')}</SelectItem>
                 <SelectItem value={InvoiceType.PHARMACY}>{tCommon('bookingInvoices.types.PHARMACY')}</SelectItem>
               </SelectContent>
             </Select>

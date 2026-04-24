@@ -58,7 +58,7 @@ export function QuickAddInvoiceModal({
 
   useEffect(() => {
     if (isOpen) {
-      if (invoiceType === InvoiceType.LAB) {
+      if (invoiceType === InvoiceType.SERVICE) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedLabOrderIds(new Set(pendingLabOrders.map((o) => o.id)));
       } else {
@@ -134,13 +134,13 @@ export function QuickAddInvoiceModal({
   const getTitle = () => {
     switch (invoiceType) {
       case InvoiceType.CONSULTATION: return t('titleConsultation');
-      case InvoiceType.LAB: return t('titleLab');
+      case InvoiceType.SERVICE: return t('titleLab');
       case InvoiceType.PHARMACY: return t('titlePharmacy');
       default: return t('titleDefault');
     }
   };
 
-  const hasPendingOrders = invoiceType === InvoiceType.LAB && pendingLabOrders.length > 0;
+  const hasPendingOrders = invoiceType === InvoiceType.SERVICE && pendingLabOrders.length > 0;
   const isFormValid = selectedLabOrderIds.size > 0 || manualItems.length > 0;
 
   return (
@@ -152,7 +152,7 @@ export function QuickAddInvoiceModal({
 
         <div className="space-y-6 py-4">
           {/* Section 1: Pending Orders (LAB only) */}
-          {invoiceType === InvoiceType.LAB && (
+          {invoiceType === InvoiceType.SERVICE && (
             <div className="space-y-3">
               <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wide">
                 {t('pendingOrders', { count: pendingLabOrders.length })}
@@ -196,7 +196,7 @@ export function QuickAddInvoiceModal({
             <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wide flex justify-between items-center">
               <span>
                 {invoiceType === InvoiceType.CONSULTATION && t('manualItemsConsultation')}
-                {invoiceType === InvoiceType.LAB && t('manualItemsLab')}
+                {invoiceType === InvoiceType.SERVICE && t('manualItemsLab')}
                 {invoiceType === InvoiceType.PHARMACY && t('manualItemsPharmacy')}
               </span>
             </h3>
@@ -254,7 +254,7 @@ export function QuickAddInvoiceModal({
                 <div className="sm:col-span-2 space-y-1.5">
                   <Label className="text-xs">
                     {invoiceType === InvoiceType.CONSULTATION && t('itemNameConsultation')}
-                    {invoiceType === InvoiceType.LAB && t('itemNameLab')}
+                    {invoiceType === InvoiceType.SERVICE && t('itemNameLab')}
                     {invoiceType === InvoiceType.PHARMACY && t('itemNamePharmacy')}
                   </Label>
                   <Input

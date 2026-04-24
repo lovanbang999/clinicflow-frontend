@@ -190,7 +190,7 @@ export default function BookingInvoicesPage() {
 
   const INVOICE_TYPES = [
     { type: InvoiceType.CONSULTATION, label: t('types.CONSULTATION'), icon: <StethoscopeIcon size={16} weight="bold" />, btnColor: 'bg-blue-600 hover:bg-blue-700 text-white' },
-    { type: InvoiceType.LAB, label: t('types.LAB'), icon: <TestTubeIcon size={16} weight="bold" />, btnColor: 'bg-violet-600 hover:bg-violet-700 text-white' },
+    { type: InvoiceType.SERVICE, label: t('types.SERVICE'), icon: <TestTubeIcon size={16} weight="bold" />, btnColor: 'bg-violet-600 hover:bg-violet-700 text-white' },
     { type: InvoiceType.PHARMACY, label: t('types.PHARMACY'), icon: <PillIcon size={16} weight="bold" />, btnColor: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
   ];
 
@@ -207,7 +207,7 @@ export default function BookingInvoicesPage() {
 
   // Group invoices
   const consultationInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.CONSULTATION);
-  const labInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.LAB);
+  const labInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.SERVICE);
   const pharmacyInvoices = bookingInvoices.filter(i => i.invoiceType === InvoiceType.PHARMACY);
 
   return (
@@ -296,8 +296,8 @@ export default function BookingInvoicesPage() {
                         </li>
                       ))}
                     </ul>
-                    <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.LAB)} disabled={processingPayment || creatingType !== null} className="bg-amber-500 hover:bg-amber-600 text-white cursor-pointer h-8 text-xs w-full sm:w-auto shadow-sm">
-                      {creatingType === InvoiceType.LAB ? '⏳' : <TestTubeIcon size={14} weight="bold" className="mr-1.5" />} {t('createLabInvoice')}
+                    <Button size="sm" onClick={() => handleCreateInvoice(InvoiceType.SERVICE)} disabled={processingPayment || creatingType !== null} className="bg-amber-500 hover:bg-amber-600 text-white cursor-pointer h-8 text-xs w-full sm:w-auto shadow-sm">
+                      {creatingType === InvoiceType.SERVICE ? '⏳' : <TestTubeIcon size={14} weight="bold" className="mr-1.5" />} {t('createLabInvoice')}
                     </Button>
                   </div>
                 </div>
