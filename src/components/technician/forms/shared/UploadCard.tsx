@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { UploadSimpleIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import Image from 'next/image';
+import { UploadSimpleIcon, MagnifyingGlassIcon, EyeIcon } from '@phosphor-icons/react';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import { ImageLightbox } from '@/components/shared/ImageLightbox';
@@ -71,23 +72,56 @@ export function UploadCard({
       </div>
       {fileUrl && (
         <div className={cn(
-          "flex items-center gap-3 p-4 border rounded-2xl animate-in fade-in slide-in-from-top-2",
+          "flex items-center gap-3 p-3 border rounded-2xl animate-in fade-in slide-in-from-top-2 group/item",
           accentStyles.split(' ').slice(3).join(' ')
         )}>
-          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-            <MagnifyingGlassIcon weight="bold" size={20} />
+          {/* Thumbnail / Icon */}
+          <div className="relative w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0 overflow-hidden border border-slate-100 shadow-sm group/preview">
+            {isImage ? (
+              <>
+                <Image 
+                  src={fileUrl} 
+                  alt="Preview" 
+                  width={48}
+                  height={48}
+                  unoptimized
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover/preview:scale-110" 
+                />
+                <div 
+                  className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                  onClick={() => setIsLightboxOpen(true)}
+                >
+                  <EyeIcon weight="bold" size={18} className="text-white" />
+                </div>
+              </>
+            ) : (
+              <MagnifyingGlassIcon weight="bold" size={20} className="text-slate-400" />
+            )}
           </div>
-          <span className="text-xs font-bold truncate flex-1">Đã đính kèm tệp</span>
+
+          <div className="flex-1 min-w-0">
+            <p className="text-[11px] font-black uppercase tracking-wider text-slate-400 mb-0.5">Tệp đính kèm</p>
+            <p className="text-xs font-bold truncate">
+              {isImage ? 'Hình ảnh kết quả' : 'Tài liệu xét nghiệm'}
+            </p>
+          </div>
+
           {isImage ? (
             <button 
               type="button"
               onClick={() => setIsLightboxOpen(true)}
-              className="text-[10px] font-black hover:underline uppercase transition-all"
+              className="px-3 py-1.5 bg-white/80 hover:bg-white text-[10px] font-black uppercase rounded-lg shadow-sm border border-slate-200 transition-all active:scale-95"
             >
-              Xem
+              Xem ảnh
             </button>
           ) : (
-            <a href={fileUrl} target="_blank" className="text-[10px] font-black hover:underline uppercase">Xem</a>
+            <a 
+              href={fileUrl} 
+              target="_blank" 
+              className="px-3 py-1.5 bg-white/80 hover:bg-white text-[10px] font-black uppercase rounded-lg shadow-sm border border-slate-200 transition-all active:scale-95"
+            >
+              Xem tệp
+            </a>
           )}
         </div>
       )}
