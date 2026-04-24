@@ -53,9 +53,9 @@ export function DoctorDashboardSidebar() {
       )}>
         <Image src="/logo.svg" alt="Logo" width={36} height={36} className="shrink-0" />
         {!isSidebarCollapsed && (
-          <div className="overflow-hidden">
-            <h1 className="text-[#111518] text-lg font-bold leading-none whitespace-nowrap">Smart Clinic</h1>
-            <p className="text-[#1392ec]/70 text-xs font-semibold uppercase tracking-wider mt-1 whitespace-nowrap">
+          <div className="overflow-hidden flex flex-col justify-center">
+            <h1 className="text-[#111518] text-lg font-bold leading-none truncate">Smart Clinic</h1>
+            <p className="text-[#1392ec]/70 text-[10px] font-semibold uppercase tracking-wider mt-1 leading-tight line-clamp-2">
               {t('healthcare')}
             </p>
           </div>
@@ -85,7 +85,7 @@ export function DoctorDashboardSidebar() {
               <Link
                 href={item.href}
                 className={cn(
-                  'flex items-center transition-all text-sm font-medium rounded-xl',
+                  'flex items-center transition-all text-sm font-medium rounded-xl min-w-0',
                   isSidebarCollapsed ? 'justify-center px-0 py-2.5' : 'gap-3 px-3 py-2.5',
                   isActive
                     ? 'bg-[#1392ec] text-white'
@@ -93,7 +93,7 @@ export function DoctorDashboardSidebar() {
                 )}
               >
                 <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} className="shrink-0" />
-                {!isSidebarCollapsed && <span className="whitespace-nowrap">{t(item.key)}</span>}
+                {!isSidebarCollapsed && <span className="truncate">{t(item.key)}</span>}
               </Link>
               {/* Tooltip in collapsed mode */}
               {isSidebarCollapsed && (
@@ -113,12 +113,12 @@ export function DoctorDashboardSidebar() {
           <button
             onClick={() => logout()}
             className={cn(
-              'w-full flex items-center rounded-xl text-[#64748b] hover:bg-red-50 hover:text-red-500 cursor-pointer transition-all text-sm font-medium',
+              'w-full flex items-center rounded-xl text-[#64748b] hover:bg-red-50 hover:text-red-500 cursor-pointer transition-all text-sm font-medium min-w-0',
               isSidebarCollapsed ? 'justify-center px-0 py-2.5' : 'gap-3 px-3 py-2.5',
             )}
           >
             <SignOutIcon size={22} weight="regular" className="shrink-0" />
-            {!isSidebarCollapsed && <span className="whitespace-nowrap">{tCommon('menu.logout')}</span>}
+            {!isSidebarCollapsed && <span className="truncate">{tCommon('menu.logout')}</span>}
           </button>
           {isSidebarCollapsed && (
             <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1.5 bg-slate-800 text-white text-xs font-medium rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-50 shadow-lg">

@@ -61,9 +61,9 @@ export function ReceptionistDashboardSidebar() {
       )}>
         <Image src="/logo.svg" alt="Logo" width={36} height={36} className="shrink-0" />
         {!isSidebarCollapsed && (
-          <div className="overflow-hidden">
-            <h1 className="text-[#111518] text-lg font-bold leading-none whitespace-nowrap">Smart Clinic</h1>
-            <p className="text-[#1392ec]/70 text-xs font-semibold uppercase tracking-wider mt-1 whitespace-nowrap">
+          <div className="overflow-hidden flex flex-col justify-center">
+            <h1 className="text-[#111518] text-lg font-bold leading-none truncate">Smart Clinic</h1>
+            <p className="text-[#1392ec]/70 text-[10px] font-semibold uppercase tracking-wider mt-1 leading-tight line-clamp-2">
               {t('healthcare')}
             </p>
           </div>
@@ -82,7 +82,7 @@ export function ReceptionistDashboardSidebar() {
               <Link
                 href={item.href}
                 className={cn(
-                  'flex items-center transition-all text-sm font-medium rounded-xl',
+                  'flex items-center transition-all text-sm font-medium rounded-xl min-w-0',
                   isSidebarCollapsed ? 'justify-center px-0 py-2.5' : 'gap-3 px-3 py-2.5',
                   isActive
                     ? 'bg-[#1392ec] text-white'
@@ -90,7 +90,7 @@ export function ReceptionistDashboardSidebar() {
                 )}
               >
                 <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} className="shrink-0" />
-                {!isSidebarCollapsed && <span className="whitespace-nowrap">{t(item.key)}</span>}
+                {!isSidebarCollapsed && <span className="truncate">{t(item.key)}</span>}
               </Link>
               {/* Tooltip in collapsed mode */}
               {isSidebarCollapsed && (
