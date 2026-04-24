@@ -2,8 +2,10 @@
 
 import { useEffect } from 'react';
 import { WalkinBookingProvider, useWalkinBooking } from './WalkinBookingContext';
+import { ModeToggle } from './steps/ModeToggle';
 import { PatientSelectionStep } from './steps/PatientSelectionStep';
 import { DoctorSelectionStep } from './steps/DoctorSelectionStep';
+import { DirectServiceStep } from './steps/DirectServiceStep';
 import { AppointmentTimeStep } from './steps/AppointmentTimeStep';
 import { BookingSummaryCard } from './steps/BookingSummaryCard';
 import { CompletedBooking } from './steps/CompletedBooking';
@@ -13,7 +15,7 @@ interface WalkinBookingFormProps {
 }
 
 function WalkinBookingContent({ onCompleteChange }: WalkinBookingFormProps) {
-  const { completedBooking } = useWalkinBooking();
+  const { completedBooking, bookingMode } = useWalkinBooking();
 
   useEffect(() => {
     onCompleteChange?.(!!completedBooking);
@@ -25,10 +27,21 @@ function WalkinBookingContent({ onCompleteChange }: WalkinBookingFormProps) {
 
   return (
     <div className="flex flex-col xl:flex-row gap-8 pb-12 w-full">
-      {/* Left Column: Form Steps — Mô hình A: BN → BS → Thời gian (không có service) */}
+      {/* Left Column: Form Steps */}
       <div className="flex-1 flex flex-col pl-2 min-w-0">
+        {/* Mode Toggle — always shown before steps */}
+        <ModeToggle />
+
+        {/* Step 1 — Patient Selection (shared across modes) */}
         <PatientSelectionStep />
-        <DoctorSelectionStep />
+
+        {/* Step 2 — Mode-dependent */}
+        {bookingMode === 'CONSULTATION'
+          ? <DoctorSelectionStep />
+          : <DirectServiceStep />
+        }
+
+        {/* Step 3 — Appointment Time / Confirm (shared across modes) */}
         <AppointmentTimeStep />
       </div>
 

@@ -9,18 +9,25 @@ import {
   UserIcon,
   PlusIcon,
   MapPinIcon,
+  CreditCardIcon,
+  TestTubeIcon,
 } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../WalkinBookingContext';
 import { format } from 'date-fns';
 import { PrintableWalkinTicket } from '../PrintableWalkinTicket';
+import { useRouter, useParams } from 'next/navigation';
 
 export function CompletedBooking() {
   const t = useTranslations('receptionistWalkinBooking.success');
-  const { selectedPatient, selectedDoctor, completedBooking, completedQueue, handleReset } = useWalkinBooking();
+  const router = useRouter();
+  const params = useParams();
+  const locale = (params?.locale as string) ?? 'vi';
+  const {
+    selectedPatient, selectedDoctor, completedBooking, completedQueue,
+    handleReset, bookingMode, selectedServices, dutyDoctor,
+  } = useWalkinBooking();
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const isModeB = bookingMode === 'DIRECT_SERVICE';
 
   const isPending = completedBooking?.status === 'PENDING';
 
@@ -88,16 +95,38 @@ export function CompletedBooking() {
             </div>
           </div>
 
-          {/* Doctor */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
-              <UserIcon size={18} className="text-slate-500" />
+          {/* Doctor OR Services depending on mode */}
+          {isModeB ? (
+            /* Mode B: show services list */
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-lg bg-[#EFF4FF] flex items-center justify-center shrink-0">
+                <TestTubeIcon size={18} className="text-[#1570EF]" weight="fill" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('doctorLabel')} phụ trách · Dịch vụ</p>
+                <p className="font-bold text-slate-900 truncate">{dutyDoctor?.fullName ?? '—'}</p>
+                <div className="mt-1 space-y-0.5">
+                  {selectedServices.slice(0, 3).map(s => (
+                    <p key={s.id} className="text-[11px] text-slate-500 truncate">· {s.name}</p>
+                  ))}
+                  {selectedServices.length > 3 && (
+                    <p className="text-[11px] text-slate-400">+{selectedServices.length - 3} dịch vụ khác</p>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('doctorLabel')}</p>
-              <p className="font-bold text-slate-900 truncate">{selectedDoctor?.fullName ?? '—'}</p>
+          ) : (
+            /* Mode A: show consultation doctor */
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                <UserIcon size={18} className="text-slate-500" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">{t('doctorLabel')}</p>
+                <p className="font-bold text-slate-900 truncate">{selectedDoctor?.fullName ?? '—'}</p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Clinic Room - Only show if not pending or if room actually assigned */}
           {completedBooking?.room && !isPending && (
@@ -167,13 +196,23 @@ export function CompletedBooking() {
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        {!isPending && (
+        {!isPending && !isModeB && (
           <button
-            onClick={handlePrint}
+            onClick={() => window.print()}
             className="flex-1 flex items-center justify-center gap-2 border-2 border-[#1570EF] text-[#1570EF] py-3 rounded-xl font-bold hover:bg-[#EFF4FF] transition-all cursor-pointer"
           >
             <PrinterIcon size={18} />
             {t('printBtn')}
+          </button>
+        )}
+        {/* Mode B: Go to Billing */}
+        {isModeB && completedBooking && (
+          <button
+            onClick={() => router.push(`/${locale}/receptionist/billing?bookingId=${completedBooking.id}`)}
+            className="flex-1 flex items-center justify-center gap-2 bg-[#1570EF] text-white py-3 rounded-xl font-bold hover:bg-[#1165D8] transition-all shadow-lg shadow-[#1570EF]/20 cursor-pointer"
+          >
+            <CreditCardIcon size={18} />
+            {t('goToBillingBtn')}
           </button>
         )}
         <button
@@ -187,11 +226,11 @@ export function CompletedBooking() {
 
       {/* Note about billing */}
       <p className="text-center text-xs text-slate-400 mt-4 leading-relaxed">
-        {isPending ? t('pendingNote') : t('billingNote')}
+        {isModeB ? t('directServiceNote') : isPending ? t('pendingNote') : t('billingNote')}
       </p>
 
       {/* Printable Area - Hidden on screen */}
-      {completedBooking && (
+      {completedBooking && !isModeB && (
         <PrintableWalkinTicket 
           booking={completedBooking} 
           queue={completedQueue || undefined} 

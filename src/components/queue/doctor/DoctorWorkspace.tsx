@@ -27,20 +27,21 @@ export function DoctorWorkspace({
 
   const handleCallPatient = async (bookingId: string) => {
     const item = items.find(q => q.booking.id === bookingId);
-    
-    // Call the generic booking start API
-    await callPatient(bookingId);
-    
-    // If this is a specialist referral (VSO), also trigger the VSO start API
+
     if (item?.isVisitServiceOrder && item.visitServiceOrderId) {
+      // VSO (specialist) flow — the booking may still be CONFIRMED (direct-service walk-in)
+      // so we must NOT call bookingsApi.startExamination() which requires CHECKED_IN.
+      // Instead, directly start the VisitServiceOrder and navigate to the examination page.
       try {
         await medicalRecordsApi.startSpecialistExamination(item.visitServiceOrderId);
       } catch (err) {
-        console.error('Failed to start specialist examination automatically:', err);
-        // We still redirect, the doctor might need to click "Start" manually if this fails
+        console.error('[VSO] Failed to start specialist examination:', err);
+        // Navigate anyway — ExaminationCenterForm will retry the start on mount
       }
       router.push(`/${locale}/doctor/examination/${item.visitServiceOrderId}`);
     } else {
+      // Normal consultation flow — transitions CHECKED_IN → IN_PROGRESS via booking start
+      await callPatient(bookingId);
       router.push(`/${locale}/doctor/consultation/${bookingId}`);
     }
   };

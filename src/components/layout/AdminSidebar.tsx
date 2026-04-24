@@ -52,7 +52,7 @@ export default function AdminSidebar({ onNavItemClick }: AdminSidebarProps) {
   const pathname = usePathname();
   const { logout } = useAuth();
   const t = useTranslations('adminLayout');
-  const { isSidebarCollapsed, toggleSidebarCollapsed } = useUIStore();
+  const { isSidebarCollapsed } = useUIStore();
 
   return (
     <aside

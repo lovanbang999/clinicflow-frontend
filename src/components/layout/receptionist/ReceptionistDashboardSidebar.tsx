@@ -19,8 +19,6 @@ import {
   ReceiptIcon,
   CalendarIcon,
   GearIcon,
-  ArrowLineLeftIcon,
-  ArrowLineRightIcon,
 } from '@phosphor-icons/react';
 
 type NavItem = {
@@ -47,7 +45,7 @@ export function ReceptionistDashboardSidebar() {
   const { logout } = useAuth();
   const t = useTranslations('receptionistLayout');
   const tCommon = useTranslations('common');
-  const { isSidebarCollapsed, toggleSidebarCollapsed } = useUIStore();
+  const { isSidebarCollapsed } = useUIStore();
 
   return (
     <aside

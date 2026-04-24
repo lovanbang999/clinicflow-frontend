@@ -1,6 +1,14 @@
 {
   "pageTitle": "Đặt lịch khám mới",
   "pageDescription": "Đăng ký khám tức thì cho bệnh nhân",
+  "modeToggle": {
+    "consultationTitle": "Khám tư vấn",
+    "consultationDesc": "Bệnh nhân chưa biết cần khám gì. BS tư vấn sẽ khám và chỉ định dịch vụ sau.",
+    "consultationTag": "Luồng B1 → B2 → B3",
+    "directServiceTitle": "Đặt thẳng dịch vụ",
+    "directServiceDesc": "Bệnh nhân đã biết cần xét nghiệm / khám chuyên khoa gì. Thu tiền & cấp STT ngay.",
+    "directServiceTag": "Luồng B3 → B4"
+  },
   "patient": {
     "title": "Chọn bệnh nhân",
     "desc": "Tìm bệnh nhân đã có hoặc đăng ký mới",
@@ -50,6 +58,32 @@
     "mins": "phút",
     "changeBtn": "Thay đổi",
     "selectedBadge": "Dịch vụ đã chọn"
+  },
+  "directService": {
+    "title": "Chọn dịch vụ",
+    "desc": "Chọn xét nghiệm hoặc khám chuyên khoa bệnh nhân cần",
+    "searchPlaceholder": "Tìm dịch vụ... (VD: máu, siêu âm, mắt)",
+    "catAll": "Tất cả",
+    "catLab": "Xét nghiệm",
+    "catImaging": "Chẩn đoán hình ảnh",
+    "catSpecialist": "Chuyên khoa",
+    "catFunction": "Thăm dò chức năng",
+    "noServices": "Không tìm thấy dịch vụ",
+    "noServicesDesc": "Thử tìm kiếm với từ khoá khác",
+    "loadingServices": "Đang tải dịch vụ...",
+    "technicianBadge": "KTV thực hiện",
+    "doctorBadge": "BS thực hiện",
+    "selectedCount": "{count} dịch vụ đã chọn",
+    "dutyDoctorLabel": "BS phụ trách ca",
+    "dutyDoctorNote": "Bệnh nhân không cần gặp trực tiếp — chỉ ký hồ sơ và nhận kết quả",
+    "dutyDoctorSelect": "Chọn",
+    "dutyDoctorSelected": "Đã chọn",
+    "onDutyBadge": "Đang trực",
+    "flowNote": "Thu tiền ngay sau bước này. Tạo Invoice LAB, gán STT, in phiếu. Bệnh nhân đến thẳng phòng thực hiện dịch vụ — không qua BS tư vấn.",
+    "submitBtn": "Xác nhận & Thu tiền",
+    "submitting": "Đang xử lý...",
+    "errorSelectServices": "Vui lòng chọn ít nhất 1 dịch vụ",
+    "errorSelectDutyDoctor": "Vui lòng chọn bác sĩ phụ trách ca"
   },
   "doctor": {
     "title": "Chọn bác sĩ",
@@ -117,7 +151,12 @@
     "confirmBtn": "Xác nhận đặt lịch",
     "confirmWalkIn": "Xếp vào hàng chờ",
     "notice": "Bằng cách xác nhận, bệnh nhân sẽ được thêm vào hàng đợi ngay lập tức.",
-    "modelANote": "Dịch vụ chuyên khoa sẽ được bác sĩ chỉ định sau khi tư vấn trực tiếp với bệnh nhân."
+    "modelANote": "Dịch vụ chuyên khoa sẽ được bác sĩ chỉ định sau khi tư vấn trực tiếp với bệnh nhân.",
+    "modeBServicesLabel": "Dịch vụ đã chọn",
+    "modeBDutyDoctorLabel": "BS phụ trách ca",
+    "modeBDutyDoctorNote": "Ký hồ sơ · Nhận kết quả",
+    "modeBTotalLabel": "Tổng tiền",
+    "modeBNote": "Thu tiền ngay. BN nhận phiếu STT và đến thẳng phòng xét nghiệm / chuyên khoa."
   },
   "success": {
     "title": "Đặt lịch thành công!",
@@ -141,7 +180,9 @@
     "printBtn": "In phiếu",
     "newBookingBtn": "Đặt lịch mới",
     "billingNote": "Hệ thống sẽ tự động tạo phiếu thu sau khi bác sĩ chỉ định dịch vụ chuyên khoa.",
-    "pendingNote": "Vui lòng nhắc bệnh nhân kiểm tra thông tin lịch hẹn qua App hoặc SMS."
+    "pendingNote": "Vui lòng nhắc bệnh nhân kiểm tra thông tin lịch hẹn qua App hoặc SMS.",
+    "goToBillingBtn": "Đến Thanh toán",
+    "directServiceNote": "Hóa đơn LAB đã được tạo. Vui lòng thu tiền để cấp số thứ tự cho bệnh nhân."
   },
   "toasts": {
     "fillAllSteps": "Vui lòng hoàn thành đủ các bước",

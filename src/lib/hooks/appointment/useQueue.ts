@@ -24,7 +24,7 @@ export function useQueue(doctorId?: string) {
     
     const data = await executeFetch(
       async () => {
-        const [queueRes, completedRes, awaitingResultsRes, statsRes] = await Promise.all([
+        const [queueRes, completedRes, awaitingResultsRes, inProgressRes, statsRes] = await Promise.all([
           queueApi.getAll({ doctorId, date: today, limit: 50 }),
           bookingsApi.getAll({ doctorId, date: today, status: 'COMPLETED', limit: 100 }),
           // B7 — also fetch AWAITING_RESULTS bookings: patients who have finished labs
@@ -32,6 +32,9 @@ export function useQueue(doctorId?: string) {
           // These bookings no longer have a BookingQueue record (it was removed at assignSpecialistService),
           // so we fetch them separately and inject them as synthetic QueueRecord objects.
           bookingsApi.getAll({ doctorId, date: today, status: 'AWAITING_RESULTS', limit: 50 }),
+          // Catch IN_PROGRESS bookings that might have lost their queue record (e.g., after returning from labs
+          // and being called again, but the doctor exited the consultation screen).
+          bookingsApi.getAll({ doctorId, date: today, status: 'IN_PROGRESS', limit: 50 }),
           queueApi.getStatistics(doctorId, today)
         ]);
 
@@ -50,8 +53,6 @@ export function useQueue(doctorId?: string) {
         }));
 
         // B7 — Transform AWAITING_RESULTS bookings into synthetic QueueRecord objects.
-        // These patients are returning from labs/specialist and waiting for the consulting
-        // doctor to call them in a second time (review results + write prescription).
         const awaitingResultsQueue: QueueRecord[] = (awaitingResultsRes.bookings || []).map(booking => ({
           id: `awaiting-${booking.id}`,
           bookingId: booking.id,
@@ -63,9 +64,21 @@ export function useQueue(doctorId?: string) {
           booking: booking,
         }));
 
+        // Transform IN_PROGRESS bookings into synthetic QueueRecord objects.
+        const inProgressQueue: QueueRecord[] = (inProgressRes.bookings || []).map(booking => ({
+          id: `inprogress-${booking.id}`,
+          bookingId: booking.id,
+          doctorId: booking.doctorId,
+          queueDate: today,
+          queuePosition: 0,
+          estimatedWaitMinutes: 0,
+          isPreBooked: booking.startTime !== null,
+          booking: booking,
+        }));
+
         // Merge all lists, avoiding duplicates (active queue takes priority)
         const merged = [...activeQueue];
-        [...completedQueue, ...awaitingResultsQueue].forEach(item => {
+        [...completedQueue, ...awaitingResultsQueue, ...inProgressQueue].forEach(item => {
           if (!merged.find(m => m.bookingId === item.bookingId)) {
             merged.push(item);
           }

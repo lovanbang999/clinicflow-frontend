@@ -92,14 +92,8 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       insuranceNumber,
     });
 
-    // Auto check-in if consultation
-    if (selectedInvoice.invoiceType === InvoiceType.CONSULTATION && !selectedInvoice.booking?.queueRecord) {
-      try {
-        await bookingsApi.checkIn(bookingId);
-      } catch (e) {
-        console.error("Auto check-in failed", e);
-      }
-    }
+    // Note: check-in is handled server-side by billing.service → addToQueue()
+    // when the CONSULTATION invoice is paid. No need to call it here.
 
     // B8 logic
     if (selectedInvoice.invoiceType === InvoiceType.PHARMACY) {
