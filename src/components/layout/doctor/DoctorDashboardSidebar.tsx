@@ -37,7 +37,7 @@ export function DoctorDashboardSidebar() {
   const { logout } = useAuth();
   const t = useTranslations('doctorLayout');
   const tCommon = useTranslations('common');
-  const { isSidebarCollapsed, toggleSidebarCollapsed } = useUIStore();
+  const { isSidebarCollapsed } = useUIStore();
 
   return (
     <aside
