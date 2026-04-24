@@ -1,6 +1,14 @@
 {
   "pageTitle": "New Walk-in Booking",
   "pageDescription": "Register a patient for an immediate consultation",
+  "modeToggle": {
+    "consultationTitle": "Consultation Visit",
+    "consultationDesc": "Patient doesn't know what they need. Doctor will assess and order services after.",
+    "consultationTag": "Flow B1 → B2 → B3",
+    "directServiceTitle": "Direct Service Booking",
+    "directServiceDesc": "Patient already knows what test / specialist exam they need. Collect payment & issue queue number now.",
+    "directServiceTag": "Flow B3 → B4"
+  },
   "patient": {
     "title": "Patient Selection",
     "desc": "Find existing patient or register new one",
@@ -50,6 +58,32 @@
     "mins": "mins",
     "changeBtn": "Change",
     "selectedBadge": "Selected Service"
+  },
+  "directService": {
+    "title": "Select Services",
+    "desc": "Choose the lab tests or specialist exams the patient needs",
+    "searchPlaceholder": "Search services... (e.g. blood, ultrasound, eye)",
+    "catAll": "All",
+    "catLab": "Lab Tests",
+    "catImaging": "Imaging",
+    "catSpecialist": "Specialist",
+    "catFunction": "Function Tests",
+    "noServices": "No services found",
+    "noServicesDesc": "Try a different search term",
+    "loadingServices": "Loading services...",
+    "technicianBadge": "Technician",
+    "doctorBadge": "Doctor",
+    "selectedCount": "{count} service(s) selected",
+    "dutyDoctorLabel": "Duty Doctor",
+    "dutyDoctorNote": "Patient does not need to see this doctor — for record signing & result receipt only",
+    "dutyDoctorSelect": "Select",
+    "dutyDoctorSelected": "Selected",
+    "onDutyBadge": "On Duty",
+    "flowNote": "Collect payment immediately after this step. Create LAB Invoice, assign queue number, print ticket. Patient goes directly to the service room — no consultation needed.",
+    "submitBtn": "Confirm & Collect Payment",
+    "submitting": "Processing...",
+    "errorSelectServices": "Please select at least 1 service",
+    "errorSelectDutyDoctor": "Please select the duty doctor"
   },
   "doctor": {
     "title": "Choose Doctor",
@@ -113,7 +147,13 @@
     "serviceFee": "Service Fee",
     "confirmBtn": "Confirm Appointment",
     "confirmWalkIn": "Add to Queue",
-    "notice": "By confirming, the patient will be added to the queue immediately. Ensure all details are correct."
+    "notice": "By confirming, the patient will be added to the queue immediately. Ensure all details are correct.",
+    "modelANote": "Specialist services will be ordered by the doctor after direct consultation.",
+    "modeBServicesLabel": "Selected Services",
+    "modeBDutyDoctorLabel": "Duty Doctor",
+    "modeBDutyDoctorNote": "Signs records · Receives results",
+    "modeBTotalLabel": "Total",
+    "modeBNote": "Collect payment now. Patient receives queue number and goes directly to the lab / specialist room."
   },
   "success": {
     "title": "Booking Successful!",
@@ -137,7 +177,9 @@
     "printBtn": "Print Ticket",
     "newBookingBtn": "New Booking",
     "billingNote": "Service fees and specialized procedures will be settled after doctor's consultation.",
-    "pendingNote": "Please remind the patient to check appointment details via App or SMS."
+    "pendingNote": "Please remind the patient to check appointment details via App or SMS.",
+    "goToBillingBtn": "Go to Billing",
+    "directServiceNote": "LAB invoice has been created. Please collect payment to issue the queue number."
   },
   "toasts": {
     "fillAllSteps": "Please complete all steps",
