@@ -1,0 +1,78 @@
+{
+  "kpi": {
+    "totalPatients": "Total Patients",
+    "activeDoctors": "Active Doctors",
+    "totalBookings": "Total Bookings",
+    "monthlyRevenue": "Monthly Revenue",
+    "allSpecialistsActive": "All specialists active",
+    "upcoming": "{count} upcoming",
+    "vsLastMonth": "vs last month",
+    "thisMonth": "+{count} this month",
+    "today": "{count} today",
+    "todayOnly": "Today",
+    "thisMonthOnly": "This month only",
+    "revenueGrowth": "Revenue growth"
+  },
+  "chart": {
+    "revenueTrend": "Revenue Trend",
+    "export": "Export",
+    "export-hint": "Export chart",
+    "revenueProgress": "Revenue Progress",
+    "revenueSubtitle": "Track your clinic's revenue performance",
+    "clinicalEarnings": "Clinical earnings growth",
+    "last6Months": "Last 6 Months",
+    "yearToDate": "Year to Date",
+    "ranges": {
+      "today": "Today",
+      "week": "This Week",
+      "month": "This Month",
+      "quarter": "This Quarter"
+    },
+    "noActivity": "No activity recorded for this period"
+  },
+  "bookingOverview": {
+    "title": "Booking Overview",
+    "subtitle": "Appointment status breakdown",
+    "completed": "Completed",
+    "upcoming": "Upcoming",
+    "cancelled": "Cancelled",
+    "total": "Total"
+  },
+  "topDoctors": {
+    "title": "Top Doctors",
+    "subtitle": "By visit count",
+    "viewAll": "View All",
+    "visits": "{count} visits",
+    "emptyTitle": "No data available yet",
+    "emptySubtitle": "Doctor rankings will appear once appointments are completed"
+  },
+  "topServices": {
+    "title": "Top Services",
+    "subtitle": "By bookings this month",
+    "noData": "No service data available yet",
+    "viewAll": "View All",
+    "bookings": "{count} bookings",
+    "revenue": "~{amount} estimated"
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "subtitle": "Real-time system updates",
+    "noActivity": "No recent activity",
+    "viewAll": "View All",
+    "newPatientRegistered": "New patient registered",
+    "appointmentConfirmed": "Appointment confirmed",
+    "paymentReceived": "Payment received",
+    "appointmentCancelled": "Appointment cancelled",
+    "newServiceAdded": "New service added",
+    "doctorProfileUpdated": "Doctor profile updated",
+    "scheduleUpdated": "Schedule updated",
+    "newUserAccountCreated": "New user account created"
+  },
+  "monthlyStats": {
+    "title": "This Month",
+    "bookings": "Bookings",
+    "newPatients": "New Patients",
+    "successRate": "Success Rate",
+    "revenue": "Revenue"
+  }
+}

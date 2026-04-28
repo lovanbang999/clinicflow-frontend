@@ -1,0 +1,118 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+import type { QueueRecord } from '@/lib/api/appointment/queue';
+import { type VisitServiceOrder } from '@/lib/api/clinical/medical-records';
+import { differenceInYears } from 'date-fns';
+import { CheckCircleIcon, NoteIcon } from '@phosphor-icons/react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+interface ExaminationLeftPanelProps {
+  item: QueueRecord;
+  orders: VisitServiceOrder[];
+}
+
+export function ExaminationLeftPanel({ item, orders }: ExaminationLeftPanelProps) {
+  const t = useTranslations('emr.visit');
+  const patient = item.booking.patientProfile;
+
+  if (!patient) return null;
+
+  const age = patient.dateOfBirth
+    ? differenceInYears(new Date(), new Date(patient.dateOfBirth))
+    : 'N/A';
+
+  const genderStr = patient.gender === 'MALE' ? t('patientBanner.male', { defaultValue: 'Nam' })
+    : patient.gender === 'FEMALE' ? t('patientBanner.female', { defaultValue: 'Nữ' })
+      : t('patientBanner.other', { defaultValue: 'Khác' });
+
+  return (
+    <div className="w-[300px] bg-white border-r border-gray-200 flex flex-col h-full shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-10 relative">
+      <ScrollArea className="flex-1 min-h-0">
+        <div className="pb-8">
+
+        {/* Patient Header */}
+        <div className="p-5 border-b border-gray-100 flex items-center gap-3 bg-gradient-to-br from-slate-50 to-white">
+          <div className="w-[42px] h-[42px] rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-[16px] shadow-sm shrink-0 border border-blue-200">
+            {patient.fullName.charAt(0)}
+          </div>
+          <div>
+            <h2 className="text-[14px] font-bold text-slate-800 leading-tight">
+              {patient.fullName}
+            </h2>
+            <div className="text-[12px] text-slate-500 mt-0.5 font-medium flex items-center gap-1.5">
+              <span>{genderStr}</span>
+              <span className="w-1 h-1 rounded-full bg-slate-300 inline-block"></span>
+              <span>{age} {t('patientInfo.yearsOld')}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Profile Info */}
+        <div className="p-5 border-b border-gray-100">
+          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">
+            {t('leftPanel.profile')}
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between items-start">
+              <span className="text-slate-500 text-[12px]">{t('leftPanel.patientCode')}</span>
+              <span className="text-slate-900 text-[12px] font-medium text-right bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">{patient.patientCode || 'N/A'}</span>
+            </div>
+            <div className="flex justify-between items-start">
+              <span className="text-slate-500 text-[12px]">{t('leftPanel.phoneNumber')}</span>
+              <span className="text-slate-900 text-[12px] font-medium text-right">{patient.phone || 'N/A'}</span>
+            </div>
+            <div className="flex flex-col gap-1 mt-2 pt-2 border-t border-dashed border-gray-200">
+              <span className="text-slate-500 text-[11px] font-semibold uppercase tracking-wider">{t('leftPanel.reasonForVisit')}</span>
+              <span className="text-blue-700 text-[12px] font-bold bg-blue-50 p-2 rounded-lg border border-blue-100 mt-1">
+                {item.booking.medicalRecord?.chiefComplaint || t('leftPanel.noNote')}
+              </span>
+            </div>
+            {item.booking.patientNotes && (
+              <div className="flex flex-col gap-1 mt-2">
+                <span className="text-slate-400 text-[10px] uppercase font-bold tracking-tight">{t('leftPanel.originalReason')}</span>
+                <span className="text-slate-600 text-[11px] font-medium italic">
+                  &quot;{item.booking.patientNotes}&quot;
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Orders Context from Consultation */}
+        <div className="p-5">
+          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">
+            {t('leftPanel.specialistOrders')}
+          </div>
+
+          {orders.length > 0 ? (
+            <div className="flex flex-col gap-3">
+              {orders.map(order => (
+                <div key={order.id} className="bg-blue-50 border border-blue-100 rounded-lg p-3">
+                  <div className="text-[12px] font-bold text-blue-900 mb-1">{order.service.name}</div>
+                  <div className="flex items-start gap-1.5 mt-2">
+                    <NoteIcon size={14} className="text-blue-500 mt-0.5 shrink-0" />
+                    <div className="text-[11px] text-blue-800 leading-relaxed italic">
+                      {t('leftPanel.resultRequirement')}
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider font-bold tracking-widest uppercase">{t('leftPanel.status')}</span>
+                    <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full flex items-center gap-1 font-semibold border border-green-200">
+                      <CheckCircleIcon size={12} weight="fill" /> {t('leftPanel.paidBadge')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-[12px] text-slate-500 italic bg-gray-50 p-3 rounded-lg border border-gray-100 text-center">
+              {t('leftPanel.emptyOrders')}
+            </div>
+          )}
+        </div>
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}

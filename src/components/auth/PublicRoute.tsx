@@ -29,10 +29,13 @@ export function PublicRoute({ children }: PublicRouteProps) {
           router.push(`/${locale}/admin`);
           break;
         case 'DOCTOR':
-          router.push(`/${locale}/doctor/schedule`);
+          router.push(`/${locale}/doctor`);
           break;
         case 'RECEPTIONIST':
-          router.push(`/${locale}/receptionist/check-in`);
+          router.push(`/${locale}/receptionist`);
+          break;
+        case 'TECHNICIAN':
+          router.push(`/${locale}/technician/lab-worklist`);
           break;
         case 'PATIENT':
           router.push(`/${locale}/patient`);

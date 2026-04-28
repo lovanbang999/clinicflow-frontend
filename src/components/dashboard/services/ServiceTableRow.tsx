@@ -5,8 +5,9 @@ import {
   PencilSimpleIcon,
   TrashIcon,
   ArrowCounterClockwiseIcon,
-  StethoscopeIcon,
 } from '@phosphor-icons/react';
+import * as LucideIcons from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { type Service, iconColor, formatPrice } from './types';
 
@@ -19,18 +20,29 @@ type Props = {
 };
 
 export function ServiceTableRow({ service, index, onEdit, onDelete, onRestore }: Props) {
-  const t = useTranslations('dashboard.serviceManagement.table');
+  const t = useTranslations('adminServices.table');
+
+  const IconComponent = service.iconUrl && (LucideIcons as unknown as Record<string, LucideIcon>)[service.iconUrl] 
+    ? (LucideIcons as unknown as Record<string, LucideIcon>)[service.iconUrl] 
+    : LucideIcons.Stethoscope;
 
   return (
     <tr className="group hover:bg-[#f8fafc] transition-colors">
       {/* Service name + desc */}
       <td className="px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className={cn('size-10 rounded-lg flex items-center justify-center shrink-0', iconColor(index))}>
-            <StethoscopeIcon size={20} weight="fill" />
+          <div className={cn('size-10 rounded-lg flex items-center justify-center shrink-0 shadow-sm', iconColor(index))}>
+            <IconComponent size={20} />
           </div>
           <div>
-            <p className="text-sm font-bold text-[#111518]">{service.name}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-bold text-[#111518]">{service.name}</p>
+              {service.category && (
+                <span className="px-1.5 py-0.5 rounded-md bg-gray-100 text-[10px] font-bold text-[#64748b] uppercase tracking-wider">
+                  {service.category.name}
+                </span>
+              )}
+            </div>
             {service.description && (
               <p className="text-xs text-[#64748b] font-medium truncate max-w-[200px]">
                 {service.description}

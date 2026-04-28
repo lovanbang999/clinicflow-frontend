@@ -35,6 +35,11 @@
       "sameAsOld": "New password cannot be the same as old password"
     }
   },
+  "category": {
+    "notFound": "Category not found",
+    "codeExists": "Category code already exists",
+    "hasServices": "Cannot delete category with associated services"
+  },
   "service": {
     "notFound": "Service not found",
     "nameExists": "Service name already exists",
@@ -44,7 +49,10 @@
     "notFound": "Booking not found",
     "duplicate": "You already have a booking at this time",
     "invalidDate": "Invalid booking date",
-    "invalidTransition": "Cannot change booking to this status"
+    "invalidTransition": "Cannot change booking to this status",
+    "update": {
+      "doctorBusy": "The doctor is currently busy with another patient"
+    }
   },
   "queue": {
     "notFound": "Queue entry not found",
@@ -55,7 +63,17 @@
     "timeout": "Request timeout"
   },
   "server": {
-    "error": "Server error. Please try again later"
+    "error": "Internal server error. Please try again later"
+  },
+  "billing": {
+    "invoice": {
+      "notFound": "Invoice not found",
+      "alreadyPaid": "This invoice is already paid",
+      "finalized": "This invoice is finalized and cannot be modified"
+    },
+    "payment": {
+      "failed": "Payment failed. Please try again"
+    }
   },
   "generic": "An error occurred. Please try again"
 }

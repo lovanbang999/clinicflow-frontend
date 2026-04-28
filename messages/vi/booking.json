@@ -39,7 +39,8 @@
     "doctor": "Bác sĩ",
     "date": "Ngày khám",
     "time": "Khung giờ",
-    "confirmation": "Xác nhận"
+    "confirmation": "Xác nhận",
+    "type": "Loại khám"
   },
   "serviceInfo": "Dịch vụ",
   "doctorInfo": "Bác sĩ",
@@ -59,6 +60,33 @@
   "reviews": "đánh giá",
   "redirecting": "Bạn sẽ được chuyển hướng đến trang quản lý lịch hẹn...",
   "myAppointments": "Lịch hẹn của tôi",
+  "pageGreetingMorning": "Chào buổi sáng",
+  "pageGreetingAfternoon": "Chào buổi chiều",
+  "pageGreetingEvening": "Chào buổi tối",
+  "downloadReport": "Tải kết quả khám",
+  "detail": {
+    "title": "Chi tiết lịch hẹn",
+    "bookingCode": "Mã đặt lịch",
+    "service": "Dịch vụ",
+    "doctor": "Bác sĩ",
+    "date": "Ngày khám",
+    "time": "Giờ khám",
+    "duration": "Thời gian",
+    "status": "Trạng thái",
+    "patientNotes": "Ghi chú của bạn",
+    "doctorNotes": "Ghi chú bác sĩ",
+    "queueInfo": "Thông tin hàng đợi",
+    "queuePosition": "Vị trí",
+    "estimatedWait": "Thời gian chờ dự kiến",
+    "minutesShort": "phút",
+    "noNotes": "Không có ghi chú",
+    "backToList": "Quay lại danh sách",
+    "cancelAppointment": "Hủy lịch hẹn",
+    "createdAt": "Đặt lịch lúc",
+    "price": "Phí dịch vụ",
+    "notFound": "Không tìm thấy lịch hẹn",
+    "queueTitle": "Hàng đợi / Chờ khám"
+  },
   "bookingId": "Mã booking",
   "service": "Dịch vụ",
   "doctor": "Bác sĩ",
@@ -90,7 +118,8 @@
     "reviews": "Đánh giá",
     "specialist": "Chuyên khoa",
     "generalPractice": "đa khoa",
-    "experience": "với hơn {years} năm kinh nghiệm."
+    "experience": "với hơn {years} năm kinh nghiệm.",
+    "alreadyBookedToday": "Đã có lịch hôm nay"
   },
   "all": "Tất cả",
   "upcoming": "Sắp tới",
@@ -100,6 +129,7 @@
   "confirmed": "Đã xác nhận",
   "checkedIn": "Đã check-in",
   "inProgress": "Đang khám",
+  "awaitingResults": "Chờ kết quả",
   "queued": "Đang chờ",
   "noShow": "Không đến",
   "viewDetails": "Chi tiết",
@@ -107,12 +137,52 @@
   "rescheduleBooking": "Đổi lịch",
   "noBookingsFound": "Không tìm thấy lịch hẹn nào",
   "noBookingsDescription": "Bạn chưa có lịch hẹn nào. Hãy đặt lịch khám ngay!",
-  "bookNewAppointment": "Đặt lịch mới",
+  "bookNewAppointment": "Đặt lịch khám",
+  "bookNewAppointmentShort": "Đặt lịch",
   "loadingBookings": "Đang tải lịch hẹn...",
   "cancelSuccess": "Hủy lịch thành công",
   "cancelFailed": "Hủy lịch thất bại",
   "confirmCancel": "Bạn có chắc muốn hủy lịch hẹn này?",
-  "cancelReason": "Lý do hủy (không bắt buộc)",
+  "cancelReason": "Lý do hủy (bắt buộc)",
+  "cancelPlaceholder": "Hãy cho chúng tôi biết tại sao bạn muốn hủy lịch hẹn này... (ít nhất 10 ký tự)",
+  "cancelSuggestions": {
+    "personal": "Tôi có việc bận cá nhân đột xuất",
+    "improved": "Sức khỏe của tôi đã tốt hơn rồi",
+    "doctor": "Tôi muốn đổi sang bác sĩ khác",
+    "reschedule": "Tôi sẽ đặt lại lịch vào thời điểm khác"
+  },
   "cancelWarning": "Lịch hẹn đã hủy sẽ không thể khôi phục.",
-  "queuePosition": "Hàng đợi"
+  "queuePosition": "Hàng đợi",
+  "selection": {
+    "title": "Bạn cần khám gì hôm nay?",
+    "consultation": {
+      "title": "Khám Tư vấn",
+      "subtitle": "Tôi chưa rõ vấn đề sức khỏe của mình",
+      "description": "Bạn sẽ gặp bác sĩ để được khám sàng lọc, đo sinh hiệu và tư vấn chuyên môn trước khi chỉ định các dịch vụ tiếp theo."
+    },
+    "specialist": {
+      "title": "Khám Chuyên khoa",
+      "subtitle": "Tôi đã biết mình cần khám gì",
+      "description": "Đặt lịch trực tiếp với bác sĩ chuyên khoa hoặc các dịch vụ cận lâm sàng (Xét nghiệm, Siêu âm, X-quang...)."
+    },
+    "free": "Miễn phí"
+  },
+  "pricing": {
+    "consultationFee": "Phí khám tư vấn",
+    "serviceFee": "Phí dịch vụ",
+    "totalEstimated": "Tổng dự kiến",
+    "free": "Miễn phí",
+    "paid": "{amount} ₫",
+    "note": "Tổng phí thực tế có thể thay đổi tùy thuộc vào các chỉ định thêm của bác sĩ trong quá trình thăm khám."
+  },
+  "slots": {
+    "available": "Còn chỗ",
+    "nearlyFull": "Sắp hết ({count} chỗ)",
+    "full": "Hết chỗ"
+  },
+  "slotReserved": "Chỗ đã được giữ trong 5 phút",
+  "slotLocked": "Chỗ này hiện đang được giữ bởi người khác",
+  "reservationExpired": "Hết thời gian giữ chỗ. Vui lòng thử lại.",
+  "reservationTimer": "Thời gian giữ chỗ",
+  "reservationNote": "Vui lòng hoàn tất đặt lịch trong thời gian này"
 }

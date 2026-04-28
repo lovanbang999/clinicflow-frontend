@@ -1,0 +1,37 @@
+{
+  "title": "Thống kê & Phân tích",
+  "subtitle": "Báo cáo chuyên sâu về hiệu suất và tăng trưởng của phòng khám",
+  "filter": {
+    "pick-date": "Chọn mốc thời gian",
+    "to": "đến",
+    "select-range": "Chọn khoảng thời gian"
+  },
+  "kpi": {
+    "totalUsers": "Tổng số bệnh nhân",
+    "totalBookings": "Tổng số lịch hẹn",
+    "growthRate": "Tỷ lệ tăng trưởng",
+    "totalRevenue": "Tổng doanh thu",
+    "doctorsCount": "{count} bác sĩ hoạt động",
+    "allTime": "Toàn thời gian",
+    "revenueGrowth": "Tăng trưởng doanh thu",
+    "comparedToLastMonth": "So với tháng trước",
+    "thisMonth": "Doanh thu kỳ này: {amount}"
+  },
+  "charts": {
+    "serviceDistribution": "Cơ cấu dịch vụ",
+    "serviceDistributionDesc": "Tỷ trọng doanh thu theo từng loại dịch vụ",
+    "revenue": "Doanh thu",
+    "bookings": "lịch hẹn",
+    "appointmentStatus": "Trạng thái lịch hẹn",
+    "appointmentStatusDesc": "Phân bổ kết quả các cuộc hẹn trong kỳ",
+    "statusCompleted": "Hoàn thành",
+    "statusUpcoming": "Sắp tới",
+    "statusCancelled": "Đã hủy",
+    "statusInProgress": "Đang khám",
+    "count": "Số lượng",
+    "totalBookings": "Tổng số ca",
+    "successRate": "Tỷ lệ thành công",
+    "emptyTitle": "Chưa có dữ liệu",
+    "emptySubtitle": "Biểu đồ phân bổ sẽ hiển thị khi có dữ liệu doanh thu dịch vụ"
+  }
+}

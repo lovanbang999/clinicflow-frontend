@@ -1,0 +1,16 @@
+{
+  "title": "Smart Clinic",
+  "status": "Trợ lý AI đang trực tuyến",
+  "welcome": "Chào bạn, tôi là trợ lý ảo SmartClinic. Vui lòng cho tôi biết bạn đang gặp phải triệu chứng gì?",
+  "placeholder": "Nhập tin nhắn của bạn...",
+  "warning": "AI có thể đưa ra câu trả lời không chính xác. Vui lòng tham khảo ý kiến bác sĩ.",
+  "ctaTitle": "Cần hỗ trợ gấp?",
+  "ctaSubtitle": "Liên hệ Trợ lý AI nhen",
+  "today": "Hôm nay",
+  "you": "Bạn",
+  "aiName": "Smart Clinic AI",
+  "seen": "Đã xem",
+  "noSlots": "Không có lịch hẹn nào phù hợp.",
+  "clearChat": "Cuộc trò chuyện mới",
+  "reportIssue": "Báo cáo lỗi / Góp ý"
+}

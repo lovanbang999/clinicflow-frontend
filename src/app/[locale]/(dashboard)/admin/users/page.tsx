@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { CircleNotchIcon } from '@phosphor-icons/react';
 import { EditUserDialog } from '@/components/dashboard/users/EditUserDialog';
-import { useAdminUsers } from '@/lib/hooks/useAdminUsers';
-import { useDebounce } from '@/lib/hooks/useDebounce';
+import { useAdminUsers } from '@/lib/hooks/admin/useAdminUsers';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
 import { UserRole, User } from '@/types';
 import { AdminUserStats } from '@/components/dashboard/users/AdminUserStats';
 import { AdminUserFilters } from '@/components/dashboard/users/AdminUserFilters';
@@ -83,11 +83,6 @@ export default function AdminUsersPage() {
     setSearch('');
   };
 
-  const handleUserAdded = () => {
-    setPage(1);
-    fetchUsers({ page: 1, limit });
-    fetchStats();
-  };
 
   const handleUserUpdated = () => {
     fetchUsers({
@@ -145,7 +140,7 @@ export default function AdminUsersPage() {
           onToggleRole={toggleRole}
           onToggleStatus={toggleStatus}
           onClearFilters={clearFilters}
-          onUserAdded={handleUserAdded}
+          onUserAdded={handleUserUpdated}
         />
 
         <AdminUserTable

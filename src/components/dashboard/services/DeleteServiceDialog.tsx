@@ -21,7 +21,7 @@ type Props = {
 };
 
 export function DeleteServiceDialog({ service, open, onOpenChange, onConfirm }: Props) {
-  const t = useTranslations('dashboard.serviceManagement.deleteService');
+  const t = useTranslations('adminServices.deleteService');
   const [deleting, setDeleting] = useState(false);
 
   const handleConfirm = async () => {

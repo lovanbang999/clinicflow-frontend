@@ -22,9 +22,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
-import { adminSchedulesApi } from '@/lib/api/admin-schedules';
-import { adminUsersApi } from '@/lib/api/admin-users';
-import { User } from '@/types';
+import { adminSchedulesApi } from '@/lib/api/admin/admin-schedules';
+import { adminDoctorsApi } from '@/lib/api/admin/admin-doctors';
+import { adminRoomsApi, AdminRoom } from '@/lib/api/admin/admin-rooms';
+import { BackendUser } from '@/types';
 
 // Sub-components
 function Field({
@@ -61,7 +62,7 @@ interface AddSlotForm {
   startTime: string;
   endTime: string;
   maxPatients: string;
-  room: string;
+  roomId: string;
   type: string;
   notes: string;
 }
@@ -72,7 +73,7 @@ const DEFAULT_FORM: AddSlotForm = {
   startTime: '',
   endTime: '',
   maxPatients: '',
-  room: '',
+  roomId: '',
   type: '',
   notes: '',
 };
@@ -84,7 +85,6 @@ type AddSlotDialogProps = {
   onSuccess?: () => void;
 };
 
-
 const SLOT_TYPES = [
   'checkup',
   'followup',
@@ -94,20 +94,25 @@ const SLOT_TYPES = [
 ] as const;
 
 export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialogProps) {
-  const t = useTranslations('dashboard.scheduleManagement.addSlot');
+  const t = useTranslations('adminSchedules.addSlot');
 
   const [form, setForm] = useState<AddSlotForm>(DEFAULT_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof AddSlotForm, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [doctors, setDoctors] = useState<User[]>([]);
+  const [doctors, setDoctors] = useState<BackendUser[]>([]);
+  const [rooms, setRooms] = useState<AdminRoom[]>([]);
 
   useEffect(() => {
     if (isOpen && doctors.length === 0) {
-      // Fetch dynamic doctors when dialog opens
-      adminUsersApi.getUsers({ role: 'DOCTOR', limit: 100 }).then(res => {
-        setDoctors(res.users);
+      // Fetch dynamic doctors and rooms when dialog opens
+      Promise.all([
+        adminDoctorsApi.getDoctors({ isActive: true, limit: 50 }),
+        adminRoomsApi.getActiveRooms()
+      ]).then(([doctorsRes, roomsRes]) => {
+        setDoctors(doctorsRes.users);
+        setRooms(roomsRes);
       }).catch(err => {
-        console.error('Failed to load doctors', err);
+        console.error('Failed to load doctors or rooms', err);
       });
     }
   }, [isOpen, doctors.length]);
@@ -156,7 +161,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
         startTime: form.startTime,
         endTime: form.endTime,
         maxPatients: parseInt(form.maxPatients, 10),
-        room: form.room || undefined,
+        roomId: form.roomId || undefined,
         type: form.type || undefined,
         notes: form.notes || undefined,
       });
@@ -215,8 +220,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
                 <SelectContent>
                   {doctors.map((doc) => (
                     <SelectItem key={doc.id} value={doc.id}>
-                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                      {doc.fullName} {(doc as any).doctorProfile?.specialties?.length ? `(${(doc as any).doctorProfile.specialties[0]})` : ''}
+                      {doc.fullName} {doc.doctorProfile?.specialties?.length ? `(${doc.doctorProfile.specialties[0]})` : ''}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -227,13 +231,21 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
             {/* Room + Type */}
             <div className="grid grid-cols-2 gap-4">
               <Field label={t('room')} htmlFor="add-slot-room">
-                <Input
-                  id="add-slot-room"
-                  placeholder={t('roomPlaceholder')}
-                  value={form.room}
-                  onChange={(e) => set('room', e.target.value)}
-                  className="h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20"
-                />
+                <Select value={form.roomId} onValueChange={(v) => set('roomId', v)}>
+                  <SelectTrigger
+                    id="add-slot-room"
+                    className="w-full h-10 rounded-xl border-[#e2e8f0]"
+                  >
+                    <SelectValue placeholder={t('roomPlaceholder')} />
+                  </SelectTrigger>
+                  <SelectContent position="popper" align="end">
+                    {rooms.map((room) => (
+                      <SelectItem key={room.id} value={room.id}>
+                        {room.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </Field>
 
               <Field label={t('type')} htmlFor="add-slot-type">

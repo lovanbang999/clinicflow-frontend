@@ -28,7 +28,7 @@ export function DeleteUserDialog({
   onConfirm,
   loading = false,
 }: DeleteUserDialogProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
 
   if (!user) return null;
 

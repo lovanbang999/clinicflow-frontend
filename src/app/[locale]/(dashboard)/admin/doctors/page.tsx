@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  type DoctorStatus,
+  type Specialty,
+  type Doctor,
+} from '@/components/dashboard/doctors/types';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { DoctorStatCards } from '@/components/dashboard/doctors/DoctorStatCards';
 import { DoctorTable } from '@/components/dashboard/doctors/DoctorTable';
@@ -7,14 +12,11 @@ import { AddDoctorDialog } from '@/components/dashboard/doctors/AddDoctorDialog'
 import { EditDoctorDialog } from '@/components/dashboard/doctors/EditDoctorDialog';
 import { DeleteDoctorDialog } from '@/components/dashboard/doctors/DeleteDoctorDialog';
 import { DoctorMoreMenu } from '@/components/dashboard/doctors/DoctorMoreMenu';
-import {
-  MOCK_DOCTORS,
-  type DoctorStatus,
-  type Specialty,
-  type Doctor,
-} from '@/components/dashboard/doctors/types';
 import { BackendUser } from '@/types';
-import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
+import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
+import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
+import { DoctorDetailSheet } from '@/components/dashboard/doctors/DoctorDetailSheet';
 
 const LIMIT = 10;
 
@@ -31,6 +33,7 @@ function toLocalDoctor(u: BackendUser): Doctor {
     specialty,
     experience: p?.yearsOfExperience ?? 0,
     status,
+    consultationFee: p?.consultationFee != null ? Number(p.consultationFee) : 0,
   };
 }
 
@@ -38,6 +41,7 @@ export default function AdminDoctorsPage() {
   const [selectedSpecialties, setSelectedSpecialties] = useState<Set<Specialty>>(new Set());
   const [selectedStatuses, setSelectedStatuses] = useState<Set<DoctorStatus>>(new Set());
   const [page, setPage] = useState(1);
+  const tCommon = useTranslations('common');
 
   // API hook
   const {
@@ -81,6 +85,11 @@ export default function AdminDoctorsPage() {
   const [moreDoctor, setMoreDoctor] = useState<BackendUser | null>(null);
   const [moreOpen, setMoreOpen] = useState(false);
 
+  // Detail sheet
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [detailDoctor, setDetailDoctor] = useState<BackendUser | null>(null);
+
+
   // Filter handlers
   const toggleSpecialty = (sp: Specialty) => {
     setPage(1);
@@ -110,7 +119,7 @@ export default function AdminDoctorsPage() {
   // Use API data if available, fall back to mock data for initial load / dev
   const displayDoctors: Doctor[] = hasApiData
     ? (apiBDoctors ?? []).map(toLocalDoctor)
-    : MOCK_DOCTORS;
+    : [];
 
   const filtered = displayDoctors.filter((d) => {
     const matchSpecialty = selectedSpecialties.size === 0 || selectedSpecialties.has(d.specialty);
@@ -142,11 +151,6 @@ export default function AdminDoctorsPage() {
     setEditOpen(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSchedule = (_doctor: Doctor) => {
-    // TODO: navigate to schedule page for this doctor
-  };
-
   const handleMore = (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => {
     const bu = findBackendUser(doctor);
     if (!bu) return;
@@ -165,14 +169,15 @@ export default function AdminDoctorsPage() {
     setDeleteOpen(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleViewDetail = (_doctor: BackendUser) => {
-    // TODO: open detail side panel / navigate to detail page
+  const handleViewDetail = (doctor: BackendUser) => {
+    setDetailDoctor(doctor);
+    setDetailOpen(true);
   };
+
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleViewSchedule = (_doctor: BackendUser) => {
-    // TODO: navigate to schedule page
+    toast.success(tCommon('underDevelopment'));
   };
 
   return (
@@ -195,7 +200,6 @@ export default function AdminDoctorsPage() {
         onPrevPage={() => setPage((p) => p - 1)}
         onNextPage={() => setPage((p) => p + 1)}
         onAddDoctor={handleAddDoctor}
-        onSchedule={handleSchedule}
         onEdit={handleEdit}
         onMore={handleMore}
       />
@@ -245,6 +249,16 @@ export default function AdminDoctorsPage() {
           onDelete={handleDelete}
         />
       )}
+
+      {/* Detail Sheet */}
+      <DoctorDetailSheet 
+        isOpen={detailOpen}
+        onClose={() => {
+          setDetailOpen(false);
+          setDetailDoctor(null);
+        }}
+        doctor={detailDoctor}
+      />
     </div>
   );
 }

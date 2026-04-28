@@ -37,7 +37,7 @@ export function DoctorTableToolbar({
   onClearFilters,
   onAddDoctor,
 }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+  const t = useTranslations('adminDoctors');
 
   const activeFilterCount = selectedSpecialties.size + selectedStatuses.size;
   const hasActiveFilters = activeFilterCount > 0;
@@ -102,7 +102,7 @@ export function DoctorTableToolbar({
                     SPECIALTY_STYLES[sp] ?? 'bg-gray-100 text-gray-700 border-gray-200',
                   )}
                 >
-                  {sp}
+                  {t(`specialties.${sp}`)}
                 </span>
               </DropdownMenuCheckboxItem>
             ))}

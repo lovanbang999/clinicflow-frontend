@@ -35,6 +35,11 @@
       "sameAsOld": "Mật khẩu mới không được trùng với mật khẩu cũ"
     }
   },
+  "category": {
+    "notFound": "Không tìm thấy danh mục",
+    "codeExists": "Mã danh mục đã tồn tại",
+    "hasServices": "Không thể xóa danh mục đang chứa dịch vụ"
+  },
   "service": {
     "notFound": "Không tìm thấy dịch vụ",
     "nameExists": "Tên dịch vụ đã tồn tại",
@@ -44,7 +49,10 @@
     "notFound": "Không tìm thấy lịch hẹn",
     "duplicate": "Bạn đã có lịch hẹn vào thời gian này",
     "invalidDate": "Ngày đặt lịch không hợp lệ",
-    "invalidTransition": "Không thể chuyển sang trạng thái này"
+    "invalidTransition": "Không thể chuyển sang trạng thái này",
+    "update": {
+      "doctorBusy": "Bác sĩ đang trong một ca khám khác"
+    }
   },
   "queue": {
     "notFound": "Không tìm thấy hàng đợi",
@@ -57,5 +65,20 @@
   "server": {
     "error": "Lỗi máy chủ. Vui lòng thử lại sau"
   },
-  "generic": "Đã có lỗi xảy ra. Vui lòng thử lại"
+  "billing": {
+    "invoice": {
+      "notFound": "Không tìm thấy hóa đơn",
+      "alreadyPaid": "Hóa đơn này đã được thanh toán",
+      "finalized": "Hóa đơn này đã được chốt, không thể thay đổi"
+    },
+    "payment": {
+      "failed": "Thanh toán thất bại. Vui lòng thử lại"
+    }
+  },
+  "generic": "Đã có lỗi xảy ra. Vui lòng thử lại",
+  "http": {
+    "400": {
+      "failed": "Yêu cầu không hợp lệ. Vui lòng kiểm tra lại."
+    }
+  }
 }

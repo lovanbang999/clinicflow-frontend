@@ -8,7 +8,7 @@ import {
   UserPlusIcon,
   type Icon,
 } from '@phosphor-icons/react';
-import { type DoctorStatsResponse } from '@/lib/api/admin-doctors';
+import { type DoctorStatsResponse } from '@/lib/api/admin/admin-doctors';
 
 // Types
 type BadgeVariant = 'positive' | 'neutral' | 'highlight';
@@ -51,7 +51,7 @@ type Props = {
 
 // Component
 export function DoctorStatCards({ stats, isLoading }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+  const t = useTranslations('adminDoctors');
 
   if (isLoading) {
     return (

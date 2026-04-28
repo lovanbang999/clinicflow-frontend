@@ -1,0 +1,81 @@
+{
+  "title": "Quản lý Lịch Trình",
+  "searchPlaceholder": "Tìm kiếm theo bác sĩ hoặc ngày...",
+  "stats": {
+    "totalAppointments": "Tổng cuộc hẹn",
+    "todaysSlots": "Lịch trống hôm nay",
+    "canceledToday": "Hủy hôm nay",
+    "avgWaitTime": "T.gian chờ TB",
+    "low": "Thấp"
+  },
+  "masterSchedule": {
+    "title": "Lịch Trình Tổng Thể",
+    "week": "Tuần",
+    "day": "Ngày",
+    "month": "Tháng",
+    "filter": "Bộ lọc",
+    "addSlot": "Thêm Lịch Mới",
+    "doctors": "Bác sĩ",
+    "filterOptions": {
+      "scheduled": "Đã lên lịch",
+      "completed": "Hoàn thành",
+      "canceled": "Đã hủy"
+    },
+    "status": "Trạng thái lịch hẹn",
+    "clearAll": "Xóa tất cả",
+    "noData": "Không có lịch làm việc nào trong tuần này",
+    "prevWeek": "Tuần trước",
+    "nextWeek": "Tuần tiếp",
+    "prevDay": "Ngày trước",
+    "nextDay": "Ngày tiếp",
+    "today": "Hôm nay",
+    "filterDoctor": "Bác sĩ",
+    "allDoctors": "Tất cả bác sĩ",
+    "clearDoctorFilter": "Xóa bộ lọc bác sĩ",
+    "slot": {
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa lịch",
+      "restore": "Khôi phục",
+      "confirmDelete": "Xóa lịch này?",
+      "confirmDeleteDesc": "Thao tác này sẽ tắt lịch. Các lịch hẹn hiện tại sẽ không bị ảnh hưởng.",
+      "cancel": "Hủy",
+      "confirm": "Xóa"
+    }
+  },
+  "addSlot": {
+    "title": "Thêm Lịch Khám Mới",
+    "subtitle": "Tạo lịch trống mới cho bác sĩ.",
+    "doctor": "Chọn Bác Sĩ",
+    "doctorPlaceholder": "Chọn một bác sĩ",
+    "date": "Ngày",
+    "startTime": "Thời gian bắt đầu",
+    "endTime": "Thời gian kết thúc",
+    "maxPatients": "Số BN tối đa",
+    "maxPatientsPlaceholder": "VD: 5",
+    "cancel": "Hủy",
+    "save": "Tạo Lịch",
+    "saving": "Đang tạo...",
+    "errors": {
+      "doctorRequired": "Bác sĩ là bắt buộc",
+      "dateRequired": "Ngày là bắt buộc",
+      "timeRequired": "Thời gian bắt đầu và kết thúc là bắt buộc",
+      "invalidTime": "TG kết thúc phải sau TG bắt đầu",
+      "maxPatientsRequired": "Số BN tối đa phải lớn hơn 0"
+    },
+    "sectionGeneral": "Thông Tin Chung",
+    "sectionDetails": "Chi Tiết Lịch",
+    "room": "Phòng / Vị trí",
+    "roomPlaceholder": "VD: Phòng 101",
+    "type": "Loại Cuộc Hẹn",
+    "typePlaceholder": "Chọn loại...",
+    "typeOptions": {
+      "checkup": "Khám Tổng Quát",
+      "followup": "Tái Khám",
+      "consultation": "Tư Vấn",
+      "procedure": "Thủ Thuật",
+      "therapy": "Trị Liệu"
+    },
+    "notes": "Ghi Chú Thêm",
+    "notesPlaceholder": "Bất kỳ hướng dẫn cụ thể nào..."
+  }
+}

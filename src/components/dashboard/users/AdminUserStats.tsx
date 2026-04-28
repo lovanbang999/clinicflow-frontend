@@ -10,7 +10,7 @@ interface AdminUserStatsProps {
 }
 
 export function AdminUserStats({ stats, loadingStats }: AdminUserStatsProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
 
   const statCards = [
     {

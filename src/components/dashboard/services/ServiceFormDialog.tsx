@@ -14,7 +14,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { type Service, type ServiceForm, DEFAULT_SERVICE_FORM } from './types';
-import { type AdminCreateServiceDto, type AdminUpdateServiceDto } from '@/lib/api/admin-services';
+import { type AdminCreateServiceDto, type AdminUpdateServiceDto } from '@/lib/api/admin/admin-services';
+import { useAdminCategories } from '@/lib/hooks/admin/useAdminCategories';
+import { IconPicker } from './IconPicker';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 // Toggle switch
 function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -68,8 +78,8 @@ type Props = {
 
 export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpdate }: Props) {
   const isEdit = service !== null;
-  const tAdd = useTranslations('dashboard.serviceManagement.addService');
-  const tEdit = useTranslations('dashboard.serviceManagement.editService');
+  const tAdd = useTranslations('adminServices.addService');
+  const tEdit = useTranslations('adminServices.editService');
   const t = isEdit ? tEdit : tAdd;
 
   const [form, setForm] = useState<ServiceForm>(DEFAULT_SERVICE_FORM);
@@ -83,9 +93,13 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
         setForm({
           name: service.name,
           description: service.description ?? '',
+          iconUrl: service.iconUrl ?? '',
           price: String(service.price),
           durationMinutes: String(service.durationMinutes),
           maxSlotsPerHour: String(service.maxSlotsPerHour),
+          categoryId: service.category?.id ?? '',
+          preparationNotes: service.preparationNotes ?? '',
+          tags: (service.tags || []).join(', '),
           isActive: service.isActive,
         });
       } else {
@@ -94,6 +108,12 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
       setErrors({});
     }
   }, [open, service]);
+
+  const { categories, fetchCategories } = useAdminCategories();
+  
+  useEffect(() => {
+    fetchCategories({ isActive: true, limit: 100 });
+  }, [fetchCategories]);
 
   const set = <K extends keyof ServiceForm>(k: K, v: ServiceForm[K]) => {
     setForm((p) => ({ ...p, [k]: v }));
@@ -118,12 +138,16 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
     if (!validate()) return;
     setSubmitting(true);
     try {
-      const payload = {
+      const payload: AdminCreateServiceDto = {
         name: form.name.trim(),
         description: form.description.trim() || undefined,
+        iconUrl: form.iconUrl || undefined,
         price: parseFloat(form.price),
         durationMinutes: parseInt(form.durationMinutes, 10),
         maxSlotsPerHour: parseInt(form.maxSlotsPerHour, 10),
+        categoryId: form.categoryId,
+        preparationNotes: form.preparationNotes.trim() || undefined,
+        tags: form.tags.split(',').map(s => s.trim()).filter(Boolean),
         isActive: form.isActive,
       };
 
@@ -166,15 +190,50 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
             />
           </Field>
 
+          {/* Icon + Category */}
+          <div className="grid grid-cols-2 gap-4">
+            <Field label={t('icon')} htmlFor="svc-icon">
+              <IconPicker
+                value={form.iconUrl}
+                onChange={(v: string) => set('iconUrl', v)}
+                placeholder={t('iconPlaceholder')}
+              />
+            </Field>
+            <Field label={t('category')} htmlFor="svc-category">
+              <Select value={form.categoryId} onValueChange={(v) => set('categoryId', v)}>
+                <SelectTrigger id="svc-category" className="h-10 rounded-xl border-[#e2e8f0]">
+                  <SelectValue placeholder={t('categoryPlaceholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+          </div>
+
           {/* Description */}
           <Field label={t('description')} htmlFor="svc-desc">
-            <textarea
+            <Textarea
               id="svc-desc"
               rows={2}
               placeholder={t('descriptionPlaceholder')}
               value={form.description}
               onChange={(e) => set('description', e.target.value)}
-              className="w-full resize-none rounded-xl border border-[#e2e8f0] px-3 py-2 text-sm text-[#111518] placeholder:text-[#94a3b8] focus:outline-none focus:border-[#1392ec] focus:ring-2 focus:ring-[#1392ec]/20 transition"
+              className="resize-none rounded-xl border-[#e2e8f0] focus-visible:ring-[#1392ec]/20"
+            />
+          </Field>
+
+          {/* Preparation Notes */}
+          <Field label={t('preparationNotes')} htmlFor="svc-prep">
+            <Textarea
+              id="svc-prep"
+              rows={3}
+              placeholder={t('preparationNotesPlaceholder')}
+              value={form.preparationNotes}
+              onChange={(e) => set('preparationNotes', e.target.value)}
+              className="resize-none rounded-xl border-[#e2e8f0] focus-visible:ring-[#1392ec]/20"
             />
           </Field>
 
@@ -205,19 +264,30 @@ export function ServiceFormDialog({ open, onOpenChange, service, onCreate, onUpd
             </Field>
           </div>
 
-          {/* Max slots */}
-          <Field label={t('maxSlots')} htmlFor="svc-slots" required error={errors.maxSlotsPerHour}>
-            <Input
-              id="svc-slots"
-              type="number"
-              min={1}
-              max={10}
-              placeholder={t('maxSlotsPlaceholder')}
-              value={form.maxSlotsPerHour}
-              onChange={(e) => set('maxSlotsPerHour', e.target.value)}
-              className={cn('h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec]', errors.maxSlotsPerHour && 'border-red-400')}
-            />
-          </Field>
+          {/* Max slots + Tags */}
+          <div className="grid grid-cols-2 gap-4">
+            <Field label={t('maxSlots')} htmlFor="svc-slots" required error={errors.maxSlotsPerHour}>
+              <Input
+                id="svc-slots"
+                type="number"
+                min={1}
+                max={10}
+                placeholder={t('maxSlotsPlaceholder')}
+                value={form.maxSlotsPerHour}
+                onChange={(e) => set('maxSlotsPerHour', e.target.value)}
+                className={cn('h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec]', errors.maxSlotsPerHour && 'border-red-400')}
+              />
+            </Field>
+            <Field label={t('tags')} htmlFor="svc-tags">
+              <Input
+                id="svc-tags"
+                placeholder={t('tagsPlaceholder')}
+                value={form.tags}
+                onChange={(e) => set('tags', e.target.value)}
+                className="h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec]"
+              />
+            </Field>
+          </div>
 
           {/* Active toggle */}
           <div className="flex items-center justify-between py-3 px-4 bg-[#f8fafc] rounded-xl border border-[#e5e7eb]">

@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useAdminUsers } from '@/lib/hooks/useAdminUsers';
+import { useAdminUsers } from '@/lib/hooks/admin/useAdminUsers';
 import { UserRole } from '@/types';
 
 // Types
@@ -44,7 +44,7 @@ const DEFAULT_FORM: AddUserForm = {
   password: '',
 };
 
-const ROLES: Role[] = ['DOCTOR', 'PATIENT', 'RECEPTIONIST', 'ADMIN'];
+const ROLES: Role[] = ['ADMIN', 'RECEPTIONIST', 'TECHNICIAN'];
 
 const ROLE_STYLES: Record<string, string> = {
   DOCTOR: 'bg-blue-50 text-blue-700',
@@ -114,8 +114,8 @@ interface AddUserDialogProps {
 }
 
 export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
-  const t = useTranslations('dashboard.admin.userManagement.addUser');
-  const tRoles = useTranslations('dashboard.admin.userManagement.table.roles');
+  const t = useTranslations('adminUsers.addUser');
+  const tRoles = useTranslations('adminUsers.table.roles');
   const { createUser } = useAdminUsers();
   
   const [open, setOpen] = useState(false);

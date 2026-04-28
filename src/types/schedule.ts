@@ -36,7 +36,7 @@ export interface OffDay {
 export interface TimeSlot {
   time: string;
   available: boolean;
-  availableSlots: number;
+  bookedCount: number;
   maxSlots: number;
 }
 
@@ -44,7 +44,7 @@ export interface AvailableSlotsQuery {
   doctorId: string;
   patientId?: string;
   date: string;
-  serviceId: string;
+  serviceId?: string; // Optional — Mô hình A: BS xác định dịch vụ sau, slots vẫn có thể query trước
 }
 
 export interface SmartSuggestion {

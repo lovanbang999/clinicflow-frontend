@@ -28,7 +28,7 @@ export function SuspendUserDialog({
   onConfirm,
   loading = false,
 }: SuspendUserDialogProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
 
   if (!user) return null;
 

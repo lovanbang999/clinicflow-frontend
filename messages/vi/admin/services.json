@@ -1,0 +1,121 @@
+{
+  "title": "Quản lý dịch vụ",
+  "searchPlaceholder": "Tìm theo tên hoặc mô tả dịch vụ...",
+  "stats": {
+    "totalServices": "Tổng dịch vụ",
+    "mostBooked": "Được đặt nhiều nhất",
+    "activeServices": "Dịch vụ đang hoạt động",
+    "categories": "Danh mục",
+    "topBadge": "Top"
+  },
+  "table": {
+    "title": "Danh sách dịch vụ",
+    "filter": "Lọc",
+    "addService": "Thêm dịch vụ",
+    "columns": {
+      "service": "Dịch vụ",
+      "price": "Giá",
+      "duration": "Thời lượng",
+      "status": "Trạng thái",
+      "slots": "Slot/giờ",
+      "action": "Hành động"
+    },
+    "statusActive": "Hoạt động",
+    "statusInactive": "Tạm dừng",
+    "durationMins": "{count} phút",
+    "actions": {
+      "edit": "Chỉnh sửa",
+      "restore": "Khôi phục",
+      "delete": "Xóa"
+    },
+    "showing": "Hiển thị",
+    "of": "trong",
+    "services": "dịch vụ",
+    "previous": "Trước",
+    "next": "Tiếp",
+    "empty": "Không tìm thấy dịch vụ nào",
+    "searchPlaceholder": "Tìm kiếm...",
+    "filterCategory": "Danh mục",
+    "categoriesLabel": "Danh mục",
+    "clearCategoryFilter": "Xóa bộ lọc danh mục"
+  },
+  "addService": {
+    "title": "Thêm dịch vụ mới",
+    "subtitle": "Tạo một dịch vụ y tế mới",
+    "name": "Tên dịch vụ",
+    "namePlaceholder": "vd. Khám tổng quát",
+    "description": "Mô tả",
+    "descriptionPlaceholder": "Mô tả ngắn gọn về dịch vụ...",
+    "price": "Giá (VND)",
+    "pricePlaceholder": "vd. 200000",
+    "duration": "Thời lượng (phút)",
+    "durationPlaceholder": "vd. 30",
+    "maxSlots": "Slot tối đa / giờ",
+    "maxSlotsPlaceholder": "vd. 3",
+    "icon": "Biểu tượng",
+    "iconPlaceholder": "Chọn biểu tượng",
+    "category": "Danh mục",
+    "categoryPlaceholder": "Chọn danh mục",
+    "preparationNotes": "Lưu ý chuẩn bị",
+    "preparationNotesPlaceholder": "Hướng dẫn cho bệnh nhân (vd. nhịn ăn 8h)...",
+    "tags": "Thẻ",
+    "tagsPlaceholder": "thẻ1, thẻ2...",
+    "status": "Hoạt động",
+    "statusDesc": "Cho phép đặt lịch dịch vụ này",
+    "cancel": "Hủy",
+    "save": "Tạo dịch vụ",
+    "saving": "Đang tạo...",
+    "errors": {
+      "nameRequired": "Vui lòng nhập tên dịch vụ",
+      "nameTooShort": "Tên dịch vụ phải có ít nhất 2 ký tự",
+      "priceInvalid": "Giá phải là số không âm",
+      "durationInvalid": "Thời lượng phải từ 1 đến 120 phút",
+      "maxSlotsInvalid": "Slot tối đa phải từ 1 đến 10"
+    }
+  },
+  "editService": {
+    "title": "Chỉnh sửa dịch vụ",
+    "name": "Tên dịch vụ",
+    "namePlaceholder": "vd. Khám tổng quát",
+    "description": "Mô tả",
+    "descriptionPlaceholder": "Mô tả ngắn gọn về dịch vụ...",
+    "price": "Giá (VND)",
+    "pricePlaceholder": "vd. 200000",
+    "duration": "Thời lượng (phút)",
+    "durationPlaceholder": "vd. 30",
+    "maxSlots": "Slot tối đa / giờ",
+    "maxSlotsPlaceholder": "vd. 3",
+    "icon": "Biểu tượng",
+    "iconPlaceholder": "Chọn biểu tượng",
+    "category": "Danh mục",
+    "categoryPlaceholder": "Chọn danh mục",
+    "preparationNotes": "Lưu ý chuẩn bị",
+    "preparationNotesPlaceholder": "Hướng dẫn cho bệnh nhân (vd. nhịn ăn 8h)...",
+    "tags": "Thẻ",
+    "tagsPlaceholder": "thẻ1, thẻ2...",
+    "status": "Hoạt động",
+    "statusDesc": "Cho phép đặt lịch dịch vụ này",
+    "cancel": "Hủy",
+    "save": "Lưu thay đổi",
+    "saving": "Đang lưu...",
+    "errors": {
+      "nameRequired": "Vui lòng nhập tên dịch vụ",
+      "nameTooShort": "Tên dịch vụ phải có ít nhất 2 ký tự",
+      "priceInvalid": "Giá phải là số không âm",
+      "durationInvalid": "Thời lượng phải từ 1 đến 120 phút",
+      "maxSlotsInvalid": "Slot tối đa phải từ 1 đến 10"
+    }
+  },
+  "deleteService": {
+    "title": "Xóa dịch vụ",
+    "message": "Bạn có chắc muốn xóa “{name}”? Thao tác này không thể hoàn tác.",
+    "warning": "Không thể xóa dịch vụ đang có lịch đặt.",
+    "cancel": "Hủy",
+    "confirm": "Xóa dịch vụ",
+    "deleting": "Đang xóa..."
+  },
+  "iconPicker": {
+    "searchPlaceholder": "Tìm kiếm biểu tượng...",
+    "noResults": "Không tìm thấy biểu tượng nào"
+  }
+}

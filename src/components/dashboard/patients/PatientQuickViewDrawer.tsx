@@ -4,6 +4,7 @@ import { useEffect, useSyncExternalStore, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { medicalRecordsApi, PatientHistoryResponse } from '@/lib/api/clinical/medical-records';
 import {
   XIcon,
   CameraIcon,
@@ -12,8 +13,6 @@ import {
   DropIcon,
   PhoneIcon,
   ShieldCheckIcon,
-  CalendarPlusIcon,
-  PencilSimpleIcon,
   PlusIcon,
   EyeIcon,
   ArrowsVerticalIcon,
@@ -21,9 +20,7 @@ import {
   ActivityIcon,
   HeartIcon,
   CalendarCheckIcon,
-  PillIcon,
-  FlaskIcon,
-  HandbagIcon,
+  CircleNotchIcon,
 } from '@phosphor-icons/react';
 import { getInitials } from '@/lib/utils/helpers';
 import type { PatientRow } from '@/components/dashboard/patients/PatientTable';
@@ -45,7 +42,7 @@ export function PatientQuickViewDrawer({
     () => false,
   );
 
-  const t = useTranslations('dashboard.admin.patientManagement.quickView');
+  const t = useTranslations('adminPatients.quickView');
 
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -56,6 +53,44 @@ export function PatientQuickViewDrawer({
     { id: 'lab_results', label: t('tabs.lab_results') },
     { id: 'appointments', label: t('tabs.appointments') },
   ];
+
+  const [history, setHistory] = useState<PatientHistoryResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function fetchHistory() {
+      if (!open || !patient?.id) {
+        setHistory(null);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const data = await medicalRecordsApi.getPatientHistory(patient.id);
+        if (!ignore) {
+          setHistory(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch patient history:', error);
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchHistory();
+
+    return () => {
+      ignore = true;
+    };
+  }, [open, patient?.id]);
+
+  const profile = history?.patientProfile;
+  const visits = history?.visits || [];
+
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -127,7 +162,7 @@ export function PatientQuickViewDrawer({
                     ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
                     : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
                 }`}>
-                  {(patient.status || (patient.isActive ? 'ACTIVE' : 'INACTIVE')).toUpperCase()}
+                  {t(`status.${patient.status || (patient.isActive ? 'active' : 'inactive')}`).toUpperCase()}
                 </span>
               </div>
 
@@ -144,18 +179,9 @@ export function PatientQuickViewDrawer({
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <ShieldCheckIcon size={14} className="text-[#1392ec]" weight="fill" />
-                  <span className="text-slate-600 dark:text-slate-300 font-medium">Premium Health #{patient.id.substring(0, 6)}</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-medium">SmartClinic #{profile?.patientCode || patient.id.substring(0, 6)}</span>
                 </div>
               </div>
-            </div>
-
-            <div className="flex flex-col gap-2 w-full sm:w-auto">
-              <button className="px-4 py-2 bg-[#1392ec] text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-[#1392ec]/90 transition-all flex items-center justify-center gap-2 cursor-pointer">
-                <CalendarPlusIcon size={16} /> {t('bookAppt')}
-              </button>
-              <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 hover:bg-slate-200 transition-all cursor-pointer">
-                <PencilSimpleIcon size={16} /> {t('edit')}
-              </button>
             </div>
           </section>
 
@@ -180,43 +206,52 @@ export function PatientQuickViewDrawer({
             </div>
 
             {/* Tab Content Rendering */}
-            {activeTab === 'overview' && (
-              <div className="space-y-8 animate-in fade-in duration-300">
+            {loading ? (
+              <div className="flex justify-center items-center py-20">
+                <CircleNotchIcon size={32} className="text-[#1392ec] animate-spin" />
+              </div>
+            ) : (
+              <>
+                {activeTab === 'overview' && (
+                  <div className="space-y-8 animate-in fade-in duration-300">
                 {/* Vitals Row */}
                 <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
                   <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl min-w-max flex-1 border border-slate-100 dark:border-slate-800">
                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 block whitespace-nowrap">{t('vitals.weight')}</span>
                     <div className="flex items-center gap-1">
-                      <HandbagIcon size={18} className="text-[#1392ec] shrink-0" weight="fill" />
-                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">64 kg</span>
+                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">{profile?.weightKg ? `${profile.weightKg} kg` : '—'}</span>
                     </div>
                   </div>
                   <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl min-w-max flex-1 border border-slate-100 dark:border-slate-800">
                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 block whitespace-nowrap">{t('vitals.height')}</span>
                     <div className="flex items-center gap-1">
                       <ArrowsVerticalIcon size={18} className="text-[#1392ec] shrink-0" weight="bold" />
-                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">168 cm</span>
+                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">{profile?.heightCm ? `${profile.heightCm} cm` : '—'}</span>
                     </div>
                   </div>
                   <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl min-w-max flex-1 border border-slate-100 dark:border-slate-800">
                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 block whitespace-nowrap">{t('vitals.bmi')}</span>
                     <div className="flex items-center gap-1">
                       <CalculatorIcon size={18} className="text-[#1392ec] shrink-0" weight="fill" />
-                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">22.7</span>
+                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                        {profile?.weightKg && profile?.heightCm 
+                          ? (profile.weightKg / Math.pow(profile.heightCm / 100, 2)).toFixed(1)
+                          : '—'}
+                      </span>
                     </div>
                   </div>
                   <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl min-w-max flex-1 border border-slate-100 dark:border-slate-800">
                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 block whitespace-nowrap">{t('vitals.bp')}</span>
                     <div className="flex items-center gap-1">
                       <ActivityIcon size={18} className="text-red-500 shrink-0" weight="bold" />
-                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">118/75</span>
+                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">—</span>
                     </div>
                   </div>
                   <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl min-w-max flex-1 border border-slate-100 dark:border-slate-800">
                     <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 block whitespace-nowrap">{t('vitals.heart')}</span>
                     <div className="flex items-center gap-1">
                       <HeartIcon size={18} className="text-red-500 shrink-0" weight="fill" />
-                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">72 bpm</span>
+                      <span className="font-bold text-slate-900 dark:text-white whitespace-nowrap">—</span>
                     </div>
                   </div>
                 </div>
@@ -233,14 +268,16 @@ export function PatientQuickViewDrawer({
                         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">{t('conditions.title')}</h4>
                       </div>
                       <div className="space-y-3">
-                        <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex justify-between items-center shadow-sm">
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Hypertension</span>
-                          <span className="px-2 py-0.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 font-bold text-[10px] rounded-full uppercase tracking-wider">Managed</span>
-                        </div>
-                        <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex justify-between items-center shadow-sm">
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Seasonal Allergies</span>
-                          <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 font-bold text-[10px] rounded-full uppercase tracking-wider">Active</span>
-                        </div>
+                        {profile?.chronicConditions ? (
+                          profile.chronicConditions.split(',').map((condition, idx) => (
+                            <div key={idx} className="border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex justify-between items-center shadow-sm">
+                              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{condition.trim()}</span>
+                              <span className="px-2 py-0.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 font-bold text-[10px] rounded-full uppercase tracking-wider">{t('status.active')}</span>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-sm text-slate-500 italic">{t('conditions.empty')}</div>
+                        )}
                       </div>
                     </div>
 
@@ -251,15 +288,15 @@ export function PatientQuickViewDrawer({
                         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">{t('allergies.title')}</h4>
                       </div>
                       <div className="bg-red-50/50 dark:bg-red-500/5 border border-red-50 dark:border-red-900/50 rounded-2xl p-4 flex flex-wrap gap-2">
-                        <span className="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">
-                          Penicillin
-                        </span>
-                        <span className="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">
-                          Peanuts
-                        </span>
-                        <span className="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">
-                          Latex
-                        </span>
+                        {profile?.allergies ? (
+                          profile.allergies.split(',').map((allergy, idx) => (
+                            <span key={idx} className="bg-white dark:bg-slate-900 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">
+                              {allergy.trim()}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-sm text-red-500/70 italic">{t('allergies.empty')}</span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -272,39 +309,26 @@ export function PatientQuickViewDrawer({
                     </div>
                     
                     <div className="relative border-l border-slate-200 dark:border-slate-800 ml-3 pl-6 space-y-6 pt-2 pb-2 mt-2">
-                      {/* Timeline Item 1 */}
-                      <div className="relative border border-transparent">
-                        <div className="absolute -left-6 -translate-x-1/2 top-0 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-full p-1.5 border-[3px] border-white dark:border-slate-950 flex justify-center items-center">
-                          <CalendarCheckIcon size={14} weight="fill" />
+                      {visits.length > 0 ? visits.slice(0, 3).map((visit, idx) => (
+                        <div key={idx} className="relative border border-transparent">
+                          <div className="absolute -left-6 -translate-x-1/2 top-0 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-full p-1.5 border-[3px] border-white dark:border-slate-950 flex justify-center items-center">
+                            <CalendarCheckIcon size={14} weight="fill" />
+                          </div>
+                          <div className="flex flex-col -mt-1">
+                            <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">{visit.booking?.service?.name ?? '—'}</span>
+                            <span className="text-xs text-slate-500 mt-1">{new Date(visit.booking?.bookingDate ?? visit.createdAt).toLocaleDateString()} &bull; {visit.booking?.doctor?.fullName}</span>
+                            
+                            {visit.prescription && visit.prescription.items.length > 0 && (
+                              <div className="mt-2 text-xs text-slate-500">
+                                <span className="font-bold text-slate-700 dark:text-slate-300 mr-1">{t('prescriptions.label')}</span>
+                                {visit.prescription.items.map(i => i.medicineName).join(', ')}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex flex-col -mt-1">
-                          <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">Routine Checkup Appointment</span>
-                          <span className="text-xs text-slate-500 mt-1">Oct 12, 2023 &bull; Dr. Sarah Smith</span>
-                        </div>
-                      </div>
-
-                      {/* Timeline Item 2 */}
-                      <div className="relative border border-transparent">
-                        <div className="absolute -left-6 -translate-x-1/2 top-0 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 dark:text-emerald-400 rounded-full p-1.5 border-[3px] border-white dark:border-slate-950 flex justify-center items-center">
-                          <PillIcon size={14} weight="fill" />
-                        </div>
-                        <div className="flex flex-col -mt-1">
-                          <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">Prescription Refilled</span>
-                          <span className="text-[11px] text-slate-500 font-bold uppercase mt-1 tracking-wider">AMOXICILLIN 500MG</span>
-                          <span className="text-xs text-slate-400 mt-0.5">Oct 05, 2023</span>
-                        </div>
-                      </div>
-
-                      {/* Timeline Item 3 */}
-                      <div className="relative border border-transparent">
-                        <div className="absolute -left-6 -translate-x-1/2 top-0 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-full p-1.5 border-[3px] border-white dark:border-slate-950 flex justify-center items-center">
-                          <FlaskIcon size={14} weight="fill" />
-                        </div>
-                        <div className="flex flex-col -mt-1">
-                          <span className="text-sm font-bold text-slate-900 dark:text-white leading-tight">Blood Test Results Uploaded</span>
-                          <span className="text-xs text-slate-500 mt-1">Sep 28, 2023</span>
-                        </div>
-                      </div>
+                      )) : (
+                        <div className="text-sm text-slate-500 italic">{t('activity.empty')}</div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -330,38 +354,61 @@ export function PatientQuickViewDrawer({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                      <tr className="hover:bg-slate-50/30">
-                        <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200">Oct 12, 2023</td>
-                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:text-slate-300 dark:bg-slate-800">Seasonal Allergies</span></td>
-                        <td className="px-4 py-3 text-right">
-                          <button className="text-slate-400 hover:text-[#1392ec] transition-colors cursor-pointer">
-                            <EyeIcon size={16} />
-                          </button>
-                        </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50/30">
-                        <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200">Aug 05, 2023</td>
-                        <td className="px-4 py-3"><span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:text-slate-300 dark:bg-slate-800">Routine Checkup</span></td>
-                        <td className="px-4 py-3 text-right">
-                          <button className="text-slate-400 hover:text-[#1392ec] transition-colors cursor-pointer">
-                            <EyeIcon size={16} />
-                          </button>
-                        </td>
-                      </tr>
+                      {visits.filter(v => v.diagnosisName).length > 0 ? visits.filter(v => v.diagnosisName).map((visit, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50/30">
+                          <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200">{new Date(visit.booking?.bookingDate ?? visit.createdAt).toLocaleDateString()}</td>
+                          <td className="px-4 py-3"><span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 dark:text-slate-300 dark:bg-slate-800">{visit.diagnosisName || t('medicalRecords.defaultDiagnosis')}</span></td>
+                          <td className="px-4 py-3 text-right">
+                            <button className="text-slate-400 hover:text-[#1392ec] transition-colors cursor-pointer">
+                              <EyeIcon size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      )) : (
+                        <tr>
+                          <td colSpan={3} className="px-4 py-8 text-center text-sm text-slate-500 italic">{t('medicalRecords.empty')}</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
             )}
             
-            {activeTab !== 'medical_records' && activeTab !== 'overview' && (
+            {activeTab === 'prescriptions' && (
+              <div className="space-y-4">
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white">{t('prescriptions.title')}</h4>
+                <div className="space-y-3">
+                  {visits.filter(v => v.prescription).length > 0 ? visits.filter(v => v.prescription).map((visit, idx) => (
+                    <div key={idx} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-xs font-bold text-slate-500">{new Date(visit.booking?.bookingDate ?? visit.createdAt).toLocaleDateString()}</span>
+                        <span className="text-[10px] font-bold text-[#1392ec] uppercase">{visit.booking?.doctor?.fullName}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {visit.prescription?.items.map((item, i) => (
+                          <span key={i} className="px-2 py-1 bg-slate-50 dark:bg-slate-800 rounded text-xs text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-700">
+                            {item.medicineName}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )) : (
+                    <div className="text-sm text-slate-500 italic p-8 text-center border border-dashed rounded-xl">{t('prescriptions.empty')}</div>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {activeTab !== 'medical_records' && activeTab !== 'overview' && activeTab !== 'prescriptions' && (
               <div className="flex flex-col items-center justify-center p-12 text-center bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 animate-in fade-in">
                 <span className="text-slate-400 mb-2 font-medium">{t('comingSoon.title')}</span>
                 <p className="text-xs text-slate-500">{t('comingSoon.desc')}</p>
               </div>
             )}
+              </>
+            )}
           </div>
-
         </div>
       </aside>
     </div>,

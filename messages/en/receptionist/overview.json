@@ -1,0 +1,42 @@
+{
+  "greetingTitle": "Dashboard - {date}",
+  "overview": "Clinic overview today",
+  "stats": {
+    "totalAppointments": "Total Appointments",
+    "checkedIn": "Checked-in",
+    "waiting": "Waiting",
+    "inQueue": "In Queue",
+    "completed": "Completed"
+  },
+  "searchCheckIn": {
+    "title": "Search & Check-in",
+    "placeholder": "Search by name, phone or booking ID...",
+    "emptyState": "Enter patient information to start check-in",
+    "walkIn": "Walk-in",
+    "noResults": "No matching appointments found",
+    "checkIn": "Check-in"
+  },
+  "upcomingAppointments": {
+    "title": "Upcoming Appointments",
+    "checkIn": "Check-in",
+    "table": {
+      "time": "Time",
+      "patient": "Patient",
+      "service": "Service",
+      "doctor": "Doctor",
+      "status": "Status",
+      "actions": "Actions",
+      "checkIn": "Check-in"
+    },
+    "noData": "No upcoming appointments"
+  },
+  "liveQueue": {
+    "title": "Live Queue ({count})",
+    "promoteBtn": "Promote",
+    "liveLabel": "Live",
+    "empty": "Queue is empty",
+    "preBooked": "Pre-booked",
+    "waitMin": "{min}m wait",
+    "inProgress": "In Progress"
+  }
+}

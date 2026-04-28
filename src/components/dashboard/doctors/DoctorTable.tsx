@@ -7,7 +7,7 @@ import { DoctorTableRow } from './DoctorTableRow';
 import { DoctorTableToolbar } from './DoctorTableToolbar';
 import { type Doctor, type DoctorStatus, type Specialty } from './types';
 
-const COLUMNS = ['doctor', 'specialty', 'experience', 'status', 'action'] as const;
+const COLUMNS = ['doctor', 'specialty', 'experience', 'fee', 'status', 'action'] as const;
 
 type Props = {
   doctors: Doctor[];
@@ -23,7 +23,6 @@ type Props = {
   onPrevPage: () => void;
   onNextPage: () => void;
   onAddDoctor: () => void;
-  onSchedule?: (doctor: Doctor) => void;
   onEdit?: (doctor: Doctor) => void;
   onMore?: (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => void;
 };
@@ -42,11 +41,10 @@ export function DoctorTable({
   onPrevPage,
   onNextPage,
   onAddDoctor,
-  onSchedule,
   onEdit,
   onMore,
 }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+  const t = useTranslations('adminDoctors');
   const limit = 10;
   const from = doctors.length > 0 ? (page - 1) * limit + 1 : 0;
   const to = (page - 1) * limit + doctors.length;
@@ -92,7 +90,7 @@ export function DoctorTable({
           <tbody className="divide-y divide-[#e5e7eb]">
             {doctors.length === 0 ? (
               <tr>
-                <td colSpan={5} className="py-16 text-center text-[#94a3b8] text-sm">
+                <td colSpan={6} className="py-16 text-center text-[#94a3b8] text-sm">
                   {t('table.empty')}
                 </td>
               </tr>
@@ -101,7 +99,6 @@ export function DoctorTable({
                 <DoctorTableRow
                   key={doctor.id}
                   doctor={doctor}
-                  onSchedule={onSchedule}
                   onEdit={onEdit}
                   onMore={onMore}
                 />

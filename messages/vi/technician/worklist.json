@@ -1,0 +1,225 @@
+{
+  "dashboard": "Bảng điều khiển",
+  "statsSubtitle": "Theo dõi nhiệm vụ hàng ngày và các phiếu xét nghiệm theo thời gian thực.",
+  "labWorklist": "Hàng đợi Xét nghiệm & Chẩn đoán",
+  "worklistSubtitle": "Xem các chỉ định chờ thực hiện, nhập kết quả và quản lý hàng đợi.",
+  "goToWorklist": "Đi đến Hàng đợi",
+  "title": "Kỹ thuật viên",
+  "doctorPrefix": "BS.",
+  "sidebar": {
+    "smartClinic": "Smart Clinic",
+    "healthcare": "Hệ thống quản lý khám bệnh"
+  },
+  "worklist": {
+    "doctorPrefix": "BS.",
+    "title": "Danh sách Cận lâm sàng",
+    "subtitle": "Danh sách các chỉ định xét nghiệm/chẩn đoán hình ảnh đã thanh toán và đang chờ thực hiện.",
+    "searchPlaceholder": "Tìm tên hoặc mã bệnh nhân...",
+    "columns": {
+      "stt": "STT",
+      "patient": "Bệnh nhân",
+      "service": "Dịch vụ",
+      "status": "Trạng thái",
+      "date": "Ngày chỉ định",
+      "actions": "Thao tác"
+    },
+    "status": {
+      "pending": "Chờ thanh toán",
+      "paid": "Chờ thực hiện",
+      "inProgress": "Đang thực hiện",
+      "completed": "Đã có kết quả"
+    },
+    "actions": {
+      "process": "Tiếp nhận",
+      "result": "Nhập kết quả",
+      "start": "Bắt đầu"
+    },
+    "empty": "Hiện tại không có bệnh nhân nào đang chờ.",
+    "emptyDesc": "Không tìm thấy chỉ định nào phù hợp với bộ lọc hoặc từ khóa tìm kiếm của bạn."
+  },
+  "messages": {
+    "statusUpdated": "Đã chuyển trạng thái sang Đang thực hiện",
+    "fetchError": "Lỗi khi tải danh sách phiếu xét nghiệm",
+    "createSuccess": "Chỉ định xét nghiệm thành công",
+    "createError": "Có lỗi xảy ra khi tạo chỉ định",
+    "cancelSuccess": "Đã hủy phiếu chỉ định",
+    "cancelError": "Lỗi khi hủy phiếu xét nghiệm",
+    "fetchPendingError": "Lỗi khi tải danh sách phiếu cần thực hiện",
+    "fetchSingleError": "Lỗi khi lấy thông tin chỉ định",
+    "statusUpdateError": "Có lỗi xảy ra khi cập nhật trạng thái",
+    "fetchHistoryError": "Lỗi khi tải lịch sử xét nghiệm",
+    "fileUploaded": "File đã được tải lên",
+    "resultCompleted": "Đã hoàn tất kết quả — bác sĩ sẽ được thông báo",
+    "newOrderArrived": "Đơn xét nghiệm mới của bệnh nhân {name}"
+  },
+  "settings": "Cài đặt",
+  "settingsContent": {
+    "title": "Cài đặt tài khoản",
+    "subtitle": "Quản lý thông tin hồ sơ và bảo mật tài khoản của bạn.",
+    "tabs": {
+      "account": "Hồ sơ cá nhân",
+      "security": "Bảo mật & Mật khẩu"
+    },
+    "account": {
+      "title": "Chi tiết hồ sơ",
+      "desc": "Cập nhật họ tên, số điện thoại liên lạc và địa chỉ của bạn.",
+      "fullName": "Họ và tên",
+      "fullNamePlaceholder": "Nhập họ và tên của bạn",
+      "phone": "Số điện thoại",
+      "phonePlaceholder": "Nhập số điện thoại của bạn",
+      "address": "Địa chỉ",
+      "addressPlaceholder": "Nhập địa chỉ hiện tại của bạn",
+      "email": "Địa chỉ Email",
+      "saveBtn": "Lưu thay đổi",
+      "savingBtn": "Đang lưu..."
+    },
+    "security": {
+      "title": "Cập nhật mật khẩu",
+      "desc": "Đảm bảo tài khoản của bạn đang sử dụng mật khẩu dài và ngẫu nhiên để giữ an toàn.",
+      "currentPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới",
+      "saveBtn": "Cập nhật mật khẩu",
+      "savingBtn": "Đang cập nhật...",
+      "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+      "passwordMismatch": "Mật khẩu mới không khớp"
+    }
+  },
+  "stats": {
+    "pending": "Đang chờ",
+    "inProgress": "Đang thực hiện",
+    "completedToday": "Hoàn thành hôm nay"
+  },
+  "tabs": {
+    "pending": "Chờ thực hiện (Đã thanh toán)",
+    "inProgress": "Đang thực hiện",
+    "history": "Lịch sử (Đã hoàn thành)"
+  },
+  "workspace": {
+    "title": "Nhập Kết quả Xét nghiệm / Chẩn đoán",
+    "submit": "Gửi Kết quả",
+    "patientInfo": "Thông tin Bệnh nhân",
+    "orderInfo": "Thông tin Chỉ định",
+    "doctorNotes": "Ghi chú của Bác sĩ",
+    "resultEntry": "Nội dung Kết quả",
+    "textResult": "Kết quả văn bản",
+    "textPlaceholder": "Nhập kết quả chi tiết cho siêu âm, X-quang hoặc xét nghiệm...",
+    "uploadFile": "Tệp đính kèm / Kết quả",
+    "abnormalFlag": "Đánh dấu Bất thường",
+    "abnormalNote": "Ghi chú Bất thường / Cảnh báo Rủi ro",
+    "abnormalNotePlaceholder": "Mô tả cụ thể về rủi ro hoặc chỉ số bất thường...",
+    "cancel": "Hủy",
+    "patient": "Bệnh nhân",
+    "age": "Tuổi",
+    "gender": {
+      "label": "Giới tính",
+      "male": "Nam",
+      "female": "Nữ",
+      "other": "Khác"
+    },
+    "doctor": "BS Chỉ định",
+    "noNotes": "Không có ghi chú thêm.",
+    "uploadBtn": "Tải tệp lên",
+    "fileAttached": "Đã đính kèm tệp kết quả",
+    "abnormalHint": "Đánh dấu nếu kết quả có chỉ số rủi ro cao",
+    "success": "Lưu kết quả thành công!",
+    "fileUploadSuccess": "Tải tệp đính kèm thành công",
+    "fileUploadError": "Lỗi khi tải tệp lên",
+    "saveError": "Có lỗi xảy ra khi lưu kết quả",
+    "finishBtn": "Hoàn tất kết quả",
+    "viewResult": "Xem kết quả",
+    "abnormalTitle": "Kết quả bất thường",
+    "abnormalDesc": "Đánh dấu nếu kết quả có giá trị nằm ngoài khoảng bình thường",
+    "sidebar": {
+      "otherOrders": "Dịch vụ khác",
+      "allergy": "Dị ứng",
+      "ageUnit": "tuổi"
+    },
+    "vitals": {
+      "title": "Sinh hiệu từ B2",
+      "bp": "Huyết áp",
+      "hr": "Nhịp tim",
+      "spo2": "SpO2"
+    },
+    "status": {
+      "completed": "Hoàn tất",
+      "processing": "Đang thực hiện",
+      "readOnly": "Read-only"
+    },
+    "types": {
+      "BLOOD_LAB": "Huyết học / Sinh hóa",
+      "IMAGING": "Chẩn đoán hình ảnh",
+      "ECG": "Thăm dò chức năng (Điện tim)",
+      "ENDOSCOPY": "Nội soi tiêu hóa",
+      "SPIROMETRY": "Thăm dò chức năng phổi",
+      "GENERAL": "Cận lâm sàng chung"
+    }
+  },
+  "result": {
+    "title": "Nhập Kết Quả Cận Lâm Sàng",
+    "back": "Quay lại danh sách",
+    "patientInfo": "Thông tin bệnh nhân",
+    "orderInfo": "Thông tin chỉ định",
+    "testName": "Tên dịch vụ",
+    "doctor": "Bác sĩ chỉ định",
+    "notes": "Ghi chú của bác sĩ",
+    "form": {
+      "fullNameLabel": "Họ và Tên",
+      "patientCodeLabel": "Mã Bệnh Nhân",
+      "genderLabel": "Giới Tính",
+      "birthYearLabel": "Năm Sinh",
+      "resultText": "Nội dung kết quả / Chẩn đoán",
+      "resultTextPlaceholder": "Nhập chi tiết kết quả siêu âm, x-quang, hoặc xét nghiệm...",
+      "attachment": "Đính kèm tệp (Tùy chọn)",
+      "attachmentHint": "Hỗ trợ PDF, JPG, PNG tối đa 10MB",
+      "clickToUpload": "Nhấp để tải tệp lên",
+      "save": "Lưu & Hoàn tất",
+      "saving": "Đang lưu...",
+      "cancel": "Hủy"
+    },
+    "messages": {
+      "success": "Đã lưu kết quả thành công!",
+      "error": "Có lỗi xảy ra khi lưu kết quả."
+    }
+  },
+  "forms": {
+    "shared": {
+      "technicalParams": "Thông số kỹ thuật",
+      "findings": "Kết quả ghi nhận",
+      "conclusion": "Kết luận chuyên môn",
+      "recommendation": "Đề nghị / Tư vấn",
+      "abnormalFlag": "Phát hiện bất thường",
+      "uploadTitle": "Tải lên tài liệu kết quả",
+      "uploadHint": "Hỗ trợ DICOM, PNG, JPG, PDF (Tối đa 100MB)"
+    },
+    "imaging": {
+      "technique": "Tư thế chụp",
+      "quality": "Chất lượng phim",
+      "kvp": "kVp",
+      "mas": "mAs"
+    },
+    "endoscopy": {
+      "scopeRange": "Phạm vi nội soi",
+      "preparation": "Chất lượng chuẩn bị",
+      "esophagus": "Thực quản",
+      "stomach": "Dạ dày",
+      "duodenum": "Tá tràng",
+      "cloTest": "CLO Test (H.pylori)",
+      "biopsy": "Sinh thiết",
+      "lesionPosition": "Vị trí tổn thương",
+      "lesionSize": "Kích thước (mm)"
+    },
+    "functional": {
+      "heartRate": "Nhịp tim (bpm)",
+      "rhythm": "Nhịp cơ bản",
+      "axis": "Trục điện tim",
+      "pr": "PR (ms)",
+      "qrs": "QRS (ms)",
+      "qtc": "QTc (ms)",
+      "fvc": "FVC (Dung tích sống mạnh)",
+      "fev1": "FEV1 (Thể tích thở ra giây đầu)",
+      "ratio": "Tỷ lệ FEV1/FVC",
+      "goldStage": "Phân độ GOLD (COPD)"
+    }
+  }
+}

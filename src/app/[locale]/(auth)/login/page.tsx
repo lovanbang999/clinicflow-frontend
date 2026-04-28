@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { EyeIcon, EyeOffIcon, Mail, Lock, ArrowLeft } from 'lucide-react';
 
-import { useAuth } from '@/lib/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/auth/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/card';
 import { validateEmail, validatePassword } from '@/lib/utils/validators';
 import { Spinner } from '@/components/ui/spinner';
-import { LanguageSwitcher } from '@/components/common/LanguageSwitcher';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {

@@ -1,0 +1,13 @@
+{
+  "healthcare": "Hệ thống quản lý khám bệnh",
+  "title": "Lễ tân",
+  "dashboard": "Tổng quan",
+  "patients": "Bệnh nhân",
+  "checkIn": "Check-in",
+  "walkinBooking": "Đặt lịch khám",
+  "queue": "Hàng đợi",
+  "labs": "Xét nghiệm",
+  "billing": "Thanh toán",
+  "reports": "Báo cáo",
+  "settings": "Cài đặt"
+}

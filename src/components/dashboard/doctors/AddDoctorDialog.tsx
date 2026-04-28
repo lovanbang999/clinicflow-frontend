@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
+import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { ALL_SPECIALTIES } from './types';
 
 // Sub-components
@@ -90,6 +90,7 @@ interface AddDoctorForm {
   yearsOfExperience: string;
   bio: string;
   isActive: boolean;
+  consultationFee: string;
 }
 
 const DEFAULT_FORM: AddDoctorForm = {
@@ -102,6 +103,7 @@ const DEFAULT_FORM: AddDoctorForm = {
   yearsOfExperience: '',
   bio: '',
   isActive: true,
+  consultationFee: '0',
 };
 
 // Props
@@ -113,7 +115,8 @@ interface AddDoctorDialogProps {
 
 // Main component
 export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctorDialogProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.addDoctor');
+  const t = useTranslations('adminDoctors.addDoctor');
+  const tSpec = useTranslations('adminDoctors.specialties');
   const { createDoctor, updateDoctorProfile } = useAdminDoctors();
 
   const [form, setForm] = useState<AddDoctorForm>(DEFAULT_FORM);
@@ -144,6 +147,10 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
       const val = parseInt(form.yearsOfExperience, 10);
       if (isNaN(val) || val < 0 || val > 60) newErrors.yearsOfExperience = t('errors.experienceInvalid');
     }
+    if (form.consultationFee) {
+      const val = parseFloat(form.consultationFee);
+      if (isNaN(val) || val < 0) newErrors.consultationFee = t('errors.feeInvalid');
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -167,11 +174,12 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
         .map((q) => q.trim())
         .filter(Boolean);
 
-      await updateDoctorProfile(newUser.id, {
+      await updateDoctorProfile(newUser?.id ?? '', {
         specialties: [form.specialty],
         qualifications: qualsList.length > 0 ? qualsList : undefined,
         yearsOfExperience: form.yearsOfExperience ? parseInt(form.yearsOfExperience, 10) : undefined,
         bio: form.bio || undefined,
+        consultationFee: form.consultationFee ? parseFloat(form.consultationFee) : 0,
       });
 
       onDoctorAdded?.();
@@ -232,6 +240,7 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                 <Input
                   id="add-doctor-email"
                   type="email"
+                  autoComplete="off"
                   placeholder={t('emailPlaceholder')}
                   value={form.email}
                   onChange={(e) => set('email', e.target.value)}
@@ -261,6 +270,7 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                 <Input
                   id="add-doctor-password"
                   type={showPassword ? 'text' : 'password'}
+                  autoComplete="new-password"
                   placeholder={t('passwordPlaceholder')}
                   value={form.password}
                   onChange={(e) => set('password', e.target.value)}
@@ -304,7 +314,7 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                   <SelectContent>
                     {ALL_SPECIALTIES.map((sp) => (
                       <SelectItem key={sp} value={sp}>
-                        {sp}
+                        {tSpec(sp)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -328,6 +338,29 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                 />
                 {errors.yearsOfExperience && (
                   <p className="text-xs text-red-500 mt-0.5">{errors.yearsOfExperience}</p>
+                )}
+              </Field>
+
+              <Field label={t('consultationFee')} htmlFor="add-doctor-fee">
+                <div className="relative">
+                  <Input
+                    id="add-doctor-fee"
+                    type="number"
+                    min={0}
+                    placeholder={t('feePlaceholder')}
+                    value={form.consultationFee}
+                    onChange={(e) => set('consultationFee', e.target.value)}
+                    className={cn(
+                      'h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20 pr-12',
+                      errors.consultationFee && 'border-red-400',
+                    )}
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
+                    VNĐ
+                  </div>
+                </div>
+                {errors.consultationFee && (
+                  <p className="text-xs text-red-500 mt-0.5">{errors.consultationFee}</p>
                 )}
               </Field>
             </div>

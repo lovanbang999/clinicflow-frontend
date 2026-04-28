@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { ServiceCard } from './ServiceCard';
 import { ServiceCardSkeleton } from './ServiceCardSkeleton';
-import { useServices } from '@/lib/hooks/useServices';
+import { useServices } from '@/lib/hooks/clinic/useServices';
 import { getServiceIcon, getServiceColor } from '@/lib/utils/service-icons';
 
 export function ServicesPageContent() {

@@ -12,11 +12,11 @@ import {
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useEffect } from 'react';
-import { useAdminSchedules } from '@/lib/hooks/useAdminSchedules';
+import { useAdminSchedules } from '@/lib/hooks/admin/useAdminSchedules';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function ScheduleStats() {
-  const t = useTranslations('dashboard.scheduleManagement');
+  const t = useTranslations('adminSchedules');
   const { stats, loadingStats, fetchStats } = useAdminSchedules();
 
   useEffect(() => {

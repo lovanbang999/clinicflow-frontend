@@ -3,7 +3,6 @@
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import {
-  CalendarBlankIcon,
   PencilSimpleIcon,
   DotsThreeVerticalIcon,
 } from '@phosphor-icons/react';
@@ -13,16 +12,14 @@ import { BackendUser } from '@/types';
 import { getInitials } from '@/lib/utils/helpers';
 
 type Props = {
-  // Support both the local mock Doctor type and the real BackendUser from the API
   doctor: Doctor;
   backendDoctor?: BackendUser;
-  onSchedule?: (doctor: Doctor) => void;
   onEdit?: (doctor: Doctor) => void;
   onMore?: (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => void;
 };
 
-export function DoctorTableRow({ doctor, onSchedule, onEdit, onMore }: Props) {
-  const t = useTranslations('dashboard.admin.doctorManagement');
+export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
+  const t = useTranslations('adminDoctors');
   const moreButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const statusStyles = STATUS_STYLES[doctor.status];
@@ -59,7 +56,14 @@ export function DoctorTableRow({ doctor, onSchedule, onEdit, onMore }: Props) {
             specialtyStyle,
           )}
         >
-          {doctor.specialty}
+          {(() => {
+            try {
+              const specialties = t.raw('specialties');
+              return specialties[doctor.specialty] || doctor.specialty;
+            } catch {
+              return doctor.specialty;
+            }
+          })()}
         </span>
       </td>
 
@@ -68,6 +72,19 @@ export function DoctorTableRow({ doctor, onSchedule, onEdit, onMore }: Props) {
         <p className="text-sm font-medium text-[#111518]">
           {t('table.years', { count: doctor.experience })}
         </p>
+      </td>
+
+      {/* Fee */}
+      <td className="px-6 py-4 whitespace-nowrap">
+        {doctor.consultationFee && doctor.consultationFee > 0 ? (
+          <p className="text-sm font-bold text-blue-600">
+            {new Intl.NumberFormat('vi-VN').format(doctor.consultationFee)} <span className="text-[10px] text-slate-400">VNĐ</span>
+          </p>
+        ) : (
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700">
+            {t('table.free')}
+          </span>
+        )}
       </td>
 
       {/* Status */}
@@ -86,13 +103,6 @@ export function DoctorTableRow({ doctor, onSchedule, onEdit, onMore }: Props) {
       {/* Actions */}
       <td className="px-6 py-4 whitespace-nowrap text-right">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            title={t('table.actions.schedule')}
-            onClick={() => onSchedule?.(doctor)}
-            className="p-2 text-[#64748b] hover:text-[#1392ec] hover:bg-[#1392ec]/10 rounded-lg transition-colors cursor-pointer"
-          >
-            <CalendarBlankIcon size={20} />
-          </button>
           <button
             title={t('table.actions.edit')}
             onClick={() => onEdit?.(doctor)}

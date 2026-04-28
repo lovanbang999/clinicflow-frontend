@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useAdminUsers } from '@/lib/hooks/useAdminUsers';
+import { useAdminUsers } from '@/lib/hooks/admin/useAdminUsers';
 import { UserRole, User } from '@/types';
 
 type Role = UserRole;
@@ -33,7 +33,7 @@ interface EditUserForm {
   isActive: boolean;
 }
 
-const ROLES: Role[] = ['DOCTOR', 'PATIENT', 'RECEPTIONIST', 'ADMIN'];
+const ROLES: Role[] = ['ADMIN', 'RECEPTIONIST', 'TECHNICIAN'];
 
 const ROLE_STYLES: Record<string, string> = {
   DOCTOR: 'bg-blue-50 text-blue-700',
@@ -104,8 +104,8 @@ interface EditUserDialogProps {
 }
 
 export function EditUserDialog({ user, open, onOpenChange, onUserUpdated }: EditUserDialogProps) {
-  const t = useTranslations('dashboard.admin.userManagement.editUser');
-  const tRoles = useTranslations('dashboard.admin.userManagement.table.roles');
+  const t = useTranslations('adminUsers.editUser');
+  const tRoles = useTranslations('adminUsers.table.roles');
   const { updateUser } = useAdminUsers();
 
   const [form, setForm] = useState<EditUserForm>({

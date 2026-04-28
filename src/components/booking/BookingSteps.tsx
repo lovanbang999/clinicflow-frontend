@@ -41,7 +41,7 @@ export function BookingSteps({ steps, currentStep }: BookingStepsProps) {
               {/* Circle */}
               <div
                 className={cn(
-                  'flex h-12 w-12 items-center justify-center rounded-full text-base font-bold transition-all duration-300 mb-4 relative z-10',
+                  'flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full text-sm sm:text-base font-bold transition-all duration-300 mb-2 sm:mb-4 relative z-10',
                   isCurrent && 'bg-blue-500 text-white shadow-xl shadow-blue-500/30 scale-110',
                   isCompleted && 'bg-blue-500 text-white',
                   isUpcoming && 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-300 dark:text-slate-600'
@@ -53,7 +53,7 @@ export function BookingSteps({ steps, currentStep }: BookingStepsProps) {
               {/* Label */}
               <span
                 className={cn(
-                  'text-[10px] sm:text-xs md:text-sm md:font-bold font-semibold transition-colors duration-300 text-center mt-2 max-w-[60px] md:max-w-none leading-tight md:leading-normal',
+                  'text-[9px] xs:text-[10px] sm:text-xs md:text-sm md:font-bold font-semibold transition-colors duration-300 text-center mt-1 sm:mt-2 max-w-[50px] xs:max-w-[60px] md:max-w-none leading-tight md:leading-normal',
                   isCurrent ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500'
                 )}
               >

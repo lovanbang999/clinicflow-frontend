@@ -1,4 +1,4 @@
-export type UserRole = 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN';
+export type UserRole = 'PATIENT' | 'DOCTOR' | 'RECEPTIONIST' | 'ADMIN' | 'TECHNICIAN';
 
 export type Gender = 'MALE' | 'FEMALE' | 'OTHER';
 
@@ -15,6 +15,29 @@ export interface User {
   address?: string;
   createdAt: string;
   updatedAt: string;
+  patientProfile?: {
+    id: string;
+    patientCode: string;
+    isGuest: boolean;
+    bloodType?: string;
+    nationalId?: string;
+    insuranceNumber?: string;
+    insuranceProvider?: string;
+    insuranceExpiry?: string;
+    allergies?: string;
+    chronicConditions?: string;
+    familyHistory?: string;
+    heightCm?: number;
+    weightKg?: number;
+  };
+  doctorProfile?: {
+    id: string;
+    specialties?: string[];
+    qualifications?: string[];
+    bio?: string;
+    yearsOfExperience?: number;
+    rating?: number;
+  };
 }
 
 export interface UpdateProfileDto {

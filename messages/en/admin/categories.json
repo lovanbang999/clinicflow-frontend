@@ -1,0 +1,48 @@
+{
+  "title": "Category Management",
+  "description": "Manage service categories in the clinic.",
+  "addCategory": "Add Category",
+  "searchPlaceholder": "Search by code or name...",
+  "table": {
+    "code": "Code",
+    "name": "Category Name",
+    "description": "Description",
+    "isActive": "Status",
+    "actions": "Actions"
+  },
+  "form": {
+    "addTitle": "Add Category",
+    "editTitle": "Edit Category",
+    "code": "Category Code (*)",
+    "codePlaceholder": "e.g. CAT_GENERAL",
+    "name": "Category Name (*)",
+    "namePlaceholder": "e.g. General Exam",
+    "description": "Description",
+    "descriptionPlaceholder": "Detailed description",
+    "isActive": "Active",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "messages": {
+    "created": "Category added successfully!",
+    "updated": "Category updated successfully!",
+    "deleted": "Category deleted successfully!"
+  },
+  "deleteModal": {
+    "title": "Delete Category?",
+    "description": "Are you sure you want to delete this category? The system will reject it if services are linked.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "tableState": {
+    "loading": "Loading categories...",
+    "empty": "No categories found"
+  },
+  "pagination": {
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "prev": "Previous",
+    "next": "Next"
+  }
+}

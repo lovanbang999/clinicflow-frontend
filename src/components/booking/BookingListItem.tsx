@@ -1,7 +1,7 @@
 'use client';
 
 import { Booking, BookingStatus } from '@/types';
-import { StatusBadge } from '@/components/common/StatusBadge';
+import { StatusBadge } from '@/components/shared/StatusBadge';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, Stethoscope, XCircle, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -32,6 +32,7 @@ export function BookingListItem({
       [BookingStatus.CONFIRMED]: t('confirmed'),
       [BookingStatus.CHECKED_IN]: t('checkedIn'),
       [BookingStatus.IN_PROGRESS]: t('inProgress'),
+      [BookingStatus.AWAITING_RESULTS]: t('awaitingResults'),
       [BookingStatus.COMPLETED]: t('completed'),
       [BookingStatus.CANCELLED]: t('cancelled'),
       [BookingStatus.QUEUED]: t('queued'),

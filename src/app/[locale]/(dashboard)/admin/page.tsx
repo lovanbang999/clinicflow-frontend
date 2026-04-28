@@ -2,105 +2,95 @@
 
 import { useTranslations } from 'next-intl';
 import {
-  useAdminOverview,
-  useAdminMonthlyStats,
+  useAdminStats,
   useAdminTopDoctors,
-  useAdminBookingOverview,
-} from '@/lib/hooks/useAdminDashboard';
-import { AdminKpiCard, TrendUpBadge, TrendDownBadge, StableBadge } from '@/components/dashboard/AdminKpiCard';
-import { Users as UsersIcon, Stethoscope as StethoscopeIcon, CalendarCheck as CalendarCheckIcon, CurrencyCircleDollar as CurrencyCircleDollarIcon } from '@phosphor-icons/react';
-import { AdminRevenueTrendChart } from '@/components/dashboard/AdminRevenueTrendChart';
-import { AdminBookingOverview } from '@/components/dashboard/AdminBookingOverview';
-import { AdminMonthlyStats } from '@/components/dashboard/AdminMonthlyStats';
-import { AdminTopDoctors } from '@/components/dashboard/AdminTopDoctors';
-import { AdminRecentActivity } from '@/components/dashboard/AdminRecentActivity';
+  useAdminTopServices,
+} from '@/lib/hooks/admin/useAdminDashboard';
+import { StableBadge, TrendUpBadge, TrendDownBadge, AdminKpiCard } from '@/components/dashboard/admin/AdminKpiCard';
+import { AdminRecentActivity } from '@/components/dashboard/admin/AdminRecentActivity';
+import { AdminRevenueTrendChart } from '@/components/dashboard/admin/AdminRevenueTrendChart';
+import { AdminTopDoctors } from '@/components/dashboard/admin/AdminTopDoctors';
+import { AdminTopServices } from '@/components/dashboard/admin/AdminTopServices';
+import { CurrencyCircleDollarIcon } from '@phosphor-icons/react';
+import { UsersIcon, CalendarCheckIcon } from 'lucide-react';
 
 export default function AdminDashboardPage() {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminOverview');
 
   // Each section loads its own data independently
-  const { data: overview, loading: overviewLoading } = useAdminOverview();
-  const { data: monthlyStats, loading: monthlyLoading } = useAdminMonthlyStats();
-  const { data: topDoctors, loading: topDoctorsLoading } = useAdminTopDoctors(5);
-  const { data: bookingOv, loading: bookingOverviewLoading } = useAdminBookingOverview();
+  const { data: stats, loading: statsLoading } = useAdminStats();
+  const { data: topDoctors, loading: topDoctorsLoading } = useAdminTopDoctors();
+  const { data: topServices, loading: topServicesLoading } = useAdminTopServices();
+
 
   const fmt = (n: number) => new Intl.NumberFormat('en-US').format(n);
-  const fmtRev = (n: number) =>
-    `${new Intl.NumberFormat('vi-VN').format(Math.floor(n / 1_000_000))}M ₫`;
-
-  // Helper: compute growth % badge for KPI cards
-  const growthBadge = (current: number, last: number) => {
-    if (last === 0) return <StableBadge />;
-    const pct = Math.round(((current - last) / last) * 100);
-    if (pct > 0) return <TrendUpBadge value={`${pct}%`} />;
-    if (pct < 0) return <TrendDownBadge value={`${Math.abs(pct)}%`} />;
-    return <StableBadge />;
+  
+  const fmtRev = (n: number) => {
+    if (n >= 1_000_000) {
+      const millions = n / 1_000_000;
+      return `${millions % 1 === 0 ? millions.toFixed(0) : millions.toFixed(1)}M ₫`;
+    }
+    if (n >= 1_000) {
+      return `${Math.round(n / 1_000)}K ₫`;
+    }
+    return `${n} ₫`;
   };
 
-  // KPI Cards
-  const kpis = overview
-    ? [
-      {
-        icon: UsersIcon,
-        iconBg: 'bg-blue-50',
-        iconColor: 'text-[#1392ec]',
-        title: t('kpi.totalPatients'),
-        value: fmt(overview.totalUsers),
-        badge: overview.trends
-          ? growthBadge(
-            overview.trends.newPatientsThisMonth,
-            overview.trends.newPatientsLastMonth,
-          )
-          : <StableBadge />,
-        sub: t('kpi.thisMonth', {
-          count: overview.trends?.newPatientsThisMonth ?? 0,
-        }),
-      },
-      {
-        icon: StethoscopeIcon,
-        iconBg: 'bg-emerald-50',
-        iconColor: 'text-emerald-600',
-        title: t('kpi.activeDoctors'),
-        value: fmt(overview.totalDoctors),
-        badge: <StableBadge />,
-        sub: t('kpi.allSpecialistsActive'),
-      },
-      {
-        icon: CalendarCheckIcon,
-        iconBg: 'bg-purple-50',
-        iconColor: 'text-purple-600',
-        title: t('kpi.totalBookings'),
-        value: fmt(overview.totalBookings),
-        badge: overview.trends
-          ? growthBadge(
-            overview.trends.newBookingsThisMonth,
-            overview.trends.newBookingsLastMonth,
-          )
-          : <StableBadge />,
-        sub: t('kpi.upcoming', {
-          count: overview.trends?.newBookingsThisMonth ?? 0,
-        }),
-      },
-      {
-        icon: CurrencyCircleDollarIcon,
-        iconBg: 'bg-amber-50',
-        iconColor: 'text-amber-600',
-        title: t('kpi.monthlyRevenue'),
-        value: fmtRev(overview.totalRevenue),
-        badge: overview.trends
-          ? growthBadge(
-            overview.trends.currentMonthRevenue,
-            overview.trends.lastMonthRevenue,
-          )
-          : <StableBadge />,
-        sub: t('kpi.vsLastMonth'),
-      },
-    ]
-    : [];
+  // KPI Cards data
+  const kpis = [
+    {
+      icon: UsersIcon,
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-[#1392ec]',
+      title: t('kpi.totalPatients'),
+      value: stats ? fmt(stats.totalUsers) : '0',
+      badge: stats ? (
+        ((current, last) => {
+          if (last === 0) return <StableBadge />;
+          const pct = Math.round(((current - last) / last) * 100);
+          if (pct > 0) return <TrendUpBadge value={`${pct}%`} />;
+          if (pct < 0) return <TrendDownBadge value={`${Math.abs(pct)}%`} />;
+          return <StableBadge />;
+        })(stats.trends.newPatientsThisMonth, stats.trends.newPatientsLastMonth)
+      ) : <StableBadge />,
+      sub: stats ? t('kpi.thisMonth', { count: stats.trends.newPatientsThisMonth }) : '...',
+    },
+    {
+      icon: CalendarCheckIcon,
+      iconBg: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+      title: t('kpi.totalBookings'),
+      value: stats ? fmt(stats.totalBookings) : '0',
+      badge: stats ? (
+        ((current, last) => {
+          if (last === 0) return <StableBadge />;
+          const pct = Math.round(((current - last) / last) * 100);
+          if (pct > 0) return <TrendUpBadge value={`${pct}%`} />;
+          if (pct < 0) return <TrendDownBadge value={`${Math.abs(pct)}%`} />;
+          return <StableBadge />;
+        })(stats.trends.newBookingsThisMonth, stats.trends.newBookingsLastMonth)
+      ) : <StableBadge />,
+      sub: stats ? t('kpi.thisMonth', { count: stats.trends.newBookingsThisMonth }) : '...',
+    },
+    {
+      icon: CurrencyCircleDollarIcon,
+      iconBg: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      title: t('kpi.monthlyRevenue'),
+      value: stats ? fmtRev(stats.trends.currentMonthRevenue) : '0 ₫',
+      badge: stats ? (
+        stats.trends.revenueGrowthPct > 0 
+          ? <TrendUpBadge value={`${stats.trends.revenueGrowthPct}%`} /> 
+          : stats.trends.revenueGrowthPct < 0 
+          ? <TrendDownBadge value={`${Math.abs(stats.trends.revenueGrowthPct)}%`} /> 
+          : <StableBadge />
+      ) : <StableBadge />,
+      sub: t('kpi.thisMonthOnly'),
+    },
+  ];
 
   // If ALL sections are loading, show a full-page skeleton
-  const allLoading =
-    overviewLoading && monthlyLoading && topDoctorsLoading && bookingOverviewLoading;
+  const allLoading = statsLoading && topDoctorsLoading && topServicesLoading;
 
   if (allLoading) {
     return (
@@ -132,39 +122,33 @@ export default function AdminDashboardPage() {
     <div className="p-6 space-y-5">
 
       {/* Row 1: KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {overviewLoading
-          ? Array.from({ length: 4 }).map((_, i) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {statsLoading
+          ? Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-28" />
           ))
           : kpis.map((k) => <AdminKpiCard key={k.title} {...k} />)
         }
       </div>
 
-      {/* Row 2: Revenue Chart (2/3) + Booking Overview (1/3) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      {/* Row 2: Revenue Chart (Full width) */}
+      <div className="grid grid-cols-1 gap-5">
         {/* Revenue chart fetches its own data internally */}
         <AdminRevenueTrendChart />
-
-        {bookingOverviewLoading ? (
-          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse" />
-        ) : bookingOv ? (
-          <AdminBookingOverview data={bookingOv} />
-        ) : null}
       </div>
 
-      {/* Row 3: Monthly Stats + Top Doctors + Recent Activity */}
+      {/* Row 3: Top Doctors + Top Services + Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {monthlyLoading ? (
-          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-64" />
-        ) : monthlyStats ? (
-          <AdminMonthlyStats {...monthlyStats} />
-        ) : null}
-
         {topDoctorsLoading ? (
           <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-64" />
         ) : (
           <AdminTopDoctors doctors={topDoctors} />
+        )}
+
+        {topServicesLoading ? (
+          <div className="bg-white rounded-2xl p-6 border border-[#e5e7eb] animate-pulse h-64" />
+        ) : (
+          <AdminTopServices services={topServices} />
         )}
 
         <AdminRecentActivity />

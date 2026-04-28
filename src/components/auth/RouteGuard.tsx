@@ -42,7 +42,10 @@ export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
           router.push(`/${locale}/doctor/schedule`);
           break;
         case 'RECEPTIONIST':
-          router.push(`/${locale}/receptionist/check-in`);
+          router.push(`/${locale}/receptionist`);
+          break;
+        case 'TECHNICIAN':
+          router.push(`/${locale}/technician/lab-worklist`);
           break;
         case 'PATIENT':
           router.push(`/${locale}/patient`);

@@ -6,6 +6,14 @@ export interface Service {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
+  categoryId?: string | null;
+  category?: {
+    id: string;
+    code: string;
+    name: string;
+  } | null;
+  preparationNotes?: string | null;
+  tags: string[];
   isActive: boolean;
   createdAt?: string;
 }
@@ -13,18 +21,26 @@ export interface Service {
 export interface ServiceForm {
   name: string;
   description: string;
+  iconUrl: string;
   price: string;
   durationMinutes: string;
   maxSlotsPerHour: string;
+  categoryId: string;
+  preparationNotes: string;
+  tags: string; // Comma separated for input
   isActive: boolean;
 }
 
 export const DEFAULT_SERVICE_FORM: ServiceForm = {
   name: '',
   description: '',
+  iconUrl: '',
   price: '',
-  durationMinutes: '',
+  durationMinutes: '30',
   maxSlotsPerHour: '3',
+  categoryId: '',
+  preparationNotes: '',
+  tags: '',
   isActive: true,
 };
 

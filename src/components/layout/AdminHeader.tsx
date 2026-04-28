@@ -3,14 +3,17 @@
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import { Bell } from 'lucide-react';
-import { LanguageSwitcher } from '../common/LanguageSwitcher';
+import { NotificationBell } from './NotificationBell';
+import { LanguageSwitcher } from '../shared/LanguageSwitcher';
 import { NAV_ITEMS } from './AdminSidebar';
+import { SidebarSimpleIcon } from '@phosphor-icons/react';
+import { useUIStore } from '@/lib/store/uiStore';
 
 export default function AdminHeader() {
   const { user } = useAuthStore();
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminLayout');
   const pathname = usePathname();
+  const { toggleSidebarCollapsed } = useUIStore();
 
   const activeItem = NAV_ITEMS.find((item) =>
     item.exact
@@ -24,10 +27,19 @@ export default function AdminHeader() {
     : 'AD';
 
   return (
-    <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-8 shrink-0">
-      {/* Title */}
-      <div>
-        <h2 className="text-[#111518] text-xl font-bold tracking-tight">{pageTitle}</h2>
+    <header className="h-20 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-4 sm:px-6 shrink-0">
+      {/* Left: Toggle + Title */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={toggleSidebarCollapsed}
+          className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
+          aria-label="Toggle sidebar"
+        >
+          <SidebarSimpleIcon size={22} weight="regular" />
+        </button>
+        <h2 className="text-[#111518] text-lg sm:text-xl font-bold tracking-tight truncate max-w-[150px] sm:max-w-none">
+          {pageTitle}
+        </h2>
       </div>
 
       {/* Right Actions */}
@@ -35,10 +47,7 @@ export default function AdminHeader() {
         <LanguageSwitcher />
 
         {/* Notifications */}
-        <button className="relative text-[#64748b] hover:text-[#1392ec] transition-colors p-1">
-          <Bell size={24} />
-          <span className="absolute top-0 right-0 size-3 bg-red-500 border-2 border-white rounded-full" />
-        </button>
+        <NotificationBell />
 
         {/* User profile */}
         <div className="flex items-center gap-3 pl-5 border-l border-[#e5e7eb]">

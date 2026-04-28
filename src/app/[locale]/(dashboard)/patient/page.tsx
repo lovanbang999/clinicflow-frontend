@@ -1,41 +1,48 @@
 'use client';
 
-import { useDashboard } from '@/lib/hooks/useDashboard';
+import { useDashboard } from '@/lib/hooks/clinic/useDashboard';
 import { PatientWelcomeBanner } from '@/components/patient/PatientWelcomeBanner';
 import { PatientStatsGrid } from '@/components/patient/PatientStatsGrid';
 import { NextAppointmentCard } from '@/components/patient/NextAppointmentCard';
 import { RecentActivityList } from '@/components/patient/RecentActivityList';
-import { RecommendedSpecialists } from '@/components/patient/RecommendedSpecialists';
+import { QuickActionBar } from '@/components/patient/QuickActionBar';
+import { PatientVisitTrendChart } from '@/components/analytics/PatientVisitTrendChart';
+import { PatientTopDiseasesChart } from '@/components/analytics/PatientTopDiseasesChart';
+import { PatientSpendingCard } from '@/components/analytics/PatientSpendingCard';
+import { ChatWidget } from '@/components/chat/ChatWidget';
+import { RecentInvoicesWidget } from '@/components/dashboard/patient/RecentInvoicesWidget';
 
 export default function PatientDashboardPage() {
   const { data } = useDashboard();
 
-  console.log(data);
-
-  // Derived stats from data, defaulting to 0
-  const upcoming = data?.stats.upcomingBookings || 0;
-  const completed = data?.stats.completedBookings || 0;
-  const waiting = data?.stats.waitingBookings || 0;
-  const total = data?.stats.totalBookings || 0;
-
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 md:space-y-10 pb-10">
       <PatientWelcomeBanner />
+      
+      <QuickActionBar />
 
-      <PatientStatsGrid 
-        upcoming={upcoming}
-        completed={completed}
-        waiting={waiting}
-        total={total}
-      />
+      <PatientStatsGrid />
+
+      {/* Analytics: Visit Trend + Top Diseases + Spending */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <PatientVisitTrendChart />
+        </div>
+        <PatientSpendingCard />
+      </section>
+
+      <PatientTopDiseasesChart />
 
       <NextAppointmentCard nextBooking={data?.nextBooking} />
 
-      {/* Two columns: Recent Activity & Specialists */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Two columns: Recent Activity & Recent Invoices */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         <RecentActivityList />
-        <RecommendedSpecialists />
+        <RecentInvoicesWidget />
       </section>
+
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 }

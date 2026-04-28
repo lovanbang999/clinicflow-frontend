@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 
 import { useAuthStore } from '@/lib/store/authStore';
-import { usersApi } from '@/lib/api/users';
+import { usersApi } from '@/lib/api/auth/users';
 import { CircleNotchIcon } from '@phosphor-icons/react';
 
 import { PatientPersonalInfoForm } from '@/components/patient/profile/PatientPersonalInfoForm';
@@ -46,10 +46,10 @@ export default function PatientProfilePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">{t('title')}</h1>
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-4 md:mb-8">{t('title')}</h1>
       
-      <div className="space-y-8">
+      <div className="space-y-4 md:space-y-8">
         <PatientPersonalInfoForm user={user} />
         <PatientChangePasswordForm />
       </div>

@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
+import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { BackendUser } from '@/types';
 import { ALL_SPECIALTIES } from './types';
 
@@ -90,6 +90,7 @@ interface EditDoctorForm {
   yearsOfExperience: string;
   bio: string;
   isActive: boolean;
+  consultationFee: string;
 }
 
 // Props
@@ -102,7 +103,8 @@ interface EditDoctorDialogProps {
 
 // Main component
 export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }: EditDoctorDialogProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.editDoctor');
+  const t = useTranslations('adminDoctors.editDoctor');
+  const tSpec = useTranslations('adminDoctors.specialties');
   const { updateDoctorProfile } = useAdminDoctors();
 
   const [form, setForm] = useState<EditDoctorForm>({
@@ -114,6 +116,7 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
     yearsOfExperience: '',
     bio: '',
     isActive: true,
+    consultationFee: '0',
   });
   const [errors, setErrors] = useState<Partial<Record<keyof EditDoctorForm, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -131,6 +134,7 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
         yearsOfExperience: profile?.yearsOfExperience != null ? String(profile.yearsOfExperience) : '',
         bio: profile?.bio || '',
         isActive: doctor.isActive,
+        consultationFee: profile?.consultationFee != null ? String(profile.consultationFee) : '0',
       });
       setErrors({});
     }
@@ -154,6 +158,10 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
       const val = parseInt(form.yearsOfExperience, 10);
       if (isNaN(val) || val < 0 || val > 60) newErrors.yearsOfExperience = t('errors.experienceInvalid');
     }
+    if (form.consultationFee) {
+      const val = parseFloat(form.consultationFee);
+      if (isNaN(val) || val < 0) newErrors.consultationFee = t('errors.feeInvalid');
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -174,6 +182,7 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
           qualifications: qualsList.length > 0 ? qualsList : undefined,
           yearsOfExperience: form.yearsOfExperience ? parseInt(form.yearsOfExperience, 10) : undefined,
           bio: form.bio || undefined,
+          consultationFee: form.consultationFee ? parseFloat(form.consultationFee) : 0,
         },
         {
           fullName: form.fullName,
@@ -285,7 +294,7 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
                   <SelectContent>
                     {ALL_SPECIALTIES.map((sp) => (
                       <SelectItem key={sp} value={sp}>
-                        {sp}
+                        {tSpec(sp)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -309,6 +318,29 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
                 />
                 {errors.yearsOfExperience && (
                   <p className="text-xs text-red-500 mt-0.5">{errors.yearsOfExperience}</p>
+                )}
+              </Field>
+
+              <Field label={t('consultationFee')} htmlFor="edit-doctor-fee">
+                <div className="relative">
+                  <Input
+                    id="edit-doctor-fee"
+                    type="number"
+                    min={0}
+                    placeholder={t('feePlaceholder')}
+                    value={form.consultationFee}
+                    onChange={(e) => set('consultationFee', e.target.value)}
+                    className={cn(
+                      'h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20 pr-12',
+                      errors.consultationFee && 'border-red-400',
+                    )}
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
+                    VNĐ
+                  </div>
+                </div>
+                {errors.consultationFee && (
+                  <p className="text-xs text-red-500 mt-0.5">{errors.consultationFee}</p>
                 )}
               </Field>
             </div>

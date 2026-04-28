@@ -65,7 +65,7 @@ type PatientKpiCardsProps = {
 };
 
 export function PatientKpiCards({ data, loading }: PatientKpiCardsProps) {
-  const t = useTranslations('dashboard.admin');
+  const t = useTranslations('adminPatients');
 
   const fmt = (n?: number | null) =>
     n != null ? new Intl.NumberFormat('en-US').format(n) : '--';
@@ -93,7 +93,7 @@ export function PatientKpiCards({ data, loading }: PatientKpiCardsProps) {
 
   const cards: KpiCardProps[] = [
     {
-      label: t('patientManagement.kpi.totalPatients'),
+      label: t('kpi.totalPatients'),
       value: fmt(data?.totalPatients),
       trend: fmtTrend(data?.totalPatientsTrend),
       trendPositive: (data?.totalPatientsTrend ?? 0) >= 0,
@@ -101,7 +101,7 @@ export function PatientKpiCards({ data, loading }: PatientKpiCardsProps) {
       icon: <UsersThreeIcon size={22} weight="fill" />,
     },
     {
-      label: t('patientManagement.kpi.newThisMonth'),
+      label: t('kpi.newThisMonth'),
       value: fmt(data?.newThisMonth),
       trend: fmtTrend(data?.newThisMonthTrend),
       trendPositive: (data?.newThisMonthTrend ?? 0) >= 0,
@@ -109,7 +109,7 @@ export function PatientKpiCards({ data, loading }: PatientKpiCardsProps) {
       icon: <UserPlusIcon size={22} weight="fill" />,
     },
     {
-      label: t('patientManagement.kpi.patientsToday'),
+      label: t('kpi.patientsToday'),
       value: fmt(data?.patientsToday),
       trend: fmtTrend(data?.patientsTodayTrend),
       trendPositive: (data?.patientsTodayTrend ?? 0) >= 0,
@@ -117,7 +117,7 @@ export function PatientKpiCards({ data, loading }: PatientKpiCardsProps) {
       icon: <CalendarBlankIcon size={22} weight="fill" />,
     },
     {
-      label: t('patientManagement.kpi.activeAppointments'),
+      label: t('kpi.activeAppointments'),
       value: fmt(data?.activeAppointments),
       trend: fmtTrend(data?.activeAppointmentsTrend),
       trendPositive: (data?.activeAppointmentsTrend ?? 0) >= 0,

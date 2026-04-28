@@ -47,6 +47,11 @@ export const ERROR_MESSAGE_MAP: Record<string, string> = {
   'USER.EMAIL.EXISTS': 'user.emailExists',
   'USER.PHONE.EXISTS': 'user.phoneExists',
   
+  // Category errors
+  'CATEGORY.NOT_FOUND': 'category.notFound',
+  'CATEGORY.CREATE.CODE_EXISTS': 'category.codeExists',
+  'CATEGORY.DELETE.HAS_SERVICES': 'category.hasServices',
+
   // Service errors
   'SERVICE.NOT_FOUND': 'service.notFound',
   'SERVICE.CREATE.NAME_EXISTS': 'service.nameExists',
@@ -57,6 +62,7 @@ export const ERROR_MESSAGE_MAP: Record<string, string> = {
   'BOOKING.CREATE.DUPLICATE': 'booking.duplicate',
   'BOOKING.CREATE.INVALID_DATE': 'booking.invalidDate',
   'BOOKING.UPDATE.INVALID_TRANSITION': 'booking.invalidTransition',
+  'BOOKING.UPDATE.DOCTOR_BUSY': 'booking.update.doctorBusy',
   
   // Queue errors
   'QUEUE.NOT_FOUND': 'queue.notFound',

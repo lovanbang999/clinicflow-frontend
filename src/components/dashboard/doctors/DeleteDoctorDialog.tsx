@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { useTranslations } from 'next-intl';
 import { BackendUser } from '@/types';
-import { useAdminDoctors } from '@/lib/hooks/useAdminDoctors';
+import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 
 interface DeleteDoctorDialogProps {
   doctor: BackendUser | null;
@@ -21,7 +21,7 @@ interface DeleteDoctorDialogProps {
 }
 
 export function DeleteDoctorDialog({ doctor, open, onOpenChange, onDeleted }: DeleteDoctorDialogProps) {
-  const t = useTranslations('dashboard.admin.doctorManagement.deleteDoctor');
+  const t = useTranslations('adminDoctors.deleteDoctor');
   const { deleteDoctor } = useAdminDoctors();
   const [isDeleting, setIsDeleting] = useState(false);
 

@@ -1,3 +1,5 @@
+export type PerformerType = 'TECHNICIAN' | 'DOCTOR';
+
 export interface Service {
   id: string;
   name: string;
@@ -6,6 +8,22 @@ export interface Service {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
+  performerType?: PerformerType;
+  categoryId?: string;
+  category?: {
+    id: string;
+    code: string;
+    name: string;
+    type: string;
+  };
+  doctorServices?: {
+    doctorProfile: {
+      user: {
+        id: string;
+        fullName: string;
+      }
+    }
+  }[];
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -18,6 +36,7 @@ export interface CreateServiceDto {
   durationMinutes: number;
   price: number;
   maxSlotsPerHour: number;
+  categoryId: string;
 }
 
 export interface UpdateServiceDto extends Partial<CreateServiceDto> {

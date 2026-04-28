@@ -1,17 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   PencilSimpleIcon,
   ProhibitIcon,
   TrashIcon,
+  CaretUpDownIcon,
+  CaretUpIcon,
+  CaretDownIcon,
 } from '@phosphor-icons/react';
 import { User } from '@/types';
 import { SuspendUserDialog } from './SuspendUserDialog';
 import { DeleteUserDialog } from './DeleteUserDialog';
 
 type Status = 'Active' | 'Inactive';
+type SortKey = 'fullName' | 'role' | 'createdAt';
+type SortDir = 'asc' | 'desc';
 
 const ROLE_STYLES: Record<string, string> = {
   DOCTOR: 'bg-blue-50 text-blue-700 border-blue-100',
@@ -51,6 +56,11 @@ interface AdminUserTableProps {
   onDelete: (id: string) => void;
 }
 
+function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey; sortDir: SortDir }) {
+  if (col !== sortKey) return <CaretUpDownIcon size={13} className="text-slate-400" />;
+  return sortDir === 'asc' ? <CaretUpIcon size={13} className="text-[#1392ec]" weight="bold" /> : <CaretDownIcon size={13} className="text-[#1392ec]" weight="bold" />;
+}
+
 export function AdminUserTable({
   users,
   loadingList,
@@ -58,34 +68,87 @@ export function AdminUserTable({
   onToggleStatus,
   onDelete,
 }: AdminUserTableProps) {
-  const t = useTranslations('dashboard.admin.userManagement');
+  const t = useTranslations('adminUsers');
   const [suspendConfirmUser, setSuspendConfirmUser] = useState<User | null>(null);
   const [deleteConfirmUser, setDeleteConfirmUser] = useState<User | null>(null);
+  const [sortKey, setSortKey] = useState<SortKey>('createdAt');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
+
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortKey(key);
+      setSortDir('asc');
+    }
+  };
+
+  const sortedUsers = useMemo(() => {
+    return [...users].sort((a, b) => {
+      let valA: string | number = '';
+      let valB: string | number = '';
+      if (sortKey === 'fullName') { valA = a.fullName.toLowerCase(); valB = b.fullName.toLowerCase(); }
+      else if (sortKey === 'role') { valA = a.role; valB = b.role; }
+      else if (sortKey === 'createdAt') { valA = a.createdAt; valB = b.createdAt; }
+      if (valA < valB) return sortDir === 'asc' ? -1 : 1;
+      if (valA > valB) return sortDir === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [users, sortKey, sortDir]);
 
   return (
     <div className="overflow-x-auto flex-1">
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="bg-[#f8fafc] border-b border-[#e5e7eb]">
-            {['user', 'role', 'status', 'joinedDate', 'action'].map((colKey) => (
-              <th
-                key={colKey}
-                className={`py-4 px-6 text-xs font-bold text-[#64748b] uppercase tracking-wider ${colKey === 'action' ? 'text-right' : ''}`}
-              >
-                {t(`table.columns.${colKey as 'user' | 'role' | 'status' | 'joinedDate' | 'action'}`)}
-              </th>
-            ))}
+            {/* Sortable: user (fullName) */}
+            <th
+              onClick={() => handleSort('fullName')}
+              className="py-4 px-6 text-xs font-bold text-[#64748b] uppercase tracking-wider cursor-pointer hover:text-[#1392ec] select-none"
+            >
+              <span className="flex items-center gap-1.5">
+                {t('table.columns.user')}
+                <SortIcon col="fullName" sortKey={sortKey} sortDir={sortDir} />
+              </span>
+            </th>
+            {/* Sortable: role */}
+            <th
+              onClick={() => handleSort('role')}
+              className="py-4 px-6 text-xs font-bold text-[#64748b] uppercase tracking-wider cursor-pointer hover:text-[#1392ec] select-none"
+            >
+              <span className="flex items-center gap-1.5">
+                {t('table.columns.role')}
+                <SortIcon col="role" sortKey={sortKey} sortDir={sortDir} />
+              </span>
+            </th>
+            {/* Status - not sortable */}
+            <th className="py-4 px-6 text-xs font-bold text-[#64748b] uppercase tracking-wider">
+              {t('table.columns.status')}
+            </th>
+            {/* Sortable: joinedDate */}
+            <th
+              onClick={() => handleSort('createdAt')}
+              className="py-4 px-6 text-xs font-bold text-[#64748b] uppercase tracking-wider cursor-pointer hover:text-[#1392ec] select-none"
+            >
+              <span className="flex items-center gap-1.5">
+                {t('table.columns.joinedDate')}
+                <SortIcon col="createdAt" sortKey={sortKey} sortDir={sortDir} />
+              </span>
+            </th>
+            <th className="py-4 px-6 text-xs font-bold text-[#64748b] uppercase tracking-wider text-right">
+              {t('table.columns.action')}
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-[#e5e7eb]">
-          {users.length === 0 && !loadingList ? (
+          {sortedUsers.length === 0 && !loadingList ? (
             <tr>
               <td colSpan={5} className="py-16 text-center text-[#94a3b8] text-sm">
                 {t('table.empty')}
               </td>
             </tr>
           ) : (
-            users.map((u) => {
+            sortedUsers.map((u) => {
               const derivedStatus = u.isActive ? 'Active' : 'Inactive';
               const statusStyle = STATUS_STYLES[derivedStatus];
               return (

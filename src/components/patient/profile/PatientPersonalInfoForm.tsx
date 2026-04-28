@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 
-import { useProfile } from '@/lib/hooks/useProfile';
+import { useProfile } from '@/lib/hooks/auth/useProfile';
 import {
   Dialog,
   DialogContent,
@@ -145,8 +145,8 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100 dark:border-slate-800">
-      <div className="flex flex-col items-center mb-12">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-8 shadow-sm border border-slate-100 dark:border-slate-800">
+      <div className="flex flex-col items-center mb-8 md:mb-12">
         {avatarSrc ? (
           <Dialog>
             <DialogTrigger asChild>
@@ -286,14 +286,14 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
             type="button" 
             onClick={handleProfileCancel}
             disabled={isLoading}
-            className="px-8 py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+            className="text-sm md:text-base px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
           >
             {tCommon('cancel')}
           </button>
           <button 
             type="submit" 
             disabled={isLoading}
-            className="px-8 py-3 rounded-xl font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+            className="text-sm md:text-base px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
           >
             {isLoading ? (
               <CircleNotchIcon className="animate-spin text-xl" />

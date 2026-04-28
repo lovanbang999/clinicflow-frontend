@@ -1,0 +1,38 @@
+{
+  "title": "System Invoice History",
+  "subtitle": "View and manage all invoices from clinic services",
+  "filter": {
+    "typePlaceholder": "Invoice Type",
+    "clear": "Clear Filters"
+  },
+  "detail": {
+    "notFound": "Invoice not found",
+    "back": "Back",
+    "subtitle": "System invoice details",
+    "fetchError": "Could not load invoice details"
+  },
+  "pagination": {
+    "showing": "Showing {start} - {end} of {total} invoices",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "table": {
+    "invoiceNumber": "Invoice / Creation Date",
+    "patientDoctor": "Patient / Doctor",
+    "status": "Status",
+    "total": "Total",
+    "paid": "Paid",
+    "actions": "Actions",
+    "empty": "No invoices found",
+    "unknown": "Unknown",
+    "viewDetails": "View Details",
+    "type": "Type"
+  },
+  "bookingInvoices": {
+    "types": {
+      "CONSULTATION": "Consultation",
+      "SERVICE": "Services",
+      "PHARMACY": "Pharmacy"
+    }
+  }
+}

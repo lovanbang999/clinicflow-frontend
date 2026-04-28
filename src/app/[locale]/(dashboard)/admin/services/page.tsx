@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useAdminServices } from '@/lib/hooks/useAdminServices';
-import { useDebounce } from '@/lib/hooks/useDebounce';
-import { type AdminService, type ServiceFiltersQuery } from '@/lib/api/admin-services';
+import { useAdminServices } from '@/lib/hooks/admin/useAdminServices';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
+import { type AdminService, type ServiceFiltersQuery } from '@/lib/api/admin/admin-services';
 import { ServiceStatCards } from '@/components/dashboard/services/ServiceStatCards';
 import { ServiceTable } from '@/components/dashboard/services/ServiceTable';
 import { ServiceFormDialog } from '@/components/dashboard/services/ServiceFormDialog';
@@ -18,6 +18,7 @@ const toService = (s: AdminService): Service => s as Service;
 export default function AdminServicesPage() {
   const {
     services: rawServices,
+    pagination,
     loadingList,
     stats,
     loadingStats,
@@ -37,6 +38,7 @@ export default function AdminServicesPage() {
   const debouncedSearch = useDebounce(search, 500);
   const [page, setPage] = useState(1);
   const [filterActive, setFilterActive] = useState<FilterActive>('all');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
 
   // Dialogs
   const [addOpen, setAddOpen] = useState(false);
@@ -46,12 +48,16 @@ export default function AdminServicesPage() {
 
   // Build query params from state
   const buildFilters = useCallback((): ServiceFiltersQuery => {
-    const f: ServiceFiltersQuery = {};
+    const f: ServiceFiltersQuery = {
+      page,
+      limit: 10,
+    };
     if (debouncedSearch) f.search = debouncedSearch;
     if (filterActive === 'active') f.isActive = true;
     if (filterActive === 'inactive') f.isActive = false;
+    if (filterCategory !== 'all') f.category = filterCategory;
     return f;
-  }, [debouncedSearch, filterActive]);
+  }, [debouncedSearch, filterActive, filterCategory, page]);
 
   // Initial fetch
   useEffect(() => {
@@ -77,6 +83,11 @@ export default function AdminServicesPage() {
 
   const handleFilterChange = (f: FilterActive) => {
     setFilterActive(f);
+    setPage(1);
+  };
+
+  const handleCategoryChange = (c: string) => {
+    setFilterCategory(c);
     setPage(1);
   };
 
@@ -119,8 +130,12 @@ export default function AdminServicesPage() {
         isLoading={loadingList}
         page={page}
         onPageChange={setPage}
+        totalPages={pagination.totalPages}
+        total={pagination.total}
         filterActive={filterActive}
         onFilterChange={handleFilterChange}
+        filterCategory={filterCategory}
+        onCategoryChange={handleCategoryChange}
         search={search}
         onSearchChange={handleSearchChange}
         onAddService={() => setAddOpen(true)}

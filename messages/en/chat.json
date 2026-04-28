@@ -1,0 +1,16 @@
+{
+  "title": "Smart Clinic",
+  "status": "AI Assistant is online",
+  "welcome": "Hello, I am the SmartClinic virtual assistant. Please let me know what symptoms you are experiencing.",
+  "placeholder": "Type your message...",
+  "warning": "AI may provide inaccurate answers. Please consult a doctor.",
+  "ctaTitle": "Need urgent support?",
+  "ctaSubtitle": "Contact AI Assistant",
+  "today": "Today",
+  "you": "You",
+  "aiName": "Smart Clinic AI",
+  "seen": "Seen",
+  "noSlots": "No suitable appointments found.",
+  "clearChat": "New Chat",
+  "reportIssue": "Report Issue"
+}
