@@ -66,7 +66,6 @@ export function useApiHandler() {
         const errorKey = getErrorKey(apiError.messageCode, 'generic');
         let errorMessage = tErrors(errorKey);
         
-        console.log(errorMessage);
         
         if (errorMessage === `errors.${errorKey}` || errorMessage === errorKey) {
           errorMessage = apiError.message || tErrors('generic');
