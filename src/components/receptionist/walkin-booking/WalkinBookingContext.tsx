@@ -5,7 +5,7 @@ import { usersApi } from '@/lib/api/auth/users';
 import { doctorsApi } from '@/lib/api/clinical/doctors';
 import { bookingsApi } from '@/lib/api/appointment/bookings';
 import { schedulesApi } from '@/lib/api/appointment/schedules';
-import { servicesApi } from '@/lib/api/clinic/services';
+// import { servicesApi } from '@/lib/api/clinic/services'; // HIDDEN: used by Direct Service flow — re-enable when ready
 import { User, Doctor, Booking, Service } from '@/types';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -167,16 +167,16 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     }).catch(console.error).finally(() => setIsLoadingDoctors(false));
   }, []);
 
-  // Load all services for Mode B when switching to it
-  useEffect(() => {
-    if (bookingMode === 'DIRECT_SERVICE' && allServices.length === 0) {
-      setIsLoadingServices(true);
-      servicesApi.getAll({ isActive: true })
-        .then(setAllServices)
-        .catch(console.error)
-        .finally(() => setIsLoadingServices(false));
-    }
-  }, [bookingMode, allServices.length]);
+  // HIDDEN: Load all services for Mode B (Direct Service) — re-enable when flow is ready
+  // useEffect(() => {
+  //   if (bookingMode === 'DIRECT_SERVICE' && allServices.length === 0) {
+  //     setIsLoadingServices(true);
+  //     servicesApi.getAll({ isActive: true })
+  //       .then(setAllServices)
+  //       .catch(console.error)
+  //       .finally(() => setIsLoadingServices(false));
+  //   }
+  // }, [bookingMode, allServices.length]);
 
   // Fetch slots for pre-booking when doctor or date changes
   const fetchSlots = useCallback(async () => {
@@ -291,42 +291,43 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const handleSubmitBooking = async () => {
     const isWalkIn = bookingType === 'WALK_IN';
 
-    if (bookingMode === 'DIRECT_SERVICE') {
-      // Mode B validation
-      if (!selectedPatient || selectedServices.length === 0 || !dutyDoctor) {
-        toast.error(t('toasts.fillAllSteps'));
-        return;
-      }
-      if (!isWalkIn && !selectedSlot) {
-        toast.error(t('toasts.fillAllSteps'));
-        return;
-      }
-
-      setIsSubmitting(true);
-      try {
-        const booking = await bookingsApi.createDirectServiceBooking({
-          patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id,
-          doctorId: dutyDoctor.id,
-          serviceIds: selectedServices.map(s => s.id),
-          serviceAssignments: selectedServices
-            .filter(s => s.performerType === 'DOCTOR' && serviceAssignments[s.id])
-            .map(s => ({ serviceId: s.id, performingDoctorId: serviceAssignments[s.id] })),
-          bookingDate: format(selectedDate, 'yyyy-MM-dd'),
-          isPreBooked: !isWalkIn,
-          startTime: isWalkIn ? undefined : (selectedSlot ?? undefined),
-          patientNotes,
-        });
-
-        setCompletedBooking(booking);
-        toast.success(t('toasts.bookingSuccess'));
-      } catch (err) {
-        console.error(err);
-        toast.error(t('toasts.bookingError'));
-      } finally {
-        setIsSubmitting(false);
-      }
-      return;
-    }
+    // HIDDEN: Mode B (Direct Service) submit logic — re-enable when flow is ready
+    // if (bookingMode === 'DIRECT_SERVICE') {
+    //   // Mode B validation
+    //   if (!selectedPatient || selectedServices.length === 0 || !dutyDoctor) {
+    //     toast.error(t('toasts.fillAllSteps'));
+    //     return;
+    //   }
+    //   if (!isWalkIn && !selectedSlot) {
+    //     toast.error(t('toasts.fillAllSteps'));
+    //     return;
+    //   }
+    //
+    //   setIsSubmitting(true);
+    //   try {
+    //     const booking = await bookingsApi.createDirectServiceBooking({
+    //       patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id,
+    //       doctorId: dutyDoctor.id,
+    //       serviceIds: selectedServices.map(s => s.id),
+    //       serviceAssignments: selectedServices
+    //         .filter(s => s.performerType === 'DOCTOR' && serviceAssignments[s.id])
+    //         .map(s => ({ serviceId: s.id, performingDoctorId: serviceAssignments[s.id] })),
+    //       bookingDate: format(selectedDate, 'yyyy-MM-dd'),
+    //       isPreBooked: !isWalkIn,
+    //       startTime: isWalkIn ? undefined : (selectedSlot ?? undefined),
+    //       patientNotes,
+    //     });
+    //
+    //     setCompletedBooking(booking);
+    //     toast.success(t('toasts.bookingSuccess'));
+    //   } catch (err) {
+    //     console.error(err);
+    //     toast.error(t('toasts.bookingError'));
+    //   } finally {
+    //     setIsSubmitting(false);
+    //   }
+    //   return;
+    // }
 
     // Mode A (Consultation) — existing flow
     if (!selectedPatient || !selectedDoctor) {
@@ -404,13 +405,14 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const isStepDone = (step: number) => {
     if (step === 1) return selectedPatient !== null;
     if (step === 2) {
-      if (bookingMode === 'DIRECT_SERVICE') {
-        if (selectedServices.length === 0 || !dutyDoctor) return false;
-        // All SPECIALIST services must have a performing doctor assigned
-        const specialistServices = selectedServices.filter(s => s.performerType === 'DOCTOR');
-        const allAssigned = specialistServices.every(s => !!serviceAssignments[s.id]);
-        return allAssigned;
-      }
+      // HIDDEN: Mode B (Direct Service) step 2 logic — re-enable when flow is ready
+      // if (bookingMode === 'DIRECT_SERVICE') {
+      //   if (selectedServices.length === 0 || !dutyDoctor) return false;
+      //   // All SPECIALIST services must have a performing doctor assigned
+      //   const specialistServices = selectedServices.filter(s => s.performerType === 'DOCTOR');
+      //   const allAssigned = specialistServices.every(s => !!serviceAssignments[s.id]);
+      //   return allAssigned;
+      // }
       return selectedDoctor !== null;
     }
     if (step === 3) return bookingType === 'WALK_IN' ? true : selectedSlot !== null;
