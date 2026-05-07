@@ -136,7 +136,7 @@ export function DoctorsPageContent() {
                 <SelectTrigger className="w-auto min-w-[210px] bg-white border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:border-[#1392ec]/50 transition-all font-display h-10 cursor-pointer">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl font-display">
+                <SelectContent position="popper" align="end" className="rounded-xl font-display">
                   <SelectItem className="cursor-pointer" value="rating-desc">
                     <div className="flex items-center gap-2">
                       <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
