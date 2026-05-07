@@ -121,7 +121,6 @@ export function useBookings() {
   const { onNewNotification } = useNotifications();
   useEffect(() => {
     const unsub = onNewNotification((notif) => {
-      console.log('Bookings received notification, refreshing list...', notif.type);
       // For patients, refresh their own history
       void fetchMyBookings();
     });

@@ -45,9 +45,6 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
           return bDateStr === todayStr && isActive;
         });
 
-        console.log('Active today:', myBookings);
-        console.log('doctorsData:', doctorsData);
-
         setBookedDoctorIds(new Set(activeToday.map((b: Booking) => b.doctorId)));
       } catch (error) {
         console.error('Failed to fetch doctors:', error);

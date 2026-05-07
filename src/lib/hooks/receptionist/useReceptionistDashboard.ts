@@ -122,7 +122,6 @@ export const useReceptionistDashboard = () => {
     const unsub = onNewNotification((notif) => {
       // Refresh relevant data based on notification type if needed
       // For now, refresh all for simplicity when receptionist gets a notification
-      console.log('Receptionist received notification, refreshing dashboard...', notif.type);
       refreshAll();
     });
     return unsub;

@@ -24,12 +24,10 @@ export const useQueueSocket = (doctorId?: string) => {
 
     socketInstance.on('connect', () => {
       setIsConnected(true);
-      console.log('Connected to queue socket namespace [/queue]');
     });
 
     socketInstance.on('disconnect', () => {
       setIsConnected(false);
-      console.log('Disconnected from queue socket');
     });
 
     socketInstance.on('connect_error', (error) => {
@@ -49,12 +47,10 @@ export const useQueueSocket = (doctorId?: string) => {
     const socket = socketRef.current;
     if (!socket || !doctorId || !isConnected) return;
 
-    console.log(`Joining doctor room: ${doctorId}`);
     socket.emit('joinDoctorRoom', doctorId);
 
     return () => {
       if (isConnected && socketRef.current) {
-        console.log(`Leaving doctor room: ${doctorId}`);
         socketRef.current.emit('leaveDoctorRoom', doctorId);
       }
     };
