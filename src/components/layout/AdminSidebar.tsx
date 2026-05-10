@@ -98,7 +98,7 @@ export default function AdminSidebar({ onNavItemClick }: AdminSidebarProps) {
                 )}
               >
                 <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} className="shrink-0" />
-                {!isSidebarCollapsed && <span className="truncate">{t(item.key)}</span>}
+                {!isSidebarCollapsed && <span className="truncate">{t(`nav.${item.key}`)}</span>}
               </Link>
               {/* Tooltip in collapsed mode */}
               {isSidebarCollapsed && (
