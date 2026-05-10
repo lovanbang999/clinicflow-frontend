@@ -134,6 +134,7 @@
   "noShow": "No Show",
   "viewDetails": "Details",
   "cancelBooking": "Cancel",
+  "cancelling": "Cancelling...",
   "rescheduleBooking": "Reschedule",
   "noBookingsFound": "No appointments found",
   "noBookingsDescription": "You don't have any appointments yet. Book one now!",
