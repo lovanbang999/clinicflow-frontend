@@ -58,8 +58,8 @@ export function BookingCard({ booking, isCancelling, onCancel, onViewDetails }: 
   const formattedTime = booking.startTime;
 
   const doctorName = booking.doctor?.fullName ?? '';
-  const serviceName = booking.service?.name ?? '';
-  const specialty   = booking.service?.name ?? ''; // Using service as specialty sub-text like in mockup
+  const serviceName = booking.service?.name ?? t('initialConsultation');
+  const specialty   = booking.service?.name ?? t('doctor');
 
   const cancelable  = canCancel(booking.status);
   const done        = isCompleted(booking.status);
@@ -69,7 +69,7 @@ export function BookingCard({ booking, isCancelling, onCancel, onViewDetails }: 
   const DateIcon = todayDate ? ClockIcon : CalendarBlankIcon;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-[24px] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md hover:shadow-slate-200/40 dark:hover:shadow-slate-900/40 transition-all duration-300 overflow-hidden group">
       {/* Card Top */}
       <div className="px-4 pt-4 pb-3 space-y-2.5">
         {/* Row 1: status badge + date */}
@@ -92,11 +92,11 @@ export function BookingCard({ booking, isCancelling, onCancel, onViewDetails }: 
           {/* Doctor avatar initials placeholder since no avatar in API */}
           <DoctorAvatar name={doctorName} />
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 leading-none">
+            <p className="text-[15px] font-bold text-slate-800 dark:text-slate-200 leading-tight">
               {/* Doctor name from API */}
               {doctorName}
             </p>
-            <p className="text-xs text-[#1570EF] dark:text-blue-400 mt-0.5 truncate">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate font-medium">
               {/* Specialty from API */}
               {specialty}
             </p>
