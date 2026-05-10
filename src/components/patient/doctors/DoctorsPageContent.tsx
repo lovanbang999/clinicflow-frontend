@@ -48,7 +48,7 @@ export function DoctorsPageContent() {
 
   return (
     <>
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#F0F5FF] to-[#E6F0FF] pt-20 pb-32">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#F0F5FF] to-[#E6F0FF] pt-12 sm:pt-20 pb-20 sm:pb-32">
         <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
           <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -60,105 +60,103 @@ export function DoctorsPageContent() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-semibold text-xs uppercase tracking-wider mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 font-semibold text-xs uppercase tracking-wider mb-4 sm:mb-6">
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
               {t('page.worldClassCare')}
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 mb-4 sm:mb-6 tracking-tight leading-tight">
               {t('page.meetOur')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0066FF] to-[#1392ec]">{t('page.specialists')}</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed mb-10">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 font-medium leading-relaxed mb-8 sm:mb-10 px-2">
               {t('page.subtitle')}
             </p>
-            <div className="bg-white p-2 rounded-3xl shadow-xl shadow-blue-900/5 max-w-2xl mx-auto border border-slate-100 flex flex-col sm:flex-row gap-2">
-              <div className="flex-1 flex items-center px-4 h-14 bg-slate-50 rounded-2xl border border-transparent focus-within:border-[#1392ec]/30 focus-within:bg-white transition-all">
-                <svg className="w-5 h-5 text-slate-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="bg-white p-2 rounded-3xl shadow-xl shadow-blue-900/5 max-w-2xl mx-auto border border-slate-100 flex flex-row gap-2">
+              <div className="flex-1 flex items-center px-4 h-12 sm:h-14 bg-slate-50 rounded-2xl border border-transparent focus-within:border-[#1392ec]/30 focus-within:bg-white transition-all">
+                <svg className="w-5 h-5 text-slate-400 mr-2 sm:mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
-                  className="w-full bg-transparent border-none p-0 text-slate-700 placeholder:text-slate-400 focus:ring-0 font-medium"
+                  className="w-full bg-transparent border-none p-0 text-slate-700 placeholder:text-slate-400 focus:ring-0 font-medium text-sm sm:text-base"
                   placeholder={t('page.searchPlaceholder') || "Search doctor, condition, or specialty..."}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <button className="h-14 px-8 bg-[#0066FF] hover:bg-blue-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center cursor-pointer">
-                {t('page.searchButton')}
+              <button className="h-12 sm:h-14 w-12 sm:w-auto sm:px-8 bg-[#0066FF] hover:bg-blue-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center cursor-pointer shrink-0">
+                <span className="hidden sm:inline">{t('page.searchButton')}</span>
+                <svg className="w-5 h-5 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
               </button>
             </div>
           </div>
         </div>
       </div>
-      <main className="min-h-screen -mt-20 pb-32 relative z-20">
+      <main className="min-h-screen -mt-10 sm:-mt-20 pb-32 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <div className="flex overflow-x-auto pb-4 md:pb-0 gap-3 w-full md:w-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-              {/* "All" button */}
-              <button
-                key="all"
-                onClick={() => setSelectedServiceId(undefined)}
-                className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                  selectedServiceId === undefined
-                    ? 'border border-[#0066FF] bg-[#0066FF] text-white shadow-md shadow-blue-500/20'
-                    : 'border border-slate-200 bg-white text-slate-600 hover:border-[#1392ec]/50 hover:text-[#1392ec]'
-                }`}
-              >
-                {t('specialties.all')}
-              </button>
+          {/* Unified Filter Dropdowns for Mobile & Desktop - Pro Max Design */}
+          <div className="bg-white/80 backdrop-blur-xl p-2 md:p-3 rounded-3xl md:rounded-full border border-slate-200/60 shadow-lg shadow-slate-200/20 mb-8 md:mb-12 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
 
-              {/* Dynamic service filter buttons from API */}
-              {isLoadingServices
-                ? Array.from({ length: 4 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-10 w-28 rounded-full bg-slate-100 animate-pulse shrink-0"
-                    />
-                  ))
-                : services.map((service) => (
-                    <button
-                      key={service.id}
-                      onClick={() => setSelectedServiceId(service.id)}
-                      className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer ${
-                        selectedServiceId === service.id
-                          ? 'border border-[#0066FF] bg-[#0066FF] text-white shadow-md shadow-blue-500/20'
-                          : 'border border-slate-200 bg-white text-slate-600 hover:border-[#1392ec]/50 hover:text-[#1392ec]'
-                      }`}
-                    >
+            <div className="w-full md:w-auto flex items-center flex-1 px-1 md:px-2">
+              <div className="w-8 h-8 rounded-full bg-blue-50 items-center justify-center mr-3 shrink-0 hidden md:flex">
+                <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-slate-500 mr-3 hidden lg:block whitespace-nowrap">
+                {t('page.filterBySpecialty') || 'Filter by specialty'}:
+              </span>
+              <Select value={selectedServiceId || 'all'} onValueChange={(val) => setSelectedServiceId(val === 'all' ? undefined : val)}>
+                <SelectTrigger className="w-full bg-slate-50/50 hover:bg-slate-100/80 border-transparent focus:ring-0 focus:ring-offset-0 rounded-2xl md:rounded-full text-sm font-semibold text-slate-700 transition-colors h-12 md:h-11 cursor-pointer shadow-none">
+                  <SelectValue placeholder={t('specialties.all')} />
+                </SelectTrigger>
+                <SelectContent side="bottom" position="popper" align="start" className="rounded-2xl font-display w-[calc(100vw-32px)] md:w-[320px] max-h-[300px] overflow-y-auto">
+                  <SelectItem className="cursor-pointer" value="all">
+                    <span className="font-bold text-[#0066FF]">{t('specialties.all')}</span>
+                  </SelectItem>
+                  {services.map((service) => (
+                    <SelectItem className="cursor-pointer" key={service.id} value={service.id}>
                       {service.name}
-                    </button>
-                  ))
-              }
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className="flex items-center gap-3 w-full md:w-auto justify-end shrink-0">
-              <span className="text-sm font-medium text-slate-500">{t('page.sortBy')}</span>
+
+            <div className="hidden md:block w-px h-8 bg-slate-200/60 mx-2 lg:mx-4 shrink-0"></div>
+
+            <div className="w-full md:w-auto flex items-center px-1 md:px-2 shrink-0">
+              <span className="text-sm font-medium text-slate-500 mr-3 hidden md:block whitespace-nowrap">
+                {t('page.sortBy')}:
+              </span>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-auto min-w-[210px] bg-white border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:border-[#1392ec]/50 transition-all font-display h-10 cursor-pointer">
+                <SelectTrigger className="w-full md:w-[240px] bg-slate-50/50 hover:bg-slate-100/80 border-transparent focus:ring-0 focus:ring-offset-0 rounded-2xl md:rounded-full text-sm font-semibold text-slate-700 transition-colors h-12 md:h-11 cursor-pointer shadow-none">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent position="popper" align="end" className="rounded-xl font-display">
+                <SelectContent side="bottom" position="popper" align="end" className="rounded-2xl font-display max-h-[300px] overflow-y-auto">
                   <SelectItem className="cursor-pointer" value="rating-desc">
                     <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                      <span>{t('page.sortRatingDesc')}</span>
+                      <Star className="w-4 h-4 text-amber-500 fill-amber-500 shrink-0" />
+                      <span className="truncate">{t('page.sortRatingDesc')}</span>
                     </div>
                   </SelectItem>
                   <SelectItem className="cursor-pointer" value="rating-asc">
                     <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-slate-400" />
-                      <span>{t('page.sortRatingAsc')}</span>
+                      <Star className="w-4 h-4 text-slate-400 shrink-0" />
+                      <span className="truncate">{t('page.sortRatingAsc')}</span>
                     </div>
                   </SelectItem>
                   <SelectItem className="cursor-pointer" value="exp-desc">
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-blue-500" />
-                      <span>{t('page.sortExpDesc')}</span>
+                      <TrendingUp className="w-4 h-4 text-blue-500 shrink-0" />
+                      <span className="truncate">{t('page.sortExpDesc')}</span>
                     </div>
                   </SelectItem>
                   <SelectItem className="cursor-pointer" value="exp-asc">
                     <div className="flex items-center gap-2">
-                      <TrendingDown className="w-4 h-4 text-slate-400" />
-                      <span>{t('page.sortExpAsc')}</span>
+                      <TrendingDown className="w-4 h-4 text-slate-400 shrink-0" />
+                      <span className="truncate">{t('page.sortExpAsc')}</span>
                     </div>
                   </SelectItem>
                 </SelectContent>
@@ -193,7 +191,7 @@ export function DoctorsPageContent() {
               <h3 className="text-xl font-bold text-slate-800 mb-2">{t('page.emptyTitle')}</h3>
               <p className="text-base text-slate-500 max-w-md mx-auto">{t('page.emptyDesc')}</p>
               <button
-              onClick={() => { setSearchQuery(''); setSelectedServiceId(undefined); }}
+                onClick={() => { setSearchQuery(''); setSelectedServiceId(undefined); }}
                 className="mt-6 px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors cursor-pointer"
               >
                 {t('page.clearFilters')}

@@ -38,7 +38,7 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 flex flex-col relative border border-slate-100 h-full shadow-[0_20px_40px_-4px_rgba(20,25,40,0.06)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-8px_rgba(20,25,40,0.12)] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform group">
+    <div className="bg-white rounded-3xl p-6 sm:p-8 flex flex-col relative border border-slate-100 h-full shadow-[0_20px_40px_-4px_rgba(20,25,40,0.06)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-8px_rgba(20,25,40,0.12)] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform group">
       <div className="absolute top-6 right-6">
         <button className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer">
           <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -64,12 +64,24 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
           )}
         </div>
 
-        <h3 className="text-xl font-bold text-slate-900 mb-1 text-center">
+        <h3 className="text-xl font-bold text-slate-900 mb-2 text-center line-clamp-1">
           {doctor.fullName}
         </h3>
-        <p className="text-[#0066FF] text-sm font-semibold bg-blue-50 px-3 py-1 rounded-lg text-center">
-          {doctor.specialties[0] || 'General Practice'}
-        </p>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <p className="text-[#0066FF] text-sm font-semibold bg-blue-50 px-3 py-1.5 rounded-lg text-center">
+            {doctor.specialties[0] || 'General Practice'}
+          </p>
+          {doctor.consultationFee !== undefined && doctor.consultationFee !== null && (
+            <div className="flex items-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100/50">
+              <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-emerald-700 font-bold text-sm">
+                {Number(doctor.consultationFee).toLocaleString('vi-VN')} ₫
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center justify-center gap-4 mb-6 pb-6 border-b border-slate-50 w-full">
