@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:8080';
 
@@ -14,12 +15,18 @@ export interface QueueUpdatePayload {
 export const useQueueSocket = (doctorId?: string) => {
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const token = useAuthStore((state) => state.accessToken);
 
   // Initialize socket connection
   useEffect(() => {
+    if (!token) return;
+
     const socketInstance = io(`${SOCKET_URL}/queue`, {
       transports: ['websocket'],
       autoConnect: true,
+      auth: {
+        token,
+      },
     });
 
     socketInstance.on('connect', () => {
@@ -40,7 +47,7 @@ export const useQueueSocket = (doctorId?: string) => {
       socketInstance.disconnect();
       socketRef.current = null;
     };
-  }, []);
+  }, [token]);
 
   // Handle room joining/leaving when doctorId changes
   useEffect(() => {
