@@ -165,9 +165,8 @@ export function PaymentModal({ isOpen, onClose, invoice, onPaymentSubmitted }: P
                 onChange={(e) => setMethod(e.target.value as PaymentMethod)}
               >
                 <option value={PaymentMethod.CASH}>{t('methods.CASH')}</option>
-                <option value={PaymentMethod.CREDIT_CARD}>{t('methods.CREDIT_CARD')}</option>
+                <option value={PaymentMethod.CARD}>{t('methods.CARD')}</option>
                 <option value={PaymentMethod.BANK_TRANSFER}>{t('methods.BANK_TRANSFER')}</option>
-                <option value={PaymentMethod.E_WALLET}>{t('methods.E_WALLET')}</option>
                 <option value={PaymentMethod.INSURANCE}>{t('methods.INSURANCE')}</option>
               </select>
             </div>
