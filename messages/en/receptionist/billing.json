@@ -164,9 +164,8 @@
     "methodLabel": "Payment Method",
     "methods": {
       "CASH": "Cash",
-      "CREDIT_CARD": "Credit Card",
+      "CARD": "Credit Card",
       "BANK_TRANSFER": "Bank Transfer",
-      "E_WALLET": "E-Wallet",
       "INSURANCE": "Health Insurance (BHYT)"
     },
     "insuranceSection": "Health Insurance Details",

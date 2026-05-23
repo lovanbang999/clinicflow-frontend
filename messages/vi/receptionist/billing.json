@@ -165,9 +165,8 @@
     "methodLabel": "Hình thức thanh toán",
     "methods": {
       "CASH": "Tiền mặt",
-      "CREDIT_CARD": "Thẻ tín dụng",
+      "CARD": "Thẻ tín dụng",
       "BANK_TRANSFER": "Chuyển khoản",
-      "E_WALLET": "Ví điện tử",
       "INSURANCE": "Bảo hiểm Y tế (BHYT)"
     },
     "insuranceSection": "Thông tin Bảo hiểm Y tế",
