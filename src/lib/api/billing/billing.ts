@@ -18,10 +18,9 @@ export enum InvoiceType {
 
 export enum PaymentMethod {
   CASH = 'CASH',
-  CREDIT_CARD = 'CREDIT_CARD',
+  CARD = 'CARD',
   BANK_TRANSFER = 'BANK_TRANSFER',
   INSURANCE = 'INSURANCE',
-  E_WALLET = 'E_WALLET',
 }
 
 export interface InvoiceItem {

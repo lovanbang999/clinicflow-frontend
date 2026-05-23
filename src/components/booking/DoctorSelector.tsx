@@ -27,14 +27,16 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
       try {
         setLoading(true);
         // Fetch both doctors and current user's bookings concurrently
-        const [doctorsData, myBookings] = await Promise.all([
+        const [doctorsData, myBookingsRes] = await Promise.all([
           doctorsApi.getAll({
             ...(selectedService?.id ? { serviceId: selectedService.id } : {}),
           }),
-          bookingsApi.getMyBookings().catch(() => [])
+          bookingsApi.getMyBookings().catch(() => null)
         ]);
 
         setDoctors(doctorsData);
+
+        const myBookings = myBookingsRes?.bookings || [];
 
         // Find active bookings to disable same-doctor booking (typically for "today" or any active upcoming)
         // Here we block doctors the patient has any active booking today
