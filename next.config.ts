@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   reactCompiler: true,
   images: {
+    unoptimized: process.env.PLAYWRIGHT_TEST === 'true',
     remotePatterns: [
       // Development
       {
