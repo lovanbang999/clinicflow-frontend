@@ -116,8 +116,8 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
   // Mode B state
-  const [allServices, setAllServices] = useState<Service[]>([]);
-  const [isLoadingServices, setIsLoadingServices] = useState(false);
+  const [allServices] = useState<Service[]>([]);
+  const [isLoadingServices] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Service[]>([]);
   const [dutyDoctor, setDutyDoctor] = useState<Doctor | null>(null);
   const [serviceAssignments, setServiceAssignmentsState] = useState<Record<string, string>>({});
@@ -215,13 +215,13 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     setIsCheckingDuplicates(true);
     try {
       const today = format(selectedDate, 'yyyy-MM-dd');
-      const { bookings } = await bookingsApi.getAll({
+      const response = await bookingsApi.getAll({
         patientProfileId: selectedPatient.patientProfile?.id || selectedPatient.id,
         date: today,
         limit: 100,
       });
 
-      const activeBookings = bookings.filter(b =>
+      const activeBookings = (response?.bookings || []).filter(b =>
         !['CANCELLED', 'NO_SHOW', 'COMPLETED'].includes(b.status)
       );
 

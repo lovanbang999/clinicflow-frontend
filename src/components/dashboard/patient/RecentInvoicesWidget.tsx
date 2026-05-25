@@ -1,35 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { billingApi, Invoice, InvoiceStatus } from '@/lib/api/billing/billing';
+import { InvoiceStatus } from '@/lib/api/billing/billing';
 import { format } from 'date-fns';
 import {
   ReceiptIcon,
   CaretRightIcon,
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useMyInvoices } from '@/lib/hooks/billing/useMyInvoices';
 import Link from 'next/link';
 
 export function RecentInvoicesWidget() {
   const t = useTranslations('patientOverview');
   const locale = useLocale();
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { invoices, isLoading: loading, fetchMyInvoices } = useMyInvoices();
 
   useEffect(() => {
-    const fetchInvoices = async () => {
-      try {
-        const { invoices } = await billingApi.listMyInvoices({ limit: 4 });
-        setInvoices(invoices);
-      } catch (error) {
-        console.error('Failed to fetch invoices:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchInvoices();
-  }, []);
+    void fetchMyInvoices({ limit: 4 });
+  }, [fetchMyInvoices]);
 
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {

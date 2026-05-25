@@ -53,8 +53,8 @@ export const schedulesApi = {
 
   // Get smart suggestions
   getSmartSuggestions: async (params: SmartSuggestionsQuery): Promise<SmartSuggestion[]> => {
-    const response = await apiClient.get<{ suggestions: SmartSuggestion[]; totalFound: number }>('/suggestions/smart', { params });
-    return response.data.suggestions;
+    const response = await apiClient.get<{ success: boolean; data: { suggestions: SmartSuggestion[]; totalFound: number } }>('/suggestions/smart', { params });
+    return response.data.data.suggestions || [];
   },
 
   // Working Hours

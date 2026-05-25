@@ -44,7 +44,7 @@ export const useReceptionistDashboard = () => {
       status: BookingStatus.CONFIRMED,
       limit: 50,
     }));
-    if (res) setUpcomingBookings(res.bookings);
+    if (res) setUpcomingBookings(res.bookings || []);
   }, [executeUpcoming]);
 
   /**
@@ -52,7 +52,7 @@ export const useReceptionistDashboard = () => {
    */
   const fetchQueue = useCallback(async () => {
     const res = await executeQueue(() => queueApi.getAll({ limit: 100 }));
-    if (res) setQueueRecords(res.queueRecords);
+    if (res) setQueueRecords(res.queueRecords || []);
   }, [executeQueue]);
 
   /**
@@ -68,7 +68,7 @@ export const useReceptionistDashboard = () => {
       status: BookingStatus.CONFIRMED,
       limit: 10,
     }));
-    if (res) setSearchResults(res.bookings);
+    if (res) setSearchResults(res.bookings || []);
   }, [executeSearch]);
 
   /**

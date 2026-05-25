@@ -89,7 +89,7 @@ interface BookingTableBodyProps {
 export function BookingTableBody({ bookings, onConfirm, onCancel, onCheckIn }: BookingTableBodyProps) {
   const t = useTranslations('receptionistCheckIn.table');
 
-  if (bookings.length === 0) {
+  if (!bookings || bookings.length === 0) {
     return (
       <tr>
         <td colSpan={7} className="px-6 py-16 text-center text-slate-500">

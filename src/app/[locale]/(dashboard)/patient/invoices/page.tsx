@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { billingApi, Invoice, InvoiceStatus } from '@/lib/api/billing/billing';
+import { InvoiceStatus } from '@/lib/api/billing/billing';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useLocale } from 'next-intl';
@@ -16,6 +16,8 @@ import {
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+
+import { useMyInvoices } from '@/lib/hooks/billing/useMyInvoices';
 
 function StatusBadge({ status }: { status: InvoiceStatus }) {
   const t = useTranslations('receptionistBilling.status');
@@ -52,22 +54,11 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
 export default function PatientInvoicesPage() {
   const t = useTranslations('patientOverview');
   const locale = useLocale();
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { invoices, isLoading: loading, fetchMyInvoices } = useMyInvoices();
 
   useEffect(() => {
-    const fetchInvoices = async () => {
-      try {
-        const { invoices } = await billingApi.listMyInvoices({ limit: 50 });
-        setInvoices(invoices);
-      } catch (error) {
-        console.error('Failed to fetch invoices:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchInvoices();
-  }, []);
+    void fetchMyInvoices({ limit: 50 });
+  }, [fetchMyInvoices]);
 
   const dateLocale = locale === 'vi' ? vi : undefined;
   const formatMoney = (amount: number) =>
