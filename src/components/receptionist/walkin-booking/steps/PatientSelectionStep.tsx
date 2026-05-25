@@ -46,7 +46,7 @@ export function PatientSelectionStep() {
               <SearchSection />
 
               {/* Patient Results List */}
-              {!showCreateForm && searchResults.length > 0 && (
+              {!showCreateForm && searchResults && searchResults.length > 0 && (
                 <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-400">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="w-1 h-3 bg-[#1570EF] rounded-full" />
@@ -66,7 +66,7 @@ export function PatientSelectionStep() {
               )}
 
               {/* Empty State / Not Found */}
-              {!showCreateForm && searchQuery && searchResults.length === 0 && !isSearching && (
+              {!showCreateForm && searchQuery && (!searchResults || searchResults.length === 0) && !isSearching && (
                 <PatientNotFound />
               )}
 

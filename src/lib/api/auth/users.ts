@@ -92,10 +92,21 @@ export const usersApi = {
 
   // List patients with filters (RECEPTIONIST/ADMIN)
   getReceptionistPatients: async (filters: PatientFilters): Promise<UsersListResponse> => {
-    const response = await apiClient.get<ApiResponse<UsersListResponse>>('/users/receptionist/patients', {
+    const response = await apiClient.get<ApiResponse<{ items?: User[]; users?: User[]; pagination?: { total: number; page: number; limit: number; totalPages: number }; total?: number; page?: number; limit?: number }>>('/users/receptionist/patients', {
         params: filters,
       });
-      return response.data.data || { users: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
+      const data = response.data.data;
+      if (!data) return { users: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
+      
+      return {
+        users: data.items || data.users || [],
+        pagination: data.pagination || {
+          total: data.total || 0,
+          page: data.page || 1,
+          limit: data.limit || 10,
+          totalPages: Math.ceil((data.total || 0) / (data.limit || 10)) || 0
+        }
+      };
 },
 
   // Get patient statistics (RECEPTIONIST/ADMIN)

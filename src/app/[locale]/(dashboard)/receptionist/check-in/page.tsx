@@ -75,8 +75,8 @@ export default function ReceptionistCheckInPage() {
     } as Parameters<typeof fetchBookings>[0]);
 
     if (data) {
-      setBookings(data.bookings);
-      setTotalBookings(data.pagination.total || 0);
+      setBookings(data.bookings || []);
+      setTotalBookings(data.pagination?.total || 0);
     }
   }, [activeTab, currentPage, selectedDate, selectedDoctorId, selectedServiceId, searchQuery, fetchBookings]);
 
