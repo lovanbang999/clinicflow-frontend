@@ -191,5 +191,10 @@
     "previous": "Previous",
     "next": "Next",
     "page": "Page"
+  },
+  "aiSuggestion": {
+    "title": "Not sure what you need?",
+    "desc": "Consult our AI Assistant for personalized guidance",
+    "cta": "Consult now"
   }
 }

@@ -191,5 +191,10 @@
     "previous": "Trang trước",
     "next": "Trang sau",
     "page": "Trang"
+  },
+  "aiSuggestion": {
+    "title": "Chưa biết cần khám gì?",
+    "desc": "Hỏi AI tư vấn để được hướng dẫn phù hợp",
+    "cta": "Tư vấn ngay"
   }
 }
