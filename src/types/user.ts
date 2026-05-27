@@ -47,6 +47,11 @@ export interface UpdateProfileDto {
   dateOfBirth?: string;
   gender?: Gender;
   address?: string;
+  bloodType?: string;
+  heightCm?: number;
+  weightKg?: number;
+  allergies?: string;
+  chronicConditions?: string;
 }
 
 export interface ChangePasswordDto {
