@@ -84,8 +84,8 @@ export function PatientInvoiceDetails({ inv, onPrint }: PatientInvoiceDetailsPro
         </div>
       </div>
 
-      {/* Invoice Item Table */}
-      <div className="bg-white dark:bg-slate-900/60 rounded-xl border border-slate-200/50 dark:border-slate-800/80 overflow-hidden shadow-2xs">
+      {/* Invoice Item Table (Desktop view) */}
+      <div className="hidden sm:block bg-white dark:bg-slate-900/60 rounded-xl border border-slate-200/50 dark:border-slate-800/80 overflow-hidden shadow-2xs">
         <table className="w-full text-left text-xs">
           <thead className="bg-slate-50/80 dark:bg-slate-800/80">
             <tr className="border-0">
@@ -124,8 +124,30 @@ export function PatientInvoiceDetails({ inv, onPrint }: PatientInvoiceDetailsPro
         </table>
       </div>
 
+      {/* Invoice Item List (Mobile view) */}
+      <div className="sm:hidden space-y-3">
+        {inv.items.map((item) => (
+          <div
+            key={item.id}
+            className="bg-white dark:bg-slate-900/60 rounded-xl border border-slate-200/50 dark:border-slate-800/80 p-3.5 space-y-2.5 shadow-2xs"
+          >
+            <div className="font-bold text-slate-800 dark:text-slate-200 text-xs leading-relaxed">
+              {item.itemName}
+            </div>
+            <div className="flex justify-between items-center text-[11px] pt-2 border-t border-slate-100 dark:border-slate-800/60">
+              <div className="text-slate-500 dark:text-slate-400 font-medium tabular-nums">
+                {formatMoney(item.unitPrice)} <span className="text-[10px] text-slate-400">×</span> {item.quantity}
+              </div>
+              <div className="font-black text-slate-900 dark:text-white tabular-nums text-xs">
+                {formatMoney(item.totalPrice)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Cost breakdown & actions */}
-      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-end gap-6 pt-4 border-t border-slate-200/60 dark:border-slate-800">
+      <div className="flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-end gap-6 pt-4 border-t border-slate-200/60 dark:border-slate-800">
         <div>
           <Button
             onClick={(e) => {
@@ -133,7 +155,7 @@ export function PatientInvoiceDetails({ inv, onPrint }: PatientInvoiceDetailsPro
               onPrint(inv);
             }}
             size="sm"
-            className="w-full sm:w-auto font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all shadow-sm active:scale-[0.98]"
+            className="w-full sm:w-auto font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all shadow-sm active:scale-[0.98] h-10 px-4 flex items-center justify-center gap-2"
           >
             <Printer size={14} />
             {t('receipt.print')}
