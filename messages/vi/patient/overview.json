@@ -66,7 +66,49 @@
   "status": {
     "label": "Trạng thái",
     "paid": "Đã thanh toán",
-    "pending": "Chờ thanh toán"
+    "pending": "Chờ thanh toán",
+    "unpaid": "Chưa thanh toán",
+    "cancelled": "Đã hủy"
+  },
+  "invoiceTypes": {
+    "label": "Loại hóa đơn",
+    "all": "Tất cả loại",
+    "consultation": "Khám & Tư vấn",
+    "service": "Xét nghiệm & Dịch vụ",
+    "pharmacy": "Thuốc & Dược phẩm"
+  },
+  "filters": {
+    "allStatus": "Tất cả trạng thái",
+    "searchPlaceholder": "Tìm theo số hóa đơn hoặc tên dịch vụ...",
+    "statusLabel": "Lọc trạng thái",
+    "typeLabel": "Lọc loại hóa đơn"
+  },
+  "receipt": {
+    "title": "HÓA ĐƠN THANH TOÁN DỊCH VỤ Y TẾ",
+    "clinicName": "Hệ thống Phòng khám Đa khoa SmartClinic",
+    "clinicAddress": "Số 123 Đường Sức Khỏe, Quận Trung Tâm, TP. Hà Nội",
+    "clinicPhone": "Hotline: 1900 6868",
+    "patientName": "Khách hàng / Bệnh nhân",
+    "patientCode": "Mã bệnh nhân",
+    "itemName": "Nội dung chỉ định / Thuốc",
+    "price": "Đơn giá",
+    "qty": "SL",
+    "amount": "Thành tiền",
+    "subtotal": "Tạm tính",
+    "insuranceCovered": "BHYT chi trả",
+    "coPayment": "Bệnh nhân đồng chi trả",
+    "paidAmount": "Thực tế đã thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
+    "transactionId": "Mã giao dịch",
+    "paymentDate": "Ngày thanh toán",
+    "doctor": "Bác sĩ chỉ định",
+    "print": "In hóa đơn",
+    "cash": "Tiền mặt",
+    "card": "Thẻ ngân hàng",
+    "bank_transfer": "Chuyển khoản",
+    "insurance": "BHYT bảo lãnh",
+    "signaturePatient": "Bệnh nhân / Người đóng tiền\n(Ký, ghi rõ họ tên)",
+    "signatureStaff": "Người lập phiếu\n(Ký, ghi rõ họ tên)"
   },
   "billingHistory": "Lịch sử thanh toán",
   "settingsSubtitle": "Cấu hình tài khoản và tùy chỉnh giao diện ứng dụng của bạn",
