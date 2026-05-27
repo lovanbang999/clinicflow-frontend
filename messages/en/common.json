@@ -58,7 +58,17 @@
     "avatarUploadSuccessDescription": "Your new profile picture has been uploaded.",
     "passwordChangeSuccess": "Password changed",
     "passwordChangeSuccessDescription": "You can now use your new password to log in.",
-    "passwordChangeFailedTitle": "Password change failed"
+    "passwordChangeFailedTitle": "Password change failed",
+    "currentPasswordRequired": "Please enter your current password",
+    "medicalInfo": "Medical Information",
+    "bloodType": "Blood Type",
+    "selectBloodType": "Select Blood Type",
+    "heightCm": "Height (cm)",
+    "weightKg": "Weight (kg)",
+    "allergies": "Allergies (if any)",
+    "allergiesPlaceholder": "Please specify any food, drug, etc. allergies you have",
+    "chronicConditions": "Chronic Conditions",
+    "chronicConditionsPlaceholder": "Please specify any chronic conditions (Diabetes, Hypertension, Heart disease, etc.)"
   },
   "roles": {
     "ADMIN": "Administrator",
