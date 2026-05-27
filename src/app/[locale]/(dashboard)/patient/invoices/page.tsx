@@ -21,8 +21,7 @@ import {
   Printer,
   FileText,
   CreditCard,
-  Activity,
-  DollarSign
+  Activity
 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
@@ -165,6 +164,12 @@ export default function PatientInvoicesPage() {
       ? t(`receipt.${inv.payments[0].paymentMethod.toLowerCase()}`)
       : '';
 
+    const paidAmount = inv.status === InvoiceStatus.PAID
+      ? Number(inv.patientCoPayment || 0)
+      : (inv.payments && inv.payments.length > 0
+          ? inv.payments.reduce((sum, p) => sum + Number(p.amountPaid || 0), 0)
+          : 0);
+
     const docHtml = `
       <html>
         <head>
@@ -258,7 +263,7 @@ export default function PatientInvoicesPage() {
             </div>
             <div class="summary-row summary-total">
               <span>${t('receipt.paidAmount')}:</span>
-              <span style="font-family: monospace;">${formatMoney(inv.paidAmount)}</span>
+              <span style="font-family: monospace;">${formatMoney(paidAmount)}</span>
             </div>
             ${
               inv.status === InvoiceStatus.PAID
@@ -299,6 +304,12 @@ export default function PatientInvoicesPage() {
 
   // Reusable flat invoice receipt details component
   const renderInvoiceDetails = (inv: Invoice) => {
+    const paidAmount = inv.status === InvoiceStatus.PAID
+      ? Number(inv.patientCoPayment || 0)
+      : (inv.payments && inv.payments.length > 0
+          ? inv.payments.reduce((sum, p) => sum + Number(p.amountPaid || 0), 0)
+          : 0);
+
     return (
       <div className="bg-slate-50/70 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 md:p-7 space-y-6 animate-in fade-in-50 duration-200">
         {/* Receipt Clinic Header */}
@@ -433,7 +444,7 @@ export default function PatientInvoicesPage() {
             <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-extrabold text-sm">
               <span>{t('receipt.paidAmount')}</span>
               <span className="tabular-nums text-[#1392ec] font-black text-base">
-                {formatMoney(inv.paidAmount)}
+                {formatMoney(paidAmount)}
               </span>
             </div>
 
