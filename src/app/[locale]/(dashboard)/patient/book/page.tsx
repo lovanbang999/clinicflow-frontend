@@ -9,7 +9,8 @@ import { TimeSlotGrid } from '@/components/booking/TimeSlotGrid';
 import { BookingConfirmation } from '@/components/booking/BookingConfirmation';
 import { FlowSelection } from '@/components/booking/FlowSelection';
 import { useBookingStore } from '@/lib/store/bookingStore';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bot, Sparkles } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 
 export default function BookingPage() {
@@ -114,6 +115,30 @@ export default function BookingPage() {
             </div>
           )}
         </div>
+
+        {/* AI Assist Banner — only at step 0 */}
+        {currentStep === 0 && (
+          <Link
+            href="/patient/chat"
+            className="group flex items-center gap-3 mb-6 sm:mb-8 px-4 py-3 rounded-2xl bg-[#1392ec]/5 border border-[#1392ec]/20 hover:bg-[#1392ec]/10 hover:border-[#1392ec]/35 transition-all duration-200 cursor-pointer"
+          >
+            <div className="w-9 h-9 rounded-xl bg-[#1392ec]/10 group-hover:bg-[#1392ec]/20 flex items-center justify-center flex-shrink-0 transition-colors">
+              <Bot className="h-5 w-5 text-[#1392ec]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[13px] font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                Chưa biết cần khám gì?
+                <Sparkles className="h-3.5 w-3.5 text-[#1392ec]" />
+              </p>
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5">
+                Hỏi AI tư vấn để được hướng dẫn phù hợp
+              </p>
+            </div>
+            <span className="text-[12px] font-bold text-[#1392ec] group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+              Tư vấn ngay →
+            </span>
+          </Link>
+        )}
 
         {/* Stepper */}
         <div className="flex items-center md:justify-center gap-1.5 sm:gap-3 mb-8 sm:mb-10 md:mb-12 overflow-x-auto no-scrollbar pb-2 sm:pb-0">

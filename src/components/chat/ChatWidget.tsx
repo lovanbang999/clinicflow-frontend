@@ -33,8 +33,16 @@ export function ChatWidget() {
 
   /** When user clicks a slot card, auto-send a confirmation message */
   const handleSelectSlot = (slot: Slot) => {
-    const confirmMsg = `Tôi xác nhận đặt lịch khám với Bác sĩ ${slot.doctorName} vào lúc ${slot.startTime} - ${slot.endTime} ngày ${slot.date}${slot.roomName ? `, phòng ${slot.roomName}` : ''}.
-(SYSTEM: Lịch đã chọn có doctorId=${slot.doctorId}, slotId=${slot.slotId}, serviceId=${slot.serviceId || 'unknown'})`;
+    const roomSuffix = slot.roomName
+      ? t('confirmBookingWidgetRoomSuffix', { roomName: slot.roomName })
+      : '';
+    const confirmMsg = `${t('confirmBookingWidget', {
+      doctorName: slot.doctorName,
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      date: slot.date,
+      roomSuffix,
+    })}\n(SYSTEM: Lịch đã chọn có doctorId=${slot.doctorId}, slotId=${slot.slotId}, serviceId=${slot.serviceId || 'unknown'})`;
     sendMessage(confirmMsg);
   };
 
@@ -57,9 +65,13 @@ export function ChatWidget() {
             <div className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer outline-none">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 text-white hover:bg-white/10 hover:text-white rounded-full cursor-pointer transition-colors"
+                  >
                     <MoreVertical className="h-5 w-5" />
-                  </button>
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 rounded-xl">
                   <DropdownMenuItem onClick={clearChat} className="cursor-pointer gap-2 py-2.5">
@@ -74,9 +86,14 @@ export function ChatWidget() {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <button className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer" onClick={() => setIsOpen(false)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 text-white hover:bg-white/10 hover:text-white rounded-full cursor-pointer transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
                 <X className="h-5 w-5" />
-              </button>
+              </Button>
             </div>
           </header>
 
@@ -122,12 +139,23 @@ export function ChatWidget() {
                   className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm py-2 px-1 text-foreground placeholder:text-muted-foreground font-medium"
                 />
                 <div className="flex items-center gap-1">
-                  <button type="button" className="p-2 text-muted-foreground hover:text-blue-600 transition-colors cursor-pointer">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 text-muted-foreground hover:text-blue-600 rounded-full cursor-pointer transition-colors"
+                  >
                     <Smile className="h-5 w-5" />
-                  </button>
-                  <button type="submit" disabled={!input.trim() || isLoading} className="cursor-pointer disabled:cursor-default w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md active:scale-95 transition-transform disabled:opacity-50 hover:bg-blue-700">
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={!input.trim() || isLoading}
+                    variant="default"
+                    size="icon"
+                    className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center shadow-md active:scale-95 transition-transform disabled:opacity-50"
+                  >
                     <Send className="h-5 w-5" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </form>
