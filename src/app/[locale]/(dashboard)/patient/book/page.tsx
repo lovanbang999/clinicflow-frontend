@@ -31,14 +31,14 @@ export default function BookingPage() {
     currentStep === 0
       ? !!bookingType
       : currentStep === 1
-      ? !!selectedService
-      : currentStep === 2
-      ? !!selectedDoctor
-      : currentStep === 3
-      ? !!selectedDate
-      : currentStep === 4
-      ? !!selectedTimeSlot
-      : true;
+        ? !!selectedService
+        : currentStep === 2
+          ? !!selectedDoctor
+          : currentStep === 3
+            ? !!selectedDate
+            : currentStep === 4
+              ? !!selectedTimeSlot
+              : true;
 
   const steps = [
     { number: 0, label: t('stepLabels.type') },
@@ -84,11 +84,11 @@ export default function BookingPage() {
             </h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm md:text-base">
               {currentStep === 0 && (
-                !bookingType 
-                  ? t('subtitle') 
-                  : bookingType === 'CONSULTATION' 
-                  ? t('selection.consultation.subtitle') 
-                  : t('selection.specialist.subtitle')
+                !bookingType
+                  ? t('subtitle')
+                  : bookingType === 'CONSULTATION'
+                    ? t('selection.consultation.subtitle')
+                    : t('selection.specialist.subtitle')
               )}
               {currentStep === 1 && t('stepSubtitles.service')}
               {currentStep === 2 && t('stepSubtitles.doctor')}
@@ -127,15 +127,16 @@ export default function BookingPage() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-                Chưa biết cần khám gì?
+                {t('aiSuggestion.title')}
                 <Sparkles className="h-3.5 w-3.5 text-[#1392ec]" />
               </p>
               <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5">
-                Hỏi AI tư vấn để được hướng dẫn phù hợp
+                {t('aiSuggestion.desc')}
               </p>
             </div>
-            <span className="text-[12px] font-bold text-[#1392ec] group-hover:translate-x-0.5 transition-transform flex-shrink-0">
-              Tư vấn ngay →
+            <span className="text-[12px] font-bold text-[#1392ec] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+              {t('aiSuggestion.cta')}
+              <ArrowRight className="h-3 w-3" />
             </span>
           </Link>
         )}
@@ -146,11 +147,11 @@ export default function BookingPage() {
             <div key={step.number} className="flex items-center shrink-0">
               <div className={cn(
                 "flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 border-2",
-                currentStep === step.number 
-                  ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-500/20" 
+                currentStep === step.number
+                  ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-500/20"
                   : currentStep > step.number
-                  ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                  : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600"
+                    ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600"
               )}>
                 <span className="text-xs sm:text-sm font-black italic uppercase tracking-tighter">
                   {currentStep > step.number ? '✓' : `0${idx + 1}`}
@@ -188,8 +189,8 @@ export default function BookingPage() {
                   disabled={currentStep === 0}
                   className={cn(
                     "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer shrink-0",
-                    currentStep === 0 
-                      ? "invisible" 
+                    currentStep === 0
+                      ? "invisible"
                       : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
                   )}
                 >
@@ -221,8 +222,8 @@ export default function BookingPage() {
                 disabled={currentStep === 0}
                 className={cn(
                   "md:hidden flex items-center justify-center w-12 h-12 rounded-2xl transition-all active:scale-95 cursor-pointer shrink-0",
-                  currentStep === 0 
-                    ? "invisible" 
+                  currentStep === 0
+                    ? "invisible"
                     : "text-slate-500 bg-slate-100/50 dark:bg-slate-800/50"
                 )}
               >
