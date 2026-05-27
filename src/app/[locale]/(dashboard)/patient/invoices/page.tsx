@@ -19,12 +19,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useMyInvoices } from '@/lib/hooks/billing/useMyInvoices';
 
 // Subcomponents
-import { StatusBadge } from './components/StatusBadge';
-import { InvoiceTypeBadge } from './components/InvoiceTypeBadge';
-import { InvoiceDetails } from './components/InvoiceDetails';
+import { PatientInvoiceStatusBadge } from '@/components/dashboard/patient/PatientInvoiceStatusBadge';
+import { PatientInvoiceTypeBadge } from '@/components/dashboard/patient/PatientInvoiceTypeBadge';
+import { PatientInvoiceDetails } from '@/components/dashboard/patient/PatientInvoiceDetails';
 
 // Utilities
-import { printInvoice } from './utils/print-invoice';
+import { printInvoice } from '@/lib/utils/print-invoice';
 
 export default function PatientInvoicesPage() {
   const t = useTranslations('patientOverview');
@@ -282,7 +282,7 @@ export default function PatientInvoicesPage() {
                       </td>
                       <td className="px-6 py-4.5">
                         <div className="flex items-center gap-2">
-                          <InvoiceTypeBadge type={inv.invoiceType} />
+                          <PatientInvoiceTypeBadge type={inv.invoiceType} />
                           <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate max-w-[200px]">
                             {inv.items?.[0]?.itemName ?? 'Consultation'}
                           </span>
@@ -294,7 +294,7 @@ export default function PatientInvoicesPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4.5">
-                        <StatusBadge status={inv.status} />
+                        <PatientInvoiceStatusBadge status={inv.status} />
                       </td>
                       <td className="px-6 py-4.5 text-right font-black tabular-nums text-slate-900 dark:text-white">
                         {formatMoney(inv.totalAmount)}
@@ -310,7 +310,7 @@ export default function PatientInvoicesPage() {
                     {expandedInvoiceId === inv.id && (
                       <tr className="bg-slate-50/20 dark:bg-slate-900/10">
                         <td colSpan={6} className="px-6 py-4 border-t-0">
-                          <InvoiceDetails inv={inv} onPrint={handlePrint} />
+                          <PatientInvoiceDetails inv={inv} onPrint={handlePrint} />
                         </td>
                       </tr>
                     )}
@@ -338,12 +338,12 @@ export default function PatientInvoicesPage() {
                         #{inv.invoiceNumber}
                       </p>
                       <div className="flex items-center gap-1.5 mt-1">
-                        <InvoiceTypeBadge type={inv.invoiceType} />
+                        <PatientInvoiceTypeBadge type={inv.invoiceType} />
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <StatusBadge status={inv.status} />
+                    <PatientInvoiceStatusBadge status={inv.status} />
                     {expandedInvoiceId === inv.id ? (
                       <ChevronUp size={14} className="text-slate-400" />
                     ) : (
@@ -367,7 +367,7 @@ export default function PatientInvoicesPage() {
                     onClick={(e) => e.stopPropagation()} 
                     className="pt-3 border-t border-slate-100 dark:border-slate-800 animate-in fade-in duration-200"
                   >
-                    <InvoiceDetails inv={inv} onPrint={handlePrint} />
+                    <PatientInvoiceDetails inv={inv} onPrint={handlePrint} />
                   </div>
                 )}
               </div>

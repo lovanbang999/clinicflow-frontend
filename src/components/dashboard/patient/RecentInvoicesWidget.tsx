@@ -11,6 +11,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMyInvoices } from '@/lib/hooks/billing/useMyInvoices';
 import Link from 'next/link';
+import { Card } from '@/components/ui/card';
 
 export function RecentInvoicesWidget() {
   const t = useTranslations('patientOverview');
@@ -28,7 +29,7 @@ export function RecentInvoicesWidget() {
     }).format(amount);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col h-full">
+    <Card className="bg-white dark:bg-slate-900 rounded-3xl border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col h-full py-0 gap-0">
       <div className="p-6 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-600">
@@ -89,6 +90,6 @@ export function RecentInvoicesWidget() {
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

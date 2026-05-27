@@ -1,11 +1,11 @@
 'use client';
 
+import { InvoiceStatus } from '@/lib/api/billing/billing';
 import { useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/badge';
-import { InvoiceStatus } from '@/lib/api/billing/billing';
 import { CheckCircleIcon, ClockIcon, XCircleIcon } from '@phosphor-icons/react';
 
-export function StatusBadge({ status }: { status: InvoiceStatus }) {
+export function PatientInvoiceStatusBadge({ status }: { status: InvoiceStatus }) {
   const t = useTranslations('receptionistBilling.status');
 
   switch (status) {

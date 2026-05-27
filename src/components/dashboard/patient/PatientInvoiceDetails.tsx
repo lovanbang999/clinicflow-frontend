@@ -1,19 +1,19 @@
 'use client';
 
-import React from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { InvoiceStatus, type Invoice } from '@/lib/api/billing/billing';
 import { Printer, CreditCard } from 'lucide-react';
-import { InvoiceTypeBadge } from './InvoiceTypeBadge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
-interface InvoiceDetailsProps {
+interface PatientInvoiceDetailsProps {
   inv: Invoice;
   onPrint: (inv: Invoice) => void;
 }
 
-export function InvoiceDetails({ inv, onPrint }: InvoiceDetailsProps) {
+export function PatientInvoiceDetails({ inv, onPrint }: PatientInvoiceDetailsProps) {
   const t = useTranslations('patientOverview');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : undefined;
@@ -28,7 +28,7 @@ export function InvoiceDetails({ inv, onPrint }: InvoiceDetailsProps) {
         : 0);
 
   return (
-    <div className="bg-slate-50/70 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 md:p-7 space-y-6 animate-in fade-in-50 duration-200">
+    <Card className="bg-slate-50/70 dark:bg-slate-900/40 border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 md:p-7 shadow-none space-y-6 animate-in fade-in-50 duration-200 py-5">
       {/* Receipt Clinic Header */}
       <div className="flex flex-col md:flex-row justify-between items-start gap-4 pb-4 border-b border-slate-200/60 dark:border-slate-850">
         <div className="space-y-1">
@@ -127,16 +127,17 @@ export function InvoiceDetails({ inv, onPrint }: InvoiceDetailsProps) {
       {/* Cost breakdown & actions */}
       <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-end gap-6 pt-4 border-t border-slate-200/60 dark:border-slate-800">
         <div>
-          <button
+          <Button
             onClick={(e) => {
               e.stopPropagation();
               onPrint(inv);
             }}
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-xl transition-all shadow-sm active:scale-[0.98]"
+            size="sm"
+            className="w-full sm:w-auto font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all shadow-sm active:scale-[0.98]"
           >
             <Printer size={14} />
             {t('receipt.print')}
-          </button>
+          </Button>
         </div>
 
         <div className="w-full sm:w-72 space-y-2 text-xs">
@@ -187,6 +188,6 @@ export function InvoiceDetails({ inv, onPrint }: InvoiceDetailsProps) {
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
