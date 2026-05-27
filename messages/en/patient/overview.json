@@ -66,7 +66,49 @@
   "status": {
     "label": "Status",
     "paid": "Paid",
-    "pending": "Pending"
+    "pending": "Pending",
+    "unpaid": "Unpaid",
+    "cancelled": "Cancelled"
+  },
+  "invoiceTypes": {
+    "label": "Invoice Type",
+    "all": "All Types",
+    "consultation": "Consultation & Exam",
+    "service": "Labs & Services",
+    "pharmacy": "Meds & Pharmacy"
+  },
+  "filters": {
+    "allStatus": "All Statuses",
+    "searchPlaceholder": "Search by invoice number or item name...",
+    "statusLabel": "Filter status",
+    "typeLabel": "Filter type"
+  },
+  "receipt": {
+    "title": "MEDICAL SERVICE INVOICE",
+    "clinicName": "SmartClinic General Clinic System",
+    "clinicAddress": "123 Health Street, Central District, Hanoi",
+    "clinicPhone": "Hotline: 1900 6868",
+    "patientName": "Customer / Patient",
+    "patientCode": "Patient Code",
+    "itemName": "Description / Medication",
+    "price": "Price",
+    "qty": "Qty",
+    "amount": "Amount",
+    "subtotal": "Subtotal",
+    "insuranceCovered": "Insurance Covered",
+    "coPayment": "Patient Co-payment",
+    "paidAmount": "Amount Paid",
+    "paymentMethod": "Payment Method",
+    "transactionId": "Transaction ID",
+    "paymentDate": "Payment Date",
+    "doctor": "Referring Doctor",
+    "print": "Print Invoice",
+    "cash": "Cash",
+    "card": "Card",
+    "bank_transfer": "Bank Transfer",
+    "insurance": "Insurance Guarantee",
+    "signaturePatient": "Patient / Payer\n(Signature & full name)",
+    "signatureStaff": "Staff Issuer\n(Signature & full name)"
   },
   "billingHistory": "Billing History",
   "settingsSubtitle": "Configure your account and customize your application interface",
