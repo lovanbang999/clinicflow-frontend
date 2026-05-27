@@ -41,7 +41,7 @@ export default function PatientInvoicesPage() {
   }, [fetchMyInvoices]);
 
   const dateLocale = locale === 'vi' ? vi : undefined;
-  
+
   const formatMoney = (amount: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 
@@ -119,41 +119,37 @@ export default function PatientInvoicesPage() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setStatusFilter('ALL')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  statusFilter === 'ALL'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${statusFilter === 'ALL'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('filters.allStatus')}
               </button>
               <button
                 onClick={() => setStatusFilter('PAID')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  statusFilter === 'PAID'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${statusFilter === 'PAID'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('status.paid')}
               </button>
               <button
                 onClick={() => setStatusFilter('UNPAID')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  statusFilter === 'UNPAID'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${statusFilter === 'UNPAID'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('status.unpaid')}
               </button>
               <button
                 onClick={() => setStatusFilter('CANCELLED')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  statusFilter === 'CANCELLED'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${statusFilter === 'CANCELLED'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('status.cancelled')}
               </button>
@@ -168,41 +164,37 @@ export default function PatientInvoicesPage() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setTypeFilter('ALL')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  typeFilter === 'ALL'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${typeFilter === 'ALL'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('invoiceTypes.all')}
               </button>
               <button
                 onClick={() => setTypeFilter('CONSULTATION')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  typeFilter === 'CONSULTATION'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${typeFilter === 'CONSULTATION'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('invoiceTypes.consultation')}
               </button>
               <button
                 onClick={() => setTypeFilter('SERVICE')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  typeFilter === 'SERVICE'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${typeFilter === 'SERVICE'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('invoiceTypes.service')}
               </button>
               <button
                 onClick={() => setTypeFilter('PHARMACY')}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${
-                  typeFilter === 'PHARMACY'
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] ${typeFilter === 'PHARMACY'
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                     : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-750'
-                }`}
+                  }`}
               >
                 {t('invoiceTypes.pharmacy')}
               </button>
@@ -246,7 +238,7 @@ export default function PatientInvoicesPage() {
                     {t('date')}
                   </th>
                   <th className="px-6 py-3 font-bold text-slate-400 uppercase tracking-widest text-[10px] h-11">
-                    {t('receipt.itemName')}
+                    {t('service')}
                   </th>
                   <th className="px-6 py-3 font-bold text-slate-400 uppercase tracking-widest text-[10px] h-11">
                     {t('status.label')}
@@ -329,25 +321,36 @@ export default function PatientInvoicesPage() {
                 className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 p-4 shadow-2xs space-y-3.5 transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8.5 h-8.5 bg-blue-50 dark:bg-blue-900/15 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8.5 h-8.5 bg-blue-50 dark:bg-blue-900/15 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
                       <ReceiptIcon size={16} weight="duotone" />
                     </div>
-                    <div>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">
-                        #{inv.invoiceNumber}
-                      </p>
-                      <div className="flex items-center gap-1.5 mt-1">
-                        <PatientInvoiceTypeBadge type={inv.invoiceType} />
-                      </div>
-                    </div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">
+                      #{inv.invoiceNumber}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 shrink-0">
                     <PatientInvoiceStatusBadge status={inv.status} />
                     {expandedInvoiceId === inv.id ? (
                       <ChevronUp size={14} className="text-slate-400" />
                     ) : (
                       <ChevronDown size={14} className="text-slate-400" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="space-y-2 px-0.5">
+                  <div className="flex">
+                    <PatientInvoiceTypeBadge type={inv.invoiceType} />
+                  </div>
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate">
+                      {inv.items?.[0]?.itemName ?? 'Consultation'}
+                    </span>
+                    {inv.items.length > 1 && (
+                      <span className="text-[9px] text-slate-400 font-semibold shrink-0">
+                        +{inv.items.length - 1}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -363,8 +366,8 @@ export default function PatientInvoicesPage() {
                 </div>
 
                 {expandedInvoiceId === inv.id && (
-                  <div 
-                    onClick={(e) => e.stopPropagation()} 
+                  <div
+                    onClick={(e) => e.stopPropagation()}
                     className="pt-3 border-t border-slate-100 dark:border-slate-800 animate-in fade-in duration-200"
                   >
                     <PatientInvoiceDetails inv={inv} onPrint={handlePrint} />
