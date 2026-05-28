@@ -24,6 +24,14 @@ export function PublicRoute({ children }: PublicRouteProps) {
     if (isAuthenticated && user) {
       const locale = pathname.split('/')[1]; // Extract locale from path
       
+      // If user has a temporary password, redirect them to change-password if not already there
+      if (user.isPasswordTemp) {
+        if (!pathname.endsWith('/change-password')) {
+          router.push(`/${locale}/change-password`);
+        }
+        return;
+      }
+
       switch (user.role) {
         case 'ADMIN':
           router.push(`/${locale}/admin`);
@@ -58,7 +66,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
   }
 
   // Show loading while redirecting authenticated users
-  if (isAuthenticated && user) {
+  if (isAuthenticated && user && !(user.isPasswordTemp && pathname.endsWith('/change-password'))) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
         <div className="text-center">
