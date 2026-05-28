@@ -44,6 +44,8 @@ interface WalkinBookingContextType {
   handleSearchPatient: (page?: number) => Promise<void>;
   handleCreatePatient: (e: React.FormEvent) => Promise<void>;
   selectPatient: (patient: User) => void;
+  tempPasswordData: { password?: string; fullName?: string; email?: string } | null;
+  setTempPasswordData: (data: { password?: string; fullName?: string; email?: string } | null) => void;
 
   // Doctor Selection (Step 2 — Mode A: consultation doctor)
   doctors: Doctor[];
@@ -107,6 +109,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     isGuest: false, address: '', dateOfBirth: '', nationalId: '', bloodType: '',
   });
   const [isCreatingPatient, setIsCreatingPatient] = useState(false);
+  const [tempPasswordData, setTempPasswordData] = useState<{ password?: string; fullName?: string; email?: string } | null>(null);
 
   // Doctor (Mode A — Step 2)
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -265,7 +268,20 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
         ? await usersApi.createGuestPatient(newPatient)
         : await usersApi.registerPatient(newPatient);
       selectPatient(created);
-      toast.success(t('toasts.createSuccess'));
+      if (!newPatient.isGuest) {
+        const standardPatient = created as User & { tempPassword?: string };
+        if (standardPatient.tempPassword) {
+          setTempPasswordData({
+            password: standardPatient.tempPassword,
+            fullName: standardPatient.fullName,
+            email: standardPatient.email || newPatient.email,
+          });
+        } else {
+          toast.success(t('toasts.createSuccess'));
+        }
+      } else {
+        toast.success(t('toasts.createSuccess'));
+      }
     } catch (err) {
       console.error(err);
       toast.error(t('toasts.createError'));
@@ -435,6 +451,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     pagination, setPage,
     showCreateForm, setShowCreateForm, newPatient, setNewPatient, isCreatingPatient,
     handleSearchPatient, handleCreatePatient, selectPatient,
+    tempPasswordData, setTempPasswordData,
     doctors, isLoadingDoctors, bookedDoctorIds, isCheckingDuplicates,
     selectedDoctor, setSelectedDoctor,
     allServices, isLoadingServices, selectedServices, toggleService,
@@ -446,7 +463,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [
     currentStep, bookingType, bookingMode, searchQuery, isSearching, selectedPatient, searchResults,
-    pagination, showCreateForm, newPatient, isCreatingPatient,
+    pagination, showCreateForm, newPatient, isCreatingPatient, tempPasswordData,
     doctors, isLoadingDoctors, bookedDoctorIds, isCheckingDuplicates,
     selectedDoctor, allServices, isLoadingServices, selectedServices, dutyDoctor, serviceAssignments,
     selectedDate, selectedSlot, availableSlots, isLoadingSlots, patientNotes,

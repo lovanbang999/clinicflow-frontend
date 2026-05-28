@@ -9,13 +9,14 @@ import { DoctorSelectionStep } from './steps/DoctorSelectionStep';
 import { AppointmentTimeStep } from './steps/AppointmentTimeStep';
 import { BookingSummaryCard } from './steps/BookingSummaryCard';
 import { CompletedBooking } from './steps/CompletedBooking';
+import { TempPasswordDisplayModal } from '../patients/TempPasswordDisplayModal';
 
 interface WalkinBookingFormProps {
   onCompleteChange?: (isCompleted: boolean) => void;
 }
 
 function WalkinBookingContent({ onCompleteChange }: WalkinBookingFormProps) {
-  const { completedBooking } = useWalkinBooking();
+  const { completedBooking, tempPasswordData, setTempPasswordData } = useWalkinBooking();
   // const { completedBooking, bookingMode } = useWalkinBooking(); // HIDDEN: bookingMode used by Direct Service flow
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function WalkinBookingContent({ onCompleteChange }: WalkinBookingFormProps) {
   }
 
   return (
-    <div className="flex flex-col xl:flex-row gap-8 pb-12 w-full">
+    <div className="flex flex-col xl:flex-row gap-8 pb-12 w-full relative">
       {/* Left Column: Form Steps */}
       <div className="flex-1 flex flex-col pl-2 min-w-0">
         {/* HIDDEN: Mode Toggle — re-enable when Direct Service flow is ready */}
@@ -50,6 +51,12 @@ function WalkinBookingContent({ onCompleteChange }: WalkinBookingFormProps) {
 
       {/* Right Column: Booking Summary Card */}
       <BookingSummaryCard />
+
+      <TempPasswordDisplayModal
+        isOpen={!!tempPasswordData}
+        onClose={() => setTempPasswordData(null)}
+        tempPasswordData={tempPasswordData}
+      />
     </div>
   );
 }
