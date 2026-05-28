@@ -142,10 +142,10 @@ export const usersApi = {
   },
 
   // Create patient with system account
-  registerPatient: async (data: RegisterPatientDto): Promise<User> => {
+  registerPatient: async (data: RegisterPatientDto): Promise<User & { tempPassword?: string }> => {
     const { isGuest, ...payload } = data as RegisterPatientDto & { isGuest?: boolean };
       void isGuest; // Silence unused warning
-      const response = await apiClient.post<ApiResponse<User>>('/users/receptionist/patients/account', payload);
+      const response = await apiClient.post<ApiResponse<User & { tempPassword?: string }>>('/users/receptionist/patients/account', payload);
       if (!response.data.data) {
         throw new Error('Failed to register patient');
       }

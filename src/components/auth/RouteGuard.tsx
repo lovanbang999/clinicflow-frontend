@@ -30,6 +30,13 @@ export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
       return;
     }
 
+    // Force password change if using a temporary password
+    if (user.isPasswordTemp) {
+      const locale = pathname.split('/')[1];
+      router.push(`/${locale}/change-password`);
+      return;
+    }
+
     // Check if user has the required role
     if (allowedRoles && !allowedRoles.includes(user.role)) {
       // Redirect to appropriate dashboard based on role

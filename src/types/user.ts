@@ -10,6 +10,7 @@ export interface User {
   avatar?: string;
   role: UserRole;
   isActive: boolean;
+  isPasswordTemp?: boolean;
   dateOfBirth?: string;
   gender?: Gender;
   address?: string;

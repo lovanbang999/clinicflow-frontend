@@ -16,6 +16,7 @@ import { PatientPagination } from '@/components/receptionist/patients/PatientPag
 import { PatientRegistrationModal } from '@/components/receptionist/patients/PatientRegistrationModal';
 import { PatientEditModal } from '@/components/receptionist/patients/PatientEditModal';
 import { PatientDetailDrawer } from '@/components/receptionist/patients/PatientDetailDrawer';
+import { TempPasswordDisplayModal } from '@/components/receptionist/patients/TempPasswordDisplayModal';
 import { RegisterPatientDto, CreateGuestPatientDto } from '@/lib/api/auth/users';
 import { User } from '@/types';
 import { toast } from 'sonner';
@@ -34,6 +35,7 @@ export default function ReceptionistPatientsPage() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
+  const [tempPasswordData, setTempPasswordData] = useState<{ password?: string; fullName?: string; email?: string } | null>(null);
 
   const {
     patients,
@@ -74,8 +76,16 @@ export default function ReceptionistPatientsPage() {
 
   const handleRegisterStandard = async (data: RegisterPatientDto) => {
     try {
-      await registerPatient(data);
-      toast.success(t('messages.registerSuccess'));
+      const created = await registerPatient(data);
+      if (created && created.tempPassword) {
+        setTempPasswordData({
+          password: created.tempPassword,
+          fullName: created.fullName,
+          email: created.email || data.email,
+        });
+      } else {
+        toast.success(t('messages.registerSuccess'));
+      }
       fetchPatients({ search: debouncedSearch, page, limit: LIMIT });
       fetchStats();
     } catch {
@@ -230,6 +240,12 @@ export default function ReceptionistPatientsPage() {
         onBook={() => {
           if (selectedPatient) handleBook(selectedPatient);
         }}
+      />
+
+      <TempPasswordDisplayModal
+        isOpen={!!tempPasswordData}
+        onClose={() => setTempPasswordData(null)}
+        tempPasswordData={tempPasswordData}
       />
     </div>
   );

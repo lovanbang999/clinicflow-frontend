@@ -36,12 +36,19 @@ export const useAuth = () => {
           description: t('login.successDescription', { name: authedUser.fullName }),
         });
 
+        const locale = window.location.pathname.split('/')[1] || 'vi';
+
+        if (authedUser.isPasswordTemp) {
+          router.push(`/${locale}/change-password`);
+          return response;
+        }
+
         switch (authedUser.role) {
-          case 'ADMIN': router.push('/admin'); break;
-          case 'DOCTOR': router.push('/doctor'); break;
-          case 'RECEPTIONIST': router.push('/receptionist'); break;
-          case 'PATIENT': router.push('/patient'); break;
-          default: router.push('/');
+          case 'ADMIN': router.push(`/${locale}/admin/users`); break; // wait, let's keep the existing dashboard redirect or prefix with locale
+          case 'DOCTOR': router.push(`/${locale}/doctor/schedule`); break;
+          case 'RECEPTIONIST': router.push(`/${locale}/receptionist`); break;
+          case 'PATIENT': router.push(`/${locale}/patient`); break;
+          default: router.push(`/${locale}/`);
         }
         return response;
       },
