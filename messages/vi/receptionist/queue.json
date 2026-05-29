@@ -4,6 +4,13 @@
     "overview": "Theo dõi và quản lý bệnh nhân vào khám theo thời gian thực",
     "chooseDoctor": "Chọn bác sĩ"
   },
+  "selector": {
+    "searchPlaceholder": "Tìm theo tên hoặc chuyên khoa...",
+    "allSpecialties": "Tất cả chuyên khoa",
+    "doctorCount": "{count} bác sĩ",
+    "clearFilter": "Xoá lọc",
+    "noDoctorFound": "Không tìm thấy bác sĩ"
+  },
   "board": {
     "boardTitle": "Hàng Đợi Khám - {doctor}",
     "selectDoctor": "Vui lòng chọn bác sĩ để xem hàng đợi",
@@ -30,7 +37,10 @@
       "patient": "Bệnh nhân",
       "status": "Trạng thái",
       "waitTime": "T.gian chờ",
-      "actions": "Thao tác"
+      "actions": "Thao tác",
+      "payment": "Thanh toán",
+      "pendingPayment": "Cần thu phí",
+      "paid": "Đã TT"
     },
     "selectDoctorDesc": "Vui lòng chọn một bác sĩ ở trên để xem hàng đợi",
     "patientsUnit": "bệnh nhân",
@@ -42,6 +52,8 @@
     "waitingForNext": "Đang chờ gọi bệnh nhân tiếp theo",
     "waitingList": "Danh Sách Chờ",
     "loadingList": "Đang tải danh sách...",
-    "estimatedTime": "~{time} ph"
+    "estimatedTime": "~{time} ph",
+    "consultationService": "Khám tư vấn",
+    "clinicRoom": "Phòng khám"
   }
 }
