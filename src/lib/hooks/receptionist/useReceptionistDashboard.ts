@@ -119,7 +119,7 @@ export const useReceptionistDashboard = () => {
   // WebSocket Notifications for auto-refresh
   const { onNewNotification } = useNotifications();
   useEffect(() => {
-    const unsub = onNewNotification((notif) => {
+    const unsub = onNewNotification(() => {
       // Refresh relevant data based on notification type if needed
       // For now, refresh all for simplicity when receptionist gets a notification
       refreshAll();
@@ -127,12 +127,20 @@ export const useReceptionistDashboard = () => {
     return unsub;
   }, [onNewNotification, refreshAll]);
 
-  // Initial load
+  // Initial load and auto-refresh every 60 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       refreshAll();
     }, 0);
-    return () => clearTimeout(timer);
+
+    const interval = setInterval(() => {
+      refreshAll();
+    }, 60000);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [refreshAll]);
 
   return {
