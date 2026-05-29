@@ -1,5 +1,5 @@
 {
-  "title": "Check-in Dashboard",
+  "title": "Manage Appointments",
   "searchPlaceholder": "Search patient or record...",
   "stats": {
     "pending": "Pending Approval",
@@ -27,6 +27,7 @@
     "actions": "Actions",
     "confirmBtn": "Confirm",
     "cancelBtn": "Cancel",
+    "rescheduleBtn": "Reschedule",
     "checkInBtn": "Check-in",
     "confirmedLabel": "Confirmed",
     "noActions": "No Actions",
@@ -62,5 +63,23 @@
     "confirmBtn": "Confirm",
     "success": "Appointment confirmed successfully",
     "error": "Failed to confirm appointment"
+  },
+  "rescheduleModal": {
+    "title": "Reschedule Appointment for Patient",
+    "appointmentDetails": "Current Appointment",
+    "newScheduleTitle": "New Appointment Information",
+    "dateLabel": "Choose New Date",
+    "doctorLabel": "Choose Doctor",
+    "slotLabel": "Choose Time Slot",
+    "notesLabel": "Reschedule Notes / Reason",
+    "notesPlaceholder": "Enter reschedule reason or additional instructions for the new appointment...",
+    "cancelBtn": "Go Back",
+    "confirmBtn": "Confirm Reschedule",
+    "success": "Appointment rescheduled successfully!",
+    "error": "Failed to reschedule appointment. Please try again.",
+    "selectDoctorFirst": "Please select a doctor first",
+    "selectDateFirst": "Please select a date first",
+    "noSlots": "No available slots for this doctor on the selected date.",
+    "loadingSlots": "Loading available slots..."
   }
 }
