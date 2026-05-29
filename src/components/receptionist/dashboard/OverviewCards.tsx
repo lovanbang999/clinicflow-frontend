@@ -1,11 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { 
-  CalendarCheckIcon, 
-  UserCheckIcon, 
-  HourglassIcon, 
-  CheckCircleIcon 
+import {
+  CalendarCheckIcon,
+  UserCheckIcon,
+  HourglassIcon,
+  CheckCircleIcon
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useReceptionistDashboard } from '@/lib/hooks/receptionist/useReceptionistDashboard';
@@ -24,10 +24,10 @@ export function OverviewCards() {
     );
   }
 
-  const totalToday = (stats?.pending?.value ?? 0) + 
-                     (stats?.confirmed?.value ?? 0) + 
-                     (stats?.completed?.value ?? 0) + 
-                     (stats?.cancelled?.value ?? 0);
+  const totalToday = (stats?.pending?.value ?? 0) +
+    (stats?.confirmed?.value ?? 0) +
+    (stats?.completed?.value ?? 0) +
+    (stats?.cancelled?.value ?? 0);
 
   const waitingCheckIn = stats?.confirmed?.value ?? 0;
   const completedToday = stats?.completed?.value ?? 0;
@@ -45,7 +45,7 @@ export function OverviewCards() {
           <p className="text-sm font-medium text-slate-400">{t('totalAppointments')}</p>
         </div>
       </div>
-      
+
       {/* Waiting for Check-in (Confirmed) */}
       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 cursor-pointer hover:shadow-md transition-shadow">
         <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
@@ -59,7 +59,7 @@ export function OverviewCards() {
 
       {/* In Queue / Checked In */}
       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 cursor-pointer hover:shadow-md transition-shadow">
-        <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shrink-0">
+        <div className="w-12 h-12 bg-sky-50 text-sky-600 rounded-xl flex items-center justify-center shrink-0">
           <UserCheckIcon className="h-6 w-6" weight="fill" />
         </div>
         <div>
