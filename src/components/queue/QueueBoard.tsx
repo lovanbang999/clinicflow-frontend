@@ -28,7 +28,7 @@ interface QueueBoardProps {
 
 export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: QueueBoardProps) {
   const t = useTranslations('receptionistQueue.board');
-  
+
   const {
     queueItems,
     stats,
@@ -108,7 +108,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm col-span-2 flex flex-col justify-center relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5">
-             <UsersIcon size={80} weight="fill" />
+            <UsersIcon size={80} weight="fill" />
           </div>
           <div className="relative z-10 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
@@ -140,7 +140,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
 
       {/* Operational Dashboard Split */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
+
         {/* LEFT COLUMN: Currently Serving (Dominant Card) */}
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center justify-between">
@@ -161,38 +161,38 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
             <div className="space-y-3">
               {inProgressItems.map(item => (
                 <div key={item.id} className="bg-gradient-to-b from-emerald-50 to-white p-5 rounded-2xl border-2 border-emerald-200 shadow-sm relative overflow-hidden group">
-                   <div className="absolute -right-6 -top-6 text-emerald-500/10 group-hover:scale-110 transition-transform duration-500">
-                     <UsersIcon size={120} weight="fill" />
-                   </div>
-                   <div className="relative z-10">
-                     <div className="flex items-center justify-between mb-3">
-                       <span className="inline-flex w-10 h-10 items-center justify-center rounded-xl text-lg font-black bg-emerald-600 text-white shadow-lg shadow-emerald-600/20">
-                         {item.queuePosition}
-                       </span>
-                       <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md uppercase tracking-wide">
-                         {t('inRoom')}
-                       </span>
-                     </div>
-                     <p className="font-extrabold text-lg text-slate-900 truncate">
-                       {item.booking.patientProfile?.fullName || 'N/A'}
-                     </p>
-                     <p className="text-sm font-medium text-emerald-600/80 mt-1 flex items-center gap-1.5">
-                       <CheckIcon size={16} weight="bold" />
-                       Code: {item.booking.bookingCode}
-                     </p>
+                  <div className="absolute -right-6 -top-6 text-emerald-500/10 group-hover:scale-110 transition-transform duration-500">
+                    <UsersIcon size={120} weight="fill" />
+                  </div>
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="inline-flex w-10 h-10 items-center justify-center rounded-xl text-lg font-black bg-emerald-600 text-white shadow-lg shadow-emerald-600/20">
+                        {item.queuePosition}
+                      </span>
+                      <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md uppercase tracking-wide">
+                        {t('inRoom')}
+                      </span>
+                    </div>
+                    <p className="font-extrabold text-lg text-slate-900 truncate">
+                      {item.booking.patientProfile?.fullName || 'N/A'}
+                    </p>
+                    <p className="text-sm font-medium text-emerald-600/80 mt-1 flex items-center gap-1.5">
+                      <CheckIcon size={16} weight="bold" />
+                      Code: {item.booking.bookingCode}
+                    </p>
 
-                     {isDoctorView && (
-                       <div className="mt-5">
-                         <button
-                           onClick={() => handleCompleteVisit()}
-                           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
-                         >
-                           {t('completeVisit')}
-                           <CheckIcon size={16} weight="bold" />
-                         </button>
-                       </div>
-                     )}
-                   </div>
+                    {isDoctorView && (
+                      <div className="mt-5">
+                        <button
+                          onClick={() => handleCompleteVisit()}
+                          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                          {t('completeVisit')}
+                          <CheckIcon size={16} weight="bold" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -210,7 +210,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
         {/* RIGHT COLUMN: Waiting List Table */}
         <div className="lg:col-span-8 flex flex-col h-full">
           <h3 className="font-bold text-slate-800 mb-4 pb-1 border-b border-transparent">{t('waitingList')} ({waitingItems.length})</h3>
-          
+
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex-1 flex flex-col">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
@@ -219,8 +219,8 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                     <th className="px-5 py-3 w-16 text-center">STT</th>
                     <th className="px-5 py-3">{t('table.patient')}</th>
                     <th className="px-5 py-3">{t('table.status')}</th>
-                    <th className="px-5 py-3">Thanh toán</th>
                     <th className="px-5 py-3">{t('table.waitTime')}</th>
+                    <th className="px-5 py-3">{t('table.payment')}</th>
                     <th className="px-5 py-3 text-right">{t('table.actions')}</th>
                   </tr>
                 </thead>
@@ -229,8 +229,8 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                     <tr>
                       <td colSpan={5} className="px-5 py-10 text-center text-slate-400">
                         <div className="flex items-center justify-center gap-2 text-sm font-medium">
-                           <span className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                           {t('loadingList')}
+                          <span className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                          {t('loadingList')}
                         </div>
                       </td>
                     </tr>
@@ -279,7 +279,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                                 return (
                                   <div className="flex items-center gap-1 text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 w-fit">
                                     <MoneyIcon size={14} weight="bold" />
-                                    <span className="text-[10px] font-bold uppercase tracking-tight">Cần thu phí</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-tight">{t('table.pendingPayment')}</span>
                                   </div>
                                 );
                               }
@@ -288,7 +288,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                                 return (
                                   <div className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 w-fit">
                                     <CheckIcon size={14} weight="bold" />
-                                    <span className="text-[10px] font-bold uppercase tracking-tight">Đã TT</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-tight">{t('table.paid')}</span>
                                   </div>
                                 );
                               }
@@ -299,7 +299,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                           <td className="px-5 py-4 text-right">
                             <div className="flex items-center gap-2 justify-end">
                               {isDoctorView && item.booking.status === BookingStatus.CHECKED_IN && (
-                                <button 
+                                <button
                                   onClick={() => handleCallPatient(item.booking.id)}
                                   className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
                                 >
@@ -307,7 +307,7 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                                   <ArrowRightIcon size={14} weight="bold" />
                                 </button>
                               )}
-                              
+
                               {item.booking.status === BookingStatus.CHECKED_IN && (
                                 <button
                                   onClick={() => handleMarkNoShow(item.booking.id)}
@@ -326,8 +326,8 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
                                     patientCode: booking.patientProfile?.patientCode || 'N/A',
                                     doctorName: doctorName,
                                     items: [{
-                                      serviceName: booking.service?.name || 'Khám tư vấn',
-                                      roomName: booking.room?.name || doctorName || 'Phòng khám',
+                                      serviceName: booking.service?.name || t('consultationService'),
+                                      roomName: booking.room?.name || doctorName || t('clinicRoom'),
                                       queueNumber: item.queuePosition,
                                       type: 'CONSULTATION',
                                     }],
@@ -358,9 +358,9 @@ export function QueueBoard({ doctorId, doctorName, isDoctorView = false }: Queue
 
       {/* Legacy Printable Area */}
       {printingItem && (
-        <PrintableWalkinTicket 
-          booking={printingItem.booking} 
-          queue={{ queuePosition: printingItem.queuePosition }} 
+        <PrintableWalkinTicket
+          booking={printingItem.booking}
+          queue={{ queuePosition: printingItem.queuePosition }}
         />
       )}
     </div>
