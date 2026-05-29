@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useDoctors } from '@/lib/hooks/clinical/useDoctors';
 import { cn } from '@/lib/utils';
 import { MagnifyingGlassIcon, CheckCircleIcon, UserIcon, FunnelIcon } from '@phosphor-icons/react';
@@ -11,6 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { queueApi } from '@/lib/api/appointment/queue';
+import { format } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 interface DoctorQueueSelectorProps {
   onSelect: (doctorId: string, doctorName: string) => void;
@@ -25,9 +28,52 @@ function getInitials(fullName: string): string {
 }
 
 export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueSelectorProps) {
+  const t = useTranslations('receptionistQueue.selector');
   const { doctors, isLoading } = useDoctors();
   const [search, setSearch] = useState('');
   const [activeSpecialty, setActiveSpecialty] = useState('');
+  const [queueCounts, setQueueCounts] = useState<Record<string, number>>({});
+
+  const fetchQueueCounts = useCallback(async () => {
+    try {
+      const today = format(new Date(), 'yyyy-MM-dd');
+      const res = await queueApi.getAll({ date: today, limit: 100 });
+      const counts: Record<string, number> = {};
+
+      // Initialize all doctors to 0
+      doctors.forEach(d => {
+        counts[d.id] = 0;
+      });
+
+      // Count active (CHECKED_IN) queue records
+      res.queueRecords?.forEach(record => {
+        if (record.booking?.status === 'CHECKED_IN') {
+          counts[record.doctorId] = (counts[record.doctorId] || 0) + 1;
+        }
+      });
+
+      setQueueCounts(counts);
+    } catch (err) {
+      console.error('Error fetching queue counts:', err);
+    }
+  }, [doctors]);
+
+  useEffect(() => {
+    if (doctors.length === 0) return;
+
+    const timer = setTimeout(() => {
+      void fetchQueueCounts();
+    }, 0);
+
+    const interval = setInterval(() => {
+      void fetchQueueCounts();
+    }, 10000); // Poll every 10 seconds
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [doctors, fetchQueueCounts]);
 
   const specialties = useMemo(() => {
     const all = new Set<string>();
@@ -58,7 +104,7 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
           />
           <input
             type="text"
-            placeholder="Tìm theo tên hoặc chuyên khoa..."
+            placeholder={t('searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-8 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all placeholder:text-slate-400"
@@ -70,11 +116,11 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
           <SelectTrigger className="w-full bg-slate-50 border-slate-200 rounded-xl text-sm text-slate-600 focus:ring-blue-500/30 focus:border-blue-400 cursor-pointer">
             <div className="flex items-center gap-2 min-w-0">
               <FunnelIcon size={13} className="text-slate-400 shrink-0" />
-              <SelectValue placeholder="Tất cả chuyên khoa" />
+              <SelectValue placeholder={t('allSpecialties')} />
             </div>
           </SelectTrigger>
           <SelectContent position='popper' side='bottom' >
-            <SelectItem value="__all__">Tất cả chuyên khoa</SelectItem>
+            <SelectItem value="__all__">{t('allSpecialties')}</SelectItem>
             {specialties.map(s => (
               <SelectItem key={s} value={s}>{s}</SelectItem>
             ))}
@@ -85,14 +131,14 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
       {/* Count row */}
       <div className="px-4 py-2 bg-slate-50/60 border-b border-slate-100 flex items-center justify-between">
         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-          {filtered.length} bác sĩ
+          {t('doctorCount', { count: filtered.length })}
         </span>
         {activeSpecialty && (
           <button
             onClick={() => setActiveSpecialty('')}
             className="text-[11px] text-blue-500 hover:text-blue-700 font-semibold cursor-pointer"
           >
-            Xoá lọc
+            {t('clearFilter')}
           </button>
         )}
       </div>
@@ -112,7 +158,7 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-slate-400">
             <UserIcon size={28} className="mb-2 opacity-40" />
-            <p className="text-xs font-medium">Không tìm thấy bác sĩ</p>
+            <p className="text-xs font-medium">{t('noDoctorFound')}</p>
           </div>
         ) : (
           filtered.map(doctor => {
@@ -159,14 +205,26 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
                   )}
                 </div>
 
-                {/* Selected indicator */}
-                {isSelected && (
-                  <CheckCircleIcon
-                    size={18}
-                    weight="fill"
-                    className="text-blue-600 shrink-0"
-                  />
-                )}
+                {/* Indicators: Queue Count & Selected status */}
+                <div className="flex items-center gap-2 shrink-0">
+                  {queueCounts[doctor.id] > 0 && (
+                    <span className={cn(
+                      'inline-flex items-center justify-center min-w-5 h-5 rounded-full px-1.5 text-[10px] font-black tracking-tight animate-in zoom-in duration-200 shadow-sm border border-white',
+                      queueCounts[doctor.id] >= 5
+                        ? 'bg-rose-500 text-white'
+                        : 'bg-amber-500 text-white'
+                    )}>
+                      {queueCounts[doctor.id]}
+                    </span>
+                  )}
+                  {isSelected && (
+                    <CheckCircleIcon
+                      size={18}
+                      weight="fill"
+                      className="text-blue-600 animate-in zoom-in duration-200"
+                    />
+                  )}
+                </div>
               </button>
             );
           })
