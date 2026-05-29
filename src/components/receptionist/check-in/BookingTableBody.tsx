@@ -11,10 +11,11 @@ interface BookingRowProps {
   booking: Booking;
   onConfirm: (booking: Booking) => void;
   onCancel: (booking: Booking) => void;
+  onReschedule: (booking: Booking) => void;
   onCheckIn: (booking: Booking) => void;
 }
 
-export function BookingRow({ booking, onConfirm, onCancel, onCheckIn }: BookingRowProps) {
+export function BookingRow({ booking, onConfirm, onCancel, onReschedule, onCheckIn }: BookingRowProps) {
   // Generate avatar initials from full name
   const initials = (booking.patientProfile?.fullName ?? '??')
     .split(' ')
@@ -73,7 +74,13 @@ export function BookingRow({ booking, onConfirm, onCancel, onCheckIn }: BookingR
 
       {/* Actions */}
       <td className="px-6 py-4 text-right whitespace-nowrap">
-        <BookingActions booking={booking} onConfirm={onConfirm} onCancel={onCancel} onCheckIn={onCheckIn} />
+        <BookingActions
+          booking={booking}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          onReschedule={onReschedule}
+          onCheckIn={onCheckIn}
+        />
       </td>
     </tr>
   );
@@ -83,10 +90,11 @@ interface BookingTableBodyProps {
   bookings: Booking[];
   onConfirm: (booking: Booking) => void;
   onCancel: (booking: Booking) => void;
+  onReschedule: (booking: Booking) => void;
   onCheckIn: (booking: Booking) => void;
 }
 
-export function BookingTableBody({ bookings, onConfirm, onCancel, onCheckIn }: BookingTableBodyProps) {
+export function BookingTableBody({ bookings, onConfirm, onCancel, onReschedule, onCheckIn }: BookingTableBodyProps) {
   const t = useTranslations('receptionistCheckIn.table');
 
   if (!bookings || bookings.length === 0) {
@@ -110,6 +118,7 @@ export function BookingTableBody({ bookings, onConfirm, onCancel, onCheckIn }: B
           booking={booking}
           onConfirm={onConfirm}
           onCancel={onCancel}
+          onReschedule={onReschedule}
           onCheckIn={onCheckIn}
         />
       ))}

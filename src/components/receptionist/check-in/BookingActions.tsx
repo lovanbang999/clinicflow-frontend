@@ -8,10 +8,11 @@ interface BookingActionsProps {
   booking: Booking;
   onConfirm: (booking: Booking) => void;
   onCancel: (booking: Booking) => void;
+  onReschedule: (booking: Booking) => void;
   onCheckIn: (booking: Booking) => void;
 }
 
-export function BookingActions({ booking, onConfirm, onCancel, onCheckIn }: BookingActionsProps) {
+export function BookingActions({ booking, onConfirm, onCancel, onReschedule, onCheckIn }: BookingActionsProps) {
   const t = useTranslations('receptionistCheckIn.table');
 
   if (booking.status === BookingStatus.PENDING) {
@@ -22,6 +23,12 @@ export function BookingActions({ booking, onConfirm, onCancel, onCheckIn }: Book
           className="bg-[#1570EF] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#0F5ED4] transition-colors cursor-pointer flex items-center gap-1.5 w-20 justify-center"
         >
           {t('confirmBtn')}
+        </button>
+        <button
+          onClick={(e) => { e.stopPropagation(); onReschedule(booking); }}
+          className="border border-amber-200 text-amber-600 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors cursor-pointer w-20 justify-center flex items-center"
+        >
+          {t('rescheduleBtn')}
         </button>
         <button
           onClick={(e) => { e.stopPropagation(); onCancel(booking); }}
@@ -41,6 +48,12 @@ export function BookingActions({ booking, onConfirm, onCancel, onCheckIn }: Book
           className="bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition-colors cursor-pointer w-20 justify-center flex items-center"
         >
           {t('checkInBtn')}
+        </button>
+        <button
+          onClick={(e) => { e.stopPropagation(); onReschedule(booking); }}
+          className="border border-amber-200 text-amber-600 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors cursor-pointer w-20 justify-center flex items-center"
+        >
+          {t('rescheduleBtn')}
         </button>
         <button
           onClick={(e) => { e.stopPropagation(); onCancel(booking); }}
