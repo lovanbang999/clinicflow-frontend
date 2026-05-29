@@ -11,6 +11,11 @@ export type ReceptionistOverview = {
   checkIns: number;
   newPatients: number;
   pendingInvoices: number;
+  revenueByCategory?: {
+    CONSULTATION: number;
+    SERVICE: number;
+    PHARMACY: number;
+  };
 };
 
 export type RevenueTrendItem = {
