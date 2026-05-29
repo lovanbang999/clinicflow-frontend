@@ -8,9 +8,15 @@ import {
   CheckCircleIcon,
   ReceiptIcon,
   ChartLineUpIcon,
+  CaretDownIcon,
+  FileCsvIcon,
+  PrinterIcon,
+  StethoscopeIcon,
+  FlaskIcon,
+  PillIcon,
 } from '@phosphor-icons/react';
 import { DateRange } from 'react-day-picker';
-import { subDays, endOfDay } from 'date-fns';
+import { subDays, endOfDay, startOfDay, startOfWeek, startOfMonth } from 'date-fns';
 
 import { 
   useReceptionistOverview, 
@@ -34,11 +40,15 @@ function formatVND(val: number): string {
 export default function ReceptionistReportsPage() {
   const t = useTranslations('receptionistReports');
 
-  // Default to last 7 days for the trend
+  // Default to last 7 days (this week)
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
     from: subDays(new Date(), 6),
     to: endOfDay(new Date()),
   });
+
+  const [activePeriod, setActivePeriod] = React.useState<'today' | 'week' | 'month' | 'custom'>('week');
+  const [exportDropdownOpen, setExportDropdownOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   const apiRange = React.useMemo(() => ({
     from: dateRange?.from?.toISOString(),
@@ -49,10 +59,143 @@ export default function ReceptionistReportsPage() {
   const { data: revenueTrend, loading: loadingTrend } = useReceptionistRevenueTrend(apiRange);
   const { data: operational, loading: loadingOps } = useReceptionistOperationalStats(apiRange);
 
+  // Close dropdown on click outside
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setExportDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handlePeriodChange = (period: 'today' | 'week' | 'month') => {
+    setActivePeriod(period);
+    const now = new Date();
+    if (period === 'today') {
+      setDateRange({
+        from: startOfDay(now),
+        to: endOfDay(now),
+      });
+    } else if (period === 'week') {
+      setDateRange({
+        from: startOfWeek(now, { weekStartsOn: 1 }),
+        to: endOfDay(now),
+      });
+    } else if (period === 'month') {
+      setDateRange({
+        from: startOfMonth(now),
+        to: endOfDay(now),
+      });
+    }
+  };
+
+  const handleExportCSV = () => {
+    if (!overview) return;
+
+    const rows = [
+      ['BÁO CÁO DOANH THU PHÒNG KHÁM (SMART CLINIC)', ''],
+      ['Kỳ báo cáo:', `${dateRange?.from ? new Date(dateRange.from).toLocaleDateString('vi-VN') : ''} - ${dateRange?.to ? new Date(dateRange.to).toLocaleDateString('vi-VN') : ''}`],
+      ['Tổng doanh thu:', `${overview.totalRevenue || 0} VND`],
+      ['Lượt tiếp nhận:', overview.checkIns || 0],
+      ['Bệnh nhân mới:', overview.newPatients || 0],
+      ['Hóa đơn chờ xử lý:', overview.pendingInvoices || 0],
+      ['', ''],
+      ['DOANH THU THEO PHÂN LOẠI', ''],
+      ['Khám tư vấn:', `${overview.revenueByCategory?.CONSULTATION || 0} VND`],
+      ['Xét nghiệm & Dịch vụ:', `${overview.revenueByCategory?.SERVICE || 0} VND`],
+      ['Dược phẩm & Đơn thuốc:', `${overview.revenueByCategory?.PHARMACY || 0} VND`],
+      ['', ''],
+      ['DOANH THU THEO PHƯƠNG THỨC THANH TOÁN', ''],
+    ];
+
+    operational?.paymentMethods?.forEach((pm) => {
+      rows.push([pm.label, `${pm.value || 0} VND (${pm.count || 0} giao dịch)`]);
+    });
+
+    rows.push(['', '']);
+    rows.push(['DỊCH VỤ HÀNG ĐẦU (THEO DOANH THU)', '']);
+    rows.push(['Tên dịch vụ', 'Lượt đặt', 'Doanh thu ước tính']);
+    
+    operational?.topServices?.forEach((s) => {
+      rows.push([s.name, s.count, `${s.revenue || 0} VND`]);
+    });
+
+    const csvContent = '\uFEFF' + rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `bao_cao_doanh_thu_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setExportDropdownOpen(false);
+  };
+
+  const handlePrintPDF = () => {
+    window.print();
+    setExportDropdownOpen(false);
+  };
+
   return (
-    <div className="px-8 py-6 space-y-6 mx-auto bg-[#fdfdfd] min-h-screen">
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="px-8 py-6 space-y-6 mx-auto bg-[#fdfdfd] min-h-screen relative">
+      
+      {/* Print Styles */}
+      <style jsx global>{`
+        @media print {
+          aside, nav, header, button, .no-print, [role="tablist"], .DateRangePicker {
+            display: none !important;
+          }
+          body, .min-h-screen, main, #main-content {
+            background: white !important;
+            color: black !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+          }
+          .px-8 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+          }
+          .print-header {
+            display: block !important;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+          }
+          .bg-white {
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: none !important;
+            page-break-inside: avoid;
+          }
+          .grid {
+            display: grid !important;
+            grid-template-cols: repeat(2, 1fr) !important;
+            gap: 1.5rem !important;
+          }
+          .lg\\:grid-cols-3 {
+            grid-template-cols: 1fr !important;
+          }
+          .lg\\:grid-cols-4 {
+            grid-template-cols: repeat(4, 1fr) !important;
+          }
+        }
+      `}</style>
+
+      {/* Hidden print header */}
+      <div className="hidden print-header text-center">
+        <h1 className="text-2xl font-bold text-slate-900">SMART CLINIC - PHÒNG KHÁM ĐA KHOA THÔNG MINH</h1>
+        <p className="text-xs text-slate-500 mt-1">Hệ Thống Quản Lý Khám Bệnh Toàn Diện</p>
+        <p className="text-sm font-semibold text-slate-800 mt-4 uppercase">Báo cáo doanh thu & hoạt động phòng khám</p>
+        <p className="text-xs text-slate-500 mt-1">
+          Kỳ báo cáo: {dateRange?.from ? new Date(dateRange.from).toLocaleDateString('vi-VN') : ''} - {dateRange?.to ? new Date(dateRange.to).toLocaleDateString('vi-VN') : ''}
+        </p>
+      </div>
+
+      {/* Page Header (Hidden on Print) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
         <div className="flex items-center gap-3">
           <div className="size-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-sm">
             <ChartLineUpIcon size={24} weight="duotone" />
@@ -63,7 +206,79 @@ export default function ReceptionistReportsPage() {
           </div>
         </div>
 
-        <DateRangePicker date={dateRange} setDate={setDateRange} />
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Quick Period Selectors */}
+          <div className="flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/50">
+            <button
+              onClick={() => handlePeriodChange('today')}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activePeriod === 'today'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t('periods.today')}
+            </button>
+            <button
+              onClick={() => handlePeriodChange('week')}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activePeriod === 'week'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t('periods.week')}
+            </button>
+            <button
+              onClick={() => handlePeriodChange('month')}
+              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                activePeriod === 'month'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {t('periods.month')}
+            </button>
+          </div>
+
+          <DateRangePicker 
+            date={dateRange} 
+            setDate={(range) => {
+              setDateRange(range);
+              setActivePeriod('custom');
+            }} 
+          />
+
+          {/* Export Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setExportDropdownOpen(!exportDropdownOpen)}
+              className="flex items-center gap-2 h-10 px-4 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors font-bold text-xs shadow-sm cursor-pointer"
+            >
+              <span>{t('export.button')}</span>
+              <CaretDownIcon size={14} weight="bold" />
+            </button>
+
+            {exportDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-100 bg-white shadow-xl py-1.5 z-50 animate-in fade-in-50 slide-in-from-top-1">
+                <button
+                  onClick={handleExportCSV}
+                  className="w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 cursor-pointer"
+                >
+                  <FileCsvIcon size={16} weight="duotone" className="text-emerald-600" />
+                  <span>{t('export.csv')}</span>
+                </button>
+                <button
+                  onClick={handlePrintPDF}
+                  className="w-full text-left px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center gap-2.5 cursor-pointer"
+                >
+                  <PrinterIcon size={16} weight="duotone" className="text-blue-600" />
+                  <span>{t('export.pdf')}</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* KPI Row */}
@@ -107,8 +322,8 @@ export default function ReceptionistReportsPage() {
             />
             <AdminKpiCard
               icon={ReceiptIcon}
-              iconBg="bg-purple-50"
-              iconColor="text-purple-600"
+              iconBg="bg-rose-50"
+              iconColor="text-rose-600"
               title={t('kpis.pendingInvoices')}
               value={(overview?.pendingInvoices || 0).toLocaleString()}
               badge={<StableBadge />}
@@ -118,8 +333,8 @@ export default function ReceptionistReportsPage() {
         )}
       </div>
 
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+      {/* Charts Row (Hidden on print or configured carefully) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch no-print">
         <div className="lg:col-span-2 h-full">
           <AdminRevenueTrendChart 
             data={revenueTrend} 
@@ -160,7 +375,105 @@ export default function ReceptionistReportsPage() {
       </div>
 
       {/* Bottom Insights */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+         
+         {/* Revenue Categories Section */}
+         <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 mb-1">{t('categories.title')}</h3>
+              <p className="text-xs text-slate-500 mb-6 font-medium">{t('categories.subtitle')}</p>
+              
+              {loadingOverview ? (
+                <div className="space-y-6">
+                  {[1, 2, 3].map(i => <Skeleton key={i} className="h-16 w-full rounded-xl" />)}
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {/* Consultation */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="size-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
+                          <StethoscopeIcon size={18} weight="duotone" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-slate-800">{t('categories.consultation')}</p>
+                          <p className="text-[10px] text-slate-500 font-medium">{t('categories.consultationSub')}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold text-slate-900">{formatVND(overview?.revenueByCategory?.CONSULTATION || 0)}</p>
+                        <p className="text-[10px] text-slate-500 font-semibold">
+                          {Math.round(((overview?.revenueByCategory?.CONSULTATION || 0) / (overview?.totalRevenue || 1)) * 100)}%
+                        </p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-blue-500 rounded-full transition-all duration-500" 
+                        style={{ width: `${Math.min(100, Math.round(((overview?.revenueByCategory?.CONSULTATION || 0) / (overview?.totalRevenue || 1)) * 100))}%` }} 
+                      />
+                    </div>
+                  </div>
+
+                  {/* Service */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="size-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
+                          <FlaskIcon size={18} weight="duotone" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-slate-800">{t('categories.service')}</p>
+                          <p className="text-[10px] text-slate-500 font-medium">{t('categories.serviceSub')}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold text-slate-900">{formatVND(overview?.revenueByCategory?.SERVICE || 0)}</p>
+                        <p className="text-[10px] text-slate-500 font-semibold">
+                          {Math.round(((overview?.revenueByCategory?.SERVICE || 0) / (overview?.totalRevenue || 1)) * 100)}%
+                        </p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-emerald-500 rounded-full transition-all duration-500" 
+                        style={{ width: `${Math.min(100, Math.round(((overview?.revenueByCategory?.SERVICE || 0) / (overview?.totalRevenue || 1)) * 100))}%` }} 
+                      />
+                    </div>
+                  </div>
+
+                  {/* Pharmacy */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="size-9 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
+                          <PillIcon size={18} weight="duotone" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-slate-800">{t('categories.pharmacy')}</p>
+                          <p className="text-[10px] text-slate-500 font-medium">{t('categories.pharmacySub')}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold text-slate-900">{formatVND(overview?.revenueByCategory?.PHARMACY || 0)}</p>
+                        <p className="text-[10px] text-slate-500 font-semibold">
+                          {Math.round(((overview?.revenueByCategory?.PHARMACY || 0) / (overview?.totalRevenue || 1)) * 100)}%
+                        </p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-rose-500 rounded-full transition-all duration-500" 
+                        style={{ width: `${Math.min(100, Math.round(((overview?.revenueByCategory?.PHARMACY || 0) / (overview?.totalRevenue || 1)) * 100))}%` }} 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+         </div>
+
          {/* Payment Methods Section */}
          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
             <h3 className="text-base font-bold text-slate-900 mb-1">{t('charts.paymentMethods')}</h3>
@@ -195,14 +508,15 @@ export default function ReceptionistReportsPage() {
             )}
          </div>
 
+         {/* Top Services Section */}
          <div className="h-full">
             {loadingOps ? (
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm h-full">
-                <Skeleton className="h-6 w-32 mb-4" />
-                <div className="space-y-4">
-                  {[1, 2, 3].map(i => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
-                </div>
-              </div>
+               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm h-full">
+                 <Skeleton className="h-6 w-32 mb-4" />
+                 <div className="space-y-4">
+                   {[1, 2, 3].map(i => <Skeleton key={i} className="h-12 w-full rounded-xl" />)}
+                 </div>
+               </div>
             ) : (
             <AdminTopServices 
                 services={(operational?.topServices || []).map(s => ({

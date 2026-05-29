@@ -27,7 +27,27 @@
   "table": {
     "serviceName": "Service Name",
     "count": "Bookings",
-    "amount": "Amount",
     "method": "Method"
+  },
+  "periods": {
+    "today": "Today",
+    "week": "This Week",
+    "month": "This Month",
+    "custom": "Custom"
+  },
+  "categories": {
+    "title": "Revenue by Category",
+    "subtitle": "Income breakdown by service type",
+    "consultation": "Consultations",
+    "consultationSub": "Consultation fees",
+    "service": "Lab & Services",
+    "serviceSub": "Clinical services & tests",
+    "pharmacy": "Pharmacy",
+    "pharmacySub": "Prescriptions & meds"
+  },
+  "export": {
+    "button": "Export Report",
+    "csv": "Export CSV Data",
+    "pdf": "Print Report (PDF)"
   }
 }

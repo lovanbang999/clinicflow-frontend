@@ -27,7 +27,27 @@
   "table": {
     "serviceName": "Tên dịch vụ",
     "count": "Lượt đặt",
-    "amount": "Số tiền",
     "method": "Phương thức"
+  },
+  "periods": {
+    "today": "Hôm nay",
+    "week": "Tuần này",
+    "month": "Tháng này",
+    "custom": "Tùy chọn"
+  },
+  "categories": {
+    "title": "Doanh thu theo phân loại",
+    "subtitle": "Phân tích nguồn thu từ dịch vụ",
+    "consultation": "Khám tư vấn",
+    "consultationSub": "Chi phí khám & tư vấn",
+    "service": "Xét nghiệm & Chỉ định",
+    "serviceSub": "Cận lâm sàng & Dịch vụ",
+    "pharmacy": "Dược phẩm",
+    "pharmacySub": "Đơn thuốc & Thiết bị"
+  },
+  "export": {
+    "button": "Xuất báo cáo",
+    "csv": "Xuất dữ liệu CSV",
+    "pdf": "In báo cáo (PDF)"
   }
 }
