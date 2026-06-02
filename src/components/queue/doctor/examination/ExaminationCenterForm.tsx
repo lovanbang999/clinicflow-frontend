@@ -37,7 +37,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
       toast.success(t('toasts.startSuccess'));
       onSuccess(); // Refresh state
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('toasts.startError'));
     } finally {
       setIsSubmitting(false);
@@ -65,7 +65,7 @@ export function ExaminationCenterForm({ orders, onSuccess }: ExaminationCenterFo
       toast.success(t('toasts.sentToConsultant'));
       onSuccess();
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('toasts.genericSaveError'));
     } finally {
       setIsSubmitting(false);

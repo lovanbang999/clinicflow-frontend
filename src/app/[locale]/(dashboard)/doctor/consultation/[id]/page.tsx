@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { queueApi } from '@/lib/api/appointment/queue';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
@@ -13,7 +14,6 @@ export default function DoctorConsultationPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const locale = params.locale as string;
   const t = useTranslations('doctorWorkspace.examView');
   const [record, setRecord] = useState<QueueRecord | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,19 +23,15 @@ export default function DoctorConsultationPage() {
     try {
       setIsLoading(true);
       const res = await queueApi.getByBookingId(id);
-      
-      // If service is already assigned, we still allow consultation or view mode, 
-      // but usually doctor should go back to dashboard if they finished it.
-      
       setRecord(res);
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('fetchError'));
-      router.push(`/${locale}/doctor`);
+      router.push('/doctor');
     } finally {
       setIsLoading(false);
     }
-  }, [id, locale, router, t]);
+  }, [id, router, t]);
 
   useEffect(() => {
     void fetchRecord();
@@ -44,24 +40,22 @@ export default function DoctorConsultationPage() {
   if (isLoading) {
     return (
       <div className="flex h-full items-center justify-center bg-[#f8f9ff]">
-        <SpinnerIcon size={40} className="animate-spin text-[#1275e2]" />
+        <div className="flex flex-col items-center gap-4">
+          <SpinnerIcon size={40} className="animate-spin text-[#1275e2]" />
+          <p className="text-sm text-slate-500 font-medium">{t('loading')}</p>
+        </div>
       </div>
     );
   }
 
-  if (!record) {
-    return null;
-  }
+  if (!record) return null;
 
   return (
     <div className="flex flex-col h-full bg-[#edf1f8] relative z-10 w-full overflow-hidden shadow-inner hidden-scrollbar">
       <DoctorConsultationView
         item={record}
-        onExit={() => router.push(`/${locale}/doctor`)}
-        onSuccess={() => {
-          // When service is assigned, redirect back to dashboard
-          router.push(`/${locale}/doctor`);
-        }}
+        onExit={() => router.push('/doctor')}
+        onSuccess={() => router.push('/doctor')}
       />
     </div>
   );

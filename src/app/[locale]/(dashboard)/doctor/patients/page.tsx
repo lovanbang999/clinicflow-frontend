@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { DoctorPatientSummary } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,13 +11,12 @@ import { Search, Loader2, User, Users, ChevronRight, Phone, Calendar } from 'luc
 import { useDoctorPatients } from '@/lib/hooks/clinical/useDoctorPatients';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
-import { useParams } from 'next/navigation';
 import { DoctorPatientDrawer } from '@/components/dashboard/doctors/DoctorPatientDrawer';
 
 export default function DoctorPatientsPage() {
   const t = useTranslations('doctorPatients');
-  const params = useParams();
-  const locale = params.locale === 'vi' ? vi : enUS;
+  const currentLocale = useLocale();
+  const locale = currentLocale === 'vi' ? vi : enUS;
   
   const { patients, loading, total, searchQuery, handleSearch } = useDoctorPatients();
   const [selectedPatient, setSelectedPatient] = useState<DoctorPatientSummary | null>(null);

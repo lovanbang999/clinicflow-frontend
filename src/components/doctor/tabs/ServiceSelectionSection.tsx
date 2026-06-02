@@ -48,7 +48,7 @@ export function ServiceSelectionSection({
       toast.success(t('success'));
       onSuccess();
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('errorSubmit'));
     } finally {
       setIsSubmitting(false);

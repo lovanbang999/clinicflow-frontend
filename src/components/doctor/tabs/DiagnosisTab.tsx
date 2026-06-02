@@ -37,7 +37,7 @@ export function DiagnosisTab({ bookingId, record, onSaved, onBack }: DiagnosisTa
       const updated = await medicalRecordsApi.getVisitResults(bookingId);
       onSaved(updated);
     } catch (err) {
-      console.error('[DiagnosisTab] failed to refresh record:', err);
+      void err;
     }
   }, [bookingId, onSaved]);
 

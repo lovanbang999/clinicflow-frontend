@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import type { CreateMedicalRecordDto } from '@/lib/api/clinical/medical-records';
+import { calcAge, formatGender } from '@/lib/utils/patient.utils';
 
 interface PrintableExaminationResultProps {
   patientProfile?: {
@@ -30,11 +31,12 @@ export function PrintableExaminationResult({
 
   if (!patientProfile) return null;
 
-  const age = patientProfile.dateOfBirth
-    ? new Date().getFullYear() - new Date(patientProfile.dateOfBirth).getFullYear()
-    : 'N/A';
-
-  const genderStr = patientProfile.gender === 'MALE' ? tQueue('gender.male') : patientProfile.gender === 'FEMALE' ? tQueue('gender.female') : tQueue('gender.other');
+  const age = calcAge(patientProfile.dateOfBirth);
+  const genderStr = formatGender(patientProfile.gender, {
+    male: tQueue('gender.male'),
+    female: tQueue('gender.female'),
+    other: tQueue('gender.other'),
+  });
 
   return (
     <div 

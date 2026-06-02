@@ -53,7 +53,7 @@ export function ConsultationProvider({
       const res = await medicalRecordsApi.getVisitResults(item.bookingId);
       setMedicalRecord(res);
     } catch (error) {
-      console.error('Failed to fetch medical record:', error);
+      void error;
       if (!quiet) toast.error(t('messages.fetchError'));
     } finally {
       if (!quiet) setIsLoading(false);
@@ -73,9 +73,8 @@ export function ConsultationProvider({
     joinBookingLabRoom(item.bookingId);
     
     const unsubscribe = onLabResultCompleted((payload) => {
-      console.log('Lab result completed, refreshing record:', payload);
       toast.info(`${t('tabs.labs')}: ${payload.testName} ${t('messages.resultReady', { defaultMessage: 'đã có kết quả' })}`);
-      fetchRecord(true); // Quiet refresh
+      fetchRecord(true);
     });
 
     return () => {
@@ -122,7 +121,7 @@ export function ConsultationProvider({
         setDraftLabs([]);
         onExit();
       } catch (error) {
-        console.error(error);
+        void error;
         toast.error(t('messages.orderError'));
       } finally {
         setIsSaving(false);

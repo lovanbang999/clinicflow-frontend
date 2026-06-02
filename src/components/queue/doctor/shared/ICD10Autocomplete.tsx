@@ -58,7 +58,7 @@ export function ICD10Autocomplete({ value, onChange, onSelect, placeholder, clas
           setIsOpen(true);
         }
       } catch (error) {
-        console.error('Failed to fetch ICD10', error);
+        void error;
       } finally {
         setIsLoading(false);
       }
