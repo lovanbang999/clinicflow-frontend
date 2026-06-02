@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpIcon, ArrowDownIcon, UserIcon } from 'lucide-react';
 import { STATUS_META, COLORS } from './constants';
+import { useTranslations } from 'next-intl';
 
 export function Delta({ value }: { value: number }) {
   if (value === 0) return <span className="text-[10px] text-[#5F5E5A] bg-[#F1EFE8] px-2 py-0.5 rounded-full">0%</span>;
@@ -14,13 +15,26 @@ export function Delta({ value }: { value: number }) {
 }
 
 export function StatusBadge({ status }: { status: string }) {
+  const t = useTranslations('doctorWorkspace');
   const meta = STATUS_META[status] ?? { label: status, color: COLORS.GRAY };
+
+  const getLabel = () => {
+    switch (status) {
+      case 'PENDING': return t('statusPending') || 'Chờ khám';
+      case 'IN_PROGRESS': return t('statusInProgress') || 'Đang khám';
+      case 'COMPLETED': return t('statusCompleted') || 'Hoàn thành';
+      case 'CANCELLED': return t('statusCancelled') || 'Đã huỷ';
+      case 'NO_SHOW': return t('statusNoShow') || 'Vắng mặt';
+      default: return meta.label;
+    }
+  };
+
   return (
     <span
       className="text-[10px] font-medium px-2 py-0.5 rounded-full"
       style={{ background: meta.color + '1A', color: meta.color }}
     >
-      {meta.label}
+      {getLabel()}
     </span>
   );
 }

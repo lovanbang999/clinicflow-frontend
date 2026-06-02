@@ -3,23 +3,33 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useDoctorTodaySchedule } from '@/lib/hooks/clinical/useDoctorAnalytics';
 import { STATUS_META, COLORS } from './constants';
 import { CardShell, StatusBadge } from './SharedComponents';
+import { useTranslations, useLocale } from 'next-intl';
 
 export function TodayTimeline() {
   const { data, isLoading } = useDoctorTodaySchedule();
+  const t = useTranslations('doctorWorkspace');
+  const locale = useLocale();
+
   const today = new Date();
-  const todayStr = today.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+  const todayStr = today.toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', {
+    weekday: 'long',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
   const pending = data.filter((d) => ['PENDING','CHECKED_IN'].includes(d.status)).length;
 
   return (
     <CardShell>
       <div className="flex items-start justify-between mb-4">
         <div>
-          <p className="text-sm font-semibold text-[#111518]">Lịch hôm nay</p>
+          <p className="text-sm font-semibold text-[#111518]">{t('analytics.todayTimeline.title') || 'Lịch hôm nay'}</p>
           <p className="text-[11px] text-[#64748b] mt-0.5 capitalize">{todayStr}</p>
         </div>
         {pending > 0 && (
           <span className="text-[10px] font-semibold px-2 py-1 rounded-full" style={{ background: COLORS.AMBER + '1A', color: COLORS.AMBER }}>
-            {pending} ca chờ
+            {t('analytics.todayTimeline.pendingCount', { count: pending }) || `${pending} ca chờ`}
           </span>
         )}
       </div>
@@ -28,7 +38,7 @@ export function TodayTimeline() {
       ) : data.length === 0 ? (
         <div className="h-32 flex flex-col items-center justify-center text-sm text-[#64748b] gap-2">
           <CalendarIcon size={24} className="text-[#e5e7eb]" />
-          Không có lịch hôm nay
+          {t('analytics.todayTimeline.empty') || 'Không có lịch hôm nay'}
         </div>
       ) : (
         <>
@@ -46,7 +56,7 @@ export function TodayTimeline() {
                   <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: STATUS_META[appt.status]?.color ?? COLORS.GRAY }} />
                   <div className="flex-1 min-w-0">
                     <div className={`font-medium truncate ${isActive ? 'text-[#0C447C]' : 'text-[#111518]'}`}>
-                      {appt.patientProfile?.fullName ?? 'Bệnh nhân'}
+                      {appt.patientProfile?.fullName ?? (t('analytics.recentPatients.defaultPatient') || 'Bệnh nhân')}
                     </div>
                   </div>
                   <div className={`text-[10px] shrink-0 ${isActive ? 'text-[#185FA5]' : 'text-[#64748b]'}`}>
@@ -58,7 +68,7 @@ export function TodayTimeline() {
             })}
           </div>
           <div className="pt-3 mt-2 border-t border-[#e5e7eb] flex gap-4 text-[11px] text-[#64748b]">
-            <span>Còn lại hôm nay: <strong className="text-[#111518]">{pending} ca</strong></span>
+            <span>{t('analytics.todayTimeline.remaining', { count: pending }) || `Còn lại hôm nay: ${pending} ca`}</span>
           </div>
         </>
       )}

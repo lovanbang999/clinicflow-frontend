@@ -482,7 +482,100 @@
   "statusCompleted": "Completed",
   "statusCancelled": "Cancelled",
   "statusNoShow": "No-show",
+  "statusPending": "Pending",
+  "statusInProgress": "In Progress",
   "analyticsTitle": "Analytics",
   "analyticsDesc": "Your clinical activity statistics",
-  "noData": "No data available"
+  "noData": "No data available",
+  "analytics": {
+    "exportCsv": "Export Report (CSV)",
+    "exporting": "Exporting...",
+    "periods": {
+      "7d": "7 Days",
+      "month": "This Month",
+      "6m": "6 Months",
+      "year": "This Year"
+    },
+    "summary": {
+      "total": "Total Visits",
+      "completed": "Completed",
+      "absentCancel": "Absent / Cancelled",
+      "revenue": "Consultation Revenue",
+      "avgMinutes": "Avg Min/Visit",
+      "rating": "Rating (/ 5)"
+    },
+    "weeklyChart": {
+      "title": "Visits per Day",
+      "sub": "In current week",
+      "trend": "6 Months Trend",
+      "monthLabel": "M{month}"
+    },
+    "bookingStatus": {
+      "title": "Booking Distribution",
+      "sub": "This Month"
+    },
+    "sourceBreakdown": {
+      "title": "Patient Source",
+      "sub": "Acquisition Channel",
+      "online": "Pre-booked (Online)",
+      "walkIn": "Walk-in",
+      "phone": "Via Phone",
+      "onlineShort": "Pre-booked",
+      "walkInShort": "Walk-in",
+      "phoneShort": "Phone"
+    },
+    "topServices": {
+      "title": "Top Services",
+      "sub": "By completed cases"
+    },
+    "clinicalKPIs": {
+      "title": "Clinical KPIs",
+      "sub": "Clinic Performance — last 6 months",
+      "avgWaitTime": "Avg Wait Time",
+      "avgWaitTimeHint": "Average queue wait time",
+      "returnRate": "Re-visit Rate",
+      "returnRateHint": "Patients returning at least once",
+      "labOrderRate": "Lab Order Rate",
+      "labOrderRateHint": "Records with at least 1 clinical order",
+      "icdUsageRate": "ICD-10 Usage Rate",
+      "icdUsageRateHint": "Records with ICD-10 diagnosis code",
+      "newPatientRate": "New Patient Rate",
+      "newPatientRateHint": "First exam with this doctor",
+      "followUpRate": "Follow-up Scheduled",
+      "followUpRateHint": "Records with scheduled follow-up date",
+      "meta": "Based on {bookings} visits · {records} records"
+    },
+    "heatmap": {
+      "title": "Peak Hours",
+      "sub": "By hour × day of week (last 12 weeks)",
+      "less": "Less",
+      "more": "More",
+      "max": "Max: {count} visits",
+      "tooltip": "{count} visits"
+    },
+    "recentPatients": {
+      "title": "Recent Patients",
+      "sub": "10 latest visits",
+      "defaultPatient": "Patient"
+    },
+    "todayTimeline": {
+      "title": "Today's Schedule",
+      "empty": "No schedule today",
+      "pendingCount": "{count} pending",
+      "remaining": "Remaining today: {count} cases"
+    },
+    "csv": {
+      "title": "DOCTOR PERSONAL ANALYTICS REPORT",
+      "period": "Period: {period}",
+      "date": "Export Date: {date}",
+      "secSummary": "1. KEY OVERVIEW INDICATORS",
+      "summaryHeaders": "Indicator,Value,Comparison with previous period",
+      "secKPIs": "2. CLINICAL PERFORMANCE INDICATORS (LAST 6 MONTHS)",
+      "kpiHeaders": "Performance Indicator,Rate / Value",
+      "secDiagnoses": "3. TOP 5 COMMON DIAGNOSES (ICD-10 CODE)",
+      "diagnosesHeaders": "Rank,Disease Name,ICD-10 Code,Cases",
+      "secServices": "4. TOP 5 MOST PERFORMED SERVICES",
+      "serviceHeaders": "Rank,Service Name,Completed Cases"
+    }
+  }
 }

@@ -487,7 +487,100 @@
   "statusCompleted": "Hoàn thành",
   "statusCancelled": "Đã huỷ",
   "statusNoShow": "Vắng mặt",
+  "statusPending": "Chờ khám",
+  "statusInProgress": "Đang khám",
   "analyticsTitle": "Thống kê",
   "analyticsDesc": "Thống kê hoạt động khám bệnh của bạn",
-  "noData": "Chưa có dữ liệu"
+  "noData": "Chưa có dữ liệu",
+  "analytics": {
+    "exportCsv": "Xuất báo cáo (CSV)",
+    "exporting": "Đang xuất...",
+    "periods": {
+      "7d": "7 ngày",
+      "month": "Tháng này",
+      "6m": "6 tháng",
+      "year": "Năm nay"
+    },
+    "summary": {
+      "total": "Tổng lượt khám",
+      "completed": "Hoàn thành",
+      "absentCancel": "Vắng / Huỷ",
+      "revenue": "Doanh thu tư vấn",
+      "avgMinutes": "Phút TB/lượt",
+      "rating": "Đánh giá (/ 5)"
+    },
+    "weeklyChart": {
+      "title": "Lượt khám theo ngày",
+      "sub": "Trong tuần hiện tại",
+      "trend": "Xu hướng 6 tháng",
+      "monthLabel": "T{month}"
+    },
+    "bookingStatus": {
+      "title": "Phân bổ lịch hẹn",
+      "sub": "Tháng này"
+    },
+    "sourceBreakdown": {
+      "title": "Nguồn bệnh nhân",
+      "sub": "Kênh tiếp cận",
+      "online": "Đặt trước (Online)",
+      "walkIn": "Vãng lai (Walk-in)",
+      "phone": "Qua điện thoại",
+      "onlineShort": "Đặt trước",
+      "walkInShort": "Vãng lai",
+      "phoneShort": "Điện thoại"
+    },
+    "topServices": {
+      "title": "Top dịch vụ thực hiện",
+      "sub": "Theo số ca đã hoàn thành"
+    },
+    "clinicalKPIs": {
+      "title": "Chỉ số lâm sàng",
+      "sub": "Hiệu suất khám — 6 tháng gần nhất",
+      "avgWaitTime": "Thời gian chờ TB",
+      "avgWaitTimeHint": "Trung bình theo hàng đợi",
+      "returnRate": "Tỉ lệ tái khám",
+      "returnRateHint": "Bệnh nhân quay lại ít nhất 1 lần",
+      "labOrderRate": "Đơn có xét nghiệm",
+      "labOrderRateHint": "Hồ sơ có ít nhất 1 chỉ định CLS",
+      "icdUsageRate": "Tỉ lệ dùng ICD-10",
+      "icdUsageRateHint": "Hồ sơ có mã chẩn đoán ICD-10",
+      "newPatientRate": "Bệnh nhân mới",
+      "newPatientRateHint": "Lần đầu khám với bác sĩ này",
+      "followUpRate": "Có lịch tái khám",
+      "followUpRateHint": "Hồ sơ có ngày tái khám đặt lịch",
+      "meta": "Dựa trên {bookings} lượt khám · {records} hồ sơ"
+    },
+    "heatmap": {
+      "title": "Khung giờ bận nhất",
+      "sub": "Theo giờ × thứ trong tuần (12 tuần gần nhất)",
+      "less": "Ít",
+      "more": "Nhiều",
+      "max": "Max: {count} lượt",
+      "tooltip": "{count} lượt"
+    },
+    "recentPatients": {
+      "title": "Bệnh nhân gần đây",
+      "sub": "10 lượt khám mới nhất",
+      "defaultPatient": "Bệnh nhân"
+    },
+    "todayTimeline": {
+      "title": "Lịch hôm nay",
+      "empty": "Không có lịch hôm nay",
+      "pendingCount": "{count} ca chờ",
+      "remaining": "Còn lại hôm nay: {count} ca"
+    },
+    "csv": {
+      "title": "BÁO CÁO THỐNG KÊ CÁ NHÂN BÁC SĨ",
+      "period": "Kỳ thống kê: {period}",
+      "date": "Ngày xuất báo cáo: {date}",
+      "secSummary": "1. CHỈ SỐ TỔNG QUAN",
+      "summaryHeaders": "Chỉ số,Giá trị,Biến động so với kỳ trước",
+      "secKPIs": "2. CHỈ SỐ HIỆU SUẤT LÂM SÀNG (6 THÁNG QUA)",
+      "kpiHeaders": "Chỉ số hiệu suất,Tỷ lệ / Giá trị",
+      "secDiagnoses": "3. TOP 5 CHẨN ĐOÁN PHỔ BIẾN (MÃ ICD-10)",
+      "diagnosesHeaders": "Hạng,Tên bệnh,Mã bệnh (ICD-10),Số ca",
+      "secServices": "4. TOP 5 DỊCH VỤ THỰC HIỆN NHIỀU NHẤT",
+      "serviceHeaders": "Hạng,Tên dịch vụ,Số ca hoàn thành"
+    }
+  }
 }
