@@ -21,7 +21,7 @@ export function DoctorWorkspace({
   const router = useRouter();
   const params = useParams();
   const locale = params.locale as string;
-  const { queueItems, isLoading, callPatient } = useQueue(doctorId);
+  const { queueItems, isLoading, callPatient, isConnected } = useQueue(doctorId);
 
   const items = Array.isArray(queueItems) ? queueItems : [];
 
@@ -79,7 +79,7 @@ export function DoctorWorkspace({
       <DoctorQueueView
         queueItems={items}
         isLoading={isLoading}
-        isConnected={true}
+        isConnected={isConnected}
         onCallPatient={handleCallPatient}
         onEnterExam={handleEnterExam}
         roomLabel={roomLabel}
