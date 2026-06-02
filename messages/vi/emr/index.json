@@ -425,7 +425,10 @@
       "cantRemove": "Không thể xóa — đã thanh toán hoặc đang thực hiện",
       "removeOrder": "Xóa chỉ định",
       "placeholder": "— Chọn dịch vụ chuyên khoa —",
-      "addBtn": "Thêm"
+      "addBtn": "Thêm",
+      "selectDoctor": "-- Chọn bác sĩ thực hiện --",
+      "performedBy": "BS thực hiện:",
+      "fallbackCategory": "Chuyên khoa khác"
     },
     "notesTab": {
       "errors": {

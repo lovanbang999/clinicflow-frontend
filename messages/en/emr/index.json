@@ -423,7 +423,10 @@
       "cantRemove": "Cannot remove — already paid or in progress",
       "removeOrder": "Remove order",
       "placeholder": "— Select specialist service —",
-      "addBtn": "Add"
+      "addBtn": "Add",
+      "selectDoctor": "-- Select performing doctor --",
+      "performedBy": "Performed by:",
+      "fallbackCategory": "Other Specialty"
     },
     "notesTab": {
       "errors": {
