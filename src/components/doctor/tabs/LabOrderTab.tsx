@@ -49,12 +49,12 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
       const data = await labOrdersApi.getOrdersByBooking(bookingId);
       setOrders(data);
     } catch (err) {
-      console.error(err);
+      void err;
     }
   }, [bookingId]);
 
   useEffect(() => {
-    servicesApi.getAll({ categoryType: 'LAB' }).then(setAllServices).catch(console.error);
+    servicesApi.getAll({ categoryType: 'LAB' }).then(setAllServices).catch(() => {});
     fetchOrders();
   }, [fetchOrders]);
 
@@ -69,7 +69,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
         const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
         onSaved(updatedRecord);
       } catch (err) {
-        console.error('Failed to sync parent record on websocket', err);
+        void err;
       }
     });
     return () => {
@@ -83,7 +83,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
       const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
       onSaved(updatedRecord);
     } catch (err) {
-      console.error('Failed to fetch latest record before next', err);
+      void err;
     } finally {
       if (onSkip) onSkip();
     }

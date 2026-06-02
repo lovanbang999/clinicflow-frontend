@@ -50,7 +50,9 @@
     "fetchHistoryError": "Error loading test history",
     "fileUploaded": "File uploaded successfully",
     "resultCompleted": "Result completed — doctor will be notified",
-    "newOrderArrived": "New lab order for patient {name}"
+    "newOrderArrived": "New lab order for patient {name}",
+    "saveSuccess": "Result saved successfully and sent to doctor",
+    "saveError": "Error occurred while saving results"
   },
   "settings": "Settings",
   "settingsContent": {

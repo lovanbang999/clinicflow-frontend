@@ -15,7 +15,6 @@ interface WorkbenchSidebarProps {
   allOrders: LabOrder[];
   activeId: string;
   onSelectOrder: (id: string) => void;
-  locale: string;
 }
 
 export function WorkbenchSidebar({

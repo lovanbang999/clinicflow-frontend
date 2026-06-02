@@ -183,7 +183,7 @@ export function PatientEditModal({ open, patientId, onClose, onSubmit }: Patient
       await onSubmit(patientId, payload);
       onClose();
     } catch (err) {
-      console.error(err);
+      void err;
     } finally {
       setIsSubmitting(false);
     }

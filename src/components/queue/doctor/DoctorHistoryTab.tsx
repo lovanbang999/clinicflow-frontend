@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
-import { useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import type { PatientHistoryResponse, VisitHistoryItem } from '@/lib/api/clinical/medical-records';
 import { Loader2, ChevronDown, UserCircle2, CalendarDays, ClipboardList, TestTube2, Stethoscope, Pill, XCircle, FileText } from 'lucide-react';
@@ -18,8 +17,8 @@ interface DoctorHistoryTabProps {
 
 export function DoctorHistoryTab({ history, isLoading, onVisitClick }: DoctorHistoryTabProps) {
   const tEmr = useTranslations('emr');
-  const params = useParams();
-  const locale = params.locale === 'vi' ? vi : enUS;
+  const currentLocale = useLocale();
+  const locale = currentLocale === 'vi' ? vi : enUS;
 
   const [userToggledVisitId, setUserToggledVisitId] = useState<string | null | undefined>(undefined);
   const expandedVisitId = userToggledVisitId !== undefined 

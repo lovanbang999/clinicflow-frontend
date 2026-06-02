@@ -74,7 +74,7 @@ export function TabVitals({ item, medicalRecord, onChange, isReadOnly }: TabVita
         isDirtyRef.current = false;
         onChange(); 
       } catch (error) {
-        console.error(error);
+        void error;
         toast.error(t('messages.saveError'));
       }
     }, 1000);

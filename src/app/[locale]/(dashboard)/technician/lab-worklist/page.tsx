@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, useCallback, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
 import { useApiData } from '@/lib/hooks/core/useApiData';
 import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
@@ -35,10 +35,10 @@ export default function TechnicianWorklistPage() {
           labOrdersApi.getReadyToPerformOrders(),
           labOrdersApi.getTechnicianHistory(),
         ]);
-        
+
         return [...labReady, ...labHistory];
       } catch (err) {
-        console.error('Fetch error:', err);
+        void err;
         toast.error(t('messages.fetchError'));
         return [];
       }
@@ -67,10 +67,9 @@ export default function TechnicianWorklistPage() {
 
       await labOrdersApi.updateOrderStatus(orderId, 'IN_PROGRESS');
       toast.success(t('messages.statusUpdated'));
-      const locale = window.location.pathname.split('/')[1];
-      router.push(`/${locale}/technician/lab-worklist/${orderId}`);
+      router.push(`/technician/lab-worklist/${orderId}`);
     } catch (err) {
-      console.error('Start error:', err);
+      void err;
       toast.error(t('messages.statusUpdateError'));
     }
   }, [allOrders, router, t]);
@@ -80,7 +79,7 @@ export default function TechnicianWorklistPage() {
   useEffect(() => {
     const unsubscribe = onNewLabOrder((payload) => {
       toast.info(`🧪 ${t('messages.newOrderArrived', { name: payload.patientName })}`);
-      
+
       // Track new IDs to show pulse animation
       setNewOrderIds(prev => {
         const next = new Set(prev);
@@ -103,8 +102,7 @@ export default function TechnicianWorklistPage() {
   }, [onNewLabOrder, refetch, t]);
 
   const handleOpenWorkspace = (order: UnifiedOrder) => {
-    const locale = window.location.pathname.split('/')[1];
-    router.push(`/${locale}/technician/lab-worklist/${order.id}`);
+    router.push(`/technician/lab-worklist/${order.id}`);
   };
 
   const tabs: { key: TabKey; label: React.ReactNode }[] = [
@@ -122,7 +120,7 @@ export default function TechnicianWorklistPage() {
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{t('worklist.title')}</h1>
             <p className="text-slate-500 text-sm mt-1">{t('worklist.subtitle')}</p>
           </div>
-          
+
           <div className="flex items-center gap-3">
             <WorklistSearchBar
               searchQuery={searchQuery}
@@ -180,7 +178,7 @@ export default function TechnicianWorklistPage() {
               const patient = order.patientProfile;
               const doctor = order.booking?.doctor;
               const isNew = newOrderIds.has(order.id);
-              
+
               return (
                 <Card
                   key={order.id}
@@ -193,7 +191,7 @@ export default function TechnicianWorklistPage() {
                   {isNew && (
                     <div className="absolute top-0 left-0 w-1 h-full bg-[#1392ec] animate-pulse" />
                   )}
-                  
+
                   <div className="p-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
@@ -201,19 +199,19 @@ export default function TechnicianWorklistPage() {
                           <h3 className="font-bold text-slate-900 text-base group-hover:text-[#1392ec] transition-colors truncate">
                             {order.testName}
                           </h3>
-                          <Badge 
-                            variant="secondary" 
+                          <Badge
+                            variant="secondary"
                             className={cn(
                               "text-[10px] font-bold uppercase tracking-wider px-2",
                               order.status === 'PAID' ? "bg-amber-50 text-amber-600 border-amber-100" :
-                              order.status === 'IN_PROGRESS' ? "bg-blue-50 text-[#1392ec] border-blue-100" :
-                              "bg-emerald-50 text-emerald-600 border-emerald-100"
+                                order.status === 'IN_PROGRESS' ? "bg-blue-50 text-[#1392ec] border-blue-100" :
+                                  "bg-emerald-50 text-emerald-600 border-emerald-100"
                             )}
                           >
                             {order.status}
                           </Badge>
                         </div>
-                        
+
                         <div className="flex flex-wrap items-center gap-y-1 gap-x-4">
                           {patient && (
                             <div className="flex items-center gap-1.5 text-sm text-slate-600">
@@ -222,7 +220,7 @@ export default function TechnicianWorklistPage() {
                               <span className="text-slate-400">({patient.patientCode})</span>
                             </div>
                           )}
-                          
+
                           {doctor && (
                             <div className="flex items-center gap-1.5 text-sm text-slate-500">
                               <MicroscopeIcon size={16} className="text-slate-400" />

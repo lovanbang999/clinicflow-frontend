@@ -9,7 +9,7 @@ import { UpcomingAppointments } from '@/components/receptionist/dashboard/Upcomi
 export default function ReceptionistDashboardPage() {
   const t = useTranslations('receptionistOverview');
   const locale = useLocale();
-  
+
   // Format the current date. For production, consider using a date library
   // and ensuring it matches the locale.
   const today = new Date();
@@ -26,7 +26,7 @@ export default function ReceptionistDashboardPage() {
       </section>
 
       <OverviewCards />
-      
+
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <SearchCheckIn />
         <LiveQueue />

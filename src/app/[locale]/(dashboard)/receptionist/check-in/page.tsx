@@ -222,7 +222,7 @@ export default function ReceptionistCheckInPage() {
       loadBookings();
       loadStats();
     } catch (err) {
-      console.error('[Reschedule Error]', err);
+      void err;
       toast.error(t('rescheduleModal.error'));
     } finally {
       setIsRescheduling(false);

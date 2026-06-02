@@ -126,6 +126,7 @@
       "printAndContinue": "Print & Continue"
     },
     "fetchError": "Error loading patient information",
+    "redirecting": "Redirecting to examination room...",
     "patientBanner": {
       "examining": "Examining",
       "age": "Age",

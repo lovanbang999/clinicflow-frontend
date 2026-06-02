@@ -30,7 +30,7 @@ export function SpecialistExaminationView({ item, vso: initialVso, onExit, onSuc
           setOrders(res.visitServiceOrders);
         }
       })
-      .catch(console.error);
+      .catch(() => {});
     return () => { cancelled = true; };
   }, [item.bookingId, initialVso]);
 

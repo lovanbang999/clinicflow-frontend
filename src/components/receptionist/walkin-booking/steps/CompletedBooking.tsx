@@ -15,13 +15,11 @@ import {
 import { useWalkinBooking } from '../WalkinBookingContext';
 import { format } from 'date-fns';
 import { PrintableWalkinTicket } from '../PrintableWalkinTicket';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 
 export function CompletedBooking() {
   const t = useTranslations('receptionistWalkinBooking.success');
   const router = useRouter();
-  const params = useParams();
-  const locale = (params?.locale as string) ?? 'vi';
   const {
     selectedPatient, selectedDoctor, completedBooking, completedQueue,
     handleReset, bookingMode, selectedServices, dutyDoctor,
@@ -208,7 +206,7 @@ export function CompletedBooking() {
         {/* Mode B: Go to Billing */}
         {isModeB && completedBooking && (
           <button
-            onClick={() => router.push(`/${locale}/receptionist/billing?bookingId=${completedBooking.id}`)}
+            onClick={() => router.push(`/receptionist/billing?bookingId=${completedBooking.id}`)}
             className="flex-1 flex items-center justify-center gap-2 bg-[#1570EF] text-white py-3 rounded-xl font-bold hover:bg-[#1165D8] transition-all shadow-lg shadow-[#1570EF]/20 cursor-pointer"
           >
             <CreditCardIcon size={18} />

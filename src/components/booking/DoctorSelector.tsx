@@ -49,7 +49,7 @@ export function DoctorSelector({ onSelect }: DoctorSelectorProps) {
 
         setBookedDoctorIds(new Set(activeToday.map((b: Booking) => b.doctorId)));
       } catch (error) {
-        console.error('Failed to fetch doctors:', error);
+        void error;
       } finally {
         setLoading(false);
       }

@@ -29,7 +29,7 @@ export default function AdminInvoiceDetailPage() {
       const result = await billingApi.getInvoiceById(invoiceId);
       setInvoice(result);
     } catch (err) {
-      console.error('[AdminInvoiceDetail]', err);
+      void err;
       toast.error(t('fetchError'));
     } finally {
       setLoading(false);

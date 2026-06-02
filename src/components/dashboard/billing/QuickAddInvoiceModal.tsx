@@ -71,7 +71,7 @@ export function QuickAddInvoiceModal({
       setSelectedServiceId('');
 
       if (invoiceType !== InvoiceType.PHARMACY) {
-        servicesApi.getAll({ isActive: true }).then(setServices).catch(console.error);
+        servicesApi.getAll({ isActive: true }).then(setServices).catch(() => {});
       }
     }
   }, [isOpen, invoiceType, pendingLabOrders]);

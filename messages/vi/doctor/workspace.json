@@ -133,6 +133,7 @@
       "printAndContinue": "In & Tiếp tục"
     },
     "fetchError": "Lỗi khi tải thông tin bệnh nhân",
+    "redirecting": "Đang chuyển hướng đến phòng khám...",
     "patientBanner": {
       "examining": "Đang khám",
       "age": "Tuổi",

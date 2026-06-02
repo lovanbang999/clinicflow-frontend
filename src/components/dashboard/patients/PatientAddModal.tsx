@@ -128,7 +128,7 @@ export function PatientAddModal({ open, onClose, onSubmit }: PatientAddModalProp
       setCreateAppAccount(false);
       onClose();
     } catch (err) {
-      console.error(err);
+      void err;
     } finally {
       setIsSubmitting(false);
     }

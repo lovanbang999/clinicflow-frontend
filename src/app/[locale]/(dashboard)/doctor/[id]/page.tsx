@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { queueApi } from '@/lib/api/appointment/queue';
 import { SpinnerIcon } from '@phosphor-icons/react';
@@ -15,28 +16,24 @@ export default function DoctorRedirectPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const locale = params.locale as string;
   const t = useTranslations('doctorWorkspace.examView');
 
   const determineRoute = useCallback(async () => {
     if (!id) return;
     try {
       const res = await queueApi.getByBookingId(id);
-      
-      // If no service assigned, redirect to consultation
+
       if (!res.booking.serviceId) {
-        router.replace(`/${locale}/doctor/consultation/${id}`);
+        router.replace(`/doctor/consultation/${id}`);
       } else {
-        router.replace(`/${locale}/doctor/examination/${id}`);
+        router.replace(`/doctor/examination/${id}`);
       }
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('fetchError'));
-      router.push(`/${locale}/doctor`);
-    } finally {
-      // Done fetching
+      router.push('/doctor');
     }
-  }, [id, locale, router, t]);
+  }, [id, router, t]);
 
   useEffect(() => {
     void determineRoute();
@@ -46,7 +43,7 @@ export default function DoctorRedirectPage() {
     <div className="flex h-full items-center justify-center bg-[#f8f9ff]">
       <div className="flex flex-col items-center gap-4">
         <SpinnerIcon size={40} className="animate-spin text-[#1275e2]" />
-        <p className="text-sm text-slate-500 font-medium">Đang chuyển hướng đến phòng khám...</p>
+        <p className="text-sm text-slate-500 font-medium">{t('redirecting')}</p>
       </div>
     </div>
   );

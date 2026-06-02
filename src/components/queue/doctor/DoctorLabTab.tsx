@@ -46,7 +46,7 @@ export function DoctorLabTab({ bookingId, patientProfile, doctorName, bookingCod
         const data = await servicesApi.getAll({ isActive: true });
         setServices(data || []);
       } catch (error) {
-        console.error('Failed to fetch services', error);
+        void error;
       } finally {
         setLoadingServices(false);
       }

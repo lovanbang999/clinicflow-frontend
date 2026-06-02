@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Loader2 } from 'lucide-react';
 import type { UserRole } from '@/types/user';
@@ -17,54 +17,30 @@ export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
   const { user, isAuthenticated, _hasHydrated } = useAuthStore();
 
   useEffect(() => {
-    // Wait for hydration
-    if (!_hasHydrated) {
-      return;
-    }
+    if (!_hasHydrated) return;
 
-    // Check if user is authenticated
     if (!isAuthenticated || !user) {
-      // Redirect to login page
-      const locale = pathname.split('/')[1]; // Extract locale from path
-      router.push(`/${locale}/login`);
+      router.push('/login');
       return;
     }
 
-    // Force password change if using a temporary password
     if (user.isPasswordTemp) {
-      const locale = pathname.split('/')[1];
-      router.push(`/${locale}/change-password`);
+      router.push('/change-password');
       return;
     }
 
-    // Check if user has the required role
     if (allowedRoles && !allowedRoles.includes(user.role)) {
-      // Redirect to appropriate dashboard based on role
-      const locale = pathname.split('/')[1];
-      switch (user.role) {
-        case 'ADMIN':
-          router.push(`/${locale}/admin/users`);
-          break;
-        case 'DOCTOR':
-          router.push(`/${locale}/doctor/schedule`);
-          break;
-        case 'RECEPTIONIST':
-          router.push(`/${locale}/receptionist`);
-          break;
-        case 'TECHNICIAN':
-          router.push(`/${locale}/technician/lab-worklist`);
-          break;
-        case 'PATIENT':
-          router.push(`/${locale}/patient`);
-          break;
-        default:
-          router.push(`/${locale}/login`);
-      }
-      return;
+      const dashboardByRole: Record<UserRole, string> = {
+        ADMIN: '/admin/users',
+        DOCTOR: '/doctor/schedule',
+        RECEPTIONIST: '/receptionist',
+        TECHNICIAN: '/technician/lab-worklist',
+        PATIENT: '/patient',
+      };
+      router.push(dashboardByRole[user.role] ?? '/login');
     }
   }, [_hasHydrated, isAuthenticated, user, allowedRoles, router, pathname]);
 
-  // Show loading while hydrating or not authenticated
   if (!_hasHydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
@@ -76,7 +52,6 @@ export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
     );
   }
 
-  // Don't render children if not authenticated or wrong role
   if (!isAuthenticated || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
@@ -88,7 +63,6 @@ export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
     );
   }
 
-  // Check role authorization
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">

@@ -76,7 +76,7 @@ export default function BookingInvoicesPage() {
       setLoadingBooking(true);
       bookingsApi.getById(bookingId)
         .then(setBooking)
-        .catch(err => console.error("Failed to fetch booking", err))
+        .catch(() => {})
         .finally(() => setLoadingBooking(false));
     }
   }, [bookingId, fetchInvoicesByBooking, fetchPendingLabOrders]);
@@ -107,7 +107,7 @@ export default function BookingInvoicesPage() {
       try {
         await bookingsApi.checkIn(bookingId);
       } catch (e) {
-        console.error("Auto check-in failed", e);
+        void e;
       }
     }
 
@@ -116,7 +116,7 @@ export default function BookingInvoicesPage() {
       try {
         await medicalRecordsApi.fulfillPrescription(bookingId, selectedInvoice.id);
       } catch (e) {
-        console.error("Fulfill prescription failed", e);
+        void e;
       }
     }
 
@@ -145,7 +145,7 @@ export default function BookingInvoicesPage() {
       void fetchInvoicesByBooking(bookingId);
       void fetchPendingLabOrders(bookingId);
     } catch (e) {
-      console.error(e);
+      void e;
     } finally {
       setCreatingType(null);
     }
@@ -176,7 +176,7 @@ export default function BookingInvoicesPage() {
         // Refresh behind the scenes
         void fetchInvoicesByBooking(bookingId);
       } catch (e) {
-        console.error("Failed to check in or get queue", e);
+        void e;
       }
     }
 

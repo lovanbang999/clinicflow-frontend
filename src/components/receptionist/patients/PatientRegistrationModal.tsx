@@ -110,7 +110,7 @@ export function PatientRegistrationModal({
       }
       handleClose();
     } catch (error) {
-      console.error('Registration error:', error);
+      void error;
     } finally {
       setIsSubmitting(false);
     }

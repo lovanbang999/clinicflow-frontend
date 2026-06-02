@@ -54,7 +54,7 @@ export function DoctorQueueSelector({ onSelect, selectedDoctorId }: DoctorQueueS
 
       setQueueCounts(counts);
     } catch (err) {
-      console.error('Error fetching queue counts:', err);
+      void err;
     }
   }, [doctors]);
 

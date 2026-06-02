@@ -39,7 +39,7 @@ export function SmartSuggestions() {
 
         setSuggestions(data);
       } catch (error) {
-        console.error('Failed to fetch smart suggestions:', error);
+        void error;
         setSuggestions([]);
       } finally {
         setLoading(false);
