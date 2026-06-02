@@ -17,14 +17,14 @@ import { useDoctorSchedule } from '@/lib/hooks/appointment/useDoctorSchedule';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
-const DAYS_OF_WEEK: { key: DayOfWeek; label: string; short: string }[] = [
-  { key: DayOfWeek.MONDAY,    label: 'Thứ Hai',   short: 'T2' },
-  { key: DayOfWeek.TUESDAY,   label: 'Thứ Ba',    short: 'T3' },
-  { key: DayOfWeek.WEDNESDAY, label: 'Thứ Tư',    short: 'T4' },
-  { key: DayOfWeek.THURSDAY,  label: 'Thứ Năm',   short: 'T5' },
-  { key: DayOfWeek.FRIDAY,    label: 'Thứ Sáu',   short: 'T6' },
-  { key: DayOfWeek.SATURDAY,  label: 'Thứ Bảy',   short: 'T7' },
-  { key: DayOfWeek.SUNDAY,    label: 'Chủ Nhật',  short: 'CN' },
+const DAYS_OF_WEEK: { key: DayOfWeek }[] = [
+  { key: DayOfWeek.MONDAY },
+  { key: DayOfWeek.TUESDAY },
+  { key: DayOfWeek.WEDNESDAY },
+  { key: DayOfWeek.THURSDAY },
+  { key: DayOfWeek.FRIDAY },
+  { key: DayOfWeek.SATURDAY },
+  { key: DayOfWeek.SUNDAY },
 ];
 
 const DEFAULT_START = '08:00';
@@ -34,6 +34,9 @@ interface DayConfig {
   enabled: boolean;
   startTime: string;
   endTime: string;
+  breakStartTime: string | null;
+  breakEndTime: string | null;
+  breakType: 'none' | 'lunch_90' | 'lunch_30' | 'custom';
   dirty: boolean;
 }
 
@@ -41,14 +44,26 @@ interface Props {
   doctorId: string;
 }
 
+function getBreakType(start: string | null | undefined, end: string | null | undefined): 'none' | 'lunch_90' | 'lunch_30' | 'custom' {
+  if (!start || !end) return 'none';
+  if (start === '12:00' && end === '13:30') return 'lunch_90';
+  if (start === '12:00' && end === '12:30') return 'lunch_30';
+  return 'custom';
+}
+
 function buildInitialConfig(saved: WorkingHours[]): Record<DayOfWeek, DayConfig> {
   const base = {} as Record<DayOfWeek, DayConfig>;
   DAYS_OF_WEEK.forEach(({ key }) => {
     const found = saved.find((wh) => wh.dayOfWeek === key);
+    const breakStartTime = found?.breakStartTime ?? null;
+    const breakEndTime = found?.breakEndTime ?? null;
     base[key] = {
       enabled: !!found,
       startTime: found?.startTime ?? DEFAULT_START,
       endTime: found?.endTime   ?? DEFAULT_END,
+      breakStartTime,
+      breakEndTime,
+      breakType: getBreakType(breakStartTime, breakEndTime),
       dirty: false,
     };
   });
@@ -66,13 +81,6 @@ function strToMinutes(t: string) {
   return h * 60 + m;
 }
 
-function formatDuration(start: string, end: string) {
-  const diff = strToMinutes(end) - strToMinutes(start);
-  if (diff <= 0) return '—';
-  const h = Math.floor(diff / 60);
-  const m = diff % 60;
-  return h > 0 ? (m > 0 ? `${h}h ${m}ph` : `${h}h`) : `${m}ph`;
-}
 
 export function DoctorWorkingHoursGrid({ doctorId }: Props) {
   const t = useTranslations('doctorSettings.workingHours');
@@ -113,6 +121,40 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
     }));
   }, []);
 
+  const updateBreak = useCallback((day: DayOfWeek, field: 'breakStartTime' | 'breakEndTime', value: string | null) => {
+    setConfig((prev) => ({
+      ...prev,
+      [day]: { ...prev[day], [field]: value, dirty: true },
+    }));
+  }, []);
+
+  const changeBreakType = useCallback((day: DayOfWeek, type: 'none' | 'lunch_90' | 'lunch_30' | 'custom') => {
+    setConfig((prev) => {
+      let breakStartTime: string | null = null;
+      let breakEndTime: string | null = null;
+      if (type === 'lunch_90') {
+        breakStartTime = '12:00';
+        breakEndTime = '13:30';
+      } else if (type === 'lunch_30') {
+        breakStartTime = '12:00';
+        breakEndTime = '12:30';
+      } else if (type === 'custom') {
+        breakStartTime = prev[day].breakStartTime || '12:00';
+        breakEndTime = prev[day].breakEndTime || '13:00';
+      }
+      return {
+        ...prev,
+        [day]: {
+          ...prev[day],
+          breakType: type,
+          breakStartTime,
+          breakEndTime,
+          dirty: true,
+        },
+      };
+    });
+  }, []);
+
   const handleSave = useCallback(
     async (day: DayOfWeek) => {
       const c = config[day];
@@ -127,8 +169,18 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
         toast.error(t('invalidTimeError'));
         return;
       }
+      if (c.breakStartTime && c.breakEndTime) {
+        if (strToMinutes(c.breakStartTime) >= strToMinutes(c.breakEndTime)) {
+          toast.error(t('breakTimeOrderError'));
+          return;
+        }
+        if (strToMinutes(c.breakStartTime) < strToMinutes(c.startTime) || strToMinutes(c.breakEndTime) > strToMinutes(c.endTime)) {
+          toast.error(t('breakTimeRangeError'));
+          return;
+        }
+      }
       try {
-        await saveWorkingHours(doctorId, day, c.startTime, c.endTime);
+        await saveWorkingHours(doctorId, day, c.startTime, c.endTime, c.breakStartTime, c.breakEndTime);
         setConfig((prev) => ({ ...prev, [day]: { ...prev[day], dirty: false } }));
       } catch { /* toast inside hook */ }
     },
@@ -141,12 +193,37 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
       toast.info(t('noChangesError'));
       return;
     }
+
+    // Validate all dirty days
+    for (const { key } of dirtyDays) {
+      const c = config[key];
+      if (c.enabled) {
+        if (strToMinutes(c.startTime) >= strToMinutes(c.endTime)) {
+          toast.error(t('invalidWorkingHoursFor', { day: t(`days.${key}`) }));
+          return;
+        }
+        if (c.breakStartTime && c.breakEndTime) {
+          if (strToMinutes(c.breakStartTime) >= strToMinutes(c.breakEndTime)) {
+            toast.error(t('invalidBreakTimeFor', { day: t(`days.${key}`) }));
+            return;
+          }
+          if (strToMinutes(c.breakStartTime) < strToMinutes(c.startTime) || strToMinutes(c.breakEndTime) > strToMinutes(c.endTime)) {
+            toast.error(t('breakTimeRangeErrorFor', { day: t(`days.${key}`) }));
+            return;
+          }
+        }
+      }
+    }
+
     const items = dirtyDays.map(({ key }) => ({
       dayOfWeek: key,
       startTime: config[key].startTime,
       endTime: config[key].endTime,
       enabled: config[key].enabled,
+      breakStartTime: config[key].breakStartTime,
+      breakEndTime: config[key].breakEndTime,
     }));
+
     try {
       await bulkUpdateWorkingHours(doctorId, items);
       setConfig((prev) => {
@@ -162,7 +239,13 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
   const weeklyHours = DAYS_OF_WEEK.reduce((acc, { key }) => {
     const c = config[key];
     if (!c.enabled) return acc;
-    const diff = strToMinutes(c.endTime) - strToMinutes(c.startTime);
+    let diff = strToMinutes(c.endTime) - strToMinutes(c.startTime);
+    if (c.breakStartTime && c.breakEndTime) {
+      const bDiff = strToMinutes(c.breakEndTime) - strToMinutes(c.breakStartTime);
+      if (bDiff > 0 && strToMinutes(c.breakStartTime) >= strToMinutes(c.startTime) && strToMinutes(c.breakEndTime) <= strToMinutes(c.endTime)) {
+        diff -= bDiff;
+      }
+    }
     return acc + (diff > 0 ? diff : 0);
   }, 0);
 
@@ -209,19 +292,40 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300 w-36">Thứ</th>
-                <th className="px-4 py-3 text-center font-semibold text-slate-600 dark:text-slate-300 w-20">Bật/Tắt</th>
-                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300">Giờ bắt đầu</th>
-                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300">Giờ kết thúc</th>
-                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300 w-28">Thời lượng</th>
-                <th className="px-4 py-3 text-center font-semibold text-slate-600 dark:text-slate-300 w-24">Thao tác</th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300 w-32">{t('headers.day')}</th>
+                <th className="px-4 py-3 text-center font-semibold text-slate-600 dark:text-slate-300 w-20">{t('headers.status')}</th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300 w-72">{t('headers.workingHours')}</th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300 w-80">{t('headers.breakTime')}</th>
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 dark:text-slate-300 w-28">{t('headers.duration')}</th>
+                <th className="px-4 py-3 text-center font-semibold text-slate-600 dark:text-slate-300 w-24">{t('headers.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
-              {DAYS_OF_WEEK.map(({ key, label, short }) => {
+              {DAYS_OF_WEEK.map(({ key }) => {
                 const c = config[key];
                 const isValid = strToMinutes(c.startTime) < strToMinutes(c.endTime);
-                const duration = c.enabled ? formatDuration(c.startTime, c.endTime) : null;
+
+                const label = t(`days.${key}` as Parameters<typeof t>[0]);
+                const short = t(`days.${key.toLowerCase().substring(0, 3)}` as Parameters<typeof t>[0]);
+                
+                // Duration calculation subtracting breaks
+                let duration = null;
+                if (c.enabled) {
+                  let diff = strToMinutes(c.endTime) - strToMinutes(c.startTime);
+                  if (c.breakStartTime && c.breakEndTime) {
+                    const bDiff = strToMinutes(c.breakEndTime) - strToMinutes(c.breakStartTime);
+                    if (bDiff > 0 && strToMinutes(c.breakStartTime) >= strToMinutes(c.startTime) && strToMinutes(c.breakEndTime) <= strToMinutes(c.endTime)) {
+                      diff -= bDiff;
+                    }
+                  }
+                  if (diff > 0) {
+                    const h = Math.floor(diff / 60);
+                    const m = diff % 60;
+                    duration = h > 0 ? (m > 0 ? `${h}${t('hourShort')} ${m}${t('minuteShort')}` : `${h}${t('hourShort')}`) : `${m}${t('minuteShort')}`;
+                  } else {
+                    duration = '—';
+                  }
+                }
 
                 return (
                   <tr
@@ -261,7 +365,7 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
                           'relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none cursor-pointer',
                           c.enabled ? 'bg-[#1392ec]' : 'bg-slate-200 dark:bg-slate-700',
                         )}
-                        aria-label={c.enabled ? t('turnOffDay') : 'Bật ngày này'}
+                        aria-label={c.enabled ? t('turnOffDay') : t('turnOnDay')}
                       >
                         <span
                           className={cn(
@@ -272,34 +376,72 @@ export function DoctorWorkingHoursGrid({ doctorId }: Props) {
                       </button>
                     </td>
 
-                    {/* Start Time */}
+                    {/* Working Hours Input */}
                     <td className="px-4 py-3">
-                      <input
-                        type="time"
-                        value={c.startTime}
-                        disabled={!c.enabled}
-                        onChange={(e) => updateTime(key, 'startTime', e.target.value)}
-                        className={cn(
-                          'h-9 w-36 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30',
-                          !c.enabled && 'opacity-30 cursor-not-allowed',
-                          c.enabled && 'cursor-pointer',
-                        )}
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="time"
+                          value={c.startTime}
+                          disabled={!c.enabled}
+                          onChange={(e) => updateTime(key, 'startTime', e.target.value)}
+                          className={cn(
+                            'h-9 w-28 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30',
+                            !c.enabled && 'opacity-30 cursor-not-allowed',
+                            c.enabled && 'cursor-pointer',
+                          )}
+                        />
+                        <span className="text-slate-400 text-xs">{t('to')}</span>
+                        <input
+                          type="time"
+                          value={c.endTime}
+                          disabled={!c.enabled}
+                          onChange={(e) => updateTime(key, 'endTime', e.target.value)}
+                          className={cn(
+                            'h-9 w-28 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30',
+                            !c.enabled && 'opacity-30 cursor-not-allowed',
+                            c.enabled && 'cursor-pointer',
+                          )}
+                        />
+                      </div>
                     </td>
 
-                    {/* End Time */}
+                    {/* Break Time configuration */}
                     <td className="px-4 py-3">
-                      <input
-                        type="time"
-                        value={c.endTime}
-                        disabled={!c.enabled}
-                        onChange={(e) => updateTime(key, 'endTime', e.target.value)}
-                        className={cn(
-                          'h-9 w-36 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30',
-                          !c.enabled && 'opacity-30 cursor-not-allowed',
-                          c.enabled && 'cursor-pointer',
+                      <div className="flex flex-col gap-1">
+                        <select
+                          value={c.breakType}
+                          disabled={!c.enabled}
+                          onChange={(e) => changeBreakType(key, e.target.value as 'none' | 'lunch_90' | 'lunch_30' | 'custom')}
+                          className={cn(
+                            'h-9 w-60 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-sm px-2 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30',
+                            !c.enabled && 'opacity-30 cursor-not-allowed',
+                            c.enabled && 'cursor-pointer',
+                          )}
+                        >
+                          <option value="none">{t('breakTypes.none')}</option>
+                          <option value="lunch_90">{t('breakTypes.lunch_90')}</option>
+                          <option value="lunch_30">{t('breakTypes.lunch_30')}</option>
+                          <option value="custom">{t('breakTypes.custom')}</option>
+                        </select>
+
+                        {c.enabled && c.breakType === 'custom' && (
+                          <div className="flex items-center gap-1.5 mt-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                            <input
+                              type="time"
+                              value={c.breakStartTime || ''}
+                              onChange={(e) => updateBreak(key, 'breakStartTime', e.target.value)}
+                              className="h-8 w-24 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-xs px-2 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 text-slate-800 dark:text-slate-100"
+                            />
+                            <span className="text-xs text-slate-400">{t('to')}</span>
+                            <input
+                              type="time"
+                              value={c.breakEndTime || ''}
+                              onChange={(e) => updateBreak(key, 'breakEndTime', e.target.value)}
+                              className="h-8 w-24 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 text-xs px-2 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/30 text-slate-800 dark:text-slate-100"
+                            />
+                          </div>
                         )}
-                      />
+                      </div>
                     </td>
 
                     {/* Duration Badge */}
