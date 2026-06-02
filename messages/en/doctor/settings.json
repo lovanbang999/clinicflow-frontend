@@ -46,6 +46,11 @@
     "unsavedDays": "unsaved days",
     "saveAll": "Save All",
     "invalidTimeError": "Start time must be before end time",
+    "breakTimeOrderError": "Break start time must be before break end time",
+    "breakTimeRangeError": "Break time must be within working hours",
+    "invalidWorkingHoursFor": "Invalid working hours for {day}",
+    "invalidBreakTimeFor": "Invalid break time for {day}",
+    "breakTimeRangeErrorFor": "Break time must be within working hours of {day}",
     "noChangesError": "No changes to save",
     "from": "From",
     "to": "to",
@@ -57,6 +62,38 @@
     "daysPerWeek": "working days/week",
     "total": "Total",
     "perWeek": "/week",
-    "rememberToSave": "Remember to save before leaving!"
+    "rememberToSave": "Remember to save before leaving!",
+    "hourShort": "h",
+    "minuteShort": "m",
+    "headers": {
+      "day": "Day",
+      "status": "On/Off",
+      "workingHours": "Working Hours",
+      "breakTime": "Break Time",
+      "duration": "Duration",
+      "actions": "Actions"
+    },
+    "breakTypes": {
+      "none": "No Break",
+      "lunch_90": "Lunch Break 1.5h (12:00 - 13:30)",
+      "lunch_30": "Lunch Break 30m (12:00 - 12:30)",
+      "custom": "Custom..."
+    },
+    "days": {
+      "MONDAY": "Monday",
+      "TUESDAY": "Tuesday",
+      "WEDNESDAY": "Wednesday",
+      "THURSDAY": "Thursday",
+      "FRIDAY": "Friday",
+      "SATURDAY": "Saturday",
+      "SUNDAY": "Sunday",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
   }
 }

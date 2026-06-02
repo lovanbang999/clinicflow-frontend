@@ -1,20 +1,42 @@
 {
+  "title": "Quản lý lịch",
+  "description": "Thiết lập giờ làm việc và đăng ký ngày nghỉ của bạn.",
+  "loading": "Đang tải thông tin…",
+  "tabs": {
+    "workingHours": "Lịch làm việc",
+    "offDays": "Đăng ký nghỉ"
+  },
   "offDays": {
     "title": "Đăng ký nghỉ",
     "description": "Chọn ngày trên lịch để đăng ký nghỉ. Hệ thống sẽ cảnh báo nếu có lịch hẹn bị ảnh hưởng.",
     "legend": {
       "offDay": "Ngày nghỉ",
-      "selected": "Đang chọn"
+      "selected": "Đang chọn",
+      "pending": "Chờ duyệt (Pending)",
+      "approved": "Đã duyệt (Approved)",
+      "rejected": "Từ chối (Rejected)"
     },
     "form": {
       "title": "Đăng ký nghỉ ngày {date}",
       "reasonPlaceholder": "Lý do nghỉ (tùy chọn)…",
-      "confirmBtn": "Xác nhận nghỉ"
+      "confirmBtn": "Xác nhận nghỉ",
+      "submitBtn": "Đăng ký nghỉ"
     },
     "list": {
-      "title": "Ngày nghỉ đã đăng ký",
+      "title": "Danh sách nghỉ phép",
       "empty": "Chưa có ngày nghỉ nào",
       "cancelBtn": "Hủy đăng ký nghỉ"
+    },
+    "status": {
+      "pending": "Chờ duyệt",
+      "approved": "Đã duyệt",
+      "rejected": "Từ chối"
+    },
+    "cancelModal": {
+      "title": "Hủy đăng ký nghỉ",
+      "description": "Bạn có chắc chắn muốn hủy đăng ký nghỉ phép vào ngày này không? Mọi lịch khám của bạn vào ngày này sẽ hoạt động trở lại bình thường.",
+      "cancelBtn": "Hủy bỏ",
+      "confirmBtn": "Xác nhận"
     },
     "affectedModal": {
       "title": "Lịch hẹn bị ảnh hưởng",

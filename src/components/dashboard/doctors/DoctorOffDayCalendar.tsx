@@ -4,11 +4,8 @@ import { useEffect, useState, useCallback } from 'react';
 import {
   CalendarBlankIcon,
   TrashIcon,
-  WarningCircleIcon,
-  XCircleIcon,
   XIcon,
   SpinnerIcon,
-  CheckCircleIcon,
 } from '@phosphor-icons/react';
 import {
   format,
@@ -27,19 +24,13 @@ import { vi, enUS } from 'date-fns/locale';
 import { useTranslations, useLocale } from 'next-intl';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { useDoctorSchedule } from '@/lib/hooks/appointment/useDoctorSchedule';
 import { AffectedAppointment } from '@/lib/api/appointment/schedules';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import { ConfirmDeleteDialog } from './ConfirmDeleteDialog';
+import { ConflictAppointmentsDialog } from './ConflictAppointmentsDialog';
 
 interface Props {
   doctorId: string;
@@ -50,6 +41,30 @@ interface PendingCreation {
   reason: string;
   affectedAppointments: AffectedAppointment[];
 }
+
+// DRY & Clean Code Helpers
+const toDateStr = (date: Date) => format(date, 'yyyy-MM-dd');
+
+const STATUS_CLASSES = {
+  PENDING: {
+    calendar: 'bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 ring-1 ring-amber-300',
+    listContainer: 'bg-amber-50/50 dark:bg-amber-950/10 border-amber-100 dark:border-amber-800/30',
+    listText: 'text-amber-700 dark:text-amber-400',
+    badge: 'border-amber-200 text-amber-600 bg-amber-50/50 dark:bg-amber-950/30',
+  },
+  APPROVED: {
+    calendar: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 ring-1 ring-emerald-300 cursor-not-allowed',
+    listContainer: 'bg-emerald-50/50 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-800/30',
+    listText: 'text-emerald-700 dark:text-emerald-400',
+    badge: 'border-emerald-200 text-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/30',
+  },
+  REJECTED: {
+    calendar: 'bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 ring-1 ring-rose-300',
+    listContainer: 'bg-rose-50/50 dark:bg-rose-950/10 border-rose-100 dark:border-rose-800/30',
+    listText: 'text-rose-700 dark:text-rose-400',
+    badge: 'border-rose-200 text-rose-600 bg-rose-50/50 dark:bg-rose-950/30',
+  },
+} as const;
 
 export function DoctorOffDayCalendar({ doctorId }: Props) {
   const {
@@ -73,18 +88,32 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
   // 2-step flow state
   const [previewing, setPreviewing] = useState(false);
   const [pendingCreation, setPendingCreation] = useState<PendingCreation | null>(null);
+  const [deletingDate, setDeletingDate] = useState<string | null>(null);
 
   const today = startOfDay(new Date());
 
   useEffect(() => {
-    const start = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
-    const end = format(endOfMonth(currentMonth), 'yyyy-MM-dd');
+    const start = toDateStr(startOfMonth(currentMonth));
+    const end = toDateStr(endOfMonth(currentMonth));
     fetchOffDays(doctorId, start, end);
   }, [doctorId, currentMonth, fetchOffDays]);
 
-  const isOffDay = useCallback(
-    (date: Date) => offDays.some((od) => od.date === format(date, 'yyyy-MM-dd')),
+  const getOffDayForDate = useCallback(
+    (date: Date) => offDays.find((od) => od.date === toDateStr(date)),
     [offDays],
+  );
+
+  const isOffDay = useCallback(
+    (date: Date) => offDays.some((od) => od.date === toDateStr(date)),
+    [offDays],
+  );
+
+  const formatOffDayDate = useCallback(
+    (dateStr: string) => {
+      const d = new Date(dateStr);
+      return isValid(d) ? format(d, 'EEE, dd/MM/yyyy', { locale: dateLocale }) : dateStr;
+    },
+    [dateLocale],
   );
 
   const handleDayClick = useCallback(
@@ -101,7 +130,7 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
    */
   const handleRegisterOffDay = useCallback(async () => {
     if (!selectedDate) return;
-    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const dateStr = toDateStr(selectedDate);
     const reason = reasonInput.trim() || (locale === 'vi' ? 'Nghỉ phép' : 'Day off');
 
     setPreviewing(true);
@@ -212,7 +241,8 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
             ))}
             {days.map((date) => {
               const isPast = isBefore(date, today);
-              const isOff = isOffDay(date);
+              const od = getOffDayForDate(date);
+              const isOff = !!od;
               const isToday = isSameDay(date, today);
               const isSelected = selectedDate ? isSameDay(date, selectedDate) : false;
 
@@ -220,11 +250,11 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
                 <button
                   key={date.toISOString()}
                   onClick={() => handleDayClick(date)}
-                  disabled={isPast || isOff}
+                  disabled={isPast || (isOff && od.status === 'APPROVED')}
                   className={cn(
                     'relative mx-auto flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium transition-all cursor-pointer',
                     isPast && 'text-slate-300 cursor-not-allowed',
-                    isOff && 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 ring-1 ring-red-300 cursor-not-allowed',
+                    isOff && od.status && STATUS_CLASSES[od.status as keyof typeof STATUS_CLASSES].calendar,
                     !isPast && !isOff && !isSelected && 'hover:bg-slate-100 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800',
                     isToday && !isOff && !isSelected && 'ring-2 ring-[#1392ec] text-[#1392ec] font-bold',
                     isSelected && !isOff && 'bg-[#1392ec] text-white ring-2 ring-[#1392ec] ring-offset-1',
@@ -232,7 +262,12 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
                 >
                   {date.getDate()}
                   {isOff && (
-                    <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-red-500 border border-white" />
+                    <span className={cn(
+                      "absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full border border-white",
+                      od.status === "PENDING" && "bg-amber-500",
+                      od.status === "APPROVED" && "bg-emerald-500",
+                      od.status === "REJECTED" && "bg-rose-500",
+                    )} />
                   )}
                 </button>
               );
@@ -240,10 +275,18 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
           </div>
 
           {/* Legend */}
-          <div className="flex items-center gap-4 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-1.5 text-xs text-slate-500">
-              <span className="h-3 w-3 rounded-full bg-red-200 border border-red-400" />
-              {t('legend.offDay')}
+              <span className="h-3 w-3 rounded-full bg-amber-200 border border-amber-400" />
+              {t('legend.pending')}
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-slate-500">
+              <span className="h-3 w-3 rounded-full bg-emerald-200 border border-emerald-400" />
+              {t('legend.approved')}
+            </div>
+            <div className="flex items-center gap-1.5 text-xs text-slate-500">
+              <span className="h-3 w-3 rounded-full bg-rose-200 border border-rose-400" />
+              {t('legend.rejected')}
             </div>
             <div className="flex items-center gap-1.5 text-xs text-slate-500">
               <span className="h-3 w-3 rounded-full bg-[#1392ec]" />
@@ -275,14 +318,14 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
                   onClick={handleRegisterOffDay}
                   disabled={isBusy}
                   size="sm"
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-lg cursor-pointer"
+                  className="flex-1 bg-[#1392ec] hover:bg-[#1180d0] text-white text-xs font-bold rounded-lg cursor-pointer"
                 >
                   {isBusy ? (
                     <SpinnerIcon size={14} className="mr-1 animate-spin" />
                   ) : (
-                    <XCircleIcon size={14} className="mr-1" />
+                    <CalendarBlankIcon size={14} className="mr-1" />
                   )}
-                  {t('form.confirmBtn')}
+                  {t('form.submitBtn')}
                 </Button>
                 <Button
                   variant="outline"
@@ -312,29 +355,45 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
                 {offDays.map((od) => (
                   <div
                     key={od.id}
-                    className="flex items-center justify-between rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-800/30 px-3 py-2"
+                    className={cn(
+                      'flex items-center justify-between rounded-lg border px-3 py-2',
+                      od.status && STATUS_CLASSES[od.status as keyof typeof STATUS_CLASSES].listContainer,
+                    )}
                   >
-                    <div>
-                      <p className="text-sm font-semibold text-red-700 dark:text-red-400">
-                        {(() => {
-                          const d = new Date(od.date);
-                          return isValid(d) ? format(d, 'EEE, dd/MM/yyyy', { locale: dateLocale }) : od.date;
-                        })()}
-                      </p>
+                    <div className="flex-1 min-w-0 pr-2">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <p className={cn(
+                          'text-sm font-semibold',
+                          od.status && STATUS_CLASSES[od.status as keyof typeof STATUS_CLASSES].listText,
+                        )}>
+                          {formatOffDayDate(od.date)}
+                        </p>
+                        <Badge
+                          variant="outline"
+                          className={cn(
+                            'text-[9px] px-1 h-4 border font-bold capitalize rounded shrink-0',
+                            od.status && STATUS_CLASSES[od.status as keyof typeof STATUS_CLASSES].badge,
+                          )}
+                        >
+                          {od.status === 'PENDING' ? t('status.pending') : od.status === 'APPROVED' ? t('status.approved') : t('status.rejected')}
+                        </Badge>
+                      </div>
                       {od.reason && (
-                        <p className="text-xs text-red-500/80 truncate max-w-[160px]">{od.reason}</p>
+                        <p className="text-xs text-slate-500 mt-0.5 truncate max-w-[170px]">{od.reason}</p>
                       )}
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDeleteOffDay(od.date)}
-                      disabled={savingOffDay}
-                      className="h-7 w-7 p-0 text-red-400 hover:text-red-600 hover:bg-red-100 rounded-lg cursor-pointer"
-                      title={t('list.cancelBtn')}
-                    >
-                      <TrashIcon size={13} weight="bold" />
-                    </Button>
+                    {od.status !== 'REJECTED' && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setDeletingDate(od.date)}
+                        disabled={savingOffDay}
+                        className="h-7 w-7 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer shrink-0"
+                        title={t('list.cancelBtn')}
+                      >
+                        <TrashIcon size={13} weight="bold" />
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -344,75 +403,20 @@ export function DoctorOffDayCalendar({ doctorId }: Props) {
       </div>
 
       {/* ── Step 2 Confirmation Modal ── */}
-      <Dialog open={!!pendingCreation} onOpenChange={() => setPendingCreation(null)}>
-        <DialogContent className="max-w-lg rounded-2xl p-4 space-y-4">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-red-600">
-              <WarningCircleIcon size={22} weight="duotone" />
-              {t('affectedModal.title')}
-            </DialogTitle>
-            <DialogDescription className="text-sm text-slate-600 dark:text-slate-400 pt-1">
-              {t.rich('affectedModal.description', {
-                date: pendingCreation?.date || '',
-                count: pendingCreation?.affectedAppointments?.length || 0,
-                strong1: (chunks) => <strong>{chunks}</strong>,
-                strong2: (chunks) => <strong className="text-red-600">{chunks}</strong>,
-              })}
-            </DialogDescription>
-          </DialogHeader>
+      <ConflictAppointmentsDialog
+        pendingCreation={pendingCreation}
+        onClose={() => setPendingCreation(null)}
+        onConfirm={handleConfirmWithCancel}
+        isSaving={savingOffDay}
+      />
 
-          <div className="space-y-3">
-            {/* Appointment list */}
-            <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
-              {pendingCreation?.affectedAppointments?.map((appt) => (
-                <div
-                  key={appt.id}
-                  className="flex items-center gap-3 rounded-xl border border-red-100 bg-red-50 dark:bg-red-950/20 dark:border-red-800/30 px-3 py-2"
-                >
-                  <WarningCircleIcon size={16} weight="fill" className="text-red-400 shrink-0" />
-                  <div className="text-xs flex-1 min-w-0">
-                    <p className="font-semibold text-slate-800 dark:text-slate-200 truncate">{appt.patientName}</p>
-                    <p className="text-slate-500 truncate">{appt.serviceName} · {appt.startTime}</p>
-                  </div>
-                  <Badge variant="outline" className="text-[10px] border-red-200 text-red-500 shrink-0">
-                    {appt.status}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-
-            {/* Warning note */}
-            <div className="flex items-start gap-2 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/30 p-3">
-              <WarningCircleIcon size={16} weight="fill" className="text-amber-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-amber-800 dark:text-amber-200">
-                {t('affectedModal.footerNote')}
-              </p>
-            </div>
-          </div>
-
-          <DialogFooter className="gap-2 flex-col sm:flex-row">
-            <Button
-              variant="outline"
-              onClick={() => setPendingCreation(null)}
-              className="rounded-xl cursor-pointer border-slate-200 text-slate-600"
-            >
-              {locale === 'vi' ? 'Hủy bỏ' : 'Cancel'}
-            </Button>
-            <Button
-              onClick={handleConfirmWithCancel}
-              disabled={savingOffDay}
-              className="bg-red-600 hover:bg-red-700 text-white rounded-xl cursor-pointer font-semibold gap-2"
-            >
-              {savingOffDay ? (
-                <SpinnerIcon size={14} className="animate-spin" />
-              ) : (
-                <CheckCircleIcon size={16} weight="fill" />
-              )}
-              {t('affectedModal.understandBtn')}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* ── Confirm Delete Modal ── */}
+      <ConfirmDeleteDialog
+        deletingDate={deletingDate}
+        onClose={() => setDeletingDate(null)}
+        onConfirm={handleDeleteOffDay}
+        isSaving={savingOffDay}
+      />
     </div>
   );
 }

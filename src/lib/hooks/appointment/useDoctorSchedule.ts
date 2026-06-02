@@ -20,10 +20,24 @@ export const useDoctorSchedule = () => {
   }, [executeHours]);
 
   const saveWorkingHours = useCallback(
-    async (doctorId: string, dayOfWeek: DayOfWeek, startTime: string, endTime: string) => {
+    async (
+      doctorId: string,
+      dayOfWeek: DayOfWeek,
+      startTime: string,
+      endTime: string,
+      breakStartTime?: string | null,
+      breakEndTime?: string | null,
+    ) => {
       return executeSaveHours(
         async () => {
-          const saved = await schedulesApi.saveWorkingHours({ doctorId, dayOfWeek, startTime, endTime });
+          const saved = await schedulesApi.saveWorkingHours({
+            doctorId,
+            dayOfWeek,
+            startTime,
+            endTime,
+            breakStartTime,
+            breakEndTime,
+          });
           setWorkingHours((prev) => {
             const filtered = prev.filter((wh) => wh.dayOfWeek !== dayOfWeek);
             return [...filtered, saved];
@@ -55,7 +69,14 @@ export const useDoctorSchedule = () => {
   const bulkUpdateWorkingHours = useCallback(
     async (
       doctorId: string,
-      items: { dayOfWeek: DayOfWeek; startTime: string; endTime: string; enabled: boolean }[],
+      items: {
+        dayOfWeek: DayOfWeek;
+        startTime: string;
+        endTime: string;
+        enabled: boolean;
+        breakStartTime?: string | null;
+        breakEndTime?: string | null;
+      }[],
     ) => {
       return executeSaveHours(
         async () => {

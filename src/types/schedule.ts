@@ -15,6 +15,8 @@ export interface WorkingHours {
   dayOfWeek: DayOfWeek;
   startTime: string;
   endTime: string;
+  breakStartTime?: string | null;
+  breakEndTime?: string | null;
 }
 
 export interface BreakTime {
@@ -31,6 +33,7 @@ export interface OffDay {
   doctorId: string;
   date: string;
   reason?: string;
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED';
 }
 
 export interface TimeSlot {

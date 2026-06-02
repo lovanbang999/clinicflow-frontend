@@ -84,6 +84,8 @@ export const schedulesApi = {
       startTime: string;
       endTime: string;
       enabled: boolean;
+      breakStartTime?: string | null;
+      breakEndTime?: string | null;
     }[];
   }): Promise<WorkingHours[]> => {
     const response = await apiClient.post<{ data: WorkingHours[] }>(
@@ -160,5 +162,21 @@ export const schedulesApi = {
     patientProfileId: string;
   }): Promise<void> => {
     await apiClient.post('/schedules/release-slot', data);
+  },
+
+  // Leave Approvals [Admin]
+  getPendingOffDays: async (): Promise<Array<OffDay & { doctor: { id: string; fullName: string; email: string } }>> => {
+    const response = await apiClient.get<{ data: Array<OffDay & { doctor: { id: string; fullName: string; email: string } }> }>('/schedules/off-days/pending');
+    return response.data.data;
+  },
+
+  approveOffDay: async (id: string): Promise<OffDay> => {
+    const response = await apiClient.post<{ data: OffDay }>(`/schedules/off-days/${id}/approve`);
+    return response.data.data;
+  },
+
+  rejectOffDay: async (id: string): Promise<OffDay> => {
+    const response = await apiClient.post<{ data: OffDay }>(`/schedules/off-days/${id}/reject`);
+    return response.data.data;
   },
 };
