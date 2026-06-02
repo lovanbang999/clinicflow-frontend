@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
 import { InAppNotification, notificationsApi } from '@/lib/api/clinic/notifications';
 import { useAuthStore } from '@/lib/store/authStore';
+import { toast } from 'sonner';
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:8080';
 
@@ -41,6 +42,13 @@ export function useNotifications() {
     socket.on('newNotification', (newNotif: InAppNotification) => {
       setNotifications((prev) => [newNotif, ...prev]);
       setUnreadCount((prev) => prev + 1);
+
+      // Beautiful real-time pop-up notification
+      toast.info(newNotif.title, {
+        description: newNotif.content,
+        duration: 8000,
+        position: 'top-center',
+      });
     });
 
     socketRef.current = socket;
@@ -88,14 +96,14 @@ export function useNotifications() {
     loading,
     markAsRead,
     markAllAsRead,
-  refetch: fetchNotifications,
-  onNewNotification: (callback: (notif: InAppNotification) => void) => {
-    const socket = socketRef.current;
-    if (!socket) return;
-    socket.on('newNotification', callback);
-    return () => {
-      socket.off('newNotification', callback);
-    };
-  },
-};
+    refetch: fetchNotifications,
+    onNewNotification: (callback: (notif: InAppNotification) => void) => {
+      const socket = socketRef.current;
+      if (!socket) return;
+      socket.on('newNotification', callback);
+      return () => {
+        socket.off('newNotification', callback);
+      };
+    },
+  };
 }
