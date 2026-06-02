@@ -1,20 +1,42 @@
 {
+  "title": "Schedule Management",
+  "description": "Configure your working hours and register your leave days.",
+  "loading": "Loading information…",
+  "tabs": {
+    "workingHours": "Working Hours",
+    "offDays": "Leave Registration"
+  },
   "offDays": {
     "title": "Register Off Day",
     "description": "Select a date on the calendar to register an off day. The system will warn you if any appointments are affected.",
     "legend": {
       "offDay": "Off Day",
-      "selected": "Selected"
+      "selected": "Selected",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
     },
     "form": {
       "title": "Register off day on {date}",
       "reasonPlaceholder": "Reason for off day (optional)…",
-      "confirmBtn": "Confirm Off Day"
+      "confirmBtn": "Confirm Off Day",
+      "submitBtn": "Register Off Day"
     },
     "list": {
-      "title": "Registered Off Days",
+      "title": "Leave Requests",
       "empty": "No off days registered yet",
       "cancelBtn": "Cancel registration"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "cancelModal": {
+      "title": "Cancel Leave Request",
+      "description": "Are you sure you want to cancel this leave request? Your work schedule for this day will be restored to normal.",
+      "cancelBtn": "Cancel",
+      "confirmBtn": "Confirm"
     },
     "affectedModal": {
       "title": "Affected Appointments",

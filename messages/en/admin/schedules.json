@@ -77,5 +77,29 @@
     },
     "notes": "Additional Notes",
     "notesPlaceholder": "Any specific instructions for this slot..."
+  },
+  "leaveRequests": {
+    "title": "Pending Leave Requests",
+    "description": "Approve or reject doctor leave requests",
+    "pendingCount": "{count} Pending",
+    "loading": "Loading requests list...",
+    "empty": {
+      "title": "No pending leave requests",
+      "description": "All requests submitted by doctors have been processed"
+    },
+    "doctorLabel": "Doctor {name}",
+    "unknown": "Unknown",
+    "dateLabel": "Leave date",
+    "btn": {
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "toast": {
+      "fetchError": "Failed to load leave requests list",
+      "approveSuccess": "Leave request approved successfully",
+      "approveError": "Failed to approve leave request",
+      "rejectSuccess": "Leave request rejected successfully",
+      "rejectError": "Failed to reject leave request"
+    }
   }
 }

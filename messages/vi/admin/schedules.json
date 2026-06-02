@@ -77,5 +77,29 @@
     },
     "notes": "Ghi Chú Thêm",
     "notesPlaceholder": "Bất kỳ hướng dẫn cụ thể nào..."
+  },
+  "leaveRequests": {
+    "title": "Yêu cầu nghỉ phép chờ duyệt",
+    "description": "Phê duyệt hoặc từ chối các yêu cầu nghỉ phép đăng ký bởi bác sĩ",
+    "pendingCount": "{count} Chờ duyệt",
+    "loading": "Đang tải danh sách yêu cầu...",
+    "empty": {
+      "title": "Không có yêu cầu nghỉ phép nào chờ duyệt",
+      "description": "Mọi yêu cầu đăng ký bởi bác sĩ đã được xử lý xong"
+    },
+    "doctorLabel": "Bác sĩ {name}",
+    "unknown": "Không rõ",
+    "dateLabel": "Ngày nghỉ",
+    "btn": {
+      "approve": "Phê duyệt",
+      "reject": "Từ chối"
+    },
+    "toast": {
+      "fetchError": "Không thể tải danh sách yêu cầu nghỉ phép",
+      "approveSuccess": "Phê duyệt yêu cầu nghỉ phép thành công",
+      "approveError": "Không thể phê duyệt yêu cầu nghỉ phép",
+      "rejectSuccess": "Từ chối yêu cầu nghỉ phép thành công",
+      "rejectError": "Không thể từ chối yêu cầu nghỉ phép"
+    }
   }
 }
