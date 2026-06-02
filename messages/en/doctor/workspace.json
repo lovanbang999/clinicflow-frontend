@@ -33,6 +33,7 @@
     },
     "avgWaitTime": "Avg Wait Time:",
     "minutes": "min",
+    "reasonForVisit": "Reason for visit",
     "tags": {
       "urgent": "Urgent",
       "allergy": "Allergy",

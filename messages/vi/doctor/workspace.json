@@ -34,6 +34,7 @@
     },
     "avgWaitTime": "T.gian chờ TB:",
     "minutes": "phút",
+    "reasonForVisit": "Lý do khám",
     "tags": {
       "urgent": "Ưu tiên khẩn",
       "allergy": "Dị ứng",
