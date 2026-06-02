@@ -1,17 +1,17 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDoctorTopDiagnoses } from '@/lib/hooks/clinical/useDoctorAnalytics';
+import { useDoctorTopServices } from '@/lib/hooks/clinical/useDoctorAnalytics';
 import { DIAG_COLORS } from './constants';
 import { CardShell, CardTitle } from './SharedComponents';
 import { useTranslations } from 'next-intl';
 
-export function TopDiagnoses() {
-  const { data, isLoading } = useDoctorTopDiagnoses();
+export function TopServicesCard() {
+  const { data, isLoading } = useDoctorTopServices();
   const t = useTranslations('doctorWorkspace');
   const maxCount = Math.max(...data.map((d) => d.count), 1);
 
   return (
     <CardShell>
-      <CardTitle title={t('topDiagnoses') || 'Top chẩn đoán phổ biến'} sub={t('topDiagnosesDesc') || 'Theo mã ICD-10'} />
+      <CardTitle title={t('analytics.topServices.title') || 'Top dịch vụ thực hiện'} sub={t('analytics.topServices.sub') || 'Theo số ca đã hoàn thành'} />
       {isLoading ? (
         <Skeleton className="h-40 w-full rounded-xl" />
       ) : data.length === 0 ? (
@@ -25,7 +25,6 @@ export function TopDiagnoses() {
               <div className="text-[11px] font-bold text-[#64748b] w-5 shrink-0">#{i + 1}</div>
               <div className="flex-1 min-w-0">
                 <div className="text-[12px] font-medium text-[#111518] truncate">{d.name}</div>
-                {d.code && <div className="text-[10px] text-[#64748b]">{d.code}</div>}
                 <div className="mt-1 h-[5px] bg-[#f1f5f9] rounded-full">
                   <div className="h-full rounded-full" style={{ width: `${(d.count / maxCount) * 100}%`, background: DIAG_COLORS[i] }} />
                 </div>

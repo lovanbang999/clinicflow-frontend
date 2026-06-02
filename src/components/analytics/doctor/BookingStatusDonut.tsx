@@ -3,23 +3,39 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useDoctorBookingStatus } from '@/lib/hooks/clinical/useDoctorAnalytics';
 import { STATUS_META, COLORS } from './constants';
 import { CardShell, CardTitle } from './SharedComponents';
+import { useTranslations, useLocale } from 'next-intl';
 
 export function BookingStatusDonut() {
   const { data, isLoading } = useDoctorBookingStatus();
+  const t = useTranslations('doctorWorkspace');
+  const locale = useLocale();
+
   const total = data.reduce((s, d) => s + d.count, 0);
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'COMPLETED': return t('statusCompleted') || 'Hoàn thành';
+      case 'CANCELLED': return t('statusCancelled') || 'Đã huỷ';
+      case 'NO_SHOW': return t('statusNoShow') || 'Vắng mặt';
+      default: return STATUS_META[status]?.label ?? status;
+    }
+  };
+
   const pieData = data.map((d) => ({
-    name: STATUS_META[d.status]?.label ?? d.status,
+    name: getStatusLabel(d.status),
     value: d.count,
     color: STATUS_META[d.status]?.color ?? COLORS.GRAY,
   }));
 
   return (
     <CardShell>
-      <CardTitle title="Phân bổ lịch hẹn" sub="Tháng này" />
+      <CardTitle title={t('analytics.bookingStatus.title') || 'Phân bổ lịch hẹn'} sub={t('analytics.bookingStatus.sub') || 'Tháng này'} />
       {isLoading ? (
         <Skeleton className="h-32 w-full rounded-xl" />
       ) : total === 0 ? (
-        <div className="h-32 flex items-center justify-center text-sm text-[#64748b]">Chưa có dữ liệu</div>
+        <div className="h-32 flex items-center justify-center text-sm text-[#64748b]">
+          {t('noData') || 'Chưa có dữ liệu'}
+        </div>
       ) : (
         <div className="flex items-center gap-4">
           <div className="relative w-24 h-24 shrink-0">
@@ -33,7 +49,7 @@ export function BookingStatusDonut() {
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <div className="text-lg font-bold text-[#111518] leading-none">{total}</div>
-              <div className="text-[9px] text-[#64748b]">tổng</div>
+              <div className="text-[9px] text-[#64748b]">{locale === 'vi' ? 'tổng' : 'total'}</div>
             </div>
           </div>
           <div className="flex flex-col gap-1.5 flex-1">
