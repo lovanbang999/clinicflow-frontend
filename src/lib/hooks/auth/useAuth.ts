@@ -44,8 +44,8 @@ export const useAuth = () => {
         }
 
         switch (authedUser.role) {
-          case 'ADMIN': router.push(`/${locale}/admin/users`); break; // wait, let's keep the existing dashboard redirect or prefix with locale
-          case 'DOCTOR': router.push(`/${locale}/doctor/schedule`); break;
+          case 'ADMIN': router.push(`/${locale}/admin`); break; // wait, let's keep the existing dashboard redirect or prefix with locale
+          case 'DOCTOR': router.push(`/${locale}/doctor`); break;
           case 'RECEPTIONIST': router.push(`/${locale}/receptionist`); break;
           case 'PATIENT': router.push(`/${locale}/patient`); break;
           default: router.push(`/${locale}/`);
