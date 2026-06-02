@@ -50,7 +50,7 @@ export function BookingConfirmation() {
         });
         toast.info(t('slotReserved') || 'Chỗ đã được giữ trong 5 phút');
       } catch (error: unknown) {
-        console.error('Failed to reserve slot', error);
+        void error;
         const err = error as { response?: { status: number } };
         if (err.response?.status === 409) {
           toast.error(
@@ -118,7 +118,7 @@ export function BookingConfirmation() {
         useAuthStore.getState().setUser(freshProfile);
         profileId = freshProfile.patientProfile?.id;
       } catch (error) {
-        console.error('Failed to auto-fetch profile', error);
+        void error;
       }
     }
 

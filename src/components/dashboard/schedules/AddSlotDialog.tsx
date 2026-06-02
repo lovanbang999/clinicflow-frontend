@@ -112,7 +112,7 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
         setDoctors(doctorsRes.users);
         setRooms(roomsRes);
       }).catch(err => {
-        console.error('Failed to load doctors or rooms', err);
+        void err;
       });
     }
   }, [isOpen, doctors.length]);

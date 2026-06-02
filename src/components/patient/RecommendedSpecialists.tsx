@@ -26,7 +26,7 @@ export function RecommendedSpecialists() {
           setDoctors(data.slice(0, 3));
         }
       } catch (error) {
-        console.error('Failed to fetch recommended specialists', error);
+        void error;
       } finally {
         setLoading(false);
       }

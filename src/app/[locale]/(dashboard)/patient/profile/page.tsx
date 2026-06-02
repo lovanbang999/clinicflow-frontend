@@ -23,7 +23,7 @@ export default function PatientProfilePage() {
         const profile = await usersApi.getMyProfile();
         setUser(profile);
       } catch (error) {
-        console.error('Failed to fetch profile:', error);
+        void error;
         toast.error(t('cannotLoadProfile'));
       } finally {
         setIsFetching(false);

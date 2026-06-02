@@ -133,7 +133,7 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
       setAvatarFile(null);
       setAvatarPreview(null);
     } catch (err) {
-      console.error('Update profile error:', err);
+      void err;
     }
   };
 

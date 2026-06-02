@@ -167,7 +167,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
       setSearchResults(patientsRes.users);
       setPagination(patientsRes.pagination);
       setDoctors(doctorsRes);
-    }).catch(console.error).finally(() => setIsLoadingDoctors(false));
+    }).catch(() => {}).finally(() => setIsLoadingDoctors(false));
   }, []);
 
   // HIDDEN: Load all services for Mode B (Direct Service) — re-enable when flow is ready
@@ -176,7 +176,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
   //     setIsLoadingServices(true);
   //     servicesApi.getAll({ isActive: true })
   //       .then(setAllServices)
-  //       .catch(console.error)
+  //       .catch(() => {})
   //       .finally(() => setIsLoadingServices(false));
   //   }
   // }, [bookingMode, allServices.length]);
@@ -197,7 +197,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
       });
       setAvailableSlots(slots.map(s => s.time));
     } catch (err) {
-      console.error('[fetchSlots]', err);
+      void err;
       setAvailableSlots([]);
     } finally {
       setIsLoadingSlots(false);
@@ -230,7 +230,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
 
       setBookedDoctorIds(new Set(activeBookings.map(b => b.doctorId)));
     } catch (err) {
-      console.error('[fetchPatientBookings]', err);
+      void err;
       setBookedDoctorIds(new Set());
     } finally {
       setIsCheckingDuplicates(false);
@@ -251,7 +251,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
       setPagination(response.pagination);
       setShowCreateForm(false);
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('toasts.searchError'));
     } finally {
       setIsSearching(false);
@@ -283,7 +283,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
         toast.success(t('toasts.createSuccess'));
       }
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('toasts.createError'));
     } finally {
       setIsCreatingPatient(false);
@@ -337,7 +337,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
     //     setCompletedBooking(booking);
     //     toast.success(t('toasts.bookingSuccess'));
     //   } catch (err) {
-    //     console.error(err);
+    //     void err;
     //     toast.error(t('toasts.bookingError'));
     //   } finally {
     //     setIsSubmitting(false);
@@ -372,14 +372,14 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
           const checkInResult = await bookingsApi.checkIn(booking.id);
           setCompletedQueue(checkInResult.queue);
         } catch (checkInErr) {
-          console.error('[AutoCheckIn]', checkInErr);
+          void checkInErr;
         }
       }
 
       setCompletedBooking(booking);
       toast.success(t('toasts.bookingSuccess'));
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('toasts.bookingError'));
     } finally {
       setIsSubmitting(false);
@@ -412,7 +412,7 @@ export function WalkinBookingProvider({ children }: { children: ReactNode }) {
         setPagination(res.pagination);
       })
       .catch((err) => {
-        console.error(err);
+        void err;
         setSearchResults([]);
       })
       .finally(() => setIsSearching(false));

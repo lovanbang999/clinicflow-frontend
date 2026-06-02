@@ -45,7 +45,7 @@ export function PatientChangePasswordForm() {
       });
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
-      console.error('Change password error:', err);
+      void err;
     }
   };
 

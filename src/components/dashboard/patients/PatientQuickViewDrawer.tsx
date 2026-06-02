@@ -73,7 +73,7 @@ export function PatientQuickViewDrawer({
           setHistory(data);
         }
       } catch (error) {
-        console.error('Failed to fetch patient history:', error);
+        void error;
       } finally {
         if (!ignore) {
           setLoading(false);

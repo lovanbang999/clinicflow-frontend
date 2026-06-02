@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
-import { useParams } from 'next/navigation';
 import {
   Dialog,
   DialogContent,
@@ -28,8 +27,8 @@ interface DoctorPatientDrawerProps {
 export function DoctorPatientDrawer({ patient, open, onOpenChange }: DoctorPatientDrawerProps) {
   const t = useTranslations('doctorPatients');
   const tEmr = useTranslations('emr');
-  const params = useParams();
-  const locale = params.locale === 'vi' ? vi : enUS;
+  const currentLocale = useLocale();
+  const locale = currentLocale === 'vi' ? vi : enUS;
 
   const [loading, setLoading] = useState(false);
   const [historyData, setHistoryData] = useState<PatientHistoryResponse | null>(null);

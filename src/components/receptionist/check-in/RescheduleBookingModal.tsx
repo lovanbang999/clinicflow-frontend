@@ -88,7 +88,7 @@ export function RescheduleBookingModal({
         setSelectedSlot(null);
       }
     } catch (err) {
-      console.error('[fetchSlots]', err);
+      void err;
       setAvailableSlots([]);
     } finally {
       setIsLoadingSlots(false);

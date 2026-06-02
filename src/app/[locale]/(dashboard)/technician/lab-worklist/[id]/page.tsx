@@ -1,7 +1,8 @@
 'use client';
 
 import { use, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import { visitServiceOrdersApi } from '@/lib/api/clinical/visit-service-orders';
 import { labOrdersApi } from '@/lib/api/clinical/lab-orders';
 import { toast } from 'sonner';
@@ -11,7 +12,6 @@ import { WorkbenchHeader } from '@/components/technician/forms/layouts/Workbench
 import { WorkbenchSidebar } from '@/components/technician/forms/layouts/WorkbenchSidebar';
 import { SpecialistFindings } from '@/lib/types/specialist-findings.types';
 import { useLabWorkspaceOrder } from '@/components/technician/hooks/useLabWorkspaceOrder';
-
 import { BaseFormProps } from '@/components/technician/forms';
 import { useTranslations } from 'next-intl';
 
@@ -30,7 +30,7 @@ const FORM_COMPONENTS: Record<string, React.ComponentType<BaseFormProps>> = {
 };
 
 export default function LabResultWorkspacePage({ params }: PageProps) {
-  const { id, locale } = use(params);
+  const { id } = use(params);
   const router = useRouter();
   const searchParams = useSearchParams();
   const source = searchParams.get('source') || 'lab';
@@ -65,11 +65,11 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
         });
       }
 
-      toast.success('Kết quả đã được lưu và gửi cho bác sĩ');
-      router.push(`/${locale}/technician/lab-worklist`);
+      toast.success(t('messages.saveSuccess'));
+      router.push('/technician/lab-worklist');
     } catch (err) {
-      toast.error('Có lỗi xảy ra khi lưu kết quả');
-      console.error(err);
+      void err;
+      toast.error(t('messages.saveError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -94,7 +94,7 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
       <WorkbenchHeader
         order={order}
         isCompleted={isCompleted}
-        onBack={() => router.push(`/${locale}/technician/lab-worklist`)}
+        onBack={() => router.push('/technician/lab-worklist')}
       />
 
       <main className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 max-w-[1600px] mx-auto w-full">
@@ -106,9 +106,8 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
             activeId={id}
             onSelectOrder={(sid: string) => {
               const selectedSource = siblings.find(s => s.id === sid)?._source || source;
-              router.push(`/${locale}/technician/lab-worklist/${sid}?source=${selectedSource}`);
+              router.push(`/technician/lab-worklist/${sid}?source=${selectedSource}`);
             }}
-            locale={locale}
           />
         </aside>
 
@@ -149,12 +148,12 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
         <div className="max-w-[1600px] mx-auto w-full px-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="lg:col-start-3 lg:col-span-10 flex items-center justify-end gap-3">
             <button
-              onClick={() => router.push(`/${locale}/technician/lab-worklist`)}
+              onClick={() => router.push('/technician/lab-worklist')}
               className="px-8 h-12 rounded-[16px] text-[13px] font-bold text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all active:scale-95 cursor-pointer"
             >
               {t('workspace.cancel')}
             </button>
-            
+
             {!isCompleted && (
               <button
                 form="clinical-result-form"

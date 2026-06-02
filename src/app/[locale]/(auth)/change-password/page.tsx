@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { EyeIcon, EyeOffIcon, Lock, ShieldAlert, LogOut } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { toast } from 'sonner';
 
 import { useAuthStore } from '@/lib/store/authStore';
@@ -112,32 +112,17 @@ export default function ChangePasswordPage() {
       }
 
       // Redirect to their dashboard
-      const locale = window.location.pathname.split('/')[1] || 'vi';
-      
+      const ROLE_DASHBOARD: Record<string, string> = {
+        ADMIN: '/admin/users',
+        DOCTOR: '/doctor/schedule',
+        RECEPTIONIST: '/receptionist',
+        TECHNICIAN: '/technician/lab-worklist',
+        PATIENT: '/patient',
+      };
+
       setTimeout(() => {
-        if (user) {
-          switch (user.role) {
-            case 'ADMIN':
-              router.push(`/${locale}/admin/users`);
-              break;
-            case 'DOCTOR':
-              router.push(`/${locale}/doctor/schedule`);
-              break;
-            case 'RECEPTIONIST':
-              router.push(`/${locale}/receptionist`);
-              break;
-            case 'TECHNICIAN':
-              router.push(`/${locale}/technician/lab-worklist`);
-              break;
-            case 'PATIENT':
-              router.push(`/${locale}/patient`);
-              break;
-            default:
-              router.push(`/${locale}/`);
-          }
-        } else {
-          router.push(`/${locale}/login`);
-        }
+        const target = user ? (ROLE_DASHBOARD[user.role] ?? '/') : '/login';
+        router.push(target);
       }, 1500);
     } catch (err: unknown) {
       let errorMsg = t('failed');

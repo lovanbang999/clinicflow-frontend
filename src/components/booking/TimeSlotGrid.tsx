@@ -53,7 +53,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
             useAuthStore.getState().setUser(profile);
             profileId = profile.patientProfile?.id;
           } catch (err) {
-            console.error('Failed to fetch profile in TimeSlotGrid:', err);
+            void err;
           }
         }
 
@@ -84,7 +84,7 @@ export function TimeSlotGrid({ onSelect }: TimeSlotGridProps) {
 
         setTimeSlots(transformedSlots);
       } catch (error) {
-        console.error('Failed to fetch time slots:', error);
+        void error;
         // Generate default slots if API fails
         setTimeSlots(generateDefaultTimeSlots());
       } finally {

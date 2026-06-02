@@ -32,7 +32,7 @@ export function TempPasswordDisplayModal({
       toast.success('Đã sao chép mật khẩu tạm thời!');
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      void err;
       toast.error('Không thể sao chép tự động. Vui lòng chọn và sao chép thủ công.');
     }
   };
@@ -43,7 +43,7 @@ export function TempPasswordDisplayModal({
       await navigator.clipboard.writeText(textToCopy);
       toast.success('Đã sao chép toàn bộ thông tin tài khoản!');
     } catch (err) {
-      console.error(err);
+      void err;
     }
   };
 

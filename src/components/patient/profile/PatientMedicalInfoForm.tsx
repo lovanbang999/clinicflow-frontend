@@ -62,7 +62,7 @@ export function PatientMedicalInfoForm({ user }: PatientMedicalInfoFormProps) {
         chronicConditions: formData.chronicConditions || (null as unknown as string),
       });
     } catch (err) {
-      console.error('Update medical profile error:', err);
+      void err;
     }
   };
 
