@@ -31,6 +31,7 @@ export function PatientDetails({
   isPreBooked,
   scheduledTime,
   createdAt,
+  patientNotes,
 }: {
   serviceName?: string;
   dateOfBirth?: string;
@@ -38,6 +39,7 @@ export function PatientDetails({
   isPreBooked?: boolean;
   scheduledTime?: string | null;
   createdAt?: string | Date;
+  patientNotes?: string | null;
 }) {
   const t = useTranslations('doctorWorkspace.queueView');
   
@@ -49,35 +51,44 @@ export function PatientDetails({
   });
 
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[#44474e] text-sm">
-      <div className="flex items-center gap-1.5">
-        <ClipboardTextIcon size={16} className="text-[#1275e2]" weight="fill" />
-        <span className="font-semibold">{serviceName || t('generalExam')}</span>
-      </div>
-      <span className="text-[#c4c6cf]">•</span>
-      <p>
-        {age} {t('age')}
-      </p>
-      <span className="text-[#c4c6cf]">•</span>
-      <p>{genderStr}</p>
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[#44474e] text-sm">
+        <div className="flex items-center gap-1.5">
+          <ClipboardTextIcon size={16} className="text-[#1275e2]" weight="fill" />
+          <span className="font-semibold">{serviceName || t('generalExam')}</span>
+        </div>
+        <span className="text-[#c4c6cf]">•</span>
+        <p>
+          {age} {t('age')}
+        </p>
+        <span className="text-[#c4c6cf]">•</span>
+        <p>{genderStr}</p>
 
-      {isPreBooked && scheduledTime && (
-        <>
-          <span className="text-[#c4c6cf]">•</span>
-          <div className="flex items-center gap-1 text-[#1275e2] font-medium">
-            <ClockIcon size={14} weight="fill" />
-            {scheduledTime}
-          </div>
-        </>
-      )}
-      {!isPreBooked && createdAt && (
-        <>
-          <span className="text-[#c4c6cf]">•</span>
-          <div className="flex items-center gap-1 text-[#44474e]/60">
-            <ClockIcon size={14} />
-            {new Date(createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
-          </div>
-        </>
+        {isPreBooked && scheduledTime && (
+          <>
+            <span className="text-[#c4c6cf]">•</span>
+            <div className="flex items-center gap-1 text-[#1275e2] font-medium">
+              <ClockIcon size={14} weight="fill" />
+              {scheduledTime}
+            </div>
+          </>
+        )}
+        {!isPreBooked && createdAt && (
+          <>
+            <span className="text-[#c4c6cf]">•</span>
+            <div className="flex items-center gap-1 text-[#44474e]/60">
+              <ClockIcon size={14} />
+              {new Date(createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+            </div>
+          </>
+        )}
+      </div>
+
+      {patientNotes && (
+        <div className="flex items-start gap-1.5 text-xs text-[#5c5f66] bg-slate-50 border border-slate-100 rounded-lg px-2.5 py-1.5 max-w-xl transition-all duration-200 hover:border-slate-200">
+          <span className="font-bold text-[#2e3033] shrink-0">{t('reasonForVisit') || 'Lý do khám'}:</span>
+          <span className="italic truncate select-all">{"\""}{patientNotes}{"\""}</span>
+        </div>
       )}
     </div>
   );

@@ -66,6 +66,7 @@ export interface Booking {
     chronicConditions?: string;
     weightKg?: number;
     heightCm?: number;
+    bloodType?: string | null;
   };
   doctor?: {
     id: string;

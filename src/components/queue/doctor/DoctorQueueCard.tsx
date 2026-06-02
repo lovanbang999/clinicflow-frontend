@@ -82,6 +82,7 @@ export function DoctorQueueCard({
               isPreBooked={item.isPreBooked}
               scheduledTime={item.scheduledTime}
               createdAt={item.booking.createdAt}
+              patientNotes={item.booking.patientNotes}
             />
 
             <ClinicalTags allergies={patient?.allergies} chronicConditions={patient?.chronicConditions} />
