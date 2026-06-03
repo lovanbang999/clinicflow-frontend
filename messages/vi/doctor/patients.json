@@ -29,7 +29,7 @@
     "allergies": "Dị ứng",
     "chronic": "Bệnh mãn tính",
     "historyTitle": "Lịch sử khám ({count})",
-    "noHistory": "Chưa có lịch sử khám trước đó (tại tab này).",
+    "noHistory": "Chưa có lịch sử khám trước đó.",
     "diagnosis": "Chẩn đoán",
     "prescription": "Đơn thuốc ({count})",
     "dr": "Bs."

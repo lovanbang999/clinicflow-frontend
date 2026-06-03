@@ -29,7 +29,7 @@
     "allergies": "Allergies",
     "chronic": "Chronic Conditions",
     "historyTitle": "Visit History ({count})",
-    "noHistory": "No previous visit history available (in this tab).",
+    "noHistory": "No previous visit history available.",
     "diagnosis": "Diagnosis",
     "prescription": "Prescription ({count})",
     "dr": "Dr."
