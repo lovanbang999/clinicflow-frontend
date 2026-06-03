@@ -263,7 +263,7 @@ function PastVisitsTimeline({
             year: 'numeric',
           });
           const doctorName = record.booking?.doctor?.fullName || 'Bác sĩ';
-          const diagnosis = record.diagnosisName || record.icd10Code || t('timeline.noDiagnosis') || 'Chưa có chẩn đoán';
+          const diagnosis = record.diagnosisName || record.diagnosisCode || t('timeline.noDiagnosis') || 'Chưa có chẩn đoán';
           const serviceName = record.booking?.service?.name || t('generalExam') || 'Khám tổng quát';
 
           return (
