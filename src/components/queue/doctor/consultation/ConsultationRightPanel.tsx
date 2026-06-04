@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useTranslations } from 'next-intl';
-import type { Service } from '@/types/service';
 import {
   CheckIcon,
   CheckCircleIcon,
@@ -13,10 +12,7 @@ import {
   FlaskIcon,
   StethoscopeIcon,
 } from '@phosphor-icons/react';
-import type { DraftServiceOrder } from '../DoctorConsultationView';
-
-
-import { useConsultation } from './ConsultationContext';
+import { useConsultation, type DraftServiceOrder, type DraftLabOrder } from './ConsultationContext';
 
 export function ConsultationRightPanel({ 
   isSaving, 
@@ -50,7 +46,7 @@ export function ConsultationRightPanel({
   const ordTotal = dbOrdTotal + draftOrdTotal;
 
   const dbLabTotal = labs.reduce((s, l) => s + Number(l.service?.price ?? 0), 0);
-  const draftLabTotal = draftLabs.reduce((s, l) => s + Number(l.price ?? 0), 0);
+  const draftLabTotal = draftLabs.reduce((s, l) => s + Number(l.service.price ?? 0), 0);
   const labTotal = dbLabTotal + draftLabTotal;
   const expectedTotal = draftOrdTotal + draftLabTotal;
 
@@ -371,7 +367,7 @@ interface DraftConfirmationDialogProps {
   onClose: () => void;
   onConfirm: () => void;
   draftServices: DraftServiceOrder[];
-  draftLabs: Service[];
+  draftLabs: DraftLabOrder[];
   expectedTotal: number;
   isSaving: boolean;
 }
@@ -412,9 +408,9 @@ function DraftConfirmationDialog({ isOpen, onClose, onConfirm, draftServices, dr
               </h4>
               <ul className="text-[12px] space-y-1.5 text-slate-600 bg-slate-50 p-2.5 rounded border border-slate-100">
                 {draftLabs.map((s, i) => (
-                  <li key={`${s.id}-${i}`} className="flex justify-between gap-4">
-                    <span className="truncate flex-1 text-slate-700">· {s.name}</span>
-                    <span className="font-medium">{(s.price ?? 0).toLocaleString('vi-VN')} đ</span>
+                  <li key={`${s.service.id}-${i}`} className="flex justify-between gap-4">
+                    <span className="truncate flex-1 text-slate-700">· {s.service.name}</span>
+                    <span className="font-medium">{(s.service.price ?? 0).toLocaleString('vi-VN')} đ</span>
                   </li>
                 ))}
               </ul>

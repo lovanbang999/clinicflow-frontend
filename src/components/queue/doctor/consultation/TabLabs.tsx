@@ -5,6 +5,7 @@ import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { labOrdersApi } from '@/lib/api/clinical/lab-orders';
 import { useServices } from '@/lib/hooks/clinic/useServices';
+import { useTechnicians } from '@/lib/hooks/clinical/useTechnicians';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { TrashIcon, PlusIcon, FlaskIcon } from '@phosphor-icons/react';
@@ -21,14 +22,90 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import type { DraftLabOrder } from './ConsultationContext';
 
 interface TabLabsProps {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
-  draftLabs: Service[];
-  setDraftLabs: (val: Service[]) => void;
+  draftLabs: DraftLabOrder[];
+  setDraftLabs: (val: DraftLabOrder[]) => void;
   onChange: () => void;
   isReadOnly?: boolean;
+}
+
+/** Component for rendering individual draft lab items with technician selector */
+function DraftLabItem({
+  draft,
+  onTechnicianChange,
+  onRemove,
+  isReadOnly,
+  t,
+}: {
+  draft: DraftLabOrder;
+  onTechnicianChange: (serviceId: string, technicianId: string, technicianName: string) => void;
+  onRemove: () => void;
+  isReadOnly?: boolean;
+  t: (key: string) => string;
+}) {
+  const { technicians, isLoading } = useTechnicians(draft.service.categoryId ?? undefined);
+
+  return (
+    <div className="flex justify-between items-start p-2.5 rounded-lg border border-dashed border-amber-300 bg-amber-50/50 animate-in fade-in duration-200">
+      <div className="flex-1 min-w-0">
+        <div className="text-[12px] font-medium text-amber-800 truncate">{draft.service.name}</div>
+        
+        {/* Dropdown to select technician */}
+        <div className="mt-1.5">
+          <Select
+            value={draft.assignedTechnicianId || 'unassigned'}
+            onValueChange={(val) => {
+              const tech = technicians.find((t) => t.id === val);
+              onTechnicianChange(draft.service.id, val === 'unassigned' ? '' : val, tech?.fullName || '');
+            }}
+            disabled={isReadOnly}
+          >
+            <SelectTrigger className="h-[28px] w-auto min-w-[130px] max-w-[220px] text-[11px] bg-white border-amber-200 text-amber-800 focus:ring-amber-400 py-1 px-2.5 rounded-lg">
+              <SelectValue placeholder="Tự động phân công" />
+            </SelectTrigger>
+            <SelectContent position="popper" side="bottom" className="max-h-[300px]">
+              <SelectItem value="unassigned" className="text-[11px]">
+                Tự động phân công
+              </SelectItem>
+              {isLoading ? (
+                <div className="p-2 text-center text-[11px] text-gray-400">Đang tải...</div>
+              ) : technicians.length === 0 ? (
+                <div className="p-2 text-center text-[11px] text-gray-400 italic">Không có KTV chuyên môn</div>
+              ) : (
+                technicians.map((tech) => (
+                  <SelectItem key={tech.id} value={tech.id} className="text-[11px]">
+                    {tech.fullName}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-2 shrink-0 ml-2">
+        <Badge variant="outline" className="text-[11px] font-medium px-2 py-0.5 rounded border bg-white text-amber-600 border-amber-200 italic">
+          {t('draft')}
+        </Badge>
+        <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
+          {draft.service.price !== null ? `${Number(draft.service.price).toLocaleString('vi-VN')} đ` : '—'}
+        </span>
+        {!isReadOnly && (
+          <button
+            onClick={onRemove}
+            className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
+            title={t('discard')}
+          >
+            <TrashIcon size={15} />
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange, isReadOnly }: TabLabsProps) {
@@ -65,13 +142,13 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange, isRe
     return sum + Number(price ?? 0);
   }, 0);
 
-  const draftTotalPrice = draftLabs.reduce((sum, lab) => sum + Number(lab.price ?? 0), 0);
+  const draftTotalPrice = draftLabs.reduce((sum, lab) => sum + Number(lab.service.price ?? 0), 0);
   const totalPrice = dbTotalPrice + draftTotalPrice;
 
   // Avoid duplicate services (already ordered in database or currently drafted)
   const existingServiceIds = new Set([
     ...labs.map((l) => l.serviceId).filter(Boolean),
-    ...draftLabs.map((l) => l.id)
+    ...draftLabs.map((l) => l.service.id)
   ]);
   const availableServices = labServices.filter((s) => !existingServiceIds.has(s.id));
 
@@ -88,8 +165,30 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange, isRe
     const selectedSrv = labServices.find((s) => s.id === selectedServiceId);
     if (!selectedSrv) return;
 
-    setDraftLabs([...draftLabs, selectedSrv]);
+    setDraftLabs([
+      ...draftLabs,
+      {
+        service: selectedSrv,
+        assignedTechnicianId: undefined,
+        assignedTechnicianName: undefined,
+      },
+    ]);
     setSelectedServiceId('');
+  };
+
+  const handleTechnicianChange = (serviceId: string, technicianId: string, technicianName: string) => {
+    if (isReadOnly) return;
+    setDraftLabs(
+      draftLabs.map((d) =>
+        d.service.id === serviceId
+          ? {
+              ...d,
+              assignedTechnicianId: technicianId || undefined,
+              assignedTechnicianName: technicianName || undefined,
+            }
+          : d
+      )
+    );
   };
 
   const handleRemove = async (orderId: string) => {
@@ -159,6 +258,19 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange, isRe
                           />
                         </div>
                       )}
+                      
+                      {/* Show performing technician if assigned */}
+                      <div className="mt-1 flex items-center gap-1.5 text-[11px]">
+                        {lab.assignedTechnician ? (
+                          <span className="text-blue-700 font-medium bg-blue-50/60 border border-blue-100 px-1.5 py-0.5 rounded">
+                            KTV: {lab.assignedTechnician.fullName}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 italic bg-gray-50 border border-gray-200 px-1.5 py-0.5 rounded">
+                            Tự động phân công
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0 ml-2">
                       <Badge variant="outline" className={`text-[11px] font-medium px-2 py-0.5 rounded border ${statusCfg.className}`}>
@@ -183,31 +295,14 @@ export function TabLabs({ medicalRecord, draftLabs, setDraftLabs, onChange, isRe
               })}
 
               {draftLabs.map((draft) => (
-                <div
-                  key={draft.id}
-                  className="flex justify-between items-start p-2.5 rounded-lg border border-dashed border-amber-300 bg-amber-50/50"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[12px] font-medium text-amber-800 truncate">{draft.name}</div>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0 ml-2">
-                    <Badge variant="outline" className="text-[11px] font-medium px-2 py-0.5 rounded border bg-white text-amber-600 border-amber-200 italic">
-                      {tl('draft')}
-                    </Badge>
-                    <span className="text-[12px] font-semibold text-slate-700 min-w-[60px] text-right">
-                      {draft.price !== null ? `${draft.price.toLocaleString('vi-VN')} đ` : '—'}
-                    </span>
-                    {!isReadOnly && (
-                      <button
-                        onClick={() => setDraftLabs(draftLabs.filter(l => l.id !== draft.id))}
-                        className="p-1 rounded text-slate-400 hover:text-red-600 hover:bg-red-50"
-                        title={tl('discard')}
-                      >
-                        <TrashIcon size={15} />
-                      </button>
-                    )}
-                  </div>
-                </div>
+                <DraftLabItem
+                  key={draft.service.id}
+                  draft={draft}
+                  onTechnicianChange={handleTechnicianChange}
+                  onRemove={() => setDraftLabs(draftLabs.filter(l => l.service.id !== draft.service.id))}
+                  isReadOnly={isReadOnly}
+                  t={tl}
+                />
               ))}
             </>
           )}
