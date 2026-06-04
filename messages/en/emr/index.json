@@ -177,7 +177,17 @@
       "stickyTitle": "Step 2/4 - Service Orders (optional)",
       "back": "Back",
       "skip": "Skip",
-      "saveAndNext": "Save & Next"
+      "saveAndNext": "Save & Next",
+      "technician": "Technician",
+      "technicianInstruction": "You can select a specific technician or let the system auto-assign.",
+      "selectTechnicianTitle": "Select performing technician (optional — leave blank to assign automatically):",
+      "autoAssign": "Auto-assign",
+      "autoAssignDesc": "System assigns based on specialization",
+      "noTechnicians": "No technicians available",
+      "loading": "Loading...",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "auto": "Auto"
     },
     "diagnosis": {
       "headerKtv": "Results from Technicians",
