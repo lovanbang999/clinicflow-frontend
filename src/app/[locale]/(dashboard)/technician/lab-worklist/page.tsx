@@ -227,6 +227,17 @@ export default function TechnicianWorklistPage() {
                               <span>{t('worklist.doctorPrefix')} {doctor.fullName}</span>
                             </div>
                           )}
+
+                          {/* Assignment badge */}
+                          {order.assignedTechnicianId ? (
+                            <Badge className="text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 px-2">
+                              👤 Được chỉ định
+                            </Badge>
+                          ) : (
+                            <Badge className="text-[10px] font-bold bg-slate-50 text-slate-500 border border-slate-200 px-2">
+                              🔄 Tự động
+                            </Badge>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-4 mt-3 pt-3 border-t border-slate-50">

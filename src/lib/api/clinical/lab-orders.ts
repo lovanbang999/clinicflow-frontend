@@ -18,13 +18,20 @@ export interface LabOrder {
   serviceId?: string;
   status: 'PENDING' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   orderedAt: string;
+  assignedTechnicianId?: string | null;
   result?: LabResult;
   service?: {
     id: string;
     name: string;
     price?: number;
     labFormType?: string;
+    categoryId?: string;
   };
+  assignedTechnician?: {
+    id: string;
+    fullName: string;
+    avatar?: string | null;
+  } | null;
   // Included in pending lists
   patientProfile?: {
     fullName: string;
@@ -43,6 +50,7 @@ export interface CreateLabOrderDto {
   testName: string;
   testDescription?: string;
   serviceId?: string;
+  assignedTechnicianId?: string;
 }
 
 export interface UploadLabResultDto {

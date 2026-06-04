@@ -177,7 +177,17 @@
       "stickyTitle": "Bước 2/4 - Chỉ định dịch vụ (tùy chọn)",
       "back": "Quay lại",
       "skip": "Bỏ qua",
-      "saveAndNext": "Lưu & Tiếp theo"
+      "saveAndNext": "Lưu & Tiếp theo",
+      "technician": "KTV thực hiện",
+      "technicianInstruction": "Bạn có thể chọn kĩ thuật viên cụ thể hoặc để hệ thống tự phân công.",
+      "selectTechnicianTitle": "Chọn kĩ thuật viên thực hiện (tùy chọn — bỏ trống để tự động phân công):",
+      "autoAssign": "Tự động phân công",
+      "autoAssignDesc": "Hệ thống phân công theo chuyên môn",
+      "noTechnicians": "Chưa có kĩ thuật viên",
+      "loading": "Đang tải...",
+      "cancel": "Huỷ",
+      "confirm": "Xác nhận",
+      "auto": "Tự động"
     },
     "diagnosis": {
       "headerKtv": "Kết quả từ Kỹ thuật viên",
