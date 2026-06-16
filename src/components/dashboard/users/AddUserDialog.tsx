@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PlusIcon, UserIcon } from '@phosphor-icons/react';
+import { PlusIcon, UserIcon, EyeIcon, EyeSlashIcon } from '@phosphor-icons/react';
 import {
   Dialog,
   DialogContent,
@@ -122,6 +122,7 @@ export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
   const [form, setForm] = useState<AddUserForm>(DEFAULT_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof AddUserForm, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const set = <K extends keyof AddUserForm>(key: K, value: AddUserForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -287,17 +288,27 @@ export function AddUserDialog({ onUserAdded }: AddUserDialogProps) {
 
           {/* Password */}
           <Field label={t('password')} htmlFor="add-user-password">
-            <Input
-              id="add-user-password"
-              type="password"
-              placeholder={t('passwordPlaceholder')}
-              value={form.password}
-              onChange={(e) => set('password', e.target.value)}
-              className={cn(
-                'h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20',
-                errors.password && 'border-red-400 focus-visible:border-red-400',
-              )}
-            />
+            <div className="relative">
+              <Input
+                id="add-user-password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder={t('passwordPlaceholder')}
+                value={form.password}
+                onChange={(e) => set('password', e.target.value)}
+                className={cn(
+                  'h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20 pr-10',
+                  errors.password && 'border-red-400 focus-visible:border-red-400',
+                )}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#64748b] transition-colors cursor-pointer z-10"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeSlashIcon size={18} /> : <EyeIcon size={18} />}
+              </button>
+            </div>
             {errors.password && (
               <p className="text-xs text-red-500 mt-0.5">{errors.password}</p>
             )}

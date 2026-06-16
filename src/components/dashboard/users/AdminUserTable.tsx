@@ -52,7 +52,7 @@ interface AdminUserTableProps {
   users: User[];
   loadingList: boolean;
   onEdit: (user: User) => void;
-  onToggleStatus: (user: User) => void;
+  onToggleStatus: (user: User, reason: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -245,8 +245,8 @@ export function AdminUserTable({
         user={suspendConfirmUser}
         open={!!suspendConfirmUser}
         onOpenChange={(open) => !open && setSuspendConfirmUser(null)}
-        onConfirm={(u) => {
-          onToggleStatus(u);
+        onConfirm={(u, reason) => {
+          onToggleStatus(u, reason);
           setSuspendConfirmUser(null);
         }}
         loading={loadingList}
