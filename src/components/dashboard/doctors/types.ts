@@ -20,6 +20,7 @@ export type Doctor = {
   experience: number; // years
   status: DoctorStatus;
   consultationFee?: number;
+  roomName?: string | null;
 };
 
 // Style maps

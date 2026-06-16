@@ -11,7 +11,7 @@ export interface AdminRoom {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
-  _count?: { scheduleSlots: number };
+  _count?: { scheduleSlots: number; doctorProfiles: number };
 }
 
 export interface AdminRoomPagination {

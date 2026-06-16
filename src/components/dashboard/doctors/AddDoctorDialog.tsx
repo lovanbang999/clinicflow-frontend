@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UserPlusIcon, UserIcon, EyeIcon, EyeSlashIcon } from '@phosphor-icons/react';
 import {
   Dialog,
@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { ALL_SPECIALTIES } from './types';
+import { adminServicesApi, type AdminService } from '@/lib/api/admin/admin-services';
+import { adminRoomsApi, type AdminRoom } from '@/lib/api/admin/admin-rooms';
 
 // Sub-components
 function Field({
@@ -91,6 +93,8 @@ interface AddDoctorForm {
   bio: string;
   isActive: boolean;
   consultationFee: string;
+  serviceIds: string[];
+  roomId: string;
 }
 
 const DEFAULT_FORM: AddDoctorForm = {
@@ -104,6 +108,8 @@ const DEFAULT_FORM: AddDoctorForm = {
   bio: '',
   isActive: true,
   consultationFee: '0',
+  serviceIds: [],
+  roomId: '',
 };
 
 // Props
@@ -119,10 +125,24 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
   const tSpec = useTranslations('adminDoctors.specialties');
   const { createDoctor, updateDoctorProfile } = useAdminDoctors();
 
+  const [allServices, setAllServices] = useState<AdminService[]>([]);
+  const [allRooms, setAllRooms] = useState<AdminRoom[]>([]);
   const [form, setForm] = useState<AddDoctorForm>(DEFAULT_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof AddDoctorForm, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Fetch services and rooms when open
+  useEffect(() => {
+    if (open) {
+      adminServicesApi.getServices({ limit: 200, isActive: true }).then((res) => {
+        setAllServices(res.services || []);
+      });
+      adminRoomsApi.getActiveRooms().then((rooms) => {
+        setAllRooms(rooms || []);
+      });
+    }
+  }, [open]);
 
   const set = <K extends keyof AddDoctorForm>(key: K, value: AddDoctorForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -180,6 +200,8 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
         yearsOfExperience: form.yearsOfExperience ? parseInt(form.yearsOfExperience, 10) : undefined,
         bio: form.bio || undefined,
         consultationFee: form.consultationFee ? parseFloat(form.consultationFee) : 0,
+        serviceIds: form.serviceIds,
+        roomId: form.roomId || null,
       });
 
       onDoctorAdded?.();
@@ -282,7 +304,7 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#64748b] transition-colors cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#64748b] transition-colors cursor-pointer z-10"
                 >
                   {showPassword ? <EyeSlashIcon size={16} /> : <EyeIcon size={16} />}
                 </button>
@@ -356,12 +378,31 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                     )}
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
-                    VNĐ
+                    {t('currency')}
                   </div>
                 </div>
                 {errors.consultationFee && (
                   <p className="text-xs text-red-500 mt-0.5">{errors.consultationFee}</p>
                 )}
+              </Field>
+
+              <Field label={t('clinicRoom')} htmlFor="add-doctor-room">
+                <Select value={form.roomId || 'none'} onValueChange={(v) => set('roomId', v)}>
+                  <SelectTrigger
+                    id="add-doctor-room"
+                    className="w-full h-10 rounded-xl border-[#e2e8f0]"
+                  >
+                    <SelectValue placeholder={t('roomPlaceholder')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">{t('noRoom')}</SelectItem>
+                    {allRooms.map((room) => (
+                      <SelectItem key={room.id} value={room.id}>
+                        {room.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </Field>
             </div>
 
@@ -375,6 +416,33 @@ export function AddDoctorDialog({ open, onOpenChange, onDoctorAdded }: AddDoctor
                 className="h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20"
               />
               <p className="text-xs text-[#94a3b8]">{t('qualificationsHint')}</p>
+            </Field>
+
+            {/* Assigned Services */}
+            <Field label={t('services')} htmlFor="add-doctor-services">
+              <div className="grid grid-cols-2 gap-3 border border-[#e2e8f0] rounded-xl p-4 max-h-40 overflow-y-auto bg-slate-50">
+                {allServices.length === 0 ? (
+                  <p className="text-xs text-slate-400 col-span-2">{t('servicesPlaceholder')}</p>
+                ) : (
+                  allServices.map((svc) => (
+                    <label key={svc.id} className="flex items-center gap-2 text-xs text-slate-700 font-semibold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={form.serviceIds.includes(svc.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            set('serviceIds', [...form.serviceIds, svc.id]);
+                          } else {
+                            set('serviceIds', form.serviceIds.filter((id) => id !== svc.id));
+                          }
+                        }}
+                        className="rounded border-[#e2e8f0] text-[#1392ec] focus:ring-[#1392ec]/20"
+                      />
+                      {svc.name}
+                    </label>
+                  ))
+                )}
+              </div>
             </Field>
 
             {/* Bio */}

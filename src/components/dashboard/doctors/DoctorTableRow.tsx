@@ -50,21 +50,28 @@ export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
 
       {/* Specialty */}
       <td className="px-6 py-4 whitespace-nowrap">
-        <span
-          className={cn(
-            'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border',
-            specialtyStyle,
+        <div className="flex flex-col gap-1">
+          <span
+            className={cn(
+              'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border w-max',
+              specialtyStyle,
+            )}
+          >
+            {(() => {
+              try {
+                const specialties = t.raw('specialties');
+                return specialties[doctor.specialty] || doctor.specialty;
+              } catch {
+                return doctor.specialty;
+              }
+            })()}
+          </span>
+          {doctor.roomName && (
+            <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+              🏢 {doctor.roomName}
+            </span>
           )}
-        >
-          {(() => {
-            try {
-              const specialties = t.raw('specialties');
-              return specialties[doctor.specialty] || doctor.specialty;
-            } catch {
-              return doctor.specialty;
-            }
-          })()}
-        </span>
+        </div>
       </td>
 
       {/* Experience */}
@@ -78,7 +85,7 @@ export function DoctorTableRow({ doctor, onEdit, onMore }: Props) {
       <td className="px-6 py-4 whitespace-nowrap">
         {doctor.consultationFee && doctor.consultationFee > 0 ? (
           <p className="text-sm font-bold text-blue-600">
-            {new Intl.NumberFormat('vi-VN').format(doctor.consultationFee)} <span className="text-[10px] text-slate-400">VNĐ</span>
+            {new Intl.NumberFormat('vi-VN').format(doctor.consultationFee)} <span className="text-[10px] text-slate-400">{t('currency')}</span>
           </p>
         ) : (
           <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700">
