@@ -3,7 +3,14 @@
   "subtitle": "Xem và quản lý tất cả hóa đơn từ các dịch vụ của phòng khám",
   "filter": {
     "typePlaceholder": "Loại Hóa Đơn",
+    "dateFrom": "Từ ngày",
+    "dateTo": "Đến ngày",
     "clear": "Xóa lọc"
+  },
+  "export": {
+    "button": "Xuất CSV",
+    "success": "Xuất dữ liệu thành công",
+    "error": "Không thể xuất dữ liệu"
   },
   "detail": {
     "notFound": "Không tìm thấy hóa đơn",

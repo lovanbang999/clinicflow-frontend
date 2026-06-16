@@ -95,28 +95,28 @@ export default function ReceptionistReportsPage() {
     if (!overview) return;
 
     const rows = [
-      ['BÁO CÁO DOANH THU PHÒNG KHÁM (SMART CLINIC)', ''],
-      ['Kỳ báo cáo:', `${dateRange?.from ? new Date(dateRange.from).toLocaleDateString('vi-VN') : ''} - ${dateRange?.to ? new Date(dateRange.to).toLocaleDateString('vi-VN') : ''}`],
-      ['Tổng doanh thu:', `${overview.totalRevenue || 0} VND`],
-      ['Lượt tiếp nhận:', overview.checkIns || 0],
-      ['Bệnh nhân mới:', overview.newPatients || 0],
-      ['Hóa đơn chờ xử lý:', overview.pendingInvoices || 0],
+      [t('csvReport.header'), ''],
+      [t('csvReport.period'), `${dateRange?.from ? new Date(dateRange.from).toLocaleDateString('vi-VN') : ''} - ${dateRange?.to ? new Date(dateRange.to).toLocaleDateString('vi-VN') : ''}`],
+      [t('csvReport.totalRevenue'), `${overview.totalRevenue || 0} VND`],
+      [t('csvReport.checkIns'), overview.checkIns || 0],
+      [t('csvReport.newPatients'), overview.newPatients || 0],
+      [t('csvReport.pendingInvoices'), overview.pendingInvoices || 0],
       ['', ''],
-      ['DOANH THU THEO PHÂN LOẠI', ''],
-      ['Khám tư vấn:', `${overview.revenueByCategory?.CONSULTATION || 0} VND`],
-      ['Xét nghiệm & Dịch vụ:', `${overview.revenueByCategory?.SERVICE || 0} VND`],
-      ['Dược phẩm & Đơn thuốc:', `${overview.revenueByCategory?.PHARMACY || 0} VND`],
+      [t('csvReport.revenueByCategory'), ''],
+      [t('csvReport.consultation'), `${overview.revenueByCategory?.CONSULTATION || 0} VND`],
+      [t('csvReport.service'), `${overview.revenueByCategory?.SERVICE || 0} VND`],
+      [t('csvReport.pharmacy'), `${overview.revenueByCategory?.PHARMACY || 0} VND`],
       ['', ''],
-      ['DOANH THU THEO PHƯƠNG THỨC THANH TOÁN', ''],
+      [t('csvReport.revenueByPaymentMethod'), ''],
     ];
 
     operational?.paymentMethods?.forEach((pm) => {
-      rows.push([pm.label, `${pm.value || 0} VND (${pm.count || 0} giao dịch)`]);
+      rows.push([pm.label, `${pm.value || 0} ${t('csvReport.transactionSuffix', { count: pm.count || 0 })}`]);
     });
 
     rows.push(['', '']);
-    rows.push(['DỊCH VỤ HÀNG ĐẦU (THEO DOANH THU)', '']);
-    rows.push(['Tên dịch vụ', 'Lượt đặt', 'Doanh thu ước tính']);
+    rows.push([t('csvReport.topServices'), '']);
+    rows.push([t('csvReport.serviceName'), t('csvReport.bookings'), t('csvReport.estRevenue')]);
     
     operational?.topServices?.forEach((s) => {
       rows.push([s.name, s.count, `${s.revenue || 0} VND`]);
@@ -127,7 +127,7 @@ export default function ReceptionistReportsPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `bao_cao_doanh_thu_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `${t('csvReport.filename')}_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -186,11 +186,11 @@ export default function ReceptionistReportsPage() {
 
       {/* Hidden print header */}
       <div className="hidden print-header text-center">
-        <h1 className="text-2xl font-bold text-slate-900">SMART CLINIC - PHÒNG KHÁM ĐA KHOA THÔNG MINH</h1>
-        <p className="text-xs text-slate-500 mt-1">Hệ Thống Quản Lý Khám Bệnh Toàn Diện</p>
-        <p className="text-sm font-semibold text-slate-800 mt-4 uppercase">Báo cáo doanh thu & hoạt động phòng khám</p>
+        <h2 className="text-2xl font-bold text-slate-900">{t('print.clinicName')}</h2>
+        <p className="text-xs text-slate-500 mt-1">{t('print.systemName')}</p>
+        <p className="text-sm font-semibold text-slate-800 mt-4 uppercase">{t('print.reportTitle')}</p>
         <p className="text-xs text-slate-500 mt-1">
-          Kỳ báo cáo: {dateRange?.from ? new Date(dateRange.from).toLocaleDateString('vi-VN') : ''} - {dateRange?.to ? new Date(dateRange.to).toLocaleDateString('vi-VN') : ''}
+          {t('print.period')} {dateRange?.from ? new Date(dateRange.from).toLocaleDateString('vi-VN') : ''} - {dateRange?.to ? new Date(dateRange.to).toLocaleDateString('vi-VN') : ''}
         </p>
       </div>
 
