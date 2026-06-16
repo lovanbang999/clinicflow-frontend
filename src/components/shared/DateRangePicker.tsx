@@ -19,12 +19,14 @@ interface DateRangePickerProps {
   className?: string;
   date: DateRange | undefined;
   setDate: (date: DateRange | undefined) => void;
+  align?: 'start' | 'center' | 'end';
 }
 
 export function DateRangePicker({
   className,
   date,
   setDate,
+  align = 'start',
 }: DateRangePickerProps) {
   const t = useTranslations('adminAnalytics');
 
@@ -55,7 +57,7 @@ export function DateRangePicker({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0 rounded-2xl shadow-xl border-slate-200" align="start">
+        <PopoverContent className="w-auto p-0 rounded-2xl shadow-xl border-slate-200" align={align}>
           <Calendar
             initialFocus
             mode="range"

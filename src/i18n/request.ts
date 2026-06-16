@@ -13,7 +13,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     // Admin
     adminLayout, adminOverview, adminUsers, adminDoctors, adminPatients,
     adminCategories, adminServices, adminSchedules, adminInvoices,
-    adminAnalytics, adminSettings, adminRooms,
+    adminAnalytics, adminSettings, adminRooms, adminRevenueReport,
     // Doctor
     doctorLayout, doctorWorkspace, doctorPatients, doctorSchedule, doctorSettings,
     // Receptionist
@@ -46,6 +46,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     import(`../../messages/${locale}/admin/analytics.json`),
     import(`../../messages/${locale}/admin/settings.json`),
     import(`../../messages/${locale}/admin/rooms.json`),
+    import(`../../messages/${locale}/admin/revenue-report.json`),
     // Doctor
     import(`../../messages/${locale}/doctor/layout.json`),
     import(`../../messages/${locale}/doctor/workspace.json`),
@@ -96,6 +97,7 @@ export default getRequestConfig(async ({requestLocale}) => {
       adminAnalytics: adminAnalytics.default,
       adminSettings: adminSettings.default,
       adminRooms: adminRooms.default,
+      adminRevenueReport: adminRevenueReport.default,
       // Doctor
       doctorLayout: doctorLayout.default,
       doctorWorkspace: doctorWorkspace.default,
