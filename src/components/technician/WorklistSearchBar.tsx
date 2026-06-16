@@ -5,6 +5,8 @@ import {
   MagnifyingGlassIcon, 
   ArrowsClockwiseIcon 
 } from '@phosphor-icons/react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface WorklistSearchBarProps {
   searchQuery: string;
@@ -22,29 +24,31 @@ export function WorklistSearchBar({
   const t = useTranslations('technicianWorklist.worklist');
 
   return (
-    <div className="pb-4 shrink-0 flex items-center justify-between gap-4">
-      <div className="flex items-center bg-white border border-[#e5e7eb] rounded-xl px-3 py-2 w-full max-w-sm focus-within:ring-2 ring-[#1392ec]/20 transition-all">
-        <MagnifyingGlassIcon size={20} weight="bold" className="text-[#64748b]" />
-        <input
+    <div className="shrink-0 flex items-center gap-2">
+      <div className="relative w-72">
+        <MagnifyingGlassIcon size={18} weight="bold" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        <Input
           type="text"
           placeholder={t('searchPlaceholder')}
-          className="flex-1 ml-2 bg-transparent outline-none text-sm text-[#111518]"
+          className="pl-9 h-10 rounded-xl border-slate-200 bg-white text-xs focus-visible:ring-[#1392ec]/20"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>
 
-      <button 
+      <Button
         onClick={onRefresh}
         disabled={isLoading}
-        className="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-xl text-[#64748b] hover:text-[#1392ec] hover:border-[#1392ec]/30 transition-all font-medium text-sm disabled:opacity-50 cursor-pointer"
+        variant="outline"
+        size="icon"
+        className="h-10 w-10 rounded-xl border-slate-200 bg-white text-slate-500 hover:text-[#1392ec] hover:border-[#1392ec]/30 cursor-pointer"
       >
         <ArrowsClockwiseIcon 
           size={18} 
           weight="bold" 
           className={isLoading ? "animate-spin" : ""} 
         />
-      </button>
+      </Button>
     </div>
   );
 }

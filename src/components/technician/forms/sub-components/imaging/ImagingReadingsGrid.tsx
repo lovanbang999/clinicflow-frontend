@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { ImagingFinding } from '../../types';
 import { FormSection } from '../../shared/FormSection';
@@ -11,6 +12,7 @@ interface ImagingReadingsGridProps {
 }
 
 export function ImagingReadingsGrid({ form, disabled }: ImagingReadingsGridProps) {
+  const t = useTranslations('technicianWorklist');
   const { control } = form;
   const { fields } = useFieldArray({
     control,
@@ -20,39 +22,40 @@ export function ImagingReadingsGrid({ form, disabled }: ImagingReadingsGridProps
   const getOptionsByLabel = (label: string) => {
     const options = [];
     
-    if (label === 'Nhu mô phổi') {
+    if (label === 'Nhu mô phổi' || label === 'Lung Parenchyma') {
       options.push(
-        { label: 'Trong sáng đều, bình thường', value: 'Trong sáng đều, bình thường' },
-        { label: 'Đám mờ phổi phải', value: 'Đám mờ phổi phải' },
-        { label: 'Đám mờ phổi trái', value: 'Đám mờ phổi trái' },
-        { label: 'Khí phế thũng', value: 'Khí phế thũng' }
+        { label: t('forms.imaging.options.lungNormal'), value: 'Trong sáng đều, bình thường' },
+        { label: t('forms.imaging.options.lungRight'), value: 'Đám mờ phổi phải' },
+        { label: t('forms.imaging.options.lungLeft'), value: 'Đám mờ phổi trái' },
+        { label: t('forms.imaging.options.lungEmphysema'), value: 'Khí phế thũng' }
       );
-    } else if (label === 'Màng phổi') {
+    } else if (label === 'Màng phổi' || label === 'Pleura') {
       options.push(
-        { label: 'Bình thường', value: 'Bình thường' },
-        { label: 'Tràn dịch phải', value: 'Tràn dịch phải' },
-        { label: 'Tràn dịch trái', value: 'Tràn dịch trái' },
-        { label: 'Dày dính', value: 'Dày dính' }
+        { label: t('forms.imaging.options.pleuraNormal'), value: 'Bình thường' },
+        { label: t('forms.imaging.options.pleuraEffusionRight'), value: 'Tràn dịch phải' },
+        { label: t('forms.imaging.options.pleuraEffusionLeft'), value: 'Tràn dịch trái' },
+        { label: t('forms.imaging.options.pleuraThickening'), value: 'Dày dính' }
       );
-    } else if (label === 'Bóng tim (CTR)') {
+    } else if (label === 'Bóng tim (CTR)' || label === 'Cardiothoracic Ratio (CTR)') {
       options.push(
-        { label: 'Bình thường < 0.5', value: 'Bình thường < 0.5' },
-        { label: 'Hơi to 0.5–0.6', value: 'Hơi to 0.5–0.6' },
-        { label: 'To > 0.6', value: 'To > 0.6' }
+        { label: t('forms.imaging.options.ctrNormal'), value: 'Bình thường < 0.5' },
+        { label: t('forms.imaging.options.ctrBorderline'), value: 'Hơi to 0.5–0.6' },
+        { label: t('forms.imaging.options.ctrEnlarged'), value: 'To > 0.6' }
       );
-    } else if (['Trung thất', 'Cơ hoành', 'Xương / Cột sống'].includes(label)) {
-      options.push({ label: 'Bình thường', value: 'Bình thường' });
+    } else if (['Trung thất', 'Cơ hoành', 'Xương / Cột sống', 'Mediastinum', 'Diaphragm', 'Bones / Spine'].includes(label)) {
+      options.push({ label: t('forms.imaging.options.normal'), value: 'Bình thường' });
     }
     
-    options.push({ label: 'Bất thường khác...', value: 'Bất thường khác' });
+    options.push({ label: t('forms.imaging.options.abnormalOther'), value: 'Bất thường khác' });
     return options;
   };
 
   return (
-    <FormSection title="Đọc phim — theo từng vùng giải phẫu" accentColor="bg-blue-500">
+    <FormSection title={t('forms.imaging.readingsSectionTitle')} accentColor="bg-blue-500">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         {fields.map((field, idx) => {
-          const label = form.getValues(`readings.${idx}.label`);
+          const orgLabel = form.getValues(`readings.${idx}.label`);
+          const label = t(`forms.general.imagingDEFAULT_organs_${idx}` as Parameters<typeof t>[0]);
           return (
             <FormField 
               key={field.id}
@@ -64,9 +67,9 @@ export function ImagingReadingsGrid({ form, disabled }: ImagingReadingsGridProps
                 control={form.control}
                 name={`readings.${idx}.finding`}
                 disabled={disabled}
-                rules={{ required: 'Bắt buộc chọn kết quả' }}
-                placeholder="Chọn..."
-                options={getOptionsByLabel(label)}
+                rules={{ required: t('forms.imaging.requiredFinding') }}
+                placeholder={t('forms.imaging.placeholderFinding')}
+                options={getOptionsByLabel(orgLabel)}
               />
             </FormField>
           );
@@ -74,7 +77,7 @@ export function ImagingReadingsGrid({ form, disabled }: ImagingReadingsGridProps
       </div>
 
       <FormField 
-        label="Mô tả & Kết luận chuyên môn" 
+        label={t('forms.imaging.notesLabel')} 
         required 
         error={form.formState.errors.conclusion?.message}
         className="pt-4"
@@ -84,8 +87,8 @@ export function ImagingReadingsGrid({ form, disabled }: ImagingReadingsGridProps
             "w-full min-h-[120px] bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:bg-white focus:border-blue-400 outline-none transition-all placeholder:text-slate-400",
             form.formState.errors.conclusion && "border-rose-300 bg-rose-50/10"
           )}
-          placeholder="VD: Hai phổi trong sáng đều, không thấy đám mờ bất thường..."
-          {...form.register('conclusion', { required: 'Vui lòng nhập kết luận chuyên môn' })}
+          placeholder={t('forms.imaging.placeholderDesc')}
+          {...form.register('conclusion', { required: t('forms.imaging.requiredConclusion') })}
           disabled={disabled}
         />
       </FormField>
