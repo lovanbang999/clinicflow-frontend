@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { dashboardApi, AdminDashboardOverview, RevenueChartItem, TopDoctorItem, TopServiceItem, DateRange, BookingOverview } from '@/lib/api/clinic/dashboard';
+import { dashboardApi, AdminDashboardOverview, RevenueChartItem, TopDoctorItem, TopServiceItem, DateRange, BookingOverview, RevenueReportData } from '@/lib/api/clinic/dashboard';
 import { useApiHandler } from '@/lib/hooks/core/useApiHandler';
 
 // Hook: KPI Overview
@@ -54,17 +54,17 @@ export const useAdminRevenueChart = (period: 'week' | 'month' | 'quarter' = 'mon
 };
 
 // Hook: Top Doctors
-export const useAdminTopDoctors = (range?: DateRange) => {
+export const useAdminTopDoctors = (range?: DateRange, limit?: number) => {
   const [data, setData] = useState<TopDoctorItem[]>([]);
   const { execute, isLoading: loading } = useApiHandler();
 
   const fetch = useCallback(async () => {
     const result = await execute(
-      () => dashboardApi.getAdminTopDoctors(range),
+      () => dashboardApi.getAdminTopDoctors(range, limit),
       { errorFallbackMsg: 'fetchTopDoctorsError' }
     );
     if (result) setData(result);
-  }, [range, execute]);
+  }, [range, limit, execute]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -76,17 +76,17 @@ export const useAdminTopDoctors = (range?: DateRange) => {
 };
 
 // Hook: Top Services
-export const useAdminTopServices = (range?: DateRange) => {
+export const useAdminTopServices = (range?: DateRange, limit?: number) => {
   const [data, setData] = useState<TopServiceItem[]>([]);
   const { execute, isLoading: loading } = useApiHandler();
 
   const fetch = useCallback(async () => {
     const result = await execute(
-      () => dashboardApi.getAdminTopServices(range),
+      () => dashboardApi.getAdminTopServices(range, limit),
       { errorFallbackMsg: 'fetchTopServicesError' }
     );
     if (result) setData(result);
-  }, [range, execute]);
+  }, [range, limit, execute]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -106,6 +106,28 @@ export const useAdminBookingOverview = (range?: DateRange) => {
     const result = await execute(
       () => dashboardApi.getBookingOverview(range),
       { errorFallbackMsg: 'fetchBookingOverviewError' }
+    );
+    if (result) setData(result);
+  }, [range, execute]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetch();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetch]);
+  return { data, loading, refetch: fetch };
+};
+
+// Hook: Revenue Report
+export const useAdminRevenueReport = (range?: DateRange) => {
+  const [data, setData] = useState<RevenueReportData | null>(null);
+  const { execute, isLoading: loading } = useApiHandler();
+
+  const fetch = useCallback(async () => {
+    const result = await execute(
+      () => dashboardApi.getRevenueReport(range),
+      { errorFallbackMsg: 'fetchRevenueReportError' }
     );
     if (result) setData(result);
   }, [range, execute]);

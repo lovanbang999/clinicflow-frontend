@@ -1,0 +1,79 @@
+{
+  "title": "Báo cáo doanh thu",
+  "subtitle": "Báo cáo chi tiết các khoản thu của phòng khám theo kỳ",
+  "summary": {
+    "totalRevenue": "Tổng doanh thu",
+    "invoiceCount": "Tổng số hóa đơn",
+    "averageOrderValue": "Doanh thu trung bình / Hóa đơn",
+    "revenueByType": "Doanh thu theo loại hóa đơn",
+    "paymentMethodRevenue": "Doanh thu theo phương thức thanh toán"
+  },
+  "table": {
+    "invoiceNumber": "Số hóa đơn",
+    "invoiceType": "Loại hóa đơn",
+    "totalAmount": "Số tiền",
+    "paidAt": "Ngày thanh toán",
+    "patient": "Bệnh nhân",
+    "doctor": "Bác sĩ chỉ định",
+    "paymentMethod": "Phương thức thanh toán"
+  },
+  "paymentMethod": {
+    "CASH": "Tiền mặt",
+    "CARD": "Thẻ ngân hàng",
+    "BANK_TRANSFER": "Chuyển khoản",
+    "INSURANCE": "Bảo hiểm"
+  },
+  "invoiceType": {
+    "CONSULTATION": "Phiếu khám",
+    "SERVICE": "Phiếu dịch vụ",
+    "PHARMACY": "Phiếu thuốc"
+  },
+  "export": {
+    "button": "Xuất báo cáo (CSV)",
+    "filename": "bao-cao-doanh-thu"
+  },
+  "loading": "Đang tải dữ liệu báo cáo...",
+  "empty": "Không tìm thấy hóa đơn nào trong khoảng thời gian đã chọn.",
+  "exportSuccess": "Xuất báo cáo doanh thu thành công",
+  "exportError": "Có lỗi xảy ra khi xuất báo cáo",
+  "noDataToExport": "Không có dữ liệu để xuất báo cáo",
+  "periodReport": "Báo cáo doanh thu theo kỳ",
+  "periodReportDesc": "Thống kê phân tích doanh thu chi tiết từ lịch hẹn và dịch vụ khám chữa bệnh",
+  "exportBtn": "Xuất báo cáo",
+  "invoiceUnit": "{count} hóa đơn",
+  "averageOrderValue": "Giá trị trung bình đơn",
+  "revenueStructure": "Cơ cấu doanh thu",
+  "revenueStructureDesc": "Phân bổ nguồn doanh thu theo loại dịch vụ y tế",
+  "noData": "Không có dữ liệu phân tích",
+  "paymentMethods": "Phương thức thanh toán",
+  "paymentMethodsDesc": "Tỷ lệ sử dụng các phương thức giao dịch trong kỳ",
+  "invoicesInPeriod": "Danh sách hóa đơn trong kỳ",
+  "invoicesInPeriodDesc": "Chi tiết tất cả hóa đơn đã thanh toán thành công",
+  "searchPlaceholder": "Tìm mã HĐ, bệnh nhân...",
+  "allServices": "Tất cả dịch vụ",
+  "examType": "Khám bệnh",
+  "serviceType": "Dịch vụ kỹ thuật",
+  "pharmacyType": "Nhà thuốc",
+  "noInvoicesFound": "Không tìm thấy hóa đơn nào trong thời gian lọc",
+  "cols": {
+    "invoiceCode": "Mã hóa đơn",
+    "patientCode": "Mã bệnh nhân",
+    "patient": "Bệnh nhân",
+    "doctor": "Bác sĩ phụ trách",
+    "type": "Loại hóa đơn",
+    "method": "Phương thức",
+    "total": "Tổng tiền",
+    "time": "Thời gian thanh toán"
+  },
+  "types": {
+    "consultation": "Khám bệnh",
+    "service": "Dịch vụ",
+    "pharmacy": "Nhà thuốc"
+  },
+  "methods": {
+    "cash": "Tiền mặt",
+    "card": "Thẻ",
+    "bank": "Chuyển khoản",
+    "insurance": "BHYT"
+  }
+}

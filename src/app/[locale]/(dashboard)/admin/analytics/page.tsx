@@ -22,6 +22,7 @@ import { AdminTopDoctors } from '@/components/dashboard/admin/AdminTopDoctors';
 import { AdminTopServices } from '@/components/dashboard/admin/AdminTopServices';
 import { DateRangePicker } from '@/components/shared/DateRangePicker';
 import { AdminServiceDistributionChart } from '@/components/dashboard/admin/AdminServiceDistributionChart';
+import { AdminRevenueByTypeChart } from '@/components/dashboard/admin/AdminRevenueByTypeChart';
 import { AdminAppointmentStatusChart } from '@/components/dashboard/admin/AdminAppointmentStatusChart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DateRange } from 'react-day-picker';
@@ -50,8 +51,8 @@ export default function AdminAnalyticsPage() {
   }), [date]);
 
   const { data: stats, loading: loadingStats } = useAdminStats(apiRange);
-  const { data: topDoctors, loading: loadingTopDoctors } = useAdminTopDoctors(apiRange);
-  const { data: topServices, loading: loadingTopServices } = useAdminTopServices(apiRange);
+  const { data: topDoctors, loading: loadingTopDoctors } = useAdminTopDoctors(apiRange, 10);
+  const { data: topServices, loading: loadingTopServices } = useAdminTopServices(apiRange, 10);
   const { data: bookingOverview, loading: loadingBooking } = useAdminBookingOverview(apiRange);
   const { data: revenueData, loading: loadingRevenue } = useAdminRevenueChart('month', apiRange);
 
@@ -104,8 +105,8 @@ export default function AdminAnalyticsPage() {
             />
             <AdminKpiCard
               icon={CheckCircleIcon}
-              iconBg="bg-emerald-50"
-              iconColor="text-emerald-600"
+              iconBg="bg-cyan-50"
+              iconColor="text-cyan-600"
               title={t('kpi.growthRate')}
               value={`${stats?.trends.revenueGrowthPct ?? 0}%`}
               badge={<TrendUpBadge value={t('kpi.revenueGrowth')} />}
@@ -113,8 +114,8 @@ export default function AdminAnalyticsPage() {
             />
             <AdminKpiCard
               icon={CurrencyCircleDollarIcon}
-              iconBg="bg-purple-50"
-              iconColor="text-purple-600"
+              iconBg="bg-emerald-50"
+              iconColor="text-emerald-600"
               title={t('kpi.totalRevenue')}
               value={formatVND(stats?.totalRevenue ?? 0)}
               badge={<TrendUpBadge value={`+${stats?.trends.revenueGrowthPct ?? 0}%`} />}
@@ -143,15 +144,24 @@ export default function AdminAnalyticsPage() {
         </div>
       </div>
 
-      {/* Secondary Row: Service Dist + Rankings side-by-side */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Row 3: Service Distribution & Revenue Type Distribution */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="min-w-0 h-full">
           <AdminServiceDistributionChart 
             services={topServices} 
             loading={loadingTopServices} 
           />
         </div>
-        
+        <div className="min-w-0 h-full">
+          <AdminRevenueByTypeChart 
+            revenueByType={stats?.revenueByType}
+            loading={loadingStats}
+          />
+        </div>
+      </div>
+
+      {/* Row 4: Rankings (Top 10) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="min-w-0 h-full">
           {loadingTopDoctors ? (
             <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 h-full">

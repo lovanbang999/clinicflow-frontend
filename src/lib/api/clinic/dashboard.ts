@@ -6,6 +6,11 @@ export interface AdminDashboardOverview {
   totalDoctors: number;
   totalBookings: number;
   totalRevenue: number;
+  revenueByType?: {
+    CONSULTATION: number;
+    SERVICE: number;
+    PHARMACY: number;
+  };
   trends: {
     newPatientsThisMonth: number;
     newPatientsLastMonth: number;
@@ -28,6 +33,7 @@ export interface TopDoctorItem {
   specialty: string;
   avatar?: string;
   patientsCount: number;
+  revenue?: number;
 }
 
 export interface TopServiceItem {
@@ -73,18 +79,18 @@ export const dashboardApi = {
   },
 
   // Top Doctors
-  getAdminTopDoctors: async (range?: DateRange): Promise<TopDoctorItem[]> => {
+  getAdminTopDoctors: async (range?: DateRange, limit?: number): Promise<TopDoctorItem[]> => {
     const response = await apiClient.get<ApiResponse<{ topDoctors: TopDoctorItem[] }>>('/admin/analytics/top-doctors', {
-      params: range,
+      params: { ...range, limit },
     });
     if (!response.data.data) throw new Error('Failed to fetch top doctors');
     return response.data.data.topDoctors;
   },
 
   // Top Services
-  getAdminTopServices: async (range?: DateRange): Promise<TopServiceItem[]> => {
+  getAdminTopServices: async (range?: DateRange, limit?: number): Promise<TopServiceItem[]> => {
     const response = await apiClient.get<ApiResponse<{ topServices: TopServiceItem[] }>>('/admin/analytics/top-services', {
-      params: range,
+      params: { ...range, limit },
     });
     if (!response.data.data) throw new Error('Failed to fetch top services');
     return response.data.data.topServices;
@@ -98,4 +104,45 @@ export const dashboardApi = {
     if (!response.data.data) throw new Error('Failed to fetch booking overview');
     return response.data.data;
   },
+
+  // Revenue Report
+  getRevenueReport: async (range?: DateRange): Promise<RevenueReportData> => {
+    const response = await apiClient.get<ApiResponse<RevenueReportData>>('/admin/analytics/revenue-report', {
+      params: range,
+    });
+    if (!response.data.data) throw new Error('Failed to fetch revenue report');
+    return response.data.data;
+  },
 };
+
+export interface RevenueReportInvoice {
+  id: string;
+  invoiceNumber: string;
+  invoiceType: string;
+  totalAmount: number;
+  paidAt: string;
+  patientName: string;
+  patientCode: string;
+  doctorName: string;
+  paymentMethod: string;
+}
+
+export interface RevenueReportData {
+  summary: {
+    totalRevenue: number;
+    invoiceCount: number;
+    averageOrderValue: number;
+    revenueByType: {
+      CONSULTATION: number;
+      SERVICE: number;
+      PHARMACY: number;
+    };
+    paymentMethodRevenue: {
+      CASH: number;
+      CARD: number;
+      BANK_TRANSFER: number;
+      INSURANCE: number;
+    };
+  };
+  invoices: RevenueReportInvoice[];
+}
