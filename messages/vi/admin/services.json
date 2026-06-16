@@ -1,5 +1,9 @@
 {
   "title": "Quản lý dịch vụ",
+  "tabs": {
+    "services": "Dịch vụ",
+    "categories": "Danh mục"
+  },
   "searchPlaceholder": "Tìm theo tên hoặc mô tả dịch vụ...",
   "stats": {
     "totalServices": "Tổng dịch vụ",
