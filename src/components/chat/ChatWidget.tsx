@@ -7,7 +7,9 @@ import type { Slot } from './SlotPicker';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Send, Bot, X, MessageSquareHeart, MoreVertical, Smile, PlusCircle, AlertTriangle } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Send, Bot, X, MessageSquareHeart, MoreVertical, PlusCircle, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function ChatWidget() {
@@ -49,7 +51,7 @@ export function ChatWidget() {
   return (
     <div className="fixed bottom-8 right-8 z-50 hidden md:flex flex-col items-end pointer-events-none">
       {isOpen && (
-        <div className="w-[380px] sm:w-[420px] h-[600px] max-h-[80vh] flex flex-col bg-background rounded-[24px] shadow-[0_24px_48px_rgba(73,95,139,0.12)] overflow-hidden pointer-events-auto animate-in zoom-in-[0.8] fade-in slide-in-from-bottom-4 origin-bottom-right duration-300 ease-out border">
+        <Card className="w-[380px] sm:w-[420px] h-[600px] max-h-[80vh] flex flex-col bg-background rounded-[24px] shadow-[0_24px_48px_rgba(73,95,139,0.12)] overflow-hidden pointer-events-auto animate-in zoom-in-[0.8] fade-in slide-in-from-bottom-4 origin-bottom-right duration-300 ease-out border p-0 gap-0">
           {/* Header */}
           <header className="px-6 py-5 flex items-center justify-between bg-blue-600 text-white">
             <div className="flex items-center gap-3">
@@ -73,7 +75,7 @@ export function ChatWidget() {
                     <MoreVertical className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 rounded-xl">
+                <DropdownMenuContent align="end" side="bottom" sideOffset={8} className="w-56 rounded-xl shadow-lg border-slate-100 dark:border-slate-800">
                   <DropdownMenuItem onClick={clearChat} className="cursor-pointer gap-2 py-2.5">
                     <PlusCircle className="h-4 w-4" />
                     {t('clearChat')}
@@ -130,23 +132,15 @@ export function ChatWidget() {
                 {/* <button type="button" className="p-2 text-muted-foreground hover:text-blue-600 transition-colors">
                   <PlusCircle className="h-5 w-5" />
                 </button> */}
-                <input
+                <Input
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   disabled={isLoading}
                   placeholder={t('placeholder')}
-                  className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm py-2 px-1 text-foreground placeholder:text-muted-foreground font-medium"
+                  className="flex-1 bg-transparent border-none shadow-none focus-visible:ring-0 focus-visible:border-none focus-visible:ring-offset-0 text-sm py-2 px-1 text-foreground placeholder:text-muted-foreground font-medium h-auto"
                 />
                 <div className="flex items-center gap-1">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9 text-muted-foreground hover:text-blue-600 rounded-full cursor-pointer transition-colors"
-                  >
-                    <Smile className="h-5 w-5" />
-                  </Button>
                   <Button
                     type="submit"
                     disabled={!input.trim() || isLoading}
@@ -163,7 +157,7 @@ export function ChatWidget() {
               {t('warning')}
             </p>
           </div>
-        </div>
+        </Card>
       )}
 
       {/* FAB Support */}
