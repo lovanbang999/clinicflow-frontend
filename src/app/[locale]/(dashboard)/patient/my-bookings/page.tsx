@@ -13,6 +13,7 @@ import { BookingCancelDialog } from '@/components/booking/patient/BookingCancelD
 
 export default function BookingsPage() {
   const t = useTranslations('booking');
+  const tOverview = useTranslations('patientOverview');
   const router = useRouter();
   const { bookings, pagination, isLoading, fetchMyBookings, cancelBooking } = useBookings();
 
@@ -74,75 +75,83 @@ export default function BookingsPage() {
   };
 
   return (
-    <div className="min-h-full">
-      <div className="max-w-3xl mx-auto p-2 space-y-5">
-        {/* Page Header */}
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{t(greetingKey)}</p>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">{t('myAppointments')}</h1>
-          </div>
-          <button
-            onClick={() => router.push('/patient/book')}
-            className="flex items-center gap-1.5 px-4 py-2 bg-[#1570EF] hover:bg-[#0F5ED4] text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer shadow-sm shrink-0 mb-0.5"
-            aria-label={t('bookNewAppointment')}
-          >
-            <PlusIcon size={16} weight="bold" />
-            <span className="hidden md:inline">{t('bookNewAppointment')}</span>
-          </button>
+    <div className="max-w-5xl mx-auto space-y-6">
+      {/* Page Header */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="space-y-0.5 md:space-y-1">
+          <p className="text-xs sm:text-sm text-[#1392ec] font-bold uppercase tracking-wider">{t(greetingKey)}</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">{t('myAppointments')}</h1>
         </div>
-
-        {/* Filter Tabs */}
-        <BookingFilterTabs
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-          counts={counts}
-        />
-
-        {/* Booking List */}
-        {isLoading ? (
-          <BookingLoadingSkeleton />
-        ) : currentBookings.length === 0 ? (
-          <BookingEmptyState activeTab={activeTab} />
-        ) : (
-          <div className="space-y-4">
-            <div className="space-y-3">
-              {currentBookings.map((booking) => (
-                <BookingCard
-                  key={booking.id}
-                  booking={booking}
-                  isCancelling={cancellingId === booking.id}
-                  onCancel={handleCancelRequest}
-                  onViewDetails={handleViewDetails}
-                />
-              ))}
-            </div>
-
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6 pt-4">
-                <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer border border-transparent disabled:border-transparent hover:border-slate-200 dark:hover:border-slate-700 bg-white dark:bg-slate-900 shadow-sm"
-                >
-                  {t('pagination.previous')}
-                </button>
-                <span className="text-sm font-medium text-slate-500">
-                  {t('pagination.page')} {currentPage} / {totalPages}
-                </span>
-                <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer border border-transparent disabled:border-transparent hover:border-slate-200 dark:hover:border-slate-700 bg-white dark:bg-slate-900 shadow-sm"
-                >
-                  {t('pagination.next')}
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+        <button
+          onClick={() => router.push('/patient/book')}
+          className="flex items-center gap-1.5 px-3 py-2 md:px-4 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer shadow-sm shrink-0"
+          aria-label={t('bookNewAppointment')}
+        >
+          <PlusIcon size={16} weight="bold" />
+          <span className="hidden sm:inline">{t('bookNewAppointment')}</span>
+          <span className="sm:hidden">{t('bookNewAppointmentShort')}</span>
+        </button>
       </div>
+
+      {/* Filter and Search Bar Card */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-4 md:p-5 shadow-xs space-y-4">
+        <div className="space-y-1.5">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+            {tOverview('filters.statusLabel')}
+          </span>
+          <BookingFilterTabs
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            counts={counts}
+          />
+        </div>
+      </div>
+
+      {/* Booking List Container */}
+      {isLoading ? (
+        <BookingLoadingSkeleton />
+      ) : currentBookings.length === 0 ? (
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 text-center shadow-xs">
+          <BookingEmptyState activeTab={activeTab} />
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="space-y-3">
+            {currentBookings.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                booking={booking}
+                isCancelling={cancellingId === booking.id}
+                onCancel={handleCancelRequest}
+                onViewDetails={handleViewDetails}
+              />
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between mt-6 pt-4">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer border border-transparent disabled:border-transparent hover:border-slate-200 dark:hover:border-slate-700 bg-white dark:bg-slate-900 shadow-sm"
+              >
+                {t('pagination.previous')}
+              </button>
+              <span className="text-sm font-medium text-slate-500">
+                {t('pagination.page')} {currentPage} / {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer border border-transparent disabled:border-transparent hover:border-slate-200 dark:hover:border-slate-700 bg-white dark:bg-slate-900 shadow-sm"
+              >
+                {t('pagination.next')}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Cancel Dialog */}
       <BookingCancelDialog

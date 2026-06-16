@@ -20,6 +20,11 @@
   "charts": {
     "serviceDistribution": "Cơ cấu dịch vụ",
     "serviceDistributionDesc": "Tỷ trọng doanh thu theo từng loại dịch vụ",
+    "revenueByType": "Cơ cấu doanh thu",
+    "revenueByTypeDesc": "Doanh thu phân bổ theo loại hóa đơn",
+    "typeConsultation": "Khám bệnh",
+    "typeService": "Dịch vụ kỹ thuật",
+    "typePharmacy": "Thuốc",
     "revenue": "Doanh thu",
     "bookings": "lịch hẹn",
     "appointmentStatus": "Trạng thái lịch hẹn",

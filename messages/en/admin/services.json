@@ -1,5 +1,9 @@
 {
   "title": "Service Management",
+  "tabs": {
+    "services": "Services",
+    "categories": "Categories"
+  },
   "searchPlaceholder": "Search by service name or description...",
   "stats": {
     "totalServices": "Total Services",

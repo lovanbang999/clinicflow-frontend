@@ -94,8 +94,8 @@ export default function AdminUsersPage() {
     fetchStats();
   };
 
-  const handleToggleStatus = async (user: User) => {
-    await suspendUser(user.id, { isActive: !user.isActive });
+  const handleToggleStatus = async (user: User, reason: string) => {
+    await suspendUser(user.id, { isActive: !user.isActive, reason: reason || undefined });
     fetchUsers({
       page,
       limit,

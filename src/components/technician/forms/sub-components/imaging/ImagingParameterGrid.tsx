@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { ImagingFinding } from '../../types';
 import { FormSection } from '../../shared/FormSection';
@@ -11,11 +12,13 @@ interface ImagingParameterGridProps {
 }
 
 export function ImagingParameterGrid({ form, disabled }: ImagingParameterGridProps) {
+  const t = useTranslations('technicianWorklist');
+
   return (
-    <FormSection title="Thông số kỹ thuật" accentColor="bg-teal-500">
+    <FormSection title={t('forms.shared.technicalParams')} accentColor="bg-teal-500">
       <div className="space-y-4">
         <FormField 
-          label="Tư thế chụp" 
+          label={t('forms.imaging.technique')} 
           required 
           error={form.formState.errors.technique?.message}
         >
@@ -23,8 +26,8 @@ export function ImagingParameterGrid({ form, disabled }: ImagingParameterGridPro
             control={form.control}
             name="technique"
             disabled={disabled}
-            rules={{ required: 'Vui lòng chọn tư thế' }}
-            placeholder="Chọn tư thế..."
+            rules={{ required: t('forms.imaging.requiredTechnique') }}
+            placeholder={t('forms.imaging.placeholderTechnique')}
             options={[
               { label: 'PA (Posteroanterior)', value: 'PA (Posteroanterior)' },
               { label: 'AP', value: 'AP' },
@@ -35,7 +38,7 @@ export function ImagingParameterGrid({ form, disabled }: ImagingParameterGridPro
         </FormField>
         <div className="grid grid-cols-2 gap-4">
           <FormField 
-            label="kVp" 
+            label={t('forms.imaging.kvp')} 
             error={form.formState.errors.kvp?.message}
           >
             <input 
@@ -53,7 +56,7 @@ export function ImagingParameterGrid({ form, disabled }: ImagingParameterGridPro
             />
           </FormField>
           <FormField 
-            label="mAs" 
+            label={t('forms.imaging.mas')} 
             error={form.formState.errors.mas?.message}
           >
             <input 
@@ -72,7 +75,7 @@ export function ImagingParameterGrid({ form, disabled }: ImagingParameterGridPro
           </FormField>
         </div>
         <FormField 
-          label="Chất lượng phim" 
+          label={t('forms.imaging.quality')} 
           required 
           error={form.formState.errors.quality?.message}
         >
@@ -80,12 +83,12 @@ export function ImagingParameterGrid({ form, disabled }: ImagingParameterGridPro
             control={form.control}
             name="quality"
             disabled={disabled}
-            rules={{ required: 'Vui lòng chọn chất lượng' }}
-            placeholder="Chọn chất lượng..."
+            rules={{ required: t('forms.imaging.requiredQuality') }}
+            placeholder={t('forms.imaging.placeholderQuality')}
             options={[
-              { label: 'Tốt — đạt tiêu chuẩn', value: 'Tốt — đạt tiêu chuẩn' },
-              { label: 'Chấp nhận được', value: 'Chấp nhận được' },
-              { label: 'Cần chụp lại', value: 'Cần chụp lại' },
+              { label: t('forms.imaging.options.good'), value: 'Tốt — đạt tiêu chuẩn' },
+              { label: t('forms.imaging.options.acceptable'), value: 'Chấp nhận được' },
+              { label: t('forms.imaging.options.redo'), value: 'Cần chụp lại' },
             ]}
           />
         </FormField>

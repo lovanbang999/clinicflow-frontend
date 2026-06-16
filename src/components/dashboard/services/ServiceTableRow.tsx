@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import {
   PencilSimpleIcon,
@@ -26,13 +27,31 @@ export function ServiceTableRow({ service, index, onEdit, onDelete, onRestore }:
     ? (LucideIcons as unknown as Record<string, LucideIcon>)[service.iconUrl] 
     : LucideIcons.Stethoscope;
 
+  const getInitials = (name: string) => {
+    return name
+      .trim()
+      .split(/\s+/)
+      .map((w) => w[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
+  const isImageUrl = service.iconUrl && (service.iconUrl.startsWith('http') || service.iconUrl.includes('/') || service.iconUrl.includes('.'));
+
   return (
     <tr className="group hover:bg-[#f8fafc] transition-colors">
       {/* Service name + desc */}
       <td className="px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className={cn('size-10 rounded-lg flex items-center justify-center shrink-0 shadow-sm', iconColor(index))}>
-            <IconComponent size={20} />
+          <div className={cn('size-10 rounded-full flex items-center justify-center shrink-0 shadow-sm border font-bold text-xs uppercase', iconColor(index))}>
+            {isImageUrl ? (
+              <Image src={service.iconUrl!} alt={service.name} width={40} height={40} className="rounded-full object-cover" />
+            ) : service.iconUrl ? (
+              <IconComponent size={18} />
+            ) : (
+              <span>{getInitials(service.name)}</span>
+            )}
           </div>
           <div>
             <div className="flex items-center gap-2">

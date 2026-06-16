@@ -10,26 +10,26 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { LockSimpleIcon, LockSimpleOpenIcon, WarningCircleIcon } from '@phosphor-icons/react';
-import { User } from '@/types';
+import { BackendUser } from '@/types';
 import { useAuthStore } from '@/lib/store/authStore';
 import { cn } from '@/lib/utils';
 
-interface SuspendUserDialogProps {
-  user: User | null;
+interface SuspendDoctorDialogProps {
+  doctor: BackendUser | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onConfirm: (user: User, reason: string) => void;
+  onConfirm: (doctor: BackendUser, reason: string) => void;
   loading?: boolean;
 }
 
-export function SuspendUserDialog({
-  user,
+export function SuspendDoctorDialog({
+  doctor,
   open,
   onOpenChange,
   onConfirm,
   loading = false,
-}: SuspendUserDialogProps) {
-  const t = useTranslations('adminUsers');
+}: SuspendDoctorDialogProps) {
+  const t = useTranslations('adminDoctors');
   const currentUser = useAuthStore((s) => s.user);
   const [reason, setReason] = useState('');
   const [touched, setTouched] = useState(false);
@@ -44,10 +44,10 @@ export function SuspendUserDialog({
     }
   }, [open]);
 
-  if (!user) return null;
+  if (!doctor) return null;
 
-  const isSuspending = user.isActive;
-  const isSelf = currentUser?.id === user.id;
+  const isSuspending = doctor.isActive;
+  const isSelf = currentUser?.id === doctor.id;
   const reasonError = touched && isSuspending && !reason.trim();
   const canConfirm = !isSelf && (!isSuspending || reason.trim().length > 0);
 
@@ -56,7 +56,7 @@ export function SuspendUserDialog({
       setTouched(true);
       if (!reason.trim()) return;
     }
-    onConfirm(user, reason.trim());
+    onConfirm(doctor, reason.trim());
   };
 
   return (
@@ -67,9 +67,7 @@ export function SuspendUserDialog({
             <div
               className={cn(
                 'size-9 rounded-xl flex items-center justify-center shrink-0',
-                isSuspending
-                  ? 'bg-amber-50 text-amber-600'
-                  : 'bg-emerald-50 text-emerald-600',
+                isSuspending ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600',
               )}
             >
               {isSuspending ? (
@@ -80,37 +78,34 @@ export function SuspendUserDialog({
             </div>
             <DialogTitle>
               {isSuspending
-                ? t('dialogs.suspendTitle')
-                : t('dialogs.reinstateTitle')}
+                ? t('suspendDialog.suspendTitle')
+                : t('suspendDialog.reinstateTitle')}
             </DialogTitle>
           </div>
         </DialogHeader>
 
         <div className="px-6 py-5 space-y-4">
-          {/* Self-lock warning */}
           {isSelf && (
             <div className="flex items-start gap-3 p-3 bg-red-50 border border-red-200 rounded-xl">
               <WarningCircleIcon size={18} className="text-red-500 mt-0.5 shrink-0" weight="fill" />
               <p className="text-sm text-red-700 font-medium">
-                {t('dialogs.selfLockWarning')}
+                {t('suspendDialog.selfLockWarning')}
               </p>
             </div>
           )}
 
-          {/* Description */}
           {!isSelf && (
             <p className="text-sm text-slate-600">
               {isSuspending
-                ? t('dialogs.suspendDesc', { name: user.fullName || '' })
-                : t('dialogs.reinstateDesc', { name: user.fullName || '' })}
+                ? t('suspendDialog.suspendDesc', { name: doctor.fullName || '' })
+                : t('suspendDialog.reinstateDesc', { name: doctor.fullName || '' })}
             </p>
           )}
 
-          {/* Reason input — only when suspending */}
           {isSuspending && !isSelf && (
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                {t('dialogs.reasonLabel')}{' '}
+                {t('suspendDialog.reasonLabel')}{' '}
                 <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -120,7 +115,7 @@ export function SuspendUserDialog({
                   setReason(e.target.value);
                   setTouched(true);
                 }}
-                placeholder={t('dialogs.reasonPlaceholder')}
+                placeholder={t('suspendDialog.reasonPlaceholder')}
                 className={cn(
                   'w-full px-3 py-2 text-sm border rounded-xl resize-none focus:outline-none focus:ring-2 transition-all',
                   reasonError
@@ -129,7 +124,7 @@ export function SuspendUserDialog({
                 )}
               />
               {reasonError && (
-                <p className="text-xs text-red-500">{t('dialogs.reasonRequired')}</p>
+                <p className="text-xs text-red-500">{t('suspendDialog.reasonRequired')}</p>
               )}
             </div>
           )}
@@ -141,7 +136,7 @@ export function SuspendUserDialog({
             disabled={loading}
             className="px-5 py-2 rounded-xl text-sm font-semibold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer disabled:opacity-50"
           >
-            {t('dialogs.cancel')}
+            {t('suspendDialog.cancel')}
           </button>
           <button
             onClick={handleConfirm}
@@ -157,8 +152,8 @@ export function SuspendUserDialog({
               <span className="size-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
             )}
             {isSuspending
-              ? t('table.actions.suspend')
-              : t('table.actions.reinstate')}
+              ? t('moreMenu.suspend')
+              : t('moreMenu.reinstate')}
           </button>
         </DialogFooter>
       </DialogContent>

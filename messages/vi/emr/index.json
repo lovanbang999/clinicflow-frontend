@@ -2,6 +2,13 @@
   "visit": {
     "loading": "Đang tải hồ sơ khám...",
     "backToExam": "Quay lại Khám",
+    "timeline": {
+      "noDiagnosis": "Chưa có chẩn đoán xác định",
+      "doctor": "Bác sĩ",
+      "diagnosis": "Chẩn đoán",
+      "prescription": "Đơn thuốc"
+    },
+    "generalExam": "Khám tổng quát",
     "shared": {
       "back": "Quay lại",
       "readOnly": "CHẾ ĐỘ XEM"

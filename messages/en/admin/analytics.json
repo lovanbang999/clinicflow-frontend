@@ -20,6 +20,11 @@
   "charts": {
     "serviceDistribution": "Service Distribution",
     "serviceDistributionDesc": "Revenue distribution by service type",
+    "revenueByType": "Revenue Breakdown",
+    "revenueByTypeDesc": "Revenue distribution by invoice type",
+    "typeConsultation": "Consultation",
+    "typeService": "Technical Services",
+    "typePharmacy": "Pharmacy",
     "revenue": "Revenue",
     "bookings": "bookings",
     "appointmentStatus": "Appointment Status",

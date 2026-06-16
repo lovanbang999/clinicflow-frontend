@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { FunnelIcon, UserPlusIcon, XIcon } from '@phosphor-icons/react';
+import { FunnelIcon, UserPlusIcon, XIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -27,6 +27,8 @@ type Props = {
   onToggleStatus: (st: DoctorStatus) => void;
   onClearFilters: () => void;
   onAddDoctor: () => void;
+  searchValue?: string;
+  onSearchChange?: (val: string) => void;
 };
 
 export function DoctorTableToolbar({
@@ -36,6 +38,8 @@ export function DoctorTableToolbar({
   onToggleStatus,
   onClearFilters,
   onAddDoctor,
+  searchValue = '',
+  onSearchChange,
 }: Props) {
   const t = useTranslations('adminDoctors');
 
@@ -52,6 +56,17 @@ export function DoctorTableToolbar({
 
       {/* Actions */}
       <div className="flex items-center gap-3 flex-wrap">
+        {/* Search by name */}
+        <div className="relative">
+          <MagnifyingGlassIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="search"
+            value={searchValue}
+            onChange={(e) => onSearchChange?.(e.target.value)}
+            placeholder={t('table.searchPlaceholder')}
+            className="pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/20 focus:border-[#1392ec] transition-all w-52"
+          />
+        </div>
         {/* Clear chip */}
         {hasActiveFilters && (
           <button

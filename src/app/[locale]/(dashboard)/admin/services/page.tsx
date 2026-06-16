@@ -8,6 +8,9 @@ import { ServiceStatCards } from '@/components/dashboard/services/ServiceStatCar
 import { ServiceTable } from '@/components/dashboard/services/ServiceTable';
 import { ServiceFormDialog } from '@/components/dashboard/services/ServiceFormDialog';
 import { DeleteServiceDialog } from '@/components/dashboard/services/DeleteServiceDialog';
+import { CategoriesTab } from '@/components/dashboard/services/CategoriesTab';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useTranslations } from 'next-intl';
 import type { Service } from '@/components/dashboard/services/types';
 
 type FilterActive = 'all' | 'active' | 'inactive';
@@ -16,6 +19,8 @@ type FilterActive = 'all' | 'active' | 'inactive';
 const toService = (s: AdminService): Service => s as Service;
 
 export default function AdminServicesPage() {
+  const t = useTranslations('adminServices');
+
   const {
     services: rawServices,
     pagination,
@@ -120,29 +125,46 @@ export default function AdminServicesPage() {
   };
 
   return (
-    <div className="p-8 space-y-8">
-      {/* Stat Cards */}
-      <ServiceStatCards stats={stats} isLoading={loadingStats} />
+    <div className="p-8 space-y-6">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <h1 className="text-2xl font-bold text-slate-800">{t('title')}</h1>
+      </div>
 
-      {/* Table */}
-      <ServiceTable
-        services={services}
-        isLoading={loadingList}
-        page={page}
-        onPageChange={setPage}
-        totalPages={pagination.totalPages}
-        total={pagination.total}
-        filterActive={filterActive}
-        onFilterChange={handleFilterChange}
-        filterCategory={filterCategory}
-        onCategoryChange={handleCategoryChange}
-        search={search}
-        onSearchChange={handleSearchChange}
-        onAddService={() => setAddOpen(true)}
-        onEdit={handleEdit}
-        onDelete={handleDeleteClick}
-        onRestore={handleRestore}
-      />
+      <Tabs defaultValue="services" className="w-full">
+        <TabsList className="grid w-[320px] grid-cols-2 bg-slate-100 p-1 rounded-xl">
+          <TabsTrigger value="services" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-slate-900 cursor-pointer">{t('tabs.services')}</TabsTrigger>
+          <TabsTrigger value="categories" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-slate-900 cursor-pointer">{t('tabs.categories')}</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="services" className="space-y-6 mt-6 focus-visible:outline-none">
+          {/* Stat Cards */}
+          <ServiceStatCards stats={stats} isLoading={loadingStats} />
+
+          {/* Table */}
+          <ServiceTable
+            services={services}
+            isLoading={loadingList}
+            page={page}
+            onPageChange={setPage}
+            totalPages={pagination.totalPages}
+            total={pagination.total}
+            filterActive={filterActive}
+            onFilterChange={handleFilterChange}
+            filterCategory={filterCategory}
+            onCategoryChange={handleCategoryChange}
+            search={search}
+            onSearchChange={handleSearchChange}
+            onAddService={() => setAddOpen(true)}
+            onEdit={handleEdit}
+            onDelete={handleDeleteClick}
+            onRestore={handleRestore}
+          />
+        </TabsContent>
+
+        <TabsContent value="categories" className="mt-6 focus-visible:outline-none">
+          <CategoriesTab />
+        </TabsContent>
+      </Tabs>
 
       {/* Add / Edit dialog */}
       <ServiceFormDialog

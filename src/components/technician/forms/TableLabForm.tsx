@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { BaseFormProps, LabFindings, LabTestValue } from './types';
 import {
   WarningCircleIcon,
@@ -40,6 +41,7 @@ const getDefaultFindings = (gender: string = 'FEMALE'): LabFindings => {
     isAbnormal: false,
   };
 };
+
 export function TableLabForm({
   isCompleted,
   initialResultText,
@@ -49,9 +51,9 @@ export function TableLabForm({
   onSave,
   order,
 }: BaseFormProps) {
+  const t = useTranslations('technicianWorklist');
   const gender = order.patientProfile?.gender || 'FEMALE';
-  const genderLabel = gender === 'MALE' ? 'Nam' : 'Nữ';
-  // const t = useTranslations('technicianWorklist');
+  const genderLabel = gender === 'MALE' ? t('forms.general.male') : t('forms.general.female');
   
   const {
     form,
@@ -60,6 +62,7 @@ export function TableLabForm({
     setIsAbnormal,
     isUploading,
     handleFileUpload,
+    handleFileDelete,
     handleSubmit,
     form: { formState: { errors } },
   } = useResultForm<LabFindings>({
@@ -119,7 +122,7 @@ export function TableLabForm({
           <ClockIcon weight="bold" size={20} />
         </div>
         <div className="text-sm">
-          <strong>Loại: Xét nghiệm máu</strong> — Nhập giá trị từng chỉ số. Hệ thống tự highlight đỏ/vàng/xanh theo ngưỡng tham chiếu.
+          <strong>{t('forms.general.tableLabTypeDesc').split(' — ')[0]}</strong> — {t('forms.general.tableLabTypeDesc').split(' — ')[1]}
         </div>
       </div>
 
@@ -128,18 +131,18 @@ export function TableLabForm({
           <div className="bg-white rounded-[32px] border border-slate-200 overflow-hidden shadow-sm">
             <div className="bg-slate-50/50 border-b border-slate-100 px-6 py-4 flex items-center gap-3">
               <div className="w-1.5 h-5 bg-blue-500 rounded-full" />
-              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">Bảng chỉ số xét nghiệm</h3>
+              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">{t('forms.general.tableLabSectionTitle')}</h3>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-left">
-                    <th className="px-6 py-4">Chỉ số</th>
-                    <th className="px-6 py-4 w-32">Giá trị</th>
-                    <th className="px-6 py-4 w-24">Đơn vị</th>
-                    <th className="px-6 py-4">Ngưỡng ({genderLabel})</th>
-                    <th className="px-6 py-4 w-32">Đánh giá</th>
+                    <th className="px-6 py-4">{t('forms.general.tableLabHeaderIndex')}</th>
+                    <th className="px-6 py-4 w-32">{t('forms.general.tableLabHeaderValue')}</th>
+                    <th className="px-6 py-4 w-24">{t('forms.general.tableLabHeaderUnit')}</th>
+                    <th className="px-6 py-4">{t('forms.general.tableLabHeaderRange', { gender: genderLabel })}</th>
+                    <th className="px-6 py-4 w-32">{t('forms.general.tableLabHeaderEvaluation')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -151,18 +154,19 @@ export function TableLabForm({
                     const step = LAB_TEST_CONFIG[i]?.step || '0.1';
                     
                     const hasError = !!errors.results?.[i]?.value;
+                    const translatedIndexName = t(`forms.general.tableLabDEFAULT_index_${i}` as Parameters<typeof t>[0]);
                     
                     return (
                       <tr key={field.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="px-6 py-4 text-sm font-semibold text-slate-700">{row.name}</td>
+                        <td className="px-6 py-4 text-sm font-semibold text-slate-700">{translatedIndexName}</td>
                         <td className="px-6 py-4">
                           <input
                             type="number"
                             step={step}
                             disabled={isCompleted}
                             {...form.register(`results.${i}.value`, {
-                              required: 'Vui lòng nhập giá trị',
-                              validate: (v) => parseFloat(String(v)) > 0 || 'Giá trị phải lớn hơn 0'
+                              required: t('forms.general.tableLabRequiredValue'),
+                              validate: (v) => parseFloat(String(v)) > 0 || t('forms.general.tableLabInvalidValue')
                             })}
                             className={cn(
                               "w-full px-3 py-2 text-sm font-bold rounded-lg border transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-auto [&::-webkit-inner-spin-button]:appearance-auto scroll-mt-28",
@@ -186,7 +190,11 @@ export function TableLabForm({
                               evaluation === 'low' ? "bg-rose-100 text-rose-700" :
                               "bg-emerald-100 text-emerald-700"
                             )}>
-                              {evaluation === 'high' ? 'Cao' : evaluation === 'low' ? 'Thấp' : 'Bình thường'}
+                              {evaluation === 'high' 
+                                ? t('forms.general.tableLabEvaluationHigh') 
+                                : evaluation === 'low' 
+                                  ? t('forms.general.tableLabEvaluationLow') 
+                                  : t('forms.general.tableLabEvaluationNormal')}
                             </div>
                           )}
                         </td>
@@ -198,21 +206,21 @@ export function TableLabForm({
             </div>
           </div>
 
-          <FormSection title="Nhận xét tổng quát" accentColor="bg-blue-500">
+          <FormSection title={t('forms.general.tableLabSectionComment')} accentColor="bg-blue-500">
             <textarea
               disabled={isCompleted}
               {...form.register('generalComment')}
               className="w-full min-h-[100px] bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:bg-white focus:border-blue-400 outline-none transition-all placeholder:text-slate-400"
-              placeholder="Nhập nhận xét về các chỉ số bất thường hoặc lưu ý..."
+              placeholder={t('forms.general.tableLabPlaceholderComment')}
             />
           </FormSection>
         </div>
 
         <div className="w-full space-y-6">
-          <FormSection title="Thiết bị & Tải lên" accentColor="bg-slate-400">
+          <FormSection title={t('forms.general.tableLabSectionUpload')} accentColor="bg-slate-400">
             <div className="space-y-4 pb-4 border-b border-slate-100">
               <FormField 
-                label="Thiết bị xét nghiệm" 
+                label={t('forms.general.tableLabDeviceLabel')} 
                 required 
                 error={errors.device?.message}
               >
@@ -220,8 +228,8 @@ export function TableLabForm({
                   control={form.control}
                   name="device"
                   disabled={isCompleted}
-                  placeholder="Chọn máy xét nghiệm..."
-                  rules={{ required: 'Vui lòng chọn thiết bị' }}
+                  placeholder={t('forms.general.tableLabPlaceholderDevice')}
+                  rules={{ required: t('forms.general.tableLabRequiredDevice') }}
                   options={[
                     { label: 'Sysmex XN-550', value: 'Sysmex XN-550' },
                     { label: 'Abbott Alinity hq', value: 'Abbott Alinity hq' },
@@ -233,9 +241,10 @@ export function TableLabForm({
 
             <UploadCard 
               onFileSelect={handleFileUpload}
+              onFileDelete={handleFileDelete}
               isUploading={isUploading}
               fileUrl={fileUrl}
-              label="Tệp đính kèm (Kết quả máy)"
+              label={t('forms.general.tableLabUploadLabel')}
               hint="PDF, CSV, HL7 (MAX 10MB)"
               accentColor="blue"
               disabled={isCompleted}
@@ -259,13 +268,13 @@ export function TableLabForm({
                     "text-xs font-black uppercase tracking-wider",
                     isAbnormal ? "text-rose-800" : "text-emerald-800"
                   )}>
-                    {isAbnormal ? 'Hệ thống: Kết quả bất thường' : 'Hệ thống: Kết quả bình thường'}
+                    {isAbnormal ? t('forms.general.tableLabSystemAbnormal') : t('forms.general.tableLabSystemNormal')}
                   </p>
                   <p className={cn(
                     "text-[10px] font-medium opacity-80 mt-0.5 uppercase tracking-widest",
                     isAbnormal ? "text-rose-600" : "text-emerald-600"
                   )}>
-                    {isAbnormal ? 'Bác sĩ sẽ nhận được cảnh báo' : 'Mọi chỉ số trong ngưỡng an toàn'}
+                    {isAbnormal ? t('forms.general.tableLabSystemAbnormalHint') : t('forms.general.tableLabSystemNormalHint')}
                   </p>
                 </div>
               </div>

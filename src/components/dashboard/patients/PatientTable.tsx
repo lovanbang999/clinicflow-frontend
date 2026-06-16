@@ -5,7 +5,6 @@ import Image from 'next/image';
 import {
   EyeIcon,
   ClipboardTextIcon,
-  CalendarPlusIcon,
   PencilSimpleIcon,
 } from '@phosphor-icons/react';
 import { getInitials } from '@/lib/utils/helpers';
@@ -13,6 +12,7 @@ import { getInitials } from '@/lib/utils/helpers';
 export type PatientRow = {
   id: string;
   fullName: string;
+  email?: string | null;
   avatar?: string | null;
   dateOfBirth?: string | null;
   gender?: string | null;
@@ -30,7 +30,6 @@ type PatientTableProps = {
   loading?: boolean;
   onViewProfile?: (patient: PatientRow) => void;
   onMedicalHistory?: (patient: PatientRow) => void;
-  onBookAppointment?: (patient: PatientRow) => void;
   onEdit?: (patient: PatientRow) => void;
 };
 
@@ -68,7 +67,6 @@ export function PatientTable({
   loading,
   onViewProfile,
   onMedicalHistory,
-  onBookAppointment,
   onEdit,
 }: PatientTableProps) {
   const t = useTranslations('adminPatients');
@@ -155,9 +153,14 @@ export function PatientTable({
                         </div>
                       )}
                     </div>
-                    <span className="font-medium text-[#111518] text-sm whitespace-nowrap">
-                      {patient.fullName}
-                    </span>
+                    <div>
+                      <p className="font-medium text-[#111518] text-sm whitespace-nowrap">
+                        {patient.fullName}
+                      </p>
+                      {patient.email && (
+                        <p className="text-xs text-[#94a3b8] whitespace-nowrap">{patient.email}</p>
+                      )}
+                    </div>
                   </div>
                 </td>
 
@@ -221,13 +224,6 @@ export function PatientTable({
                       className="p-1.5 text-[#94a3b8] hover:text-[#1392ec] transition-colors rounded-lg hover:bg-[#1392ec]/10 cursor-pointer"
                     >
                       <ClipboardTextIcon size={18} />
-                    </button>
-                    <button
-                      onClick={() => onBookAppointment?.(patient)}
-                      title={t('table.actions.bookAppointment')}
-                      className="p-1.5 text-[#94a3b8] hover:text-[#1392ec] transition-colors rounded-lg hover:bg-[#1392ec]/10 cursor-pointer"
-                    >
-                      <CalendarPlusIcon size={18} />
                     </button>
                     <button
                       onClick={() => onEdit?.(patient)}

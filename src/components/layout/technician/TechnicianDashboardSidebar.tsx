@@ -12,6 +12,7 @@ import {
   SignOutIcon,
   SquaresFourIcon,
   GearIcon,
+  ClockIcon,
   type Icon,
 } from '@phosphor-icons/react';
 
@@ -25,6 +26,7 @@ type NavItem = {
 export const NAV_ITEMS_TECHNICIAN: NavItem[] = [
   { key: 'dashboard',   href: '/technician',               icon: SquaresFourIcon, exact: true },
   { key: 'labWorklist', href: '/technician/lab-worklist',  icon: ListChecksIcon,  exact: false },
+  { key: 'history',     href: '/technician/history',       icon: ClockIcon,       exact: false },
   { key: 'settings',    href: '/technician/settings',      icon: GearIcon,        exact: false },
 ];
 

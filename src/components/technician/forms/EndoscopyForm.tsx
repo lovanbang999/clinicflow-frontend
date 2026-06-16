@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { BaseFormProps, EndoscopyFinding } from './types';
 import {
   WarningCircleIcon,
@@ -40,7 +41,7 @@ export function EndoscopyForm({
   initialAbnormalNote,
   onSave,
 }: BaseFormProps) {
-  // const t = useTranslations('technicianWorklist');
+  const t = useTranslations('technicianWorklist');
   
   const {
     form,
@@ -49,6 +50,7 @@ export function EndoscopyForm({
     setIsAbnormal,
     isUploading,
     handleFileUpload,
+    handleFileDelete,
     handleSubmit,
   } = useResultForm<EndoscopyFinding>({
     initialData: initialResultText ? JSON.parse(initialResultText) : DEFAULT_FINDINGS,
@@ -74,7 +76,7 @@ export function EndoscopyForm({
           <ClockIcon weight="bold" size={20} />
         </div>
         <div className="text-sm">
-          <strong>Loại: Nội soi</strong> — Form có thêm trường đặc thù: phạm vi, tình trạng niêm mạc từng đoạn, CLO test H.pylori, sinh thiết.
+          <strong>{t('forms.general.endoscopyTypeDesc').split(' — ')[0]}</strong> — {t('forms.general.endoscopyTypeDesc').split(' — ')[1]}
         </div>
       </div>
 
@@ -85,18 +87,18 @@ export function EndoscopyForm({
           <div className="bg-white rounded-[32px] border border-slate-200 p-8 space-y-4">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-1.5 h-5 bg-orange-200 rounded-full" />
-              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">Chi tiết bệnh lý & Xét nghiệm</h3>
+              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">{t('forms.general.endoscopyDetailTitle')}</h3>
             </div>
             <EndoscopyLesionFields form={form} disabled={isCompleted} />
             <EndoscopyTestFields form={form} disabled={isCompleted} />
           </div>
 
-          <FormSection title="Mô tả & Kết luận" accentColor="bg-blue-500">
+          <FormSection title={t('forms.general.endoscopySectionTitle')} accentColor="bg-blue-500">
             <div className="space-y-3">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Mô tả chi tiết</label>
+              <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">{t('forms.general.endoscopyDescLabel')}</label>
               <textarea 
                 className="w-full min-h-[120px] bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:bg-white focus:border-blue-400 outline-none transition-all placeholder:text-slate-400"
-                placeholder="VD: Thực quản bình thường. Niêm mạc dạ dày sung huyết lan tỏa..."
+                placeholder={t('forms.general.endoscopyPlaceholderDesc')}
                 {...form.register('description')}
                 disabled={isCompleted}
               />
@@ -104,7 +106,7 @@ export function EndoscopyForm({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField 
-                label="Kết luận nội soi" 
+                label={t('forms.general.endoscopyConclusionLabel')} 
                 required 
                 error={form.formState.errors.conclusion?.message}
               >
@@ -112,30 +114,30 @@ export function EndoscopyForm({
                   control={form.control}
                   name="conclusion"
                   disabled={isCompleted}
-                  rules={{ required: 'Vui lòng chọn kết luận' }}
-                  placeholder="Chọn kết luận..."
+                  rules={{ required: t('forms.general.endoscopyRequiredConclusion') }}
+                  placeholder={t('forms.general.endoscopyPlaceholderConclusion')}
                   options={[
-                    { label: 'Dạ dày bình thường', value: 'Dạ dày bình thường' },
-                    { label: 'Viêm dạ dày Hp (+)', value: 'Viêm dạ dày Hp (+)' },
-                    { label: 'Viêm dạ dày Hp (-)', value: 'Viêm dạ dày Hp (-)' },
-                    { label: 'Loét dạ dày', value: 'Loét dạ dày' },
-                    { label: 'Ung thư biểu mô dạ dày', value: 'Ung thư biểu mô dạ dày' },
-                    { label: 'Polyp dạ dày', value: 'Polyp dạ dày' },
+                    { label: t('forms.general.endoscopyDEFAULT_conclusion_0'), value: 'Dạ dày bình thường' },
+                    { label: t('forms.general.endoscopyDEFAULT_conclusion_1'), value: 'Viêm dạ dày Hp (+)' },
+                    { label: t('forms.general.endoscopyDEFAULT_conclusion_2'), value: 'Viêm dạ dày Hp (-)' },
+                    { label: t('forms.general.endoscopyDEFAULT_conclusion_3'), value: 'Loét dạ dày' },
+                    { label: t('forms.general.endoscopyDEFAULT_conclusion_4'), value: 'Ung thư biểu mô dạ dày' },
+                    { label: t('forms.general.endoscopyDEFAULT_conclusion_5'), value: 'Polyp dạ dày' },
                   ]}
                 />
               </FormField>
               <div className="space-y-3">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Hẹn tái khám (tháng)</label>
+                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">{t('forms.general.endoscopyFollowupLabel')}</label>
                 <FormSelect
                   control={form.control}
                   name="followUpMonths"
                   disabled={isCompleted}
-                  placeholder="Chọn thời gian..."
+                  placeholder={t('forms.general.endoscopyPlaceholderFollowup')}
                   options={[
-                    { label: 'Không cần', value: 'Không cần' },
-                    { label: '1 tháng', value: '1 tháng' },
-                    { label: '3 tháng', value: '3 tháng' },
-                    { label: '6 tháng', value: '6 tháng' },
+                    { label: t('forms.general.endoscopyDEFAULT_followUpMonths_0'), value: 'Không cần' },
+                    { label: t('forms.general.endoscopyDEFAULT_followUpMonths_1'), value: '1 tháng' },
+                    { label: t('forms.general.endoscopyDEFAULT_followUpMonths_2'), value: '3 tháng' },
+                    { label: t('forms.general.endoscopyDEFAULT_followUpMonths_3'), value: '6 tháng' },
                   ]}
                 />
               </div>
@@ -144,12 +146,13 @@ export function EndoscopyForm({
         </div>
 
         <div className="w-full space-y-6">
-          <FormSection title="Tải lên & Cảnh báo" accentColor="bg-slate-400">
+          <FormSection title={t('forms.general.uploadSectionTitle')} accentColor="bg-slate-400">
             <UploadCard 
               onFileSelect={handleFileUpload}
+              onFileDelete={handleFileDelete}
               isUploading={isUploading}
               fileUrl={fileUrl}
-              label="Hình ảnh nội soi"
+              label={t('forms.general.endoscopyUploadLabel')}
               hint="PNG, JPG, MP4 (MAX 50MB)"
               accentColor="orange"
               disabled={isCompleted}
@@ -176,13 +179,13 @@ export function EndoscopyForm({
                     "text-xs font-black uppercase tracking-wider",
                     isAbnormal ? "text-rose-800" : "text-emerald-800"
                   )}>
-                    {isAbnormal ? 'Kết quả bất thường' : 'Kết quả bình thường'}
+                    {isAbnormal ? t('forms.general.endoscopyAbnormalStatus') : t('forms.general.endoscopyNormalStatus')}
                   </p>
                   <p className={cn(
                     "text-[10px] font-medium opacity-80 mt-0.5 uppercase tracking-widest",
                     isAbnormal ? "text-rose-600" : "text-emerald-600"
                   )}>
-                    {isAbnormal ? 'Nhấn để đánh dấu bình thường' : 'Nhấn nếu phát hiện bất thường'}
+                    {isAbnormal ? t('forms.general.abnormalToggleNormal') : t('forms.general.abnormalToggleAbnormal')}
                   </p>
                 </div>
               </div>
@@ -203,11 +206,11 @@ export function EndoscopyForm({
 
             {isAbnormal && (
               <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Ghi chú bất thường</label>
+                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">{t('forms.general.endoscopyAbnormalNotes')}</label>
                 <input 
                   type="text" 
                   className="w-full bg-slate-50 border border-rose-200 rounded-xl px-4 py-3 text-sm font-bold focus:bg-white focus:border-rose-400 outline-none transition-all"
-                  placeholder="VD: Viêm loét nặng..."
+                  placeholder={t('forms.general.endoscopyPlaceholderAbnormalNotes')}
                   {...form.register('abnormalNote' as keyof EndoscopyFinding)}
                   disabled={isCompleted}
                 />

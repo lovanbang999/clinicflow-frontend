@@ -1,6 +1,8 @@
 'use client';
 
-import { BaseFormProps, ImagingFinding } from './types';import {
+import { useTranslations } from 'next-intl';
+import { BaseFormProps, ImagingFinding } from './types';
+import {
   WarningCircleIcon,
   CheckIcon,
   ClockIcon,
@@ -37,6 +39,7 @@ export function ImagingForm({
   initialAbnormalNote,
   onSave,
 }: BaseFormProps) {
+  const t = useTranslations('technicianWorklist');
   
   const {
     form,
@@ -45,6 +48,7 @@ export function ImagingForm({
     setIsAbnormal,
     isUploading,
     handleFileUpload,
+    handleFileDelete,
     handleSubmit,
   } = useResultForm<ImagingFinding>({
     initialData: initialResultText ? JSON.parse(initialResultText) : DEFAULT_FINDINGS,
@@ -62,7 +66,7 @@ export function ImagingForm({
           <ClockIcon weight="bold" size={20} />
         </div>
         <div className="text-sm">
-          <strong>Loại: X-quang / CĐHA</strong> — Nhập thông số kỹ thuật chụp, đọc phim theo từng vùng giải phẫu, upload ảnh DICOM hoặc JPG.
+          <strong>{t('forms.general.imagingTypeDesc').split(' — ')[0]}</strong> — {t('forms.general.imagingTypeDesc').split(' — ')[1]}
         </div>
       </div>
 
@@ -76,8 +80,8 @@ export function ImagingForm({
                 <MonitorIcon weight="duotone" size={32} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">X-quang Kỹ thuật số</h3>
-                <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed px-4">Đảm bảo bệnh nhân hít đủ sâu và tư thế đúng tiêu chuẩn PA trước khi chụp.</p>
+                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">{t('forms.general.imagingSectionTitle')}</h3>
+                <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed px-4">{t('forms.general.imagingSubtitle')}</p>
               </div>
             </div>
           </div>
@@ -86,12 +90,13 @@ export function ImagingForm({
         </div>
 
         <div className="w-full space-y-6">
-          <FormSection title="Đính kèm & Cảnh báo" accentColor="bg-slate-400">
+          <FormSection title={t('forms.general.imagingUploadSection')} accentColor="bg-slate-400">
             <UploadCard 
               onFileSelect={handleFileUpload}
+              onFileDelete={handleFileDelete}
               isUploading={isUploading}
               fileUrl={fileUrl}
-              label="Hình ảnh X-quang"
+              label={t('forms.general.imagingUploadLabel')}
               hint="DICOM, PNG, JPG (MAX 100MB)"
               accentColor="teal"
               disabled={isCompleted}
@@ -118,13 +123,13 @@ export function ImagingForm({
                     "text-xs font-black uppercase tracking-wider",
                     isAbnormal ? "text-rose-800" : "text-emerald-800"
                   )}>
-                    {isAbnormal ? 'Phát hiện bất thường' : 'Hình ảnh bình thường'}
+                    {isAbnormal ? t('forms.general.abnormalStatus') : t('forms.general.normalStatus')}
                   </p>
                   <p className={cn(
                     "text-[10px] font-medium opacity-80 mt-0.5 uppercase tracking-widest",
                     isAbnormal ? "text-rose-600" : "text-emerald-600"
                   )}>
-                    {isAbnormal ? 'Nhấn để đánh dấu bình thường' : 'Nhấn nếu phát hiện bất thường'}
+                    {isAbnormal ? t('forms.general.abnormalToggleNormal') : t('forms.general.abnormalToggleAbnormal')}
                   </p>
                 </div>
               </div>
@@ -145,11 +150,11 @@ export function ImagingForm({
 
             {isAbnormal && (
               <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Ghi chú lâm sàng</label>
+                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">{t('forms.general.clinicalNotes')}</label>
                 <input 
                   type="text" 
                   className="w-full bg-slate-50 border border-rose-200 rounded-xl px-4 py-3 text-sm font-bold focus:bg-white focus:border-rose-400 outline-none transition-all"
-                  placeholder="Lưu ý cho bác sĩ (VD: Nghi khối u...)"
+                  placeholder={t('forms.general.imagingPlaceholderClinicalNotes')}
                   {...form.register('abnormalNote')}
                   disabled={isCompleted}
                 />

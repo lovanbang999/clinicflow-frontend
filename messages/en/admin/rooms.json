@@ -9,11 +9,21 @@
   "table": {
     "name": "Room Name",
     "type": "Type",
+    "relatedService": "Related Services",
     "floor": "Floor",
     "capacity": "Capacity",
     "scheduleCount": "Schedules",
     "isActive": "Status",
-    "actions": "Actions"
+    "actions": "Actions",
+    "scheduleLabel": "Schedules:",
+    "doctorLabel": "Doctors:"
+  },
+  "relatedServices": {
+    "CONSULTATION": "Clinical exam, specialist consultation",
+    "ULTRASOUND": "Ultrasound, ECG, endoscopy",
+    "PROCEDURE": "Minor surgery, surgical procedure",
+    "LAB": "Blood, urine, biochemistry lab tests",
+    "WAITING": "Reception, waiting area"
   },
   "tableState": {
     "loading": "Loading rooms...",

@@ -17,6 +17,8 @@ import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { DoctorDetailSheet } from '@/components/dashboard/doctors/DoctorDetailSheet';
+import { SuspendDoctorDialog } from '@/components/dashboard/doctors/SuspendDoctorDialog';
+import { useDebounce } from '@/lib/hooks/core/useDebounce';
 
 const LIMIT = 10;
 
@@ -25,6 +27,8 @@ function toLocalDoctor(u: BackendUser): Doctor {
   const p = u.doctorProfile;
   const specialty = (p?.specialties?.[0] ?? 'Cardiology') as Specialty;
   const status: DoctorStatus = u.isActive ? 'Active' : 'Inactive';
+  // Check if room name exists in profile (Prisma populated type might have room object)
+  const roomName = p?.room?.name || null;
   return {
     id: u.id,
     fullName: u.fullName,
@@ -34,6 +38,7 @@ function toLocalDoctor(u: BackendUser): Doctor {
     experience: p?.yearsOfExperience ?? 0,
     status,
     consultationFee: p?.consultationFee != null ? Number(p.consultationFee) : 0,
+    roomName,
   };
 }
 
@@ -41,6 +46,8 @@ export default function AdminDoctorsPage() {
   const [selectedSpecialties, setSelectedSpecialties] = useState<Set<Specialty>>(new Set());
   const [selectedStatuses, setSelectedStatuses] = useState<Set<DoctorStatus>>(new Set());
   const [page, setPage] = useState(1);
+  const [doctorSearch, setDoctorSearch] = useState('');
+  const debouncedSearch = useDebounce(doctorSearch, 400);
   const tCommon = useTranslations('common');
 
   // API hook
@@ -59,8 +66,8 @@ export default function AdminDoctorsPage() {
   const [hasApiData, setHasApiData] = useState(false);
 
   const doFetch = useCallback(() => {
-    fetchDoctors({ page, limit: LIMIT }).then(() => setHasApiData(true));
-  }, [fetchDoctors, page]);
+    fetchDoctors({ page, limit: LIMIT, search: debouncedSearch || undefined }).then(() => setHasApiData(true));
+  }, [fetchDoctors, page, debouncedSearch]);
 
   useEffect(() => {
     doFetch();
@@ -79,6 +86,10 @@ export default function AdminDoctorsPage() {
 
   const [deleteDoctor, setDeleteDoctorTarget] = useState<BackendUser | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
+
+  // Suspend doctor dialog
+  const [suspendDoctor, setSuspendDoctor] = useState<BackendUser | null>(null);
+  const [suspendOpen, setSuspendOpen] = useState(false);
 
   // More menu
   const moreAnchor = useRef<HTMLButtonElement | null>(null);
@@ -124,7 +135,11 @@ export default function AdminDoctorsPage() {
   const filtered = displayDoctors.filter((d) => {
     const matchSpecialty = selectedSpecialties.size === 0 || selectedSpecialties.has(d.specialty);
     const matchStatus = selectedStatuses.size === 0 || selectedStatuses.has(d.status);
-    return matchSpecialty && matchStatus;
+    const matchSearch =
+      !doctorSearch.trim() ||
+      d.fullName.toLowerCase().includes(doctorSearch.toLowerCase()) ||
+      d.email.toLowerCase().includes(doctorSearch.toLowerCase());
+    return matchSpecialty && matchStatus && matchSearch;
   });
 
   const totalPages = hasApiData
@@ -159,8 +174,15 @@ export default function AdminDoctorsPage() {
     setMoreOpen(true);
   };
 
-  const handleToggleStatus = async (doctor: BackendUser) => {
+  const handleToggleStatus = (doctor: BackendUser) => {
+    setSuspendDoctor(doctor);
+    setSuspendOpen(true);
+  };
+
+  const handleConfirmSuspend = async (doctor: BackendUser) => {
     await toggleDoctorStatus(doctor.id, !doctor.isActive);
+    setSuspendOpen(false);
+    setSuspendDoctor(null);
     doFetch();
   };
 
@@ -202,6 +224,8 @@ export default function AdminDoctorsPage() {
         onAddDoctor={handleAddDoctor}
         onEdit={handleEdit}
         onMore={handleMore}
+        searchValue={doctorSearch}
+        onSearchChange={(val) => { setDoctorSearch(val); setPage(1); }}
       />
 
       {/* Add Doctor Dialog */}
@@ -258,6 +282,15 @@ export default function AdminDoctorsPage() {
           setDetailDoctor(null);
         }}
         doctor={detailDoctor}
+      />
+
+      {/* Suspend Doctor Dialog */}
+      <SuspendDoctorDialog
+        doctor={suspendDoctor}
+        open={suspendOpen}
+        onOpenChange={(open) => { if (!open) { setSuspendOpen(false); setSuspendDoctor(null); } }}
+        onConfirm={handleConfirmSuspend}
+        loading={loadingList}
       />
     </div>
   );

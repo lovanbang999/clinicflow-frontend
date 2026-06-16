@@ -305,4 +305,13 @@ export const billingApi = {
       pagination: adapted.pagination,
     };
   },
+
+  // Export invoices as CSV
+  exportInvoices: async (params?: Omit<ListInvoicesParams, 'page' | 'limit'>): Promise<Blob> => {
+    const response = await apiClient.get('/billing/invoices/export', {
+      params,
+      responseType: 'blob',
+    });
+    return response.data;
+  },
 };

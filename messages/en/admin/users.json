@@ -91,16 +91,20 @@
     },
     "actions": {
       "edit": "Edit",
-      "suspend": "Suspend",
-      "reinstate": "Reinstate",
+      "suspend": "Lock Account",
+      "reinstate": "Unlock",
       "delete": "Delete"
     }
   },
   "dialogs": {
-    "suspendTitle": "Suspend Staff",
-    "suspendDesc": "Are you sure you want to suspend {name}? This staff member will no longer be able to log in.",
-    "reinstateTitle": "Reinstate Staff",
-    "reinstateDesc": "Are you sure you want to reinstate access for {name}?",
+    "suspendTitle": "Lock Staff Account",
+    "suspendDesc": "You are about to lock the account of {name}. This staff member will no longer be able to log in.",
+    "reinstateTitle": "Unlock Account",
+    "reinstateDesc": "Are you sure you want to unlock and restore access for {name}?",
+    "reasonLabel": "Reason for locking",
+    "reasonPlaceholder": "Enter a specific reason (e.g. policy violation, resignation...)",
+    "reasonRequired": "Please provide a reason for locking this account",
+    "selfLockWarning": "You cannot lock your own account.",
     "deleteTitle": "Delete Staff",
     "deleteDesc": "Are you sure you want to delete {name}? This is a soft delete, meaning the data will be hidden but retained in logs.",
     "cancel": "Cancel"

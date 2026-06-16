@@ -1,5 +1,6 @@
 {
   "title": "Doctor Management",
+  "currency": "VND",
   "stats": {
     "totalDoctors": "Total Doctors",
     "activeNow": "Active Now",
@@ -68,7 +69,8 @@
       "schedule": "Schedule",
       "edit": "Edit",
       "more": "More options"
-    }
+    },
+    "searchPlaceholder": "Search doctors by name..."
   },
   "addDoctor": {
     "title": "Add New Doctor",
@@ -99,6 +101,12 @@
     "statusDesc": "Activate or deactivate system access",
     "statusActive": "Active",
     "statusInactive": "Inactive",
+    "clinicRoom": "Clinic Room",
+    "roomPlaceholder": "Select clinic room",
+    "noRoom": "No room assigned",
+    "currency": "VND",
+    "services": "Assigned Services",
+    "servicesPlaceholder": "Select assigned services...",
     "cancel": "Cancel",
     "save": "Create Doctor",
     "saving": "Creating...",
@@ -132,12 +140,18 @@
     "qualificationsHint": "Separate multiple qualifications with commas.",
     "bio": "Short Bio",
     "bioPlaceholder": "Brief professional bio...",
+    "services": "Assigned Services",
+    "servicesPlaceholder": "Select assigned services...",
     "consultationFee": "Consultation Fee",
     "feePlaceholder": "Enter amount (e.g. 150000)",
     "status": "Account Status",
     "statusDesc": "Activate or deactivate system access",
     "statusActive": "Active",
     "statusInactive": "Inactive",
+    "clinicRoom": "Clinic Room",
+    "roomPlaceholder": "Select clinic room",
+    "noRoom": "No room assigned",
+    "currency": "VND",
     "cancel": "Cancel",
     "save": "Save Changes",
     "saving": "Saving...",
@@ -169,6 +183,7 @@
       "specialties": "Specialties",
       "qualifications": "Qualifications & Certifications",
       "experience": "Experience",
+      "clinicRoom": "Clinic Room",
       "years": "{count} years",
       "role": "Role",
       "phone": "Phone Number",
@@ -180,8 +195,19 @@
   "moreMenu": {
     "viewDetail": "View Details",
     "viewSchedule": "View Schedule",
-    "suspend": "Suspend Account",
-    "reinstate": "Reinstate Account",
+    "suspend": "Lock Account",
+    "reinstate": "Unlock Account",
     "delete": "Remove Doctor"
+  },
+  "suspendDialog": {
+    "suspendTitle": "Lock Doctor Account",
+    "suspendDesc": "You are about to lock the account of {name}. This doctor will no longer be able to log in.",
+    "reinstateTitle": "Unlock Account",
+    "reinstateDesc": "Are you sure you want to unlock and restore access for {name}?",
+    "reasonLabel": "Reason for locking",
+    "reasonPlaceholder": "Enter a specific reason (e.g. policy violation, resignation...)",
+    "reasonRequired": "Please provide a reason for locking this account",
+    "selfLockWarning": "You cannot lock your own account.",
+    "cancel": "Cancel"
   }
 }

@@ -48,6 +48,11 @@ export interface DoctorProfile {
   consultationFee?: number | null;
   rating: number;
   reviewCount: number;
+  roomId?: string | null;
+  room?: {
+    id: string;
+    name: string;
+  } | null;
   // Nested services from DoctorService join table
   services?: Array<{
     service: DoctorServiceItem;

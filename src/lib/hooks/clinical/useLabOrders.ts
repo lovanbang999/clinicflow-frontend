@@ -256,8 +256,8 @@ export function useTechnicianHistory() {
   const fetchHistory = useCallback(async () => {
     await execute(
       async () => {
-        const data = await labOrdersApi.getTechnicianHistory();
-        setOrders(data);
+        const res = await labOrdersApi.getTechnicianHistory();
+        setOrders(res.items);
       },
       { errorFallbackMsg: t('fetchHistoryError') }
     );

@@ -17,8 +17,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserIcon, CalendarIcon, ClockIcon } from '@phosphor-icons/react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
-type TabKey = 'pending' | 'inProgress' | 'completed';
+type TabKey = 'pending' | 'inProgress';
 type UnifiedOrder = LabOrder;
 
 export default function TechnicianWorklistPage() {
@@ -27,16 +37,13 @@ export default function TechnicianWorklistPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('pending');
   const [searchQuery, setSearchQuery] = useState('');
   const [newOrderIds, setNewOrderIds] = useState<Set<string>>(new Set());
+  const [orderIdToStart, setOrderIdToStart] = useState<string | null>(null);
 
   const { data: allOrders, isLoading, refetch } = useApiData(
     async () => {
       try {
-        const [labReady, labHistory] = await Promise.all([
-          labOrdersApi.getReadyToPerformOrders(),
-          labOrdersApi.getTechnicianHistory(),
-        ]);
-
-        return [...labReady, ...labHistory];
+        const labReady = await labOrdersApi.getReadyToPerformOrders();
+        return labReady;
       } catch (err) {
         void err;
         toast.error(t('messages.fetchError'));
@@ -50,7 +57,7 @@ export default function TechnicianWorklistPage() {
     const matchesTab =
       activeTab === 'pending' ? o.status === 'PAID' :
         activeTab === 'inProgress' ? o.status === 'IN_PROGRESS' :
-          o.status === 'COMPLETED';
+          false;
 
     if (!matchesTab) return false;
     if (!searchQuery) return true;
@@ -105,34 +112,24 @@ export default function TechnicianWorklistPage() {
     router.push(`/technician/lab-worklist/${order.id}`);
   };
 
-  const tabs: { key: TabKey; label: React.ReactNode }[] = [
-    { key: 'pending', label: <div className="flex items-center gap-1.5"><HourglassIcon size={18} weight="duotone" /> <span>{t('tabs.pending')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'PAID').length})</span></div> },
-    { key: 'inProgress', label: <div className="flex items-center gap-1.5"><MicroscopeIcon size={18} weight="duotone" /> <span>{t('tabs.inProgress')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'IN_PROGRESS').length})</span></div> },
-    { key: 'completed', label: <div className="flex items-center gap-1.5"><CheckCircleIcon size={18} weight="duotone" /> <span>{t('tabs.history')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'COMPLETED').length})</span></div> },
+  const tabs = [
+    { key: 'pending' as TabKey, label: <div className="flex items-center gap-1.5"><HourglassIcon size={18} weight="duotone" /> <span>{t('tabs.pending')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'PAID').length})</span></div> },
+    { key: 'inProgress' as TabKey, label: <div className="flex items-center gap-1.5"><MicroscopeIcon size={18} weight="duotone" /> <span>{t('tabs.inProgress')} ({(allOrders ?? []).filter((o: LabOrder) => o.status === 'IN_PROGRESS').length})</span></div> },
   ];
 
   return (
     <div className="flex flex-col h-full bg-[#f8fafc] overflow-hidden">
-      {/* Header Section */}
-      <div className="bg-white border-b border-slate-200 px-8 py-6 shrink-0 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{t('worklist.title')}</h1>
-            <p className="text-slate-500 text-sm mt-1">{t('worklist.subtitle')}</p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <WorklistSearchBar
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              onRefresh={refetch}
-              isLoading={isLoading}
-            />
-          </div>
-        </div>
-
-        <div className="mt-6">
-          <Tabs value={activeTab} onValueChange={(val) => setActiveTab(val as TabKey)} className="w-full">
+      {/* Filters & Tabs Area - Clean toolbar row inside the gray workspace under layout header */}
+      <div className="bg-[#f8fafc] border-b border-slate-200/60 px-8 py-4 shrink-0 flex flex-wrap items-center justify-between gap-4">
+        {/* Tabs */}
+        <div>
+          <Tabs
+            value={activeTab}
+            onValueChange={(val) => {
+              setActiveTab(val as TabKey);
+            }}
+            className="w-full"
+          >
             <TabsList className="bg-slate-100/80 p-1 rounded-xl">
               {tabs.map((tab) => (
                 <TabsTrigger
@@ -145,6 +142,25 @@ export default function TechnicianWorklistPage() {
               ))}
             </TabsList>
           </Tabs>
+        </div>
+
+        {/* Search & Refresh & History Link */}
+        <div className="flex items-center gap-3">
+          <WorklistSearchBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onRefresh={refetch}
+            isLoading={isLoading}
+          />
+          
+          <Button
+            variant="outline"
+            onClick={() => router.push('/technician/history')}
+            className="h-10 rounded-xl border-slate-200 bg-white text-xs font-bold text-slate-600 hover:text-[#1392ec] hover:border-[#1392ec]/30 flex items-center gap-1.5 cursor-pointer shadow-sm"
+          >
+            <CheckCircleIcon size={18} weight="bold" className="text-slate-500" />
+            <span>{t('tabs.history')}</span>
+          </Button>
         </div>
       </div>
 
@@ -186,7 +202,7 @@ export default function TechnicianWorklistPage() {
                     "group relative overflow-hidden border-slate-200 hover:border-[#1392ec]/40 hover:shadow-md transition-all duration-300 cursor-pointer",
                     isNew && "ring-2 ring-[#1392ec]/40 ring-offset-2"
                   )}
-                  onClick={() => order.status !== 'PAID' && handleOpenWorkspace(order)}
+                  onClick={() => handleOpenWorkspace(order)}
                 >
                   {isNew && (
                     <div className="absolute top-0 left-0 w-1 h-full bg-[#1392ec] animate-pulse" />
@@ -231,11 +247,11 @@ export default function TechnicianWorklistPage() {
                           {/* Assignment badge */}
                           {order.assignedTechnicianId ? (
                             <Badge className="text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 px-2">
-                              👤 Được chỉ định
+                              👤 {t('worklist.assigned')}
                             </Badge>
                           ) : (
                             <Badge className="text-[10px] font-bold bg-slate-50 text-slate-500 border border-slate-200 px-2">
-                              🔄 Tự động
+                              🔄 {t('worklist.auto')}
                             </Badge>
                           )}
                         </div>
@@ -261,7 +277,7 @@ export default function TechnicianWorklistPage() {
                           <Button
                             size="sm"
                             className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white font-bold px-5 h-9 rounded-xl shadow-sm shadow-[#1392ec]/20"
-                            onClick={(e) => { e.stopPropagation(); void handleStart(order.id); }}
+                            onClick={(e) => { e.stopPropagation(); setOrderIdToStart(order.id); }}
                           >
                             {t('worklist.actions.start')}
                           </Button>
@@ -289,6 +305,31 @@ export default function TechnicianWorklistPage() {
           </div>
         )}
       </div>
+
+      <AlertDialog open={!!orderIdToStart} onOpenChange={(open) => !open && setOrderIdToStart(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('worklist.confirmStartTitle')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('worklist.confirmStartDesc')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('workspace.cancel')}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (orderIdToStart) {
+                  void handleStart(orderIdToStart);
+                  setOrderIdToStart(null);
+                }
+              }}
+              className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white"
+            >
+              {t('worklist.actions.start')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

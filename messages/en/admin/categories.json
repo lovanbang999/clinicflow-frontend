@@ -20,6 +20,7 @@
     "description": "Description",
     "descriptionPlaceholder": "Detailed description",
     "isActive": "Active",
+    "isActiveHint": "Enable to show this category when managing services",
     "cancel": "Cancel",
     "save": "Save"
   },

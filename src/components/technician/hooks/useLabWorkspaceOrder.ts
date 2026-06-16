@@ -50,8 +50,23 @@ export function useLabWorkspaceOrder(id: string, source: string) {
     booking: (order as VisitServiceOrder).medicalRecord?.booking ? {
       bookingCode: (order as VisitServiceOrder).medicalRecord?.booking?.bookingCode || '',
       doctor: { 
-        fullName: (order as VisitServiceOrder).medicalRecord?.booking?.doctor?.fullName || ''
+        fullName: (order as VisitServiceOrder).medicalRecord?.booking?.doctor?.fullName || '',
+        specialties: (order as VisitServiceOrder).medicalRecord?.booking?.doctor?.doctorProfile?.specialties as string[] || []
       }
+    } : undefined,
+    medicalRecord: (order as VisitServiceOrder).medicalRecord ? {
+      bloodPressure: (order as VisitServiceOrder).medicalRecord?.bloodPressure,
+      heartRate: (order as VisitServiceOrder).medicalRecord?.heartRate,
+      temperature: (order as VisitServiceOrder).medicalRecord?.temperature ? Number((order as VisitServiceOrder).medicalRecord?.temperature) : null,
+      spO2: (order as VisitServiceOrder).medicalRecord?.spO2,
+      weightKg: (order as VisitServiceOrder).medicalRecord?.weightKg ? Number((order as VisitServiceOrder).medicalRecord?.weightKg) : null,
+      heightCm: (order as VisitServiceOrder).medicalRecord?.heightCm ? Number((order as VisitServiceOrder).medicalRecord?.heightCm) : null,
+      bmi: (order as VisitServiceOrder).medicalRecord?.bmi ? Number((order as VisitServiceOrder).medicalRecord?.bmi) : null,
+      chiefComplaint: (order as VisitServiceOrder).medicalRecord?.chiefComplaint,
+      clinicalFindings: (order as VisitServiceOrder).medicalRecord?.clinicalFindings,
+      doctorNotes: (order as VisitServiceOrder).medicalRecord?.doctorNotes,
+      allergies: (order as VisitServiceOrder).medicalRecord?.allergies,
+      diagnosisName: (order as VisitServiceOrder).medicalRecord?.diagnosisName,
     } : undefined,
     service: (order as VisitServiceOrder).service as LabOrder['service'],
   } : (order as LabOrder)) : null;

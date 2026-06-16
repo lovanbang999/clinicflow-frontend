@@ -26,6 +26,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
+import { Link } from '@/i18n/navigation';
 
 const ROOM_TYPES = [
   'CONSULTATION', 'ULTRASOUND', 'PROCEDURE', 'LAB', 'WAITING'
@@ -190,6 +191,7 @@ export default function AdminRoomsPage() {
               <tr>
                 <th className="px-6 py-4 font-semibold">{t('table.name')}</th>
                 <th className="px-6 py-4 font-semibold">{t('table.type')}</th>
+                <th className="px-6 py-4 font-semibold">{t('table.relatedService')}</th>
                 <th className="px-6 py-4 font-semibold">{t('table.floor')}</th>
                 <th className="px-6 py-4 font-semibold">{t('table.capacity')}</th>
                 <th className="px-6 py-4 font-semibold">{t('table.scheduleCount')}</th>
@@ -200,14 +202,14 @@ export default function AdminRoomsPage() {
             <tbody className="divide-y divide-[#e5e7eb]">
               {isLoading && rooms.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-10 text-center text-gray-500">
+                  <td colSpan={8} className="px-6 py-10 text-center text-gray-500">
                     <Spinner className="w-6 h-6 mx-auto mb-2" />
                     {t('tableState.loading')}
                   </td>
                 </tr>
               ) : rooms.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-10 text-center text-gray-500">
+                  <td colSpan={8} className="px-6 py-10 text-center text-gray-500">
                     <DoorIcon className="w-10 h-10 mx-auto mb-2 text-gray-300" />
                     {t('tableState.empty')}
                   </td>
@@ -221,9 +223,27 @@ export default function AdminRoomsPage() {
                         {t(`roomType.${room.type}` as Parameters<typeof t>[0])}
                       </span>
                     </td>
+                    <td className="px-6 py-4 text-[#64748b] text-xs max-w-[200px] truncate" title={t(`relatedServices.${room.type}` as Parameters<typeof t>[0])}>
+                      {t(`relatedServices.${room.type}` as Parameters<typeof t>[0])}
+                    </td>
                     <td className="px-6 py-4 text-[#64748b]">{room.floor || '—'}</td>
                     <td className="px-6 py-4 text-[#64748b]">{room.capacity}</td>
-                    <td className="px-6 py-4 text-[#64748b]">{room._count?.scheduleSlots ?? 0}</td>
+                    <td className="px-6 py-4 text-[#64748b]">
+                      <div className="flex flex-col gap-1.5 text-xs font-semibold">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[#94a3b8] font-normal">{t('table.scheduleLabel')}</span>
+                          <Link href="/admin/schedules" className="text-[#1392ec] hover:underline">
+                            {room._count?.scheduleSlots ?? 0}
+                          </Link>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-[#94a3b8] font-normal">{t('table.doctorLabel')}</span>
+                          <Link href="/admin/doctors" className="text-emerald-600 hover:underline">
+                            {room._count?.doctorProfiles ?? 0}
+                          </Link>
+                        </div>
+                      </div>
+                    </td>
                     <td className="px-6 py-4">
                       {room.isActive ? (
                         <span className="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-md text-xs font-medium bg-[#1392ec]/10 text-[#1392ec]">
@@ -329,6 +349,9 @@ export default function AdminRoomsPage() {
                     ))}
                   </SelectContent>
                 </Select>
+                <p className="text-[11px] text-[#64748b] mt-1 italic">
+                  {t('table.relatedService')}: {t(`relatedServices.${formData.type}` as Parameters<typeof t>[0])}
+                </p>
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="room-floor" className="text-sm font-semibold text-[#111518]">{t('form.floor')}</Label>

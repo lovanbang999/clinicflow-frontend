@@ -57,8 +57,8 @@ export default function AdminDashboardPage() {
     },
     {
       icon: CalendarCheckIcon,
-      iconBg: 'bg-purple-50',
-      iconColor: 'text-purple-600',
+      iconBg: 'bg-cyan-50',
+      iconColor: 'text-cyan-600',
       title: t('kpi.totalBookings'),
       value: stats ? fmt(stats.totalBookings) : '0',
       badge: stats ? (

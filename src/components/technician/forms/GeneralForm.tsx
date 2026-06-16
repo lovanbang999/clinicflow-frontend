@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { BaseFormProps } from './types';
 import { CheckIcon, FileTextIcon, WarningCircleIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
@@ -13,6 +14,7 @@ export function GeneralForm({
   initialAbnormalNote,
   onSave,
 }: BaseFormProps) {
+  const t = useTranslations('technicianWorklist');
 
   interface GeneralFormData {
     resultText: string;
@@ -26,6 +28,7 @@ export function GeneralForm({
     setIsAbnormal,
     isUploading,
     handleFileUpload,
+    handleFileDelete,
     handleSubmit,
   } = useResultForm<GeneralFormData>({
     initialData: { 
@@ -54,14 +57,14 @@ export function GeneralForm({
               <FileTextIcon size={20} weight="bold" />
             </div>
             <div>
-              <h3 className="text-sm font-black text-slate-800 uppercase tracking-tight">Mô tả kết quả</h3>
+              <h3 className="text-sm font-black text-slate-800 uppercase tracking-tight">{t('forms.general.generalSectionTitle')}</h3>
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Clinical Findings & Narrative</p>
             </div>
           </div>
         </div>
         <div className="p-6">
           <FormField 
-            label="Mô tả chi tiết kết quả lâm sàng" 
+            label={t('forms.general.generalDescLabel')} 
             required 
             error={form.formState.errors.resultText?.message}
           >
@@ -71,8 +74,8 @@ export function GeneralForm({
                 "w-full min-h-[300px] p-6 rounded-2xl bg-slate-50 border border-transparent focus:bg-white focus:border-blue-400 outline-none transition-all resize-none text-slate-800 font-medium text-base shadow-inner disabled:cursor-not-allowed",
                 form.formState.errors.resultText && "border-rose-300 bg-rose-50/10"
               )}
-              placeholder="Nhập mô tả chi tiết kết quả lâm sàng tại đây..."
-              {...form.register('resultText', { required: 'Vui lòng nhập mô tả kết quả' })}
+              placeholder={t('forms.general.generalPlaceholderDesc')}
+              {...form.register('resultText', { required: t('forms.general.generalRequiredDesc') })}
               disabled={isCompleted}
             />
           </FormField>
@@ -82,9 +85,10 @@ export function GeneralForm({
       {/* File & Abnormal columns */}
       <div className="flex flex-col gap-8">
         <UploadCard
-          label="Tài liệu đính kèm"
+          label={t('forms.general.generalUploadLabel')}
           hint="PDF, PNG, JPG (MAX 100MB)"
           onFileSelect={handleFileUpload}
+          onFileDelete={handleFileDelete}
           isUploading={isUploading}
           fileUrl={fileUrl}
           disabled={isCompleted}
@@ -92,7 +96,7 @@ export function GeneralForm({
         />
 
         <div className="space-y-4">
-          <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">Phân loại lâm sàng</h4>
+          <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">{t('forms.general.generalSectionClassification')}</h4>
           <div 
             className={cn(
               "p-6 rounded-[28px] border flex items-center justify-between transition-all group cursor-pointer shadow-sm",
@@ -114,13 +118,13 @@ export function GeneralForm({
                   "text-xs font-black uppercase tracking-wider",
                   isAbnormal ? "text-rose-800" : "text-emerald-800"
                 )}>
-                  {isAbnormal ? 'Dấu hiệu bất thường' : 'Chưa ghi nhận bất thường'}
+                  {isAbnormal ? t('forms.general.generalAbnormalStatus') : t('forms.general.generalNormalStatus')}
                 </p>
                 <p className={cn(
                   "text-[10px] font-medium opacity-80 mt-0.5 uppercase tracking-widest",
                   isAbnormal ? "text-rose-600" : "text-emerald-600"
                 )}>
-                  {isAbnormal ? 'Nhấn để đánh dấu bình thường' : 'Nhấn nếu phát hiện bất thường'}
+                  {isAbnormal ? t('forms.general.abnormalToggleNormal') : t('forms.general.abnormalToggleAbnormal')}
                 </p>
               </div>
             </div>
@@ -144,7 +148,7 @@ export function GeneralForm({
           {isAbnormal && (
             <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
               <FormField 
-                label="Ghi chú lâm sàng" 
+                label={t('forms.general.generalClinicalNotes')} 
                 required 
                 error={form.formState.errors.abnormalNote?.message}
               >
@@ -155,8 +159,8 @@ export function GeneralForm({
                     "w-full px-5 py-3 rounded-2xl border border-rose-200 focus:border-rose-500 outline-none text-sm font-bold text-rose-900 bg-white shadow-sm transition-all",
                     form.formState.errors.abnormalNote && "border-rose-500 bg-rose-50/10"
                   )}
-                  placeholder="Ghi chú về các dấu hiệu bất thường..."
-                  {...form.register('abnormalNote', { required: isAbnormal ? 'Vui lòng nhập ghi chú bất thường' : false })}
+                  placeholder={t('forms.general.generalPlaceholderClinicalNotes')}
+                  {...form.register('abnormalNote', { required: isAbnormal ? t('forms.general.generalRequiredAbnormalNote') : false })}
                   disabled={isCompleted}
                 />
               </FormField>
