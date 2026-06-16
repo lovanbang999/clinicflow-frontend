@@ -2,6 +2,13 @@
   "visit": {
     "loading": "Loading medical record...",
     "backToExam": "Back to Exam",
+    "timeline": {
+      "noDiagnosis": "No confirmed diagnosis",
+      "doctor": "Doctor",
+      "diagnosis": "Diagnosis",
+      "prescription": "Prescription"
+    },
+    "generalExam": "General Exam",
     "shared": {
       "back": "Back",
       "readOnly": "READ ONLY"

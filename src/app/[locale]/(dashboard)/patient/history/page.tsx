@@ -73,10 +73,10 @@ type FilterStatus = 'ALL' | 'COMPLETED' | 'PENDING' | 'CANCELLED';
 const FilterChip = ({ label, value, activeFilter, setActiveFilter }: { label: string; value: FilterStatus; activeFilter: FilterStatus; setActiveFilter: (v: FilterStatus) => void }) => (
   <button
     onClick={() => setActiveFilter(value)}
-    className={`whitespace-nowrap rounded-full px-4 py-1.5 md:px-5 md:py-2 text-[11px] md:text-[13px] font-semibold border transition-all duration-200 active:scale-95 cursor-pointer ${
+    className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-[0.97] cursor-pointer ${
       activeFilter === value
-        ? 'bg-blue-600 border-blue-600 text-white shadow-sm shadow-blue-600/10'
-        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
+        ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-755'
     }`}
   >
     {label}
@@ -479,6 +479,7 @@ const VisitCard = ({
 
 export default function PatientMedicalHistoryPage() {
   const t = useTranslations('patientOverview.medicalHistory');
+  const tOverview = useTranslations('patientOverview');
   const tGreeting = useTranslations('booking');
   const tEmr = useTranslations('emr');
   const locale = useLocale();
@@ -562,37 +563,45 @@ export default function PatientMedicalHistoryPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-2 space-y-6">
-      <div className="space-y-1">
-        <p className="text-xs sm:text-sm text-[#1392ec] font-bold uppercase tracking-wider">{tGreeting(greetingKey)}</p>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">{t('title')}</h1>
-        <p className="text-[13px] text-slate-500 font-medium">
-          {total > 0
-            ? t('subtitle', { count: total })
-            : t('noHistory')}
-        </p>
+    <div className="max-w-5xl mx-auto space-y-6">
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="space-y-1">
+          <p className="text-xs sm:text-sm text-[#1392ec] font-bold uppercase tracking-wider">{tGreeting(greetingKey)}</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">{t('title')}</h1>
+          <p className="text-[13px] text-slate-500 font-medium mt-1">
+            {total > 0
+              ? t('subtitle', { count: total })
+              : t('noHistory')}
+          </p>
+        </div>
       </div>
 
-      {/* Control panel: Search & Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-        {/* Search Input */}
-        <div className="relative flex-1">
+      {/* Control panel: Search & Filters Card */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-4 md:p-5 shadow-xs space-y-4">
+        {/* Search Field */}
+        <div className="relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             placeholder="Tìm kiếm bác sĩ, chuyên khoa, chẩn đoán..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 text-xs md:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+            className="w-full pl-10 pr-4 py-2.5 text-xs md:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-all outline-none"
           />
         </div>
 
-        {/* Status Chips */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide shrink-0">
-          <FilterChip label="Tất cả" value="ALL" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-          <FilterChip label="Hoàn thành" value="COMPLETED" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-          <FilterChip label="Đang chờ" value="PENDING" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-          <FilterChip label="Đã huỷ" value="CANCELLED" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+        {/* Status Chips Row */}
+        <div className="space-y-1.5">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+            {tOverview('filters.statusLabel')}
+          </span>
+          <div className="flex flex-wrap gap-2">
+            <FilterChip label="Tất cả" value="ALL" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+            <FilterChip label="Hoàn thành" value="COMPLETED" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+            <FilterChip label="Đang chờ" value="PENDING" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+            <FilterChip label="Đã huỷ" value="CANCELLED" activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+          </div>
         </div>
       </div>
 
@@ -603,8 +612,8 @@ export default function PatientMedicalHistoryPage() {
           ))}
         </div>
       ) : rawVisits.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-12 text-center shadow-xs">
+          <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto mb-4">
             <StethoscopeIcon size={32} className="text-slate-350 dark:text-slate-550" weight="bold" />
           </div>
           <h3 className="text-base font-semibold text-slate-700 dark:text-slate-300 mb-1">
