@@ -37,15 +37,17 @@ export function Hero() {
               {t('hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Link href="/register">
-                <button className="w-full sm:w-auto bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-[#1392ec]/20 flex items-center justify-center gap-2 cursor-pointer">
-                  {t('hero.cta')} <ArrowRightIcon weight="bold" className="text-sm" />
-                </button>
+              <Link
+                href="/register"
+                className="w-full sm:w-auto bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg shadow-[#1392ec]/20 flex items-center justify-center gap-2"
+              >
+                {t('hero.cta')} <ArrowRightIcon weight="bold" className="text-sm" />
               </Link>
-              <a href="tel:+84912345678" className="block">
-                <button className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 cursor-pointer">
-                  <PhoneIcon weight="fill" className="text-[#1392ec]" /> {t('hero.phone')}
-                </button>
+              <a
+                href="tel:+84912345678"
+                className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+              >
+                <PhoneIcon weight="fill" className="text-[#1392ec]" /> {t('hero.phone')}
               </a>
             </div>
             <div className="flex items-center gap-8 pt-8 border-t border-slate-200/60">
@@ -97,21 +99,22 @@ export function Hero() {
             <form className="flex flex-col md:flex-row items-center gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">
               <div className="flex-1 w-full relative group">
                 <StethoscopeIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
-                <input className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" placeholder={t('servicesPage.searchPlaceholder')} type="text" />
+                <input aria-label={t('servicesPage.searchPlaceholder')} className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" placeholder={t('servicesPage.searchPlaceholder')} type="text" />
               </div>
               <div className="flex-1 w-full relative group">
                 <UserIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
-                <input className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" placeholder={t('hero.searchPlaceholder')} type="text" />
+                <input aria-label={t('hero.searchPlaceholder')} className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" placeholder={t('hero.searchPlaceholder')} type="text" />
               </div>
               <div className="flex-1 w-full relative group">
                 <CalendarBlankIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
-                <input className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" type="date" />
+                <input aria-label={t('hero.datePlaceholder')} className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" type="date" />
               </div>
               <div className="p-2 w-full md:w-auto">
-                <Link href="/doctors">
-                  <button type="button" className="w-full md:w-auto bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-3 rounded-xl font-bold transition-all shadow-xl cursor-pointer text-center">
-                    {t('hero.searchBtn')}
-                  </button>
+                <Link
+                  href="/doctors"
+                  className="block w-full md:w-auto bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-3 rounded-xl font-bold transition-all shadow-xl text-center"
+                >
+                  {t('hero.searchBtn')}
                 </Link>
               </div>
             </form>

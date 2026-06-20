@@ -36,10 +36,11 @@ export function ServiceDetailPageContent() {
           <p className="text-slate-500 text-sm leading-relaxed mb-8">
             {t('notFoundDesc')}
           </p>
-          <Link href="/services">
-            <button className="h-11 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-lg flex items-center justify-center cursor-pointer text-sm">
-              {t('returnToServices')}
-            </button>
+          <Link
+            href="/services"
+            className="h-11 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-lg flex items-center justify-center text-sm"
+          >
+            {t('returnToServices')}
           </Link>
         </div>
       </div>
@@ -182,10 +183,11 @@ export function ServiceDetailPageContent() {
                 </ul>
               </div>
 
-              <Link href="/register">
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] mb-4 cursor-pointer">
-                  {t('bookService')}
-                </button>
+              <Link
+                href="/register"
+                className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] mb-4 text-center"
+              >
+                {t('bookService')}
               </Link>
               <p className="text-center text-xs text-slate-400">{t('noPaymentText')}</p>
             </div>
