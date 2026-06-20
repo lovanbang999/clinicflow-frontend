@@ -39,7 +39,7 @@ export function UpcomingAppointments() {
                   <td colSpan={6} className="px-6 py-4"><Skeleton className="h-6 w-full" /></td>
                 </tr>
               ))
-            ) : upcomingBookings.length === 0 ? (
+            ) : (!upcomingBookings || upcomingBookings.length === 0) ? (
               <tr>
                 <td colSpan={6} className="px-6 py-10 text-center text-slate-400 text-sm">
                   {t('noData')}

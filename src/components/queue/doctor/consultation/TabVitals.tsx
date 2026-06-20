@@ -21,6 +21,8 @@ export function TabVitals({ item, medicalRecord, onChange, isReadOnly }: TabVita
 
   const isDirtyRef = useRef(false);
   const [prevRecord, setPrevRecord] = useState(medicalRecord);
+  const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
 
   // Derive state from props during render phase to avoid cascading updates in effect
   if (medicalRecord !== prevRecord) {
@@ -60,6 +62,7 @@ export function TabVitals({ item, medicalRecord, onChange, isReadOnly }: TabVita
   useEffect(() => {
     if (!isDirtyRef.current) return;
 
+    setIsSavingDraft(true);
     const timer = setTimeout(async () => {
       try {
         const finalData = { ...formData };
@@ -69,13 +72,18 @@ export function TabVitals({ item, medicalRecord, onChange, isReadOnly }: TabVita
         }
 
         await medicalRecordsApi.saveSymptoms(item.bookingId, finalData);
-        // Do not spam toast success on auto-save
-        // toast.success(t('messages.saveSuccess')); 
+        
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        setLastSavedTime(timeStr);
+        
         isDirtyRef.current = false;
         onChange(); 
       } catch (error) {
-        console.error(error);
-        toast.error(t('messages.saveError'));
+        void error;
+        toast.error(t('messages.saveError') || 'Lỗi tự động lưu bản nháp');
+      } finally {
+        setIsSavingDraft(false);
       }
     }, 1000);
 
@@ -105,8 +113,45 @@ export function TabVitals({ item, medicalRecord, onChange, isReadOnly }: TabVita
     else { bmiCat = t('symptoms.bmi.obese'); isAbnormalBmi = true; }
   }
 
+  // Severe clinical risk threshold for Hypertensive Crisis
+  const isBpCrisis = sys >= 180 || dia >= 120;
+
   return (
     <div className="flex flex-col gap-4 animate-in fade-in duration-300 h-full">
+      {/* Severe Hypertensive Crisis Banner Alert */}
+      {isBpCrisis && (
+        <div className="bg-red-50 border-2 border-red-500 text-red-700 px-4 py-3 rounded-xl shadow-md flex items-start gap-3 animate-bounce">
+          <span className="text-xl leading-none shrink-0 mt-0.5">⚠️</span>
+          <div className="min-w-0">
+            <h4 className="font-extrabold text-[12px] uppercase tracking-wide text-red-800">
+              {t('symptoms.bpCrisisAlertTitle') || 'CẢNH BÁO TĂNG HUYẾT ÁP CẤP CỨU!'}
+            </h4>
+            <p className="text-[11px] font-semibold mt-0.5">
+              {t('symptoms.bpCrisisAlertDesc', { sys, dia }) || `Huyết áp đo được cực kỳ cao (${sys}/${dia} mmHg). Bác sĩ cần lưu ý theo dõi sát sao và có can thiệp y tế khẩn cấp.`}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Vitals Title & Draft Autosave status */}
+      <div className="flex items-center justify-between mt-1">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          {t('symptoms.vitals') || 'Sinh hiệu'}
+        </h3>
+        <div className="text-[10px]">
+          {isSavingDraft ? (
+            <span className="text-blue-600 font-medium animate-pulse flex items-center gap-1.5 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping shrink-0"></span>
+              {t('symptoms.saving') || 'Đang lưu...'}
+            </span>
+          ) : lastSavedTime ? (
+            <span className="text-emerald-600 font-semibold flex items-center gap-1 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 shadow-sm">
+              <span className="shrink-0 text-xs">✓</span> {t('symptoms.draftSavedAt') || 'Đã tự động lưu nháp lúc'} {lastSavedTime}
+            </span>
+          ) : null}
+        </div>
+      </div>
+
       {/* Vitals & Anthropometrics Grid */}
       <div className="flex-none grid grid-cols-4 gap-2.5">
         {/* ROW 1: PRIMARY VITALS */}

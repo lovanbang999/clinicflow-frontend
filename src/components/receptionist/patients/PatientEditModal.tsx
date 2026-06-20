@@ -128,7 +128,7 @@ export function PatientEditModal({
       });
       onClose();
     } catch (error) {
-      console.error('Update error:', error);
+      void error;
     } finally {
       setIsSubmitting(false);
     }

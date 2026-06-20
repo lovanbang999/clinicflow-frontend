@@ -141,6 +141,13 @@ export function DoctorDetailSheet({ isOpen, onClose, doctor }: DoctorDetailSheet
                       )}
                     </div>
                   </div>
+
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-[#64748b] uppercase tracking-wider">{t('fields.clinicRoom')}</p>
+                    <p className="text-sm font-bold text-[#111518]">
+                      {profile?.room?.name || '--'}
+                    </p>
+                  </div>
                 </div>
               </div>
 

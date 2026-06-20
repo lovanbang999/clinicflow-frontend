@@ -6,19 +6,25 @@ import { useNotifications } from '@/lib/hooks/clinic/useNotifications';
 
 export function useBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const { execute, isLoading, error } = useApiHandler();
 
   // Fetch my bookings
-  const fetchMyBookings = useCallback(async (): Promise<Booking[]> => {
+  const fetchMyBookings = useCallback(async (params?: {
+    status?: string;
+    page?: number;
+    limit?: number;
+  }): Promise<{ bookings: Booking[], pagination: PaginationMeta } | null> => {
     const res = await execute(
       async () => {
-        const data = await bookingsApi.getMyBookings();
-        setBookings(data);
+        const data = await bookingsApi.getMyBookings(params);
+        setBookings(data.bookings);
+        setPagination(data.pagination);
         return data;
       },
       { errorFallbackMsg: 'fetchAppointmentsError' }
     );
-    return res || [];
+    return res || null;
   }, [execute]);
 
   // Fetch all bookings with filters
@@ -120,8 +126,7 @@ export function useBookings() {
   // WebSocket Notifications for auto-refresh
   const { onNewNotification } = useNotifications();
   useEffect(() => {
-    const unsub = onNewNotification((notif) => {
-      console.log('Bookings received notification, refreshing list...', notif.type);
+    const unsub = onNewNotification(() => {
       // For patients, refresh their own history
       void fetchMyBookings();
     });
@@ -130,6 +135,7 @@ export function useBookings() {
 
   return {
     bookings,
+    pagination,
     isLoading,
     error,
     fetchMyBookings,

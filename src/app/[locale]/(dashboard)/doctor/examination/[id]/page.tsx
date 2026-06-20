@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
 import { visitServiceOrdersApi } from '@/lib/api/clinical/visit-service-orders';
@@ -15,8 +16,6 @@ function mapVsoToQueueRecord(vso: VisitServiceOrder): QueueRecord | null {
   const booking = vso.medicalRecord?.booking;
   if (!booking) return null;
 
-  // We cast the nested booking into the Booking shape expected by QueueRecord.
-  // We ensure medicalRecord details (chiefComplaint) are preserved for the UI.
   return {
     id: `vso-${vso.id}`,
     bookingId: (booking as { id?: string }).id ?? '',
@@ -38,8 +37,7 @@ function mapVsoToQueueRecord(vso: VisitServiceOrder): QueueRecord | null {
 export default function DoctorExamPage() {
   const router = useRouter();
   const params = useParams();
-  const id = params.id as string; // This is now a VisitServiceOrder ID
-  const locale = params.locale as string;
+  const id = params.id as string;
   const t = useTranslations('emr.visit.specialist');
   const [record, setRecord] = useState<QueueRecord | null>(null);
   const [vso, setVso] = useState<VisitServiceOrder | null>(null);
@@ -54,18 +52,18 @@ export default function DoctorExamPage() {
       const mapped = mapVsoToQueueRecord(order);
       if (!mapped) {
         toast.error(t('toasts.fetchError'));
-        router.push(`/${locale}/doctor`);
+        router.push('/doctor');
         return;
       }
       setRecord(mapped);
     } catch (err) {
-      console.error(err);
+      void err;
       toast.error(t('toasts.fetchError'));
-      router.push(`/${locale}/doctor`);
+      router.push('/doctor');
     } finally {
       setIsLoading(false);
     }
-  }, [id, locale, router, t]);
+  }, [id, router, t]);
 
   useEffect(() => {
     void fetchRecord();
@@ -79,19 +77,17 @@ export default function DoctorExamPage() {
     );
   }
 
-  if (!record || !vso) {
-    return null;
-  }
+  if (!record || !vso) return null;
 
   return (
     <div className="flex flex-col h-full bg-[#edf1f8] relative z-10 w-full overflow-hidden shadow-inner hidden-scrollbar">
       <SpecialistExaminationView
         item={record}
         vso={vso}
-        onExit={() => router.push(`/${locale}/doctor`)}
+        onExit={() => router.push('/doctor')}
         onSuccess={() => {
           toast.success(t('toasts.saveSuccess'));
-          router.push(`/${locale}/doctor`);
+          router.push('/doctor');
         }}
       />
     </div>

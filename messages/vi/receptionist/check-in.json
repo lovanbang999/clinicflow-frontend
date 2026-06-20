@@ -1,5 +1,5 @@
 {
-  "title": "Bảng Điều Khiển Lịch Khám",
+  "title": "Quản lý lịch hẹn",
   "searchPlaceholder": "Tìm bệnh nhân hoặc lịch hẹn...",
   "stats": {
     "pending": "Chờ xác nhận",
@@ -27,6 +27,7 @@
     "actions": "Thao tác",
     "confirmBtn": "Xác nhận",
     "cancelBtn": "Hủy",
+    "rescheduleBtn": "Đổi lịch",
     "checkInBtn": "Vào khám",
     "confirmedLabel": "Đã xác nhận",
     "noActions": "Không có",
@@ -62,5 +63,23 @@
     "confirmBtn": "Xác nhận",
     "success": "Xác nhận lịch hẹn thành công",
     "error": "Không thể xác nhận lịch hẹn"
+  },
+  "rescheduleModal": {
+    "title": "Đổi lịch hẹn thay bệnh nhân",
+    "appointmentDetails": "Lịch hẹn hiện tại",
+    "newScheduleTitle": "Thông tin lịch hẹn mới",
+    "dateLabel": "Chọn ngày khám mới",
+    "doctorLabel": "Chọn bác sĩ khám",
+    "slotLabel": "Chọn khung giờ khám",
+    "notesLabel": "Ghi chú đổi lịch",
+    "notesPlaceholder": "Nhập lý do đổi lịch hoặc ghi chú thêm cho lịch hẹn mới...",
+    "cancelBtn": "Quay lại",
+    "confirmBtn": "Xác nhận đổi lịch",
+    "success": "Đổi lịch hẹn thành công!",
+    "error": "Không thể đổi lịch hẹn. Vui lòng kiểm tra lại.",
+    "selectDoctorFirst": "Vui lòng chọn bác sĩ",
+    "selectDateFirst": "Vui lòng chọn ngày khám",
+    "noSlots": "Không có khung giờ trống cho bác sĩ này vào ngày đã chọn.",
+    "loadingSlots": "Đang tải khung giờ trống..."
   }
 }

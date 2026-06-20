@@ -27,7 +27,52 @@
   "table": {
     "serviceName": "Tên dịch vụ",
     "count": "Lượt đặt",
-    "amount": "Số tiền",
     "method": "Phương thức"
+  },
+  "periods": {
+    "today": "Hôm nay",
+    "week": "Tuần này",
+    "month": "Tháng này",
+    "custom": "Tùy chọn"
+  },
+  "categories": {
+    "title": "Doanh thu theo phân loại",
+    "subtitle": "Phân tích nguồn thu từ dịch vụ",
+    "consultation": "Khám tư vấn",
+    "consultationSub": "Chi phí khám & tư vấn",
+    "service": "Xét nghiệm & Chỉ định",
+    "serviceSub": "Cận lâm sàng & Dịch vụ",
+    "pharmacy": "Dược phẩm",
+    "pharmacySub": "Đơn thuốc & Thiết bị"
+  },
+  "export": {
+    "button": "Xuất báo cáo",
+    "csv": "Xuất dữ liệu CSV",
+    "pdf": "In báo cáo (PDF)"
+  },
+  "print": {
+    "clinicName": "SMART CLINIC - PHÒNG KHÁM ĐA KHOA THÔNG MINH",
+    "systemName": "Hệ Thống Quản Lý Khám Bệnh Toàn Diện",
+    "reportTitle": "Báo cáo doanh thu & hoạt động phòng khám",
+    "period": "Kỳ báo cáo:"
+  },
+  "csvReport": {
+    "header": "BÁO CÁO DOANH THU PHÒNG KHÁM (SMART CLINIC)",
+    "period": "Kỳ báo cáo:",
+    "totalRevenue": "Tổng doanh thu:",
+    "checkIns": "Lượt tiếp nhận:",
+    "newPatients": "Bệnh nhân mới:",
+    "pendingInvoices": "Hóa đơn chờ xử lý:",
+    "revenueByCategory": "DOANH THU THEO PHÂN LOẠI",
+    "consultation": "Khám tư vấn:",
+    "service": "Xét nghiệm & Dịch vụ:",
+    "pharmacy": "Dược phẩm & Đơn thuốc:",
+    "revenueByPaymentMethod": "DOANH THU THEO PHƯƠNG THỨC THANH TOÁN",
+    "transactionSuffix": "VND ({count} giao dịch)",
+    "topServices": "DỊCH VỤ HÀNG ĐẦU (THEO DOANH THU)",
+    "serviceName": "Tên dịch vụ",
+    "bookings": "Lượt đặt",
+    "estRevenue": "Doanh thu ước tính",
+    "filename": "bao_cao_doanh_thu"
   }
 }

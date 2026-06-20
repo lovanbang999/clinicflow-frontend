@@ -1,7 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { StethoscopeIcon, FlaskIcon, CheckCircleIcon } from '@phosphor-icons/react';
+// import { StethoscopeIcon, FlaskIcon, CheckCircleIcon } from '@phosphor-icons/react'; // HIDDEN: FlaskIcon used by Direct Service
+import { StethoscopeIcon, CheckCircleIcon } from '@phosphor-icons/react';
 import { useWalkinBooking } from '../WalkinBookingContext';
 
 export function ModeToggle() {
@@ -9,7 +10,7 @@ export function ModeToggle() {
   const { bookingMode, setBookingMode } = useWalkinBooking();
 
   const isConsultation = bookingMode === 'CONSULTATION';
-  const isDirectService = bookingMode === 'DIRECT_SERVICE';
+  // const isDirectService = bookingMode === 'DIRECT_SERVICE'; // HIDDEN: Direct Service flow
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
@@ -54,8 +55,8 @@ export function ModeToggle() {
         </span>
       </button>
 
-      {/* Mode B — Direct Service */}
-      <button
+      {/* HIDDEN: Mode B — Direct Service (re-enable when flow is ready) */}
+      {/* <button
         type="button"
         onClick={() => setBookingMode('DIRECT_SERVICE')}
         className={`relative text-left p-4 rounded-2xl border-2 transition-all duration-200 cursor-pointer ${
@@ -93,7 +94,7 @@ export function ModeToggle() {
         }`}>
           {t('directServiceTag')}
         </span>
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -31,9 +31,13 @@ export const bookingsApi = {
   },
 
   // Get my bookings (patient)
-  getMyBookings: async (): Promise<Booking[]> => {
-    const response = await apiClient.get<{ data: { bookings: Booking[] } }>('/bookings/my-bookings');
-    return response.data.data.bookings;
+  getMyBookings: async (params?: {
+    status?: string;
+    page?: number;
+    limit?: number;
+  }): Promise<{ bookings: Booking[], pagination: PaginationMeta }> => {
+    const response = await apiClient.get<{ data: { bookings: Booking[], pagination: PaginationMeta } }>('/bookings/my-bookings', { params });
+    return response.data.data;
   },
 
   // Get booking by ID

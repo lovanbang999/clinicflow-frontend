@@ -46,6 +46,11 @@
     "unsavedDays": "ngày chưa lưu",
     "saveAll": "Lưu tất cả",
     "invalidTimeError": "Giờ bắt đầu phải trước giờ kết thúc",
+    "breakTimeOrderError": "Giờ nghỉ bắt đầu phải trước giờ nghỉ kết thúc",
+    "breakTimeRangeError": "Giờ nghỉ phải nằm trong khoảng giờ làm việc",
+    "invalidWorkingHoursFor": "Thời gian làm việc không hợp lệ cho {day}",
+    "invalidBreakTimeFor": "Thời gian nghỉ không hợp lệ cho {day}",
+    "breakTimeRangeErrorFor": "Thời gian nghỉ phải nằm trong khoảng giờ làm việc của {day}",
     "noChangesError": "Không có thay đổi nào cần lưu",
     "from": "Từ",
     "to": "đến",
@@ -57,6 +62,38 @@
     "daysPerWeek": "ngày làm việc/tuần",
     "total": "Tổng",
     "perWeek": "/tuần",
-    "rememberToSave": "Nhớ lưu trước khi rời trang!"
+    "rememberToSave": "Nhớ lưu trước khi rời trang!",
+    "hourShort": "h",
+    "minuteShort": "ph",
+    "headers": {
+      "day": "Thứ",
+      "status": "Bật/Tắt",
+      "workingHours": "Giờ làm việc",
+      "breakTime": "Giờ nghỉ",
+      "duration": "Thời lượng",
+      "actions": "Thao tác"
+    },
+    "breakTypes": {
+      "none": "Không nghỉ",
+      "lunch_90": "Nghỉ trưa 1h30 (12:00 - 13:30)",
+      "lunch_30": "Nghỉ trưa 30p (12:00 - 12:30)",
+      "custom": "Tùy chỉnh..."
+    },
+    "days": {
+      "MONDAY": "Thứ Hai",
+      "TUESDAY": "Thứ Ba",
+      "WEDNESDAY": "Thứ Tư",
+      "THURSDAY": "Thứ Năm",
+      "FRIDAY": "Thứ Sáu",
+      "SATURDAY": "Thứ Bảy",
+      "SUNDAY": "Chủ Nhật",
+      "mon": "T2",
+      "tue": "T3",
+      "wed": "T4",
+      "thu": "T5",
+      "fri": "T6",
+      "sat": "T7",
+      "sun": "CN"
+    }
   }
 }

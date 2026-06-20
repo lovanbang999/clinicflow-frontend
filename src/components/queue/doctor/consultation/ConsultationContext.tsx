@@ -14,11 +14,17 @@ export interface DraftServiceOrder {
   performedBy?: string;
 }
 
+export interface DraftLabOrder {
+  service: Service;
+  assignedTechnicianId?: string;
+  assignedTechnicianName?: string;
+}
+
 interface ConsultationContextType {
   item: QueueRecord;
   medicalRecord: VisitResultsResponse | null;
   draftServices: DraftServiceOrder[];
-  draftLabs: Service[];
+  draftLabs: DraftLabOrder[];
   isSaving: boolean;
   isLoading: boolean;
   isPhase2: boolean;
@@ -27,7 +33,7 @@ interface ConsultationContextType {
   isPrescriptionLocked: boolean;
   
   setDraftServices: React.Dispatch<React.SetStateAction<DraftServiceOrder[]>>;
-  setDraftLabs: React.Dispatch<React.SetStateAction<Service[]>>;
+  setDraftLabs: React.Dispatch<React.SetStateAction<DraftLabOrder[]>>;
   refreshRecord: () => void;
   finalize: (onExit: () => void, onSuccess: () => void) => Promise<void>;
 }
@@ -44,7 +50,7 @@ export function ConsultationProvider({
   const t = useTranslations('emr.visit');
   const [medicalRecord, setMedicalRecord] = useState<VisitResultsResponse | null>(null);
   const [draftServices, setDraftServices] = useState<DraftServiceOrder[]>([]);
-  const [draftLabs, setDraftLabs] = useState<Service[]>([]);
+  const [draftLabs, setDraftLabs] = useState<DraftLabOrder[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const { joinBookingLabRoom, leaveBookingLabRoom, onLabResultCompleted } = useLabOrderSocket();
   const fetchRecord = useCallback(async (quiet = false) => {
@@ -53,7 +59,7 @@ export function ConsultationProvider({
       const res = await medicalRecordsApi.getVisitResults(item.bookingId);
       setMedicalRecord(res);
     } catch (error) {
-      console.error('Failed to fetch medical record:', error);
+      void error;
       if (!quiet) toast.error(t('messages.fetchError'));
     } finally {
       if (!quiet) setIsLoading(false);
@@ -73,9 +79,8 @@ export function ConsultationProvider({
     joinBookingLabRoom(item.bookingId);
     
     const unsubscribe = onLabResultCompleted((payload) => {
-      console.log('Lab result completed, refreshing record:', payload);
       toast.info(`${t('tabs.labs')}: ${payload.testName} ${t('messages.resultReady', { defaultMessage: 'đã có kết quả' })}`);
-      fetchRecord(true); // Quiet refresh
+      fetchRecord(true);
     });
 
     return () => {
@@ -112,8 +117,9 @@ export function ConsultationProvider({
           for (const lab of draftLabs) {
             await labOrdersApi.createOrder({
               bookingId: item.bookingId,
-              testName: lab.name,
-              serviceId: lab.id
+              testName: lab.service.name,
+              serviceId: lab.service.id,
+              assignedTechnicianId: lab.assignedTechnicianId,
             });
           }
         }
@@ -122,7 +128,7 @@ export function ConsultationProvider({
         setDraftLabs([]);
         onExit();
       } catch (error) {
-        console.error(error);
+        void error;
         toast.error(t('messages.orderError'));
       } finally {
         setIsSaving(false);

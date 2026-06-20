@@ -9,7 +9,8 @@ import { TimeSlotGrid } from '@/components/booking/TimeSlotGrid';
 import { BookingConfirmation } from '@/components/booking/BookingConfirmation';
 import { FlowSelection } from '@/components/booking/FlowSelection';
 import { useBookingStore } from '@/lib/store/bookingStore';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bot, Sparkles } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 
 export default function BookingPage() {
@@ -30,14 +31,14 @@ export default function BookingPage() {
     currentStep === 0
       ? !!bookingType
       : currentStep === 1
-      ? !!selectedService
-      : currentStep === 2
-      ? !!selectedDoctor
-      : currentStep === 3
-      ? !!selectedDate
-      : currentStep === 4
-      ? !!selectedTimeSlot
-      : true;
+        ? !!selectedService
+        : currentStep === 2
+          ? !!selectedDoctor
+          : currentStep === 3
+            ? !!selectedDate
+            : currentStep === 4
+              ? !!selectedTimeSlot
+              : true;
 
   const steps = [
     { number: 0, label: t('stepLabels.type') },
@@ -83,11 +84,11 @@ export default function BookingPage() {
             </h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm md:text-base">
               {currentStep === 0 && (
-                !bookingType 
-                  ? t('subtitle') 
-                  : bookingType === 'CONSULTATION' 
-                  ? t('selection.consultation.subtitle') 
-                  : t('selection.specialist.subtitle')
+                !bookingType
+                  ? t('subtitle')
+                  : bookingType === 'CONSULTATION'
+                    ? t('selection.consultation.subtitle')
+                    : t('selection.specialist.subtitle')
               )}
               {currentStep === 1 && t('stepSubtitles.service')}
               {currentStep === 2 && t('stepSubtitles.doctor')}
@@ -115,17 +116,42 @@ export default function BookingPage() {
           )}
         </div>
 
+        {/* AI Assist Banner — only at step 0 */}
+        {currentStep === 0 && (
+          <Link
+            href="/patient/chat"
+            className="group flex items-center gap-3 mb-6 sm:mb-8 px-4 py-3 rounded-2xl bg-[#1392ec]/5 border border-[#1392ec]/20 hover:bg-[#1392ec]/10 hover:border-[#1392ec]/35 transition-all duration-200 cursor-pointer"
+          >
+            <div className="w-9 h-9 rounded-xl bg-[#1392ec]/10 group-hover:bg-[#1392ec]/20 flex items-center justify-center flex-shrink-0 transition-colors">
+              <Bot className="h-5 w-5 text-[#1392ec]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[13px] font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                {t('aiSuggestion.title')}
+                <Sparkles className="h-3.5 w-3.5 text-[#1392ec]" />
+              </p>
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 mt-0.5">
+                {t('aiSuggestion.desc')}
+              </p>
+            </div>
+            <span className="text-[12px] font-bold text-[#1392ec] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+              {t('aiSuggestion.cta')}
+              <ArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
+        )}
+
         {/* Stepper */}
         <div className="flex items-center md:justify-center gap-1.5 sm:gap-3 mb-8 sm:mb-10 md:mb-12 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
           {steps.map((step, idx) => (
             <div key={step.number} className="flex items-center shrink-0">
               <div className={cn(
                 "flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 border-2",
-                currentStep === step.number 
-                  ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-500/20" 
+                currentStep === step.number
+                  ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-500/20"
                   : currentStep > step.number
-                  ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                  : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600"
+                    ? "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600"
               )}>
                 <span className="text-xs sm:text-sm font-black italic uppercase tracking-tighter">
                   {currentStep > step.number ? '✓' : `0${idx + 1}`}
@@ -163,8 +189,8 @@ export default function BookingPage() {
                   disabled={currentStep === 0}
                   className={cn(
                     "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer shrink-0",
-                    currentStep === 0 
-                      ? "invisible" 
+                    currentStep === 0
+                      ? "invisible"
                       : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
                   )}
                 >
@@ -196,8 +222,8 @@ export default function BookingPage() {
                 disabled={currentStep === 0}
                 className={cn(
                   "md:hidden flex items-center justify-center w-12 h-12 rounded-2xl transition-all active:scale-95 cursor-pointer shrink-0",
-                  currentStep === 0 
-                    ? "invisible" 
+                  currentStep === 0
+                    ? "invisible"
                     : "text-slate-500 bg-slate-100/50 dark:bg-slate-800/50"
                 )}
               >

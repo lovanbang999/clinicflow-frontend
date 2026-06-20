@@ -38,7 +38,7 @@ export function TabNotes({ item, medicalRecord, onChange, isReadOnly }: TabNotes
       });
       onChange();
     } catch (error) {
-      console.error(error);
+      void error;
       toast.error(t('errors.save'));
     } finally {
       setIsSubmitting(false);

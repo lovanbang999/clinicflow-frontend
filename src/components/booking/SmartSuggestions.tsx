@@ -39,7 +39,7 @@ export function SmartSuggestions() {
 
         setSuggestions(data);
       } catch (error) {
-        console.error('Failed to fetch smart suggestions:', error);
+        void error;
         setSuggestions([]);
       } finally {
         setLoading(false);
@@ -56,7 +56,7 @@ export function SmartSuggestions() {
     setCurrentStep(5); // Skip to confirmation
   };
 
-  if (!selectedDoctor || !selectedService || loading || suggestions.length === 0) {
+  if (!selectedDoctor || !selectedService || loading || !suggestions || suggestions.length === 0) {
     return null;
   }
 

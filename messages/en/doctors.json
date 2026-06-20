@@ -6,7 +6,7 @@
     "allSpecialties": "All Specialties",
     "empty": "No doctors found",
     "searchPlaceholder": "Search doctor, condition, or specialty...",
-    "sortBy": "Sort by:",
+    "sortBy": "Sort by",
     "sortRatingDesc": "Rating: High to Low",
     "sortRatingAsc": "Rating: Low to High",
     "sortExpDesc": "Experience: High to Low",
@@ -36,7 +36,8 @@
     "qualifications": "Qualifications",
     "bookAppointment": "Book Appointment",
     "viewProfile": "View Profile",
-    "bookNow": "Book Now"
+    "bookNow": "Book Now",
+    "fee": "Consultation Fee"
   },
   "profile": {
     "notFound": "Doctor Profile Not Available",

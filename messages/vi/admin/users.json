@@ -92,15 +92,19 @@
     "actions": {
       "edit": "Chỉnh sửa",
       "delete": "Xóa",
-      "suspend": "Đình chỉ",
-      "reinstate": "Khôi phục"
+      "suspend": "Khóa tài khoản",
+      "reinstate": "Mở khóa"
     }
   },
   "dialogs": {
-    "suspendTitle": "Đình chỉ nhân sự",
-    "suspendDesc": "Bạn có chắc muốn đình chỉ {name}? Nhân sự này sẽ không thể đăng nhập vào hệ thống.",
-    "reinstateTitle": "Khôi phục nhân sự",
-    "reinstateDesc": "Bạn có chắc muốn khôi phục quyền truy cập cho {name}?",
+    "suspendTitle": "Khóa tài khoản nhân sự",
+    "suspendDesc": "Bạn sắp khóa tài khoản của {name}. Nhân sự này sẽ không thể đăng nhập vào hệ thống.",
+    "reinstateTitle": "Mở khóa tài khoản",
+    "reinstateDesc": "Bạn có chắc muốn mở khóa và khôi phục quyền truy cập cho {name}?",
+    "reasonLabel": "Lý do khóa tài khoản",
+    "reasonPlaceholder": "Nhập lý do cụ thể (vd: vi phạm quy định, nghỉ việc...)",
+    "reasonRequired": "Vui lòng nhập lý do khóa tài khoản",
+    "selfLockWarning": "Bạn không thể khóa tài khoản của chính mình.",
     "deleteTitle": "Xóa nhân sự",
     "deleteDesc": "Bạn có chắc muốn xóa {name}? Đây là thao tác xóa mềm, dữ liệu sẽ được ẩn đi nhưng vẫn lưu log.",
     "cancel": "Hủy"

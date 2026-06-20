@@ -66,7 +66,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
 
       bookingsApi.getById(bookingId)
         .then(setBooking)
-        .catch(err => console.error("Failed to fetch booking", err))
+        .catch(() => {})
         .finally(() => setLoadingBooking(false));
     }
   }, [bookingId, fetchInvoicesByBooking, fetchPendingLabOrders]);
@@ -100,7 +100,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       try {
         await medicalRecordsApi.fulfillPrescription(bookingId, selectedInvoice.id);
       } catch (e) {
-        console.error("Fulfill prescription failed", e);
+        void e;
       }
     }
 
@@ -130,7 +130,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
       void fetchPendingLabOrders(bookingId);
       onRefreshQueue();
     } catch (e) {
-      console.error(e);
+      void e;
     } finally {
       setCreatingType(null);
     }
@@ -160,7 +160,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
         };
         void fetchInvoicesByBooking(bookingId);
       } catch (e) {
-        console.error("Failed to check in or get queue", e);
+        void e;
       }
     }
 

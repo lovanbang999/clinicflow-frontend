@@ -1,9 +1,18 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Loader2 } from 'lucide-react';
+import type { UserRole } from '@/types/user';
+
+const ROLE_DASHBOARD: Record<UserRole, string> = {
+  ADMIN: '/admin',
+  DOCTOR: '/doctor',
+  RECEPTIONIST: '/receptionist',
+  TECHNICIAN: '/technician/lab-worklist',
+  PATIENT: '/patient',
+};
 
 interface PublicRouteProps {
   children: React.ReactNode;
@@ -15,37 +24,21 @@ export function PublicRoute({ children }: PublicRouteProps) {
   const { user, isAuthenticated, _hasHydrated } = useAuthStore();
 
   useEffect(() => {
-    // Wait for hydration
-    if (!_hasHydrated) {
-      return;
-    }
+    if (!_hasHydrated) return;
 
-    // If user is authenticated, redirect to their dashboard
     if (isAuthenticated && user) {
-      const locale = pathname.split('/')[1]; // Extract locale from path
-      
-      switch (user.role) {
-        case 'ADMIN':
-          router.push(`/${locale}/admin`);
-          break;
-        case 'DOCTOR':
-          router.push(`/${locale}/doctor`);
-          break;
-        case 'RECEPTIONIST':
-          router.push(`/${locale}/receptionist`);
-          break;
-        case 'TECHNICIAN':
-          router.push(`/${locale}/technician/lab-worklist`);
-          break;
-        case 'PATIENT':
-          router.push(`/${locale}/patient`);
-          break;
+      if (user.isPasswordTemp) {
+        if (!pathname.endsWith('/change-password')) {
+          router.push('/change-password');
+        }
+        return;
       }
-      return;
+
+      const target = ROLE_DASHBOARD[user.role];
+      if (target) router.push(target);
     }
   }, [_hasHydrated, isAuthenticated, user, router, pathname]);
 
-  // Show loading while hydrating
   if (!_hasHydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
@@ -57,8 +50,7 @@ export function PublicRoute({ children }: PublicRouteProps) {
     );
   }
 
-  // Show loading while redirecting authenticated users
-  if (isAuthenticated && user) {
+  if (isAuthenticated && user && !(user.isPasswordTemp && pathname.endsWith('/change-password'))) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
         <div className="text-center">

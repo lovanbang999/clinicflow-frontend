@@ -32,6 +32,7 @@ interface AppointmentsTableProps {
   activeStatusTab: BookingStatus | string;
   onCancelBookingClick: (booking: Booking) => void;
   onConfirmBookingClick: (booking: Booking) => void;
+  onRescheduleBookingClick: (booking: Booking) => void;
   onCheckInClick: (booking: Booking) => void;
   // Filter props
   searchQuery: string;
@@ -55,6 +56,7 @@ export function AppointmentsTable({
   activeStatusTab,
   onCancelBookingClick,
   onConfirmBookingClick,
+  onRescheduleBookingClick,
   onCheckInClick,
   searchQuery,
   onSearchChange,
@@ -387,6 +389,7 @@ export function AppointmentsTable({
               bookings={bookings}
               onConfirm={onConfirmBookingClick}
               onCancel={onCancelBookingClick}
+              onReschedule={onRescheduleBookingClick}
               onCheckIn={onCheckInClick}
             />
           </tbody>

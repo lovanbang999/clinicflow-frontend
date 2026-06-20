@@ -1,21 +1,25 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDoctorRecentPatients } from '@/lib/hooks/clinical/useDoctorAnalytics';
 import { CardShell, CardTitle, Avatar, StatusBadge } from './SharedComponents';
+import { useTranslations } from 'next-intl';
 
 export function RecentPatientsList() {
   const { data, isLoading } = useDoctorRecentPatients();
+  const t = useTranslations('doctorWorkspace');
 
   return (
     <CardShell>
-      <CardTitle title="Bệnh nhân gần đây" sub="10 lượt khám mới nhất" />
+      <CardTitle title={t('analytics.recentPatients.title') || 'Bệnh nhân gần đây'} sub={t('analytics.recentPatients.sub') || '10 lượt khám mới nhất'} />
       {isLoading ? (
         <div className="space-y-3">{[...Array(4)].map((_, i) => <Skeleton key={i} className="h-10 w-full rounded-xl" />)}</div>
       ) : data.length === 0 ? (
-        <div className="h-32 flex items-center justify-center text-sm text-[#64748b]">Chưa có dữ liệu</div>
+        <div className="h-32 flex items-center justify-center text-sm text-[#64748b]">
+          {t('noData') || 'Chưa có dữ liệu'}
+        </div>
       ) : (
         <div className="divide-y divide-[#f1f5f9]">
           {data.map((p) => {
-            const name = p.patientProfile?.fullName ?? 'Bệnh nhân';
+            const name = p.patientProfile?.fullName ?? (t('analytics.recentPatients.defaultPatient') || 'Bệnh nhân');
             const time = p.startTime ? p.startTime.slice(0, 5) : '';
             const diag = p.medicalRecord?.diagnosisName;
             const svc = p.service?.name;

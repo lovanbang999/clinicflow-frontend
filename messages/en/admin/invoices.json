@@ -3,7 +3,14 @@
   "subtitle": "View and manage all invoices from clinic services",
   "filter": {
     "typePlaceholder": "Invoice Type",
+    "dateFrom": "From date",
+    "dateTo": "To date",
     "clear": "Clear Filters"
+  },
+  "export": {
+    "button": "Export CSV",
+    "success": "Data exported successfully",
+    "error": "Failed to export data"
   },
   "detail": {
     "notFound": "Invoice not found",

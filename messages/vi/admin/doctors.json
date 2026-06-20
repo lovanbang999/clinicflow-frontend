@@ -1,5 +1,6 @@
 {
   "title": "Quản lý bác sĩ",
+  "currency": "VNĐ",
   "stats": {
     "totalDoctors": "Tổng bác sĩ",
     "activeNow": "Đang hoạt động",
@@ -51,6 +52,7 @@
     "previous": "Trước",
     "next": "Tiếp",
     "addDoctor": "Thêm bác sĩ",
+    "searchPlaceholder": "Tìm kiếm bác sĩ theo tên...",
     "columns": {
       "doctor": "Bác sĩ",
       "specialty": "Chuyên khoa",
@@ -99,6 +101,12 @@
     "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
     "statusActive": "Hoạt động",
     "statusInactive": "Không hoạt động",
+    "clinicRoom": "Phòng khám",
+    "roomPlaceholder": "Chọn phòng khám",
+    "noRoom": "Không gán phòng",
+    "currency": "VNĐ",
+    "services": "Dịch vụ được phân công",
+    "servicesPlaceholder": "Chọn dịch vụ khám/xét nghiệm...",
     "cancel": "Hủy",
     "save": "Tạo bác sĩ",
     "saving": "Đang tạo...",
@@ -132,12 +140,18 @@
     "qualificationsHint": "Phân tách nhiều bằng cấp bằng dấu phẩy.",
     "bio": "Giới thiệu ngắn",
     "bioPlaceholder": "Giới thiệu nghề nghiệp ngắn gọn...",
+    "services": "Dịch vụ được phân công",
+    "servicesPlaceholder": "Chọn dịch vụ khám/xét nghiệm...",
     "consultationFee": "Phí khám tư vấn",
     "feePlaceholder": "Nhập số tiền (vd. 150000)",
     "status": "Trạng thái tài khoản",
     "statusDesc": "Bật hoặc tắt quyền truy cập hệ thống",
     "statusActive": "Hoạt động",
     "statusInactive": "Không hoạt động",
+    "clinicRoom": "Phòng khám",
+    "roomPlaceholder": "Chọn phòng khám",
+    "noRoom": "Không gán phòng",
+    "currency": "VNĐ",
     "cancel": "Hủy",
     "save": "Lưu thay đổi",
     "saving": "Đang lưu...",
@@ -169,6 +183,7 @@
       "specialties": "Chuyên khoa",
       "qualifications": "Bằng cấp & Chứng chỉ",
       "experience": "Kinh nghiệm",
+      "clinicRoom": "Phòng khám",
       "years": "{count} năm",
       "role": "Vai trò",
       "phone": "Số điện thoại",
@@ -180,8 +195,19 @@
   "moreMenu": {
     "viewDetail": "Xem chi tiết",
     "viewSchedule": "Xem lịch làm việc",
-    "suspend": "Đình chỉ tài khoản",
-    "reinstate": "Khôi phục tài khoản",
+    "suspend": "Khóa tài khoản",
+    "reinstate": "Mở khóa tài khoản",
     "delete": "Xóa bác sĩ"
+  },
+  "suspendDialog": {
+    "suspendTitle": "Khóa tài khoản bác sĩ",
+    "suspendDesc": "Bạn sắp khóa tài khoản của {name}. Bác sĩ này sẽ không thể đăng nhập vào hệ thống.",
+    "reinstateTitle": "Mở khóa tài khoản",
+    "reinstateDesc": "Bạn có chắc muốn mở khóa và khôi phục quyền truy cập cho {name}?",
+    "reasonLabel": "Lý do khóa tài khoản",
+    "reasonPlaceholder": "Nhập lý do cụ thể (vd: vi phạm quy định, nghỉ việc...)",
+    "reasonRequired": "Vui lòng nhập lý do khóa tài khoản",
+    "selfLockWarning": "Bạn không thể khóa tài khoản của chính mình.",
+    "cancel": "Hủy"
   }
 }

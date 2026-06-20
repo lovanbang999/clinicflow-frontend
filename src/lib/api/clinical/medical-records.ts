@@ -175,12 +175,24 @@ export interface VisitServiceOrder {
     chiefComplaint?: string;
     clinicalFindings?: string;
     doctorNotes?: string;
+    diagnosisName?: string;
+    allergies?: string;
+    bloodPressure?: string;
+    heartRate?: number;
+    temperature?: number;
+    spO2?: number;
+    weightKg?: number;
+    heightCm?: number;
+    bmi?: number;
     booking?: {
       id: string;
       bookingCode?: string;
       patientNotes?: string;
       doctor?: {
         fullName?: string;
+        doctorProfile?: {
+          specialties?: string[];
+        };
       };
       patientProfile?: {
         fullName?: string;

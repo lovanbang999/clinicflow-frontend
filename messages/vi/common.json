@@ -58,7 +58,17 @@
     "avatarUploadSuccessDescription": "Ảnh hồ sơ mới của bạn đã được tải lên thành công.",
     "passwordChangeSuccess": "Đổi mật khẩu thành công",
     "passwordChangeSuccessDescription": "Bạn có thể sử dụng mật khẩu mới để đăng nhập từ bây giờ.",
-    "passwordChangeFailedTitle": "Đổi mật khẩu thất bại"
+    "passwordChangeFailedTitle": "Đổi mật khẩu thất bại",
+    "currentPasswordRequired": "Vui lòng nhập mật khẩu hiện tại",
+    "medicalInfo": "Thông tin y tế",
+    "bloodType": "Nhóm máu",
+    "selectBloodType": "Chọn nhóm máu",
+    "heightCm": "Chiều cao (cm)",
+    "weightKg": "Cân nặng (kg)",
+    "allergies": "Dị ứng (nếu có)",
+    "allergiesPlaceholder": "Ghi rõ các loại thực phẩm, thuốc, ... gây dị ứng cho bạn",
+    "chronicConditions": "Tiền sử bệnh mãn tính",
+    "chronicConditionsPlaceholder": "Ghi rõ các bệnh mãn tính (Tiểu đường, Huyết áp, Tim mạch, ...)"
   },
   "roles": {
     "ADMIN": "Quản trị viên",

@@ -195,6 +195,13 @@
   background-clip: text;
 }
 
+.text-gradient {
+  background: linear-gradient(135deg, #1392ec 0%, #0066FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .mesh-gradient {
   background-color: #0c151c;
   background-image:

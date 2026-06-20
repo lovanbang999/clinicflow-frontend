@@ -158,9 +158,6 @@ export default function AdminPatientsPage() {
           onMedicalHistory={() => {
             toast.info(tCommon('underDevelopment'));
           }}
-          onBookAppointment={() => {
-            toast.info(tCommon('underDevelopment'));
-          }}
           onEdit={(patient) => {
             setEditPatientId(patient.id);
             setIsEditModalOpen(true);

@@ -1,0 +1,79 @@
+{
+  "title": "Revenue Report",
+  "subtitle": "Detailed report of clinic revenue by period",
+  "summary": {
+    "totalRevenue": "Total Revenue",
+    "invoiceCount": "Total Invoices",
+    "averageOrderValue": "Average Order Value",
+    "revenueByType": "Revenue by Invoice Type",
+    "paymentMethodRevenue": "Revenue by Payment Method"
+  },
+  "table": {
+    "invoiceNumber": "Invoice No.",
+    "invoiceType": "Invoice Type",
+    "totalAmount": "Amount",
+    "paidAt": "Paid Date",
+    "patient": "Patient",
+    "doctor": "Doctor",
+    "paymentMethod": "Payment Method"
+  },
+  "paymentMethod": {
+    "CASH": "Cash",
+    "CARD": "Card",
+    "BANK_TRANSFER": "Bank Transfer",
+    "INSURANCE": "Insurance"
+  },
+  "invoiceType": {
+    "CONSULTATION": "Consultation",
+    "SERVICE": "Service",
+    "PHARMACY": "Pharmacy"
+  },
+  "export": {
+    "button": "Export Report (CSV)",
+    "filename": "revenue-report"
+  },
+  "loading": "Loading report data...",
+  "empty": "No invoices found in the selected date range.",
+  "exportSuccess": "Revenue report exported successfully",
+  "exportError": "An error occurred while exporting report",
+  "noDataToExport": "No data to export report",
+  "periodReport": "Revenue Report by Period",
+  "periodReportDesc": "Detailed revenue analysis and statistics from appointments and clinical services",
+  "exportBtn": "Export Report",
+  "invoiceUnit": "{count} invoices",
+  "averageOrderValue": "Average Order Value",
+  "revenueStructure": "Revenue Structure",
+  "revenueStructureDesc": "Revenue distribution by medical service type",
+  "noData": "No analytical data available",
+  "paymentMethods": "Payment Methods",
+  "paymentMethodsDesc": "Percentage of transaction methods used in period",
+  "invoicesInPeriod": "Invoice List in Period",
+  "invoicesInPeriodDesc": "Details of all successfully paid invoices",
+  "searchPlaceholder": "Search invoice ID, patient...",
+  "allServices": "All Services",
+  "examType": "Consultation",
+  "serviceType": "Service",
+  "pharmacyType": "Pharmacy",
+  "noInvoicesFound": "No invoices found during the filtering period",
+  "cols": {
+    "invoiceCode": "Invoice Code",
+    "patientCode": "Patient Code",
+    "patient": "Patient",
+    "doctor": "Attending Doctor",
+    "type": "Invoice Type",
+    "method": "Method",
+    "total": "Total Amount",
+    "time": "Payment Time"
+  },
+  "types": {
+    "consultation": "Consultation",
+    "service": "Service",
+    "pharmacy": "Pharmacy"
+  },
+  "methods": {
+    "cash": "Cash",
+    "card": "Card",
+    "bank": "Bank Transfer",
+    "insurance": "Insurance"
+  }
+}

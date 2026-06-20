@@ -18,13 +18,20 @@ export interface LabOrder {
   serviceId?: string;
   status: 'PENDING' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   orderedAt: string;
+  assignedTechnicianId?: string | null;
   result?: LabResult;
   service?: {
     id: string;
     name: string;
     price?: number;
     labFormType?: string;
+    categoryId?: string;
   };
+  assignedTechnician?: {
+    id: string;
+    fullName: string;
+    avatar?: string | null;
+  } | null;
   // Included in pending lists
   patientProfile?: {
     fullName: string;
@@ -34,8 +41,25 @@ export interface LabOrder {
   };
   booking?: {
     bookingCode: string;
-    doctor: { fullName: string };
+    doctor: { fullName: string; specialties?: string[] };
   };
+  medicalRecord?: {
+    bloodPressure?: string | null;
+    heartRate?: number | null;
+    temperature?: number | null;
+    spO2?: number | null;
+    weightKg?: number | null;
+    heightCm?: number | null;
+    bmi?: number | null;
+    chiefComplaint?: string | null;
+    clinicalFindings?: string | null;
+    doctorNotes?: string | null;
+    allergies?: string | null;
+    diagnosisName?: string | null;
+  };
+  recentResults?: (LabOrder & {
+    assignedTechnician?: { fullName: string } | null;
+  })[];
 }
 
 export interface CreateLabOrderDto {
@@ -43,6 +67,7 @@ export interface CreateLabOrderDto {
   testName: string;
   testDescription?: string;
   serviceId?: string;
+  assignedTechnicianId?: string;
 }
 
 export interface UploadLabResultDto {
@@ -83,8 +108,16 @@ export const labOrdersApi = {
     return response.data.data;
   },
 
-  getTechnicianHistory: async (): Promise<LabOrder[]> => {
-    const response = await apiClient.get('/lab-orders/technician/history');
+  getTechnicianHistory: async (params?: {
+    startDate?: string;
+    endDate?: string;
+    categoryId?: string;
+    labFormType?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  }): Promise<{ items: LabOrder[]; total: number; pages: number; page: number; limit: number }> => {
+    const response = await apiClient.get('/lab-orders/technician/history', { params });
     return response.data.data;
   },
 

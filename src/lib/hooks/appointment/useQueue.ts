@@ -14,8 +14,6 @@ export function useQueue(doctorId?: string) {
   const { execute: executeAction } = useApiHandler();
   const [error, setError] = useState<string | null>(null);
 
-  const { isConnected, onQueueUpdate } = useQueueSocket(doctorId);
-
   const fetchQueueData = useCallback(async () => {
     if (!doctorId) return;
 
@@ -98,6 +96,8 @@ export function useQueue(doctorId?: string) {
     }
   }, [doctorId, executeFetch]);
 
+  const { isConnected } = useQueueSocket(doctorId, fetchQueueData);
+
   // Initial fetch and fetch when doctor changes
   useEffect(() => {
     if (doctorId) {
@@ -107,19 +107,6 @@ export function useQueue(doctorId?: string) {
       return () => clearTimeout(timer);
     }
   }, [doctorId, fetchQueueData]);
-
-  // WebSocket listener
-  useEffect(() => {
-    if (!isConnected) return;
-
-    const unsubscribe = onQueueUpdate(() => {
-      void fetchQueueData();
-    });
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
-  }, [isConnected, onQueueUpdate, fetchQueueData]);
 
   const callPatient = useCallback(async (bookingId: string) => {
     await executeAction(

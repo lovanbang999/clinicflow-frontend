@@ -5,6 +5,14 @@ import { useTranslations } from 'next-intl';
 import { ShareNetworkIcon, CameraIcon, AtIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 
+const socialIcons = [
+  { Icon: ShareNetworkIcon, label: 'Social media' },
+  { Icon: CameraIcon, label: 'Photo gallery' },
+  { Icon: AtIcon, label: 'Email updates' },
+];
+
+const disabledFooterLinkClass = 'text-slate-600 cursor-not-allowed';
+
 export function LandingFooter() {
   const t = useTranslations('landing.footer');
   const currentYear = new Date().getFullYear();
@@ -25,14 +33,16 @@ export function LandingFooter() {
               {t('tagline')}
             </p>
             <div className="flex gap-6">
-              {[ShareNetworkIcon, CameraIcon, AtIcon].map((Icon, idx) => (
-                <a
-                  key={idx}
-                  href="#"
-                  className="w-10 h-10 rounded-full border border-slate-800 flex items-center justify-center hover:bg-[#1392ec]/10 hover:border-[#1392ec] transition-all"
+              {socialIcons.map(({ Icon, label }) => (
+                <button
+                  key={label}
+                  type="button"
+                  aria-label={label}
+                  disabled
+                  className="w-10 h-10 rounded-full border border-slate-800 flex items-center justify-center text-slate-600"
                 >
                   <Icon weight="bold" className="text-xl" />
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -45,8 +55,8 @@ export function LandingFooter() {
             <ul className="space-y-6 text-sm font-medium">
               <li><Link href="/doctors" className="hover:text-white transition-colors">{t('findDoctor')}</Link></li>
               <li><Link href="/register" className="hover:text-white transition-colors">{t('bookAppointment')}</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('patientPortal')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('insurance')}</a></li>
+              <li><Link href="/login" className="hover:text-white transition-colors">{t('patientPortal')}</Link></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('insurance')}</span></li>
             </ul>
           </div>
 
@@ -56,10 +66,10 @@ export function LandingFooter() {
               {t('aboutUs')}
             </h5>
             <ul className="space-y-6 text-sm font-medium">
-              <li><a href="#" className="hover:text-white transition-colors">{t('ourStory')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('careers')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('press')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('contact')}</a></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">{t('ourStory')}</Link></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('careers')}</span></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('press')}</span></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('contact')}</span></li>
             </ul>
           </div>
 
@@ -69,10 +79,10 @@ export function LandingFooter() {
               {t('legal')}
             </h5>
             <ul className="space-y-6 text-sm font-medium">
-              <li><a href="#" className="hover:text-white transition-colors">{t('privacyPolicy')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('termsOfService')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('hipaaCompliance')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('cookiePolicy')}</a></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('privacyPolicy')}</span></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('termsOfService')}</span></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('hipaaCompliance')}</span></li>
+              <li><span aria-disabled="true" className={disabledFooterLinkClass}>{t('cookiePolicy')}</span></li>
             </ul>
           </div>
         </div>

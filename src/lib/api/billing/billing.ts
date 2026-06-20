@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/api/core/client';
 import { ApiResponse } from '@/types';
+import { adaptPaginatedResponse } from '@/lib/api/core/api-paginator';
 
 export enum InvoiceStatus {
   DRAFT = 'DRAFT',
@@ -18,10 +19,9 @@ export enum InvoiceType {
 
 export enum PaymentMethod {
   CASH = 'CASH',
-  CREDIT_CARD = 'CREDIT_CARD',
+  CARD = 'CARD',
   BANK_TRANSFER = 'BANK_TRANSFER',
   INSURANCE = 'INSURANCE',
-  E_WALLET = 'E_WALLET',
 }
 
 export interface InvoiceItem {
@@ -235,11 +235,12 @@ export const billingApi = {
 
   // List invoices
   listInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: PaginationData }> => {
-    const response = await apiClient.get<ApiResponse<{ invoices?: Invoice[], pagination?: PaginationData }>>('/billing/invoices', { params });
-    if (response.data.data?.invoices) {
-      return response.data.data as { invoices: Invoice[], pagination: PaginationData };
-    }
-    return { invoices: response.data.data as unknown as Invoice[], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
+    const response = await apiClient.get<ApiResponse<unknown>>('/billing/invoices', { params });
+    const adapted = adaptPaginatedResponse<Invoice>(response.data.data, 'invoices');
+    return {
+      invoices: adapted.items,
+      pagination: adapted.pagination,
+    };
   },
 
   // List all invoices for a booking (Phương án B: multiple invoices per booking)
@@ -296,11 +297,21 @@ export const billingApi = {
   },
 
   // List invoices for the logged-in patient
-  listMyInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: Record<string, unknown> }> => {
-    const response = await apiClient.get<ApiResponse<{ invoices?: Invoice[], pagination?: Record<string, unknown> }>>('/billing/my-invoices', { params });
-    if (response.data.data?.invoices) {
-      return response.data.data as { invoices: Invoice[], pagination: Record<string, unknown> };
-    }
-    return { invoices: response.data.data as unknown as Invoice[], pagination: {} };
+  listMyInvoices: async (params?: ListInvoicesParams): Promise<{ invoices: Invoice[], pagination: PaginationData }> => {
+    const response = await apiClient.get<ApiResponse<unknown>>('/billing/my-invoices', { params });
+    const adapted = adaptPaginatedResponse<Invoice>(response.data.data, 'invoices');
+    return {
+      invoices: adapted.items,
+      pagination: adapted.pagination,
+    };
+  },
+
+  // Export invoices as CSV
+  exportInvoices: async (params?: Omit<ListInvoicesParams, 'page' | 'limit'>): Promise<Blob> => {
+    const response = await apiClient.get('/billing/invoices/export', {
+      params,
+      responseType: 'blob',
+    });
+    return response.data;
   },
 };

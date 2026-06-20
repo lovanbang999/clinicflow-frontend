@@ -44,7 +44,7 @@ export const useReceptionistDashboard = () => {
       status: BookingStatus.CONFIRMED,
       limit: 50,
     }));
-    if (res) setUpcomingBookings(res.bookings);
+    if (res) setUpcomingBookings(res.bookings || []);
   }, [executeUpcoming]);
 
   /**
@@ -52,7 +52,7 @@ export const useReceptionistDashboard = () => {
    */
   const fetchQueue = useCallback(async () => {
     const res = await executeQueue(() => queueApi.getAll({ limit: 100 }));
-    if (res) setQueueRecords(res.queueRecords);
+    if (res) setQueueRecords(res.queueRecords || []);
   }, [executeQueue]);
 
   /**
@@ -68,7 +68,7 @@ export const useReceptionistDashboard = () => {
       status: BookingStatus.CONFIRMED,
       limit: 10,
     }));
-    if (res) setSearchResults(res.bookings);
+    if (res) setSearchResults(res.bookings || []);
   }, [executeSearch]);
 
   /**
@@ -119,21 +119,28 @@ export const useReceptionistDashboard = () => {
   // WebSocket Notifications for auto-refresh
   const { onNewNotification } = useNotifications();
   useEffect(() => {
-    const unsub = onNewNotification((notif) => {
+    const unsub = onNewNotification(() => {
       // Refresh relevant data based on notification type if needed
       // For now, refresh all for simplicity when receptionist gets a notification
-      console.log('Receptionist received notification, refreshing dashboard...', notif.type);
       refreshAll();
     });
     return unsub;
   }, [onNewNotification, refreshAll]);
 
-  // Initial load
+  // Initial load and auto-refresh every 60 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       refreshAll();
     }, 0);
-    return () => clearTimeout(timer);
+
+    const interval = setInterval(() => {
+      refreshAll();
+    }, 60000);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [refreshAll]);
 
   return {

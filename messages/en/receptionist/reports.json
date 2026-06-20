@@ -27,7 +27,52 @@
   "table": {
     "serviceName": "Service Name",
     "count": "Bookings",
-    "amount": "Amount",
     "method": "Method"
+  },
+  "periods": {
+    "today": "Today",
+    "week": "This Week",
+    "month": "This Month",
+    "custom": "Custom"
+  },
+  "categories": {
+    "title": "Revenue by Category",
+    "subtitle": "Income breakdown by service type",
+    "consultation": "Consultations",
+    "consultationSub": "Consultation fees",
+    "service": "Lab & Services",
+    "serviceSub": "Clinical services & tests",
+    "pharmacy": "Pharmacy",
+    "pharmacySub": "Prescriptions & meds"
+  },
+  "export": {
+    "button": "Export Report",
+    "csv": "Export CSV Data",
+    "pdf": "Print Report (PDF)"
+  },
+  "print": {
+    "clinicName": "SMART CLINIC - INTELLECTUAL POLYCLINIC",
+    "systemName": "Comprehensive Clinic Management System",
+    "reportTitle": "Clinic Revenue & Operations Report",
+    "period": "Reporting period:"
+  },
+  "csvReport": {
+    "header": "CLINIC REVENUE REPORT (SMART CLINIC)",
+    "period": "Reporting period:",
+    "totalRevenue": "Total Revenue:",
+    "checkIns": "Check-ins:",
+    "newPatients": "New Patients:",
+    "pendingInvoices": "Pending Invoices:",
+    "revenueByCategory": "REVENUE BY CATEGORY",
+    "consultation": "Consultations:",
+    "service": "Lab & Services:",
+    "pharmacy": "Pharmacy & Prescriptions:",
+    "revenueByPaymentMethod": "REVENUE BY PAYMENT METHOD",
+    "transactionSuffix": "VND ({count} transactions)",
+    "topServices": "TOP SERVICES (BY REVENUE)",
+    "serviceName": "Service Name",
+    "bookings": "Bookings",
+    "estRevenue": "Estimated Revenue",
+    "filename": "revenue_report"
   }
 }

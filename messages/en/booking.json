@@ -134,6 +134,7 @@
   "noShow": "No Show",
   "viewDetails": "Details",
   "cancelBooking": "Cancel",
+  "cancelling": "Cancelling...",
   "rescheduleBooking": "Reschedule",
   "noBookingsFound": "No appointments found",
   "noBookingsDescription": "You don't have any appointments yet. Book one now!",
@@ -184,5 +185,16 @@
   "slotLocked": "This slot is currently locked by another user",
   "reservationExpired": "Reservation expired. Please try again.",
   "reservationTimer": "Reservation Time",
-  "reservationNote": "Please complete your booking within this time"
+  "reservationNote": "Please complete your booking within this time",
+  "initialConsultation": "Initial Consultation",
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page"
+  },
+  "aiSuggestion": {
+    "title": "Not sure what you need?",
+    "desc": "Consult our AI Assistant for personalized guidance",
+    "cta": "Consult now"
+  }
 }

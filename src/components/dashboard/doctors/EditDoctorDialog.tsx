@@ -23,6 +23,8 @@ import { useTranslations } from 'next-intl';
 import { useAdminDoctors } from '@/lib/hooks/admin/useAdminDoctors';
 import { BackendUser } from '@/types';
 import { ALL_SPECIALTIES } from './types';
+import { adminServicesApi, type AdminService } from '@/lib/api/admin/admin-services';
+import { adminRoomsApi, type AdminRoom } from '@/lib/api/admin/admin-rooms';
 
 // Sub-components
 function Field({
@@ -91,6 +93,8 @@ interface EditDoctorForm {
   bio: string;
   isActive: boolean;
   consultationFee: string;
+  serviceIds: string[];
+  roomId: string;
 }
 
 // Props
@@ -107,6 +111,8 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
   const tSpec = useTranslations('adminDoctors.specialties');
   const { updateDoctorProfile } = useAdminDoctors();
 
+  const [allServices, setAllServices] = useState<AdminService[]>([]);
+  const [allRooms, setAllRooms] = useState<AdminRoom[]>([]);
   const [form, setForm] = useState<EditDoctorForm>({
     fullName: '',
     email: '',
@@ -117,14 +123,29 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
     bio: '',
     isActive: true,
     consultationFee: '0',
+    serviceIds: [],
+    roomId: '',
   });
   const [errors, setErrors] = useState<Partial<Record<keyof EditDoctorForm, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Fetch services and rooms when open
+  useEffect(() => {
+    if (open) {
+      adminServicesApi.getServices({ limit: 200, isActive: true }).then((res) => {
+        setAllServices(res.services || []);
+      });
+      adminRoomsApi.getActiveRooms().then((rooms) => {
+        setAllRooms(rooms || []);
+      });
+    }
+  }, [open]);
 
   // Populate form when doctor changes
   useEffect(() => {
     if (doctor && open) {
       const profile = doctor.doctorProfile;
+      const currentServiceIds = profile?.services?.map((ds) => ds.service.id) || [];
       setForm({
         fullName: doctor.fullName || '',
         email: doctor.email || '',
@@ -135,6 +156,8 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
         bio: profile?.bio || '',
         isActive: doctor.isActive,
         consultationFee: profile?.consultationFee != null ? String(profile.consultationFee) : '0',
+        serviceIds: currentServiceIds,
+        roomId: profile?.roomId || '',
       });
       setErrors({});
     }
@@ -183,6 +206,8 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
           yearsOfExperience: form.yearsOfExperience ? parseInt(form.yearsOfExperience, 10) : undefined,
           bio: form.bio || undefined,
           consultationFee: form.consultationFee ? parseFloat(form.consultationFee) : 0,
+          serviceIds: form.serviceIds,
+          roomId: form.roomId || null,
         },
         {
           fullName: form.fullName,
@@ -336,12 +361,31 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
                     )}
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
-                    VNĐ
+                    {t('currency')}
                   </div>
                 </div>
                 {errors.consultationFee && (
                   <p className="text-xs text-red-500 mt-0.5">{errors.consultationFee}</p>
                 )}
+              </Field>
+
+              <Field label={t('clinicRoom')} htmlFor="edit-doctor-room">
+                <Select value={form.roomId || 'none'} onValueChange={(v) => set('roomId', v)}>
+                  <SelectTrigger
+                    id="edit-doctor-room"
+                    className="w-full h-10 rounded-xl border-[#e2e8f0]"
+                  >
+                    <SelectValue placeholder={t('roomPlaceholder')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">{t('noRoom')}</SelectItem>
+                    {allRooms.map((room) => (
+                      <SelectItem key={room.id} value={room.id}>
+                        {room.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </Field>
             </div>
 
@@ -355,6 +399,33 @@ export function EditDoctorDialog({ doctor, open, onOpenChange, onDoctorUpdated }
                 className="h-10 rounded-xl border-[#e2e8f0] focus-visible:border-[#1392ec] focus-visible:ring-[#1392ec]/20"
               />
               <p className="text-xs text-[#94a3b8]">{t('qualificationsHint')}</p>
+            </Field>
+
+            {/* Assigned Services */}
+            <Field label={t('services')} htmlFor="edit-doctor-services">
+              <div className="grid grid-cols-2 gap-3 border border-[#e2e8f0] rounded-xl p-4 max-h-40 overflow-y-auto bg-slate-50">
+                {allServices.length === 0 ? (
+                  <p className="text-xs text-slate-400 col-span-2">{t('servicesPlaceholder')}</p>
+                ) : (
+                  allServices.map((svc) => (
+                    <label key={svc.id} className="flex items-center gap-2 text-xs text-slate-700 font-semibold cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={form.serviceIds.includes(svc.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            set('serviceIds', [...form.serviceIds, svc.id]);
+                          } else {
+                            set('serviceIds', form.serviceIds.filter((id) => id !== svc.id));
+                          }
+                        }}
+                        className="rounded border-[#e2e8f0] text-[#1392ec] focus:ring-[#1392ec]/20"
+                      />
+                      {svc.name}
+                    </label>
+                  ))
+                )}
+              </div>
             </Field>
 
             {/* Bio */}

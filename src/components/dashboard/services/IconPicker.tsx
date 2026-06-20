@@ -35,7 +35,7 @@ const allLucideIcons: string[] = (() => {
 
     if (detected.length > 0) return detected;
   } catch (e) {
-    console.error('Error detecting icons:', e);
+    void e;
   }
 
   // Fallback list of common icons

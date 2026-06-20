@@ -109,7 +109,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
       toast.success(t('messages.saveSuccess'));
       onChange();
     } catch (error) {
-      console.error(error);
+      void error;
       toast.error(t('messages.saveError'));
     } finally {
       setIsSubmitting(false);

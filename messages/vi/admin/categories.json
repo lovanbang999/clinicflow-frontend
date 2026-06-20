@@ -20,6 +20,7 @@
     "description": "Mô tả",
     "descriptionPlaceholder": "Mô tả chi tiết",
     "isActive": "Khả dụng",
+    "isActiveHint": "Bật để danh mục này hiển thị khi quản lý dịch vụ",
     "cancel": "Hủy",
     "save": "Lưu"
   },

@@ -2,6 +2,13 @@
   "visit": {
     "loading": "Loading medical record...",
     "backToExam": "Back to Exam",
+    "timeline": {
+      "noDiagnosis": "No confirmed diagnosis",
+      "doctor": "Doctor",
+      "diagnosis": "Diagnosis",
+      "prescription": "Prescription"
+    },
+    "generalExam": "General Exam",
     "shared": {
       "back": "Back",
       "readOnly": "READ ONLY"
@@ -121,6 +128,9 @@
       "requiredReason": "Chief complaint is required",
       "requiredFindings": "Clinical findings are required",
       "stepTracker": "Step {current}/{total} - {title}",
+      "bpCrisisAlertTitle": "SEVERE HYPERTENSIVE CRISIS WARNING!",
+      "bpCrisisAlertDesc": "Measured BP is severely elevated ({sys}/{dia} mmHg). Physician should monitor closely and consider immediate clinical intervention.",
+      "draftSavedAt": "Auto-saved draft at",
       "bmi": {
         "underweight": "Underweight",
         "normal": "Normal",
@@ -174,7 +184,17 @@
       "stickyTitle": "Step 2/4 - Service Orders (optional)",
       "back": "Back",
       "skip": "Skip",
-      "saveAndNext": "Save & Next"
+      "saveAndNext": "Save & Next",
+      "technician": "Technician",
+      "technicianInstruction": "You can select a specific technician or let the system auto-assign.",
+      "selectTechnicianTitle": "Select performing technician (optional — leave blank to assign automatically):",
+      "autoAssign": "Auto-assign",
+      "autoAssignDesc": "System assigns based on specialization",
+      "noTechnicians": "No technicians available",
+      "loading": "Loading...",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "auto": "Auto"
     },
     "diagnosis": {
       "headerKtv": "Results from Technicians",
@@ -372,6 +392,10 @@
       "bookingCode": "Booking Code",
       "unknownPatient": "Unknown Patient",
       "queueStt": "Queue STT #{position}",
+      "bloodType": "Blood Type",
+      "height": "Height",
+      "weight": "Weight",
+      "noHistory": "No visit history recorded here",
       "bookingPre": "Pre-booked",
       "bookingWalkin": "Walk-in",
       "originalReason": "Original Reason",
@@ -423,7 +447,10 @@
       "cantRemove": "Cannot remove — already paid or in progress",
       "removeOrder": "Remove order",
       "placeholder": "— Select specialist service —",
-      "addBtn": "Add"
+      "addBtn": "Add",
+      "selectDoctor": "-- Select performing doctor --",
+      "performedBy": "Performed by:",
+      "fallbackCategory": "Other Specialty"
     },
     "notesTab": {
       "errors": {

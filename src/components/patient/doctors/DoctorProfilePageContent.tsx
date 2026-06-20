@@ -43,16 +43,18 @@ export function DoctorProfilePageContent() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 w-full justify-center mt-2">
-            <Link href="/doctors" className="flex-1 sm:flex-none">
-              <button className="w-full sm:w-auto h-11 px-6 bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer text-sm">
-                <Stethoscope className="w-4 h-4" />
-                {t('browseAllDoctors')}
-              </button>
+            <Link
+              href="/doctors"
+              className="flex-1 sm:flex-none w-full sm:w-auto h-11 px-6 bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-sm"
+            >
+              <Stethoscope className="w-4 h-4" />
+              {t('browseAllDoctors')}
             </Link>
-            <Link href="/" className="flex-1 sm:flex-none">
-              <button className="w-full sm:w-auto h-11 px-6 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-bold transition-all border border-slate-200 flex items-center justify-center cursor-pointer text-sm">
-                {t('returnToHome')}
-              </button>
+            <Link
+              href="/"
+              className="flex-1 sm:flex-none w-full sm:w-auto h-11 px-6 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-bold transition-all border border-slate-200 flex items-center justify-center text-sm"
+            >
+              {t('returnToHome')}
             </Link>
           </div>
         </div>
@@ -113,11 +115,12 @@ export function DoctorProfilePageContent() {
             </div>
             
             <div className="space-y-3">
-              <Link href="/register" className="block">
-                <button className="w-full h-14 bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 group cursor-pointer">
-                  <Calendar className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  {t('bookAppointment')}
-                </button>
+              <Link
+                href="/register"
+                className="w-full h-14 bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 group"
+              >
+                <Calendar className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                {t('bookAppointment')}
               </Link>
               <button className="w-full h-14 bg-slate-50 hover:bg-slate-100 text-[#0a1118] rounded-xl font-bold transition-all flex items-center justify-center gap-2 border border-slate-100 cursor-pointer">
                 <Mail className="w-5 h-5" />

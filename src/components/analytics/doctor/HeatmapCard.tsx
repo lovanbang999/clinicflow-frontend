@@ -4,15 +4,15 @@ import { Fragment } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDoctorHeatmap } from '@/lib/hooks/clinical/useDoctorAnalytics';
 import { CardShell, CardTitle } from './SharedComponents';
+import { useTranslations, useLocale } from 'next-intl';
 
 // Clinic working hours to display (indices match hour 0-23)
 const DISPLAY_HOURS = [7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18];
-// Day labels: backend returns Sun=0…Sat=6; rearrange to Mon–Sun for Vietnamese layout
-const DAY_LABELS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 // Mapping: column index 0=Mon(1)…5=Sat(6), 6=Sun(0)
 const DOW_ORDER = [1, 2, 3, 4, 5, 6, 0];
 
 function HeatmapCell({ val, max }: { val: number; max: number }) {
+  const t = useTranslations('doctorWorkspace');
   const pct = max > 0 ? val / max : 0;
   let bg = '#F1EFE8';
   let color = '#5F5E5A';
@@ -24,7 +24,7 @@ function HeatmapCell({ val, max }: { val: number; max: number }) {
     <div
       className="h-5 rounded flex items-center justify-center text-[9px] font-medium transition-colors"
       style={{ background: bg, color }}
-      title={`${val} lượt`}
+      title={t('analytics.heatmap.tooltip', { count: val })}
     >
       {val || ''}
     </div>
@@ -33,6 +33,13 @@ function HeatmapCell({ val, max }: { val: number; max: number }) {
 
 export function HeatmapCard() {
   const { data, isLoading } = useDoctorHeatmap();
+  const t = useTranslations('doctorWorkspace');
+  const locale = useLocale();
+
+  // Day labels: backend returns Sun=0…Sat=6; rearrange to Mon–Sun for layout
+  const DAY_LABELS = locale === 'vi'
+    ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+    : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   // Find the global max for normalising the colour scale
   const max = Math.max(
@@ -42,7 +49,7 @@ export function HeatmapCard() {
 
   return (
     <CardShell>
-      <CardTitle title="Khung giờ bận nhất" sub="Theo giờ × thứ trong tuần (12 tuần gần nhất)" />
+      <CardTitle title={t('analytics.heatmap.title') || 'Khung giờ bận nhất'} sub={t('analytics.heatmap.sub') || 'Theo giờ × thứ trong tuần (12 tuần gần nhất)'} />
       {isLoading ? (
         <Skeleton className="h-44 w-full rounded-xl" />
       ) : (
@@ -71,12 +78,12 @@ export function HeatmapCard() {
             ))}
           </div>
           <div className="mt-2 flex items-center gap-1 text-[10px] text-[#64748b]">
-            <span>Ít</span>
+            <span>{t('analytics.heatmap.less') || 'Ít'}</span>
             {['#E6F1FB', '#85B7EB', '#185FA5', '#0C447C'].map((c) => (
               <div key={c} className="w-3 h-2 rounded-sm" style={{ background: c }} />
             ))}
-            <span>Nhiều</span>
-            <span className="ml-auto">Max: {max} lượt</span>
+            <span>{t('analytics.heatmap.more') || 'Nhiều'}</span>
+            <span className="ml-auto">{t('analytics.heatmap.max', { count: max }) || `Max: ${max} lượt`}</span>
           </div>
         </>
       )}

@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { bookingsApi } from '@/lib/api/appointment/bookings';
-import { billingApi, InvoiceStatus } from '@/lib/api/billing/billing';
+import { InvoiceStatus } from '@/lib/api/billing/billing';
 import { BookingStatus } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
@@ -16,6 +15,8 @@ import {
   HourglassIcon,
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useBookings } from '@/lib/hooks/appointment/useBookings';
+import { useMyInvoices } from '@/lib/hooks/billing/useMyInvoices';
 
 type ActivityItem = {
   id: string;
@@ -32,66 +33,54 @@ export function RecentActivityList() {
   const t = useTranslations('patientOverview');
   const locale = useLocale();
   const dateLocale = locale === 'vi' ? vi : enUS;
-  const [activities, setActivities] = useState<ActivityItem[]>([]);
-  const [loading, setLoading] = useState(true);
+
+  const { bookings, isLoading: loadingBookings, fetchMyBookings } = useBookings();
+  const { invoices, isLoading: loadingInvoices, fetchMyInvoices } = useMyInvoices();
 
   useEffect(() => {
-    const fetchActivity = async () => {
-      try {
-        const [bookingsData, invoicesData] = await Promise.all([
-          bookingsApi.getMyBookings(),
-          billingApi.listMyInvoices({ limit: 10 })
-        ]);
+    void fetchMyBookings();
+    void fetchMyInvoices({ limit: 10 });
+  }, [fetchMyBookings, fetchMyInvoices]);
 
-        const bookings = Array.isArray(bookingsData) ? bookingsData : [];
-        const invoices = invoicesData?.invoices || [];
+  const activities = useMemo(() => {
+    const bookingItems: ActivityItem[] = bookings.map(b => ({
+      id: `booking-${b.id}`,
+      type: 'booking',
+      date: new Date(b.createdAt),
+      title: b.status === BookingStatus.CONFIRMED ? t('activity.bookingConfirmed') : t('activity.bookingWait'),
+      description: t('activity.bookingDesc', { 
+        service: b.service?.name || t('defaults.serviceName'), 
+        doctor: b.doctor?.fullName || t('defaults.doctorName') 
+      }),
+      icon: b.status === BookingStatus.CONFIRMED ? <CalendarCheckIcon weight="fill" className="text-2xl" /> : <HourglassIcon weight="fill" className="text-2xl" />,
+      iconBg: b.status === BookingStatus.CONFIRMED ? 'bg-blue-100 dark:bg-blue-500/20' : 'bg-amber-100 dark:bg-amber-500/20',
+      iconColor: b.status === BookingStatus.CONFIRMED ? 'text-blue-500' : 'text-amber-500',
+    }));
 
-        const bookingItems: ActivityItem[] = bookings.map(b => ({
-          id: `booking-${b.id}`,
-          type: 'booking',
-          date: new Date(b.createdAt),
-          title: b.status === BookingStatus.CONFIRMED ? t('activity.bookingConfirmed') : t('activity.bookingWait'),
-          description: t('activity.bookingDesc', { 
-            service: b.service?.name || t('defaults.serviceName'), 
-            doctor: b.doctor?.fullName || t('defaults.doctorName') 
-          }),
-          icon: b.status === BookingStatus.CONFIRMED ? <CalendarCheckIcon weight="fill" className="text-2xl" /> : <HourglassIcon weight="fill" className="text-2xl" />,
-          iconBg: b.status === BookingStatus.CONFIRMED ? 'bg-blue-100 dark:bg-blue-500/20' : 'bg-amber-100 dark:bg-amber-500/20',
-          iconColor: b.status === BookingStatus.CONFIRMED ? 'text-blue-500' : 'text-amber-500',
-        }));
+    const formatMoney = (amount: number) =>
+      new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {
+        style: 'currency',
+        currency: locale === 'vi' ? 'VND' : 'USD',
+      }).format(amount);
 
-        const formatMoney = (amount: number) =>
-          new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US', {
-            style: 'currency',
-            currency: locale === 'vi' ? 'VND' : 'USD',
-          }).format(amount);
+    const invoiceItems: ActivityItem[] = invoices.map(inv => ({
+      id: `invoice-${inv.id}`,
+      type: 'invoice',
+      date: new Date(inv.updatedAt || inv.createdAt),
+      title: inv.status === InvoiceStatus.PAID ? t('activity.invoicePaid') : t('activity.invoiceIssued'),
+      description: t('activity.invoiceDesc', { invoiceNumber: inv.invoiceNumber, amount: formatMoney(inv.totalAmount) }),
+      icon: inv.status === InvoiceStatus.PAID ? <CreditCardIcon weight="fill" className="text-2xl" /> : <ReceiptIcon weight="fill" className="text-2xl" />,
+      iconBg: inv.status === InvoiceStatus.PAID ? 'bg-green-100 dark:bg-green-500/20' : 'bg-red-100 dark:bg-red-500/20',
+      iconColor: inv.status === InvoiceStatus.PAID ? 'text-green-600' : 'text-red-500',
+    }));
 
-        const invoiceItems: ActivityItem[] = invoices.map(inv => ({
-          id: `invoice-${inv.id}`,
-          type: 'invoice',
-          date: new Date(inv.updatedAt || inv.createdAt),
-          title: inv.status === InvoiceStatus.PAID ? t('activity.invoicePaid') : t('activity.invoiceIssued'),
-          description: t('activity.invoiceDesc', { invoiceNumber: inv.invoiceNumber, amount: formatMoney(inv.totalAmount) }),
-          icon: inv.status === InvoiceStatus.PAID ? <CreditCardIcon weight="fill" className="text-2xl" /> : <ReceiptIcon weight="fill" className="text-2xl" />,
-          iconBg: inv.status === InvoiceStatus.PAID ? 'bg-green-100 dark:bg-green-500/20' : 'bg-red-100 dark:bg-red-500/20',
-          iconColor: inv.status === InvoiceStatus.PAID ? 'text-green-600' : 'text-red-500',
-        }));
+    return [...bookingItems, ...invoiceItems]
+      .filter(item => !isNaN(item.date.getTime()))
+      .sort((a, b) => b.date.getTime() - a.date.getTime())
+      .slice(0, 5);
+  }, [bookings, invoices, t, locale]);
 
-        const merged = [...bookingItems, ...invoiceItems]
-          .filter(item => !isNaN(item.date.getTime()))
-          .sort((a, b) => b.date.getTime() - a.date.getTime())
-          .slice(0, 5);
-        
-        setActivities(merged);
-      } catch (error) {
-        console.error('Failed to fetch activity:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchActivity();
-  }, [t, locale]);
+  const loading = loadingBookings || loadingInvoices;
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">

@@ -62,10 +62,11 @@ export function LandingNavbar() {
             <Link href="/login" className="text-sm font-semibold text-slate-600 hover:text-[#1392ec] transition-colors">
               {tLanding('navbar.login')}
             </Link>
-            <Link href="/register">
-              <button className="bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-xl shadow-[#1392ec]/20 active:scale-95 cursor-pointer">
-                {tLanding('navbar.register')}
-              </button>
+            <Link
+              href="/register"
+              className="bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-xl shadow-[#1392ec]/20 active:scale-95"
+            >
+              {tLanding('navbar.register')}
             </Link>
           </div>
 
@@ -116,11 +117,9 @@ export function LandingNavbar() {
             <Link
               href="/register"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full"
+              className="w-full bg-[#1392ec] hover:bg-[#0d7cd1] text-white py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 text-center"
             >
-              <button className="w-full bg-[#1392ec] hover:bg-[#0d7cd1] text-white py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 cursor-pointer">
-                {tLanding('navbar.register')}
-              </button>
+              {tLanding('navbar.register')}
             </Link>
           </div>
         </div>

@@ -59,7 +59,7 @@ export const useReceptionistPatients = () => {
     );
   };
 
-  const registerPatient = async (data: RegisterPatientDto) => {
+  const registerPatient = async (data: RegisterPatientDto): Promise<(User & { tempPassword?: string }) | undefined> => {
     return executeAction(
       () => usersApi.registerPatient(data),
       {

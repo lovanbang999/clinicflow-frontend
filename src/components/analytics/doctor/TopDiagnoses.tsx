@@ -2,18 +2,22 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useDoctorTopDiagnoses } from '@/lib/hooks/clinical/useDoctorAnalytics';
 import { DIAG_COLORS } from './constants';
 import { CardShell, CardTitle } from './SharedComponents';
+import { useTranslations } from 'next-intl';
 
 export function TopDiagnoses() {
   const { data, isLoading } = useDoctorTopDiagnoses();
+  const t = useTranslations('doctorWorkspace');
   const maxCount = Math.max(...data.map((d) => d.count), 1);
 
   return (
     <CardShell>
-      <CardTitle title="Top chẩn đoán phổ biến" sub="Theo mã ICD-10" />
+      <CardTitle title={t('topDiagnoses') || 'Top chẩn đoán phổ biến'} sub={t('topDiagnosesDesc') || 'Theo mã ICD-10'} />
       {isLoading ? (
         <Skeleton className="h-40 w-full rounded-xl" />
       ) : data.length === 0 ? (
-        <div className="h-32 flex items-center justify-center text-sm text-[#64748b]">Chưa có dữ liệu</div>
+        <div className="h-32 flex items-center justify-center text-sm text-[#64748b]">
+          {t('noData') || 'Chưa có dữ liệu'}
+        </div>
       ) : (
         <div className="space-y-3">
           {data.map((d, i) => (

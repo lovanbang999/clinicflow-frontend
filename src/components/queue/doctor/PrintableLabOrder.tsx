@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { calcAge, formatGender } from '@/lib/utils/patient.utils';
 
 interface PrintableLabOrderProps {
   patientProfile?: {
@@ -29,11 +30,12 @@ export function PrintableLabOrder({
   
   if (!patientProfile || labOrders.length === 0) return null;
 
-  const age = patientProfile.dateOfBirth
-    ? new Date().getFullYear() - new Date(patientProfile.dateOfBirth).getFullYear()
-    : 'N/A';
-
-  const genderStr = patientProfile.gender === 'MALE' ? tQueue('gender.male') : patientProfile.gender === 'FEMALE' ? tQueue('gender.female') : tQueue('gender.other');
+  const age = calcAge(patientProfile.dateOfBirth);
+  const genderStr = formatGender(patientProfile.gender, {
+    male: tQueue('gender.male'),
+    female: tQueue('gender.female'),
+    other: tQueue('gender.other'),
+  });
 
   return (
     <div id="printable-lab-order" className="hidden print:block w-full bg-white p-8 text-black font-sans">

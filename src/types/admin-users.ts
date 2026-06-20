@@ -27,4 +27,5 @@ export interface AdminUpdateUserDto {
 
 export interface AdminSuspendUserDto {
   isActive: boolean;
+  reason?: string;
 }

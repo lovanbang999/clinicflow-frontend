@@ -1,15 +1,31 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { medicalRecordsApi, type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
 import { servicesApi } from '@/lib/api/clinic/services';
 import { labOrdersApi, type LabOrder } from '@/lib/api/clinical/lab-orders';
+import { useTechnicians } from '@/lib/hooks/clinical/useTechnicians';
 import { useLabOrderSocket } from '@/lib/hooks/clinical/useLabOrderSocket';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { MagnifyingGlassIcon, TrashIcon, FileImageIcon, PaperclipIcon, ArrowRightIcon, ArrowLeftIcon } from '@phosphor-icons/react';
+import {
+  MagnifyingGlassIcon,
+  TrashIcon,
+  FileImageIcon,
+  PaperclipIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  UserCircleIcon,
+} from '@phosphor-icons/react';
 import { ImageLightbox } from '@/components/shared/ImageLightbox';
 import { StickyBottomBar } from '@/components/doctor/shared/StickyBottomBar';
 
@@ -33,6 +49,128 @@ interface LabOrderTabProps {
   onBack?: () => void;
 }
 
+/** Dialog to select technician before placing a lab order */
+function TechnicianPickerDialog({
+  service,
+  onConfirm,
+  onClose,
+  t,
+}: {
+  service: Service | null;
+  onConfirm: (svc: Service, technicianId?: string) => void;
+  onClose: () => void;
+  t: (key: string) => string;
+}) {
+  const { technicians, isLoading } = useTechnicians(service?.categoryId ?? undefined);
+  const [selectedId, setSelectedId] = useState<string>('');
+
+  if (!service) return null;
+
+  return (
+    <Dialog open={!!service} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="max-w-md rounded-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-[15px] font-bold text-gray-800 flex items-center gap-2">
+            <span className="text-[18px]">🧪</span>
+            {service.name}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="mt-1">
+          <p className="text-[12.5px] text-gray-500 mb-3">
+            {t('selectTechnicianTitle')}
+          </p>
+
+          <div className="space-y-2 max-h-[260px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin' }}>
+            {/* Auto-assign option */}
+            <button
+              type="button"
+              onClick={() => setSelectedId('')}
+              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl border text-left transition-all ${
+                selectedId === ''
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                <span className="text-[16px]">🔄</span>
+              </div>
+              <div>
+                <div className="text-[13px] font-semibold text-gray-800">{t('autoAssign')}</div>
+                <div className="text-[11px] text-gray-400">{t('autoAssignDesc')}</div>
+              </div>
+              {selectedId === '' && (
+                <div className="ml-auto w-4 h-4 rounded-full bg-blue-500 shrink-0" />
+              )}
+            </button>
+
+            {/* Technician list */}
+            {isLoading ? (
+              <div className="text-center py-4 text-[12px] text-gray-400">{t('loading')}</div>
+            ) : technicians.length === 0 ? (
+              <div className="text-center py-4 text-[12px] text-gray-400 italic">{t('noTechnicians')}</div>
+            ) : (
+              technicians.map((tech) => (
+                <button
+                  key={tech.id}
+                  type="button"
+                  onClick={() => setSelectedId(tech.id)}
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl border text-left transition-all ${
+                    selectedId === tech.id
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {tech.avatar ? (
+                    <Image
+                      src={tech.avatar}
+                      alt={tech.fullName}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                      <UserCircleIcon size={22} className="text-gray-400" />
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[13px] font-semibold text-gray-800 truncate">{tech.fullName}</div>
+                    {tech.technicianSpecializations.length > 0 && (
+                      <div className="text-[11px] text-gray-400 truncate">
+                        {tech.technicianSpecializations.map((s) => s.category.name).join(', ')}
+                      </div>
+                    )}
+                  </div>
+                  {selectedId === tech.id && (
+                    <div className="ml-auto w-4 h-4 rounded-full bg-blue-500 shrink-0" />
+                  )}
+                </button>
+              ))
+            )}
+          </div>
+
+          <div className="flex gap-2 mt-4">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="flex-1 h-[40px] rounded-xl text-gray-600 border-gray-200"
+            >
+              {t('cancel')}
+            </Button>
+            <Button
+              onClick={() => onConfirm(service, selectedId || undefined)}
+              className="flex-1 h-[40px] rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+            >
+              {t('confirm')}
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabProps) {
   const t = useTranslations('emr.visit.services');
   const [allServices, setAllServices] = useState<Service[]>([]);
@@ -41,6 +179,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
   const [isOrdering, setIsOrdering] = useState(false);
   const [isRemoving, setIsRemoving] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [pendingService, setPendingService] = useState<Service | null>(null);
 
   const isImage = (url: string) => /\.(jpeg|jpg|gif|png|webp|svg|bmp)$/i.test(url);
 
@@ -49,12 +188,12 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
       const data = await labOrdersApi.getOrdersByBooking(bookingId);
       setOrders(data);
     } catch (err) {
-      console.error(err);
+      void err;
     }
   }, [bookingId]);
 
   useEffect(() => {
-    servicesApi.getAll({ categoryType: 'LAB' }).then(setAllServices).catch(console.error);
+    servicesApi.getAll({ categoryType: 'LAB' }).then(setAllServices).catch(() => {});
     fetchOrders();
   }, [fetchOrders]);
 
@@ -69,7 +208,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
         const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
         onSaved(updatedRecord);
       } catch (err) {
-        console.error('Failed to sync parent record on websocket', err);
+        void err;
       }
     });
     return () => {
@@ -83,7 +222,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
       const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
       onSaved(updatedRecord);
     } catch (err) {
-      console.error('Failed to fetch latest record before next', err);
+      void err;
     } finally {
       if (onSkip) onSkip();
     }
@@ -99,16 +238,31 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
         (s.category?.name ?? '').toLowerCase().includes(search.toLowerCase())),
   );
 
-  const handleOrder = useCallback(
-    async (svc: Service) => {
+  /** User clicks a service → open picker dialog */
+  const handleServiceClick = (svc: Service) => {
+    if (isOrdering) return;
+    setPendingService(svc);
+  };
+
+  /** After dialog confirms with optional technicianId */
+  const handleOrderConfirm = useCallback(
+    async (svc: Service, technicianId?: string) => {
+      setPendingService(null);
       try {
         setIsOrdering(true);
-        await labOrdersApi.createOrder({ bookingId, testName: svc.name, serviceId: svc.id });
+        await labOrdersApi.createOrder({
+          bookingId,
+          testName: svc.name,
+          serviceId: svc.id,
+          assignedTechnicianId: technicianId,
+        });
         await fetchOrders();
-        // Refresh the whole record to sync other tabs (e.g. Prescription)
         const updatedRecord = await medicalRecordsApi.getVisitResults(bookingId);
         onSaved(updatedRecord);
-        toast.success(t('successAdd'));
+        const msg = technicianId
+          ? `✅ Đã chỉ định "${svc.name}"` 
+          : `✅ Đã chỉ định "${svc.name}" (tự động phân công)`;
+        toast.success(msg);
       } catch (err) {
         toast.error(err instanceof Error ? err.message : t('errorAdd'));
       } finally {
@@ -138,9 +292,9 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
 
   return (
     <div className="space-y-0">
-      <div className="flex items-center gap-3 p-4 rounded-xl mb-6 text-[13.5px] leading-relaxed bg-[#faf5ff] border border-[#c4b5fd] text-[#5b21b6]">
+      <div className="flex items-center gap-3 p-4 rounded-xl mb-6 text-[13.5px] leading-relaxed bg-[#eff6ff] border border-[#bfdbfe] text-[#1e40af]">
         <span className="text-[18px] shrink-0">💡</span>
-        <div>{t('tooltip')}</div>
+        <div>{t('tooltip')} — {t('technicianInstruction')}</div>
       </div>
 
       <div className="flex gap-3 mb-6">
@@ -155,33 +309,56 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
         </div>
       </div>
 
+      {/* Ordered services table */}
       <div className="mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_120px_100px_120px_60px] px-3.5 py-2 bg-gray-50 rounded-t-xl border border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wide gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_140px_100px_120px_60px] px-3.5 py-2 bg-gray-50 rounded-t-xl border border-gray-200 text-[11px] font-bold text-gray-500 uppercase tracking-wide gap-3">
           <div>{t('table.service')}</div>
-          <div className="hidden md:block">{t('table.type')}</div>
+          <div className="hidden md:block">{t('technician')}</div>
           <div className="hidden md:block">{t('table.price')}</div>
           <div className="hidden md:block">{t('table.status')}</div>
           <div className="text-right hidden md:block">{t('table.action')}</div>
         </div>
         <div className="border border-t-0 border-gray-200 rounded-b-xl empty:hidden">
           {orders.map((order) => {
-            // Safe fallback finding matched service
             const matchedSvc = allServices.find(s => s.name === order.testName);
-            const svcCategory = matchedSvc?.category?.name || t('fallbackCategory');
             const priceStr = Number(matchedSvc?.price || 0).toLocaleString('vi-VN');
+            const techLabel = order.assignedTechnician
+              ? order.assignedTechnician.fullName
+              : t('auto');
 
             return (
               <div key={order.id} className="flex flex-col border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors">
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_120px_100px_120px_60px] items-center px-3.5 py-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_140px_100px_120px_60px] items-center px-3.5 py-3 gap-3">
                   <div>
                     <div className="font-semibold text-[13px] text-gray-800">{order.testName}</div>
-                    <div className="text-[11px] text-gray-400 md:hidden mt-0.5">{svcCategory} · {priceStr}đ</div>
+                    <div className="text-[11px] text-gray-400 md:hidden mt-0.5">
+                      {matchedSvc?.category?.name || t('fallbackCategory')} · {priceStr}đ
+                    </div>
                   </div>
-                  <div className="text-[11px] text-gray-400 hidden md:block">{svcCategory}</div>
+                  {/* Technician column */}
+                  <div className="hidden md:flex items-center gap-1.5">
+                    {order.assignedTechnician && (
+                      order.assignedTechnician.avatar ? (
+                        <Image
+                          src={order.assignedTechnician.avatar}
+                          alt={order.assignedTechnician.fullName}
+                          width={20}
+                          height={20}
+                          className="rounded-full object-cover"
+                        />
+                      ) : (
+                        <UserCircleIcon size={16} className="text-gray-400 shrink-0" />
+                      )
+                    )}
+                    <span className={`text-[11.5px] truncate max-w-[100px] ${order.assignedTechnicianId ? 'text-blue-700 font-medium' : 'text-gray-400 italic'}`}>
+                      {techLabel}
+                    </span>
+                  </div>
                   <div className="font-mono text-[12.5px] text-gray-700 hidden md:block">{priceStr}đ</div>
                   <div>
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${order.status === 'COMPLETED' ? 'bg-[#ecfdf5] text-[#065f46]' : 'bg-[#fff8eb] text-[#92400e]'
-                      }`}>
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${
+                      order.status === 'COMPLETED' ? 'bg-[#ecfdf5] text-[#065f46]' : 'bg-[#fff8eb] text-[#92400e]'
+                    }`}>
                       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${order.status === 'COMPLETED' ? 'bg-[#10b981]' : 'bg-[#f59e0b]'}`} />
                       {order.status === 'COMPLETED' ? t('status.ready') : t('status.pending')}
                     </span>
@@ -213,7 +390,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
                         <div className="mt-3 border-t border-gray-100 pt-3">
                           {isImage(order.result.resultFileUrl) ? (
                             <button
-                               type="button"
+                              type="button"
                               onClick={() => setActiveImage(order.result!.resultFileUrl!)}
                               className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition-colors border border-indigo-100 cursor-pointer"
                             >
@@ -273,14 +450,14 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
           filteredServices.map(svc => (
             <div
               key={svc.id}
-              onClick={() => handleOrder(svc)}
-              className={`border border-gray-200 rounded-xl p-2.5 cursor-pointer transition-all hover:border-indigo-600 hover:bg-indigo-50/50 flex items-center justify-between group ${isOrdering ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={() => handleServiceClick(svc)}
+              className={`border border-gray-200 rounded-xl p-2.5 cursor-pointer transition-all hover:border-blue-500 hover:bg-blue-50/50 flex items-center justify-between group ${isOrdering ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <div className="min-w-0 pr-2">
                 <div className="text-[12.5px] font-semibold text-gray-800 truncate">{svc.name}</div>
                 <div className="text-[11px] text-gray-400">{svc.category?.name || t('fallbackCategory')}</div>
               </div>
-              <div className="text-[12px] font-mono text-indigo-600 font-bold shrink-0">{Number(svc.price).toLocaleString('vi-VN')}đ</div>
+              <div className="text-[12px] font-mono text-blue-600 font-bold shrink-0">{Number(svc.price).toLocaleString('vi-VN')}đ</div>
             </div>
           ))
         )}
@@ -289,11 +466,20 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
       {orders.length === 0 && (
         <div className="border-[1.5px] border-dashed border-gray-300 rounded-xl p-4 text-center mt-6 text-gray-500 text-[13px]">
           <p className="mb-2.5">{t('skipPrompt')}</p>
-          <button type="button" onClick={onSkip} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#faf5ff] text-[#7c3aed] border border-dashed border-[#7c3aed] font-semibold text-[13px] hover:bg-[#f3e8ff] transition-colors cursor-pointer">
+          <button type="button" onClick={onSkip} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#eff6ff] text-[#1d4ed8] border border-dashed border-[#1d4ed8] font-semibold text-[13px] hover:bg-[#dbeafe] transition-colors cursor-pointer">
             {t('skipButton')}
           </button>
         </div>
       )}
+
+      {/* Technician picker dialog */}
+      <TechnicianPickerDialog
+        key={pendingService?.id || 'none'}
+        service={pendingService}
+        onConfirm={handleOrderConfirm}
+        onClose={() => setPendingService(null)}
+        t={t}
+      />
 
       <ImageLightbox
         url={activeImage || ''}
@@ -319,7 +505,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
               type="button"
               variant="ghost"
               onClick={onSkip}
-              className="h-[42px] rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-100 font-semibold"
+              className="h-[42px] rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-100 font-semibold"
             >
               ⏭ {t('skip')}
             </Button>
@@ -327,7 +513,7 @@ export function LabOrderTab({ bookingId, onSaved, onSkip, onBack }: LabOrderTabP
           <Button
             type="button"
             onClick={handleNext}
-            className="px-6 py-2 h-[42px] rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[14px] shadow-[0_4px_12px_rgba(79,70,229,0.25)] transition-all flex items-center gap-2"
+            className="px-6 py-2 h-[42px] rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-[14px] shadow-[0_4px_12px_rgba(37,99,235,0.25)] transition-all flex items-center gap-2"
           >
             <span className="text-sm">{t('saveAndNext')}</span>
             <ArrowRightIcon className="w-4 h-4" />

@@ -25,6 +25,8 @@ type Props = {
   onAddDoctor: () => void;
   onEdit?: (doctor: Doctor) => void;
   onMore?: (doctor: Doctor, buttonRef: React.RefObject<HTMLButtonElement | null>) => void;
+  searchValue?: string;
+  onSearchChange?: (val: string) => void;
 };
 
 export function DoctorTable({
@@ -43,6 +45,8 @@ export function DoctorTable({
   onAddDoctor,
   onEdit,
   onMore,
+  searchValue,
+  onSearchChange,
 }: Props) {
   const t = useTranslations('adminDoctors');
   const limit = 10;
@@ -66,6 +70,8 @@ export function DoctorTable({
         onToggleStatus={onToggleStatus}
         onClearFilters={onClearFilters}
         onAddDoctor={onAddDoctor}
+        searchValue={searchValue}
+        onSearchChange={onSearchChange}
       />
 
       {/* Table */}

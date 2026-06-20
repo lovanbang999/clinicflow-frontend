@@ -28,9 +28,22 @@ export interface DoctorSummary {
   deltaCompleted: number;
   absentCancel: number;
   deltaAbsentCancel: number;
+  revenue: number;
+  prevRevenue: number;
+  deltaRevenue: number;
   sourceBreakdown: { online: number; walkIn: number; phone: number };
   avgMinutes: number;
   rating: number;
+}
+
+export interface ServiceTrendItem {
+  name: string;
+  count: number;
+}
+
+export interface WeeklyTrendItem {
+  day: string;
+  count: number;
 }
 
 export interface RecentPatient {
@@ -109,6 +122,14 @@ export const analyticsApi = {
   },
   getDoctorClinicalKPIs: async (): Promise<ClinicalKPIsData> => {
     const res = await apiClient.get('/analytics/doctor/me/clinical-kpis');
+    return res.data.data;
+  },
+  getDoctorTopServices: async (): Promise<ServiceTrendItem[]> => {
+    const res = await apiClient.get('/analytics/doctor/me/top-services');
+    return res.data.data;
+  },
+  getDoctorWeeklyBookings: async (): Promise<WeeklyTrendItem[]> => {
+    const res = await apiClient.get('/analytics/doctor/me/weekly-bookings');
     return res.data.data;
   },
 };

@@ -6,7 +6,7 @@
     "allSpecialties": "Tất cả chuyên khoa",
     "empty": "Không tìm thấy bác sĩ phù hợp",
     "searchPlaceholder": "Tìm kiếm bác sĩ, chuyên khoa hoặc mặt bệnh...",
-    "sortBy": "Sắp xếp theo:",
+    "sortBy": "Sắp xếp theo",
     "sortRatingDesc": "Đánh giá: Cao đến thấp",
     "sortRatingAsc": "Đánh giá: Thấp đến cao",
     "sortExpDesc": "Kinh nghiệm: Nhiều đến ít",
@@ -36,7 +36,8 @@
     "qualifications": "Bằng cấp",
     "bookAppointment": "Đặt lịch khám",
     "viewProfile": "Xem hồ sơ",
-    "bookNow": "Đặt lịch ngay"
+    "bookNow": "Đặt lịch ngay",
+    "fee": "Phí khám"
   },
   "profile": {
     "notFound": "Hồ sơ Bác sĩ không tồn tại",

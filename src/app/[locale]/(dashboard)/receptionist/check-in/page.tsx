@@ -10,6 +10,7 @@ import { CheckInStats } from '@/components/receptionist/check-in/CheckInStats';
 import { AppointmentsTable } from '@/components/receptionist/check-in/AppointmentsTable';
 import { CancelBookingModal } from '@/components/receptionist/check-in/CancelBookingModal';
 import { ConfirmBookingModal } from '@/components/receptionist/check-in/ConfirmBookingModal';
+import { RescheduleBookingModal } from '@/components/receptionist/check-in/RescheduleBookingModal';
 import { toast } from 'sonner';
 import { bookingsApi, ReceptionistStatsResponse } from '@/lib/api/appointment/bookings';
 import { doctorsApi } from '@/lib/api/clinical/doctors';
@@ -52,6 +53,11 @@ export default function ReceptionistCheckInPage() {
   const [bookingToConfirm, setBookingToConfirm] = useState<Booking | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
 
+  // Reschedule modal state
+  const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
+  const [bookingToReschedule, setBookingToReschedule] = useState<Booking | null>(null);
+  const [isRescheduling, setIsRescheduling] = useState(false);
+
   // Fetch doctors and services once on mount
   useEffect(() => {
     doctorsApi.getAll({ limit: 100 }).then((list) => {
@@ -75,8 +81,8 @@ export default function ReceptionistCheckInPage() {
     } as Parameters<typeof fetchBookings>[0]);
 
     if (data) {
-      setBookings(data.bookings);
-      setTotalBookings(data.pagination.total || 0);
+      setBookings(data.bookings || []);
+      setTotalBookings(data.pagination?.total || 0);
     }
   }, [activeTab, currentPage, selectedDate, selectedDoctorId, selectedServiceId, searchQuery, fetchBookings]);
 
@@ -170,6 +176,59 @@ export default function ReceptionistCheckInPage() {
     }
   };
 
+  // Reschedule booking
+
+  const handleRescheduleClick = (booking: Booking) => {
+    setBookingToReschedule(booking);
+    setIsRescheduleModalOpen(true);
+  };
+
+  const handleConfirmReschedule = async (data: {
+    doctorId: string;
+    bookingDate: string;
+    startTime: string;
+    notes: string;
+  }) => {
+    if (!bookingToReschedule) return;
+    setIsRescheduling(true);
+    try {
+      const cancelReason = `Đổi lịch thay bởi lễ tân${data.notes ? `: ${data.notes}` : ''}`;
+      // 1. Cancel the old booking
+      const cancelSuccess = await cancelBooking(bookingToReschedule.id, cancelReason);
+      if (!cancelSuccess) {
+        toast.error(t('rescheduleModal.error'));
+        return;
+      }
+
+      // 2. Create the new booking with confirmed status (since receptionist booking is auto-confirmed)
+      const patientProfileId = bookingToReschedule.patientProfile?.id || bookingToReschedule.patientProfileId;
+      if (!patientProfileId) {
+        toast.error(t('rescheduleModal.error'));
+        return;
+      }
+
+      await bookingsApi.createReceptionistBooking({
+        patientProfileId,
+        doctorId: data.doctorId,
+        bookingDate: data.bookingDate,
+        startTime: data.startTime,
+        isPreBooked: true,
+        patientNotes: data.notes || bookingToReschedule.patientNotes || undefined,
+      });
+
+      toast.success(t('rescheduleModal.success'));
+      setIsRescheduleModalOpen(false);
+      setBookingToReschedule(null);
+      loadBookings();
+      loadStats();
+    } catch (err) {
+      void err;
+      toast.error(t('rescheduleModal.error'));
+    } finally {
+      setIsRescheduling(false);
+    }
+  };
+
   // Check-in: redirect to billing page for fee collection (B1)
   // The billing page handles CONSULTATION invoice + check-in automatically
   const handleCheckInClick = (booking: Booking) => {
@@ -217,6 +276,7 @@ export default function ReceptionistCheckInPage() {
           onStatusFilter={handleStatusFilter}
           onCancelBookingClick={handleCancelClick}
           onConfirmBookingClick={handleConfirmClick}
+          onRescheduleBookingClick={handleRescheduleClick}
           onCheckInClick={handleCheckInClick}
           searchQuery={searchQuery}
           onSearchChange={(q) => { setSearchQuery(q); setCurrentPage(1); }}
@@ -253,6 +313,19 @@ export default function ReceptionistCheckInPage() {
         }}
         onConfirm={handleConfirmBooking}
         isSubmitting={isConfirming}
+      />
+
+      {/* Reschedule Modal */}
+      <RescheduleBookingModal
+        isOpen={isRescheduleModalOpen}
+        booking={bookingToReschedule}
+        doctors={doctors}
+        onClose={() => {
+          setIsRescheduleModalOpen(false);
+          setBookingToReschedule(null);
+        }}
+        onConfirm={handleConfirmReschedule}
+        isSubmitting={isRescheduling}
       />
     </div>
   );

@@ -4,6 +4,13 @@
     "overview": "Monitor and manage live patient check-ins",
     "chooseDoctor": "Doctor selection"
   },
+  "selector": {
+    "searchPlaceholder": "Search by name or specialty...",
+    "allSpecialties": "All specialties",
+    "doctorCount": "{count} doctors",
+    "clearFilter": "Clear filter",
+    "noDoctorFound": "No doctors found"
+  },
   "board": {
     "boardTitle": "Live Queue - {doctor}",
     "selectDoctor": "Please select a doctor to view the queue",
@@ -30,7 +37,10 @@
       "patient": "Patient",
       "status": "Status",
       "waitTime": "Wait Time",
-      "actions": "Actions"
+      "actions": "Actions",
+      "payment": "Payment",
+      "pendingPayment": "Pending Payment",
+      "paid": "Paid"
     },
     "selectDoctorDesc": "Please select a doctor above to view the queue",
     "patientsUnit": "patients",
@@ -42,6 +52,8 @@
     "waitingForNext": "Waiting for next patient",
     "waitingList": "Waiting List",
     "loadingList": "Loading list...",
-    "estimatedTime": "~{time} mins"
+    "estimatedTime": "~{time} mins",
+    "consultationService": "Consultation",
+    "clinicRoom": "Clinic Room"
   }
 }

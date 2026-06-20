@@ -53,7 +53,7 @@ export function TabDiagnosis({ item, medicalRecord, onChange, isReadOnly }: TabD
       toast.success(t('messages.saveSuccess'));
       onChange();
     } catch (error) {
-      console.error(error);
+      void error;
       toast.error(t('messages.saveError'));
     } finally {
       setIsSubmitting(false);

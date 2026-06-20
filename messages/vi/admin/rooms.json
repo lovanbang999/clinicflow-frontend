@@ -9,11 +9,21 @@
   "table": {
     "name": "Tên phòng",
     "type": "Loại",
+    "relatedService": "Dịch vụ liên quan",
     "floor": "Tầng",
     "capacity": "Sức chứa",
     "scheduleCount": "Số lịch",
     "isActive": "Trạng thái",
-    "actions": "Thao tác"
+    "actions": "Thao tác",
+    "scheduleLabel": "Lịch khám:",
+    "doctorLabel": "Bác sĩ:"
+  },
+  "relatedServices": {
+    "CONSULTATION": "Khám lâm sàng, tư vấn chuyên khoa",
+    "ULTRASOUND": "Siêu âm, điện tim, nội soi",
+    "PROCEDURE": "Tiểu phẫu, thủ thuật ngoại khoa",
+    "LAB": "Xét nghiệm máu, nước tiểu, sinh hóa",
+    "WAITING": "Đón tiếp, chờ khám"
   },
   "tableState": {
     "loading": "Đang tải danh sách phòng...",

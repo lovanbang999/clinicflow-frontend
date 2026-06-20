@@ -10,6 +10,8 @@ import {
   RecentPatient,
   TodayAppointment,
   ClinicalKPIsData,
+  ServiceTrendItem,
+  WeeklyTrendItem,
 } from '@/lib/api/admin/analytics';
 
 export function useDoctorTopDiagnoses() {
@@ -125,6 +127,34 @@ export function useDoctorClinicalKPIs() {
     analyticsApi.getDoctorClinicalKPIs()
       .then(setData)
       .catch(() => setData(null))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  return { data, isLoading };
+}
+
+export function useDoctorTopServices() {
+  const [data, setData] = useState<ServiceTrendItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    analyticsApi.getDoctorTopServices()
+      .then(setData)
+      .catch(() => setData([]))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  return { data, isLoading };
+}
+
+export function useDoctorWeeklyBookings() {
+  const [data, setData] = useState<WeeklyTrendItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    analyticsApi.getDoctorWeeklyBookings()
+      .then(setData)
+      .catch(() => setData([]))
       .finally(() => setIsLoading(false));
   }, []);
 

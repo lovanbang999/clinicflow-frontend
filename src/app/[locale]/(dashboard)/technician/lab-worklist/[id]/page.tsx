@@ -1,7 +1,8 @@
 'use client';
 
 import { use, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import { visitServiceOrdersApi } from '@/lib/api/clinical/visit-service-orders';
 import { labOrdersApi } from '@/lib/api/clinical/lab-orders';
 import { toast } from 'sonner';
@@ -11,9 +12,18 @@ import { WorkbenchHeader } from '@/components/technician/forms/layouts/Workbench
 import { WorkbenchSidebar } from '@/components/technician/forms/layouts/WorkbenchSidebar';
 import { SpecialistFindings } from '@/lib/types/specialist-findings.types';
 import { useLabWorkspaceOrder } from '@/components/technician/hooks/useLabWorkspaceOrder';
-
 import { BaseFormProps } from '@/components/technician/forms';
 import { useTranslations } from 'next-intl';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface PageProps {
   params: Promise<{ id: string; locale: string }>;
@@ -30,13 +40,14 @@ const FORM_COMPONENTS: Record<string, React.ComponentType<BaseFormProps>> = {
 };
 
 export default function LabResultWorkspacePage({ params }: PageProps) {
-  const { id, locale } = use(params);
+  const { id } = use(params);
   const router = useRouter();
   const searchParams = useSearchParams();
   const source = searchParams.get('source') || 'lab';
 
   const { order, siblings, isLoading, labFormType, isVso } = useLabWorkspaceOrder(id, source);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showConfirmStart, setShowConfirmStart] = useState(false);
   const t = useTranslations('technicianWorklist');
 
   const handleSave = async (data: {
@@ -65,11 +76,11 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
         });
       }
 
-      toast.success('Kết quả đã được lưu và gửi cho bác sĩ');
-      router.push(`/${locale}/technician/lab-worklist`);
+      toast.success(t('messages.saveSuccess'));
+      router.push('/technician/lab-worklist');
     } catch (err) {
-      toast.error('Có lỗi xảy ra khi lưu kết quả');
-      console.error(err);
+      void err;
+      toast.error(t('messages.saveError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -87,6 +98,8 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
   }
 
   const isCompleted = order.status === 'COMPLETED';
+  const isPaid = order.status === 'PAID';
+  const isReadOnly = isCompleted || isPaid;
   const FormComponent = FORM_COMPONENTS[labFormType] || GeneralForm;
 
   return (
@@ -94,7 +107,7 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
       <WorkbenchHeader
         order={order}
         isCompleted={isCompleted}
-        onBack={() => router.push(`/${locale}/technician/lab-worklist`)}
+        onBack={() => router.push('/technician/lab-worklist')}
       />
 
       <main className="flex-1 p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 max-w-[1600px] mx-auto w-full">
@@ -106,9 +119,8 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
             activeId={id}
             onSelectOrder={(sid: string) => {
               const selectedSource = siblings.find(s => s.id === sid)?._source || source;
-              router.push(`/${locale}/technician/lab-worklist/${sid}?source=${selectedSource}`);
+              router.push(`/technician/lab-worklist/${sid}?source=${selectedSource}`);
             }}
-            locale={locale}
           />
         </aside>
 
@@ -120,10 +132,10 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
                 <div className="w-2 h-6 bg-blue-500 rounded-full" />
                 <h2 className="text-sm font-black text-slate-800 uppercase tracking-tight">{t('workspace.resultEntry')}</h2>
               </div>
-              {isCompleted && (
-                <div className="flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase border border-emerald-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  {t('workspace.status.readOnly')}
+              {isReadOnly && (
+                <div className="flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-[10px] font-black uppercase border border-amber-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                  {isCompleted ? t('workspace.status.readOnly') : t('worklist.status.paid')}
                 </div>
               )}
             </div>
@@ -131,7 +143,7 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
               <FormComponent
                 orderId={id}
                 order={order}
-                isCompleted={isCompleted}
+                isCompleted={isReadOnly}
                 initialResultText={isVso ? (order.result?.resultText || '') : (order.result?.resultText || '')}
                 initialFileUrl={order.result?.resultFileUrl || ''}
                 initialIsAbnormal={order.result?.isAbnormal || false}
@@ -149,13 +161,22 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
         <div className="max-w-[1600px] mx-auto w-full px-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="lg:col-start-3 lg:col-span-10 flex items-center justify-end gap-3">
             <button
-              onClick={() => router.push(`/${locale}/technician/lab-worklist`)}
+              onClick={() => router.push('/technician/lab-worklist')}
               className="px-8 h-12 rounded-[16px] text-[13px] font-bold text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all active:scale-95 cursor-pointer"
             >
               {t('workspace.cancel')}
             </button>
-            
-            {!isCompleted && (
+
+            {isPaid && (
+              <button
+                onClick={() => setShowConfirmStart(true)}
+                className="px-10 h-12 bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-[16px] shadow-lg shadow-[#1392ec]/20 font-bold text-[13px] transition-all active:scale-95 flex items-center justify-center cursor-pointer"
+              >
+                {t('worklist.actions.start')}
+              </button>
+            )}
+
+            {order.status === 'IN_PROGRESS' && (
               <button
                 form="clinical-result-form"
                 type="submit"
@@ -180,6 +201,37 @@ export default function LabResultWorkspacePage({ params }: PageProps) {
           </div>
         </div>
       </div>
+
+      <AlertDialog open={showConfirmStart} onOpenChange={setShowConfirmStart}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('worklist.confirmStartTitle')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('worklist.confirmStartDesc')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('workspace.cancel')}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                try {
+                  await labOrdersApi.updateOrderStatus(id, 'IN_PROGRESS');
+                  toast.success(t('messages.statusUpdated'));
+                  window.location.reload();
+                } catch (err) {
+                  void err;
+                  toast.error(t('messages.statusUpdateError'));
+                } finally {
+                  setShowConfirmStart(false);
+                }
+              }}
+              className="bg-[#1392ec] hover:bg-[#1392ec]/90 text-white"
+            >
+              {t('worklist.actions.start')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

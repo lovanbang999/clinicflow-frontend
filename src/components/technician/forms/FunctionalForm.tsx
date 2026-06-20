@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { BaseFormProps, FunctionalFinding, EcgFinding, SpirometryFinding } from './types';
 import {
@@ -26,7 +27,7 @@ export function FunctionalForm({
   initialAbnormalNote,
   onSave,
 }: BaseFormProps) {
-  // const t = useTranslations('technicianWorklist');
+  const t = useTranslations('technicianWorklist');
   const serviceType = order.service?.name?.toUpperCase() || '';
   const isSpirometry = serviceType.includes('HÔ HẤP') || serviceType.includes('SPIROMETRY');
   
@@ -65,6 +66,7 @@ export function FunctionalForm({
     setIsAbnormal,
     isUploading,
     handleFileUpload,
+    handleFileDelete,
     handleSubmit,
   } = useResultForm<FunctionalFinding>({
     initialData: initialResultText ? JSON.parse(initialResultText) : (isSpirometry ? DEFAULT_SPIROMETRY : DEFAULT_ECG),
@@ -85,14 +87,22 @@ export function FunctionalForm({
           <ClockIcon weight="bold" size={20} />
         </div>
         <div className="text-sm">
-          <strong>Loại: {isSpirometry ? 'Thăm dò chức năng hô hấp' : 'Điện tâm đồ (ECG)'}</strong> — Nhập các chỉ số kỹ thuật từ bản ghi máy. Hệ thống hỗ trợ lưu trữ các thông số định lượng chi tiết.
+          {isSpirometry ? (
+            <>
+              <strong>{t('forms.general.functionalTypeDescSpirometry').split(' — ')[0]}</strong> — {t('forms.general.functionalTypeDescSpirometry').split(' — ')[1]}
+            </>
+          ) : (
+            <>
+              <strong>{t('forms.general.functionalTypeDesc').split(' — ')[0]}</strong> — {t('forms.general.functionalTypeDesc').split(' — ')[1]}
+            </>
+          )}
         </div>
       </div>
 
       <div className="w-full flex flex-col gap-8">
         <div className="w-full space-y-6">
           <FormSection 
-            title="Thông số định lượng" 
+            title={t('forms.general.functionalSectionTitle')} 
             accentColor={isSpirometry ? "bg-sky-500" : "bg-rose-500"}
           >
             {isSpirometry ? (
@@ -102,17 +112,17 @@ export function FunctionalForm({
             )}
 
             <div className="space-y-3 pt-4 border-t border-slate-100">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Mô tả & Kết luận chuyên môn</label>
+              <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">{t('forms.general.functionalNotesLabel')}</label>
               <textarea 
                 className="w-full min-h-[100px] bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:bg-white focus:border-blue-400 outline-none transition-all placeholder:text-slate-400"
-                placeholder="VD: Nhịp tim đều, trục trung gian..."
+                placeholder={t('forms.general.functionalPlaceholderDesc')}
                 {...form.register('description')}
                 disabled={isCompleted}
               />
             </div>
             
             <FormField 
-              label="Kết luận cuối cùng" 
+              label={t('forms.general.functionalConclusionLabel')} 
               required 
               error={form.formState.errors.conclusion?.message}
             >
@@ -122,8 +132,8 @@ export function FunctionalForm({
                   "w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold focus:bg-white focus:border-blue-400 outline-none transition-all",
                   form.formState.errors.conclusion && "border-rose-300 bg-rose-50/10"
                 )}
-                placeholder="VD: Điện tâm đồ trong giới hạn bình thường..."
-                {...form.register('conclusion', { required: 'Vui lòng nhập kết luận cuối cùng' })}
+                placeholder={t('forms.general.functionalPlaceholderConclusion')}
+                {...form.register('conclusion', { required: t('forms.general.functionalRequiredConclusion') })}
                 disabled={isCompleted}
               />
             </FormField>
@@ -131,7 +141,7 @@ export function FunctionalForm({
         </div>
 
         <div className="w-full space-y-6">
-          <FormSection title="Tài liệu & Cảnh báo" accentColor="bg-slate-400">
+          <FormSection title={t('forms.general.functionalUploadSectionTitle')} accentColor="bg-slate-400">
             <div className="flex flex-col items-center text-center gap-4 pb-4 border-b border-slate-100">
               <div className={cn(
                 "w-16 h-16 rounded-[24px] flex items-center justify-center",
@@ -140,16 +150,17 @@ export function FunctionalForm({
                 {isSpirometry ? <WindIcon weight="duotone" size={32} /> : <ActivityIcon weight="duotone" size={32} />}
               </div>
               <div>
-                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">{isSpirometry ? 'Hố hấp ký' : 'Điện tim (ECG)'}</h3>
-                <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed">Đảm bảo bệnh nhân thực hiện đúng kỹ thuật trước khi lưu.</p>
+                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">{isSpirometry ? t('forms.general.functionalTitleSpirometry') : t('forms.general.functionalTitleEcg')}</h3>
+                <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed">{t('forms.general.functionalSubtitle')}</p>
               </div>
             </div>
 
             <UploadCard 
               onFileSelect={handleFileUpload}
+              onFileDelete={handleFileDelete}
               isUploading={isUploading}
               fileUrl={fileUrl}
-              label="Bản ghi máy (Tracing)"
+              label={t('forms.general.functionalUploadLabel')}
               hint="PDF, PNG, JPG (MAX 20MB)"
               accentColor={isSpirometry ? "sky" : "rose"}
               disabled={isCompleted}
@@ -176,13 +187,13 @@ export function FunctionalForm({
                     "text-xs font-black uppercase tracking-wider",
                     isAbnormal ? "text-rose-800" : "text-emerald-800"
                   )}>
-                    {isAbnormal ? 'Báo động lâm sàng' : 'Bình thường'}
+                    {isAbnormal ? t('forms.general.functionalAbnormalStatus') : t('forms.general.functionalNormalStatus')}
                   </p>
                   <p className={cn(
                     "text-[10px] font-medium opacity-80 mt-0.5 uppercase tracking-widest",
                     isAbnormal ? "text-rose-600" : "text-emerald-600"
                   )}>
-                    {isAbnormal ? 'Nhấn để đánh dấu bình thường' : 'Nhấn nếu phát hiện bất thường'}
+                    {isAbnormal ? t('forms.general.abnormalToggleNormal') : t('forms.general.abnormalToggleAbnormal')}
                   </p>
                 </div>
               </div>
@@ -203,11 +214,11 @@ export function FunctionalForm({
 
             {isAbnormal && (
               <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Ghi chú lâm sàng</label>
+                <label className="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">{t('forms.general.clinicalNotes')}</label>
                 <input 
                   type="text" 
                   className="w-full bg-white border border-rose-200 rounded-xl px-4 py-3 text-sm font-bold focus:border-rose-400 outline-none transition-all shadow-sm"
-                  placeholder="VD: Nhịp nhanh kịch phát..."
+                  placeholder={t('forms.general.functionalPlaceholderAbnormal')}
                   {...form.register('abnormalNote')}
                   disabled={isCompleted}
                 />

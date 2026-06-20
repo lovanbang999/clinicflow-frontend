@@ -11,6 +11,7 @@ import {
 } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
+import { StatCard } from '@/components/ui/StatCard';
 
 export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
   const t = useTranslations('doctorWorkspace.queueView');
@@ -34,58 +35,44 @@ export function DoctorStatsPanel({ avgWaitMins }: { avgWaitMins: number }) {
   }
 
   const { patientsSeenToday, totalPatientsSeen, pendingActive, abnormalResultsToday } = data;
-  
+
   return (
     <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-      <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm flex items-center gap-3 transition-transform hover:translate-y-[-2px] hover:shadow-md cursor-default">
-        <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-          <HourglassHighIcon size={20} weight="fill" />
-        </div>
-        <div>
-          <p className="text-xl font-bold text-gray-900 leading-none">{pendingActive}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.waiting')}</p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm flex items-center gap-3 transition-transform hover:translate-y-[-2px] hover:shadow-md cursor-default">
-        <div className="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center shrink-0">
-          <UserCheckIcon size={20} weight="fill" />
-        </div>
-        <div>
-          <p className="text-xl font-bold text-gray-900 leading-none">{patientsSeenToday}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.completedToday')}</p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm flex items-center gap-3 transition-transform hover:translate-y-[-2px] hover:shadow-md cursor-default">
-        <div className="w-10 h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0">
-          <WarningCircleIcon size={20} weight="fill" />
-        </div>
-        <div>
-          <p className="text-xl font-bold text-gray-900 leading-none">{abnormalResultsToday}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.abnormalResults')}</p>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm flex items-center gap-3 transition-transform hover:translate-y-[-2px] hover:shadow-md cursor-default">
-        <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-          <UsersIcon size={20} weight="fill" />
-        </div>
-        <div>
-          <p className="text-xl font-bold text-gray-900 leading-none">{totalPatientsSeen}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">{t('statsPanel.totalPatients')}</p>
-        </div>
-      </div>
-
-      <div className={`bg-white rounded-xl border p-4 shadow-sm flex items-center gap-3 transition-transform hover:translate-y-[-2px] hover:shadow-md cursor-default ${isHigh ? 'border-red-100' : 'border-gray-100'}`}>
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${isHigh ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
-          <TimerIcon size={20} weight="fill" />
-        </div>
-        <div>
-          <p className={`text-xl font-bold leading-none ${isHigh ? 'text-red-600' : 'text-gray-900'}`}>{avgWaitMins} {t('minutes')}</p>
-          <p className="text-[10px] font-semibold text-gray-500 mt-1 uppercase tracking-wider">{t('statsPanel.avgWaitTime')}</p>
-        </div>
-      </div>
+      <StatCard
+        icon={<HourglassHighIcon size={20} weight="fill" />}
+        iconBg="bg-blue-50 text-blue-600"
+        label={t('statsPanel.waiting')}
+        value={pendingActive}
+      />
+      <StatCard
+        icon={<UserCheckIcon size={20} weight="fill" />}
+        iconBg="bg-green-50 text-green-600"
+        label={t('statsPanel.completedToday')}
+        value={patientsSeenToday}
+      />
+      <StatCard
+        icon={<WarningCircleIcon size={20} weight="fill" />}
+        iconBg="bg-red-50 text-red-600"
+        label={t('statsPanel.abnormalResults')}
+        value={abnormalResultsToday}
+      />
+      <StatCard
+        icon={<UsersIcon size={20} weight="fill" />}
+        iconBg="bg-indigo-50 text-indigo-600"
+        label={t('statsPanel.totalPatients')}
+        value={totalPatientsSeen}
+      />
+      <StatCard
+        icon={<TimerIcon size={20} weight="fill" />}
+        iconBg={isHigh ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}
+        label={t('statsPanel.avgWaitTime')}
+        value={
+          <span className={isHigh ? 'text-red-600' : 'text-gray-900'}>
+            {avgWaitMins} {t('minutes')}
+          </span>
+        }
+        borderClass={isHigh ? 'border-red-100' : 'border-gray-100'}
+      />
     </div>
   );
 }

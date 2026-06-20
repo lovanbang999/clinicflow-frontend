@@ -4,21 +4,28 @@ import { useMemo, useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-
 import { useProfile } from '@/lib/hooks/auth/useProfile';
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { FloppyDiskIcon, CircleNotchIcon, MagnifyingGlassPlusIcon } from '@phosphor-icons/react';
 import type { UpdateProfileDto, Gender, User } from '@/types';
 
 interface PatientPersonalInfoFormProps {
   user: User;
 }
-
-const inputClassName = "w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none";
 
 const formatDateForInput = (dateString?: string): string => {
   if (!dateString) return '';
@@ -126,7 +133,7 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
       setAvatarFile(null);
       setAvatarPreview(null);
     } catch (err) {
-      console.error('Update profile error:', err);
+      void err;
     }
   };
 
@@ -139,7 +146,7 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
       gender: user?.gender as Gender | undefined,
       address: user?.address || '',
     });
-    
+
     setAvatarFile(null);
     setAvatarPreview(null);
   };
@@ -151,7 +158,7 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
           <Dialog>
             <DialogTrigger asChild>
               <div className="w-32 h-32 rounded-full overflow-hidden mb-4 shadow-xl shadow-blue-500/10 ring-4 ring-white dark:ring-slate-800 relative group cursor-pointer transition-transform hover:scale-105">
-                 <Image
+                <Image
                   src={avatarSrc}
                   alt={user?.fullName || 'Avatar'}
                   width={128}
@@ -181,7 +188,7 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
             {initials}
           </div>
         )}
-        
+
         <input
           type="file"
           accept="image/*"
@@ -190,110 +197,114 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
           onChange={handleAvatarChange}
           disabled={isLoading}
         />
-        
-        <button 
+
+        <Button
           type="button"
+          variant="outline"
           onClick={() => fileInputRef.current?.click()}
-          className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+          className="h-10 rounded-xl px-4 py-2 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
         >
           {t('changeAvatar')}
-        </button>
+        </Button>
       </div>
 
       <form className="space-y-10" onSubmit={handleProfileSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
               {t('fullName')} <span className="text-red-500">*</span>
-            </label>
-            <input 
+            </Label>
+            <Input
               required
               disabled={isLoading}
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              className={inputClassName} 
-              type="text" 
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
-              {t('email')} <span className="text-red-500">*</span>
-            </label>
-            <input 
-              required
-              disabled={isLoading}
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className={inputClassName} 
-              type="email" 
+              className="h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-0 focus-visible:border-blue-500 focus-visible:ring-[3px] transition-all"
+              type="text"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">{t('phone')}</label>
-            <input 
+            <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+              {t('email')}
+            </Label>
+            <Input
+              required
+              disabled
+              value={formData.email}
+              className="h-12 cursor-not-allowed bg-slate-100 dark:bg-slate-800/50 opacity-70 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus-visible:ring-0"
+              type="email"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t('phone')}</Label>
+            <Input
               disabled={isLoading}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               placeholder={t('phonePlaceholder')}
-              className={inputClassName} 
-              type="tel" 
+              className="h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-0 focus-visible:border-blue-500 focus-visible:ring-[3px] transition-all"
+              type="tel"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">{t('dateOfBirth')}</label>
-            <input 
+            <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t('dateOfBirth')}</Label>
+            <Input
               disabled={isLoading}
               value={formData.dateOfBirth}
               onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-              className={inputClassName} 
-              type="date" 
+              className="h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-0 focus-visible:border-blue-500 focus-visible:ring-[3px] transition-all"
+              type="date"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">{t('gender')}</label>
-            <select 
+            <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t('gender')}</Label>
+            <Select
               disabled={isLoading}
               value={formData.gender || ""}
-              onChange={(e) => setFormData({ ...formData, gender: e.target.value as Gender })}
-              className={inputClassName}
+              onValueChange={(val) => setFormData({ ...formData, gender: val as Gender })}
             >
-              <option value="" disabled>{t('selectGender')}</option>
-              <option value="MALE">{t('male')}</option>
-              <option value="FEMALE">{t('female')}</option>
-              <option value="OTHER">{t('other')}</option>
-            </select>
+              <SelectTrigger className="w-full h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-left focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 focus:ring-[3px] focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-[3px] focus-visible:ring-offset-0 transition-all cursor-pointer">
+                <SelectValue placeholder={t('selectGender')} />
+              </SelectTrigger>
+              <SelectContent position="popper" side="bottom" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+                <SelectItem value="MALE" className="cursor-pointer">{t('male')}</SelectItem>
+                <SelectItem value="FEMALE" className="cursor-pointer">{t('female')}</SelectItem>
+                <SelectItem value="OTHER" className="cursor-pointer">{t('other')}</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">{t('address')}</label>
-            <input 
+            <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t('address')}</Label>
+            <Input
               disabled={isLoading}
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               placeholder={t('addressPlaceholder')}
-              className={inputClassName} 
-              type="text" 
+              className="h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-0 focus-visible:border-blue-500 focus-visible:ring-[3px] transition-all"
+              type="text"
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-4">
-          <button 
-            type="button" 
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-4 border-t border-slate-100 dark:border-slate-800 w-full">
+          <Button
+            type="button"
+            variant="outline"
             onClick={handleProfileCancel}
             disabled={isLoading}
-            className="text-sm md:text-base px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+            className="w-full sm:w-auto text-sm md:text-base px-4 md:px-8 py-6 rounded-xl font-bold border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
           >
             {tCommon('cancel')}
-          </button>
-          <button 
-            type="submit" 
+          </Button>
+          <Button
+            type="submit"
             disabled={isLoading}
-            className="text-sm md:text-base px-4 md:px-8 py-2 md:py-3 rounded-xl font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
+            className="w-full sm:w-auto text-sm md:text-base px-4 md:px-8 py-6 rounded-xl font-bold bg-blue-500 hover:bg-blue-600 text-white shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer disabled:opacity-50"
           >
             {isLoading ? (
               <CircleNotchIcon className="animate-spin text-xl" />
@@ -301,7 +312,7 @@ export function PatientPersonalInfoForm({ user }: PatientPersonalInfoFormProps) 
               <FloppyDiskIcon weight="fill" className="text-xl" />
             )}
             {t('saveChanges')}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

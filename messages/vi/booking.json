@@ -134,6 +134,7 @@
   "noShow": "Không đến",
   "viewDetails": "Chi tiết",
   "cancelBooking": "Hủy lịch",
+  "cancelling": "Đang hủy...",
   "rescheduleBooking": "Đổi lịch",
   "noBookingsFound": "Không tìm thấy lịch hẹn nào",
   "noBookingsDescription": "Bạn chưa có lịch hẹn nào. Hãy đặt lịch khám ngay!",
@@ -184,5 +185,16 @@
   "slotLocked": "Chỗ này hiện đang được giữ bởi người khác",
   "reservationExpired": "Hết thời gian giữ chỗ. Vui lòng thử lại.",
   "reservationTimer": "Thời gian giữ chỗ",
-  "reservationNote": "Vui lòng hoàn tất đặt lịch trong thời gian này"
+  "reservationNote": "Vui lòng hoàn tất đặt lịch trong thời gian này",
+  "initialConsultation": "Khám tư vấn ban đầu",
+  "pagination": {
+    "previous": "Trang trước",
+    "next": "Trang sau",
+    "page": "Trang"
+  },
+  "aiSuggestion": {
+    "title": "Chưa biết cần khám gì?",
+    "desc": "Hỏi AI tư vấn để được hướng dẫn phù hợp",
+    "cta": "Tư vấn ngay"
+  }
 }

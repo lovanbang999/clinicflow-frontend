@@ -35,12 +35,12 @@ export const NAV_ITEMS: NavItem[] = [
   { key: 'userManagement',    href: '/admin/users',           icon: IdentificationBadgeIcon,  exact: false },
   { key: 'doctorManagement',  href: '/admin/doctors',         icon: StethoscopeIcon,          exact: false },
   { key: 'patientManagement', href: '/admin/patients',        icon: WheelchairIcon,           exact: false },
-  { key: 'categoryManagement',href: '/admin/categories',      icon: FolderIcon,               exact: false },
   { key: 'serviceManagement', href: '/admin/services',        icon: SyringeIcon,              exact: false },
   { key: 'schedules',         href: '/admin/schedules',       icon: CalendarBlankIcon,        exact: false },
   { key: 'roomManagement',    href: '/admin/rooms',           icon: DoorIcon,                 exact: false },
   { key: 'billingManagement', href: '/admin/invoices',        icon: CurrencyCircleDollarIcon, exact: false },
   { key: 'analytics',         href: '/admin/analytics',       icon: ChartBarIcon,             exact: false },
+  { key: 'revenueReport',     href: '/admin/revenue-report',  icon: FolderIcon,               exact: false },
   { key: 'settings',          href: '/admin/settings',        icon: GearSixIcon,              exact: false },
 ];
 
@@ -98,7 +98,7 @@ export default function AdminSidebar({ onNavItemClick }: AdminSidebarProps) {
                 )}
               >
                 <IconComponent size={22} weight={isActive ? 'fill' : 'regular'} className="shrink-0" />
-                {!isSidebarCollapsed && <span className="truncate">{t(item.key)}</span>}
+                {!isSidebarCollapsed && <span className="truncate">{t(`nav.${item.key}`)}</span>}
               </Link>
               {/* Tooltip in collapsed mode */}
               {isSidebarCollapsed && (

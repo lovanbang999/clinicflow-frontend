@@ -92,10 +92,21 @@ export const usersApi = {
 
   // List patients with filters (RECEPTIONIST/ADMIN)
   getReceptionistPatients: async (filters: PatientFilters): Promise<UsersListResponse> => {
-    const response = await apiClient.get<ApiResponse<UsersListResponse>>('/users/receptionist/patients', {
+    const response = await apiClient.get<ApiResponse<{ items?: User[]; users?: User[]; pagination?: { total: number; page: number; limit: number; totalPages: number }; total?: number; page?: number; limit?: number }>>('/users/receptionist/patients', {
         params: filters,
       });
-      return response.data.data || { users: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
+      const data = response.data.data;
+      if (!data) return { users: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } };
+      
+      return {
+        users: data.items || data.users || [],
+        pagination: data.pagination || {
+          total: data.total || 0,
+          page: data.page || 1,
+          limit: data.limit || 10,
+          totalPages: Math.ceil((data.total || 0) / (data.limit || 10)) || 0
+        }
+      };
 },
 
   // Get patient statistics (RECEPTIONIST/ADMIN)
@@ -131,10 +142,10 @@ export const usersApi = {
   },
 
   // Create patient with system account
-  registerPatient: async (data: RegisterPatientDto): Promise<User> => {
+  registerPatient: async (data: RegisterPatientDto): Promise<User & { tempPassword?: string }> => {
     const { isGuest, ...payload } = data as RegisterPatientDto & { isGuest?: boolean };
       void isGuest; // Silence unused warning
-      const response = await apiClient.post<ApiResponse<User>>('/users/receptionist/patients/account', payload);
+      const response = await apiClient.post<ApiResponse<User & { tempPassword?: string }>>('/users/receptionist/patients/account', payload);
       if (!response.data.data) {
         throw new Error('Failed to register patient');
       }

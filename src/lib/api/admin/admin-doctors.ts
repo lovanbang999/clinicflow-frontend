@@ -35,6 +35,8 @@ export interface AdminUpdateDoctorProfileDto {
   bio?: string;
   rating?: number;
   consultationFee?: number;
+  serviceIds?: string[];
+  roomId?: string | null;
 }
 
 export interface AdminToggleDoctorStatusDto {

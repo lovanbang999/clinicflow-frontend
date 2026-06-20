@@ -2,6 +2,13 @@
   "visit": {
     "loading": "Đang tải hồ sơ khám...",
     "backToExam": "Quay lại Khám",
+    "timeline": {
+      "noDiagnosis": "Chưa có chẩn đoán xác định",
+      "doctor": "Bác sĩ",
+      "diagnosis": "Chẩn đoán",
+      "prescription": "Đơn thuốc"
+    },
+    "generalExam": "Khám tổng quát",
     "shared": {
       "back": "Quay lại",
       "readOnly": "CHẾ ĐỘ XEM"
@@ -121,6 +128,9 @@
       "requiredReason": "Bắt buộc nhập lý do khám",
       "requiredFindings": "Bắt buộc nhập kết quả thăm khám",
       "stepTracker": "Bước {current}/{total} - {title}",
+      "bpCrisisAlertTitle": "CẢNH BÁO TĂNG HUYẾT ÁP CẤP CỨU!",
+      "bpCrisisAlertDesc": "Huyết áp đo được cực kỳ cao ({sys}/{dia} mmHg). Bác sĩ cần lưu ý theo dõi sát sao và có can thiệp y tế khẩn cấp.",
+      "draftSavedAt": "Đã tự động lưu nháp lúc",
       "bmi": {
         "underweight": "Thiếu cân",
         "normal": "Bình thường",
@@ -174,7 +184,17 @@
       "stickyTitle": "Bước 2/4 - Chỉ định dịch vụ (tùy chọn)",
       "back": "Quay lại",
       "skip": "Bỏ qua",
-      "saveAndNext": "Lưu & Tiếp theo"
+      "saveAndNext": "Lưu & Tiếp theo",
+      "technician": "KTV thực hiện",
+      "technicianInstruction": "Bạn có thể chọn kĩ thuật viên cụ thể hoặc để hệ thống tự phân công.",
+      "selectTechnicianTitle": "Chọn kĩ thuật viên thực hiện (tùy chọn — bỏ trống để tự động phân công):",
+      "autoAssign": "Tự động phân công",
+      "autoAssignDesc": "Hệ thống phân công theo chuyên môn",
+      "noTechnicians": "Chưa có kĩ thuật viên",
+      "loading": "Đang tải...",
+      "cancel": "Huỷ",
+      "confirm": "Xác nhận",
+      "auto": "Tự động"
     },
     "diagnosis": {
       "headerKtv": "Kết quả từ Kỹ thuật viên",
@@ -373,6 +393,10 @@
       "bookingCode": "Mã lượt khám",
       "unknownPatient": "Bệnh nhân không rõ",
       "queueStt": "STT #{position}",
+      "bloodType": "Nhóm máu",
+      "height": "Chiều cao",
+      "weight": "Cân nặng",
+      "noHistory": "Chưa có lịch sử khám tại đây",
       "bookingPre": "Đặt trước",
       "bookingWalkin": "Trực tiếp",
       "reasonForVisit": "Lý do khám",
@@ -425,7 +449,10 @@
       "cantRemove": "Không thể xóa — đã thanh toán hoặc đang thực hiện",
       "removeOrder": "Xóa chỉ định",
       "placeholder": "— Chọn dịch vụ chuyên khoa —",
-      "addBtn": "Thêm"
+      "addBtn": "Thêm",
+      "selectDoctor": "-- Chọn bác sĩ thực hiện --",
+      "performedBy": "BS thực hiện:",
+      "fallbackCategory": "Chuyên khoa khác"
     },
     "notesTab": {
       "errors": {

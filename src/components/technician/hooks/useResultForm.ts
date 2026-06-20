@@ -38,14 +38,27 @@ export function useResultForm<T extends { abnormalNote?: string }>({
     try {
       const url = await uploadFile(file);
       if (url) {
-        setFileUrl(url);
+        setFileUrl((prev) => {
+          const urls = prev ? prev.split(',').filter(Boolean) : [];
+          urls.push(url);
+          return urls.join(',');
+        });
         toast.success(t('fileUploaded'));
         return url;
       }
     } catch {
+      // Note: original catch block toasted fileUploadError, but translator has fileUploadError
       toast.error(t('fileUploadError'));
     }
     return null;
+  };
+
+  const handleFileDelete = (urlToDelete: string) => {
+    setFileUrl((prev) => {
+      const urls = prev ? prev.split(',').filter(Boolean) : [];
+      const filtered = urls.filter((u) => u !== urlToDelete);
+      return filtered.join(',');
+    });
   };
 
   const onSubmit = async (values: T) => {
@@ -71,6 +84,7 @@ export function useResultForm<T extends { abnormalNote?: string }>({
     isUploading,
     isSubmitting,
     handleFileUpload,
+    handleFileDelete,
     handleSubmit: form.handleSubmit(onSubmit),
   };
 }
