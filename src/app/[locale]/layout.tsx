@@ -1,11 +1,13 @@
 import '../globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Toaster } from 'sonner';
 import { routing } from '@/i18n/routing';
+import { createRootMetadata } from '@/lib/seo/metadata';
+import { SITE_THEME_COLOR } from '@/lib/seo/site';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,11 +30,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const messages = await getMessages({ locale }) as unknown as { common: { metadata: { title: string; description: string } } };
   const meta = messages.common.metadata;
 
-  return {
-    title: meta.title,
-    description: meta.description,
-  };
+  return createRootMetadata(locale, meta.title, meta.description);
 }
+
+export const viewport: Viewport = {
+  themeColor: SITE_THEME_COLOR,
+  colorScheme: 'light',
+};
 
 type Props = {
   children: React.ReactNode;
