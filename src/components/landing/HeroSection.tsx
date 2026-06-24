@@ -1,7 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { Link } from '@/i18n/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 import {
   SealCheckIcon,
@@ -13,9 +14,46 @@ import {
   CalendarBlankIcon,
   StethoscopeIcon,
 } from '@phosphor-icons/react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { vi, enUS } from 'date-fns/locale';
+import { useRouter } from '@/i18n/navigation';
+import { useServices } from '@/lib/hooks/clinic/useServices';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function Hero() {
   const t = useTranslations('landing');
+  const locale = useLocale();
+  const router = useRouter();
+  const { services } = useServices({ isActive: true });
+  
+  const [selectedServiceId, setSelectedServiceId] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const dateFnsLocale = locale === 'vi' ? vi : enUS;
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (selectedServiceId && selectedServiceId !== 'all') {
+      params.append('serviceId', selectedServiceId);
+    }
+    if (searchQuery.trim()) {
+      params.append('query', searchQuery.trim());
+    }
+    if (date) {
+      params.append('date', format(date, 'yyyy-MM-dd'));
+    }
+    const queryString = params.toString();
+    router.push(`/doctors${queryString ? `?${queryString}` : ''}`);
+  };
 
   return (
     <header className="relative pt-12 pb-32 overflow-hidden bg-gradient-to-b from-white to-[#F0F7FF]">
@@ -31,7 +69,7 @@ export function Hero() {
               {t('hero.badge')}
             </div>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
-              {t('hero.titleLine1')} <br/><span className="text-gradient">{t('hero.titleLine2')}</span>
+              {t('hero.titleLine1')} <br /><span className="text-gradient">{t('hero.titleLine2')}</span>
             </h1>
             <p className="max-w-xl text-lg text-slate-600 mb-10 font-medium leading-relaxed">
               {t('hero.description')}
@@ -73,7 +111,7 @@ export function Hero() {
               priority
             />
             <div className="absolute inset-0 bg-blue-900/5 rounded-[40px] pointer-events-none"></div>
-            <div className="absolute top-10 -left-10 bg-white p-4 rounded-2xl shadow-xl shadow-slate-200/50 flex items-center gap-3 animate-bounce" style={{animationDuration: "3s"}}>
+            <div className="absolute top-10 -left-10 bg-white p-4 rounded-2xl shadow-xl shadow-slate-200/50 flex items-center gap-3 animate-bounce" style={{ animationDuration: "3s" }}>
               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                 <CheckCircleIcon weight="fill" className="text-xl" />
               </div>
@@ -91,36 +129,78 @@ export function Hero() {
             </div>
           </div>
         </div>
-        
+
         {/* Search Feature */}
         <div className="max-w-4xl mx-auto mt-16 relative">
           <div className="absolute -inset-1 bg-gradient-to-r from-[#1392ec]/10 to-blue-400/10 rounded-[24px] blur-md"></div>
           <div className="relative bg-white p-2 rounded-2xl shadow-lg border border-slate-100">
-            <form className="flex flex-col md:flex-row items-center gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-0 divide-y md:divide-y-0 md:divide-x divide-slate-100">
               <div className="flex-1 w-full relative group">
-                <StethoscopeIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
-                <input aria-label={t('servicesPage.searchPlaceholder')} className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" placeholder={t('servicesPage.searchPlaceholder')} type="text" />
+                <StethoscopeIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl z-10 pointer-events-none" />
+                <Select value={selectedServiceId} onValueChange={setSelectedServiceId}>
+                  <SelectTrigger className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 focus:ring-offset-0 outline-none text-slate-900 placeholder-slate-400 shadow-none h-auto cursor-pointer">
+                    <SelectValue placeholder={t('servicesPage.searchPlaceholder')} />
+                  </SelectTrigger>
+                  <SelectContent position='popper' align='end' className="bg-white border border-slate-200/80 rounded-2xl shadow-lg z-[100] max-h-[300px] overflow-y-auto">
+                    <SelectItem value="all" className="cursor-pointer font-bold text-[#0066FF]">{t('servicesPage.searchPlaceholder')}</SelectItem>
+                    {services.map((service) => (
+                      <SelectItem key={service.id} value={service.id} className="cursor-pointer">
+                        {service.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex-1 w-full relative group">
-                <UserIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
-                <input aria-label={t('hero.searchPlaceholder')} className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" placeholder={t('hero.searchPlaceholder')} type="text" />
+                <UserIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl pointer-events-none" />
+                <input
+                  aria-label={t('hero.searchPlaceholder')}
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400"
+                  placeholder={t('hero.searchPlaceholder')}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
               <div className="flex-1 w-full relative group">
-                <CalendarBlankIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl" />
-                <input aria-label={t('hero.datePlaceholder')} className="w-full pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400" type="date" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button
+                      type="button"
+                      className="w-full text-left pl-12 pr-4 py-4 rounded-xl bg-transparent border-0 focus:ring-0 outline-none text-slate-900 placeholder-slate-400 flex items-center cursor-pointer select-none"
+                    >
+                      <CalendarBlankIcon weight="fill" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1392ec] text-xl pointer-events-none" />
+                      {date ? (
+                        <span className="text-slate-900 font-medium">
+                          {format(date, 'dd/MM/yyyy', { locale: dateFnsLocale })}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400 font-medium">{t('hero.datePlaceholder')}</span>
+                      )}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0 border border-slate-200/80 shadow-lg bg-white z-[100]" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="p-2 w-full md:w-auto">
-                <Link
-                  href="/doctors"
-                  className="block w-full md:w-auto bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-3 rounded-xl font-bold transition-all shadow-xl text-center"
+                <button
+                  type="submit"
+                  className="block w-full md:w-auto bg-[#1392ec] hover:bg-[#0d7cd1] text-white px-8 py-3 rounded-xl font-bold transition-all shadow-xl text-center cursor-pointer whitespace-nowrap"
                 >
                   {t('hero.searchBtn')}
-                </Link>
+                </button>
               </div>
             </form>
           </div>
         </div>
-        
+
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto border-t border-slate-100 pt-12">
           <div className="text-center">
             <div className="text-3xl font-bold text-slate-900 mb-1">{t('hero.stat1Num')}</div>
