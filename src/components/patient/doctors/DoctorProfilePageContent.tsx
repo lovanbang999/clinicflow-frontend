@@ -116,7 +116,7 @@ export function DoctorProfilePageContent() {
             
             <div className="space-y-3">
               <Link
-                href="/register"
+                href={`/patient/book?doctorId=${doctor.id}`}
                 className="w-full h-14 bg-[#1392ec] hover:bg-[#1392ec]/90 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 group"
               >
                 <Calendar className="w-5 h-5 group-hover:scale-110 transition-transform" />

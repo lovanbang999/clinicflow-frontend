@@ -1,19 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { ServiceSelector } from '@/components/booking/ServiceSelector';
 import { DoctorSelector } from '@/components/booking/DoctorSelector';
 import { DatePicker } from '@/components/booking/DatePicker';
 import { TimeSlotGrid } from '@/components/booking/TimeSlotGrid';
 import { BookingConfirmation } from '@/components/booking/BookingConfirmation';
 import { FlowSelection } from '@/components/booking/FlowSelection';
-import { useBookingStore } from '@/lib/store/bookingStore';
+import { useBookingStore, BookingStep } from '@/lib/store/bookingStore';
+import { useDoctor } from '@/lib/hooks/clinical/useDoctor';
+import { useService } from '@/lib/hooks/clinic/useService';
 import { ArrowLeft, ArrowRight, Bot, Sparkles } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 
-export default function BookingPage() {
+function BookingPageContent() {
   const currentStep = useBookingStore((s) => s.currentStep);
   const nextStep = useBookingStore((s) => s.nextStep);
   const previousStep = useBookingStore((s) => s.previousStep);
@@ -26,6 +29,76 @@ export default function BookingPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const t = useTranslations('booking');
+
+  // Prefill logic from query parameters
+  const searchParams = useSearchParams();
+  const doctorIdQuery = searchParams.get('doctorId');
+  const serviceIdQuery = searchParams.get('serviceId');
+  const dateQuery = searchParams.get('date');
+
+  const { doctor, isLoading: isLoadingDoctor } = useDoctor(doctorIdQuery || '');
+  const { service, isLoading: isLoadingService } = useService(serviceIdQuery || '');
+
+  const setSelectedDoctor = useBookingStore((s) => s.setSelectedDoctor);
+  const setSelectedService = useBookingStore((s) => s.setSelectedService);
+  const setSelectedDate = useBookingStore((s) => s.setSelectedDate);
+  const setBookingType = useBookingStore((s) => s.setBookingType);
+  const setCurrentStep = useBookingStore((s) => s.setCurrentStep);
+
+  const hasPrefilled = useRef(false);
+
+  useEffect(() => {
+    if (hasPrefilled.current) return;
+
+    // Check if we are waiting for API results before starting prefill
+    const isDoctorLoading = doctorIdQuery ? isLoadingDoctor || !doctor : false;
+    const isServiceLoading = serviceIdQuery ? isLoadingService || !service : false;
+
+    if (isDoctorLoading || isServiceLoading) return;
+
+    let targetStep: number | null = null;
+
+    if (serviceIdQuery && service) {
+      setBookingType('SPECIALIST');
+      setSelectedService(service);
+      targetStep = 2; // Go to doctor selection
+    }
+
+    if (doctorIdQuery && doctor) {
+      setBookingType('SPECIALIST');
+      setSelectedDoctor(doctor);
+      targetStep = 3; // Go to date selection
+    }
+
+    if (dateQuery) {
+      const parsedDate = new Date(dateQuery);
+      parsedDate.setHours(12, 0, 0, 0);
+      if (!isNaN(parsedDate.getTime())) {
+        setSelectedDate(parsedDate);
+        if (doctorIdQuery && doctor) {
+          targetStep = 4; // Go to time selection
+        }
+      }
+    }
+
+    if (targetStep !== null) {
+      setCurrentStep(targetStep as BookingStep);
+      hasPrefilled.current = true;
+    }
+  }, [
+    doctorIdQuery,
+    serviceIdQuery,
+    dateQuery,
+    doctor,
+    service,
+    isLoadingDoctor,
+    isLoadingService,
+    setBookingType,
+    setSelectedService,
+    setSelectedDoctor,
+    setSelectedDate,
+    setCurrentStep,
+  ]);
 
   const canProceed =
     currentStep === 0
@@ -257,5 +330,17 @@ export default function BookingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1392ec]"></div>
+      </div>
+    }>
+      <BookingPageContent />
+    </Suspense>
   );
 }
