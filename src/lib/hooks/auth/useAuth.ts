@@ -44,10 +44,19 @@ export const useAuth = () => {
         }
 
         switch (authedUser.role) {
-          case 'ADMIN': router.push(`/${locale}/admin`); break; // wait, let's keep the existing dashboard redirect or prefix with locale
+          case 'ADMIN': router.push(`/${locale}/admin`); break;
           case 'DOCTOR': router.push(`/${locale}/doctor`); break;
           case 'RECEPTIONIST': router.push(`/${locale}/receptionist`); break;
-          case 'PATIENT': router.push(`/${locale}/patient`); break;
+          case 'PATIENT': {
+            const params = new URLSearchParams(window.location.search);
+            const callbackUrl = params.get('callbackUrl');
+            if (callbackUrl) {
+              router.push(decodeURIComponent(callbackUrl));
+            } else {
+              router.push(`/${locale}/patient`);
+            }
+            break;
+          }
           default: router.push(`/${locale}/`);
         }
         return response;

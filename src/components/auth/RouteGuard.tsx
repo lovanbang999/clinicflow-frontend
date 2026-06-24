@@ -20,7 +20,8 @@ export function RouteGuard({ children, allowedRoles }: RouteGuardProps) {
     if (!_hasHydrated) return;
 
     if (!isAuthenticated || !user) {
-      router.push('/login');
+      const callbackUrl = encodeURIComponent(pathname + window.location.search);
+      router.push(`/login?callbackUrl=${callbackUrl}`);
       return;
     }
 
