@@ -7,6 +7,7 @@ import { Doctor } from '@/types/doctor';
 
 interface DoctorCardProps {
   doctor: Doctor;
+  dateQuery?: string;
 }
 
 const AVATAR_COLORS = [
@@ -18,7 +19,7 @@ const AVATAR_COLORS = [
   'from-cyan-500 to-teal-600',
 ];
 
-export function DoctorCard({ doctor }: DoctorCardProps) {
+export function DoctorCard({ doctor, dateQuery }: DoctorCardProps) {
   const t = useTranslations('doctors.card');
 
   // Generate consistent color based on doctor ID
@@ -125,7 +126,7 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
             {t('viewProfile')}
           </button>
         </Link>
-        <Link href={`/register`} className="block">
+        <Link href={`/patient/book?doctorId=${doctor.id}${dateQuery ? `&date=${dateQuery}` : ''}`} className="block">
           <button className="w-full px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-slate-900/10 active:scale-95 cursor-pointer whitespace-nowrap">
             {t('bookNow')}
           </button>

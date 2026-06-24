@@ -21,11 +21,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function DoctorsPage() {
+type DoctorsPageProps = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{
+    serviceId?: string;
+    query?: string;
+    date?: string;
+  }>;
+};
+
+export default async function DoctorsPage({ searchParams }: DoctorsPageProps) {
+  const resolvedSearchParams = await searchParams;
   return (
     <div className="min-h-screen bg-white">
       <LandingNavbar />
-      <DoctorsPageContent />
+      <DoctorsPageContent initialSearchParams={resolvedSearchParams} />
       <LandingFooter />
     </div>
   );
