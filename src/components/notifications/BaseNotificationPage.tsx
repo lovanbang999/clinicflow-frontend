@@ -12,7 +12,8 @@ interface BaseNotificationPageProps {
   dashboardPath: string;
 }
 
-export function BaseNotificationPage({ role: _role, dashboardPath: _dashboardPath }: BaseNotificationPageProps) {
+export function BaseNotificationPage(props: BaseNotificationPageProps) {
+  void props;
   const { notifications, unreadCount, markAsRead, markAllAsRead, loading } = useNotifications();
   const t = useTranslations('common.notifications');
   const router = useRouter();
