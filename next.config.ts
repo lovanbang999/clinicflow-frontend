@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com', pathname: '/**' },
       // cloudinary
       { protocol: 'https', hostname: 'res.cloudinary.com', pathname: '/**' },
+      // Long Chau CDN
+      { protocol: 'https', hostname: 'cdn.nhathuoclongchau.com.vn', pathname: '/**' },
       ...(apiUploadPattern ? [apiUploadPattern] : []),
     ],
   }
