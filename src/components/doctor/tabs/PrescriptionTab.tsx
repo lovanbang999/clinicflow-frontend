@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useState, useEffect, useRef } from 'react';
+import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { type CreatePrescriptionDto, type PrescriptionItemInput, type VisitResultsResponse } from '@/lib/api/clinical/medical-records';
+import { type CreatePrescriptionDto, type PrescriptionItemInput, type VisitResultsResponse, type MedicineResponse, medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 import { useSavePrescription } from '@/lib/hooks/clinical/useMedicalRecords';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,108 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { ArrowLeftIcon, TrashIcon } from '@phosphor-icons/react';
 import { StickyBottomBar } from '@/components/doctor/shared/StickyBottomBar';
+
+interface MedicineAutocompleteProps {
+  value: string;
+  onChange: (val: string) => void;
+  onSelect: (med: MedicineResponse) => void;
+  disabled?: boolean;
+  placeholder?: string;
+  className?: string;
+}
+
+function MedicineAutocomplete({
+  value,
+  onChange,
+  onSelect,
+  disabled,
+  placeholder,
+  className,
+}: MedicineAutocompleteProps) {
+  const [suggestions, setSuggestions] = useState<MedicineResponse[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen || disabled) return;
+
+    const handler = setTimeout(async () => {
+      setIsLoading(true);
+      try {
+        const data = await medicalRecordsApi.searchMedicines(value);
+        setSuggestions(data);
+      } catch (error) {
+        console.error('Failed to search medicines', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 250);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, isOpen, disabled]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      <Input
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        placeholder={placeholder}
+        disabled={disabled}
+        className={className}
+        autoComplete="off"
+      />
+      {isOpen && (suggestions.length > 0 || isLoading) && (
+        <div className="absolute left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-1">
+          {isLoading && (
+            <div className="px-3 py-2 text-xs text-gray-400 italic">Đang tìm kiếm...</div>
+          )}
+          {!isLoading && suggestions.map((med) => {
+            const displayName = med.brandName
+              ? `${med.brandName} (${med.genericName})`
+              : med.genericName;
+            const details = [
+              med.concentration && `HL: ${med.concentration}`,
+              med.dosageForm && `Dạng: ${med.dosageForm}`,
+              med.defaultUnit && `Đơn vị: ${med.defaultUnit}`,
+            ].filter(Boolean).join(' - ');
+
+            return (
+              <button
+                key={med.id}
+                type="button"
+                onClick={() => {
+                  onSelect(med);
+                  setIsOpen(false);
+                }}
+                className="w-full text-left px-3 py-2 text-xs hover:bg-indigo-50 focus:bg-indigo-50 transition-colors border-b border-gray-50 last:border-0"
+              >
+                <div className="font-bold text-gray-800">{displayName}</div>
+                {details && <div className="text-gray-400 mt-0.5">{details}</div>}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface PrescriptionTabProps {
   bookingId: string;
@@ -28,7 +130,7 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
   const labOrders = record?.labOrders ?? [];
   const [mode, setMode] = useState<'per-service' | 'general' | 'none'>(labOrders.length > 0 ? 'per-service' : 'general');
 
-  const { register, control, handleSubmit } = useForm<CreatePrescriptionDto>({
+  const { register, control, handleSubmit, setValue } = useForm<CreatePrescriptionDto>({
     defaultValues: {
       notes: record?.prescription?.notes ?? '',
       items: record?.prescription?.items?.length
@@ -47,6 +149,11 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
   });
 
   const { fields, append, remove } = useFieldArray({ control, name: 'items' });
+
+  const watchedItems = useWatch({
+    control,
+    name: 'items',
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     if (!canPrescribe) {
@@ -197,7 +304,22 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
               {fields.map((field, idx) => (
                 <div key={field.id} className="grid grid-cols-12 gap-2 p-1 relative items-start border-b border-gray-100 pb-3 last:border-0 last:pb-1">
                   <div className="col-span-12 sm:col-span-5 relative">
-                    <Input {...register(`items.${idx}.medicineName`)} placeholder={t('placeholders.name')} disabled={!canPrescribe} className="text-[13px] h-[38px] rounded-lg border-gray-200" />
+                    <MedicineAutocomplete
+                      value={watchedItems?.[idx]?.medicineName || ''}
+                      onChange={(val) => setValue(`items.${idx}.medicineName`, val)}
+                      onSelect={(med) => {
+                        const name = med.brandName
+                          ? `${med.brandName} (${med.genericName}) ${med.concentration || ''}`.trim()
+                          : `${med.genericName} ${med.concentration || ''}`.trim();
+                        setValue(`items.${idx}.medicineName`, name);
+                        if (med.defaultUnit) {
+                          setValue(`items.${idx}.unit`, med.defaultUnit);
+                        }
+                      }}
+                      disabled={!canPrescribe}
+                      placeholder={t('placeholders.name')}
+                      className="text-[13px] h-[38px] rounded-lg border-gray-200"
+                    />
                   </div>
                   <div className="col-span-6 sm:col-span-2">
                     <Input {...register(`items.${idx}.dosage`)} placeholder={t('placeholders.dosage')} disabled={!canPrescribe} className="text-[13px] h-[38px] rounded-lg border-gray-200" />
@@ -281,7 +403,22 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
                           {groupFields.map(({ field, idx }) => (
                             <div key={field.id} className="grid grid-cols-12 gap-2 relative items-start border-b border-gray-50 pb-3 last:border-0 last:pb-0">
                               <div className="col-span-12 sm:col-span-5">
-                                <Input {...register(`items.${idx}.medicineName`)} placeholder={t('placeholders.name')} disabled={!canPrescribe} className="text-[13px] h-[38px] rounded-lg border-gray-200" />
+                                <MedicineAutocomplete
+                                  value={watchedItems?.[idx]?.medicineName || ''}
+                                  onChange={(val) => setValue(`items.${idx}.medicineName`, val)}
+                                  onSelect={(med) => {
+                                    const name = med.brandName
+                                      ? `${med.brandName} (${med.genericName}) ${med.concentration || ''}`.trim()
+                                      : `${med.genericName} ${med.concentration || ''}`.trim();
+                                    setValue(`items.${idx}.medicineName`, name);
+                                    if (med.defaultUnit) {
+                                      setValue(`items.${idx}.unit`, med.defaultUnit);
+                                    }
+                                  }}
+                                  disabled={!canPrescribe}
+                                  placeholder={t('placeholders.name')}
+                                  className="text-[13px] h-[38px] rounded-lg border-gray-200"
+                                />
                               </div>
                               <div className="col-span-6 sm:col-span-2">
                                 <Input {...register(`items.${idx}.dosage`)} placeholder={t('placeholders.dosage')} disabled={!canPrescribe} className="text-[13px] h-[38px] rounded-lg border-gray-200" />

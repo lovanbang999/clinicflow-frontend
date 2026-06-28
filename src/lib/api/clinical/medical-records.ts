@@ -131,6 +131,20 @@ export interface ICD10Record {
   name: string;
 }
 
+export interface MedicineResponse {
+  id: string;
+  code: string;
+  genericName: string;
+  brandName?: string | null;
+  concentration?: string | null;
+  dosageForm?: string | null;
+  defaultUnit: string;
+  defaultPrice: number;
+  isActive: boolean;
+  stockQuantity: number;
+  notes?: string | null;
+}
+
 export type VisitStep =
   | 'SYMPTOMS_TAKEN'
   | 'SERVICES_ORDERED'
@@ -396,6 +410,11 @@ export const medicalRecordsApi = {
   searchICD10: async (query: string) => {
     const res = await apiClient.get('medical-records/icd10', { params: { q: query } });
     return res.data.data as Array<{ code: string; name: string }>;
+  },
+
+  searchMedicines: async (query: string): Promise<MedicineResponse[]> => {
+    const res = await apiClient.get('medical-records/medicines', { params: { q: query } });
+    return res.data.data;
   },
 
   // Patient history
