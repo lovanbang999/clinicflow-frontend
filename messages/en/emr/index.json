@@ -465,6 +465,8 @@
     },
     "prescriptionTab": {
       "unitPill": "pill",
+      "systemMedicine": "System Medicine",
+      "manualMedicine": "Manual Entry",
       "errors": {
         "incomplete": "Please fill in Medicine Name, Dosage, Frequency, and Quantity"
       },
