@@ -1,12 +1,114 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { QueueRecord } from '@/lib/api/appointment/queue';
-import { medicalRecordsApi, type VisitResultsResponse, type PrescriptionItemInput } from '@/lib/api/clinical/medical-records';
+import { medicalRecordsApi, type VisitResultsResponse, type PrescriptionItemInput, type MedicineResponse } from '@/lib/api/clinical/medical-records';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { TrashIcon, PlusIcon } from '@phosphor-icons/react';
+
+interface MedicineAutocompleteProps {
+  value: string;
+  onChange: (val: string) => void;
+  onSelect: (med: MedicineResponse) => void;
+  disabled?: boolean;
+  placeholder?: string;
+  className?: string;
+}
+
+function MedicineAutocomplete({
+  value,
+  onChange,
+  onSelect,
+  disabled,
+  placeholder,
+  className,
+}: MedicineAutocompleteProps) {
+  const [suggestions, setSuggestions] = useState<MedicineResponse[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen || disabled) return;
+
+    const handler = setTimeout(async () => {
+      setIsLoading(true);
+      try {
+        const data = await medicalRecordsApi.searchMedicines(value);
+        setSuggestions(data);
+      } catch (error) {
+        console.error('Failed to search medicines', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 250);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, isOpen, disabled]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      <input
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+          setIsOpen(true);
+        }}
+        onFocus={() => setIsOpen(true)}
+        placeholder={placeholder}
+        disabled={disabled}
+        className={className}
+        autoComplete="off"
+      />
+      {isOpen && (suggestions.length > 0 || isLoading) && (
+        <div className="absolute left-0 right-0 mt-1 max-h-60 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-1">
+          {isLoading && (
+            <div className="px-3 py-2 text-xs text-slate-400 italic">Đang tìm kiếm...</div>
+          )}
+          {!isLoading && suggestions.map((med) => {
+            const displayName = med.brandName
+              ? `${med.brandName} (${med.genericName})`
+              : med.genericName;
+            const details = [
+              med.concentration && `HL: ${med.concentration}`,
+              med.dosageForm && `Dạng: ${med.dosageForm}`,
+              med.defaultUnit && `Đơn vị: ${med.defaultUnit}`,
+            ].filter(Boolean).join(' - ');
+
+            return (
+              <button
+                key={med.id}
+                type="button"
+                onClick={() => {
+                  onSelect(med);
+                  setIsOpen(false);
+                }}
+                className="w-full text-left px-3 py-2 text-[12px] hover:bg-slate-50 focus:bg-slate-50 transition-colors border-b border-slate-50 last:border-0 block"
+              >
+                <div className="font-bold text-slate-800">{displayName}</div>
+                {details && <div className="text-slate-400 mt-0.5 text-[11px]">{details}</div>}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface TabPrescriptionProps {
   item: QueueRecord;
@@ -36,6 +138,8 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
         instructions: i.instructions || '',
         visitServiceOrderId: i.visitServiceOrderId,
         labOrderId: i.labOrderId,
+        medicineId: i.medicineId,
+        unitPrice: i.unitPrice ? Number(i.unitPrice) : undefined,
       })) || [];
       setItems(existingItems);
       setNotes(medicalRecord.prescription?.notes || '');
@@ -70,7 +174,9 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
         unit: tp('unitPill'),
         instructions: '',
         visitServiceOrderId,
-        labOrderId
+        labOrderId,
+        medicineId: undefined,
+        unitPrice: undefined,
       }
     ]);
   };
@@ -129,13 +235,50 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
       )}
       <div className={`grid grid-cols-12 gap-3 ${isReadOnly ? '' : 'pr-8'}`}>
         <div className="col-span-12 md:col-span-5">
-          <input 
-            placeholder={tp('medNamePlaceholder')}
-            className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
-            value={med.medicineName}
-            onChange={e => handleChangeItem(index, 'medicineName', e.target.value)}
-            disabled={isReadOnly}
-          />
+          {!isReadOnly ? (
+            <MedicineAutocomplete
+              value={med.medicineName}
+              onChange={(val) => {
+                handleChangeItem(index, 'medicineName', val);
+                handleChangeItem(index, 'medicineId', undefined);
+                handleChangeItem(index, 'unitPrice', undefined);
+              }}
+              onSelect={(selectedMed) => {
+                const name = selectedMed.brandName
+                  ? `${selectedMed.brandName} (${selectedMed.genericName}) ${selectedMed.concentration || ''}`.trim()
+                  : `${selectedMed.genericName} ${selectedMed.concentration || ''}`.trim();
+                handleChangeItem(index, 'medicineName', name);
+                handleChangeItem(index, 'medicineId', selectedMed.id);
+                handleChangeItem(index, 'unitPrice', selectedMed.defaultPrice);
+                if (selectedMed.defaultUnit) {
+                  handleChangeItem(index, 'unit', selectedMed.defaultUnit);
+                }
+              }}
+              disabled={isReadOnly}
+              placeholder={tp('medNamePlaceholder')}
+              className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
+            />
+          ) : (
+            <input 
+              placeholder={tp('medNamePlaceholder')}
+              className="w-full text-[13px] px-3 py-1.5 border border-gray-200 rounded focus:border-blue-400 focus:outline-none disabled:opacity-70 disabled:bg-slate-50"
+              value={med.medicineName}
+              disabled={true}
+            />
+          )}
+          <div className="mt-1 flex items-center gap-1.5">
+            {med.medicineId ? (
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                {tp('systemMedicine')}
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                {tp('manualMedicine')}
+              </span>
+            )}
+          </div>
         </div>
         <div className="col-span-6 md:col-span-3">
           <input 
@@ -243,8 +386,8 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
           )}
 
           {mode !== 'NONE' && mode === 'GENERAL' && (
-            <div className="border border-blue-100 bg-blue-50/30 rounded-xl overflow-hidden">
-              <div className="bg-blue-50/60 px-4 py-2 border-b border-blue-100 flex justify-between items-center">
+            <div className="border border-blue-100 bg-blue-50/30 rounded-xl">
+              <div className="bg-blue-50/60 px-4 py-2 border-b border-blue-100 flex justify-between items-center rounded-t-xl">
                 <div className="text-[12px] font-semibold text-blue-800">💊 {tp('generalHeader')}</div>
                 {!isReadOnly && (
                   <Button 
@@ -257,7 +400,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                   </Button>
                 )}
               </div>
-              <div className="p-4 bg-slate-50/50">
+              <div className="p-4 bg-slate-50/50 rounded-b-xl">
                 {items.map((i, idx) => (!i.visitServiceOrderId && !i.labOrderId) && renderItemLine(i, idx))}
                 {items.findIndex(i => !i.visitServiceOrderId && !i.labOrderId) === -1 && (
                   <div className={`text-[12px] text-slate-400 italic text-center py-6 border border-dashed border-gray-200 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-slate-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem()}>
@@ -270,8 +413,8 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
 
           {/* VSO Groups */}
           {mode === 'DETAILED' && medicalRecord?.visitServiceOrders?.filter(v => v.status !== 'CANCELLED').map(vso => (
-            <div key={vso.id} className="border border-violet-100 bg-violet-50/10 rounded-xl overflow-hidden">
-              <div className="bg-violet-50/50 px-4 py-2 border-b border-violet-100 flex justify-between items-center">
+            <div key={vso.id} className="border border-violet-100 bg-violet-50/10 rounded-xl">
+              <div className="bg-violet-50/50 px-4 py-2 border-b border-violet-100 flex justify-between items-center rounded-t-xl">
                 <div className="text-[12px] font-semibold text-violet-800">🩺 {tp('vsoHeader', { name: vso.service?.name || '' })}</div>
                 {!isReadOnly && (
                   <Button 
@@ -284,7 +427,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                   </Button>
                 )}
               </div>
-              <div className="p-4 bg-slate-50/50">
+              <div className="p-4 bg-slate-50/50 rounded-b-xl">
                 {items.map((i, idx) => i.visitServiceOrderId === vso.id && renderItemLine(i, idx))}
                 {items.findIndex(i => i.visitServiceOrderId === vso.id) === -1 && (
                   <div className={`text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-violet-100 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-violet-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem(vso.id, undefined)}>
@@ -297,8 +440,8 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
 
           {/* Lab Groups */}
           {mode === 'DETAILED' && medicalRecord?.labOrders?.filter(l => l.status !== 'CANCELLED').map(lab => (
-            <div key={lab.id} className="border border-teal-100 bg-teal-50/10 rounded-xl overflow-hidden">
-              <div className="bg-teal-50/50 px-4 py-2 border-b border-teal-100 flex justify-between items-center">
+            <div key={lab.id} className="border border-teal-100 bg-teal-50/10 rounded-xl">
+              <div className="bg-teal-50/50 px-4 py-2 border-b border-teal-100 flex justify-between items-center rounded-t-xl">
                 <div className="text-[12px] font-semibold text-teal-800">🔬 {tp('labHeader', { name: lab.testName || '' })}</div>
                 {!isReadOnly && (
                   <Button 
@@ -311,7 +454,7 @@ export function TabPrescription({ item, medicalRecord, onChange, isReadOnly }: T
                   </Button>
                 )}
               </div>
-              <div className="p-4 bg-slate-50/50">
+              <div className="p-4 bg-slate-50/50 rounded-b-xl">
                 {items.map((i, idx) => i.labOrderId === lab.id && renderItemLine(i, idx))}
                 {items.findIndex(i => i.labOrderId === lab.id) === -1 && (
                   <div className={`text-[12px] text-slate-400 italic text-center py-3 border border-dashed border-teal-100 rounded-lg ${isReadOnly ? '' : 'cursor-pointer hover:bg-teal-50'} transition-colors`} onClick={() => !isReadOnly && handleAddItem(undefined, lab.id)}>

@@ -143,8 +143,10 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
           unit: i.unit ?? t('unitPlaceholder'),
           instructions: i.instructions ?? '',
           labOrderId: i.labOrderId,
+          medicineId: i.medicineId,
+          unitPrice: i.unitPrice ? Number(i.unitPrice) : undefined,
         }))
-        : [{ medicineName: '', dosage: '', frequency: '', quantity: 1, unit: 'viên', instructions: '', labOrderId: undefined }],
+        : [{ medicineName: '', dosage: '', frequency: '', quantity: 1, unit: 'viên', instructions: '', labOrderId: undefined, medicineId: undefined, unitPrice: undefined }],
     },
   });
 
@@ -306,12 +308,18 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
                   <div className="col-span-12 sm:col-span-5 relative">
                     <MedicineAutocomplete
                       value={watchedItems?.[idx]?.medicineName || ''}
-                      onChange={(val) => setValue(`items.${idx}.medicineName`, val)}
+                      onChange={(val) => {
+                        setValue(`items.${idx}.medicineName`, val);
+                        setValue(`items.${idx}.medicineId`, undefined);
+                        setValue(`items.${idx}.unitPrice`, undefined);
+                      }}
                       onSelect={(med) => {
                         const name = med.brandName
                           ? `${med.brandName} (${med.genericName}) ${med.concentration || ''}`.trim()
                           : `${med.genericName} ${med.concentration || ''}`.trim();
                         setValue(`items.${idx}.medicineName`, name);
+                        setValue(`items.${idx}.medicineId`, med.id);
+                        setValue(`items.${idx}.unitPrice`, med.defaultPrice);
                         if (med.defaultUnit) {
                           setValue(`items.${idx}.unit`, med.defaultUnit);
                         }
@@ -320,6 +328,19 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
                       placeholder={t('placeholders.name')}
                       className="text-[13px] h-[38px] rounded-lg border-gray-200"
                     />
+                    <div className="mt-1 flex items-center gap-1.5">
+                      {watchedItems?.[idx]?.medicineId ? (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                          {t('systemMedicine')}
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                          {t('manualMedicine')}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="col-span-6 sm:col-span-2">
                     <Input {...register(`items.${idx}.dosage`)} placeholder={t('placeholders.dosage')} disabled={!canPrescribe} className="text-[13px] h-[38px] rounded-lg border-gray-200" />
@@ -344,7 +365,7 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
               ))}
 
               <div className="pt-2">
-                <Button type="button" variant="outline" size="sm" onClick={() => append({ medicineName: '', dosage: '', frequency: '', quantity: 1, unit: 'viên', instructions: '', visitServiceOrderId: undefined } as PrescriptionItemInput)} disabled={!canPrescribe} className="h-8 text-[12px] bg-white hover:bg-gray-50 text-gray-600 border-gray-200 rounded-lg px-3">
+                <Button type="button" variant="outline" size="sm" onClick={() => append({ medicineName: '', dosage: '', frequency: '', quantity: 1, unit: 'viên', instructions: '', visitServiceOrderId: undefined, medicineId: undefined, unitPrice: undefined } as PrescriptionItemInput)} disabled={!canPrescribe} className="h-8 text-[12px] bg-white hover:bg-gray-50 text-gray-600 border-gray-200 rounded-lg px-3">
                   {t('addMedicine')}
                 </Button>
               </div>
@@ -378,7 +399,7 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
                         {!isReady && <span className="text-[10px] font-normal px-2 py-0.5 rounded-full bg-gray-100 text-gray-400 ml-1">{t('waitingResults')}</span>}
                       </span>
                       {canPrescribe && isReady && (
-                        <Button type="button" variant="outline" size="sm" onClick={() => append({ medicineName: '', dosage: '', frequency: '', quantity: 1, unit: 'viên', instructions: '', labOrderId: order.id } as PrescriptionItemInput)} className="h-7 text-xs bg-white text-purple-700 border-purple-200 hover:bg-purple-50 rounded-lg px-3">
+                        <Button type="button" variant="outline" size="sm" onClick={() => append({ medicineName: '', dosage: '', frequency: '', quantity: 1, unit: 'viên', instructions: '', labOrderId: order.id, medicineId: undefined, unitPrice: undefined } as PrescriptionItemInput)} className="h-7 text-xs bg-white text-purple-700 border-purple-200 hover:bg-purple-50 rounded-lg px-3">
                           {t('addMedicine')}
                         </Button>
                       )}
@@ -405,12 +426,18 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
                               <div className="col-span-12 sm:col-span-5">
                                 <MedicineAutocomplete
                                   value={watchedItems?.[idx]?.medicineName || ''}
-                                  onChange={(val) => setValue(`items.${idx}.medicineName`, val)}
+                                  onChange={(val) => {
+                                    setValue(`items.${idx}.medicineName`, val);
+                                    setValue(`items.${idx}.medicineId`, undefined);
+                                    setValue(`items.${idx}.unitPrice`, undefined);
+                                  }}
                                   onSelect={(med) => {
                                     const name = med.brandName
                                       ? `${med.brandName} (${med.genericName}) ${med.concentration || ''}`.trim()
                                       : `${med.genericName} ${med.concentration || ''}`.trim();
                                     setValue(`items.${idx}.medicineName`, name);
+                                    setValue(`items.${idx}.medicineId`, med.id);
+                                    setValue(`items.${idx}.unitPrice`, med.defaultPrice);
                                     if (med.defaultUnit) {
                                       setValue(`items.${idx}.unit`, med.defaultUnit);
                                     }
@@ -419,6 +446,19 @@ export function PrescriptionTab({ bookingId, record, onSaved, onBack }: Prescrip
                                   placeholder={t('placeholders.name')}
                                   className="text-[13px] h-[38px] rounded-lg border-gray-200"
                                 />
+                                <div className="mt-1 flex items-center gap-1.5">
+                                  {watchedItems?.[idx]?.medicineId ? (
+                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                      {t('systemMedicine')}
+                                    </span>
+                                  ) : (
+                                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                                      {t('manualMedicine')}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                               <div className="col-span-6 sm:col-span-2">
                                 <Input {...register(`items.${idx}.dosage`)} placeholder={t('placeholders.dosage')} disabled={!canPrescribe} className="text-[13px] h-[38px] rounded-lg border-gray-200" />
