@@ -13,6 +13,7 @@ import {
   LabOrderForBilling,
   AddInvoiceItemDto,
 } from '@/lib/api/billing/billing';
+import { medicalRecordsApi } from '@/lib/api/clinical/medical-records';
 import { useTranslations, useLocale } from 'next-intl';
 import { servicesApi } from '@/lib/api/clinic/services';
 import { Service } from '@/types';
@@ -33,6 +34,7 @@ interface QuickAddInvoiceModalProps {
   pendingLabOrders: LabOrderForBilling[];
   onSubmit: (labOrderIds: string[], items: AddInvoiceItemDto[]) => Promise<void>;
   isSubmitting: boolean;
+  bookingId?: string;
 }
 
 export function QuickAddInvoiceModal({
@@ -42,12 +44,13 @@ export function QuickAddInvoiceModal({
   pendingLabOrders,
   onSubmit,
   isSubmitting,
+  bookingId,
 }: QuickAddInvoiceModalProps) {
   const t = useTranslations('receptionistBilling.bookingInvoices.quickAddModal');
   const locale = useLocale();
 
   const [selectedLabOrderIds, setSelectedLabOrderIds] = useState<Set<string>>(new Set());
-  const [manualItems, setManualItems] = useState<AddInvoiceItemDto[]>([]);
+  const [manualItems, setManualItems] = useState<(AddInvoiceItemDto & { medicineId?: string })[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   
   // Free text / service add form
@@ -72,9 +75,24 @@ export function QuickAddInvoiceModal({
 
       if (invoiceType !== InvoiceType.PHARMACY) {
         servicesApi.getAll({ isActive: true }).then(setServices).catch(() => {});
+      } else if (bookingId) {
+        medicalRecordsApi.getVisitResults(bookingId)
+          .then((res) => {
+            if (res.prescription?.items && res.prescription.items.length > 0) {
+              const mapped = res.prescription.items.map((item, idx) => ({
+                itemName: item.medicineName,
+                unitPrice: item.unitPrice ? Number(item.unitPrice) : 0,
+                quantity: item.quantity,
+                sortOrder: idx,
+                medicineId: item.medicineId,
+              }));
+              setManualItems(mapped);
+            }
+          })
+          .catch(() => {});
       }
     }
-  }, [isOpen, invoiceType, pendingLabOrders]);
+  }, [isOpen, invoiceType, pendingLabOrders, bookingId]);
 
   const toggleLabOrder = (id: string) => {
     setSelectedLabOrderIds((prev) => {
@@ -203,23 +221,73 @@ export function QuickAddInvoiceModal({
 
             {/* Added Manual Items List */}
             {manualItems.length > 0 && (
-              <div className="space-y-2 mb-4">
+              <div className="space-y-2 mb-4 max-h-[250px] overflow-y-auto pr-1">
                 {manualItems.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg border border-slate-200 bg-white shadow-sm text-sm">
-                    <div className="flex-1">
-                      <p className="font-semibold text-slate-700">{item.itemName}</p>
-                      <p className="text-xs text-slate-500">
-                        {item.quantity} x {formatCurrency(item.unitPrice)}
-                      </p>
+                  <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-xl border border-slate-200 bg-white shadow-sm gap-3">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-slate-700 text-sm truncate">{item.itemName}</p>
+                      {invoiceType === InvoiceType.PHARMACY && (
+                        <div className="mt-1 flex items-center gap-1.5">
+                          {item.medicineId ? (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                              {t('systemMedicine')}
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                              {t('manualMedicine')}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    <div className="flex items-center gap-4">
-                      <span className="font-bold text-blue-700">
-                        {formatCurrency(Number(item.quantity) * Number(item.unitPrice))}
-                      </span>
+                    <div className="flex items-center gap-3 self-end sm:self-auto flex-wrap sm:flex-nowrap">
+                      {/* Price input */}
+                      <div className="flex items-center gap-1.5">
+                        <Label className="text-[10px] text-slate-400 uppercase font-bold sm:hidden">Giá</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          step="1000"
+                          className="h-8 w-24 text-xs font-semibold text-slate-700 rounded-lg text-right"
+                          value={item.unitPrice}
+                          onChange={(e) => {
+                            const val = e.target.value ? Number(e.target.value) : 0;
+                            setManualItems((prev) =>
+                              prev.map((it, i) => (i === idx ? { ...it, unitPrice: val } : it))
+                            );
+                          }}
+                        />
+                      </div>
+
+                      {/* Quantity input */}
+                      <div className="flex items-center gap-1.5">
+                        <Label className="text-[10px] text-slate-400 uppercase font-bold sm:hidden">SL</Label>
+                        <Input
+                          type="number"
+                          min="1"
+                          className="h-8 w-16 text-xs font-semibold text-slate-700 rounded-lg text-center"
+                          value={item.quantity}
+                          onChange={(e) => {
+                            const val = e.target.value ? Number(e.target.value) : 1;
+                            setManualItems((prev) =>
+                              prev.map((it, i) => (i === idx ? { ...it, quantity: val } : it))
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <div className="w-24 text-right">
+                        <span className="font-bold text-blue-700 text-xs">
+                          {formatCurrency(Number(item.quantity) * Number(item.unitPrice))}
+                        </span>
+                      </div>
+
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
+                        className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg"
                         onClick={() => handleRemoveManualItem(idx)}
                       >
                         <TrashIcon size={16} />
