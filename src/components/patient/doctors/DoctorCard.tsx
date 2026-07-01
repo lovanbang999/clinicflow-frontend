@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Doctor } from '@/types/doctor';
+import { resolveAvatarUrl } from '@/lib/utils/avatar-url';
 
 interface DoctorCardProps {
   doctor: Doctor;
@@ -25,6 +26,7 @@ export function DoctorCard({ doctor, dateQuery }: DoctorCardProps) {
   // Generate consistent color based on doctor ID
   const colorIndex = parseInt(doctor.id.slice(0, 8), 16) % AVATAR_COLORS.length;
   const avatarColor = AVATAR_COLORS[colorIndex];
+  const avatarSrc = resolveAvatarUrl(doctor.avatar);
 
   // Get initials from name
   const initials = doctor.fullName
@@ -50,9 +52,9 @@ export function DoctorCard({ doctor, dateQuery }: DoctorCardProps) {
 
       <div className="flex flex-col items-center mb-6">
         <div className="w-28 h-28 rounded-full p-1 bg-white ring-1 ring-slate-100 shadow-lg mb-4 overflow-hidden relative">
-          {doctor.avatar ? (
+          {avatarSrc ? (
             <Image
-              src={`${process.env.NEXT_PUBLIC_API_URL}${doctor.avatar}`}
+              src={avatarSrc}
               alt={doctor.fullName}
               width={112}
               height={112}

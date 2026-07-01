@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useDoctor } from '@/lib/hooks/clinical/useDoctor';
 import { Shield, Calendar, Mail, MapPin, Globe, Star, FileCheck, CheckCircle2, GraduationCap, Briefcase, Stethoscope, Search } from 'lucide-react';
 import Link from 'next/link';
+import { resolveAvatarUrl } from '@/lib/utils/avatar-url';
 
 export function DoctorProfilePageContent() {
   const params = useParams();
@@ -73,6 +74,7 @@ export function DoctorProfilePageContent() {
   const colorIndex = parseInt(doctor.id.slice(0, 8), 16) % AVATAR_COLORS.length;
   const avatarColor = AVATAR_COLORS[colorIndex];
   const initials = doctor.fullName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
+  const avatarSrc = resolveAvatarUrl(doctor.avatar);
 
   return (
     <main className="max-w-[1280px] mx-auto px-6 py-12 bg-[#fdfdfe] font-display min-h-screen">
@@ -84,11 +86,11 @@ export function DoctorProfilePageContent() {
             <div className="relative inline-block mb-6">
               <div className="absolute inset-0 bg-[#1392ec]/10 blur-3xl rounded-full scale-125"></div>
               <div className="relative h-48 w-48 rounded-full border-4 border-white shadow-2xl overflow-hidden mx-auto bg-slate-100 flex items-center justify-center">
-                {doctor.avatar ? (
+                {avatarSrc ? (
                   <Image
                     alt={doctor.fullName}
                     className="w-full h-full object-cover"
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${doctor.avatar}`}
+                    src={avatarSrc}
                     width={192}
                     height={192}
                   />
