@@ -6,12 +6,14 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useService } from '@/lib/hooks/clinic/useService';
+import { resolveMediaUrl } from '@/lib/utils/media-url';
 
 export function ServiceDetailPageContent() {
   const params = useParams();
   const serviceId = params.id as string;
   const t = useTranslations('services.detail');
   const { service, isLoading } = useService(serviceId);
+  const serviceImageSrc = resolveMediaUrl(service?.iconUrl);
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -71,11 +73,11 @@ export function ServiceDetailPageContent() {
           </h1>
           
           <div className="rounded-3xl overflow-hidden bg-white dark:bg-slate-800 mb-12 shadow-sm aspect-[16/9] relative">
-            {service.iconUrl ? (
+            {serviceImageSrc ? (
               <Image 
                 alt={service.name}
                 className="w-full h-full object-cover"
-                src={`${process.env.NEXT_PUBLIC_API_URL}${service.iconUrl}`}
+                src={serviceImageSrc}
                 fill
               />
             ) : (

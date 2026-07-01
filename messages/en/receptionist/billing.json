@@ -238,6 +238,8 @@
     "quickAddService": "Quick Add Service",
     "alreadyCreated": "Created",
     "quickAddModal": {
+      "systemMedicine": "System Medicine",
+      "manualMedicine": "Manual Entry",
       "titleConsultation": "Create Consultation Invoice",
       "titleLab": "Create Lab Invoice",
       "titlePharmacy": "Create Pharmacy Invoice",

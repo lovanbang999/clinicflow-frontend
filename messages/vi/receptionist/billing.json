@@ -239,6 +239,8 @@
     "quickAddService": "Tạo Dịch Vụ Nhanh",
     "alreadyCreated": "Đã có",
     "quickAddModal": {
+      "systemMedicine": "Thuốc hệ thống",
+      "manualMedicine": "Nhập ngoài",
       "titleConsultation": "Tạo hóa đơn Khám",
       "titleLab": "Tạo hóa đơn Cận lâm sàng",
       "titlePharmacy": "Tạo hóa đơn Thuốc",

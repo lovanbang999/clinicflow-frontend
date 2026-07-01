@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { LucideIcon } from 'lucide-react';
 import { Service } from '@/types/service';
+import { resolveMediaUrl } from '@/lib/utils/media-url';
 
 interface ServiceCardProps {
   service: Service;
@@ -14,17 +15,18 @@ interface ServiceCardProps {
 
 export function ServiceCard({ service, icon: Icon, color }: ServiceCardProps) {
   const t = useTranslations('services');
+  const serviceImageSrc = resolveMediaUrl(service.iconUrl);
 
   return (
     <div className="bg-white dark:bg-slate-800 p-6 rounded-[16px] border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full">
       <div className={`w-14 h-14 bg-linear-to-br ${color} rounded-full flex items-center justify-center mb-6 group-hover:scale-105 transition-transform overflow-hidden shadow-sm`}>
-        {service.iconUrl ? (
+        {serviceImageSrc ? (
           <Image
-            src={`${process.env.NEXT_PUBLIC_API_URL}${service.iconUrl}`}
+            src={serviceImageSrc}
             alt={service.name}
-            width={32}
-            height={32}
-            className="object-contain"
+            width={56}
+            height={56}
+            className="h-full w-full object-cover"
           />
         ) : (
           <Icon className="h-7 w-7 text-white" />

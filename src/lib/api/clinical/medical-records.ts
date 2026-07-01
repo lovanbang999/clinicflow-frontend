@@ -92,6 +92,8 @@ export interface VisitHistoryItem {
       quantity: number;
       unit?: string;
       instructions?: string;
+      medicineId?: string;
+      unitPrice?: number;
     }>;
   };
 }
@@ -280,6 +282,8 @@ export interface VisitResultsResponse {
       unit: string;
       instructions?: string;
       sortOrder: number;
+      medicineId?: string;
+      unitPrice?: number;
     }>;
   };
 }
@@ -337,6 +341,8 @@ export interface PrescriptionItemInput {
   unit?: string;
   instructions?: string;
   sortOrder?: number;
+  medicineId?: string;
+  unitPrice?: number;
 }
 
 export interface CreatePrescriptionDto {

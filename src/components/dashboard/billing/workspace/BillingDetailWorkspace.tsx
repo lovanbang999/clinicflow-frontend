@@ -398,6 +398,7 @@ export function BillingDetailWorkspace({ bookingId, onRefreshQueue }: BillingDet
         pendingLabOrders={pendingLabOrders}
         onSubmit={handleQuickAddSubmit}
         isSubmitting={creatingType !== null}
+        bookingId={bookingId}
       />
 
       {/* Hidden print area */}
