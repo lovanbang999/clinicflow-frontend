@@ -1,13 +1,14 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import {
-  Phone as PhoneIcon,
-  MapPin as MapPinIcon,
+  PhoneIcon,
+  MapPinIcon,
 } from '@phosphor-icons/react';
 
 export function ContactInfo() {
   const t = useTranslations('landing');
+  const locale = useLocale();
 
   return (
     <section className="py-24 bg-white border-t border-slate-100">
@@ -30,18 +31,42 @@ export function ContactInfo() {
               </div>
               <div className="flex items-center gap-3 text-slate-600">
                 <MapPinIcon weight="fill" className="text-[#1392ec]" />
-                <span>123 ABC Street, Hanoi, Vietnam</span>
+                <span>
+                  {locale === 'vi' 
+                    ? '175 Tây Sơn, Trung Liệt, Đống Đa, Hà Nội' 
+                    : '175 Tay Son, Trung Liet, Dong Da, Hanoi'}
+                </span>
               </div>
             </div>
           </div>
-          <div className="md:col-span-2 h-80 bg-slate-100 rounded-3xl relative overflow-hidden group border border-slate-200">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <MapPinIcon weight="fill" className="text-6xl text-slate-300" />
-            </div>
-            <div className="absolute inset-0 bg-[#1392ec]/5 group-hover:bg-transparent transition-colors cursor-pointer"></div>
+          
+          {/* Interactive Google Maps Embed with Premium Styling pointing to Thuyloi University */}
+          <div className="md:col-span-2 h-80 bg-slate-50 rounded-3xl overflow-hidden border border-slate-200 shadow-xs relative group">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6366089330686!2d105.8236761153321!3d21.00703839389279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac800f4581f1%3A0x6d90d8a9e0f3b23e!2sTr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+Th%E1%BB%A7y+L%E1%BB%A3i!5e0!3m2!1svi!2s!4v1620000000000!5m2!1svi!2s"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-full grayscale opacity-85 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+            />
+            
+            {/* Get Directions Overlay Button */}
+            <a 
+              href="https://www.google.com/maps/dir/?api=1&destination=21.007038,105.823676"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-xs hover:bg-white text-slate-800 hover:text-[#1392ec] px-4 py-2.5 rounded-xl text-xs font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-1.5 border border-slate-100 hover:border-slate-200 cursor-pointer active:scale-95 z-10"
+            >
+              <MapPinIcon weight="bold" className="text-sm text-[#1392ec]" />
+              {locale === 'vi' ? 'Chỉ đường' : 'Directions'}
+            </a>
           </div>
         </div>
       </div>
     </section>
   );
 }
+

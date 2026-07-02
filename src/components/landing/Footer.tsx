@@ -2,14 +2,7 @@
 
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { ShareNetworkIcon, CameraIcon, AtIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
-
-const socialIcons = [
-  { Icon: ShareNetworkIcon, label: 'Social media' },
-  { Icon: CameraIcon, label: 'Photo gallery' },
-  { Icon: AtIcon, label: 'Email updates' },
-];
 
 const disabledFooterLinkClass = 'text-slate-600 cursor-not-allowed';
 
@@ -20,7 +13,7 @@ export function LandingFooter() {
   return (
     <footer className="bg-[#0B1117] text-slate-400 pt-32 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-16 mb-24">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-16 mb-4">
           {/* Brand Column */}
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-8">
@@ -32,19 +25,6 @@ export function LandingFooter() {
             <p className="max-w-xs mb-10 text-lg leading-relaxed">
               {t('tagline')}
             </p>
-            <div className="flex gap-6">
-              {socialIcons.map(({ Icon, label }) => (
-                <button
-                  key={label}
-                  type="button"
-                  aria-label={label}
-                  disabled
-                  className="w-10 h-10 rounded-full border border-slate-800 flex items-center justify-center text-slate-600"
-                >
-                  <Icon weight="bold" className="text-xl" />
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Patients Column */}
