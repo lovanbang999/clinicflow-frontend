@@ -7,6 +7,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useService } from '@/lib/hooks/clinic/useService';
 import { resolveMediaUrl } from '@/lib/utils/media-url';
+import { resolveAvatarUrl } from '@/lib/utils/avatar-url';
+
+const AVATAR_COLORS = [
+  'from-blue-500 to-blue-600',
+  'from-green-500 to-emerald-600',
+  'from-orange-500 to-amber-600',
+  'from-sky-500 to-indigo-600',
+  'from-pink-500 to-rose-600',
+  'from-cyan-500 to-teal-600',
+];
 
 export function ServiceDetailPageContent() {
   const params = useParams();
@@ -217,30 +227,53 @@ export function ServiceDetailPageContent() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxB2Ev_aAgRXOflS6Rd6IY9A0alM0SAOFzLK9nmGwKC1YsvSbQroGKnya9uqoPlVMXSde3WM8DGU6dRdzy-GPHEsCr6f-rPqet8wNOQLFyVGkYCYxTRPVg-y1aOXNKmoVJp8xMT-HLYc_RSJW6grbd9OmqMRgRO62EdOpU4rbyX_MwkXXCuJJoMEVvFFqmL52LgbtDgic6YLYOUZuBnZtRnYp9bRSULc056lFHi_vIhMoumTNwvFw60sTwYGaLH46UsfvxRB7HGGA" width={96} height={96}/>
-            <h4 className="font-bold text-slate-900 dark:text-white">Dr. Robert Chen</h4>
-            <p className="text-sm text-slate-500 mb-4">Senior Specialist</p>
-            <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
-          </div>
-          <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu-WBnuJnVa68K9zAlQcLBwm4DoqvqrKPiWS6hokVDolSXd2-vTsvvYPdNuphPVngwaRyeVsYIl6I0_UtOL19n-wQRIU8ZMzRZiAxkZthWRbvAYw2lswFhAZPEJSXSQdfzJykwHD63N3SVJHH3mGopRISxVpteMluFTUFyN2-l5PZACSyBF4Hj9YipYcZimlpBAo-w6PN-SQlXoRgIH8I3_UsJomRQQGxfD8KJmDNVVffEvV_nuogPZgIRtZjHWlsr6CKXGNzfSZo" width={96} height={96}/>
-            <h4 className="font-bold text-slate-900 dark:text-white">Dr. Sarah Miller</h4>
-            <p className="text-sm text-slate-500 mb-4">Interventional Specialist</p>
-            <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
-          </div>
-          <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHO46RU4z43b-kOQ6niqT5BoEavkQg3h31OYkF6t5RTq6QAr10jlInH6pCTvHRCYHhIKxVyD96jETIkuMu38MdegPBa1ocpYD4ko0vKggjwrlSeAluUwa-oBUy5_yF0-aT4kPZLHYV_WbRZZyK1yOfxnohYKua2oakCGemf34KKkD4mrvzeXnnXMYRntdS6mMhXnZA1kxQ0CCSLDG8uIgYyliK3fYQH-PSAqU-rquQhtnAcMIm6aXSPAA3CkiF4SAjVdWTILTvABM" width={96} height={96}/>
-            <h4 className="font-bold text-slate-900 dark:text-white">Dr. James Wilson</h4>
-            <p className="text-sm text-slate-500 mb-4">Lead Surgeon</p>
-            <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
-          </div>
-          <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center">
-            <Image alt="Doctor" className="w-24 h-24 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDRAJUBScQxbNhqnbKy4ONNmwqS2FKl-j6bXTD0q7pbmlAhEpHkHlawOByamkRgpXjZqIB1dxdmOv3UVYKsFQ19_CoBah3egPkG5nzuDB9iv35ONxh625v97VBpjwm7LVBEfPTA9EYM-FkeEC-9CK-NYfiW9lmzToeyf0Q1y9FsvmFhx4EffIcLuhcInOLZ8SocBiY2PlrV0qfdja5gFfMK-1E_H1YTPdYyTLSi_e_JZt8Zt0PSRVS-hlz_a2D2gjDImcO_KLSIn8" width={96} height={96}/>
-            <h4 className="font-bold text-slate-900 dark:text-white">Dr. Elena Rodriguez</h4>
-            <p className="text-sm text-slate-500 mb-4">Electrophysiologist</p>
-            <button className="text-blue-600 text-sm font-bold hover:underline cursor-pointer">{t('viewProfile')}</button>
-          </div>
+          {service.doctorServices && service.doctorServices.length > 0 ? (
+            service.doctorServices.map(({ doctorProfile }) => {
+              const { id, specialties, user } = doctorProfile;
+              const avatarSrc = resolveAvatarUrl(user.avatar);
+              const colorIndex = parseInt(id.slice(0, 8), 16) % AVATAR_COLORS.length;
+              const avatarColor = AVATAR_COLORS[colorIndex];
+              const initials = user.fullName
+                .split(' ')
+                .map((n) => n[0])
+                .join('')
+                .toUpperCase()
+                .slice(0, 2);
+
+              return (
+                <div key={id} className="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-lg transition-all text-center flex flex-col items-center">
+                  <div className="w-24 h-24 rounded-full p-1 bg-white ring-1 ring-slate-100 dark:ring-slate-700/50 shadow-md mb-4 overflow-hidden relative">
+                    {avatarSrc ? (
+                      <Image
+                        src={avatarSrc}
+                        alt={user.fullName}
+                        fill
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className={`w-full h-full rounded-full bg-gradient-to-br ${avatarColor} flex items-center justify-center text-2xl font-bold text-white`}>
+                        {initials}
+                      </div>
+                    )}
+                  </div>
+                  <h4 className="font-bold text-slate-900 dark:text-white line-clamp-1">{user.fullName}</h4>
+                  <p className="text-sm text-slate-500 mb-4 line-clamp-1">
+                    {Array.isArray(specialties) && specialties.length > 0
+                      ? specialties[0]
+                      : 'Specialist'}
+                  </p>
+                  <Link href={`/doctors/${user.id}`} className="mt-auto text-blue-600 text-sm font-bold hover:underline cursor-pointer">
+                    {t('viewProfile')}
+                  </Link>
+                </div>
+              );
+            })
+          ) : (
+            <div className="col-span-full py-12 text-center text-slate-400 dark:text-slate-500 border border-dashed border-slate-200 dark:border-slate-700 rounded-2xl bg-slate-50/50 dark:bg-slate-800/20">
+              <span className="material-symbols-outlined text-4xl mb-2 text-slate-300 dark:text-slate-600 block">supervised_user_circle</span>
+              <p className="text-sm font-medium">{t('noSpecialists') || 'Chưa có bác sĩ liên kết với dịch vụ này.'}</p>
+            </div>
+          )}
         </div>
       </section>
 
