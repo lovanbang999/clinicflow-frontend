@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useService } from '@/lib/hooks/clinic/useService';
@@ -22,6 +22,7 @@ export function ServiceDetailPageContent() {
   const params = useParams();
   const serviceId = params.id as string;
   const t = useTranslations('services.detail');
+  const locale = useLocale();
   const { service, isLoading } = useService(serviceId);
   const serviceImageSrc = resolveMediaUrl(service?.iconUrl);
 
@@ -107,10 +108,17 @@ export function ServiceDetailPageContent() {
               {service.description ? (
                 <p>{service.description}</p>
               ) : (
-                <>
-                  <p>Our {service.name} provides a thorough assessment of your health. Our board-certified specialists utilize state-of-the-art diagnostic tools to evaluate function, identify potential risks, and develop personalized treatment plans tailored to your specific needs.</p>
-                  <p>Whether you&apos;re experiencing symptoms or seeking a preventative screening, our team ensures a compassionate and comprehensive clinical experience.</p>
-                </>
+                locale === 'vi' ? (
+                  <>
+                    <p>Dịch vụ {service.name} của chúng tôi cung cấp sự đánh giá toàn diện về sức khỏe của bạn. Các chuyên gia giàu kinh nghiệm của chúng tôi sử dụng công cụ chẩn đoán tiên tiến nhất để đánh giá chức năng, xác định rủi ro tiềm ẩn và xây dựng kế hoạch điều trị được cá nhân hóa.</p>
+                    <p>Dù bạn đang gặp phải triệu chứng hay đang tìm kiếm một cuộc sàng lọc phòng ngừa, đội ngũ của chúng tôi luôn đảm bảo mang lại trải nghiệm lâm sàng tận tâm và toàn diện nhất.</p>
+                  </>
+                ) : (
+                  <>
+                    <p>Our {service.name} provides a thorough assessment of your health. Our board-certified specialists utilize state-of-the-art diagnostic tools to evaluate function, identify potential risks, and develop personalized treatment plans tailored to your specific needs.</p>
+                    <p>Whether you&apos;re experiencing symptoms or seeking a preventative screening, our team ensures a compassionate and comprehensive clinical experience.</p>
+                  </>
+                )
               )}
             </div>
           </section>
@@ -156,10 +164,18 @@ export function ServiceDetailPageContent() {
                 <span className="text-slate-500 text-sm font-medium uppercase tracking-wider">{t('serviceFee')}</span>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-4xl font-extrabold text-slate-900 dark:text-white">
-                    {service.price ? `${service.price.toLocaleString('vi-VN')}đ` : '$120.00'}
+                    {service.price 
+                      ? (locale === 'vi' 
+                          ? `${service.price.toLocaleString('vi-VN')}đ` 
+                          : `${service.price.toLocaleString('en-US')} VND`)
+                      : (locale === 'vi' ? '200.000đ' : '200,000 VND')}
                   </span>
                   <span className="text-slate-400 line-through text-lg">
-                    {service.price ? `${(service.price * 1.25).toLocaleString('vi-VN')}đ` : '$150.00'}
+                    {service.price 
+                      ? (locale === 'vi'
+                          ? `${(service.price * 1.25).toLocaleString('vi-VN')}đ`
+                          : `${(service.price * 1.25).toLocaleString('en-US')} VND`)
+                      : (locale === 'vi' ? '250.000đ' : '250,000 VND')}
                   </span>
                 </div>
               </div>
@@ -171,7 +187,9 @@ export function ServiceDetailPageContent() {
                     <span className="text-sm">{t('duration')}</span>
                   </div>
                   <span className="font-semibold text-slate-900 dark:text-white">
-                    {service.durationMinutes ? `${service.durationMinutes} Phút` : '45-60 Minutes'}
+                    {service.durationMinutes 
+                      ? `${service.durationMinutes} ${locale === 'vi' ? 'Phút' : 'Mins'}` 
+                      : (locale === 'vi' ? '45-60 Phút' : '45-60 Mins')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -260,7 +278,7 @@ export function ServiceDetailPageContent() {
                   <p className="text-sm text-slate-500 mb-4 line-clamp-1">
                     {Array.isArray(specialties) && specialties.length > 0
                       ? specialties[0]
-                      : 'Specialist'}
+                      : (locale === 'vi' ? 'Chuyên gia' : 'Specialist')}
                   </p>
                   <Link href={`/doctors/${user.id}`} className="mt-auto text-blue-600 text-sm font-bold hover:underline cursor-pointer">
                     {t('viewProfile')}

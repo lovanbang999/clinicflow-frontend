@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { LucideIcon } from 'lucide-react';
 import { Service } from '@/types/service';
 import { resolveMediaUrl } from '@/lib/utils/media-url';
@@ -15,6 +15,7 @@ interface ServiceCardProps {
 
 export function ServiceCard({ service, icon: Icon, color }: ServiceCardProps) {
   const t = useTranslations('services');
+  const locale = useLocale();
   const serviceImageSrc = resolveMediaUrl(service.iconUrl);
 
   return (
@@ -53,7 +54,7 @@ export function ServiceCard({ service, icon: Icon, color }: ServiceCardProps) {
         </h3>
 
         <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-6 line-clamp-2 min-h-[2rem]">
-          {service.description || 'Dịch vụ y khoa chất lượng cao, chuyên nghiệp.'}
+          {service.description || (locale === 'vi' ? 'Dịch vụ y khoa chất lượng cao, chuyên nghiệp.' : 'High-quality, professional medical service.')}
         </p>
 
         {/* Info Row (Duration & Price) */}
@@ -63,7 +64,7 @@ export function ServiceCard({ service, icon: Icon, color }: ServiceCardProps) {
               schedule
             </span>
             <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-              {service.durationMinutes} phút
+              {service.durationMinutes} {locale === 'vi' ? 'phút' : 'mins'}
             </span>
           </div>
           
@@ -74,7 +75,9 @@ export function ServiceCard({ service, icon: Icon, color }: ServiceCardProps) {
               payments
             </span>
             <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
-              {service.price.toLocaleString('vi-VN')}đ
+              {locale === 'vi' 
+                ? `${service.price.toLocaleString('vi-VN')}đ` 
+                : `${service.price.toLocaleString('en-US')} VND`}
             </span>
           </div>
         </div>

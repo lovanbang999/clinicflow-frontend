@@ -14,16 +14,27 @@ export function ServicesPageContent() {
   // Fetch services from API
   const { services, isLoading } = useServices({ isActive: true });
 
-  // Filter services based on search
+  // Filter and sort services based on search (DOCTOR performerType first)
   const filteredServices = useMemo(() => {
-    if (!searchQuery) return services;
+    let result = services;
 
-    const query = searchQuery.toLowerCase();
-    return services.filter(
-      (service) =>
-        service.name.toLowerCase().includes(query) ||
-        service.description?.toLowerCase().includes(query),
-    );
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = services.filter(
+        (service) =>
+          service.name.toLowerCase().includes(query) ||
+          service.description?.toLowerCase().includes(query),
+      );
+    }
+
+    return [...result].sort((a, b) => {
+      const aIsDoctor = a.performerType === 'DOCTOR';
+      const bIsDoctor = b.performerType === 'DOCTOR';
+
+      if (aIsDoctor && !bIsDoctor) return -1;
+      if (!aIsDoctor && bIsDoctor) return 1;
+      return 0;
+    });
   }, [services, searchQuery]);
 
   return (
