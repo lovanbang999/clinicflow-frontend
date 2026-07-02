@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ShareNetworkIcon, CameraIcon, AtIcon } from '@phosphor-icons/react';
 import Image from 'next/image';

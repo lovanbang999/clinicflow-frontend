@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import Image from 'next/image';
 import Link from 'next/link';
+import { resolveAvatarUrl } from '@/lib/utils/avatar-url';
 
 interface NextAppointmentCardProps {
   booking: NextBooking | null;
@@ -54,6 +55,7 @@ export function NextAppointmentCard({ booking, loading = false }: NextAppointmen
     .join('')
     .toUpperCase()
     .slice(0, 2);
+  const doctorAvatarSrc = resolveAvatarUrl(booking.doctor.avatar);
 
   return (
     <Card className="border-l-4 border-l-blue-600 border-slate-200">
@@ -78,9 +80,9 @@ export function NextAppointmentCard({ booking, loading = false }: NextAppointmen
           {/* Doctor Info */}
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-blue-500 to-cyan-600 text-sm font-bold text-white">
-              {booking.doctor.avatar ? (
+              {doctorAvatarSrc ? (
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${booking.doctor.avatar}`}
+                  src={doctorAvatarSrc}
                   alt={booking.doctor.fullName}
                   width={40}
                   height={40}

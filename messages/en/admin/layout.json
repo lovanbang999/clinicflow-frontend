@@ -18,6 +18,7 @@
     "categoryManagement": "Category Management",
     "serviceManagement": "Service Management",
     "patientManagement": "Patient Management",
+    "medicineManagement": "Medicine Management",
     "schedules": "Schedules",
     "roomManagement": "Room Management",
     "analytics": "Analytics",

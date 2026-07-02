@@ -92,6 +92,8 @@ export interface VisitHistoryItem {
       quantity: number;
       unit?: string;
       instructions?: string;
+      medicineId?: string;
+      unitPrice?: number;
     }>;
   };
 }
@@ -129,6 +131,20 @@ export interface CreateMedicalRecordDto {
 export interface ICD10Record {
   code: string;
   name: string;
+}
+
+export interface MedicineResponse {
+  id: string;
+  code: string;
+  genericName: string;
+  brandName?: string | null;
+  concentration?: string | null;
+  dosageForm?: string | null;
+  defaultUnit: string;
+  defaultPrice: number;
+  isActive: boolean;
+  stockQuantity: number;
+  notes?: string | null;
 }
 
 export type VisitStep =
@@ -266,6 +282,8 @@ export interface VisitResultsResponse {
       unit: string;
       instructions?: string;
       sortOrder: number;
+      medicineId?: string;
+      unitPrice?: number;
     }>;
   };
 }
@@ -323,6 +341,8 @@ export interface PrescriptionItemInput {
   unit?: string;
   instructions?: string;
   sortOrder?: number;
+  medicineId?: string;
+  unitPrice?: number;
 }
 
 export interface CreatePrescriptionDto {
@@ -396,6 +416,11 @@ export const medicalRecordsApi = {
   searchICD10: async (query: string) => {
     const res = await apiClient.get('medical-records/icd10', { params: { q: query } });
     return res.data.data as Array<{ code: string; name: string }>;
+  },
+
+  searchMedicines: async (query: string): Promise<MedicineResponse[]> => {
+    const res = await apiClient.get('medical-records/medicines', { params: { q: query } });
+    return res.data.data;
   },
 
   // Patient history

@@ -467,6 +467,8 @@
     },
     "prescriptionTab": {
       "unitPill": "viên",
+      "systemMedicine": "Thuốc hệ thống",
+      "manualMedicine": "Nhập ngoài danh mục",
       "errors": {
         "incomplete": "Vui lòng điền đủ Tên thuốc, Liều lượng, Tần suất và Số lượng"
       },

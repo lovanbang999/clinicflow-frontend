@@ -17,7 +17,6 @@ import { type DateRange } from 'react-day-picker';
 import {
   UserIcon,
   CalendarIcon,
-  ClockIcon,
   FunnelIcon,
   EyeIcon,
   ArrowLeftIcon,
@@ -74,7 +73,7 @@ export default function TechnicianHistoryPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, limit, search, category, dateRange]);
+  }, [page, limit, search, category, dateRange, t]);
 
   // Refetch when filters or pagination change
   useEffect(() => {

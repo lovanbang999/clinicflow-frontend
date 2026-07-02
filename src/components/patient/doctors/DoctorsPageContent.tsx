@@ -16,14 +16,25 @@ import { DoctorCardSkeleton } from './DoctorCardSkeleton';
 import Image from 'next/image';
 import { Star, TrendingDown, TrendingUp } from 'lucide-react';
 
-export function DoctorsPageContent() {
+interface DoctorsPageContentProps {
+  initialSearchParams?: {
+    serviceId?: string;
+    query?: string;
+    date?: string;
+  };
+}
+
+export function DoctorsPageContent({ initialSearchParams }: DoctorsPageContentProps) {
   const t = useTranslations('doctors');
-  const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(
+    initialSearchParams?.serviceId || undefined
+  );
+  const [searchQuery, setSearchQuery] = useState(initialSearchParams?.query || '');
+  const [selectedDate] = useState<string | undefined>(initialSearchParams?.date || undefined);
   const [sortBy, setSortBy] = useState('rating-desc');
 
   // Fetch active services from API to build dynamic filter buttons
-  const { services, isLoading: isLoadingServices } = useServices({ isActive: true });
+  const { services } = useServices({ isActive: true });
 
   // Fetch doctors — re-fetches when selectedServiceId changes (backend supports serviceId filter)
   const { doctors, isLoading: isLoadingDoctors } = useDoctors(
@@ -174,7 +185,7 @@ export function DoctorsPageContent() {
             {/* Doctors Grid */}
             {!isLoading && sortedDoctors.length > 0 &&
               sortedDoctors.map((doctor) => (
-                <DoctorCard key={doctor.id} doctor={doctor} />
+                <DoctorCard key={doctor.id} doctor={doctor} dateQuery={selectedDate} />
               ))}
           </div>
 

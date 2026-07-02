@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { LandingNavbar } from '@/components/landing/Navbar';
-import { LandingFooter } from '@/components/landing/Footer';
 import { DoctorsPageContent } from '@/components/patient/doctors/DoctorsPageContent';
 import { createPageMetadata } from '@/lib/seo/metadata';
 
@@ -21,12 +19,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function DoctorsPage() {
-  return (
-    <div className="min-h-screen bg-white">
-      <LandingNavbar />
-      <DoctorsPageContent />
-      <LandingFooter />
-    </div>
-  );
+type DoctorsPageProps = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{
+    serviceId?: string;
+    query?: string;
+    date?: string;
+  }>;
+};
+
+export default async function DoctorsPage({ searchParams }: DoctorsPageProps) {
+  const resolvedSearchParams = await searchParams;
+  return <DoctorsPageContent initialSearchParams={resolvedSearchParams} />;
 }

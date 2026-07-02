@@ -1,774 +1,230 @@
-# ClinicFlow Frontend
+# Đồ án: Hệ thống Quản lý Đặt lịch khám và Xếp hàng thông minh (SmartClinic) - Frontend Portal
 
-<p align="center">
-  <strong>Smart Clinic Appointment & Queue Management System</strong>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-16.1.0-000000?style=flat&logo=next.js&logoColor=white" alt="Next.js" />
-  <img src="https://img.shields.io/badge/React-19.2.3-61DAFB?style=flat&logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-4.x-06B6D4?style=flat&logo=tailwind-css&logoColor=white" alt="Tailwind" />
-</p>
+Dự án này là phân hệ **Frontend Portal** của hệ thống **SmartClinic** (Hệ thống Quản lý Đặt lịch khám và Xếp hàng thông minh). Ứng dụng được xây dựng trên nền tảng **Next.js 16** và **React 19**, mang lại giao diện hiện đại, tối ưu hiệu năng và cung cấp trải nghiệm sử dụng mượt mà cho 4 nhóm đối tượng người dùng: Bệnh nhân, Bác sĩ, Tiếp tân và Quản trị viên.
 
 ---
 
-## Table of Contents
-
-- [About](#about)
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Environment Configuration](#environment-configuration)
-- [Running the Application](#running-the-application)
-- [Project Structure](#project-structure)
-- [Internationalization](#internationalization)
-- [Routing & Navigation](#routing--navigation)
-- [State Management](#state-management)
-- [API Integration](#api-integration)
-- [Theming](#theming)
-- [Building for Production](#building-for-production)
-- [Available Scripts](#available-scripts)
-- [Troubleshooting](#troubleshooting)
+## 📝 Mục lục
+- [1. Giới thiệu phân hệ Frontend](#1-giới-thiệu-phân-hệ-frontend)
+- [2. Công nghệ sử dụng](#2-công-nghệ-sử-dụng)
+- [3. Phân hệ Giao diện & Dashboard theo vai trò](#3-phân-hệ-giao-diện--dashboard-theo-vai-trò)
+- [4. Cấu trúc thư mục mã nguồn](#4-cấu-trúc-thư-mục-mã-nguồn)
+- [5. Quốc tế hóa (Internationalization - i18n)](#5-quốc-tế-hóa-internationalization---i18n)
+- [6. Hướng dẫn cài đặt & Cấu hình](#6-hướng-dẫn-cài-đặt--cấu-hình)
+- [7. Hướng dẫn chạy ứng dụng](#7-hướng-dẫn-chạy-ứng-dụng)
+- [8. Các giải pháp kỹ thuật nổi bật](#8-các-giải-pháp-kỹ-thuật-nổi-bật)
 
 ---
 
-## About
+## 1. Giới thiệu phân hệ Frontend
 
-**ClinicFlow Frontend** is a modern, responsive web application built with Next.js 16 that provides an intuitive interface for clinic appointment management. It supports multiple user roles with dedicated dashboards, bilingual support (English/Vietnamese), and a comprehensive booking system with smart suggestions.
-
-**User Experience Highlights:**
-- Modern, clean UI with dark mode support
-- Fully responsive design (mobile, tablet, desktop)
-- Bilingual interface (English/Vietnamese)
-- Fast page loads with Next.js App Router
-- Real-time notifications and status updates
-- Smart booking suggestions
-- Accessible components (ARIA support)
+Phân hệ Frontend đóng vai trò là cổng giao tiếp trực tiếp của người dùng với hệ thống SmartClinic. Ứng dụng tập trung tối ưu hóa trải nghiệm người dùng (UX) thông qua các tiêu chí:
+- **Tối ưu hóa thiết bị di động (Mobile-First Design):** Hỗ trợ hiển thị responsive mượt mà trên điện thoại, máy tính bảng và máy tính để bàn.
+- **Hỗ trợ đa ngôn ngữ (Bilingual English/Vietnamese):** Bản địa hóa hoàn chỉnh nội dung giao diện.
+- **Thời gian thực (Real-time updates):** Cập nhật liên tục trạng thái hàng đợi và lịch khám không cần tải lại trang.
+- **Thiết kế hiện đại:** Tích hợp giao diện sáng/tối (Light/Dark mode) linh hoạt.
 
 ---
 
-## Key Features
+## 2. Công nghệ sử dụng
 
-### Public Pages
-- **Landing Page**: Hero section, features showcase, services overview, call-to-action
-- **Doctor Directory**: Browse doctors with filtering and search
-- **Services Catalog**: View available clinic services with pricing
-- **Authentication**: Register, login, email verification with OTP
+Hệ thống sử dụng các thư viện và công nghệ hiện đại, bám sát xu hướng phát triển web chuyên nghiệp:
 
-### Patient Dashboard
-- **Book Appointments**: Multi-step booking flow
-  - Select service → Choose doctor → Pick date & time
-  - Smart slot suggestions based on availability
-  - Real-time slot availability checking
-- **My Bookings**: View appointment history and upcoming appointments
-- **Queue Status**: Check position in waiting queue
-- **Profile Management**: Update personal information and avatar
+### Khung làm việc & Thư viện UI
+- **Khung chính (Core):** [Next.js (v16.1.0)](https://nextjs.org/) với kiến trúc **App Router** hiện đại.
+- **Thư viện hiển thị:** [React (v19.2.3)](https://react.dev/) & [TypeScript](https://www.typescriptlang.org/).
+- **CSS Framework:** [Tailwind CSS (v4.x)](https://tailwindcss.com/) - Thiết kế giao diện CSS-first tốc độ cao.
+- **Thư viện thành phần (Component Library):** [shadcn/ui](https://ui.shadcn.com/) kết hợp [Radix UI](https://www.radix-ui.com/) cung cấp các thành phần giao diện chuẩn ARIA cho người khuyết tật.
+- **Bộ biểu tượng:** [Lucide React (v0.562.0)](https://lucide.dev/).
+- **Quản lý giao diện tối/sáng:** `next-themes`.
 
-### Doctor Dashboard
-- **Schedule Management**:
-  - Set weekly working hours
-  - Add break times (lunch, meetings)
-  - Mark off days (vacations, holidays)
-- **Appointment List**: View daily/weekly appointments
-- **Patient Information**: Access patient details during appointments
-- **Status Updates**: Mark appointments as completed, no-show, etc.
-
-### Receptionist Dashboard
-- **Check-in System**: Quick patient check-in
-- **Queue Management**:
-  - View waiting queue
-  - Manually promote patients from queue
-  - Adjust priorities for emergencies
-- **Booking Overview**: View all appointments across doctors
-- **Patient Search**: Quick lookup by name, phone, or booking ID
-
-### Admin Dashboard
-- **User Management**: CRUD operations for all users
-- **Service Management**: Add, edit, remove clinic services
-- **System Configuration**: Manage settings and permissions
-- **Reports**: View statistics and analytics (planned)
+### Quản lý Trạng thái & Gọi API
+- **Quản lý State toàn cục (Global State):** [Zustand (v5.0.9)](https://github.com/pmndrs/zustand) - Thay thế cho Redux cồng kềnh, tối ưu hóa quá trình render lại component.
+- **Client gọi API:** [Axios (v1.13.2)](https://axios-http.com/) tích hợp cơ chế tự động xoay vòng Token (JWT Refresh Token Rotation Interceptor).
+- **Kiểm soát form:** `React Hook Form` kết hợp với thư viện validate dữ liệu đầu vào `Zod`.
+- **Thông báo toast:** `Sonner`.
 
 ---
 
-## Tech Stack
+## 3. Phân hệ Giao diện & Dashboard theo vai trò
 
-### Core Framework
-| Technology | Version | Purpose |
-|------------|---------|----------|
-| **Next.js** | 16.1.0 | React framework with App Router |
-| **React** | 19.2.3 | UI library |
-| **TypeScript** | 5.x | Type-safe JavaScript |
+Ứng dụng chia rõ các phân hệ riêng biệt tương ứng với từng quyền hạn người dùng thông qua hệ thống phân quyền định tuyến (Role-Based Route Guard):
 
-### Styling & UI
-| Technology | Version | Purpose |
-|------------|---------|----------|
-| **Tailwind CSS** | 4.x | Utility-first CSS framework |
-| **shadcn/ui** | Latest | Accessible component library |
-| **Radix UI** | Latest | Headless UI primitives |
-| **Lucide React** | 0.562.0 | Icon library |
-| **next-themes** | 0.4.6 | Dark mode support |
+### 🌐 1. Cổng thông tin công cộng (Public Portal)
+- **Trang chủ giới thiệu (Landing Page):** Giới thiệu dịch vụ phòng khám, quy trình đặt lịch khám và phản hồi của bệnh nhân.
+- **Danh bạ Bác sĩ (Doctor Directory):** Tìm kiếm và bộ lọc bác sĩ theo chuyên khoa, kinh nghiệm, lịch trống trực quan.
+- **Danh mục Dịch vụ (Services Catalog):** Hiển thị chi tiết bảng giá các gói khám, thời lượng khám dự kiến.
 
-### State & Data Management
-| Technology | Version | Purpose |
-|------------|---------|----------|
-| **Zustand** | 5.0.9 | Lightweight state management |
-| **Axios** | 1.13.2 | HTTP client |
-| **React Hook Form** | 7.x | Form handling |
-| **Zod** | 3.x | Schema validation |
+### 👤 2. Phân hệ Bệnh nhân (Patient Dashboard)
+- **Quy trình đặt lịch 4 bước (Multi-step Booking Flow):**
+  `Chọn dịch vụ → Chọn bác sĩ → Chọn ngày & giờ khám → Xác nhận thông tin`
+- **Gợi ý giờ khám thông minh (Smart Suggestions):** Hiển thị danh sách khung giờ trống tối ưu giúp bệnh nhân dễ lựa chọn.
+- **Trang quản lý cá nhân:** Theo dõi lịch sử khám bệnh, trạng thái hiện tại của lịch hẹn, và theo dõi số thứ tự (STT) hàng đợi thời gian thực.
+- **Cập nhật hồ sơ:** Thay đổi thông tin cá nhân và tải ảnh đại diện lên hệ thống.
 
-### Internationalization
-| Technology | Version | Purpose |
-|------------|---------|----------|
-| **next-intl** | 4.6.1 | i18n for Next.js |
+### 👨‍⚕️ 3. Phân hệ Bác sĩ (Doctor Dashboard)
+- **Quản lý lịch làm việc cá nhân:** Thiết lập lịch trực theo tuần, thiết lập giờ nghỉ giải lao và báo lịch nghỉ phép.
+- **Danh sách ca khám:** Xem lịch khám hàng ngày dưới dạng bảng/lịch trực quan.
+- **Giao diện khám bệnh:** Xem thông tin bệnh nhân, cập nhật bệnh án trực tuyến và thay đổi trạng thái ca khám sang hoàn thành (`COMPLETED`) hoặc vắng mặt (`NO_SHOW`).
 
-### Utilities
-| Technology | Version | Purpose |
-|------------|---------|----------|
-| **date-fns** | 4.1.0 | Date manipulation |
-| **clsx** | 2.x | Conditional classNames |
-| **tailwind-merge** | 2.x | Merge Tailwind classes |
-| **sonner** | 2.0.7 | Toast notifications |
+### 👩‍💼 4. Phân hệ Tiếp đón (Receptionist Dashboard)
+- **Màn hình Check-in:** Tìm kiếm nhanh bệnh nhân qua Tên, Số điện thoại hoặc Mã đặt lịch y tế để tiến hành Check-in đưa vào hàng đợi.
+- **Điều phối Hàng đợi (Queue Board):** 
+  - Xem danh sách hàng đợi thời gian thực của từng bác sĩ.
+  - Thao tác thủ công: Gọi số tiếp theo, bỏ qua số, hoặc thay đổi mức độ ưu tiên đối với các ca bệnh nhân khẩn cấp.
+
+### ⚙️ 5. Phân hệ Quản trị viên (Admin Dashboard)
+- **Quản lý người dùng:** Thêm mới, cập nhật thông tin và phân quyền vai trò cho nhân viên phòng khám (Bác sĩ, Tiếp tân).
+- **Cấu hình dịch vụ khám:** Thêm mới dịch vụ, cài đặt đơn giá, hình ảnh minh họa (lưu trữ Cloudinary) và cấu hình thời gian khám trung bình.
 
 ---
 
-## Prerequisites
+## 4. Cấu trúc thư mục mã nguồn
 
-Before you begin, ensure you have:
+Thư mục dự án được tổ chức khoa học để quản lý cấu trúc định tuyến đa ngôn ngữ của Next.js App Router:
 
-- **Node.js** (v18.x or higher) - [Download](https://nodejs.org/)
-- **Yarn** (v1.22.x or higher) - `npm install -g yarn`
-- **Git** - [Download](https://git-scm.com/downloads)
-- **Backend API** - Running at `http://localhost:8080` (see [Backend README](../backend/README.md))
-
----
-
-## Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd ClinicFlow/frontend
+```
+frontend/
+├── public/                     # Tài nguyên tĩnh (Logo, Hình ảnh trống)
+├── messages/                   # Chứa các file JSON bản dịch đa ngôn ngữ
+│   ├── en/                    # Bản dịch tiếng Anh (auth, booking, common,...)
+│   └── vi/                    # Bản dịch tiếng Việt (đồng bộ cấu trúc file)
+├── src/
+│   ├── app/                   # Định nghĩa các Route của Next.js App Router
+│   │   ├── [locale]/          # Nhóm Route đa ngôn ngữ (ví dụ: /vi/login, /en/login)
+│   │   │   ├── (auth)/        # Nhóm trang Xác thực (Đăng nhập, Đăng ký, OTP)
+│   │   │   ├── (dashboard)/   # Nhóm trang Dashboard bảo vệ bởi Auth Guard
+│   │   │   │   ├── patient/   # Dashboard cho Bệnh nhân
+│   │   │   │   ├── doctor/    # Dashboard cho Bác sĩ
+│   │   │   │   ├── receptionist/  # Dashboard cho Tiếp tân
+│   │   │   │   └── admin/     # Dashboard cho Quản trị viên
+│   │   │   ├── doctors/       # Trang danh mục bác sĩ công cộng
+│   │   │   ├── services/      # Trang danh mục dịch vụ công cộng
+│   │   │   ├── layout.tsx     # Layout gốc
+│   │   │   └── page.tsx       # Trang chủ hệ thống
+│   │   ├── api/               # Next.js Route Handlers (giao tiếp proxy API)
+│   │   └── globals.css        # Khai báo biến CSS toàn cục và Tailwind v4
+│   ├── components/            # Các React Components tái sử dụng
+│   │   ├── booking/          # Các Component phục vụ luồng đặt lịch khám
+│   │   ├── common/           # Các Component dùng chung (Loading, Avatar,...)
+│   │   ├── dashboard/        # Widget phục vụ các Dashboard
+│   │   ├── layout/           # Bố cục giao diện (Navbar, Sidebar, Footer)
+│   │   ├── queue/            # Các giao diện liên quan đến hàng đợi y tế
+│   │   └── ui/               # Danh sách UI primitives (Nút, Form, Hộp thoại từ shadcn/ui)
+│   ├── i18n/                 # Thiết lập cấu hình đa ngôn ngữ next-intl
+│   ├── lib/                  # Chứa logic và tích hợp các thư viện ngoài
+│   │   ├── api/              # Định nghĩa Client gọi API Backend (Axios)
+│   │   ├── store/            # Chứa các Kho lưu trữ trạng thái Zustand
+│   │   │   ├── authStore.ts  # Trạng thái đăng nhập của người dùng & Token
+│   │   │   ├── bookingStore.ts# Lưu trữ dữ liệu tạm thời khi đặt lịch khám
+│   │   │   └── uiStore.ts    # Cấu hình UI như theme sáng/tối
+│   │   └── utils/            # Các hàm tiện ích dùng chung
+│   ├── styles/               # Chứa các cấu hình theme màu sắc
+│   └── types/                # Định nghĩa kiểu dữ liệu TypeScript (DTO, Models)
+├── .env.local                # File cấu hình môi trường của Frontend (Cần tạo)
+├── .env.example              # File cấu hình môi trường mẫu
+├── components.json           # File cấu hình của thư viện shadcn/ui
+├── next.config.ts            # Cấu hình hệ thống Next.js
+├── package.json              # Chứa thông tin thư viện sử dụng & scripts chạy
+├── postcss.config.mjs        # Cấu hình biên dịch CSS PostCSS
+└── tsconfig.json             # Cấu hình TypeScript
 ```
 
-### 2. Install Dependencies
+---
 
+## 5. Quốc tế hóa (Internationalization - i18n)
+
+Dự án hỗ trợ chuyển đổi ngôn ngữ linh hoạt bằng thư viện `next-intl`.
+
+### Cấu trúc đa ngôn ngữ
+Mọi từ ngữ hiển thị trên giao diện đều được cấu trúc hóa trong các file JSON tại thư mục `/messages`. Khi muốn hiển thị chữ trên UI, ta sử dụng hook `useTranslations`:
+```tsx
+import { useTranslations } from 'next-intl';
+
+export default function WelcomeHeader() {
+  const t = useTranslations('common');
+  return <h1>{t('welcome')}</h1>; // Sẽ render ra tiếng Việt hoặc tiếng Anh tương ứng
+}
+```
+
+---
+
+## 6. Hướng dẫn cài đặt & Cấu hình
+
+### Yêu cầu hệ thống
+- **Node.js**: Phiên bản 18.x trở lên.
+- **Yarn**: Quản lý gói phụ thuộc.
+- **Backend API**: Đã được khởi chạy thành công tại địa chỉ `http://localhost:8080`.
+
+### Các bước cài đặt
+
+#### 1. Di chuyển vào thư mục Frontend
+```bash
+cd SmartClinic/frontend
+```
+
+#### 2. Cài đặt thư viện phụ thuộc
 ```bash
 yarn install
 ```
 
-This installs all required packages including Next.js, React, Tailwind CSS, and UI components.
-
----
-
-## Environment Configuration
-
-### 1. Create Environment File
-
-Copy the example environment file:
-
+#### 3. Tạo file cấu hình môi trường
+Sao chép cấu hình mẫu từ `.env.example` tạo thành `.env.local`:
 ```bash
 cp .env.example .env.local
 ```
 
-### 2. Configure Environment Variables
-
-Edit `.env.local`:
-
+Mở `.env.local` và cấu hình các biến sau:
 ```env
-# API Configuration
+# Địa chỉ cơ sở kết nối với API Backend NestJS
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api
 
-# App Configuration
+# Địa chỉ chạy Frontend
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_APP_NAME="ClinicFlow"
 
-# Default Locale
+# Tên ứng dụng hiển thị trên trình duyệt
+NEXT_PUBLIC_APP_NAME="SmartClinic"
+
+# Ngôn ngữ mặc định của trang web (vi: Tiếng Việt, en: Tiếng Anh)
 NEXT_PUBLIC_DEFAULT_LOCALE=vi
 ```
 
-### Environment Variables Explained
-
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `NEXT_PUBLIC_API_BASE_URL` | Backend API base URL | `http://localhost:8080/api` |  Yes |
-| `NEXT_PUBLIC_APP_URL` | Frontend URL (for redirects) | `http://localhost:3000` |  Yes |
-| `NEXT_PUBLIC_APP_NAME` | Application name | `ClinicFlow` |  Optional |
-| `NEXT_PUBLIC_DEFAULT_LOCALE` | Default language | `vi` (Vietnamese) |  Optional |
-
-**Note**: All variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
-
 ---
 
-## Running the Application
+## 7. Hướng dẫn chạy ứng dụng
 
-### Development Mode
-
-Start the development server with hot reload:
-
+### Chạy chế độ nhà phát triển (Development Mode)
 ```bash
 yarn dev
 ```
+Giao diện sẽ chạy tại địa chỉ: **[http://localhost:3000](http://localhost:3000)** (Hoặc port hiển thị trên log terminal).
 
-The application will be available at **[http://localhost:3001](http://localhost:3001)** (or the port specified in package.json).
-
-### Production Build
-
-Build and start the optimized production version:
-
+### Biên dịch dự án và chạy ở môi trường Production
+Để hệ thống đạt hiệu năng tốt nhất trước khi demo/chạy thử nghiệm:
 ```bash
-# Build the application
+# Biên dịch mã nguồn tối ưu
 yarn build
 
-# Start production server
+# Khởi chạy server production
 yarn start
 ```
 
-### Linting
-
-Run ESLint to check code quality:
-
-```bash
-yarn lint
-```
-
 ---
 
-## Project Structure
+## 8. Các giải pháp kỹ thuật nổi bật
 
-```
-frontend/
-├── public/                     # Static assets
-│   └── empty-state/           # Empty state images
-├── messages/                   # Internationalization files
-│   ├── en/                    # English translations
-│   │   ├── auth.json
-│   │   ├── booking.json
-│   │   ├── common.json
-│   │   ├── dashboard.json
-│   │   ├── doctors.json
-│   │   ├── errors.json
-│   │   ├── landing.json
-│   │   ├── queue.json
-│   │   ├── services.json
-│   │   └── validation.json
-│   └── vi/                    # Vietnamese translations
-│       └── (same structure)
-├── src/
-│   ├── app/                   # Next.js App Router
-│   │   ├── [locale]/          # Internationalized routes
-│   │   │   ├── (auth)/        # Auth pages (login, register)
-│   │   │   ├── (dashboard)/   # Dashboard pages (protected)
-│   │   │   │   ├── patient/   # Patient dashboard
-│   │   │   │   ├── doctor/    # Doctor dashboard
-│   │   │   │   ├── receptionist/  # Receptionist dashboard
-│   │   │   │   └── admin/     # Admin dashboard
-│   │   │   ├── doctors/       # Public doctor directory
-│   │   │   ├── services/      # Public services catalog
-│   │   │   ├── layout.tsx     # Root layout
-│   │   │   └── page.tsx       # Landing page
-│   │   ├── api/               # API routes (Next.js route handlers)
-│   │   ├── globals.css        # Global styles
-│   │   └── not-found.tsx      # 404 page
-│   ├── components/            # React components
-│   │   ├── booking/          # Booking flow components
-│   │   │   ├── BookingSteps.tsx
-│   │   │   ├── DatePicker.tsx
-│   │   │   ├── DoctorSelector.tsx
-│   │   │   ├── ServiceSelector.tsx
-│   │   │   ├── SmartSuggestions.tsx
-│   │   │   └── TimeSlotGrid.tsx
-│   │   ├── common/           # Shared components
-│   │   │   ├── Avatar.tsx
-│   │   │   ├── ErrorBoundary.tsx
-│   │   │   ├── LoadingSpinner.tsx
-│   │   │   └── ...
-│   │   ├── dashboard/        # Dashboard widgets
-│   │   ├── doctors/          # Doctor-related components
-│   │   ├── landing/          # Landing page sections
-│   │   ├── layout/           # Layout components (Navbar, Sidebar, Footer)
-│   │   ├── queue/            # Queue management components
-│   │   ├── services/         # Service-related components
-│   │   └── ui/               # shadcn/ui components
-│   │       ├── button.tsx
-│   │       ├── card.tsx
-│   │       ├── input.tsx
-│   │       ├── select.tsx
-│   │       └── ...
-│   ├── i18n/                 # Internationalization config
-│   │   ├── index.ts          # i18n setup
-│   │   ├── navigation.ts     # Localized navigation
-│   │   ├── request.ts        # Request-based locale
-│   │   └── routing.ts        # Route configuration
-│   ├── lib/                  # Utilities and libraries
-│   │   ├── api/              # API client modules
-│   │   │   ├── auth.ts       # Auth endpoints
-│   │   │   ├── bookings.ts   # Booking endpoints
-│   │   │   ├── doctors.ts    # Doctor endpoints
-│   │   │   ├── queue.ts      # Queue endpoints
-│   │   │   ├── schedules.ts  # Schedule endpoints
-│   │   │   ├── services.ts   # Service endpoints
-│   │   │   └── users.ts      # User endpoints
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── store/            # Zustand stores
-│   │   │   ├── authStore.ts      # Authentication state
-│   │   │   ├── bookingStore.ts   # Booking flow state
-│   │   │   └── uiStore.ts        # UI state (theme, sidebar)
-│   │   └── utils/            # Helper functions
-│   ├── styles/
-│   │   └── themes.ts         # Theme configuration
-│   └── types/                # TypeScript type definitions
-│       ├── api.ts            # API response types
-│       ├── auth.ts           # Auth types
-│       ├── booking.ts        # Booking types
-│       ├── doctor.ts         # Doctor types
-│       ├── service.ts        # Service types
-│       └── ...
-├── .env.local                # Environment variables (create this)
-├── .env.example              # Example environment file
-├── components.json           # shadcn/ui configuration
-├── next.config.ts            # Next.js configuration
-├── package.json              # Dependencies and scripts
-├── postcss.config.mjs        # PostCSS configuration
-├── tailwind.config.ts        # Tailwind CSS configuration
-└── tsconfig.json             # TypeScript configuration
-```
+Trong báo cáo đồ án, bạn có thể nhấn mạnh các điểm kỹ thuật nổi bật sau của phân hệ Frontend:
+
+### 1. Cơ chế Tự động làm mới Token (Silent JWT Refresh Rotation)
+Sử dụng Axios interceptor để bắt lỗi `401 Unauthorized`. Khi Access Token hết hạn, client tự động gửi yêu cầu `/auth/refresh` bằng Refresh Token lưu ở bộ nhớ an toàn để lấy cặp token mới rồi thực hiện lại request lỗi ban đầu. Người dùng sẽ không hề nhận biết hệ thống bị hết hạn phiên đăng nhập khi họ vẫn đang hoạt động.
+
+### 2. Bảo vệ Định tuyến động (Dynamic Route Guards)
+Tận dụng Next.js Middleware và React Route Guards để kiểm tra quyền hạn của người dùng trước khi tải trang. Nếu người dùng cố tình truy cập thủ công vào trang Admin (`/admin/...`) bằng tài khoản Patient, hệ thống sẽ tự động chuyển hướng người dùng về trang Dashboard hợp lệ của họ.
+
+### 3. Tối ưu hóa render qua Zustand Stores
+Zustand giúp quản lý luồng đặt lịch khám phức tạp gồm nhiều bước mà không xảy ra hiện tượng "prop drilling" (truyền prop qua nhiều tầng component). Trạng thái được chia nhỏ giúp chỉ các component liên quan cập nhật, mang lại tốc độ phản hồi giao diện tức thì.
 
 ---
-
-## Internationalization
-
-The application supports **English** and **Vietnamese** using `next-intl`.
-
-### Supported Locales
-
-- **Vietnamese (vi)** - Default
-- **English (en)**
-
-### Switching Languages
-
-Users can switch languages via the language selector in the navbar. The selected locale is persisted in localStorage.
-
-### Adding New Translations
-
-1. **Add translation keys** to message files:
-   ```json
-   // messages/en/common.json
-   {
-     "welcome": "Welcome to ClinicFlow",
-     "book_now": "Book Now"
-   }
-   ```
-
-2. **Use in components**:
-   ```tsx
-   import { useTranslations } from 'next-intl';
-   
-   export default function Component() {
-     const t = useTranslations('common');
-     return <h1>{t('welcome')}</h1>;
-   }
-   ```
-
-### Translation File Structure
-
-| File | Content |
-|------|----------|
-| `auth.json` | Login, register, verification |
-| `booking.json` | Booking flow, appointments |
-| `common.json` | Shared text (buttons, labels) |
-| `dashboard.json` | Dashboard-specific text |
-| `doctors.json` | Doctor-related content |
-| `errors.json` | Error messages |
-| `landing.json` | Landing page content |
-| `queue.json` | Queue management text |
-| `services.json` | Service-related content |
-| `validation.json` | Form validation messages |
-
----
-
-## Routing & Navigation
-
-### Route Structure
-
-The application uses Next.js App Router with internationalized routes:
-
-```
-/[locale]                    # Language-specific routes
-├── /                        # Landing page (public)
-├── /login                   # Login page (public)
-├── /register                # Registration (public)
-├── /doctors                 # Doctor directory (public)
-├── /services                # Services catalog (public)
-└── /dashboard               # Protected routes
-    ├── /patient             # Patient dashboard
-    │   ├── /book            # Book appointment
-    │   ├── /bookings        # My bookings
-    │   └── /profile         # Profile settings
-    ├── /doctor              # Doctor dashboard
-    │   ├── /schedule        # Manage schedule
-    │   └── /patients        # View patients
-    ├── /receptionist        # Receptionist dashboard
-    │   ├── /checkin         # Check-in patients
-    │   └── /queue           # Manage queue
-    └── /admin               # Admin dashboard
-        ├── /users           # User management
-        ├── /services        # Service management
-        └── /reports         # Analytics
-```
-
-### Navigation Components
-
-Use the custom `Link` component for internationalized navigation:
-
-```tsx
-import { Link } from '@/i18n/navigation';
-
-<Link href="/doctors">View Doctors</Link>
-```
-
-### Protected Routes
-
-Dashboard routes are protected with authentication middleware. Unauthenticated users are redirected to `/login`.
-
----
-
-## State Management
-
-The application uses **Zustand** for state management with localStorage persistence.
-
-### Auth Store
-
-Manages authentication state:
-
-```typescript
-import { useAuthStore } from '@/lib/store/authStore';
-
-const { user, tokens, login, logout } = useAuthStore();
-```
-
-**State:**
-- `user`: Current user object
-- `tokens`: Access & refresh tokens
-- `isAuthenticated`: Boolean flag
-
-**Actions:**
-- `login(user, tokens)`: Set authenticated user
-- `logout()`: Clear auth state
-- `updateUser(data)`: Update user profile
-
-### Booking Store
-
-Manages the multi-step booking flow:
-
-```typescript
-import { useBookingStore } from '@/lib/store/bookingStore';
-
-const { service, doctor, date, setService } = useBookingStore();
-```
-
-**State:**
-- `service`: Selected service
-- `doctor`: Selected doctor
-- `date`: Selected date
-- `timeSlot`: Selected time slot
-- `currentStep`: Current booking step (1-4)
-
-### UI Store
-
-Manages UI state (theme, sidebar, modals):
-
-```typescript
-import { useUIStore } from '@/lib/store/uiStore';
-
-const { theme, sidebarOpen, toggleSidebar } = useUIStore();
-```
-
----
-
-## API Integration
-
-The application uses Axios for HTTP requests with automatic token refresh.
-
-### API Client Structure
-
-```typescript
-// lib/api/bookings.ts
-import api from './client';
-
-export const bookingsApi = {
-  create: (data: CreateBookingDto) => 
-    api.post('/bookings', data),
-  
-  getMyBookings: () => 
-    api.get('/bookings/my-bookings'),
-  
-  cancel: (id: string) => 
-    api.delete(`/bookings/${id}`),
-};
-```
-
-### Using API in Components
-
-```tsx
-import { bookingsApi } from '@/lib/api/bookings';
-import { useMutation, useQuery } from '@tanstack/react-query';
-
-// Fetch data
-const { data, isLoading } = useQuery({
-  queryKey: ['bookings'],
-  queryFn: bookingsApi.getMyBookings,
-});
-
-// Mutate data
-const { mutate } = useMutation({
-  mutationFn: bookingsApi.create,
-  onSuccess: () => {
-    toast.success('Booking created!');
-  },
-});
-```
-
-### Automatic Token Refresh
-
-The API client automatically:
-1. Attaches access token to requests
-2. Intercepts 401 errors
-3. Refreshes token using refresh token
-4. Retries original request
-5. Logs out if refresh fails
-
----
-
-## Theming
-
-The application supports light and dark modes using `next-themes`.
-
-### Theme Toggle
-
-```tsx
-import { useTheme } from 'next-themes';
-
-const { theme, setTheme } = useTheme();
-
-<button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-  Toggle Theme
-</button>
-```
-
-### Customizing Colors
-
-Edit `src/styles/themes.ts` and `tailwind.config.ts` to customize the color palette.
-
-### CSS Variables
-
-Theme colors are defined as CSS variables in `globals.css`:
-
-```css
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  /* ... */
-}
-
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  /* ... */
-}
-```
-
----
-
-## Building for Production
-
-### Build the Application
-
-```bash
-yarn build
-```
-
-This creates an optimized production build in the `.next` folder.
-
-### Start Production Server
-
-```bash
-yarn start
-```
-
-### Deployment Options
-
-#### Vercel (Recommended)
-
-1. Push code to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Add environment variables
-4. Deploy
-
-#### Docker
-
-Create `Dockerfile`:
-
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-COPY . .
-RUN yarn build
-EXPOSE 3000
-CMD ["yarn", "start"]
-```
-
-Build and run:
-
-```bash
-docker build -t clinicflow-frontend .
-docker run -p 3000:3000 clinicflow-frontend
-```
-
-#### Static Export (if applicable)
-
-```bash
-yarn build
-yarn export
-```
-
----
-
-## Available Scripts
-
-| Script | Command | Description |
-|--------|---------|-------------|
-| **Development** | `yarn dev` | Start development server with hot reload |
-| **Build** | `yarn build` | Create production build |
-| **Start** | `yarn start` | Start production server |
-| **Lint** | `yarn lint` | Run ESLint |
-| **Lint Fix** | `yarn lint --fix` | Auto-fix linting issues |
-| **Type Check** | `yarn tsc --noEmit` | Check TypeScript types |
-| **Format** | `yarn prettier --write .` | Format code with Prettier |
-
----
-
-## Troubleshooting
-
-### Port Already in Use
-
-**Error**: `Port 3001 is already in use`
-
-**Solution**: Kill the process or change the port:
-```bash
-# Find and kill process
-lsof -i :3001 | grep LISTEN | awk '{print $2}' | xargs kill -9
-
-# Or change port
-PORT=3002 yarn dev
-```
-
-### API Connection Failed
-
-**Error**: `Network Error` or `Failed to fetch`
-
-**Solutions**:
-1. Ensure backend is running at `http://localhost:8080`
-2. Check `NEXT_PUBLIC_API_BASE_URL` in `.env.local`
-3. Verify CORS settings in backend
-4. Check browser console for details
-
-### Build Errors
-
-**Error**: `Module not found` or `Type error`
-
-**Solutions**:
-```bash
-# Clear cache and reinstall
-rm -rf .next node_modules
-yarn install
-yarn build
-```
-
-### Slow Development Server
-
-**Solutions**:
-1. Increase Node memory:
-   ```bash
-   NODE_OPTIONS="--max-old-space-size=4096" yarn dev
-   ```
-2. Disable source maps temporarily:
-   ```js
-   // next.config.ts
-   productionBrowserSourceMaps: false
-   ```
-
-### Hydration Errors
-
-**Error**: `Hydration failed` or `Text content does not match`
-
-**Common causes**:
-- Using `localStorage` during SSR
-- Date formatting differences
-- Theme flickering
-
-**Solutions**:
-- Use `useEffect` for client-only code
-- Use `suppressHydrationWarning` sparingly
-- Ensure consistent rendering on server and client
-
-### Image Loading Issues
-
-**Error**: `Invalid src prop`
-
-**Solution**: Add image domain to `next.config.ts`:
-```typescript
-images: {
-  remotePatterns: [
-    {
-      protocol: 'https',
-      hostname: 'res.cloudinary.com',
-    },
-  ],
-}
-```
-
----
-
-## License
-
-This project is part of the ClinicFlow system. See the root LICENSE file for details.
-
----
-
-## Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Follow the code style (ESLint + Prettier)
-4. Write meaningful commit messages
-5. Test thoroughly
-6. Push and create a Pull Request
-
-### Code Style
-
-- Use TypeScript for all new code
-- Follow ESLint rules
-- Use Prettier for formatting
-- Write descriptive component names
-- Add JSDoc comments for complex functions
-
----
-
-## Support
-
-For issues and questions:
-- Create an issue in the repository
-- Check the [Backend API Documentation](http://localhost:8080/api-docs)
-- Review the [Project Documentation](../docs/)
-
----
-
-**Built with ❤️ using Next.js 16 & React 19**
+*Dự án thuộc đề tài Đồ án tốt nghiệp / Đồ án chuyên ngành.*
+*Người thực hiện: Lò Văn Bằng - Mã số sinh viên: 2251061721*
+*Giáo viên hướng dẫn: TS. Nguyễn Tu Trung*

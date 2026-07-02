@@ -1,31 +1,26 @@
 export function ServiceCardSkeleton() {
   return (
-    <div className="bg-white dark:bg-slate-800 p-6 rounded-[16px] border border-slate-100 dark:border-slate-700/50 shadow-sm flex flex-col h-full animate-pulse">
-      <div className="w-14 h-14 bg-slate-200 dark:bg-slate-700 rounded-full mb-6" />
+    <div className="bg-white dark:bg-slate-900 rounded-[24px] border border-slate-100 dark:border-slate-800/80 shadow-sm flex flex-col h-full animate-pulse overflow-hidden">
+      {/* Skeleton Banner */}
+      <div className="w-full aspect-[16/10] bg-slate-200 dark:bg-slate-800" />
 
-      <div className="mb-3 h-6 w-3/4 rounded bg-slate-200 dark:bg-slate-700" />
-      
-      <div className="mb-2 h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
-      <div className="mb-8 h-4 w-5/6 rounded bg-slate-200 dark:bg-slate-700" />
+      {/* Skeleton Content */}
+      <div className="p-6 flex flex-col flex-grow">
+        <div className="mb-3 h-5 w-3/4 rounded bg-slate-200 dark:bg-slate-700" />
+        <div className="mb-5 h-4 w-1/4 rounded bg-slate-200 dark:bg-slate-700" />
+        
+        <div className="mb-2 h-3.5 w-full rounded bg-slate-200 dark:bg-slate-700" />
+        <div className="mb-6 h-3.5 w-5/6 rounded bg-slate-200 dark:bg-slate-700" />
 
-      <div className="space-y-4 mb-8 border-t border-slate-50 dark:border-slate-700/50 pt-6 mt-auto">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-5 w-5 rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
-          </div>
-          <div className="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700" />
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-5 w-5 rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700" />
-          </div>
-          <div className="h-5 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+        {/* Skeleton Info Row */}
+        <div className="h-12 w-full rounded-2xl bg-slate-200 dark:bg-slate-700 mb-6 mt-auto" />
+
+        {/* Skeleton Buttons */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="h-10 rounded-xl bg-slate-200 dark:bg-slate-700" />
+          <div className="h-10 rounded-xl bg-slate-200 dark:bg-slate-700" />
         </div>
       </div>
-
-      <div className="w-full h-[56px] rounded-xl bg-slate-200 dark:bg-slate-700" />
     </div>
   );
 }

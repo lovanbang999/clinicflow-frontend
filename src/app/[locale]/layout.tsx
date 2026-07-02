@@ -57,7 +57,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="mdl-js">
+    <html lang={locale} className="mdl-js" suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
@@ -71,22 +71,22 @@ export default async function LocaleLayout({
           <Toaster 
             position="top-center" 
             richColors 
-            expand={false}
+            expand={true}
             closeButton
             visibleToasts={5}
             theme="light"
             toastOptions={{
               style: {
-                background: 'rgba(255, 255, 255, 0.8)',
+                background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 255, 255, 0.4)',
-                borderRadius: '20px',
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                borderRadius: '12px',
                 padding: '12px 16px',
                 color: '#1e293b',
                 fontSize: '13px',
                 fontWeight: 600,
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.6)',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
               },
               className: 'font-inter',
               classNames: {
