@@ -20,6 +20,7 @@ import { format } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
 import { useRouter } from '@/i18n/navigation';
 import { useServices } from '@/lib/hooks/clinic/useServices';
+import { useDoctors } from '@/lib/hooks/clinical/useDoctors';
 import {
   Select,
   SelectContent,
@@ -33,7 +34,8 @@ export function Hero() {
   const locale = useLocale();
   const router = useRouter();
   const { services } = useServices({ isActive: true });
-  
+  const { doctors, isLoading: isLoadingDoctors } = useDoctors({ limit: 100 });
+
   const [selectedServiceId, setSelectedServiceId] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -89,16 +91,57 @@ export function Hero() {
               </a>
             </div>
             <div className="flex items-center gap-8 pt-8 border-t border-slate-200/60">
-              <div className="flex -space-x-3">
-                <Image alt="Doctor" className="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBHW2rm6VghkOOHiodrnVAbBGSmTZjUtr29nwgMKdyiNoWRnll4XXVsHynJGxnFqKufE2XUJoJA_jXCz3uhXDdQHZkUk6XZgLSDHsIgwWC8VPXlSPfQN9QQjf3eb3Qs6sXWr4DPZ95uDkw0vpZlCTbHheVYIzy6zlHSsT3OK4EokLV9EkwV6pyaRBPPgsSyUdmTeorRIB9GIILnhnBa6IDiztmVkJB0C7G-zILVCrKRSr1qnI6LUZuY7jF-mAUgNbSegjNtcensSc" width={40} height={40} />
-                <Image alt="Doctor" className="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyjRDzr0S9k7BU51TDg71ORvt8oy27BD-1JVE7vivqvAdkBWT4qZYFfQMe2ToUpRnh5aJB7tivzqANghcJgrynoBuFvh217u5Iv_qTcZQlfPiEXZHMWubFziE2pGSbalxqk_HFp8aiupN8qEe-42mVEoqnzrS3UplFKaWe_6QJrTOcSELA8GRfzSENR-lXURQ3KqXa7DZzXNpQmVeSP5xsu48-TafkumO8FgbnzDTF2678yc7JnX5avghT5GipG2BPALy8Ak8nFM8" width={40} height={40} />
-                <Image alt="Doctor" className="w-10 h-10 rounded-full border-2 border-white object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbcuRoOEBShAOqr7Sljn0dLnDcaV8Ve5gX3gGw9hQxxNG3FLYmQNl9qntCkqeTGl1MY66u9fipKn-VSuNYuxdfk02RPm3Vd5U_WhDtvInCKyxZnB3QGYXEyJBviNjHNs627bnNuIbQpHS5eSmzKggRxuv_h-xw3IMd3s1wdKRHlfFm0g2IX52bCb3UsqNQUyvXk2fykXNLJSuV1yK08bxfKKaZPUzI-tLVdwEK2O0xtLE87ScBaEnOcONW67B0BbxZrHiT90Za3zE" width={40} height={40} />
-                <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">+2k</div>
-              </div>
-              <div className="text-sm font-medium text-slate-500">
-                <span className="block text-slate-900 font-bold text-base">{t('hero.doctorCount')}</span>
-                {t('hero.doctorSubtext')}
-              </div>
+              {isLoadingDoctors ? (
+                <div className="flex items-center gap-4 animate-pulse">
+                  <div className="flex -space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-slate-100 border-2 border-white" />
+                    <div className="w-10 h-10 rounded-full bg-slate-100 border-2 border-white" />
+                    <div className="w-10 h-10 rounded-full bg-slate-100 border-2 border-white" />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="h-4 bg-slate-100 rounded w-20" />
+                    <div className="h-3 bg-slate-100 rounded w-32" />
+                  </div>
+                </div>
+              ) : doctors && doctors.length > 0 ? (
+                <>
+                  <div className="flex -space-x-3">
+                    {doctors.slice(0, 3).map((doc) => (
+                      <Image
+                        key={doc.id}
+                        alt={doc.fullName}
+                        className="w-10 h-10 rounded-full border-2 border-white object-cover"
+                        src={doc.avatar || '/images/avatar-seed/admin-quan-tri-vien-he-thong.webp'}
+                        width={40}
+                        height={40}
+                      />
+                    ))}
+                    {doctors.length > 3 && (
+                      <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
+                        +{doctors.length - 3}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-sm font-medium text-slate-500">
+                    <span className="block text-slate-900 font-bold text-base">
+                      {locale === 'vi' ? `${doctors.length} Bác sĩ` : `${doctors.length} Doctors`}
+                    </span>
+                    {t('hero.doctorSubtext')}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex -space-x-3">
+                    <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">0</div>
+                  </div>
+                  <div className="text-sm font-medium text-slate-500">
+                    <span className="block text-slate-900 font-bold text-base">
+                      {locale === 'vi' ? '0 Bác sĩ' : '0 Doctors'}
+                    </span>
+                    {t('hero.doctorSubtext')}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="relative lg:h-[600px] w-full hidden lg:block">
