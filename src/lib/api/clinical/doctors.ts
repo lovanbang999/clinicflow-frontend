@@ -37,7 +37,7 @@ export const doctorsApi = {
       yearsOfExperience: user.doctorProfile?.yearsOfExperience || 0,
       bio: user.doctorProfile?.bio,
       consultationFee: (user.doctorProfile as { consultationFee?: number | null } | undefined)?.consultationFee ?? null,
-      rating: user.doctorProfile?.rating || 0,
+      rating: Number(user.doctorProfile?.rating || 0),
       reviewCount: user.doctorProfile?.reviewCount || 0,
       services: user.doctorProfile?.services?.map(
         (ds: { service: { id: string; name: string; category: string | null } }) => ds.service
@@ -72,7 +72,7 @@ export const doctorsApi = {
       yearsOfExperience: user.doctorProfile?.yearsOfExperience || 0,
       bio: user.doctorProfile?.bio,
       consultationFee: (user.doctorProfile as { consultationFee?: number | null } | undefined)?.consultationFee ?? null,
-      rating: user.doctorProfile?.rating || 0,
+      rating: Number(user.doctorProfile?.rating || 0),
       reviewCount: user.doctorProfile?.reviewCount || 0,
       services: user.doctorProfile?.services?.map(
         (ds: { service: { id: string; name: string; category: string | null } }) => ds.service
