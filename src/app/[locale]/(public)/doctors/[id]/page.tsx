@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { LandingNavbar } from '@/components/landing/Navbar';
-import { LandingFooter } from '@/components/landing/Footer';
 import { DoctorProfilePageContent } from '@/components/patient/doctors/DoctorProfilePageContent';
 import { createPageMetadata } from '@/lib/seo/metadata';
 
@@ -23,11 +21,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function DoctorProfilePage() {
-  return (
-    <div className="min-h-screen bg-white">
-      <LandingNavbar />
-      <DoctorProfilePageContent />
-      <LandingFooter />
-    </div>
-  );
+  return <DoctorProfilePageContent />;
 }

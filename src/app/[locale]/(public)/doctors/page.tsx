@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { LandingNavbar } from '@/components/landing/Navbar';
-import { LandingFooter } from '@/components/landing/Footer';
 import { DoctorsPageContent } from '@/components/patient/doctors/DoctorsPageContent';
 import { createPageMetadata } from '@/lib/seo/metadata';
 
@@ -32,11 +30,5 @@ type DoctorsPageProps = {
 
 export default async function DoctorsPage({ searchParams }: DoctorsPageProps) {
   const resolvedSearchParams = await searchParams;
-  return (
-    <div className="min-h-screen bg-white">
-      <LandingNavbar />
-      <DoctorsPageContent initialSearchParams={resolvedSearchParams} />
-      <LandingFooter />
-    </div>
-  );
+  return <DoctorsPageContent initialSearchParams={resolvedSearchParams} />;
 }

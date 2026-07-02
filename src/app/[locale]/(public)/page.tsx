@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { LandingNavbar } from '@/components/landing/Navbar';
-import { LandingFooter } from '@/components/landing/Footer';
 import { LandingContent } from '@/components/landing/LandingContent';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { createPageMetadata } from '@/lib/seo/metadata';
@@ -27,11 +25,9 @@ export default async function LandingPage({ params }: Props) {
   const { locale } = await params;
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <JsonLd data={createWebSiteJsonLd(locale)} />
-      <LandingNavbar />
       <LandingContent />
-      <LandingFooter />
-    </div>
+    </>
   );
 }

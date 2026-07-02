@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { LandingNavbar } from '@/components/landing/Navbar';
-import { LandingFooter } from '@/components/landing/Footer';
 import { ServicesPageContent } from '@/components/services/ServicesPageContent';
 import { createPageMetadata } from '@/lib/seo/metadata';
 
@@ -22,11 +20,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function ServicesPage() {
-  return (
-    <div className="min-h-screen bg-white">
-      <LandingNavbar />
-      <ServicesPageContent />
-      <LandingFooter />
-    </div>
-  );
+  return <ServicesPageContent />;
 }
