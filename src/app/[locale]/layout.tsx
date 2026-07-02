@@ -57,7 +57,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="mdl-js">
+    <html lang={locale} className="mdl-js" suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link

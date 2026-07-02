@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import Image from 'next/image';
-import { List, X } from '@phosphor-icons/react';
+import { ListIcon, XIcon } from '@phosphor-icons/react';
 
 export function LandingNavbar() {
   const tLanding = useTranslations('landing');
@@ -78,7 +78,7 @@ export function LandingNavbar() {
               className="text-slate-600 hover:text-[#1392ec] transition-colors p-2"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
+              {isMobileMenuOpen ? <XIcon size={24} weight="bold" /> : <ListIcon size={24} weight="bold" />}
             </button>
           </div>
         </div>

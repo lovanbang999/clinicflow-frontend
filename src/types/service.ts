@@ -18,9 +18,14 @@ export interface Service {
   };
   doctorServices?: {
     doctorProfile: {
+      id: string;
+      specialties: string[];
+      qualifications: string[];
       user: {
         id: string;
         fullName: string;
+        avatar?: string;
+        email: string;
       }
     }
   }[];

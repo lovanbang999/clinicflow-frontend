@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { LandingNavbar } from '@/components/landing/Navbar';
-import { LandingFooter } from '@/components/landing/Footer';
 import { ServiceDetailPageContent } from '@/components/services/ServiceDetailPageContent';
 import { createPageMetadata } from '@/lib/seo/metadata';
 
@@ -25,9 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function ServiceDetailPage() {
   return (
     <div className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col">
-      <LandingNavbar />
       <ServiceDetailPageContent />
-      <LandingFooter />
     </div>
   );
 }
