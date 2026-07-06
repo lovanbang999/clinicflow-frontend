@@ -126,10 +126,6 @@ export default function AdminServicesPage() {
 
   return (
     <div className="p-8 space-y-6">
-      <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-        <h1 className="text-2xl font-bold text-slate-800">{t('title')}</h1>
-      </div>
-
       <Tabs defaultValue="services" className="w-full">
         <TabsList className="grid w-[320px] grid-cols-2 bg-slate-100 p-1 rounded-xl">
           <TabsTrigger value="services" className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-slate-900 cursor-pointer">{t('tabs.services')}</TabsTrigger>
