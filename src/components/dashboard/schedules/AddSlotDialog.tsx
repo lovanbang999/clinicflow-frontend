@@ -207,7 +207,19 @@ export function AddSlotDialog({ isOpen, onOpenChange, onSuccess }: AddSlotDialog
 
             {/* Doctor */}
             <Field label={t('doctor')} htmlFor="add-slot-doctor" required>
-              <Select value={form.doctorId} onValueChange={(v) => set('doctorId', v)}>
+              <Select
+                value={form.doctorId}
+                onValueChange={(v) => {
+                  const selectedDoc = doctors.find((doc) => doc.id === v);
+                  const defaultRoomId = selectedDoc?.doctorProfile?.roomId || '';
+                  setForm((prev) => ({
+                    ...prev,
+                    doctorId: v,
+                    roomId: defaultRoomId,
+                  }));
+                  if (errors.doctorId) setErrors((prev) => ({ ...prev, doctorId: undefined }));
+                }}
+              >
                 <SelectTrigger
                   id="add-slot-doctor"
                   className={cn(
